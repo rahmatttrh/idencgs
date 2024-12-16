@@ -1,4 +1,4 @@
-
+{{-- 
 <li class="nav-item {{ (request()->is('payroll/transaction/*')) ? 'active' : '' }}">
    <a href="{{route('payroll.transaction')}}">
       <i class="fas fa-money-bill"></i>
@@ -24,7 +24,7 @@
       <i class="fas fa-calendar"></i>
       <p>Lain-lain</p>
    </a>
-</li>
+</li> --}}
 
 {{-- <li class="nav-item {{ (request()->is('payroll/report/*')) ? 'active' : '' }}">
    <a href="{{route('payroll.report')}}">
@@ -33,13 +33,47 @@
    </a>
 </li> --}}
 
-<li class="nav-item {{ (request()->is('payroll/setup/*')) ? 'active' : '' }}">
+<li class="nav-item">
    <a data-toggle="collapse" href="#payroll">
+      <i class="fas fa-file"></i>
+      <p>Payroll</p>
+      <span class="caret"></span>
+   </a>
+   <div class="collapse" id="payroll">
+      <ul class="nav nav-collapse">
+         <li>
+            <a href="{{route('payroll.transaction')}}">
+               <span class="sub-item">Transaction</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('payroll.overtime')}}">
+               <span class="sub-item">SPKL</span>
+            </a>
+         </li>
+
+         <li>
+            <a href="{{route('payroll.absence')}}">
+               <span class="sub-item">Absence</span>
+            </a>
+         </li>
+
+         <li>
+            <a href="{{route('payroll.additional')}}">
+               <span class="sub-item">Others</span>
+            </a>
+         </li>
+      </ul>
+   </div>
+</li>
+
+<li class="nav-item {{ (request()->is('payroll/setup/*')) ? 'active' : '' }}">
+   <a data-toggle="collapse" href="#setpayroll">
       <i class="fas fa-cog"></i>
       <p>Setup Payroll</p>
       <span class="caret"></span>
    </a>
-   <div class="collapse" id="payroll">
+   <div class="collapse" id="setpayroll">
       <ul class="nav nav-collapse">
          {{-- <li>
             <a href="{{route('payroll.transaction')}}">
@@ -77,14 +111,6 @@
       </ul>
    </div>
 </li>
-<hr>
-<li class="nav-item {{ (request()->is('payroll/perdin/*')) ? 'active' : '' }}">
-   <a href="{{route('perdin')}}">
-      <i class="fas fa-calendar"></i>
-      <p>Perdin</p>
-   </a>
-</li>
-<hr>
 <li class="nav-item">
    <a data-toggle="collapse" href="#employee">
       <i class="fas fa-users"></i>
@@ -112,6 +138,14 @@
       </ul>
    </div>
 </li>
+
+<li class="nav-item {{ (request()->is('payroll/perdin/*')) ? 'active' : '' }}">
+   <a href="{{route('perdin')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Perdin</p>
+   </a>
+</li>
+
 
 
 {{-- <li class="nav-section">

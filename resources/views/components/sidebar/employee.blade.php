@@ -15,13 +15,19 @@
       </ul>
    </div>
 </li> --}}
-<li class="nav-item {{ (request()->is('employee/detail/*')) ? 'active' : '' }}">
+{{-- <li class="nav-item {{ (request()->is('employee/detail/*')) ? 'active' : '' }}">
    <a href="{{route('employee.detail', [enkripRambo(auth()->user()->getEmployeeId()), enkripRambo('contract')])}}">
       <i class="fas fa-user"></i>
       <p>My Profile</p>
    </a>
 </li>
-<hr>
+<hr> --}}
+<li class="nav-section">
+   <span class="sidebar-mini-icon">
+      <i class="fa fa-ellipsis-h"></i>
+   </span>
+   <h4 class="text-section">Employee</h4>
+</li>
 <li class="nav-item {{ (request()->is('qpe')) ? 'active' : '' }}">
    <a href="{{route('qpe')}}">
       <i class="fas fa-file"></i>

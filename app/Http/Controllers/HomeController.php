@@ -467,6 +467,8 @@ class HomeController extends Controller
          $month = $now->format('m');
          $holidays = Holiday::whereMonth('date', $month)->orderBy('date', 'asc')->get();
          $transactions = Transaction::where('status', 0)->get();
+         $unitTransactions = UnitTransaction::paginate(15);
+         $emptyPayroll = Employee::where('status', '!=', 3)->where('payroll_id', null)->get();
          return view('pages.dashboard.hrd-payroll', [
             'units' => $units,
             'employee' => $user,
@@ -481,7 +483,9 @@ class HomeController extends Controller
 
             'month' => $now->format('F'),
             'holidays' => $holidays,
-            'transactions' => $transactions
+            'transactions' => $transactions,
+            'unitTransactions' => $unitTransactions,
+            'emptyPayroll' => $emptyPayroll
          ])->with('i');
       } elseif (auth()->user()->hasRole('HRD-KJ12')) {
          $user = Employee::find(auth()->user()->getEmployeeId());

@@ -73,7 +73,10 @@
                                  <label>Lokasi</label>
                                  <select class="form-control" id="loc" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?> name="loc">
                                     <option value="" selected disabled >Select</option>
-                                    <option {{$employee->contract->loc == 'hw' ? 'selected' : ''}} value="hw">HW</option>
+                                    @foreach ($locations as $loc)
+                                       <option {{$employee->contract->loc == $loc->code ? 'selected' : ''}} value="{{$loc->code}}">{{$loc->name}}</option>
+                                    @endforeach
+                                    {{-- <option {{$employee->contract->loc == 'hw' ? 'selected' : ''}} value="hw">HW</option>
                                     <option {{$employee->contract->loc == 'jgc' ? 'selected' : ''}} value="jgc">JGC</option>
                                     <option {{$employee->contract->loc == 'kj1-2' ? 'selected' : ''}} value="kj1-2">KJ 1-2</option>
                                     <option {{$employee->contract->loc == 'kj4' ? 'selected' : ''}} value="kj4">KJ 4</option>
@@ -82,7 +85,7 @@
                                     <option {{$employee->contract->loc == 'gs' ? 'selected' : ''}} value="gs">GS</option>
                                     <option {{$employee->contract->loc == 'enc' ? 'selected' : ''}} value="enc">ENC</option>
                                     <option {{$employee->contract->loc == 'plb' ? 'selected' : ''}} value="plb">PLB</option>
-                                    <option {{$employee->contract->loc == 'smg' ? 'selected' : ''}} value="smg">Semarang</option>
+                                    <option {{$employee->contract->loc == 'smg' ? 'selected' : ''}} value="smg">Semarang</option> --}}
                                  </select>
                               </div>
                            </div>

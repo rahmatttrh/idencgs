@@ -7,6 +7,7 @@ use App\Models\Absence;
 use App\Models\Additional;
 use App\Models\Employee;
 use App\Models\Location;
+use App\Models\Log;
 use App\Models\Overtime;
 use App\Models\Payroll;
 use App\Models\PayrollApproval;
@@ -234,6 +235,19 @@ class TransactionController extends Controller
          'total_salary' => $totalSalary
       ]);
 
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Generate',
+         'desc' => 'Payslip ' . $unitTransaction->unit->name . ' Bulan ' . $unitTransaction->month
+      ]);
+
 
 
 
@@ -267,8 +281,24 @@ class TransactionController extends Controller
          $tran->delete();
       }
 
+      $unitName = $unitTransaction->unit->name;
+      $month = $unitTransaction->month;
+
       // dd($unitTransaction->id);
       $unitTransaction->delete();
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Delete',
+         'desc' => 'Master Payslip ' . $unitName . ' Bulan ' . $month
+      ]);
 
       return redirect()->back()->with('success', 'Data Transaction successfully deleted');
    }
@@ -283,10 +313,10 @@ class TransactionController extends Controller
       $firstLoc = Location::orderBy('id', 'asc')->first();
       $transactions = Transaction::where('unit_id', $unit->id)->where('month', $unitTransaction->month)->where('year', $unitTransaction->year)->get();
 
-      $manhrd = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-hrd')->where('type', 'approve')->first();
-      $manfin = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-fin')->where('type', 'approve')->first();
-      $gm = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'gm')->where('type', 'approve')->first();
-      $bod = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'bod')->where('type', 'approve')->first();
+      // $manhrd = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-hrd')->where('type', 'approve')->first();
+      // $manfin = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-fin')->where('type', 'approve')->first();
+      // $gm = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'gm')->where('type', 'approve')->first();
+      // $bod = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'bod')->where('type', 'approve')->first();
 
 
       // dd($manhrd);
@@ -320,6 +350,7 @@ class TransactionController extends Controller
 
    public function location($unit, $loc)
    {
+      dd('ok');
       $unitTransaction = UnitTransaction::find(dekripRambo($unit));
       $location = Location::find(dekripRambo($loc));
       $transactions = Transaction::where('month', $unitTransaction->month)->where('year', $unitTransaction->year)->where('unit_transaction_id', $unitTransaction->id)->where('location_id', $location->id)->get();

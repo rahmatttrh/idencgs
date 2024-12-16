@@ -41,13 +41,13 @@
                      <tbody>
                         <tr>
                            <td>Draft</td>
-                           <td class="text-center">{{count($transactions->where('status', 0))}}</td>
+                           <td class="text-center">0</td>
                            {{-- <td>Draft</td>
                            <td class="text-center">{{count($qpes->where('status', 0))}}</td> --}}
                         </tr>
                         <tr>
                            <td>Completed</td>
-                           <td class="text-center">{{count($transactions->where('status', 1))}}</td>
+                           <td class="text-center">0</td>
                            {{-- <td>Porgress</td>
                            <td class="text-center">{{count($qpes->where('status', 1))}}</td> --}}
                         </tr>
@@ -73,43 +73,116 @@
             
          </div>
          <div class="col-sm-6 col-md-9">
-            <div class="table-responsive">
-               <table id="data" class="display basic-datatables table-sm">
-                  <thead>
-                     <tr>
-                        {{-- <th class="text-center" style="width: 30px">No</th> --}}
-                        {{-- @if (auth()->user()->hasRole('Administrator'))
-                        <th>ID</th>
-                        @endif --}}
-                        <th>Name</th>
-                        <th>Month</th>
-                        {{-- <th>NIK</th> --}}
+            {{-- <div class="row">
+               <div class="col-md-4">
+                  <a href="{{route('payroll.approval.gm')}}">
+                     <div class="card card-stats card-round border">
+                        <div class="card-body">
+                           <div class="row align-items-center">
+                              <div class="col-icon d-none d-md-block">
+                                 <div class="icon-big text-center icon-info bubble-shadow-small">
+                                    <i class="far fa-newspaper"></i>
+                                 </div>
+                              </div>
+                              <div class="col col-stats ml-3 ml-sm-0">
+                                 <div class="numbers">
+                                    <p class="card-category">Payslip</p>
+                                    <h4 class="card-title">1</h4>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     
+                  </a>
+               </div>
+            </div> --}}
+
+            <div class="card">
+               <div class="card-header p-2 bg-primary text-white">
+                  <small>Recent Transaction</small>
+               </div>
+               <div class="card-body p-0">
+                  <div class="table-responsive overflow-auto" style="max-height: 300px">
+                     <table class="display  table-sm table-bordered   ">
+                        <thead>
+                           <tr>
+                              {{-- <th class="text-center" style="width: 30px">No</th> --}}
+                              {{-- @if (auth()->user()->hasRole('Administrator'))
+                              <th>ID</th>
+                              @endif --}}
+                              <th class="text-center">#</th>
+                              <th>Unit</th>
+                              <th>Month</th>
+                              
+                              
+                              <th>Year</th>
+                              <th class="text-right">Total</th>
+                              
+                              <th class="text-center">Status</th>
+                           </tr>
+                        </thead>
                         
-                        <th class="text-truncate">Unit</th>
-                        <th>Pendapatan</th>
-                        <th>Gaji Bersih</th>
-                        <th>Status</th>
-                     </tr>
-                  </thead>
-                  
-                  <tbody>
-                     @foreach ($transactions as $trans)
-                         <tr>
-                           {{-- <td class="text-center">{{++$i}}</td> --}}
-                           
-                           {{-- <td>{{$trans->employee->nik}}</td> --}}
-                           <td><a href="{{route('payroll.transaction.detail', enkripRambo($trans->id))}}"> {{$trans->employee->nik}} {{$trans->employee->biodata->fullName()}}</a></td>
-                           <td>{{$trans->month}}</td>
-                           <td>{{$trans->employee->department->name}}</td>
-                           <td>{{formatRupiah($trans->employee->payroll->total)}}</td>
-                           <td>{{formatRupiah($trans->total)}}</td>
-                           <td>Draft</td>
-                         </tr>
-                     @endforeach
-                  </tbody>
-                  
-               </table>
+                        <tbody>
+                           @foreach ($unitTransactions as $trans)
+                               <tr>
+                                 <td class="text-center">{{++$i}}</td>
+                                 <td><a href="{{route('payroll.transaction.monthly.all', enkripRambo($trans->id))}}">{{$trans->unit->name}}</a></td>
+                                 <td>{{$trans->month}}</td>
+                                 <td>{{$trans->year}}</td>
+                                 <td class="text-right">{{formatRupiahB($trans->total_salary)}}</td>
+                                 <td class="text-center">
+                                    <x-status.unit-transaction :unittrans="$trans" />
+                                 </td>
+                               </tr>
+                           @endforeach
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
             </div>
+
+            <div class="card">
+               <div class="card-header p-2 bg-primary text-white">
+                  <small>Daftar Karyawan yang belum di Setup Payroll  <b>({{count($emptyPayroll)}})</b></small>
+               </div>
+               <div class="card-body p-0">
+                  <div class="table-responsive overflow-auto" style="max-height: 300px">
+                     <table class="display  table-sm table-bordered   ">
+                        <thead>
+                           <tr>
+                              {{-- <th class="text-center" style="width: 30px">No</th> --}}
+                              {{-- @if (auth()->user()->hasRole('Administrator'))
+                              <th>ID</th>
+                              @endif --}}
+                              {{-- <th class="text-center">#</th> --}}
+                              <th>NIK</th>
+                              <th>Name</th>
+                              <th>Unit</th>
+         
+                              <th>Department</th>
+                              
+                              {{-- <th>Status</th> --}}
+                           </tr>
+                        </thead>
+                        
+                        <tbody>
+                           @foreach ($emptyPayroll as $empty)
+                               <tr>
+                                 {{-- <td class="text-center">{{++$i}}</td> --}}
+                                 <td>{{$empty->nik}} </td>
+                                 <td><a href="{{route('payroll.detail', enkripRambo($empty->id))}}">{{$empty->biodata->fullName()}}</a></td>
+                                 
+                                 <td>{{$empty->unit->name}}</td>
+                                 <td>{{$empty->department->name}}</td>
+                               </tr>
+                           @endforeach
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+
          </div>
          
          

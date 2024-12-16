@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
+use App\Models\Log;
 use App\Models\ReductionEmployee;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,25 @@ class ReductionEmployeeController extends Controller
          'status' => $req->status
       ]);
 
+      if ($req->status == 1) {
+         $stat = 'Enable';
+      } else {
+         $stat = 'Disable';
+      }
+
       // dd($reductionEmployee->status);
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => $stat,
+         'desc' => 'Deduction ' . $reductionEmployee->employee->nik . ' ' . $reductionEmployee->employee->biodata->fullName()
+      ]);
 
       return redirect()->back()->with('status', 'Potongan Karyawan berhasil diubah');
    }

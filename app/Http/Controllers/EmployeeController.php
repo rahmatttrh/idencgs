@@ -634,6 +634,7 @@ class EmployeeController extends Controller
       // dd($employee->designation->name);  
 
       // dd($myManagers);
+      $locations = Location::get();
 
       return view('pages.employee.detail', [
          'employee' => $employee,
@@ -660,7 +661,8 @@ class EmployeeController extends Controller
          'contracts' => $contracts,
          // 'tab' => $tab,
          'employeeLeaders' => $employeeLeaders,
-         'myManagers' => $myManagers
+         'myManagers' => $myManagers,
+         'locations' => $locations
       ]);
    }
 
