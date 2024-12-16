@@ -203,11 +203,13 @@ Dashboard
                   <td class="text-truncate" style="max-width: 110px;">
                      <small>{{formatDateTimeB($log->created_at)}}</small> {{$log->user->username}} {{$log->user->name}}
                      <br>
-                     @if ($log->action == 'Login')
-                     {{$log->action}} into system<br>
-                     @else
-                     {{$log->action}} <small>{{$log->desc}}</small>
-                     @endif
+                     <small>
+                        @if ($log->action == 'Login')
+                        {{$log->action}} into system<br>
+                        @else
+                        {{$log->action}} {{$log->desc}}
+                        @endif
+                     </small>
 
 
                   </td>

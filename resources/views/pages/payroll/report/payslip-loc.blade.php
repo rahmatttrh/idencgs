@@ -165,7 +165,7 @@ Payroll Transaction
                <tbody>
                   @foreach ($transactions as $transaction)
                   <tr>
-                     <td class="text-truncate">{{$transaction->employee->nik}} {{$transaction->employee->biodata->fullName()}}</td>
+                     <td class="text-truncate"><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->nik}} {{$transaction->employee->biodata->fullName()}}</a></td>
                      <td class="text-right">{{formatRupiahB($transaction->employee->payroll->pokok)}}</td>
                      <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_jabatan)}}</td>
                      <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_ops)}}</td>

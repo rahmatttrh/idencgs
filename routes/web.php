@@ -375,7 +375,7 @@ Route::middleware(["auth"])->group(function () {
             Route::get('/index', [TransactionController::class, 'index'])->name('payroll.transaction');
             // Route::get('/detail/{id}', [TransactionController::class, 'detail'])->name('payroll.transaction.detail');
             Route::post('store', [TransactionController::class, 'store'])->name('payroll.transaction.store');
-            Route::get('location/{unit}/{loc}', [TransactionController::class, 'location'])->name('transaction.location');
+
 
             Route::prefix('reduction')->group(function () {
                Route::get('/delete/{id}', [TransactionReductionController::class, 'delete'])->name('transaction.reduction.delete');
@@ -500,8 +500,14 @@ Route::middleware(["auth"])->group(function () {
          Route::get('bod/history', [PayrollApprovalController::class, 'bodHistory'])->name('payroll.approval.bod.history');
       });
 
-      Route::get('payroll/transaction/monthly/{id}', [TransactionController::class, 'monthly'])->name('payroll.transaction.monthly');
-      Route::get('payroll/payslip/export/pdf/{id}', [PayrollController::class, 'exportPdf'])->name('payslip.pdf');
+      Route::prefix('payslip/report')->group(function () {
+         Route::get('export/pdf/{id}', [PayrollController::class, 'exportPdf'])->name('payslip.pdf');
+         Route::get('location/{unit}/{loc}', [TransactionController::class, 'location'])->name('transaction.location');
+         Route::get('monthly/{id}', [TransactionController::class, 'monthly'])->name('payroll.transaction.monthly');
+         Route::get('employee/{id}', [TransactionController::class, 'reportEmployee'])->name('payroll.transaction.report.employee');
+      });
+
+
 
       Route::prefix('employee')->group(function () {
          Route::put('update', [EmployeeController::class, 'update'])->name('employee.update');

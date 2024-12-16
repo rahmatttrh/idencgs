@@ -350,7 +350,7 @@ class TransactionController extends Controller
 
    public function location($unit, $loc)
    {
-      dd('ok');
+      // dd('ok');
       $unitTransaction = UnitTransaction::find(dekripRambo($unit));
       $location = Location::find(dekripRambo($loc));
       $transactions = Transaction::where('month', $unitTransaction->month)->where('year', $unitTransaction->year)->where('unit_transaction_id', $unitTransaction->id)->where('location_id', $location->id)->get();
@@ -361,6 +361,15 @@ class TransactionController extends Controller
          'transactions' => $transactions,
          'location' => $location
       ])->with('i');
+   }
+
+   public function reportEmployee($id)
+   {
+      $transaction = Transaction::find(dekripRambo($id));
+
+      return view('pages.payroll.report.payslip-employee', [
+         'transaction' => $transaction
+      ]);
    }
 
 

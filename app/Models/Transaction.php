@@ -16,6 +16,11 @@ class Transaction extends Model
    }
 
 
+   public function payroll()
+   {
+      return $this->belongsTo(Payroll::class);
+   }
+
    public function details()
    {
       return $this->hasMany(TransactionDetail::class);
