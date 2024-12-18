@@ -105,6 +105,7 @@ SPKL
                                        <input type="date" name="to" id="to" value="{{$to}}" class="form-control">
                                     </div>
                                  </div>
+                                 <hr>
                                  <div class="col">
                                     <button class="btn btn-primary" type="submit" >Filter</button>
                                  </div>
@@ -118,11 +119,15 @@ SPKL
                                     <tr>
                                        <th>Type</th>
                                        <th>Employee</th>
+                                       <th>Location</th>
                                        <th class="text-right">Date</th>
                                        
                                        <th class="text-center">Hours</th>
+                                       @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                                        <th class="text-right">Rate</th>
-                                       <th>-</th>
+                                       @endif
+                                       
+                                       <th></th>
                                     </tr>
                                  </thead>
                                  
@@ -142,6 +147,7 @@ SPKL
                                              @endif
                                           </td>
                                           <td>{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</td>
+                                          <td>{{$over->employee->location->name}}</td>
                                           <td class="text-right">
                                              @if ($over->holiday_type == 1)
                                                 <span  class="text-info ">
@@ -158,7 +164,9 @@ SPKL
                                           
                                           
                                           <td class="text-center">{{$over->hours}} </td>
+                                          @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                                           <td class="text-right">{{formatRupiah($over->rate)}}</td>
+                                          @endif
                                           <td>
                                              <a href="#" data-target="#modal-delete-overtime-{{$over->id}}" data-toggle="modal">Delete</a>
                                           </td>

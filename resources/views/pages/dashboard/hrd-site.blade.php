@@ -32,11 +32,11 @@
                <input type="number" name="spkl_type" id="spkl_type" value="{{$transaction->employee->unit->spkl_type}}" hidden>
                <input type="number" name="transaction" id="transaction" value="{{$transaction->id}}" hidden> --}}
                <div class="form-group form-group-default">
-                  <label>Employee KJ 4-5</label>
+                  <label>Employee</label>
                   <select class="form-control js-example-basic-single" style="width: 100%" required name="employee" id="employee">
                      <option value="" disabled selected>Select</option>
                      @foreach ($employees as $emp)
-                         <option value="{{$emp->id}}">{{$emp->nik}} {{$emp->biodata->fullName()}}</option>
+                         <option value="{{$emp->id}}"> {{$emp->nik}} {{$emp->biodata->fullName()}}</option>
                      @endforeach
                   </select>
                   {{-- <input type="number" class="form-control" id="hours" name="hours" > --}}
@@ -108,6 +108,7 @@
                      <tr>
                         <th>Type</th>
                         <th>Employee</th>
+                        <th>Location</th>
                         <th class="text-right">Date</th>
                         
                         <th class="text-center">Hours</th>
@@ -128,6 +129,7 @@
                               @endif
                            </td>
                            <td>{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</td>
+                           <td>{{$over->employee->location->name}}</td>
                            <td class="text-right">
                               @if ($over->holiday_type == 1)
                                  <span  class="badge badge-info ">
@@ -141,6 +143,7 @@
                               <a href="#" data-target="#modal-overtime-doc-{{$over->id}}" data-toggle="modal" class="text-white">{{formatDate($over->date)}}</a>
                               </span>
                            </td>
+                           
                            
                            
                            <td class="text-center">{{$over->hours}} </td>

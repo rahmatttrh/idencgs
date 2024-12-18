@@ -22,7 +22,7 @@ class AbsenceController extends Controller
 
       $now = Carbon::now();
       $employees = Employee::get();
-      $absences = Absence::get();
+      $absences = Absence::orderBy('updated_at', 'desc')->get();
 
       if (auth()->user()->hasRole('HRD-KJ12')) {
          $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
@@ -30,7 +30,7 @@ class AbsenceController extends Controller
             ->select('employees.*')
             ->get();
 
-         $absences = Absence::where('location_id', 4)->orWhere('location_id', 5)->get();
+         $absences = Absence::where('location_id', 4)->orWhere('location_id', 5)->orderBy('date', 'asc')->get();
       } elseif (auth()->user()->hasRole('HRD-KJ45')) {
 
          // dd('ok');
@@ -38,7 +38,7 @@ class AbsenceController extends Controller
             ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
             ->select('employees.*')
             ->get();
-         $absences = Absence::where('location_id', 3)->get();
+         $absences = Absence::where('location_id', 3)->orderBy('updated_at', 'desc')->get();
       } else {
          // dd('ok');
          $employees = Employee::get();
