@@ -156,11 +156,10 @@
                               <small class="fw-bold mt-1">{{$employee->contract->unit->name ?? '-'}}  </small>
                               <div class="mt-2"></div>
                               <div class="text-small text-uppercase fw-bold op-8">Department </div>
-                              <small class="fw-bold mt-1">{{$employee->department->name ?? '-'}}  </small><br>
-                              <small class="fw-bold mt-1 pl-2">- {{$employee->sub_dept->name ?? '-'}}  </small>
+                              <small class="fw-bold mt-1">{{$employee->department->name ?? '-'}}  </small>
+                              
                               <div class="mt-2"></div>
-                              <hr>
-                              <div class="text-small text-uppercase fw-bold op-8">Position </div>
+                                 <div class="text-small text-uppercase fw-bold op-8">Position </div>
                               {{-- <small class="fw-bold mt-1"></small> --}}
                               <small class="fw-bold mt-1">
                               @if (count($employee->positions) > 0)
@@ -178,11 +177,15 @@
                               </small>
                               
                               
+                              
+                              
                            </div>
                            <div class="col-6 pl-0 text-right">
                               <div class="text-small text-uppercase fw-bold op-8">Lokasi Kerja </div>
                               <small class="fw-bold mt-1 text-uppercase ">{{$employee->contract->loc ?? '-'}} </small>
-                              <div class="text-small text-uppercase fw-bold op-8">{{$employee->contract->shift->name ?? '-'}}
+                              <div class="mt-2"></div>
+                                 <div class="text-small text-uppercase fw-bold op-8">Jam Kerja </div>
+                              <small class="fw-bold mt-1">{{$employee->contract->shift->name ?? '-'}}
                                  @if ($employee->contract->shift)
                                  {{formatTime($employee->contract->shift->in )}}
                                  @endif
@@ -190,7 +193,11 @@
                                  - {{formatTime($employee->contract->shift->out )}}
                                  @endif
                                  
-                                 </div>
+                              </small>
+                              <div class="mt-2"></div>
+                              <div class="text-small text-uppercase fw-bold op-8">Sub Department </div>
+                              <small class="fw-bold mt-1 ">{{$employee->sub_dept->name ?? '-'}}  </small>
+                                 
                               
                            </div>
                         </div>

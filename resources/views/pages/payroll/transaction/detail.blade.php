@@ -63,7 +63,7 @@ Detail Transaction Payroll Employee
             <div class="card-footer d-flex justify-content-between">
                <div>
                   Status <br>
-                  Visibility
+                  Visibility Payslip
                </div>
                <div class="text-right">
                   <x-status.transaction :trans="$transaction" /> <br>
@@ -119,8 +119,8 @@ Detail Transaction Payroll Employee
                      <div class="row row-nav-line">
                         <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
                            <li class="nav-item"> <a class="nav-link show active" id="pills-basic-tab-nobd" data-toggle="pill" href="#pills-basic-nobd" role="tab" aria-controls="pills-basic-nobd" aria-selected="true">Detail</a> </li>
-                           @if (auth()->user()->hasRole('Karyawan'))
-                               @else
+                           @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+                               
                                <li class="nav-item"> <a class="nav-link " id="pills-deduction-tab-nobd" data-toggle="pill" href="#pills-deduction-nobd" role="tab" aria-controls="pills-deduction-nobd" aria-selected="true">Deduction</a> </li>
                                <li class="nav-item"> <a class="nav-link " id="pills-spkl-tab-nobd" data-toggle="pill" href="#pills-spkl-nobd" role="tab" aria-controls="pills-spkl-nobd" aria-selected="true">SPKL</a> </li>
                                <li class="nav-item"> <a class="nav-link " id="pills-absence-tab-nobd" data-toggle="pill" href="#pills-absence-nobd" role="tab" aria-controls="pills-absence-nobd" aria-selected="true">Absence</a> </li>
