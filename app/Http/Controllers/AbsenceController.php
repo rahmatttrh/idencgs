@@ -240,10 +240,30 @@ class AbsenceController extends Controller
       $req->validate([]);
 
 
-      $absences = Absence::whereBetween('date', [$req->from, $req->to])->get();
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj1-2')
+            ->select('employees.*')
+            ->get();
+
+         $absences = Absence::where('location_id', 4)->orWhere('location_id', 5)->whereBetween('date', [$req->from, $req->to])->get();
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+            ->select('employees.*')
+            ->get();
+         $absences = Absence::where('location_id', 3)->whereBetween('date', [$req->from, $req->to])->get();
+      } else {
+         // dd('ok');
+         $employees = Employee::get();
+         $absences = Absence::whereBetween('date', [$req->from, $req->to])->get();
+      }
 
       $employees = Employee::get();
-      return view('pages.payroll.absence', [
+      return view('pages.payroll.absence.index', [
          'employees' => $employees,
          'absences' => $absences,
          'from' => $req->from,
@@ -265,6 +285,18 @@ class AbsenceController extends Controller
       if ($req->type == 2) {
          $req->validate([
             'minute' => 'required'
+         ]);
+      }
+
+      if ($req->type == 4) {
+         $req->validate([
+            'type_izin' => 'required'
+         ]);
+      }
+
+      if ($req->type == 6) {
+         $req->validate([
+            'type_spt' => 'required'
          ]);
       }
 
@@ -305,6 +337,8 @@ class AbsenceController extends Controller
          'doc' => $doc,
          'minute' => $req->minute,
          'location_id' => $location,
+         'type_izin' => $req->type_izin,
+         'type_spt' => $req->type_spt,
          'value' => $value
       ]);
 

@@ -78,7 +78,11 @@ Payroll Absence
                                  @elseif($absence->type == 3)
                                  ATL
                                  @elseif($absence->type == 4)
-                                 Izin
+                                 Izin ({{$absence->type_izin}})
+                                 @elseif($absence->type == 5)
+                                 Cuti
+                                 @elseif($absence->type == 6)
+                                 SPT ({{$absence->type_spt}})
                                  @endif
                               @endif
                               

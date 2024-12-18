@@ -74,7 +74,7 @@
             @endif
 
 
-            @if (auth()->user()->hasRole('HRD-KJ45'))
+            @if (auth()->user()->hasRole('HRD-KJ45|HRD-KJ12'))
                <x-sidebar.hrd-site />
                
             @endif

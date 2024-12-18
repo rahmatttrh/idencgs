@@ -111,7 +111,7 @@
                         <th class="text-right">Date</th>
                         
                         <th class="text-center">Hours</th>
-                        <th class="text-right">Rate</th>
+                        {{-- <th class="text-right">Rate</th> --}}
                         <th></th>
                      </tr>
                   </thead>
@@ -144,7 +144,7 @@
                            
                            
                            <td class="text-center">{{$over->hours}} </td>
-                           <td class="text-right">{{formatRupiah($over->rate)}}</td>
+                           {{-- <td class="text-right">{{formatRupiah($over->rate)}}</td> --}}
                            <td>
                               <a href="#" data-target="#modal-delete-overtime-{{$over->id}}" data-toggle="modal">Delete</a>
                            </td>

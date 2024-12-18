@@ -39,14 +39,39 @@ Payroll Absence
                            <input type="date" required class="form-control" id="date" name="date">
                         </div>
                      </div>
-                     <div class="col">
+                     <div class="col-md-6">
                         <div class="form-group form-group-default">
                            <label>Type</label>
-                           <select class="form-control" required name="type" id="type">
+                           <select class="form-control type" required name="type" id="type">
                               <option value="" disabled selected>Select</option>
                               <option value="1">Alpha</option>
                               <option value="2">Terlambat</option>
                               <option value="3">ATL</option>
+                              <option value="4">Izin</option>
+                              <option value="5">Cuti</option>
+                              <option value="6">SPT</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-md-6 type_spt">
+                        <div class="form-group form-group-default">
+                           <label>Jenis SPT</label>
+                           <select class="form-control"  name="type_spt" id="type_spt">
+                              <option value="" disabled selected>Select</option>
+                              <option value="Tidak Absen Masuk">Tidak Absen Masuk</option>
+                              <option value="Tidak Absen Pulang">Tidak Absen Pulang</option>
+                              <option value="Tidak Absen Masuk & Pulang">Tidak Absen Masuk & Pulang</option>
+                           </select>
+                        </div>
+                     </div>
+
+                     <div class="col-md-6 type_izin">
+                        <div class="form-group form-group-default">
+                           <label>Jenis Izin</label>
+                           <select class="form-control"  name="type_izin" id="type_izin">
+                              <option value="" disabled selected>Select</option>
+                              <option value="Setengah Hari">Setengah Hari</option>
+                              <option value="Satu Hari">Satu Hari</option>
                            </select>
                         </div>
                      </div>
@@ -91,6 +116,32 @@ Payroll Absence
 
 </div>
 
+@push('myjs')
+   <script>
+
+      $(document).ready(function() {
+         // console.log('report function');
+         // $('#foto').hide();
+         $('.type_spt').hide();
+         $('.type_izin').hide();
+
+         $('.type').change(function() {
+            // console.log('okeee');
+            var type = $(this).val();
+            if (type == 6) {
+            //   $('#foto').show();
+              $('.type_spt').show();
+            } else if(type == 4) {
+            //   $('#foto').show();
+            $('.type_izin').show();
+            $('.type_spt').hide();
+            } 
+         })
+
+         
+      })
+   </script>
+@endpush
 
 
 
