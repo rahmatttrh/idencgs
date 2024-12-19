@@ -50,6 +50,9 @@ Payroll Absence
                               <option value="4">Izin</option>
                               <option value="5">Cuti</option>
                               <option value="6">SPT</option>
+                              <option value="7">Sakit</option>
+                              <option value="8">Dinas Luar</option>
+                              <option value="9">Off Kontrak</option>
                            </select>
                         </div>
                      </div>
