@@ -87,6 +87,16 @@ class TransactionController extends Controller
 
       $from = $transaction->cut_from;
       $to = $transaction->cut_to;
+
+      if ($employee->join > $from) {
+         // dd('karyawan baru');
+         $transaction->update([
+            'remark' => 'Karyawan Baru'
+         ]);
+      } else {
+         dd('karyawan lama');
+      }
+
       // dd('ok');
       $overtimes = Overtime::where('date', '>=', $from)->where('date', '<=', $to)->where('employee_id', $employee->id)->get();
       $totalOvertime = $overtimes->sum('rate');
@@ -540,9 +550,13 @@ class TransactionController extends Controller
       //    'total' => $transactionDetails->sum('value') - $transaction->reductions->where('type', 'employee')->sum('value')
       // ]);
 
+      if ($employee->join > $req->from) {
+         $transaction->update([
+            'remark' => 'Karyawan Baru'
+         ]);
+      }
+
       $this->calculateTotalTransaction($transaction, $req->from, $req->to);
-
-
 
 
       return redirect()->back()->with('success', 'Payroll Transaction successfully added');
@@ -555,6 +569,8 @@ class TransactionController extends Controller
       $employee = Employee::find($transaction->employee_id);
       $payroll = Payroll::find($employee->payroll_id);
       $transactionDetails = TransactionDetail::where('transaction_id', $transaction->id)->get();
+
+
 
 
       $overtimes = Overtime::where('date', '>=', $from)->where('date', '<=', $to)->where('employee_id', $employee->id)->get();

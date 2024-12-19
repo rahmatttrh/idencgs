@@ -67,9 +67,10 @@ Employee
                      <th class="text-truncate">Bisnis Unit</th>
                      <th>Department</th>
                      {{-- <th>Sub</th> --}}
-                     <th  >Posisi</th>
+                     {{-- <th  >Posisi</th> --}}
                      {{-- <th>Kontrak/Tetap</th> --}}
                      {{-- <th class="text-right">Action</th> --}}
+                     <th>Join</th>
                   </tr>
                </thead>
                {{-- <tfoot>
@@ -169,10 +170,11 @@ Employee
                      </td> --}}
                      {{-- <td>{{$employee->contract->designation->name ?? ''}}</td> --}}
                      <td class="text-truncate">
-                        @if (auth()->user()->hasRole('Administrator'))
+                        {{formatDate($employee->join)}}
+                        {{-- @if (auth()->user()->hasRole('Administrator'))
                             {{$employee->position->id ?? ''}} -
                            @endif
-                        {{$employee->position->name ?? ''}}
+                        {{$employee->position->name ?? ''}} --}}
                         {{-- @if (count($employee->positions) > 0)
                               Multiple
                             @else

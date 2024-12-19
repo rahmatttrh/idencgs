@@ -63,7 +63,8 @@ Detail Transaction Payroll Employee
             <div class="card-footer d-flex justify-content-between">
                <div>
                   Status <br>
-                  Visibility Payslip
+                  Visibility Payslip <br>
+                  Perhitungan 
                </div>
                <div class="text-right">
                   <x-status.transaction :trans="$transaction" /> <br>
@@ -72,6 +73,8 @@ Detail Transaction Payroll Employee
                   @else
                   <i data-target="#modal-payslip-show-{{$transaction->id}}" data-toggle="modal" class="fa fa-eye-slash"></i>
                   @endif
+                  <br>
+                  {{$transaction->remark}}
                </div>
                 
             </div>

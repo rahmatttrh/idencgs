@@ -38,7 +38,26 @@ class AbsencesImport implements ToCollection,  WithHeadingRow
                     } elseif($row['type'] == 'ATL') {
                        $type = 3;
                        $value = null;
-                    }
+                    } elseif($row['type'] == 'Izin') {
+                        $type = 4;
+                        $value = null;
+                        $type_izin = 
+                     } elseif($row['type'] == 'Cuti') {
+                        $type = 5;
+                        $value = null;
+                     } elseif($row['type'] == 'SPT') {
+                        $type = 6;
+                        $value = null;
+                     } elseif($row['type'] == 'Sakit') {
+                        $type = 7;
+                        $value = null;
+                     } elseif($row['type'] == 'Dinas Luar') {
+                        $type = 8;
+                        $value = null;
+                     } elseif($row['type'] == 'Off Kontrak') {
+                        $type = 9;
+                        $value = null;
+                     }
      
                     $date = Carbon::create($row['tanggal']);
      
