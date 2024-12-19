@@ -107,6 +107,7 @@ class TransactionController extends Controller
       $additionals = Additional::where('employee_id', $employee->id)->where('month', $transaction->month)->where('year', $transaction->year)->get();
 
       $alphas = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 1);
+      $offContratcs = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 9);
       $lates = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 2);
       $totalMinuteLate = $lates->sum('minute');
       // dd($totalMinuteLate);
@@ -172,6 +173,7 @@ class TransactionController extends Controller
          'additionals' => $additionals,
          'totalOvertime' => $totalOvertime,
          'alphas' => $alphas,
+         'offContracts' => $offContratcs,
          'lates' => $lates,
          'izins' => $izins,
          'absences' => $absences,
@@ -567,7 +569,16 @@ class TransactionController extends Controller
       }
 
       $totalAlpha = $alphas->sum('value');
-      // dd($totalAlpha);
+
+      $offContracts = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 9);
+      foreach ($offContracts as $off) {
+
+         $off->update([
+            'value' => 1 * 1 / 30 * $payroll->total
+         ]);
+      }
+
+      $totalOffContract = $offContracts->sum('value');
 
 
       $lates = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 2);
@@ -622,7 +633,7 @@ class TransactionController extends Controller
       $totalReduction = $transaction->reductions->where('type', 'employee')->sum('value');
       // dd($totalReduction);
       $totalOvertime = $overtimes->sum('rate');
-      $totalReductionAbsence = $totalAlpha;
+      $totalReductionAbsence = $totalAlpha + $totalOffContract;
 
 
       $transaction->update([

@@ -520,6 +520,37 @@ Detail Transaction Payroll Employee
                                     </tbody>
                                  </table>
                               </div>
+
+                              <div class="col-xl-6">
+                                 <table class="">
+                                    <thead>
+                                       <tr>
+                                          <th colspan="3">Off Kontrak</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       @foreach ($offContracts as $off)
+                                           
+                                           
+                                           <tr>
+                                             <td class=" ">{{formatDate($off->date)}}</td>
+                                             <td class="text-right  text-danger">{{formatRupiah($off->value)}}</td>
+                                           </tr>
+                                           
+                                       @endforeach
+                                       <tr>
+                                          <td class="text-right"><b>Total</b></td>
+                                          <td class="text-right"><b>{{formatRupiah($offContracts->sum('value'))}}</b></td>
+                                       </tr>
+                                      
+                                       
+                                       
+                                       
+                                    </tbody>
+                                 </table>
+                              </div>
+
+
                               
                            </div>
                          
