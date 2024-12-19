@@ -146,3 +146,11 @@ function numberToAlphabet($number)
    // Menggabungkan hasil dalam urutan terbalik
    return implode('', array_reverse($letters));
 }
+
+function getMultiple($hours)
+{
+   $multiHours = $hours - 1;
+   $totalHours = $multiHours * 2 + 1.5;
+   // $rate = $totalHours * round($rateOvertime);
+   return $totalHours;
+}

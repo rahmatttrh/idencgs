@@ -131,6 +131,7 @@ Payroll Absence
             if (type == 6) {
             //   $('#foto').show();
               $('.type_spt').show();
+              $('.type_izin').hide();
             } else if(type == 4) {
             //   $('#foto').show();
             $('.type_izin').show();

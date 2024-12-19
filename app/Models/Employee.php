@@ -10,7 +10,8 @@ class Employee extends Model
    use HasFactory;
    protected $guarded = [];
 
-   public function tasks(){
+   public function tasks()
+   {
       return $this->belongsToMany(Task::class);
    }
 
@@ -193,7 +194,14 @@ class Employee extends Model
       return $qpe;
    }
 
-   public function location(){
+   public function location()
+   {
       return $this->belongsTo(Location::class);
+   }
+
+   public function deactivate()
+   {
+      $deactivate = Deactivate::where('employee_id', $this->id)->first();
+      return $deactivate;
    }
 }

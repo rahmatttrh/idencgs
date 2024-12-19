@@ -33,7 +33,7 @@ Non ActiveEmployee
                      <th>Department</th>
                      <th>Level</th>
                      <th>Jabatan</th>
-                     <th>Status</th>
+                     <th>Off</th>
                      {{-- <th class="text-right">Action</th> --}}
                   </tr>
                </thead>
@@ -91,6 +91,7 @@ Non ActiveEmployee
                         @else
                         <span class="badge badge-muted">Off</span>
                         @endif --}}
+                        {{formatDate($employee->deactivate()->date)}}
 
                      </td>
                   </tr>

@@ -123,6 +123,7 @@ SPKL
                                        <th class="text-right">Date</th>
                                        
                                        <th class="text-center">Hours</th>
+                                       {{-- <td></td> --}}
                                        @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                                        <th class="text-right">Rate</th>
                                        @endif
@@ -163,7 +164,16 @@ SPKL
                                           </td>
                                           
                                           
-                                          <td class="text-center">{{$over->hours}} </td>
+                                          <td class="text-center">
+
+                                             @if ($over->employee->unit->hour_type == 1)
+                                                {{$over->hours}}
+                                                @elseif ($over->employee->unit->hour_type == 2)
+                                                {{$over->hours}} ({{getMultiple($over->hours)}})
+                                             @endif
+                                             
+                                          </td>
+                                          {{-- <td class="text-center">{{getMultiple($over->hours)}}</td> --}}
                                           @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                                           <td class="text-right">{{formatRupiah($over->rate)}}</td>
                                           @endif
