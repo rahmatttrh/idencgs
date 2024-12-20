@@ -6,6 +6,7 @@ use App\Imports\OvertimesImport;
 use App\Models\Employee;
 use App\Models\Holiday;
 use App\Models\Location;
+use App\Models\Log;
 use App\Models\Overtime;
 use App\Models\Payroll;
 use App\Models\Transaction;
@@ -135,6 +136,8 @@ class OvertimeController extends Controller
 
 
       $employees = Employee::get();
+
+      
       // $holidays = Holiday::orderBy('date', 'asc')->get();
       return view('pages.payroll.overtime-import', [
          'overtimes' => $overtimes,
@@ -161,6 +164,19 @@ class OvertimeController extends Controller
       } catch (Exception $e) {
          return redirect()->back()->with('danger', 'Import Failed ' . $e->getMessage());
       }
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Import',
+         'desc' => 'Data SPKL '
+      ]);
 
 
       return redirect()->route('payroll')->with('success', 'Overtime Data successfully imported');
@@ -265,6 +281,19 @@ class OvertimeController extends Controller
          $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
       }
 
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Add',
+         'desc' => 'Data SPKL ' . $employee->nik . ' ' . $employee->biodata->fullName()
+      ]);
+
 
 
       return redirect()->route('payroll.overtime')->with('success', 'Overtime Data successfully added');
@@ -344,6 +373,8 @@ class OvertimeController extends Controller
       $overtime = Overtime::find(dekripRambo($id));
       $employee = Employee::find($overtime->employee_id);
       Storage::delete($overtime->doc);
+      $overtimeId = $overtime->id;
+      $overtimeDate = $overtime->date;
       $overtime->delete();
 
       $transactionCon = new TransactionController;
@@ -352,6 +383,19 @@ class OvertimeController extends Controller
       foreach ($transactions as $tran) {
          $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
       }
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Delete',
+         'desc' => 'Data SPKL date:' . $overtimeDate . ' ' . $employee->nik . ' ' . $employee->biodata->fullName()
+      ]);
 
 
 

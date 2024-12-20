@@ -7,6 +7,7 @@ use App\Imports\AbsencesImport;
 use App\Models\Absence;
 use App\Models\Employee;
 use App\Models\Location;
+use App\Models\Log;
 use App\Models\Payroll;
 use App\Models\Transaction;
 use App\Models\Unit;
@@ -255,6 +256,19 @@ class AbsenceController extends Controller
          return redirect()->back()->with('danger', 'Import Failed ' . $e->getMessage());
       }
 
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Import',
+         'desc' => 'Data Absence '
+      ]);
+
 
 
       return redirect()->route('payroll.absence')->with('success', 'Absence Data successfully imported');
@@ -314,17 +328,17 @@ class AbsenceController extends Controller
          ]);
       }
 
-      if ($req->type == 4) {
-         $req->validate([
-            'type_izin' => 'required'
-         ]);
-      }
+      // if ($req->type == 4) {
+      //    $req->validate([
+      //       'type_izin' => 'required'
+      //    ]);
+      // }
 
-      if ($req->type == 6) {
-         $req->validate([
-            'type_spt' => 'required'
-         ]);
-      }
+      // if ($req->type == 6) {
+      //    $req->validate([
+      //       'type_spt' => 'required'
+      //    ]);
+      // }
 
 
 
@@ -375,6 +389,19 @@ class AbsenceController extends Controller
          $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
       }
 
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Add',
+         'desc' => 'Data Absence ' . $employee->nik . ' ' . $employee->biodata->fullname()
+      ]);
+
 
 
       return redirect()->back()->with('success', 'Data Absence successfully added');
@@ -383,6 +410,7 @@ class AbsenceController extends Controller
    public function delete($id)
    {
       $absence = Absence::find(dekripRambo($id));
+      $absenceDate = $absence->date;
       $employee = Employee::find($absence->employee_id);
       $transaction = Transaction::where('employee_id', $absence->employee_id)->where('month', $absence->month)->where('year', $absence->year)->first();
       $absence->delete();
@@ -398,6 +426,19 @@ class AbsenceController extends Controller
       //    $trans = new TransactionController;
       //    $trans->calculateTotalTransaction($transaction);
       // }
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Delete',
+         'desc' => 'Data Absence date:' . $absenceDate . ' ' . $employee->nik . ' ' . $employee->biodata->fullname()
+      ]);
 
       return redirect()->back()->with('success', 'Absence Data successfully deleted');
    }

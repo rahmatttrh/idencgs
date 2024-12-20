@@ -41,7 +41,7 @@ class AbsencesImport implements ToCollection,  WithHeadingRow
                     } elseif($row['type'] == 'Izin') {
                         $type = 4;
                         $value = null;
-                        $type_izin = 
+                        // $type_izin = 
                      } elseif($row['type'] == 'Cuti') {
                         $type = 5;
                         $value = null;
