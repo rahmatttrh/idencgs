@@ -122,7 +122,7 @@ Detail Transaction Payroll Employee
                      <div class="row row-nav-line">
                         <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
                            <li class="nav-item"> <a class="nav-link show active" id="pills-basic-tab-nobd" data-toggle="pill" href="#pills-basic-nobd" role="tab" aria-controls="pills-basic-nobd" aria-selected="true">Detail</a> </li>
-                           @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+                           @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll'))
                                
                                <li class="nav-item"> <a class="nav-link " id="pills-deduction-tab-nobd" data-toggle="pill" href="#pills-deduction-nobd" role="tab" aria-controls="pills-deduction-nobd" aria-selected="true">Deduction</a> </li>
                                <li class="nav-item"> <a class="nav-link " id="pills-spkl-tab-nobd" data-toggle="pill" href="#pills-spkl-nobd" role="tab" aria-controls="pills-spkl-nobd" aria-selected="true">SPKL</a> </li>
@@ -189,7 +189,7 @@ Detail Transaction Payroll Employee
                                        </tr>
                                        <tr>
                                           <th colspan="">Potongan</th>
-                                          <th class="text-right">{{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late)}}</th>
+                                          <th class="text-right">{{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late + $transaction->reduction_off)}}</th>
                                        </tr>
                                        <tr>
                                           <th colspan="">Gaji Bersih</th>
@@ -234,6 +234,12 @@ Detail Transaction Payroll Employee
                                           <td>Lain-Lain</td>
                                           <td class="text-right">{{formatRupiah($transaction->additional_pengurangan)}}</td>
                                        </tr>
+                                       @if ($transaction->remark = 'Karyawan baru')
+                                       <tr>
+                                          <td>Karyawan Baru</td>
+                                          <td class="text-right">{{formatRupiah($transaction->reduction_off)}}</td>
+                                       </tr>
+                                       @endif
                                     </tbody>
                                  </table>
 
@@ -552,6 +558,24 @@ Detail Transaction Payroll Employee
                                     </tbody>
                                  </table>
                               </div>
+
+                              @if ($transaction->remark == 'Karyawan Baru')
+                              <div class="col-xl-6">
+                                 <table class="">
+                                    <thead>
+                                       <tr>
+                                          <th colspan="2">Off Karyawan Baru</th>
+                                       </tr>
+                                       <tr>
+                                          <th class=""><b>{{$transaction->off}} Day Off</b></th>
+                                          <th class="text-right"><b>{{formatRupiah($transaction->reduction_off)}}</b></th>
+                                       </tr>
+                                    </thead>
+                                    
+                                 </table>
+                              </div>
+                              @endif
+                              
 
 
                               
