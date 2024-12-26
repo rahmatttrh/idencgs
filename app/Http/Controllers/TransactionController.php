@@ -94,7 +94,7 @@ class TransactionController extends Controller
             'remark' => 'Karyawan Baru'
          ]);
       } else {
-         dd('karyawan lama');
+         // dd('karyawan lama');
       }
 
       // dd('ok');
