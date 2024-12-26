@@ -24,7 +24,7 @@ class OvertimeController extends Controller
    {
 
       $now = Carbon::now();
-      $overtimes = Overtime::get();
+      // $overtimes = Overtime::get();
 
 
       if (auth()->user()->hasRole('HRD-KJ12')) {
@@ -46,6 +46,7 @@ class OvertimeController extends Controller
       } else {
          // dd('ok');
          $employees = Employee::get();
+         $overtimes = Overtime::get();
       }
 
       // $debugOver = Overtime::find(713);
@@ -87,9 +88,9 @@ class OvertimeController extends Controller
             $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
          }
 
-         if ($over->hours == 0) {
-            $over->delete();
-         }
+         // if ($over->hours == 0) {
+         //    $over->delete();
+         // }
       }
 
       // $transactionReductions = TransactionReduction::get();

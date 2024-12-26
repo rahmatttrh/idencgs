@@ -23,6 +23,7 @@ use App\Models\TransactionReduction;
 use App\Models\Unit;
 use App\Models\UnitTransaction;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -88,13 +89,15 @@ class TransactionController extends Controller
       $from = $transaction->cut_from;
       $to = $transaction->cut_to;
 
-      if ($employee->join > $from) {
+      if ($employee->join > $from && $employee->join < $to) {
          // dd('karyawan baru');
          $transaction->update([
             'remark' => 'Karyawan Baru'
          ]);
       } else {
-         // dd('karyawan lama');
+         $transaction->update([
+            'remark' => 'Karyawan Lama'
+         ]);
       }
 
       // dd('ok');
@@ -231,7 +234,7 @@ class TransactionController extends Controller
       ]);
 
       foreach ($employees as $emp) {
-         if ($emp->payroll_id != null) {
+         if ($emp->payroll_id != null && $emp->join < $req->to) {
             $totalSalary = $totalSalary + $emp->payroll->total;
             $totalEmployee = $totalEmployee + 1;
 
@@ -583,7 +586,6 @@ class TransactionController extends Controller
             'value' => 1 * 1 / 30 * $payroll->total
          ]);
       }
-
       $totalAlpha = $alphas->sum('value');
 
       $offContracts = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 9);
@@ -593,8 +595,8 @@ class TransactionController extends Controller
             'value' => 1 * 1 / 30 * $payroll->total
          ]);
       }
-
       $totalOffContract = $offContracts->sum('value');
+
 
 
       $lates = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 2);
@@ -646,10 +648,17 @@ class TransactionController extends Controller
       $redAdditionals = ReductionAdditional::where('employee_id', $employee->id)->get();
 
 
+
+
+
+
+
       $totalReduction = $transaction->reductions->where('type', 'employee')->sum('value');
       // dd($totalReduction);
       $totalOvertime = $overtimes->sum('rate');
       $totalReductionAbsence = $totalAlpha + $totalOffContract;
+
+
 
 
       $transaction->update([
@@ -662,5 +671,41 @@ class TransactionController extends Controller
          'bruto' => $transactionDetails->sum('value') - $totalReduction,
          'total' => $transactionDetails->sum('value') - $totalReduction + $totalOvertime - $totalReductionAbsence + $addPenambahan - $addPengurangan - $redAdditionals->sum('employee_value') - $potongan
       ]);
+
+      // dd($payroll->total);
+
+      if ($employee->join > $transaction->cut_from && $employee->join < $transaction->cut_to) {
+         $datetime0 = new DateTime($transaction->cut_to);
+         $datetime1 = new DateTime($transaction->cut_from);
+         $datetime2 = new DateTime($employee->join);
+         $interval = $datetime1->diff($datetime2);
+         // dd($interval->days);
+         $rate = 1 * 1 / 30 * $payroll->total;
+         $qty = 0;
+         foreach (range(0, $interval->days) as $item) {
+            $qty += 1;
+         }
+
+         $offQty = $qty - 1;
+         // dd($interval->days);
+
+         // for ($x = 0; $x <= $interval->days; $x++) {
+         //    $qty += 1;
+         // }
+
+         // dd($interval);
+         $reductionOff = $rate * $offQty;
+         $transaction->update([
+            'off' => $offQty,
+            'reduction_off' => $reductionOff,
+            'total' => $transaction->total - $reductionOff
+         ]);
+      } else {
+         $transaction->update([
+            'off' => 0,
+            'reduction_off' => 0,
+            'total' => $transactionDetails->sum('value') - $totalReduction + $totalOvertime - $totalReductionAbsence + $addPenambahan - $addPengurangan - $redAdditionals->sum('employee_value') - $potongan
+         ]);
+      }
    }
 }

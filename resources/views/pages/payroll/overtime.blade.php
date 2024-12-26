@@ -137,9 +137,9 @@ SPKL
                                         <tr>
                                           {{-- <td>{{++$i}}</td> --}}
                                           <td>
-                                             @if (auth()->user()->hasRole('Administrator'))
+                                             {{-- @if (auth()->user()->hasRole('Administrator'))
                                                  {{$over->id}}
-                                             @endif
+                                             @endif --}}
                                              
                                              @if ($over->type == 1)
                                                  Lembur
@@ -147,7 +147,7 @@ SPKL
                                                  Piket
                                              @endif
                                           </td>
-                                          <td>{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</td>
+                                          <td class="text-truncate">{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</td>
                                           <td>{{$over->employee->location->name}}</td>
                                           <td class="text-right">
                                              @if ($over->holiday_type == 1)

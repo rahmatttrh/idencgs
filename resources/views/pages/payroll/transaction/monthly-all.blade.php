@@ -198,7 +198,7 @@ Payroll Transaction
                      <tbody>
                         @foreach ($transactions as $trans)
                         <tr>
-                           <td>
+                           <td class="text-truncate">
                               <a href="{{route('payroll.transaction.detail', enkripRambo($trans->id))}}">{{$trans->employee->nik}} </a>
                               
                            </td>
