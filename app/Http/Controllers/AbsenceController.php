@@ -31,7 +31,7 @@ class AbsenceController extends Controller
             ->select('employees.*')
             ->get();
 
-         $absences = Absence::where('location_id', 4)->orWhere('location_id', 5)->orderBy('date', 'asc')->get();
+            $absences = Absence::where('location_id', 3)->orderBy('updated_at', 'desc')->get();
       } elseif (auth()->user()->hasRole('HRD-KJ45')) {
 
          // dd('ok');
@@ -39,7 +39,8 @@ class AbsenceController extends Controller
             ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
             ->select('employees.*')
             ->get();
-         $absences = Absence::where('location_id', 3)->orderBy('updated_at', 'desc')->get();
+            $absences = Absence::where('location_id', 4)->orWhere('location_id', 5)->orderBy('date', 'asc')->get();
+         
       } else {
          // dd('ok');
          $employees = Employee::get();
