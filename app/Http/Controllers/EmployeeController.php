@@ -381,6 +381,7 @@ class EmployeeController extends Controller
    {
 
 
+      
       // $employee = auth()->user()->getEmployee();
       // // Data KPI
       // if (auth()->user()->hasRole('Administrator|HRD')) {
@@ -507,6 +508,7 @@ class EmployeeController extends Controller
       $panel = dekripRambo($enkripPanel);
       $designations = Designation::get();
       $roles = Role::where('id', '>', 1)->get();
+      // dd($roles);
       $shifts = Shift::get();
       $units = Unit::get();
       $socials = Social::get();
@@ -635,6 +637,7 @@ class EmployeeController extends Controller
 
       // dd($myManagers);
       $locations = Location::get();
+      // dd($roles);
 
       return view('pages.employee.detail', [
          'employee' => $employee,
