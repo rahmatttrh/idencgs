@@ -69,7 +69,7 @@ Detail Employee
                NO DOC : {{$employee->biodata->no_doc ?? ' -'}}
             </div>
             <div class="card-header">
-               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv'))
+               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv|HRD-Payroll'))
                @if ($employee->status == 1)
                   <small class="badge badge-info text-uppercase "><a href="#" class="text-white" data-toggle="modal" data-target="#modal-deactivate-employee">Aktif</a></small>
                    @elseif($employee->status == 0)
