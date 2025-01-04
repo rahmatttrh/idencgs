@@ -124,7 +124,7 @@ SPKL
                                        
                                        <th class="text-center">Hours</th>
                                        {{-- <td></td> --}}
-                                       @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+                                       @if (auth()->user()->hasRole('HRD|HRD-Payroll|Administrator'))
                                        <th class="text-right">Rate</th>
                                        @endif
                                        
@@ -169,13 +169,13 @@ SPKL
                                              @if ($over->employee->unit->hour_type == 1)
                                                 {{$over->hours}}
                                                 @elseif ($over->employee->unit->hour_type == 2)
-                                                {{$over->hours}} ({{getMultiple($over->hours)}})
+                                                {{$over->hours}} ({{$over->getFinalHours()}})
                                              @endif
                                              
                                           </td>
                                           {{-- <td class="text-center">{{getMultiple($over->hours)}}</td> --}}
-                                          @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
-                                          <td class="text-right">{{formatRupiah($over->rate)}}</td>
+                                          @if (auth()->user()->hasRole('HRD|HRD-Payroll|Administrator'))
+                                          <td class="text-right text-truncate">{{formatRupiah($over->rate)}}</td>
                                           @endif
                                           <td>
                                              <a href="#" data-target="#modal-delete-overtime-{{$over->id}}" data-toggle="modal">Delete</a>

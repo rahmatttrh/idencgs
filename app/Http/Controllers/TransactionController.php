@@ -38,9 +38,9 @@ class TransactionController extends Controller
       $units = Unit::get();
       $firstUnit = Unit::get()->first();
 
-      foreach ($transactions as $tran) {
-         $this->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-      }
+      // foreach ($transactions as $tran) {
+      //    $this->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+      // }
 
       $unitTransactions = UnitTransaction::get();
       foreach ($unitTransactions as $unitTrans) {
