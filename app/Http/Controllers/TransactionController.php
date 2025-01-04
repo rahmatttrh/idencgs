@@ -38,9 +38,9 @@ class TransactionController extends Controller
       $units = Unit::get();
       $firstUnit = Unit::get()->first();
 
-      foreach ($transactions as $tran) {
-         $this->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-      }
+      // foreach ($transactions as $tran) {
+      //    $this->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+      // }
 
       $unitTransactions = UnitTransaction::get();
       foreach ($unitTransactions as $unitTrans) {
@@ -120,6 +120,7 @@ class TransactionController extends Controller
       $additionals = Additional::where('employee_id', $employee->id)->where('month', $transaction->month)->where('year', $transaction->year)->get();
 
       $alphas = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 1);
+      $izinFullDays = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 4)->where('type_izin', 'Satu Hari');
       $offContratcs = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 9);
       $lates = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 2);
       $totalMinuteLate = $lates->sum('minute');
@@ -580,13 +581,21 @@ class TransactionController extends Controller
       // dd($from);
 
       $alphas = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 1);
+      $izinFullDays = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 4)->where('type_izin', 'Satu Hari');
       foreach ($alphas as $alpha) {
 
          $alpha->update([
             'value' => 1 * 1 / 30 * $payroll->total
          ]);
       }
-      $totalAlpha = $alphas->sum('value');
+
+      foreach ($izinFullDays as $izin) {
+
+         $izin->update([
+            'value' => 1 * 1 / 30 * $payroll->total
+         ]);
+      }
+      $totalAlpha = $alphas->sum('value') + $izinFullDays->sum('value');
 
       $offContracts = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 9);
       foreach ($offContracts as $off) {

@@ -46,7 +46,7 @@ class OvertimeController extends Controller
       } else {
          // dd('ok');
          $employees = Employee::get();
-         $overtimes = Overtime::get();
+         $overtimes = Overtime::orderBy('date', 'desc')->paginate(500);
       }
 
       // $debugOver = Overtime::find(713);
@@ -70,28 +70,32 @@ class OvertimeController extends Controller
 
       // dd('ok');
 
-      foreach ($overtimes as $over) {
-         $employee = Employee::find($over->employee_id);
-         $spkl_type = $employee->unit->spkl_type;
-         $hour_type = $employee->unit->hour_type;
-         $payroll = Payroll::find($employee->payroll_id);
-         $rate = $this->calculateRate($payroll, $over->type, $spkl_type, $hour_type, $over->hours, $over->holiday_type);
 
-         $over->update([
-            'rate' => $rate
-         ]);
 
-         $transactionCon = new TransactionController;
-         $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
+      // foreach ($overtimes as $over) {
+      //    $employee = Employee::find($over->employee_id);
+      //    $spkl_type = $employee->unit->spkl_type;
+      //    $hour_type = $employee->unit->hour_type;
+      //    $payroll = Payroll::find($employee->payroll_id);
+      //    $rate = $this->calculateRate($payroll, $over->type, $spkl_type, $hour_type, $over->hours, $over->holiday_type);
 
-         foreach ($transactions as $tran) {
-            $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-         }
+      //    $over->update([
+      //       'rate' => $rate
+      //    ]);
 
-         // if ($over->hours == 0) {
-         //    $over->delete();
-         // }
-      }
+      //    $transactionCon = new TransactionController;
+      //    $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
+
+      //    foreach ($transactions as $tran) {
+      //       $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+      //    }
+
+      //    // if ($over->hours == 0) {
+      //    //    $over->delete();
+      //    // }
+      // }
+
+
 
       // $transactionReductions = TransactionReduction::get();
       // foreach ($transactionReductions as $tr) {
@@ -309,6 +313,7 @@ class OvertimeController extends Controller
    {
       if ($type == 1) {
          // jika lembur
+         
 
          if ($spkl_type == 1) {
             $rateOvertime = $payroll->pokok / 173;
@@ -318,13 +323,35 @@ class OvertimeController extends Controller
 
          // dd($rateOvertime);
 
-         if ($hour_type == 1) {
-            $rate = $hours * round($rateOvertime);
-         } else {
-            $multiHours = $hours - 1;
-            $totalHours = $multiHours * 2 + 1.5;
-            $rate = $totalHours * round($rateOvertime);
+         if ($holiday_type == 1) {
+            $finalHour = $hours;
+         } elseif ($holiday_type == 2) {
+            $finalHour = $hours * 2;
+         } elseif ($holiday_type == 3) {
+            $finalHour = $hours * 2;
+         } elseif ($holiday_type == 4) {
+            $finalHour = $hours * 3;
          }
+
+         if ($hour_type == 1) {
+            $rate = $finalHour * round($rateOvertime);
+         } else {
+
+            if ($holiday_type == 2) {
+               $rate = $finalHour * round($rateOvertime);
+            } elseif($holiday_type == 3) {
+               $rate = $finalHour * round($rateOvertime);
+            } else {
+               $multiHours = $hours - 1;
+               $totalHours = $multiHours * 2 + 1.5;
+               $rate = $totalHours * round($rateOvertime);
+            }
+            
+         }
+
+         
+
+
       } else {
          // dd('ok');
          $rateOvertime = round(1 / 30 * $payroll->total);
