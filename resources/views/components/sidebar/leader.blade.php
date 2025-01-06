@@ -1,4 +1,4 @@
-@if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Recruitment'))
+{{-- @if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Recruitment'))
 <li class="nav-item">
    <a data-toggle="collapse" href="#vessel">
       <i class="fas fa-server"></i>
@@ -35,7 +35,44 @@
       </ul>
    </div>
 </li>
-@endif
+<li class="nav-item">
+   <a data-toggle="collapse" href="#employee">
+      <i class="fas fa-users"></i>
+      <p>Employee</p>
+      <span class="caret"></span>
+   </a>
+   <div class="collapse" id="employee">
+      <ul class="nav nav-collapse">
+         <li>
+            <a href="{{route('employee', enkripRambo('active'))}}">
+               <span class="sub-item">Active</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('employee.nonactive')}}">
+               <span class="sub-item">Non Active</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('employee.draft')}}">
+               <span class="sub-item">Draft</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('employee.create')}}">
+               <span class="sub-item">Create</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('employee.draft')}}">
+               <span class="sub-item">Import by Excel</span>
+            </a>
+         </li>
+
+      </ul>
+   </div>
+</li>
+@endif --}}
 
 <li class="nav-item">
    <a data-toggle="collapse" href="#kpi">
