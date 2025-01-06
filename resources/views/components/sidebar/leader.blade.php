@@ -74,7 +74,7 @@
 </li>
 @endif --}}
 
-<li class="nav-item">
+{{-- <li class="nav-item">
    <a data-toggle="collapse" href="#kpi">
       <i class="fas fa-file-contract"></i>
       <p>Performance</p>
@@ -99,24 +99,10 @@
                <span class="sub-item">KPI</span>
             </a>
          </li>
-       <!-- <li>
-            <a href="{{route('kpa')}}">
-               <span class="sub-item">KPI Apprasial</span>
-            </a>
-         </li> -->
-         <!-- <li>
-            <a href="{{route('kpi')}}">
-               <span class="sub-item">Behavior</span>
-            </a>
-         </li>
-         <li>
-            <a href="#">
-               <span class="sub-item">...</span>
-            </a>
-         </li> -->
+       
       </ul>
    </div>
-</li>
+</li> --}}
 <li class="nav-item">
    <a data-toggle="collapse" href="#qpe">
     {{-- <a  href="{{route('qpe')}}"> --}}

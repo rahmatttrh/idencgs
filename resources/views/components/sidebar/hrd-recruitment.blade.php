@@ -37,7 +37,7 @@
 </li>
 
 {{-- Performance --}}
-{{-- <li class="nav-item">
+<li class="nav-item">
    <a data-toggle="collapse" href="#kpi">
       <i class="fas fa-file-contract"></i>
       <p>Performance</p>
@@ -60,7 +60,7 @@
          @endif
       </ul>
    </div>
-</li> --}}
+</li>
 
 <li class="nav-item">
    <a data-toggle="collapse" href="#employee">
