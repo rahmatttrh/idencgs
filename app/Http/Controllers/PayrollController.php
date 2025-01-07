@@ -348,12 +348,13 @@ class PayrollController extends Controller
       // }
 
       // dd('ok');
+      // dd($reductions);
       if ($payroll != null) {
          // dd('ada');
          foreach ($reductions as $red) {
             $currentRed = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $employee->id)->first();
             // dd($red->max_salary);
-
+            
 
             if ($payroll->total <= $red->min_salary) {
                // dd('kurang dari minimum gaji');
