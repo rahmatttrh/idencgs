@@ -74,11 +74,15 @@ class TransactionController extends Controller
    public function detail($id)
    {
 
-      // dd('ok');
+      // dd('debug');
       // dd($employee->id);
       // $payroll = Payroll::find($employee->payroll_id);
       $transaction = Transaction::find(dekripRambo($id));
 
+      // dd($transaction->id);
+      if ($transaction->id == 3231) {
+         dd('debug');
+      }
       // dd($transaction->reductions);
       $employee = Employee::find($transaction->employee_id);
       $reductions = Reduction::where('unit_id', $employee->unit_id)->get();
