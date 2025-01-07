@@ -162,7 +162,7 @@ Payroll Transaction
                            <th rowspan="2" class="text-white">Loc</th>
                            <th rowspan="2" class="text-white">Jml Pgw</th>
                            
-                           <th colspan="8" class="text-center text-white">Pendapatan</th>
+                           <th colspan="9" class="text-center text-white">Pendapatan</th>
                            <th colspan="5" class="text-center text-white">Potongan</th>
                            <th rowspan="2" class="text-center text-white">Gaji Bersih</th>
                         </tr>
@@ -171,6 +171,7 @@ Payroll Transaction
                            <th class="text-center text-white">Tunj. Jabatan</th>
                            <th class="text-center text-white">Tunj. OPS</th>
                            <th class="text-center text-white">Tunj. Kinerja</th>
+                           <th class="text-center text-white">Insentif</th>
                            <th class="text-center text-white">Total Gaji</th>
                            <th class="text-center text-white">Lembur</th>
                            <th class="text-center text-white">Lain-Lain</th>
@@ -195,6 +196,7 @@ Payroll Transaction
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getValue($unit->id, $unitTransaction,  'Tunj. Jabatan'))}}</td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getValue($unit->id, $unitTransaction, 'Tunj. OPS'))}}</td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getValue($unit->id, $unitTransaction, 'Tunj. Kinerja'))}}</td>
+                              <td class="text-right text-truncate">{{formatRupiahB($loc->getValue($unit->id, $unitTransaction, 'Insentif'))}}</td>
       
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getValueGaji($unit->id, $unitTransaction))}}</td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime'))}}</td>
@@ -219,6 +221,7 @@ Payroll Transaction
                            $totalJabatan = 0;
                            $totalOps = 0;
                            $totalKinerja = 0;
+                           $totalInsentif = 0;
                            $totalGaji = 0;
                            $totalOvertime = 0;
                            $totalBruto = 0;
@@ -235,6 +238,7 @@ Payroll Transaction
                               $jabatan = $loc->getValue($unit->id, $unitTransaction,  'Tunj. Jabatan');
                               $ops = $loc->getValue($unit->id, $unitTransaction, 'Tunj. OPS');
                               $kinerja = $loc->getValue($unit->id, $unitTransaction, 'Tunj. Kinerja');
+                              $insentif = $loc->getValue($unit->id, $unitTransaction, 'Insentif');
                               $gaji = $loc->getValueGaji($unit->id, $unitTransaction);
                               $overtime = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime');
                               $bruto = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('bruto');
@@ -249,6 +253,7 @@ Payroll Transaction
                               $totalJabatan += $jabatan;
                               $totalOps += $ops;
                               $totalKinerja += $kinerja;
+                              $totalInsentif += $insentif;
                               $totalGaji += $gaji;
                               $totalOvertime += $overtime;
                               $totalBruto += $bruto;
@@ -269,6 +274,7 @@ Payroll Transaction
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalJabatan)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalOps)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalKinerja)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($totalInsentif)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalGaji)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalOvertime)}}</b></td>
                            <td class="text-right text-truncate"><b>0</b></td>

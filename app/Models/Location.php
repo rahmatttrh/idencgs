@@ -47,7 +47,8 @@ class Location extends Model
          $jabatan = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Jabatan')->first()->value;
          $ops = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. OPS')->first()->value;
          $kinerja = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Kinerja')->first()->value;
-         $total = $pokok + $jabatan + $ops + $kinerja;
+         $insentif = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Insentif')->first()->value;
+         $total = $pokok + $jabatan + $ops + $kinerja + $insentif;
          $value = $value + $total;
       }
 
