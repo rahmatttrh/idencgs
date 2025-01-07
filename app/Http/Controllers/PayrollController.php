@@ -373,11 +373,13 @@ class PayrollController extends Controller
                if ($payroll->total > $red->max_salary) {
                   // dd('ok');
                   if ($red->max_salary != 0) {
+                     
                      $salary = $payroll->total;
                      $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
                      $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
                      $bebanKaryawanReal = 0;
                      $bebanPerusahaanReal = $bebanPerusahaan;
+                     
                   } else {
                      $salary = $payroll->total;
                      $bebanPerusahaan = ($red->company * $salary) / 100;
@@ -424,10 +426,13 @@ class PayrollController extends Controller
             }
          }
          $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
+         
       } else {
          // dd('empty');
          $redEmployees = [];
       }
+
+      // dd($redEmployees);
 
 
 
