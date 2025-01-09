@@ -356,6 +356,8 @@ class OvertimeController extends Controller
 
          // dd($rateOvertime);
 
+         // dd($rateOvertime);
+
          if ($holiday_type == 1) {
             $finalHour = $hours;
          } elseif ($holiday_type == 2) {

@@ -513,7 +513,7 @@ Detail Transaction Payroll Employee
                                            
                                            
                                            <tr>
-                                             <td class="">{{formatDate($late->date)}} {{$late->id}}</td>
+                                             <td class="">{{formatDate($late->date)}} </td>
                                              <th class="text-right">{{$late->minute}} Menit</th>
                                              {{-- <td class="text-right  text-danger">{{formatRupiah($alpha->value)}}</td> --}}
                                            </tr>
