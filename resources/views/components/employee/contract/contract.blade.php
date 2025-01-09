@@ -220,7 +220,7 @@
                                     <small class="fw-bold mt-1">
                                        
                                        @foreach ($empleaders as $empleader)
-                                       @if (auth()->user()->hasRole('Administrator|HRD|HRD-Staff|HRD-Recruitment'))
+                                       @if (auth()->user()->hasRole('Administrator|HRD|HRD-Staff|HRD-Recruitment|HRD-Payroll'))
                                        <a href="#"  class="text-light" data-toggle="modal" data-target="#modal-revoke-leader-{{$empleader->id}}">{{$empleader->leader->nik}} {{$empleader->leader->biodata->fullName()}}</a>
                                         @else
                                         {{$empleader->leader->nik}} {{$empleader->leader->biodata->fullName()}}
