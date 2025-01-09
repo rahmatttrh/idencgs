@@ -243,6 +243,7 @@ class OvertimeController extends Controller
          return redirect()->route('payroll.overtime')->with('danger', $employee->nik . ' ' . $employee->biodata->fullName() . ' belum ada data Gaji Karyawan');
       }
 
+      // dd($hour_type);
 
       $locations = Location::get();
       $locId = null;
@@ -252,6 +253,8 @@ class OvertimeController extends Controller
          }
       }
 
+
+
       $rate = $this->calculateRate($payroll, $req->type, $spkl_type, $hour_type, $req->hours, $req->holiday_type);
 
       if (request('doc')) {
@@ -259,6 +262,30 @@ class OvertimeController extends Controller
       } else {
          $doc = null;
       }
+
+      // $hoursFinal = 0;
+      if ($req->holiday_type == 1) {
+         $finalHour = $req->hours;
+         if ($hour_type == 2) {
+            // dd('test');
+            $multiHours = $req->hours - 1;
+            $finalHour = $multiHours * 2 + 1.5;
+            // dd($finalHour);
+         }
+      } elseif ($req->holiday_type == 2) {
+         $finalHour = $req->hours * 2;
+      } elseif ($req->holiday_type == 3) {
+         $finalHour = $req->hours * 2;
+      } elseif ($req->holiday_type == 4) {
+         $finalHour = $req->hours * 3;
+      }
+
+      // dd($finalHour);
+
+      
+      
+
+      
 
 
       $date = Carbon::create($req->date);
@@ -273,6 +300,7 @@ class OvertimeController extends Controller
          'hour_type' => $hour_type,
          'holiday_type' => $req->holiday_type,
          'hours' => $req->hours,
+         'hours_final' => $finalHour,
          'rate' => round($rate),
          'description' => $req->desc,
          'doc' => $doc
@@ -336,17 +364,23 @@ class OvertimeController extends Controller
 
          if ($hour_type == 1) {
             $rate = $finalHour * round($rateOvertime);
+            dd('ok');
          } else {
-
+            // dd('okee');
             if ($holiday_type == 2) {
                $rate = $finalHour * round($rateOvertime);
             } elseif ($holiday_type == 3) {
                $rate = $finalHour * round($rateOvertime);
             } else {
+               // dd($hours);
                $multiHours = $hours - 1;
                $totalHours = $multiHours * 2 + 1.5;
+               // dd($totalHours);
                $rate = $totalHours * round($rateOvertime);
+               // dd($totalHours);
             }
+            // dd('finish');
+            
          }
       } else {
          // dd('ok');

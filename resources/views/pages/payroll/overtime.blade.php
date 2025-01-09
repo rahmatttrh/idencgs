@@ -169,7 +169,7 @@ SPKL
                                              @if ($over->employee->unit->hour_type == 1)
                                                 {{$over->hours}}
                                                 @elseif ($over->employee->unit->hour_type == 2)
-                                                {{$over->hours}} ({{$over->getFinalHours()}})
+                                                {{$over->hours}} ({{$over->hours_final}})
                                              @endif
                                              
                                           </td>

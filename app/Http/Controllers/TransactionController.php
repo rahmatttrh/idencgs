@@ -419,6 +419,9 @@ class TransactionController extends Controller
       $year = $now->format('Y');
       // dd($now->format('d/m/Y'));
 
+      // $reductionEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
+      // dd($reductionEmployees);
+
 
 
       $transaction = Transaction::create([
