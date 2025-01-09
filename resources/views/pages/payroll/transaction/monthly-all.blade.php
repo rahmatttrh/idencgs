@@ -199,7 +199,7 @@ Payroll Transaction
                         @foreach ($transactions as $trans)
                         <tr>
                            <td class="text-truncate">
-                              <a href="{{route('payroll.transaction.detail', enkripRambo($trans->id))}}">{{$trans->employee->nik}} </a>
+                              <a href="{{route('payroll.transaction.detail', enkripRambo($trans->id))}}">{{$trans->employee->nik}} {{$trans->id}}</a>
                               
                            </td>
                            <td>{{$trans->employee->biodata->fullName()}}</td>

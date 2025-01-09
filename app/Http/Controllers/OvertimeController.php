@@ -312,12 +312,12 @@ class OvertimeController extends Controller
 
       // $overtimes = Overtime::where('month', $transaction->month)->get();
       // $totalOvertime = $overtimes->sum('rate');
-      $transactionCon = new TransactionController;
-      $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
+      // $transactionCon = new TransactionController;
+      // $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
 
-      foreach ($transactions as $tran) {
-         $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-      }
+      // foreach ($transactions as $tran) {
+      //    $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+      // }
 
       if (auth()->user()->hasRole('Administrator')) {
          $departmentId = null;
@@ -370,7 +370,7 @@ class OvertimeController extends Controller
 
          if ($hour_type == 1) {
             $rate = $finalHour * round($rateOvertime);
-            dd('ok');
+            // dd('ok');
          } else {
             // dd('okee');
             if ($holiday_type == 2) {
@@ -441,12 +441,12 @@ class OvertimeController extends Controller
       $overtimeDate = $overtime->date;
       $overtime->delete();
 
-      $transactionCon = new TransactionController;
-      $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
+      // $transactionCon = new TransactionController;
+      // $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
 
-      foreach ($transactions as $tran) {
-         $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-      }
+      // foreach ($transactions as $tran) {
+      //    $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+      // }
 
       if (auth()->user()->hasRole('Administrator')) {
          $departmentId = null;
@@ -461,7 +461,7 @@ class OvertimeController extends Controller
          'desc' => 'Data SPKL date:' . $overtimeDate . ' ' . $employee->nik . ' ' . $employee->biodata->fullName()
       ]);
 
-
+      // dd('deleted');
 
       return redirect()->route('payroll.overtime')->with('success', 'Overtime Data successfully deleted');
    }
