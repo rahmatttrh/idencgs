@@ -44,7 +44,7 @@ class OvertimeController extends Controller
          $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(800);
          // dd($overtimes);
       } else {
-         
+
          $employees = Employee::get();
          $overtimes = Overtime::orderBy('created_at', 'desc')->paginate(800);
       }
@@ -143,7 +143,7 @@ class OvertimeController extends Controller
 
       $employees = Employee::get();
 
-      
+
       // $holidays = Holiday::orderBy('date', 'asc')->get();
       return view('pages.payroll.overtime-import', [
          'overtimes' => $overtimes,
@@ -314,7 +314,7 @@ class OvertimeController extends Controller
    {
       if ($type == 1) {
          // jika lembur
-         
+
 
          if ($spkl_type == 1) {
             $rateOvertime = $payroll->pokok / 173;
@@ -340,19 +340,14 @@ class OvertimeController extends Controller
 
             if ($holiday_type == 2) {
                $rate = $finalHour * round($rateOvertime);
-            } elseif($holiday_type == 3) {
+            } elseif ($holiday_type == 3) {
                $rate = $finalHour * round($rateOvertime);
             } else {
                $multiHours = $hours - 1;
                $totalHours = $multiHours * 2 + 1.5;
                $rate = $totalHours * round($rateOvertime);
             }
-            
          }
-
-         
-
-
       } else {
          // dd('ok');
          $rateOvertime = round(1 / 30 * $payroll->total);
