@@ -351,7 +351,11 @@ class OvertimeController extends Controller
       // dd($finalHour);
 
       
-      
+      $current = Overtime::where('type', $req->type)->where('employee_id', $employee->id)->where('date', $req->date)->first();
+
+      if ($current) {
+         return redirect()->back()->with('danger', 'Data SPKL sudah ada.');
+      }
 
       
 
