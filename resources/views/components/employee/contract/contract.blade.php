@@ -113,7 +113,7 @@
                                  @endif
                               </h4>
                            </div>
-                           @if (auth()->user()->hasRole('Administrator|HRD|HRD-Spv|HRD-Recruitment'))
+                           @if (auth()->user()->hasRole('Administrator|HRD|HRD-Spv|HRD-Recruitment|HRD-Payroll'))
                               
                            
                            <div class="col text-right">
