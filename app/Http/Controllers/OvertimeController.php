@@ -436,7 +436,7 @@ class OvertimeController extends Controller
 
          if ($hour_type == 1) {
             $rate = $finalHour * round($rateOvertime);
-            dd('ok');
+            // dd('ok');
          } else {
             // dd('okee');
             if ($holiday_type == 2) {

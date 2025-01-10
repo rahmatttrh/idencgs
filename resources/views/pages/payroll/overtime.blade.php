@@ -168,12 +168,16 @@ SPKL
                                           
                                           
                                           <td class="text-center">
-
-                                             @if ($over->employee->unit->hour_type == 1)
-                                                {{$over->hours}}
-                                                @elseif ($over->employee->unit->hour_type == 2)
-                                                {{$over->hours}} ({{$over->hours_final}})
+                                             @if ($over->type == 1)
+                                                   @if ($over->employee->unit->hour_type == 1)
+                                                      {{$over->hours}}
+                                                      @elseif ($over->employee->unit->hour_type == 2)
+                                                      {{$over->hours}} ({{$over->hours_final}})
+                                                   @endif
+                                                 @else
+                                                 -
                                              @endif
+                                             
                                              
                                           </td>
                                           {{-- <td class="text-center">{{getMultiple($over->hours)}}</td> --}}
