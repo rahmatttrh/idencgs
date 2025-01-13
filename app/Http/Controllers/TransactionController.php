@@ -743,8 +743,8 @@ class TransactionController extends Controller
          ]);
       } 
       elseif($employee->off > $transaction->cut_from && $employee->off < $transaction->cut_to){
-         $datetime1 = new DateTime($transaction->cut_from);
-         $datetime2 = new DateTime($employee->off);
+         $datetime1 = new DateTime($employee->off);
+         $datetime2 = new DateTime($transaction->cut_to);
          $interval = $datetime1->diff($datetime2);
          // dd($interval->days);
          $rate = 1 * 1 / 30 * $payroll->total;
