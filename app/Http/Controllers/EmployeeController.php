@@ -206,12 +206,12 @@ class EmployeeController extends Controller
          ->orderBy('position_id')
          ->get();
 
-         foreach($employees as $emp){
-            $deactivate = Deactivate::where('employee_id', $emp->id)->first();
-            $emp->update([
-               'off' => $deactivate->date
-            ]);
-         }
+         // foreach($employees as $emp){
+         //    $deactivate = Deactivate::where('employee_id', $emp->id)->first();
+         //    $emp->update([
+         //       'off' => $deactivate->date
+         //    ]);
+         // }
       return view('pages.employee.nonactive', [
          'employees' => $employees,
          'departments' => Department::get()
