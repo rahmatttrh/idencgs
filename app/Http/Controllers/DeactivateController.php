@@ -15,7 +15,8 @@ class DeactivateController extends Controller
       $employee = Employee::find($req->employee);
       $contract = Contract::find($employee->contract_id);
       $employee->update([
-         'status' => 3
+         'status' => 3,
+         'off' => $req->date
       ]);
       $contract->update([
          'status' => 0
