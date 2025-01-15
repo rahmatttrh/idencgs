@@ -401,14 +401,15 @@ Detail Transaction Payroll Employee
                                  <table class="">
                                     <thead>
                                        <tr>
-                                          <th colspan="3" class="text-right">Total</th>
+                                          <th colspan="4" class="text-right">Total</th>
                                           <th class="text-right">{{formatRupiah($transaction->overtime)}}</th>
                                           {{-- <th></th> --}}
                                        </tr>
                                        <tr>
                                           <th colspan="">Date</th>
+                                          <th>Day</th>
                                           <th>Type</th>
-                                          <th>Hours</th>
+                                          <th class="text-center">Hours</th>
                                           <th class="text-right">Rate</th>
                                           {{-- <th></th> --}}
                                        </tr>
@@ -417,6 +418,7 @@ Detail Transaction Payroll Employee
                                        @foreach ($overtimes as $over)
                                            <tr>
                                              <td>{{formatDate($over->date)}}</td>
+                                             <td>{{formatDayName($over->date)}}</td>
                                              <td>
                                                 @if ($over->type == 1)
                                                     Lembur
@@ -425,12 +427,18 @@ Detail Transaction Payroll Employee
                                                     @elseif($over->type == 3)
                                                     ATL
                                                 @endif
+                                                @if ($over->remark)
+                                                    ({{$over->remark}})
+                                                @endif
                                              </td>
-                                             <td class="">
+                                             <td class="text-center">
                                                 @if ($over->type == 1)
-                                                {{$over->hours}} Jam
+                                                {{$over->hours}}
+                                                @if ($over->hours_final)
+                                                    ({{$over->hours_final}})
+                                                @endif
                                                 @else
-                                                -
+                                                
                                                 @endif
                                                 
                                              </td>

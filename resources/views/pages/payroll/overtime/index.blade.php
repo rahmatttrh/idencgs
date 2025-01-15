@@ -119,7 +119,7 @@ SPKL
                                     @elseif($over->holiday_type == 4)
                                     <span class="text-danger">LR -
                                  @endif
-                                 <a href="#" data-target="#modal-overtime-doc-{{$over->id}}" data-toggle="modal" class="text-white">{{formatDate($over->date)}}</a>
+                                 <a href="#" data-target="#modal-overtime-doc-{{$over->id}}" data-toggle="modal" class="text-white">{{formatDateDayB($over->date)}}</a>
                                  </span>
                               </td>
                               

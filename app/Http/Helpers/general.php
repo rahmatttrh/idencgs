@@ -96,9 +96,21 @@ function formatDateDay($data)
    return $date;
 }
 
+function formatDateDayB($data)
+{
+   $date = \Carbon\Carbon::parse($data)->format('l, d/m/Y');
+   return $date;
+}
+
 function formatDateDayMonth($data)
 {
    $date = \Carbon\Carbon::parse($data)->format('d F');
+   return $date;
+}
+
+function formatDayName($data)
+{
+   $date = \Carbon\Carbon::parse($data)->format('l');
    return $date;
 }
 
