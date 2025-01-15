@@ -61,6 +61,29 @@ class OvertimesImport implements ToCollection,  WithHeadingRow
                 $type = 2;
             }
 
+            // $hoursFinal = 0;
+            if ($holidayType == 1) {
+               $finalHour = $row['hours'];
+               if ($hour_type == 2) {
+                  // dd('test');
+                  $multiHours = $row['hours'] - 1;
+                  $finalHour = $multiHours * 2 + 1.5;
+                  // dd($finalHour);
+               }
+            } elseif ($holidayType == 2) {
+               $finalHour = $row['hours'] * 2;
+            } elseif ($holidayType == 3) {
+               $finalHour = $row['hours'] * 2;
+            } elseif ($holidayType == 4) {
+               $finalHour = $row['hours'] * 3;
+            }
+
+            if ($type == 1) {
+               $finalHour = $finalHour;
+            } else {
+
+            }
+
             // dd('ok');
             if ($payroll) {
                // dd('ok');
@@ -71,10 +94,11 @@ class OvertimesImport implements ToCollection,  WithHeadingRow
                 //  dd($date->format('Y'));
                 $date = Carbon::create($date);
                 // dd($date->format('Y'));
-                $currentOvertime = Overtime::where('employee_id', $employee->id)->where('date', $date)->first();
+                $currentOvertime = Overtime::where('employee_id', $employee->id)->where('date', $date)->where('type', $type)->where('description', $row['note'] )->first();
 
-                // if (!$currentOvertime) {
+                if (!$currentOvertime) {
                     $overtime = Overtime::create([
+                        'status' => 0,
                         'location_id' => $locId,
                         'employee_id' => $employee->id,
                         'month' => $date->format('F'),
@@ -84,6 +108,7 @@ class OvertimesImport implements ToCollection,  WithHeadingRow
                         'hour_type' => $hour_type,
                         'holiday_type' => $holidayType,
                         'hours' => $row['hours'],
+                        'hours_final' => $finalHour,
                         'rate' => round($rate),
                         'description' => $row['note'],
                         // 'doc' => $doc
@@ -97,7 +122,7 @@ class OvertimesImport implements ToCollection,  WithHeadingRow
                   //       $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
                   //   }
 
-                // }
+                }
             
             }
             

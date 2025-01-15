@@ -92,10 +92,10 @@ Employee
                <tbody>
                   @foreach ($employees as $employee)
                   <tr>
-                     <td class="text-center">{{++$i}} 
+                     <td class="text-center">{{++$i}}
                         @if (auth()->user()->hasRole('Administrator'))
-                        - {{$employee->id}}
-                        
+                        {{$employee->id}}
+                        {{-- {{$employee->user_id}} --}}
                         @endif
                      </td>
                      

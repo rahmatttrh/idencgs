@@ -420,7 +420,14 @@ Detail Transaction Payroll Employee
                                                     ATL
                                                 @endif
                                              </td>
-                                             <td class="">{{$over->hours}} Jam</td>
+                                             <td class="">
+                                                @if ($over->type == 1)
+                                                {{$over->hours}} Jam
+                                                @else
+                                                -
+                                                @endif
+                                                
+                                             </td>
                                              <td class="text-right text-info">{{formatRupiah($over->rate)}}</td>
                                              {{-- <td><a href="{{route('payroll.overtime.delete', enkripRambo($over->id))}}">Delete</a></td> --}}
                                            </tr>

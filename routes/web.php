@@ -60,6 +60,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UnitTransactionController;
 use App\Models\Emergency;
 use App\Models\EmployeeLeader;
+use App\Models\Overtime;
 use App\Models\Reduction;
 use App\Models\SpApproval;
 use App\Models\TransactionOvertime;
@@ -393,13 +394,20 @@ Route::middleware(["auth"])->group(function () {
          });
          Route::prefix('overtime')->group(function () {
             Route::get('index', [OvertimeController::class, 'index'])->name('payroll.overtime');
+            Route::get('draft', [OvertimeController::class, 'draft'])->name('payroll.overtime.draft');
+            Route::get('import', [OvertimeController::class, 'import'])->name('payroll.overtime.import');
+            Route::post('publish', [OvertimeController::class, 'publish'])->name('payroll.overtime.publish');
+            Route::get('create', [OvertimeController::class, 'create'])->name('payroll.overtime.create');
             Route::get('refresh', [OvertimeController::class, 'refresh'])->name('overtime.refresh');
             Route::post('filter', [OvertimeController::class, 'filter'])->name('payroll.overtime.filter');
 
-            Route::get('import', [OvertimeController::class, 'import'])->name('overtime.import');
+            Route::get('edit/{id}', [OvertimeController::class, 'edit'])->name('payroll.overtime.edit');
+
+            // Route::get('import', [OvertimeController::class, 'importStore'])->name('overtime.import');
             Route::post('import/store', [OvertimeController::class, 'importStore'])->name('overtime.import.store');
 
             Route::post('store', [OvertimeController::class, 'store'])->name('payroll.overtime.store');
+            Route::put('update', [OvertimeController::class, 'update'])->name('payroll.overtime.update');
             Route::get('delete/{id}', [OvertimeController::class, 'delete'])->name('payroll.overtime.delete');
             // Route::get('/detail/{id}' , [TransactionController::class, 'detail'])->name('payroll.transaction.detail');
             // Route::post('store', [TransactionController::class, 'store'])->name('payroll.transaction.store');

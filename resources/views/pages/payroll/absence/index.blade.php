@@ -21,36 +21,31 @@ Payroll Absence
       <div class="card-body px-0">
 
          <div class="row">
-            <!-- Filter Table -->
-            <div class="col-md-3">
-                <h4>Form Filter Data</h4>
-                <hr>
-                <form action="{{route('payroll.absence.filter')}}" method="POST">
-                    @csrf
-                    <div class="row">
-  
-                       <div class="col-md-12">
-                          <div class="form-group form-group-default">
-                             <label>From</label>
-                             <input type="date" name="from" id="from" value="{{$from}}" class="form-control">
-                          </div>
-                       </div>
-                       <div class="col-md-12">
-                          <div class="form-group form-group-default">
-                             <label>To</label>
-                             <input type="date" name="to" id="to" value="{{$to}}" class="form-control">
-                          </div>
-                       </div>
-                       <div class="col">
-                          <button class="btn btn-primary" type="submit">Filter</button>
-                       </div>
-                    </div>
-  
-                    <!--  End Filter Table  -->
-                 </form>
-            </div>
+            
             <div class="col">
-               
+               <form action="{{route('payroll.absence.filter')}}" method="POST">
+                  @csrf
+                  <div class="row">
+
+                     <div class="col-md-2">
+                        <div class="form-group form-group-default">
+                           <label>From</label>
+                           <input type="date" name="from" id="from" value="{{$from}}" class="form-control">
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group form-group-default">
+                           <label>To</label>
+                           <input type="date" name="to" id="to" value="{{$to}}" class="form-control">
+                        </div>
+                     </div>
+                     <div class="col">
+                        <button class="btn btn-primary" type="submit">Filter</button>
+                     </div>
+                  </div>
+
+                  <!--  End Filter Table  -->
+               </form>
                <div class="table-responsive p-0">
                   <table id="data" class="display basic-datatables table-sm p-0">
                      <thead>
@@ -58,7 +53,7 @@ Payroll Absence
                             <th>Employee</th>
                            <th>Type</th>
                            <th>Date</th>
-                           
+                           <th>Desc</th>
                            <th></th>
                         </tr>
                      </thead>
@@ -94,7 +89,7 @@ Payroll Absence
                               
                            </td>
                            <td>{{formatDate($absence->date)}}</td>
-                           
+                           <td>{{$absence->desc}}</td>
                            <td>
                             <a href="{{route('payroll.absence.edit', enkripRambo($absence->id))}}" class="">Update</a> |
                               <a href="#" data-target="#modal-delete-absence-{{$absence->id}}" data-toggle="modal">Delete</a>
