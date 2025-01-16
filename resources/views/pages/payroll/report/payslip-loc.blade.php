@@ -121,9 +121,9 @@ Payroll Transaction
             
          </div>
          
-         <div class="text-right">
+         {{-- <div class="text-right">
             <h2 class="mt-3"> <b>{{formatRupiahB($unitTransaction->unit->getUnitTransaction($unitTransaction)->sum('total'))}}</b> <br>Total Karyawan <span class="text-uppercase"> {{count($location->getUnitTransaction($unitTransaction->unit->id, $unitTransaction))}} </span> </h2>
-         </div>
+         </div> --}}
          
       </div>
       {{-- <div class="card-header">
@@ -164,6 +164,23 @@ Payroll Transaction
                </thead>
 
                <tbody>
+                  @php
+                     $totalPokok = 0;
+                     $totalJabatan = 0;
+                     $totalOps = 0;
+                     $totalKinerja = 0;
+                     $totalGaji = 0;
+                     $totalOvertime = 0;
+                     $totalAdditionalPenambahan = 0;
+                     $totalBruto = 0;
+                     $totalTk = 0;
+                     $totalKs = 0;
+                     $totalJp = 0;
+                     $totalAbsence = 0;
+                     $totalLate = 0;
+                     $totalGrand = 0;
+                  @endphp
+
                   @foreach ($transactions as $transaction)
                   <tr>
                      <td class="text-truncate"><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->nik}} </a></td>
@@ -185,34 +202,17 @@ Payroll Transaction
                      <td class="text-right">{{formatRupiahB($transaction->total)}}</td>
                   
                   </tr>
-                      
-                  @endforeach
-                  
-                  @php
-                     $totalPokok = 0;
-                     $totalJabatan = 0;
-                     $totalOps = 0;
-                     $totalKinerja = 0;
-                     $totalGaji = 0;
-                     $totalOvertime = 0;
-                     $totalAdditional = 0;
-                     $totalBruto = 0;
-                     $totalTk = 0;
-                     $totalKs = 0;
-                     $totalJp = 0;
-                     $totalAbsence = 0;
-                     $totalLate = 0;
-                     $totalGrand = 0;
 
-                     // $totalJabatan = 0;
-                     foreach($transaction as $loc){
-                        $pokok =  $transaction->employee->payroll->pokok;
+                  @php
+                      
+                  
+                     $pokok =  $transaction->employee->payroll->pokok;
                         $jabatan = $transaction->employee->payroll->tunj_jabatan;
                         $ops = $transaction->employee->payroll->tunj_ops;
                         $kinerja = $transaction->employee->payroll->tunj_kinerja;
                         $gaji = $transaction->employee->payroll->total;
                         $overtime = $transaction->overtime;
-                        $additional = $transaction->additional_penambahan;
+                        $additional_penambahan = $transaction->additional_penambahan;
                         $bruto = $transaction->bruto;
                         $tk = 2/100 * $transaction->employee->payroll->total;
                         $ks = $transaction->getDeduction('BPJS KS', 'employee');
@@ -226,8 +226,9 @@ Payroll Transaction
                         $totalOps += $ops;
                         $totalKinerja += $kinerja;
                         $totalGaji += $gaji;
-                        $totalAdditional  += $additional;
-                        $totalOvertime += $overtime;
+                        $totalOvertime += $transaction->overtime;
+                        $totalAdditionalPenambahan  += $additional_penambahan;
+                        
                         $totalBruto += $bruto;
                         $totalTk += $tk;
                         $totalKs += $ks;
@@ -235,10 +236,10 @@ Payroll Transaction
                         $totalAbsence += $abs;
                         $totalLate += $late;
                         $totalGrand += $total;
-
-                     }
-
-                  @endphp
+                        @endphp
+                  @endforeach
+                  
+                  
                   <tr>
                      <td colspan="2" class="text-right"><b> Total</b></td>
                      <td class="text-right text-truncate"><b> {{formatRupiahB($totalPokok)}}</b></b></td>
@@ -247,7 +248,7 @@ Payroll Transaction
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalKinerja)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalGaji)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalOvertime)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalAdditional)}}</b></td>
+                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalAdditionalPenambahan)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalBruto)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalTk)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalKs)}}</b></td>

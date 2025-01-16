@@ -459,6 +459,7 @@ class TransactionController extends Controller
          'unit_id' => $emp->unit_id,
          'location_id' => $location,
          'employee_id' => $employee->id,
+         'name' => $employee->biodata->first_name,
          'payroll_id' => $payroll->id,
          'cut_from' => $req->from,
          'cut_to' => $req->to,

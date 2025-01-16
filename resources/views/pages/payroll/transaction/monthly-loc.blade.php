@@ -186,6 +186,24 @@ Payroll Transaction
                      </thead>
       
                      <tbody>
+
+                        @php
+                           $totalPokok = 0;
+                           $totalJabatan = 0;
+                           $totalOps = 0;
+                           $totalKinerja = 0;
+                           $totalInsentif = 0;
+                           $totalGaji = 0;
+                           $totalOvertime = 0;
+                           $totalAdditional = 0;
+                           $totalBruto = 0;
+                           $totalTk = 0;
+                           $totalKs = 0;
+                           $totalJp = 0;
+                           $totalAbsence = 0;
+                           $totalLate = 0;
+                           $totalGrand = 0;
+                        @endphp
                         @foreach ($locations as $loc)
                            @if ($loc->totalEmployee($unit->id) > 0)
                            <tr>
@@ -212,11 +230,46 @@ Payroll Transaction
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late'))}}</td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getUnitTransaction($unit->id, $unitTransaction)->sum('total'))}}</td>
                            </tr>
+                           @php
+                               
+                               $pokok =  $loc->getValue($unit->id, $unitTransaction, 'Gaji Pokok');
+                              $jabatan = $loc->getValue($unit->id, $unitTransaction,  'Tunj. Jabatan');
+                              $ops = $loc->getValue($unit->id, $unitTransaction, 'Tunj. OPS');
+                              $kinerja = $loc->getValue($unit->id, $unitTransaction, 'Tunj. Kinerja');
+                              $insentif = $loc->getValue($unit->id, $unitTransaction, 'Insentif');
+                              $gaji = $loc->getValueGaji($unit->id, $unitTransaction);
+                              $overtime = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime');
+                              $additional = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
+                              $bruto = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('bruto');
+                              $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
+                              $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS');
+                              $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
+                              $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
+                              $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
+                              $total = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('total');
+      
+                              $totalPokok += $pokok;
+                              $totalJabatan += $jabatan;
+                              $totalOps += $ops;
+                              $totalKinerja += $kinerja;
+                              $totalInsentif += $insentif;
+                              $totalGaji += $gaji;
+                              $totalOvertime += $overtime;
+                              $totalAdditional += $additional;
+                              $totalBruto += $bruto;
+                              $totalTk += $tk;
+                              $totalKs += $ks;
+                              $totalJp += $jp;
+                              $totalAbsence += $abs;
+                              $totalLate += $late;
+                              $totalGrand += $total;
+                           @endphp
+
                            @endif
                         
                         @endforeach
       
-                        @php
+                        {{-- @php
                            $totalPokok = 0;
                            $totalJabatan = 0;
                            $totalOps = 0;
@@ -269,7 +322,7 @@ Payroll Transaction
       
                            }
       
-                        @endphp
+                        @endphp --}}
                         <tr>
                            <td colspan="2" class="text-right"><b> Total</b></td>
                            {{-- <td><b></b></td> --}}
