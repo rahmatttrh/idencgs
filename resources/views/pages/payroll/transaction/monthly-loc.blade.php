@@ -224,6 +224,7 @@ Payroll Transaction
                            $totalInsentif = 0;
                            $totalGaji = 0;
                            $totalOvertime = 0;
+                           $totalAdditional = 0;
                            $totalBruto = 0;
                            $totalTk = 0;
                            $totalKs = 0;
@@ -241,6 +242,7 @@ Payroll Transaction
                               $insentif = $loc->getValue($unit->id, $unitTransaction, 'Insentif');
                               $gaji = $loc->getValueGaji($unit->id, $unitTransaction);
                               $overtime = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime');
+                              $additional = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
                               $bruto = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('bruto');
                               $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
                               $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS');
@@ -256,6 +258,7 @@ Payroll Transaction
                               $totalInsentif += $insentif;
                               $totalGaji += $gaji;
                               $totalOvertime += $overtime;
+                              $totalAdditional += $additional;
                               $totalBruto += $bruto;
                               $totalTk += $tk;
                               $totalKs += $ks;
@@ -277,7 +280,7 @@ Payroll Transaction
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalInsentif)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalGaji)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalOvertime)}}</b></td>
-                           <td class="text-right text-truncate"><b>0</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($totalAdditional)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalBruto)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalTk)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($totalKs)}}</b></td>
