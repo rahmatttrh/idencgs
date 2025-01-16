@@ -77,8 +77,10 @@ SPKL
                      <thead>
                         <tr>
                            <th>Type</th>
-                           <th>Employee</th>
-                           <th>Location</th>
+                           <th>NIK</th>
+                           <th>Name</th>
+                           <th>Loc</th>
+                           <th>Day</th>
                            <th class="text-right">Date</th>
                            
                            <th class="text-center">Hours</th>
@@ -107,8 +109,10 @@ SPKL
                                  @endif
                                  
                               </td>
-                              <td class="text-truncate" style="max-width: 200px">{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</td>
+                              <td class="text-truncate">{{$over->employee->nik}}</td>
+                              <td class="text-truncate" style="max-width: 200px">{{$over->employee->biodata->fullName()}}</td>
                               <td>{{$over->employee->location->name}}</td>
+                              <td>{{formatDayName($over->date)}}</td>
                               <td class="text-right text-truncate">
                                  @if ($over->holiday_type == 1)
                                     <span  class="text-info ">
@@ -119,7 +123,7 @@ SPKL
                                     @elseif($over->holiday_type == 4)
                                     <span class="text-danger">LR -
                                  @endif
-                                 <a href="#" data-target="#modal-overtime-doc-{{$over->id}}" data-toggle="modal" class="text-white">{{formatDateDayB($over->date)}}</a>
+                                 <a href="#" data-target="#modal-overtime-doc-{{$over->id}}" data-toggle="modal" class="text-white">{{formatDate($over->date)}}</a>
                                  </span>
                               </td>
                               
@@ -141,7 +145,7 @@ SPKL
                               @if (auth()->user()->hasRole('HRD|HRD-Payroll|Administrator'))
                               <td class="text-right text-truncate">{{formatRupiah($over->rate)}}</td>
                               @endif
-                              <td class="text-truncate" style="max-width: 100px">
+                              <td class="text-truncate" style="max-width: 150px">
                                  {{$over->description}}
                               </td>
                               <td class="text-truncate">

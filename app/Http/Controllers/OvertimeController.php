@@ -40,7 +40,7 @@ class OvertimeController extends Controller
             ->select('employees.*')
             ->get();
 
-         $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 3)->paginate(2000);
+         $overtimes = Overtime::orderBy('updated_at', 'desc')->where('location_id', 3)->paginate(2000);
       } elseif (auth()->user()->hasRole('HRD-KJ45')) {
 
          // dd('ok');
@@ -48,7 +48,7 @@ class OvertimeController extends Controller
             ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
             ->select('employees.*')
             ->get();
-         $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(2000);
+         $overtimes = Overtime::orderBy('updated_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(2000);
          // dd($overtimes);
       } else {
 
@@ -172,6 +172,7 @@ class OvertimeController extends Controller
       // $employees = Employee::get();
       // $holidays = Holiday::orderBy('date', 'asc')->get();
       // dd($overtimes);
+      // dd('ok');
       return view('pages.payroll.overtime.index', [
          'overtimes' => $overtimes,
          'employees' => $employees,
@@ -739,18 +740,18 @@ class OvertimeController extends Controller
       // dd($finalHour);
 
       
-      $current = Overtime::where('type', $req->type)->where('employee_id', $employee->id)->where('date', $req->date)->where('description', $req->desc)->first();
+      // $current = Overtime::where('type', $req->type)->where('employee_id', $employee->id)->where('date', $req->date)->where('description', $req->desc)->first();
 
-      if ($current) {
-         return redirect()->back()->with('danger', 'Data SPKL sudah ada.');
-      }
+      // if ($current) {
+      //    return redirect()->back()->with('danger', 'Data SPKL sudah ada.');
+      // }
 
       
 
 
       $date = Carbon::create($req->date);
 
-      $overtime = Overtime::create([
+      $overtime->update([
          'location_id' => $locId,
          'employee_id' => $employee->id,
          'month' => $date->format('F'),

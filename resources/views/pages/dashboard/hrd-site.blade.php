@@ -128,9 +128,9 @@
                                   Piket
                               @endif
                            </td>
-                           <td>{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</td>
+                           <td class="text-truncate" style="max-width: 210px">{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</td>
                            <td>{{$over->employee->location->name}}</td>
-                           <td class="text-right">
+                           <td class="text-right text-truncate">
                               @if ($over->holiday_type == 1)
                                  <span  class="badge badge-info ">
                                  @elseif($over->holiday_type == 2)
@@ -140,7 +140,7 @@
                                  @elseif($over->holiday_type == 4)
                                  <span class="badge badge-danger">LR -
                               @endif
-                              <a href="#" data-target="#modal-overtime-doc-{{$over->id}}" data-toggle="modal" class="text-white">{{formatDate($over->date)}}</a>
+                              <a href="#" data-target="#modal-overtime-doc-{{$over->id}}" data-toggle="modal" class="text-white">{{formatDateDayB($over->date)}}</a>
                               </span>
                            </td>
                            

@@ -21,7 +21,8 @@ Logs Activity
                      <thead>
                         <tr>
                            {{-- <th class="text-center" style="width: 10px">No</th> --}}
-                           <th>Timestamp</th>
+                           <th>Timestamps</th>
+                           <th>NIK</th>
                            <th>User</th>
                            <th>Action</th>
                            
@@ -35,7 +36,8 @@ Logs Activity
                         <tr>
                            {{-- <td class="text-center">{{++$i}}</td> --}}
                            <td class="text-truncate">{{formatDateTimeB($log->created_at)}}</td>
-                           <td class="text-truncate">{{$log->user->username}} {{$log->user->name}}</td>
+                           <td class="text-truncate">{{$log->user->username}}</td>
+                           <td class="text-truncate"> {{$log->user->name}}</td>
                            <td>
                               @if ($log->action == 'Login')
                                  {{$log->action}} into system

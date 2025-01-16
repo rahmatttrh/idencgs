@@ -96,7 +96,7 @@ SPKL Edit
                      <label>Document</label>
                      <input type="file"  class="form-control" id="doc" name="doc" >
                   </div>
-                  <button class="btn btn-primary" type="submit">Add</button>
+                  <button class="btn btn-primary" type="submit">Update</button>
                </div>
             </div>
          </form>

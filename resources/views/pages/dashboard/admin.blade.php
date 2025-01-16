@@ -144,7 +144,7 @@ Dashboard
                   </tr> --}}
                </tbody>
             </table>
-            <table class="display  table-sm table-bordered">
+            {{-- <table class="display  table-sm table-bordered">
                <thead>
                   <tr>
                      <th colspan="2">SP</th>
@@ -155,47 +155,37 @@ Dashboard
                   <tr>
                      <td>Draft</td>
                      <td class="text-center">{{count($sps->where('status', 0))}}</td>
-                     {{-- <td>Draft</td>
-                           <td class="text-center">{{count($qpes->where('status', 0))}}</td> --}}
                   </tr>
                   <tr>
                      <td>Progress</td>
                      <td class="text-center">{{count($sps->where('status','>', 0)->where('status', '<', 4))}}</td>
-                     {{-- <td>Porgress</td>
-                           <td class="text-center">{{count($qpes->where('status', 1))}}</td> --}}
-                  </tr>
                   <tr>
                      <td class="text-muted">Published</td>
                      <td class="text-center text-muted">{{count($sps->where('status', '>=', 4))}}</td>
-                     {{-- <td>Done</td>
-                           <td class="text-center">{{count($qpes->where('status', 2))}}</td> --}}
                   </tr>
 
-                  {{-- <tr>
-                           <td>Nonactive</td>
-                           <td class="text-center">{{count($employees->where('status', 3))}}</td>
-                  </tr> --}}
+                 
                </tbody>
-            </table>
+            </table> --}}
          </div>
       </div>
       <div class="card">
-         {{-- <div class="card-header d-flex justify-content-between p-2 text-white" style="background-color: rgb(120, 121, 122)">
+         <div class="card-header d-flex justify-content-between p-2 text-white" style="background-color: rgb(72, 72, 72)">
                   <small><b>Latest Log Activity</b></small>
                   <a href="{{route('log.auth')}}" class="text-white">More..</a>
-      </div> --}}
+      </div>
       <div class="card-body p-0">
+         <div class="table-responsive overflow-auto" style="height: 350px">
          <table class="display  table-sm table-bordered   ">
-            <thead>
+            {{-- <thead>
 
                <tr>
                   <th colspan="2" class="d-flex justify-content-between py-2">
                      <span>Latest Log Activity</span>
                      <a href="{{route('log.auth')}}" class="text-white">More..</a>
                   </th>
-                  {{-- <th scope="col">Time</th> --}}
                </tr>
-            </thead>
+            </thead> --}}
             <tbody>
                @if (count($logins) > 0)
                @foreach ($logins as $log)
@@ -226,6 +216,7 @@ Dashboard
 
             </tbody>
          </table>
+         </div>
       </div>
    </div>
 </div>
@@ -240,53 +231,53 @@ Dashboard
       </div>
       <div class="card-body p-0">
          <div class="table-responsive overflow-auto" style="height: 150px">
-         <table class="display  table-sm table-bordered  ">
-            <thead>
+            <table class="display  table-sm table-bordered  ">
+               <thead>
 
-               <tr>
-                  {{-- <th scope="col">#</th> --}}
-                  <th scope="col">NIK</th>
-                  <th scope="col">Employee</th>
-                  <th>Semester</th>
-                  {{-- <th>Desc</th> --}}
-                  <th scope="col">Status</th>
-                  <th>Last Update</th>
-               </tr>
-            </thead>
-            <tbody>
-               @if (count($recentQpes) > 0)
-               @foreach ($recentQpes as $pe)
-               <tr>
-                  <td>{{$pe->employe->nik}}</td>
-                  <td>{{$pe->employe->biodata->fullName()}}</td>
-                  <td>{{$pe->semester}} / {{$pe->tahun}}</td>
-                  <td class="text-muted">
-                     <x-status.qpe-plain :pe="$pe" />
-                  </td>
-                  <td>
-                     {{formatDateTimeB($pe->updated_at)}}
-                  </td>
+                  <tr>
+                     {{-- <th scope="col">#</th> --}}
+                     <th scope="col">NIK</th>
+                     <th scope="col">Employee</th>
+                     <th>Semester</th>
+                     {{-- <th>Desc</th> --}}
+                     <th scope="col">Status</th>
+                     <th>Last Update</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  @if (count($recentQpes) > 0)
+                  @foreach ($recentQpes as $pe)
+                  <tr>
+                     <td>{{$pe->employe->nik}}</td>
+                     <td>{{$pe->employe->biodata->fullName()}}</td>
+                     <td>{{$pe->semester}} / {{$pe->tahun}}</td>
+                     <td class="text-muted">
+                        <x-status.qpe-plain :pe="$pe" />
+                     </td>
+                     <td>
+                        {{formatDateTimeB($pe->updated_at)}}
+                     </td>
 
-                  {{-- <td class="text-right">
-                                    @if($pe->status == 0)
-                                    <!-- <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-delete-{{$pe->id}}"><i class="fas fa-trash"></i> Delete</button> -->
-                  @elseif(($pe->status == '1' || $pe->status == '2' || $pe->status == '101' || $pe->status == '202') && $pe->behavior > 0)
-                  <a href="{{ route('export.qpe', $pe->id) }}" target="_blank"> Preview PDF</a>
-                  @elseif(($pe->status == 0 || $pe->status == 101 || $pe->status == 202) && auth()->user()->hasRole('Leader'))
-                  <!-- <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal-submit-{{$pe->id}}"><i class="fas fa-rocket"></i> Submit</button> -->
+                     {{-- <td class="text-right">
+                                       @if($pe->status == 0)
+                                       <!-- <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-delete-{{$pe->id}}"><i class="fas fa-trash"></i> Delete</button> -->
+                     @elseif(($pe->status == '1' || $pe->status == '2' || $pe->status == '101' || $pe->status == '202') && $pe->behavior > 0)
+                     <a href="{{ route('export.qpe', $pe->id) }}" target="_blank"> Preview PDF</a>
+                     @elseif(($pe->status == 0 || $pe->status == 101 || $pe->status == 202) && auth()->user()->hasRole('Leader'))
+                     <!-- <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal-submit-{{$pe->id}}"><i class="fas fa-rocket"></i> Submit</button> -->
+                     @endif
+                     </td> --}}
+                  </tr>
+                  @endforeach
+                  @else
+                  <tr>
+                     <td colspan="5" class="text-center">Empty</td>
+                  </tr>
                   @endif
-                  </td> --}}
-               </tr>
-               @endforeach
-               @else
-               <tr>
-                  <td colspan="5" class="text-center">Empty</td>
-               </tr>
-               @endif
 
 
-            </tbody>
-         </table>
+               </tbody>
+            </table>
          </div>
       </div>
       <div class="card-footer">

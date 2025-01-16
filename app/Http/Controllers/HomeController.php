@@ -240,7 +240,7 @@ class HomeController extends Controller
          $spkls = Spkl::orderBy('updated_at', 'desc')->paginate(5);
          $sps = Sp::orderBy('updated_at', 'desc')->get();
          $recentSps = Sp::orderBy('updated_at', 'desc')->paginate(5);
-         $logins = Log::where('department_id', '!=', null)->orderBy('created_at', 'desc')->paginate(10);
+         $logins = Log::where('department_id', '!=', null)->orderBy('created_at', 'desc')->paginate(250);
          $qpes = Pe::orderBy('updated_at', 'desc')->get();
          $recentQpes = Pe::orderBy('updated_at', 'desc')->paginate(8);
 
@@ -510,7 +510,7 @@ class HomeController extends Controller
          $month = $now->format('m');
          // $holidays = Holiday::whereMonth('date', $month)->orderBy('date', 'asc')->get();
          // $transactions = Transaction::where('status', 0)->get();
-         $overtimes = Overtime::where('location_id', 3)->orderBy('date', 'desc')->get();
+         $overtimes = Overtime::where('location_id', 3)->orderBy('updated_at', 'desc')->get();
          // $now = Carbon::now();
 
          // $employees = Employee::where('status', 1)->where('location_id', 3)->get();
@@ -554,7 +554,7 @@ class HomeController extends Controller
          $month = $now->format('m');
          $holidays = Holiday::whereMonth('date', $month)->orderBy('date', 'asc')->get();
          $transactions = Transaction::where('status', 0)->get();
-         $overtimes = Overtime::where('location_id', 4)->orWhere('location_id', 5)->orderBy('date', 'desc')->get();
+         $overtimes = Overtime::where('location_id', 4)->orWhere('location_id', 5)->orderBy('updated_at', 'desc')->get();
          $now = Carbon::now();
 
          if (auth()->user()->hasRole('HRD-KJ12')) {

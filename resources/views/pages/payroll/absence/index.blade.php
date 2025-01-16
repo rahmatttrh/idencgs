@@ -50,8 +50,10 @@ Payroll Absence
                   <table id="data" class="display basic-datatables table-sm p-0">
                      <thead>
                         <tr>
-                            <th>Employee</th>
+                           <th>NIK</th>
+                            <th>Name</th>
                            <th>Type</th>
+                           <th>Day</th>
                            <th>Date</th>
                            <th>Desc</th>
                            <th></th>
@@ -61,7 +63,8 @@ Payroll Absence
                      <tbody>
                         @foreach ($absences as $absence)
                         <tr>
-                            <td>{{$absence->employee->nik}} {{$absence->employee->biodata->fullName()}}</td>
+                           <td>{{$absence->employee->nik}}</td>
+                            <td> {{$absence->employee->biodata->fullName()}}</td>
                            <td>
                               @if ($absence->status == 404)
                                  <span class="text-danger">Permintaan Perubahan</span>
@@ -88,6 +91,7 @@ Payroll Absence
                               @endif
                               
                            </td>
+                           <td>{{formatDayName($absence->date)}}</td>
                            <td>{{formatDate($absence->date)}}</td>
                            <td>{{$absence->desc}}</td>
                            <td>
