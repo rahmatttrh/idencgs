@@ -74,7 +74,7 @@ SPKL Create
                         <div class="col">
                            <div class="form-group form-group-default">
                               <label>Hours</label>
-                              <input type="number" class="form-control" id="hours" name="hours" >
+                              <input type="decimal" class="form-control" id="hours" name="hours" >
                            </div>
                         </div>
          
