@@ -50,6 +50,15 @@ class OvertimeController extends Controller
             ->get();
          $overtimes = Overtime::orderBy('updated_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(2000);
          // dd($overtimes);
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'jgc')
+            ->select('employees.*')
+            ->get();
+         $overtimes = Overtime::orderBy('updated_at', 'desc')->where('location_id', 2)->paginate(2000);
+         // dd($overtimes);
       } else {
 
          $employees = Employee::get();
@@ -325,6 +334,15 @@ class OvertimeController extends Controller
             ->select('employees.*')
             ->get();
          $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(800);
+         // dd($overtimes);
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'jgc')
+            ->select('employees.*')
+            ->get();
+         $overtimes = Overtime::orderBy('updated_at', 'desc')->where('location_id', 2)->paginate(2000);
          // dd($overtimes);
       } else {
 

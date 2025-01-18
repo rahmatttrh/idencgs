@@ -52,6 +52,7 @@ Payroll Absence
                         <tr>
                            <th>NIK</th>
                             <th>Name</th>
+                            <th>Loc</th>
                            <th>Type</th>
                            <th>Day</th>
                            <th>Date</th>
@@ -65,6 +66,7 @@ Payroll Absence
                         <tr>
                            <td>{{$absence->employee->nik}}</td>
                             <td> {{$absence->employee->biodata->fullName()}}</td>
+                            <td>{{$absence->employee->location->name}}</td>
                            <td>
                               @if ($absence->status == 404)
                                  <span class="text-danger">Permintaan Perubahan</span>

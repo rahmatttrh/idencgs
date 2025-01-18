@@ -40,6 +40,14 @@ class AbsenceController extends Controller
             ->select('employees.*')
             ->get();
          $absences = Absence::where('location_id', 4)->orWhere('location_id', 5)->orderBy('date', 'asc')->paginate(800);
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'jgc')
+            ->select('employees.*')
+            ->get();
+         $absences = Absence::orWhere('location_id', 2)->orderBy('date', 'asc')->paginate(800);
       } else {
          // dd('ok');
          $employees = Employee::get();
@@ -114,6 +122,14 @@ class AbsenceController extends Controller
             ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
             ->select('employees.*')
             ->get();
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'jgc')
+            ->select('employees.*')
+            ->get();
+         
       } else {
          // dd('ok');
          $employees = Employee::get();

@@ -54,6 +54,7 @@ class CutiController extends Controller
          // }
 
 
+         // Generate Data Cuti
          // if ($cuti->employee->contract->type = 'Tetap') {
          //    // dd($cuti->employee->biodata->fullName());
          //    $join = Carbon::create($cuti->employee->join);
