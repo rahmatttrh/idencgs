@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AbsenceDataExport;
 use App\Exports\AbsenceExport;
 use App\Imports\AbsencesImport;
 use App\Models\Absence;
@@ -23,6 +24,10 @@ class AbsenceController extends Controller
 
       $now = Carbon::now();
       $employees = Employee::get();
+
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
 
 
       if (auth()->user()->hasRole('HRD-KJ12')) {
@@ -58,6 +63,9 @@ class AbsenceController extends Controller
 
 
       return view('pages.payroll.absence.index', [
+         'export' => $export,
+         'loc' => $loc,
+         'locations' => $locations,
          'employees' => $employees,
          'absences' => $absences,
          'month' => $now->format('F'),
@@ -313,20 +321,42 @@ class AbsenceController extends Controller
             ->select('employees.*')
             ->get();
          $absences = Absence::where('location_id', 3)->whereBetween('date', [$req->from, $req->to])->get();
+         if ($req->loc == 'KJ45') {
+            $absences = Absence::whereBetween('date', [$req->from, $req->to])->where('location_id', 4)->orWhere('location_id', 5)->get();
+         } else {
+            $absences = Absence::whereBetween('date', [$req->from, $req->to])->get();
+         }
       } else {
          // dd('ok');
          $employees = Employee::get();
          $absences = Absence::whereBetween('date', [$req->from, $req->to])->get();
       }
 
+      if ($req->loc == 'KJ45') {
+         $absences = Absence::whereBetween('date', [$req->from, $req->to])->where('location_id', 4)->orWhere('location_id', 5)->get();
+      } 
+
+      
+
+      $loc = $req->loc;
       $employees = Employee::get();
+      $export = true;
       return view('pages.payroll.absence.index', [
+         'loc' => $loc,
+         'export' => $export,
          'employees' => $employees,
          'absences' => $absences,
          'from' => $req->from,
          'to' => $req->to
       ])->with('i');
    }
+
+   public function absenceExcel($from, $to, $loc){
+      // dd($loc);
+      return Excel::download(new AbsenceDataExport($from, $to, $loc), 'absensi-' . $loc .'-' . $from  .'- '. $to .'.xlsx');
+   }
+
+
 
    public function store(Request $req)
    {

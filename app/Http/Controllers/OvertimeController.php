@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OvertimeExport;
 use App\Imports\OvertimesImport;
 use App\Models\Employee;
 use App\Models\Holiday;
@@ -25,13 +26,19 @@ class OvertimeController extends Controller
    {
 
       $now = Carbon::now();
-      $overtimes = Overtime::get();
+      // $overtimes = Overtime::get();
 
-      foreach($overtimes as $over){
-         $over->update([
-            'status' => 1
-         ]);
-      }
+      // foreach($overtimes as $over){
+      //    $over->update([
+      //       'status' => 1
+      //    ]);
+      // }
+
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
+
+      
 
 
       if (auth()->user()->hasRole('HRD-KJ12')) {
@@ -183,6 +190,9 @@ class OvertimeController extends Controller
       // dd($overtimes);
       // dd('ok');
       return view('pages.payroll.overtime.index', [
+         'export' => $export,
+         'loc' => $loc,
+         'locations' => $locations,
          'overtimes' => $overtimes,
          'employees' => $employees,
          'month' => $now->format('F'),
@@ -544,7 +554,7 @@ class OvertimeController extends Controller
    {
       $req->validate([]);
 
-      $employees = Employee::get();
+      // $employees = Employee::get();
 
       // if ($req->month == 'all') {
       //    if ($req->year == 'all') {
@@ -563,9 +573,52 @@ class OvertimeController extends Controller
       //    $overtimes = Overtime::where('month', $req->month)->where('year', $req->year)->orderBy('date', 'desc')->get();
       // }
 
-      $overtimes = Overtime::whereBetween('date', [$req->from, $req->to])->get();
+      // dd($req->loc);
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj1-2')
+            ->select('employees.*')
+            ->get();
+
+         $overtimes = Overtime::whereBetween('date', [$req->from, $req->to])->orderBy('updated_at', 'desc')->where('location_id', 3)->paginate(2000);
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+            ->select('employees.*')
+            ->get();
+         $overtimes = Overtime::whereBetween('date', [$req->from, $req->to])->orderBy('updated_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(2000);
+         // dd($overtimes);
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+
+         // dd('ok');
+         // $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+         //    ->where('contracts.loc', 'jgc')
+         //    ->select('employees.*')
+         //    ->get();
+         $overtimes = Overtime::whereBetween('date', [$req->from, $req->to])->orderBy('updated_at', 'desc')->where('location_id', 2)->paginate(2000);
+         // dd($overtimes);
+      } else {
+
+         // $employees = Employee::get();
+         $overtimes = Overtime::whereBetween('date', [$req->from, $req->to])->orderBy('updated_at', 'desc')->paginate(1000);
+      }
+
+      if ($req->loc == 'KJ45') {
+         $overtimes = Overtime::whereBetween('date', [$req->from, $req->to])->where('location_id', 4)->orWhere('location_id', 5)->get();
+      } else {
+         $overtimes = Overtime::whereBetween('date', [$req->from, $req->to])->get();
+      }
+
+
+      $loc = $req->loc;
       $employees = Employee::get();
-      return view('pages.payroll.overtime', [
+      $export = true;
+      return view('pages.payroll.overtime.index', [
+         'loc' => $loc,
+         'export' => $export,
          'overtimes' => $overtimes,
          'employees' => $employees,
          'month' => $req->month,
@@ -573,6 +626,11 @@ class OvertimeController extends Controller
          'from' => $req->from,
          'to' => $req->to
       ])->with('i');
+   }
+
+   public function overtimeExcel($from, $to, $loc){
+      // dd($loc);
+      return Excel::download(new OvertimeExport($from, $to, $loc), 'spkl-' . $loc .'-' . $from  .'- '. $to .'.xlsx');
    }
 
 

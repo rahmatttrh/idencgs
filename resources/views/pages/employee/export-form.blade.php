@@ -70,7 +70,7 @@ Export Employee
          @endif
          
       </div>
-      <div class="col">
+      <div class="col-md-9">
          <div class="table-responsive">
             <table id="data" class="display basic-datatables table-sm">
                <thead>

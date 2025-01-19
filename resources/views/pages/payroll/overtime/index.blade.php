@@ -67,11 +67,36 @@ SPKL
                            <input type="date" name="to" id="to" value="{{$to}}" class="form-control">
                         </div>
                      </div>
+                     @if (auth()->user()->hasRole('Administrator|HRD-Payroll'))
+                     <div class="col-md-2">
+                        <div class="form-group form-group-default">
+                           <label>Lokasi</label>
+                           {{-- <input id="name" name="name" type="text" class="form-control" placeholder="Fill Name"> --}}
+                           <select name="loc" id="loc" required class="form-control">
+                              <option selected value="" disabled>Choose </option>
+                             
+                                  <option {{$loc == 'KJ45' ? 'selected' : ''}} value="KJ45">KJ 4-5</option>
+                              
+                           </select>
+                        </div>
+                     </div>
+                     @endif
+                     
+                     
                      <div class="col">
                         <button class="btn btn-primary" type="submit" >Filter</button>
                      </div>
+
+                     @if (auth()->user()->hasRole('Administrator|HRD-Payroll'))
+                     <div class="col">
+                        @if ($export == true)
+                           <a href="{{route('payroll.overtime.export', [$from, $to, $loc] )}}" target="_blank" class="btn btn-block btn-dark"><i class="fa fa-file-excel"></i> Export</a>
+                           @endif
+                     </div>
+                     @endif
                   </div>
                </form>  
+               
                <div class="table-responsive">
                   <table id="data" class="display basic-datatables table-sm">
                      <thead>

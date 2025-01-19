@@ -408,6 +408,7 @@ Route::middleware(["auth"])->group(function () {
             Route::get('create', [OvertimeController::class, 'create'])->name('payroll.overtime.create');
             Route::get('refresh', [OvertimeController::class, 'refresh'])->name('overtime.refresh');
             Route::post('filter', [OvertimeController::class, 'filter'])->name('payroll.overtime.filter');
+            Route::get('excel/{from}/{to}/{loc}', [OvertimeController::class, 'overtimeExcel'])->name('payroll.overtime.export');
 
             Route::get('edit/{id}', [OvertimeController::class, 'edit'])->name('payroll.overtime.edit');
 
@@ -432,6 +433,8 @@ Route::middleware(["auth"])->group(function () {
 
             Route::post('/download-template', [AbsenceController::class, 'downloadTemplate'])->name('payroll.absence.template');
             Route::get('/export', [AbsenceController::class, 'export'])->name('payroll.absence.export');
+
+            Route::get('/data/export/{from}/{to}/{loc}', [AbsenceController::class, 'absenceExcel'])->name('payroll.absence.export.data');
 
             Route::get('/import', [AbsenceController::class, 'import'])->name('payroll.absence.import');
             Route::post('/import/store', [AbsenceController::class, 'importStore'])->name('payroll.absence.import.store');
