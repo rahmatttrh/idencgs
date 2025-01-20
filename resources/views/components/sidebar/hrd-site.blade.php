@@ -1,11 +1,16 @@
 
 
-<li class="nav-item {{ (request()->is('payroll/overtime/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.overtime')}}">
-      <i class="fas fa-calendar-plus"></i>
-      <p>SPKL</p>
-   </a>
-</li>
+
+@if (auth()->user()->hasRole('HRD-JGC'))
+    @else
+    <li class="nav-item {{ (request()->is('payroll/overtime/*')) ? 'active' : '' }}">
+      <a href="{{route('payroll.overtime')}}">
+         <i class="fas fa-calendar-plus"></i>
+         <p>SPKL</p>
+      </a>
+   </li>
+@endif
+
 <li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
    <a href="{{route('payroll.absence')}}">
       <i class="fas fa-calendar-plus"></i>
