@@ -69,7 +69,7 @@ class OvertimeController extends Controller
       } else {
 
          $employees = Employee::get();
-         $overtimes = Overtime::orderBy('updated_at', 'desc')->paginate(1000);
+         $overtimes = Overtime::orderBy('updated_at', 'desc')->paginate(2500);
       }
 
       

@@ -111,26 +111,27 @@ class TransactionController extends Controller
       // dd($penambahan);
       $bruto = $payroll->total + $totalOvertime;
 
-      $absences = $employee->absences->where('month', $transaction->month)->where('year', $transaction->year);
-      // $alphas = $employee->absences->where('month', $transaction->month)->where('year', $transaction->year)->where('type', 1);
-      // $lates = $employee->absences->where('month', $transaction->month)->where('year', $transaction->year)->where('type', 2);
-      // $izins = $employee->absences->where('month', $transaction->month)->where('year', $transaction->year)->where('type', 3);
+      $absences = $employee->absences->where('month', $transaction->month);
+      // $alphas = $employee->absences->where('month', $transaction->month)->where('type', 1);
+      // $lates = $employee->absences->where('month', $transaction->month)->where('type', 2);
+      // $izins = $employee->absences->where('month', $transaction->month)->where('type', 3);
       // dd($alphas);
       // dd('ok');
 
 
       // $reduction = $transaction->reductions->where('type', 'employee')->sum('value') + $reductionAlpha;
-      $additionals = Additional::where('employee_id', $employee->id)->where('month', $transaction->month)->where('year', $transaction->year)->get();
+      $additionals = Additional::where('employee_id', $employee->id)->where('month', $transaction->month)->get();
 
-      $alphas = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 1);
-      $izinFullDays = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 4)->where('type_izin', 'Satu Hari');
-      $offContratcs = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 9);
-      $lates = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 2);
+      $alphas = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 1);
+      $izinFullDays = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 4)->where('type_izin', 'Satu Hari');
+      $offContratcs = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 9);
+      $lates = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 2);
+      // dd($lates);
       $totalMinuteLate = $lates->sum('minute');
       // dd($totalMinuteLate);
       $keterlambatan = intval(floor($totalMinuteLate / 30));
 
-      $atls = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 3);
+      $atls = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 3);
       $totalAtlLate = count($atls) * 2;
 
 
@@ -141,6 +142,7 @@ class TransactionController extends Controller
 
 
       if ($totalKeterlambatan == 6) {
+         // dd('ok');
          $potongan = 1 * 1 / 30 * $payroll->total;
       } elseif ($totalKeterlambatan > 6) {
          $finalLate = $totalKeterlambatan - 6;
@@ -151,7 +153,7 @@ class TransactionController extends Controller
          $potongan = 0;
       }
 
-      $izins = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 4);
+      $izins = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 4);
       $totalMinuteLate = $lates->sum('minute');
 
       // dd(1 * 1/30 * $payroll->total);
@@ -160,7 +162,7 @@ class TransactionController extends Controller
             'value' => 1 * 1 / 30 * $payroll->total
          ]);
       }
-      // dd($alphas);
+      // dd($potongan);
 
       // dd('ok');
 
@@ -613,8 +615,8 @@ class TransactionController extends Controller
       $overtimes = Overtime::where('date', '>=', $from)->where('date', '<=', $to)->where('employee_id', $employee->id)->where('status', 1)->get();
       // dd($from);
 
-      $alphas = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 1);
-      $izinFullDays = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 4)->where('type_izin', 'Satu Hari');
+      $alphas = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 1);
+      $izinFullDays = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 4)->where('type_izin', 'Satu Hari');
       foreach ($alphas as $alpha) {
 
          $alpha->update([
@@ -630,7 +632,7 @@ class TransactionController extends Controller
       }
       $totalAlpha = $alphas->sum('value') + $izinFullDays->sum('value');
 
-      $offContracts = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 9);
+      $offContracts = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 9);
       foreach ($offContracts as $off) {
 
          $off->update([
@@ -641,12 +643,12 @@ class TransactionController extends Controller
 
 
 
-      $lates = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 2);
+      $lates = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 2);
       $totalMinuteLate = $lates->sum('minute');
       // dd($totalMinuteLate);
       $keterlambatan = intval(floor($totalMinuteLate / 30));
       // dd($keterlambatan);
-      $atls = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('year', $transaction->year)->where('type', 3);
+      $atls = $employee->absences->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 3);
       $totalAtlLate = count($atls) * 2;
 
 
@@ -673,7 +675,7 @@ class TransactionController extends Controller
 
 
 
-      $izins = $employee->absences->where('month', $transaction->month)->where('year', $transaction->year)->where('type', 3);
+      $izins = $employee->absences->where('month', $transaction->month)->where('type', 3);
 
       // additoinal penambahan & pengurangan
       $addPenambahan = Additional::where('employee_id', $employee->id)->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 1)->get()->sum('value');

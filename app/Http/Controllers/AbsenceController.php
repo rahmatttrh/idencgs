@@ -334,7 +334,9 @@ class AbsenceController extends Controller
 
       if ($req->loc == 'KJ45') {
          $absences = Absence::whereBetween('date', [$req->from, $req->to])->where('location_id', 4)->orWhere('location_id', 5)->get();
-      } 
+      } else {
+         $absences = Absence::whereBetween('date', [$req->from, $req->to])->get();
+      }
 
       
 

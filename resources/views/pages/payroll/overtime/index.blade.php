@@ -74,7 +74,7 @@ SPKL
                            {{-- <input id="name" name="name" type="text" class="form-control" placeholder="Fill Name"> --}}
                            <select name="loc" id="loc" required class="form-control">
                               <option selected value="" disabled>Choose </option>
-                             
+                                 <option {{$loc == 'all' ? 'selected' : ''}} value="all">All</option>
                                   <option {{$loc == 'KJ45' ? 'selected' : ''}} value="KJ45">KJ 4-5</option>
                               
                            </select>

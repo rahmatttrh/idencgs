@@ -30,66 +30,66 @@ class CutiController extends Controller
       $today = Carbon::now();
       // dd($cutis);
 
-      foreach($cutis as $cuti){
-         $contract = Contract::find($cuti->employee->contract_id);
-         // if ($contract->start != null && $contract->end != null) {
-         //    // dd($cuti->start);
-         //    $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $contract->start)->where('date', '<=', $contract->end)->where('type', 5)->get();
-         //    if ($cuti->expired != null) {
-         //       if ($cuti->expired < $today) {
-         //          $extend = $cuti->extend;
-         //       } else {
-         //          $extend = 0;
-         //       }
-         //    } else {
-         //       $extend = $cuti->extend;
-         //    }
+      // foreach($cutis as $cuti){
+      //    $contract = Contract::find($cuti->employee->contract_id);
+      //    if ($contract->start != null && $contract->end != null) {
+      //       // dd($cuti->start);
+      //       $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $contract->start)->where('date', '<=', $contract->end)->where('type', 5)->get();
+      //       if ($cuti->expired != null) {
+      //          if ($cuti->expired < $today) {
+      //             $extend = $cuti->extend;
+      //          } else {
+      //             $extend = 0;
+      //          }
+      //       } else {
+      //          $extend = $cuti->extend;
+      //       }
 
-         //    $total = $cuti->tahunan + $cuti->masa_kerja + $extend;
-         //    $cuti->update([
-         //       'used' => count($absences),
-         //       'total' => $total,
-         //       'sisa' => $total - count($absences)
-         //    ]);
-         // }
+      //       $total = $cuti->tahunan + $cuti->masa_kerja + $extend;
+      //       $cuti->update([
+      //          'used' => count($absences),
+      //          'total' => $total,
+      //          'sisa' => $total - count($absences)
+      //       ]);
+      //    }
 
 
-         // Generate Data Cuti
-         // if ($cuti->employee->contract->type = 'Tetap') {
-         //    // dd($cuti->employee->biodata->fullName());
-         //    $join = Carbon::create($cuti->employee->join);
-         //    // dd($join);
-         //    $start = Carbon::create($today->format('Y') . '-' . $join->format('m-d')  );
-         //    $startB = Carbon::create($today->format('Y') . '-' . $join->format('m-d')  );
-         //    // dd($start);
+      //    // Generate Data Cuti
+      //    if ($cuti->employee->contract->type = 'Tetap') {
+      //       // dd($cuti->employee->biodata->fullName());
+      //       $join = Carbon::create($cuti->employee->join);
+      //       // dd($join);
+      //       $start = Carbon::create($today->format('Y') . '-' . $join->format('m-d')  );
+      //       $startB = Carbon::create($today->format('Y') . '-' . $join->format('m-d')  );
+      //       // dd($start);
 
-         //    if ($start > $today) {
-         //       // dd($start->subYear());
-         //       $fixStart = $start->subYear();
-         //       $finalStart = $fixStart;
-         //       $finalEnd = $startB;
+      //       if ($start > $today) {
+      //          // dd($start->subYear());
+      //          $fixStart = $start->subYear();
+      //          $finalStart = $fixStart;
+      //          $finalEnd = $startB;
                
-         //       // dd($start->addYear());
-         //       // $finalEnd = $start
-         //    } else {
-         //       //  dd($cuti->employee->biodata->fullName());
-         //       $finalStart = $startB;
-         //       $finalEnd = $start->addYear();
-         //    }
+      //          // dd($start->addYear());
+      //          // $finalEnd = $start
+      //       } else {
+      //          //  dd($cuti->employee->biodata->fullName());
+      //          $finalStart = $startB;
+      //          $finalEnd = $start->addYear();
+      //       }
 
-         //    $cuti->update([
-         //       'start' => $finalStart,
-         //       'end' => $finalEnd
-         //    ]);
-         // } elseif($cuti->employee->contract->type == 'Kontrak') {
-         //    $cuti->update([
-         //       'start' => $contract->start,
-         //       'end' => $contract->end
-         //    ]);
-         // }
+      //       $cuti->update([
+      //          'start' => $finalStart,
+      //          'end' => $finalEnd
+      //       ]);
+      //    } elseif($cuti->employee->contract->type == 'Kontrak') {
+      //       $cuti->update([
+      //          'start' => $contract->start,
+      //          'end' => $contract->end
+      //       ]);
+      //    }
         
          
-      }
+      // }
 
       // dd($cutis);
 
