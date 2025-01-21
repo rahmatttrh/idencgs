@@ -83,9 +83,13 @@ SPKL
                      @endif
                      
                      
-                     <div class="col">
-                        <button class="btn btn-primary" type="submit" >Filter</button>
+                     <div class="col-2">
+                        <button class="btn btn-primary" type="submit" >Filter</button> <br>
+                        
                      </div>
+                     {{-- <div class="col text-right">
+                        
+                     </div> --}}
 
                      @if (auth()->user()->hasRole('Administrator|HRD-Payroll'))
                      <div class="col">
@@ -96,6 +100,12 @@ SPKL
                      @endif
                   </div>
                </form>  
+               
+               @if ($export == false)
+               <small class="ml-3 mb-2">
+                  <i> *Ini adalah 1.000 data terakhir yang di input kedalam sistem </i>
+               </small>
+               @endif
                
                <div class="table-responsive">
                   <table id="data" class="display basic-datatables table-sm">

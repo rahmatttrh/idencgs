@@ -203,6 +203,73 @@ class OvertimeController extends Controller
       ])->with('i');
    }
 
+   public function indexEmployee()
+   {
+
+      $now = Carbon::now();
+     
+
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
+
+      
+
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj1-2')
+            ->select('employees.*')
+            ->get();
+
+         
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+            ->select('employees.*')
+            ->get();
+         
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'jgc')
+            ->select('employees.*')
+            ->get();
+         
+      } else {
+
+         $employees = Employee::where('status', 1)->get();
+      }
+
+
+      return view('pages.payroll.overtime.employee', [
+         
+         'employees' => $employees,
+      ])->with('i');
+   }
+
+   public function indexEmployeeDetail($id)
+   {
+      $employee = Employee::find(dekripRambo($id));
+      $now = Carbon::now();
+     
+
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
+
+      $overtimes = Overtime::orderBy('updated_at', 'desc')->where('employee_id', $employee->id)->paginate(1000);
+
+
+      return view('pages.payroll.overtime.employee-detail', [
+         'employee' => $employee,
+         'overtimes' => $overtimes,
+      ])->with('i');
+   }
+
 
    public function refresh(){
       $overtimes = Overtime::get();

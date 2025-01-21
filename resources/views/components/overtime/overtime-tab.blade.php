@@ -6,6 +6,9 @@
             <a class="nav-link{{ $activeTab === 'payroll.overtime' ? ' active' : '' }}" href="{{ route('payroll.overtime') }}">List</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link{{ $activeTab === 'payroll.overtime.employee' ? ' active' : '' }}" href="{{ route('payroll.overtime.employee') }}">List Employee</a>
+      </li>
+        <li class="nav-item">
                <a class="nav-link{{ $activeTab === 'payroll.overtime.draft' ? ' active' : '' }}" href="{{ route('payroll.overtime.draft') }}">Draft</a>
          </li>
         <li class="nav-item">

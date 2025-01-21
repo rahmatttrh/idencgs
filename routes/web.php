@@ -402,6 +402,8 @@ Route::middleware(["auth"])->group(function () {
          });
          Route::prefix('overtime')->group(function () {
             Route::get('index', [OvertimeController::class, 'index'])->name('payroll.overtime');
+            Route::get('employee/index', [OvertimeController::class, 'indexEmployee'])->name('payroll.overtime.employee');
+            Route::get('employee/detail/{id}', [OvertimeController::class, 'indexEmployeeDetail'])->name('payroll.overtime.employee.detail');
             Route::get('draft', [OvertimeController::class, 'draft'])->name('payroll.overtime.draft');
             Route::get('import', [OvertimeController::class, 'import'])->name('payroll.overtime.import');
             Route::post('publish', [OvertimeController::class, 'publish'])->name('payroll.overtime.publish');
