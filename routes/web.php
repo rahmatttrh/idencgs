@@ -405,6 +405,7 @@ Route::middleware(["auth"])->group(function () {
             Route::get('employee/index', [OvertimeController::class, 'indexEmployee'])->name('payroll.overtime.employee');
             Route::get('employee/detail/{id}', [OvertimeController::class, 'indexEmployeeDetail'])->name('payroll.overtime.employee.detail');
             Route::get('draft', [OvertimeController::class, 'draft'])->name('payroll.overtime.draft');
+            Route::get('draft/delete', [OvertimeController::class, 'draftDelete'])->name('payroll.overtime.draft.delete');
             Route::get('import', [OvertimeController::class, 'import'])->name('payroll.overtime.import');
             Route::post('publish', [OvertimeController::class, 'publish'])->name('payroll.overtime.publish');
             Route::get('create', [OvertimeController::class, 'create'])->name('payroll.overtime.create');
@@ -420,6 +421,7 @@ Route::middleware(["auth"])->group(function () {
             Route::post('store', [OvertimeController::class, 'store'])->name('payroll.overtime.store');
             Route::put('update', [OvertimeController::class, 'update'])->name('payroll.overtime.update');
             Route::get('delete/{id}', [OvertimeController::class, 'delete'])->name('payroll.overtime.delete');
+            Route::post('multiple/delete', [OvertimeController::class, 'deleteMultiple'])->name('payroll.overtime.multiple.delete');
             // Route::get('/detail/{id}' , [TransactionController::class, 'detail'])->name('payroll.transaction.detail');
             // Route::post('store', [TransactionController::class, 'store'])->name('payroll.transaction.store');
          });

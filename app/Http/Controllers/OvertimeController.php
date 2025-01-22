@@ -489,6 +489,46 @@ class OvertimeController extends Controller
       ])->with('i');
    }
 
+   public function draftDelete(){
+      $now = Carbon::now();
+      // $overtimes = Overtime::get();
+
+      
+
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj1-2')
+            ->select('employees.*')
+            ->get();
+
+         $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 3)->paginate(800);
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+            ->select('employees.*')
+            ->get();
+         $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(800);
+         // dd($overtimes);
+      } else {
+
+         $employees = Employee::get();
+         $overtimes = Overtime::where('status', 0)->orderBy('created_at', 'desc')->paginate(12);
+      }
+
+      return view('pages.payroll.overtime.draft-delete', [
+         'overtimes' => $overtimes,
+         'employees' => $employees,
+         'month' => $now->format('F'),
+         'year' => $now->format('Y'),
+         'from' => null,
+         'to' => null
+         // 'holidays' => $holidays
+      ])->with('i');
+   }
+
    public function publish(Request $req)
    {
       $req->validate([
@@ -1037,5 +1077,36 @@ class OvertimeController extends Controller
       // dd('deleted');
 
       return redirect()->route('payroll.overtime')->with('success', 'Overtime Data successfully deleted');
+   }
+
+   public function deleteMultiple(Request $req)
+   {
+      $req->validate([
+         'id_item' => 'required',
+      ]);
+
+      $arrayItem = $req->id_item;
+      $jumlah = count($arrayItem);
+
+      for ($i = 0; $i < $jumlah; $i++) {
+         $overtime = Overtime::find($arrayItem[$i]);
+
+         $overtime->delete();
+
+      }
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Delete Multiple',
+         'desc' => 'SPKL Data'
+      ]);
+      return redirect()->route('payroll.overtime.draft.delete')->with('success', 'SPKL Data deleted');
    }
 }
