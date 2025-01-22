@@ -18,7 +18,8 @@ SPKL
          <x-overtime.overtime-tab :activeTab="request()->route()->getName()" />
       </div>
 
-      <form action="{{route('payroll.overtime.publish')}}" method="post" >
+
+      <form action="{{route('payroll.overtime.multiple.delete')}}" method="post" >
          @csrf
          @error('id_item')
             <div class="alert alert-danger mt-2">{{ $message }}</div>
@@ -28,14 +29,13 @@ SPKL
                <div class="card-title">Draft</div>
             </div>  --}}
             <div class="d-inline-flex align-items-center">
-               <button type="submit" name="submit" class="btn btn-sm btn-primary mr-3">Publish</button>
+               <button type="submit" name="submit" class="btn btn-sm btn-danger mr-3">Delete</button>
                <div class="d-inline-flex align-items-center">
                      <span class="badge badge-muted badge-counter">
                         <span id="total">0</span>
                      </span>
                </div>
-            </div> <br><br>
-            <a href="{{route('payroll.overtime.draft.delete')}}">Delete multiple data? click here</a>
+            </div>
             <hr>
             <div class="table-responsive">
                <table id="multi-filter-select" class="display  table-sm  " >
