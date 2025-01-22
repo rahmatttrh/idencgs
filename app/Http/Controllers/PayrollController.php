@@ -31,7 +31,7 @@ class PayrollController extends Controller
       //       'payslip_status' => 'show'
       //    ]);
       // }
-      $employees = Employee::where('status', 1)->get();
+      $employees = Employee::where('status', 1)->where('unit_id', 9)->get();
       // $transactionCon = new TransactionController;
       // $transactions = Transaction::where('status', '!=', 3)->get();
       // foreach ($transactions as $tran) {
@@ -42,6 +42,14 @@ class PayrollController extends Controller
          $payroll = Payroll::find($employee->payroll_id);
          $reductions = Reduction::where('unit_id', $employee->unit_id)->get();
          // dd($payroll);
+
+         // if($employee->unit_id == 9){
+         //    $payrollTotal = $payroll->pokok;
+         // } else {
+         //    $payrollTotal = $payroll->total;
+         // }
+
+         // dd('ok');
 
          $redAdditionals = ReductionAdditional::where('employee_id', $employee->id)->get();
          
@@ -56,12 +64,11 @@ class PayrollController extends Controller
             foreach ($reductions as $red) {
                $currentRed = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $employee->id)->first();
                // dd($red->max_salary);
-   
-   
-               if ($payroll->total <= $red->min_salary) {
+
+               if ($payroll->pokok <= $red->min_salary) {
                   // dd('kurang dari minimum gaji');
                   $salary = $red->min_salary;
-                  $realSalary = $payroll->total;
+                  $realSalary = $payroll->pokok;
    
                   $bebanPerusahaan = ($red->company * $salary) / 100;
                   $bebanKaryawan = ($red->employee * $realSalary) / 100;
@@ -72,33 +79,111 @@ class PayrollController extends Controller
                   // $selisih = $bebanKaryawanReal - $bebanKaryawan;
                   // $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
    
-               } else if ($payroll->total >= $red->min_salary) {
-                  if ($payroll->total > $red->max_salary) {
+               } else if ($payroll->pokok >= $red->min_salary) {
+                  if ($payroll->pokok > $red->max_salary) {
                      // dd('ok');
                      if ($red->max_salary != 0) {
-                        $salary = $payroll->total;
+                        $salary = $payroll->pokok;
                         $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
                         $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
                         $bebanKaryawanReal = 0;
                         $bebanPerusahaanReal = $bebanPerusahaan;
                      } else {
-                        $salary = $payroll->total;
+                        $salary = $payroll->pokok;
                         $bebanPerusahaan = ($red->company * $salary) / 100;
                         $bebanKaryawan = ($red->employee * $salary) / 100;
                         $bebanKaryawanReal = 0;
                         $bebanPerusahaanReal = $bebanPerusahaan;
                      }
                   } else {
-                     $salary = $payroll->total;
+                     $salary = $payroll->pokok;
                      $bebanPerusahaan = ($red->company * $salary) / 100;
                      $bebanKaryawan = ($red->employee * $salary) / 100;
                      $bebanKaryawanReal = 0;
                      $bebanPerusahaanReal = $bebanPerusahaan;
                   }
                }
+               // if($employee->unit_id == 9){
+               //    if ($payroll->pokok <= $red->min_salary) {
+               //       // dd('kurang dari minimum gaji');
+               //       $salary = $red->min_salary;
+               //       $realSalary = $payroll->pokok;
+      
+               //       $bebanPerusahaan = ($red->company * $salary) / 100;
+               //       $bebanKaryawan = ($red->employee * $realSalary) / 100;
+               //       $bebanKaryawanReal = ($red->employee * $salary) / 100;
+               //       $selisih = $bebanKaryawanReal - $bebanKaryawan;
+               //       $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+               //       // $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
+               //       // $selisih = $bebanKaryawanReal - $bebanKaryawan;
+               //       // $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+      
+               //    } else if ($payroll->pokok >= $red->min_salary) {
+               //       if ($payroll->pokok > $red->max_salary) {
+               //          // dd('ok');
+               //          if ($red->max_salary != 0) {
+               //             $salary = $payroll->pokok;
+               //             $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
+               //             $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
+               //             $bebanKaryawanReal = 0;
+               //             $bebanPerusahaanReal = $bebanPerusahaan;
+               //          } else {
+               //             $salary = $payroll->pokok;
+               //             $bebanPerusahaan = ($red->company * $salary) / 100;
+               //             $bebanKaryawan = ($red->employee * $salary) / 100;
+               //             $bebanKaryawanReal = 0;
+               //             $bebanPerusahaanReal = $bebanPerusahaan;
+               //          }
+               //       } else {
+               //          $salary = $payroll->pokok;
+               //          $bebanPerusahaan = ($red->company * $salary) / 100;
+               //          $bebanKaryawan = ($red->employee * $salary) / 100;
+               //          $bebanKaryawanReal = 0;
+               //          $bebanPerusahaanReal = $bebanPerusahaan;
+               //       }
+               //    }
+               // } else {
+               //    if ($payroll->total <= $red->min_salary) {
+               //       // dd('kurang dari minimum gaji');
+               //       $salary = $red->min_salary;
+               //       $realSalary = $payroll->total;
+      
+               //       $bebanPerusahaan = ($red->company * $salary) / 100;
+               //       $bebanKaryawan = ($red->employee * $realSalary) / 100;
+               //       $bebanKaryawanReal = ($red->employee * $salary) / 100;
+               //       $selisih = $bebanKaryawanReal - $bebanKaryawan;
+               //       $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+               //       // $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
+               //       // $selisih = $bebanKaryawanReal - $bebanKaryawan;
+               //       // $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+      
+               //    } else if ($payroll->total >= $red->min_salary) {
+               //       if ($payroll->total > $red->max_salary) {
+               //          // dd('ok');
+               //          if ($red->max_salary != 0) {
+               //             $salary = $payroll->total;
+               //             $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
+               //             $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
+               //             $bebanKaryawanReal = 0;
+               //             $bebanPerusahaanReal = $bebanPerusahaan;
+               //          } else {
+               //             $salary = $payroll->total;
+               //             $bebanPerusahaan = ($red->company * $salary) / 100;
+               //             $bebanKaryawan = ($red->employee * $salary) / 100;
+               //             $bebanKaryawanReal = 0;
+               //             $bebanPerusahaanReal = $bebanPerusahaan;
+               //          }
+               //       } else {
+               //          $salary = $payroll->total;
+               //          $bebanPerusahaan = ($red->company * $salary) / 100;
+               //          $bebanKaryawan = ($red->employee * $salary) / 100;
+               //          $bebanKaryawanReal = 0;
+               //          $bebanPerusahaanReal = $bebanPerusahaan;
+               //       }
+               //    }
+               // }
    
-   
-   
+               
                if (!$currentRed) {
                   ReductionEmployee::create([
                      'reduction_id' => $red->id,
@@ -131,7 +216,6 @@ class PayrollController extends Controller
             // dd('empty');
             $redEmployees = [];
          }
-
 
 
       }
@@ -334,6 +418,7 @@ class PayrollController extends Controller
 
       $locations = Location::get();
 
+
       foreach ($locations as $loc) {
          if ($loc->code == $employee->contract->loc) {
             $location = $loc->id;
@@ -367,32 +452,81 @@ class PayrollController extends Controller
             $currentRed = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $employee->id)->first();
             // dd($red->max_salary);
             
-
-            if ($payroll->total <= $red->min_salary) {
-               // dd('kurang dari minimum gaji');
-               $salary = $red->min_salary;
-               $realSalary = $payroll->total;
-
-               $bebanPerusahaan = ($red->company * $salary) / 100;
-               $bebanKaryawan = ($red->employee * $realSalary) / 100;
-               $bebanKaryawanReal = ($red->employee * $salary) / 100;
-               $selisih = $bebanKaryawanReal - $bebanKaryawan;
-               $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
-               // $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
-               // $selisih = $bebanKaryawanReal - $bebanKaryawan;
-               // $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
-
-            } else if ($payroll->total >= $red->min_salary) {
-               if ($payroll->total > $red->max_salary) {
-                  // dd('ok');
-                  if ($red->max_salary != 0) {
-                     
-                     $salary = $payroll->total;
-                     $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
-                     $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
+            if ($employee->unit_id == 9) {
+               // dd($red->min_salary);
+               if ($payroll->pokok <= $red->min_salary) {
+                  // dd('kurang dari minimum gaji');
+                  $salary = $red->min_salary;
+                  $realSalary = $payroll->total;
+   
+                  $bebanPerusahaan = ($red->company * $salary) / 100;
+                  $bebanKaryawan = ($red->employee * $realSalary) / 100;
+                  $bebanKaryawanReal = ($red->employee * $salary) / 100;
+                  $selisih = $bebanKaryawanReal - $bebanKaryawan;
+                  $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+                  // $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
+                  // $selisih = $bebanKaryawanReal - $bebanKaryawan;
+                  // $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+   
+               } else if ($payroll->pokok >= $red->min_salary) {
+                  if ($payroll->pokok > $red->max_salary) {
+                     // dd('ok');
+                     if ($red->max_salary != 0) {
+                        
+                        $salary = $payroll->pokok;
+                        $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
+                        $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
+                        $bebanKaryawanReal = 0;
+                        $bebanPerusahaanReal = $bebanPerusahaan;
+                        
+                     } else {
+                        $salary = $payroll->pokok;
+                        $bebanPerusahaan = ($red->company * $salary) / 100;
+                        $bebanKaryawan = ($red->employee * $salary) / 100;
+                        $bebanKaryawanReal = 0;
+                        $bebanPerusahaanReal = $bebanPerusahaan;
+                     }
+                  } else {
+                     $salary = $payroll->pokok;
+                     $bebanPerusahaan = ($red->company * $salary) / 100;
+                     $bebanKaryawan = ($red->employee * $salary) / 100;
                      $bebanKaryawanReal = 0;
                      $bebanPerusahaanReal = $bebanPerusahaan;
-                     
+                  }
+               }
+            } else {
+               if ($payroll->total <= $red->min_salary) {
+                  // dd('kurang dari minimum gaji');
+                  $salary = $red->min_salary;
+                  $realSalary = $payroll->total;
+   
+                  $bebanPerusahaan = ($red->company * $salary) / 100;
+                  $bebanKaryawan = ($red->employee * $realSalary) / 100;
+                  $bebanKaryawanReal = ($red->employee * $salary) / 100;
+                  $selisih = $bebanKaryawanReal - $bebanKaryawan;
+                  $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+                  // $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
+                  // $selisih = $bebanKaryawanReal - $bebanKaryawan;
+                  // $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+   
+               } else if ($payroll->total >= $red->min_salary) {
+                  if ($payroll->total > $red->max_salary) {
+                     // dd('ok');
+                     if ($red->max_salary != 0) {
+                        
+                        $salary = $payroll->total;
+                        $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
+                        $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
+                        $bebanKaryawanReal = 0;
+                        $bebanPerusahaanReal = $bebanPerusahaan;
+                        
+                     } else {
+                        $salary = $payroll->total;
+                        $bebanPerusahaan = ($red->company * $salary) / 100;
+                        $bebanKaryawan = ($red->employee * $salary) / 100;
+                        $bebanKaryawanReal = 0;
+                        $bebanPerusahaanReal = $bebanPerusahaan;
+                     }
                   } else {
                      $salary = $payroll->total;
                      $bebanPerusahaan = ($red->company * $salary) / 100;
@@ -400,14 +534,9 @@ class PayrollController extends Controller
                      $bebanKaryawanReal = 0;
                      $bebanPerusahaanReal = $bebanPerusahaan;
                   }
-               } else {
-                  $salary = $payroll->total;
-                  $bebanPerusahaan = ($red->company * $salary) / 100;
-                  $bebanKaryawan = ($red->employee * $salary) / 100;
-                  $bebanKaryawanReal = 0;
-                  $bebanPerusahaanReal = $bebanPerusahaan;
                }
             }
+            
 
 
 
@@ -425,6 +554,7 @@ class PayrollController extends Controller
 
                ]);
             } else {
+               // dd($bebanKaryawan);
                $currentRed->update([
                   'reduction_id' => $red->id,
                   'type' => 'Default',
