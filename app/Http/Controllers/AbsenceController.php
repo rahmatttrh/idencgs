@@ -7,6 +7,7 @@ use App\Exports\AbsenceExport;
 use App\Imports\AbsencesImport;
 use App\Models\Absence;
 use App\Models\Employee;
+use App\Models\EmployeeLeader;
 use App\Models\Location;
 use App\Models\Log;
 use App\Models\Payroll;
@@ -68,6 +69,42 @@ class AbsenceController extends Controller
          'locations' => $locations,
          'employees' => $employees,
          'absences' => $absences,
+         'month' => $now->format('F'),
+         'year' => $now->format('Y'),
+         'from' => null,
+         'to' => null
+      ])->with('i');
+   }
+
+   public function team()
+   {
+
+      $now = Carbon::now();
+      $employees = Employee::get();
+
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
+
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $myTeamAbsences = EmployeeLeader::join('absences', 'employee_leaders.employee_id', '=', 'absences.employee_id')
+     
+      ->where('leader_id', $employee->id)
+      ->select('absences.*')
+      ->get();
+
+
+      
+
+
+
+
+      return view('pages.payroll.absence.team', [
+         'export' => $export,
+         'loc' => $loc,
+         'locations' => $locations,
+         'employees' => $employees,
+         'absences' => $myTeamAbsences,
          'month' => $now->format('F'),
          'year' => $now->format('Y'),
          'from' => null,

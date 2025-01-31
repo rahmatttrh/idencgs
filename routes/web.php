@@ -402,10 +402,13 @@ Route::middleware(["auth"])->group(function () {
          });
          Route::prefix('overtime')->group(function () {
             Route::get('index', [OvertimeController::class, 'index'])->name('payroll.overtime');
+            Route::get('team', [OvertimeController::class, 'team'])->name('overtime.team');
             Route::get('employee/index', [OvertimeController::class, 'indexEmployee'])->name('payroll.overtime.employee');
             Route::get('employee/detail/{id}', [OvertimeController::class, 'indexEmployeeDetail'])->name('payroll.overtime.employee.detail');
             Route::get('draft', [OvertimeController::class, 'draft'])->name('payroll.overtime.draft');
             Route::get('draft/delete', [OvertimeController::class, 'draftDelete'])->name('payroll.overtime.draft.delete');
+            Route::get('index/delete', [OvertimeController::class, 'indexDelete'])->name('payroll.overtime.index.delete');
+            Route::post('index/delete/filter', [OvertimeController::class, 'indexDeleteFilter'])->name('payroll.overtime.index.delete.filter');
             Route::get('import', [OvertimeController::class, 'import'])->name('payroll.overtime.import');
             Route::post('publish', [OvertimeController::class, 'publish'])->name('payroll.overtime.publish');
             Route::get('create', [OvertimeController::class, 'create'])->name('payroll.overtime.create');
@@ -504,7 +507,8 @@ Route::middleware(["auth"])->group(function () {
    // Semua Role 
 
    Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC|Karyawan|Manager|Asst. Manager|Supervisor|Leader']], function () {
-
+      Route::get('overtime/team', [OvertimeController::class, 'team'])->name('overtime.team');
+      Route::get('absence/team', [AbsenceController::class, 'team'])->name('absence.team');
       Route::prefix('payroll/approval')->group(function () {
          Route::post('submit/master', [PayrollApprovalController::class, 'submit'])->name('payroll.submit.master.transaction');
          Route::post('publish/master', [PayrollApprovalController::class, 'publish'])->name('payroll.publish');

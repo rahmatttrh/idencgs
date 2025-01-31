@@ -149,6 +149,13 @@
    </a>
 </li>
 
+<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
+   <a href="{{route('overtime.team')}}">
+      <i class="fas fa-file-code"></i>
+      <p>My Team</p>
+   </a>
+</li>
+
 {{-- <li class="nav-item {{ (request()->is('supervisor/spkl/*')) ? 'active' : '' }}">
    <a href="{{route('supervisor.spkl')}}">
       <i class="fas fa-clock"></i>

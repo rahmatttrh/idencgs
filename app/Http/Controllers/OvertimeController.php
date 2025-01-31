@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\OvertimeExport;
 use App\Imports\OvertimesImport;
 use App\Models\Employee;
+use App\Models\EmployeeLeader;
 use App\Models\Holiday;
 use App\Models\Location;
 use App\Models\Log;
@@ -22,6 +23,50 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class OvertimeController extends Controller
 {
+
+   public function team(){
+      // $overtimes = Overtime::get();
+      $now = Carbon::now();
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
+
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      // $myteams = EmployeeLeader::join('employees', 'employee_leaders.employee_id', '=', 'employees.id')
+      //       ->join('biodatas', 'employees.biodata_id', '=', 'biodatas.id')
+      //       ->where('leader_id', $employee->id)
+      //       ->select('employees.*')
+      //       ->orderBy('biodatas.first_name', 'asc')
+      //       ->get();
+
+      $myTeamOvertimes = EmployeeLeader::join('overtimes', 'employee_leaders.employee_id', '=', 'overtimes.employee_id')
+     
+      ->where('leader_id', $employee->id)
+      ->select('overtimes.*')
+      ->get();
+
+            // dd($myTeamOvertimes);
+
+      // $overtimes = [];
+      // foreach($myteams as $team){
+      //    $overtimes[] = Overtime::where('employee_id', $team->id)->get();
+      // }
+
+      // dd($overtimes);
+      return view('pages.payroll.overtime.team', [
+         'export' => $export,
+         'loc' => $loc,
+         'locations' => $locations,
+         'overtimes' => $myTeamOvertimes,
+         // 'employees' => $employees,
+         'month' => $now->format('F'),
+         'year' => $now->format('Y'),
+         'from' => null,
+         'to' => null
+         // 'holidays' => $holidays
+      ])->with('i');
+   }
+
    public function index()
    {
 
@@ -525,6 +570,66 @@ class OvertimeController extends Controller
          'year' => $now->format('Y'),
          'from' => null,
          'to' => null
+         // 'holidays' => $holidays
+      ])->with('i');
+   }
+
+   public function indexDelete(){
+      $now = Carbon::now();
+      // $overtimes = Overtime::get();
+
+      
+
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj1-2')
+            ->select('employees.*')
+            ->get();
+
+         $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 3)->paginate(800);
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+            ->select('employees.*')
+            ->get();
+         $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(800);
+         // dd($overtimes);
+      } else {
+
+         $employees = Employee::get();
+         $overtimes = Overtime::where('status', 1)->orderBy('created_at', 'desc')->paginate(1500);
+      }
+
+      return view('pages.payroll.overtime.index-delete', [
+         'overtimes' => $overtimes,
+         'employees' => $employees,
+         'month' => $now->format('F'),
+         'year' => $now->format('Y'),
+         'from' => null,
+         'to' => null
+         // 'holidays' => $holidays
+      ])->with('i');
+   }
+
+   public function indexDeleteFilter(Request $req){
+      $now = Carbon::now();
+      // $overtimes = Overtime::get();
+
+      
+
+
+      $overtimes = Overtime::whereBetween('date', [$req->from, $req->to])->get();
+
+      return view('pages.payroll.overtime.index-delete-filter', [
+         'overtimes' => $overtimes,
+         // 'employees' => $employees,
+         'month' => $now->format('F'),
+         'year' => $now->format('Y'),
+         'from' => $req->from,
+         'to' => $req->to
          // 'holidays' => $holidays
       ])->with('i');
    }
@@ -1107,6 +1212,6 @@ class OvertimeController extends Controller
          'action' => 'Delete Multiple',
          'desc' => 'SPKL Data'
       ]);
-      return redirect()->route('payroll.overtime.draft.delete')->with('success', 'SPKL Data deleted');
+      return redirect()->route('payroll.overtime')->with('success', 'SPKL Data deleted');
    }
 }
