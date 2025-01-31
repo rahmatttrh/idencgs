@@ -544,7 +544,7 @@ Route::middleware(["auth"])->group(function () {
          Route::put('update/picture', [EmployeeController::class, 'updatePicture'])->name('employee.update.picture');
          Route::get('remove/picture/{id}', [EmployeeController::class, 'removePicture'])->name('employee.remove.picture');
          Route::put('update/role', [EmployeeController::class, 'updateRole'])->name('employee.update.role');
-         Route::put('reset/password/{id}', [EmployeeController::class, 'resetPassword'])->name('employee.reset.password');
+         Route::get('reset/password/{id}', [EmployeeController::class, 'resetPassword'])->name('employee.reset.password');
       });
 
       // Quick PE All

@@ -391,7 +391,26 @@ class EmployeeController extends Controller
    {
 
 
+      // $debug = Employee::find(411);
+      // if ($debug->id == 411) {
+      //    $debug->update([
+      //       'unit_id' => 14,
+      //       'department_id' => 64,
+      //       'sub_dept_id' => 68,
+      //       'position_id' => 298
+      //    ]);
+
+      //    $contract = Contract::find($debug->contract_id);
+      //    // dd($contract->department_id);
+      //    $contract->update([
+      //       'unit_id' => 14,
+      //       'department_id' => 64,
+      //       'sub_dept_id' => 68,
+      //       'position_id' => 298
+      //    ]);
+      // }
       
+      // dd($debug->department_id);
       // $employee = auth()->user()->getEmployee();
       // // Data KPI
       // if (auth()->user()->hasRole('Administrator|HRD')) {

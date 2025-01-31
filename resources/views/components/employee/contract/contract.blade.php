@@ -404,10 +404,10 @@
                            {{-- <img src="{{asset('img/visa.svg')}}" height="12.5" alt="Visa Logo"> --}}
                            <span>
                               {{-- {{$mutation->before->designation->name}}  --}}
-                              {{$mutation->before->position->name}} <br> 
-                              Department {{$mutation->before->department->name}} <br>
-                              {{$mutation->before->unit->name}} <br>
-                              {{$mutation->before->loc}} <br>
+                              {{$mutation->before->position->name ?? ''}} <br> 
+                              Department {{$mutation->before->department->name ?? ''}} <br>
+                              {{$mutation->before->unit->name ?? ''}} <br>
+                              {{$mutation->before->loc ?? ''}} <br>
                               
 
                            </span>
@@ -415,10 +415,10 @@
                         <div class="col text-right">
                            <span>
                               {{-- {{$mutation->before->designation->name}}  --}}
-                              {{$mutation->become->position->name}} <br> 
-                              Department {{$mutation->become->department->name}} <br>
-                              {{$mutation->become->unit->name}} <br>
-                              {{$mutation->become->loc}} <br>
+                              {{$mutation->become->position->name ?? ''}} <br> 
+                              Department {{$mutation->become->department->name ?? ''}} <br>
+                              {{$mutation->become->unit->name ?? ''}} <br>
+                              {{$mutation->become->loc ?? ''}} <br>
                               
 
                            </span>
