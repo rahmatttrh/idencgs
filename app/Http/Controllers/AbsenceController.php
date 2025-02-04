@@ -16,6 +16,7 @@ use App\Models\Unit;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AbsenceController extends Controller
@@ -75,6 +76,25 @@ class AbsenceController extends Controller
          'to' => null
       ])->with('i');
    }
+
+
+   // public function refresh(){
+   //    $absences = Absence::get();
+   //    $employees = Employee::where('status', 1)->get();
+   //    foreach($employees as $emp){
+   //       $duplicated = DB::table('absences')->where('type', 2)->where('employee_id', $emp->id)
+   //                  ->select('date', DB::raw('count(`date`) as occurences'))
+   //                  ->groupBy('date')
+   //                  ->having('occurences', '>', 1)
+   //                  ->get();
+
+   //       foreach($duplicated as $dup){
+   //          // dd($dup->date);
+   //          $overtime = Overtime::where('type', 2)->where('employee_id', $emp->id)->where('date', $dup->date)->first();
+   //          $overtime->delete();
+   //       }
+   //    }
+   // }
 
    public function team()
    {

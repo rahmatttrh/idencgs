@@ -164,6 +164,10 @@ Payroll Absence
                </div>
                <!-- End Table  -->
 
+               <div class="card-footer">
+                  <a href="{{route('absence.refresh')}}">Refresh</a>
+               </div>
+
             </div>
          </div>
 

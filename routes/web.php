@@ -430,6 +430,7 @@ Route::middleware(["auth"])->group(function () {
          });
          Route::prefix('absence')->group(function () {
             Route::get('/index', [AbsenceController::class, 'index'])->name('payroll.absence');
+            Route::get('/refresh', [AbsenceController::class, 'refresh'])->name('absence.refresh');
 
             Route::get('/form', [AbsenceController::class, 'create'])->name('payroll.absence.create');
 
