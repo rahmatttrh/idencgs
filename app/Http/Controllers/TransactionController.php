@@ -664,7 +664,7 @@ class TransactionController extends Controller
          $potonganFirst = 1 * 1 / 30 * $payroll->total;
 
          $sisaLate = $totalKeterlambatan - 6;
-         $potonganSecond = $potonganFirst * 1 / 5;
+         $potonganSecond = $potonganFirst * 1 / 5 * $sisaLate;
          $potongan = $potonganFirst +  $potonganSecond;
          // dd($finalLate);
          // dd($payroll->total);

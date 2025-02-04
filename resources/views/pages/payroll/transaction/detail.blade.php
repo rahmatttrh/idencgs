@@ -540,6 +540,17 @@ Detail Transaction Payroll Employee
                                            </tr>
                                            
                                        @endforeach
+
+                                       @foreach ($atls as $atl)
+                                           
+                                           
+                                           <tr>
+                                             <td class="">{{formatDate($atl->date)}} </td>
+                                             <th class="text-right">ATL</th>
+                                             {{-- <td class="text-right  text-danger">{{formatRupiah($alpha->value)}}</td> --}}
+                                           </tr>
+                                           
+                                       @endforeach
                                        <tr>
                                           <td class="text-right"><b>Total Keterlambatan</b></td>
                                           <td class="text-right"><b>{{$totalKeterlambatan}}</b></td>

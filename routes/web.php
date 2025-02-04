@@ -83,6 +83,8 @@ Route::middleware(["auth"])->group(function () {
    // Route::get('{any?}', function ($any = null) {
    //    return view('errors.maintenance');
    // })->where('any', '.*');
+
+   Route::get('phpini', fn () => phpinfo());
    // Func
    Route::get('update/position', [FuncController::class, 'updatePosition']);
    Route::get('test/email', [FuncController::class, 'testEmail']);

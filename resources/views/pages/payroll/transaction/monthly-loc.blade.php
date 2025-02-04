@@ -72,7 +72,7 @@ Payroll Transaction
          @endif
          <li class="breadcrumb-item" aria-current="page">{{$unit->name}}</li>
          <li class="breadcrumb-item " aria-current="page">{{$unitTransaction->month}}</li>
-         <li class="breadcrumb-item active" aria-current="page">Payslip Report </li>
+         <li class="breadcrumb-item active" aria-current="page">Payslip Reporttt </li>
       </ol>
    </nav>
    
@@ -219,7 +219,7 @@ Payroll Transaction
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getValueGaji($unit->id, $unitTransaction))}}</td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime'))}}</td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan'))}}</td>
-                              <td class="text-right text-truncate">{{formatRupiahB($loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime'))}}</td>
+                              <td class="text-right text-truncate">{{formatRupiahB($loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan'))}}</td>
       
                               {{-- Potongan --}}
                               <td class="text-right text-truncate">{{formatRupiahB(2/100 * $loc->getValueGaji($unit->id, $unitTransaction))}}</td>
