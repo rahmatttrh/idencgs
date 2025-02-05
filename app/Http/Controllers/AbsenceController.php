@@ -471,40 +471,50 @@ class AbsenceController extends Controller
       //    ]);
       // }
 
-      Absence::create([
-         'type' => $req->type,
-         'employee_id' => $req->employee,
-         'month' => $date->format('F'),
-         'year' => $date->format('Y'),
-         'date' => $req->date,
-         'desc' => $req->desc,
-         'doc' => $doc,
-         'minute' => $req->minute,
-         'location_id' => $location,
-         'type_izin' => $req->type_izin,
-         'type_spt' => $req->type_spt,
-         'value' => $value
-      ]);
+      $currentAbsence = Absence::where('employee_id', $employee->id)->where('date', $req->date)->first();
 
-      $transactionCon = new TransactionController;
-      $transactions = Transaction::where('employee_id', $employee->id)->get();
+      if (!$currentAbsence) {
+         Absence::create([
+            'type' => $req->type,
+            'employee_id' => $req->employee,
+            'month' => $date->format('F'),
+            'year' => $date->format('Y'),
+            'date' => $req->date,
+            'desc' => $req->desc,
+            'doc' => $doc,
+            'minute' => $req->minute,
+            'location_id' => $location,
+            'type_izin' => $req->type_izin,
+            'type_spt' => $req->type_spt,
+            'value' => $value
+         ]);
 
-      foreach ($transactions as $tran) {
-         $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-      }
+         $transactionCon = new TransactionController;
+         $transactions = Transaction::where('employee_id', $employee->id)->get();
 
-      if (auth()->user()->hasRole('Administrator')) {
-         $departmentId = null;
+         foreach ($transactions as $tran) {
+            $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+         }
+
+         if (auth()->user()->hasRole('Administrator')) {
+            $departmentId = null;
+         } else {
+            $user = Employee::find(auth()->user()->getEmployeeId());
+            $departmentId = $user->department_id;
+         }
+         Log::create([
+            'department_id' => $departmentId,
+            'user_id' => auth()->user()->id,
+            'action' => 'Add',
+            'desc' => 'Data Absence ' . $employee->nik . ' ' . $employee->biodata->fullname()
+         ]);
       } else {
-         $user = Employee::find(auth()->user()->getEmployeeId());
-         $departmentId = $user->department_id;
+         return redirect()->back()->with('danger', 'Gagal, Karyawan sudah memiliki data absensi di tanggal tersebut');
       }
-      Log::create([
-         'department_id' => $departmentId,
-         'user_id' => auth()->user()->id,
-         'action' => 'Add',
-         'desc' => 'Data Absence ' . $employee->nik . ' ' . $employee->biodata->fullname()
-      ]);
+
+      
+
+      
 
 
 

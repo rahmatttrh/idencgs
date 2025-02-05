@@ -120,7 +120,7 @@ Payroll Absence
                            <td>{{formatDayName($absence->date)}}</td>
                            <td>{{formatDate($absence->date)}}</td>
                            <td>{{$absence->desc}}</td>
-                           <td>
+                           <td class="text-truncate">
                             <a href="{{route('payroll.absence.edit', enkripRambo($absence->id))}}" class="">Update</a> |
                               <a href="#" data-target="#modal-delete-absence-{{$absence->id}}" data-toggle="modal">Delete</a>
                            </td>
