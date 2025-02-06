@@ -45,7 +45,22 @@ class ReductionAdditionalController extends Controller
          $bebanKaryawanReal = (1 * $salary) / 100;
          $selisih = $bebanKaryawanReal - $bebanKaryawan;
          $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+      } elseif ($payroll->total >= $red->max_salary) {
+         // dd('lebih');
+         // dd('lebih dari minimum gaju');
+         $salary = $red->min_salary;
+         $realSalary = $red->max_salary;
+
+         $bebanPerusahaan = (1 * $salary) / 100;
+         $bebanKaryawan = (1 * $realSalary) / 100;
+         $bebanKaryawanReal = (1 * $salary) / 100;
+         $selisih = $bebanKaryawanReal - $bebanKaryawan;
+         $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+         $bebanKaryawanReal = (1 * $salary) / 100;
+         $selisih = $bebanKaryawanReal - $bebanKaryawan;
+         $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
       } else {
+         // dd('ok');
          $salary = $payroll->total;
          $bebanPerusahaan = (1 * $salary) / 100;
          $bebanKaryawan = (1 * $salary) / 100;
