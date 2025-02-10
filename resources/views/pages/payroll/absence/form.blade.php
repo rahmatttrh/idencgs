@@ -13,12 +13,12 @@ Payroll Absence
       </ol>
    </nav>
 
-   <div class="card shadow-none border col-md-12">
+   <div class="card shadow-none border ">
       <div class=" card-header">
          <x-absence-tab :activeTab="request()->route()->getName()" />
       </div>
 
-      <div class="card-body px-0">
+      <div class="card-body ">
          <div class="row">
             <div class="col-md-6">
                <form action="{{route('payroll.absence.store')}}" method="POST" enctype="multipart/form-data">
@@ -84,9 +84,9 @@ Payroll Absence
                   
 
                   <div class="row">
-                     <div class="col-md-4">
+                     <div class="col-md-4 type_late">
                         <div class="form-group form-group-default">
-                           <label>T Level</label>
+                           <label>Keterlambatan</label>
                            {{-- <input type="number" class="form-control" id="minute" name="minute"> --}}
                            <select class="form-control"  name="type_izin" id="type_izin">
                               <option value="" disabled selected>Select</option>
@@ -135,19 +135,39 @@ Payroll Absence
          // $('#foto').hide();
          $('.type_spt').hide();
          $('.type_izin').hide();
+         $('.type_late').hide();
 
          $('.type').change(function() {
             // console.log('okeee');
             var type = $(this).val();
-            if (type == 6) {
-            //   $('#foto').show();
+            if(type == 1){
+               $('.type_spt').hide();
+              $('.type_izin').hide();
+              $('.type_late').hide();
+            } else if (type == 2) {
+               //   $('#foto').show();
+              $('.type_spt').hide();
+              $('.type_izin').hide();
+              $('.type_late').show();
+            } else if (type == 6) {
+               //   $('#foto').show();
               $('.type_spt').show();
               $('.type_izin').hide();
+              $('.type_late').hide();
             } else if(type == 4) {
-            //   $('#foto').show();
-            $('.type_izin').show();
-            $('.type_spt').hide();
-            } 
+               //   $('#foto').show();
+               $('.type_izin').show();
+               $('.type_spt').hide();
+            } else if(type == 2) {
+               //   $('#foto').show();
+               $('.type_izin').show();
+               $('.type_spt').hide();
+               $('.type_late').hide();
+            } else {
+               $('.type_izin').hide();
+               $('.type_spt').hide();
+               $('.type_late').hide();
+            }
          })
 
          

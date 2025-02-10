@@ -12,7 +12,7 @@ class Location extends Model
 
    public function totalEmployee($id)
    {
-      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->get();
+      $employees = Employee::where('status', 1)->where('location_id', $this->id)->where('unit_id', $id)->get();
       // dd($employees);
       $total = count($employees);
       // dd('ok');
@@ -86,7 +86,7 @@ class Location extends Model
          $transReduction = TransactionReduction::where('transaction_id', $trans->id)->where('name', $name)->where('type', 'employee')->first();
          
          if ($transReduction) {
-            $value = $value + $transReduction->value;
+            $value += $transReduction->value;
          }
       }
 

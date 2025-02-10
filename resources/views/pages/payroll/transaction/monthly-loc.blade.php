@@ -155,6 +155,7 @@ Payroll Transaction
                {{-- <div class="mb-2">
                   
                </div> --}}
+               {{-- <h1>{{count($transactions)}}</h1> --}}
                <div class="table-responsive" style="overflow-x: auto;">
                   <table id="data" class=" table table-sm">
                      <thead >
@@ -208,7 +209,9 @@ Payroll Transaction
                         @foreach ($locations as $loc)
                            @if ($loc->totalEmployee($unit->id) > 0)
                            <tr>
-                              <td class="text-truncate"><a href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($loc->id)])}}">{{$loc->name}}</a></td>
+                              <td class="text-truncate">
+                                 {{-- {{count($loc->getUnitTransaction($unit->id, $unitTransaction))}} --}}
+                                 <a href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($loc->id)])}}">{{$loc->name}}</a></td>
                               <td class="text-center text-truncate">{{count($loc->getUnitTransaction($unit->id, $unitTransaction))}}</td>
                               
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getValue($unit->id, $unitTransaction, 'Gaji Pokok'))}}</td>
@@ -242,8 +245,9 @@ Payroll Transaction
                               $gaji = $loc->getValueGaji($unit->id, $unitTransaction);
                               $overtime = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime');
                               $additional = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
-                              $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
-                              $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
+                              $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime');
+                              // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
+                              $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
                               $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS');
                               $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
                               $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');

@@ -413,6 +413,7 @@ class TransactionController extends Controller
       $location = Location::find(dekripRambo($loc));
       $transactions = Transaction::where('month', $unitTransaction->month)->where('year', $unitTransaction->year)->where('unit_transaction_id', $unitTransaction->id)->where('location_id', $location->id)->orderBy('name', 'asc')->get();
       // dd($unitTransaction->id);
+      // dd($transactions);
 
       return view('pages.payroll.report.payslip-loc', [
          'unitTransaction' => $unitTransaction,

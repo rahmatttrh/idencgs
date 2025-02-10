@@ -137,6 +137,7 @@ Payroll Transaction
             </ul>
          </div>
       </div> --}}
+      {{-- <h1>{{count($transactions)}}</h1> --}}
       <div class="card-body p-0">
          <div class="table-responsive p-0 pt-2" style="overflow-x: auto;">
             <table id="data" class="display  table-sm">
@@ -224,7 +225,8 @@ Payroll Transaction
                         $overtime = $transaction->overtime;
                         $additional_penambahan = $transaction->additional_penambahan;
                         $bruto = $transaction->employee->payroll->total + $transaction->overtime + $transaction->additional_penambahan;
-                        $tk = 2/100 * $transaction->employee->payroll->total;
+                        // $tk = 2/100 * $transaction->employee->payroll->total;
+                        $tk = $transaction->getDeduction('JHT', 'employee');
                         $ks = $transaction->getDeduction('BPJS KS', 'employee');
                         $jp = $transaction->getDeduction('JP', 'employee');
                         $abs = $transaction->reduction_absence;
