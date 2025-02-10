@@ -137,6 +137,7 @@ Payroll Transaction
             </ul>
          </div>
       </div> --}}
+      {{count(transactions)}}
       <div class="card-body p-0">
          <div class="table-responsive p-0 pt-2" style="overflow-x: auto;">
             <table id="data" class="display  table-sm">

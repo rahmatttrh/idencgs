@@ -86,9 +86,9 @@ Payroll Absence
                   <div class="row">
                      <div class="col-md-4">
                         <div class="form-group form-group-default">
-                           <label>T Level</label>
+                           <label>Keterlambatan</label>
                            {{-- <input type="number" class="form-control" id="minute" name="minute"> --}}
-                           <select class="form-control"  name="type_izin" id="type_izin">
+                           <select class="form-control"  name="minute" id="minute">
                               <option value="" disabled selected>Select</option>
                               <option value="T1">T1</option>
                               <option value="T2">T2</option>
