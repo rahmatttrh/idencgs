@@ -75,8 +75,8 @@ class AbsenceExport implements FromQuery, WithMapping, ShouldAutoSize, WithHeadi
                 'Department',
                 'Location',
                 'Type',
-                'Desc',
-                'Menit'
+                'Keterlambatan',
+                'Desc'
 
 
             ]

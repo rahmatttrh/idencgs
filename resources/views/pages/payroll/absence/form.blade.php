@@ -81,16 +81,20 @@ Payroll Absence
                   </div>
 
 
-                  <div class="form-group form-group-default">
-                     <label>Desc</label>
-                     <input type="text" class="form-control" id="desc" name="desc">
-                  </div>
+                  
 
                   <div class="row">
                      <div class="col-md-4">
                         <div class="form-group form-group-default">
-                           <label>Menit</label>
-                           <input type="number" class="form-control" id="minute" name="minute">
+                           <label>T Level</label>
+                           {{-- <input type="number" class="form-control" id="minute" name="minute"> --}}
+                           <select class="form-control"  name="type_izin" id="type_izin">
+                              <option value="" disabled selected>Select</option>
+                              <option value="T1">T1</option>
+                              <option value="T2">T2</option>
+                              <option value="T3">T3</option>
+                              <option value="T4">T4</option>
+                           </select>
                         </div>
                      </div>
                      <div class="col">
@@ -99,6 +103,10 @@ Payroll Absence
                            <input type="file" class="form-control" id="doc" name="doc">
                         </div>
                      </div>
+                  </div>
+                  <div class="form-group form-group-default">
+                     <label>Desc</label>
+                     <input type="text" class="form-control" id="desc" name="desc">
                   </div>
 
 

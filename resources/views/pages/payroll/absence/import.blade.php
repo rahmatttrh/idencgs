@@ -105,9 +105,9 @@ Payroll Absence
                   <div class="card-footer">
                     <b>Panduan Pengisian Template Excel Absensi</b>
                     <hr>
-                     - Kolom Type hanya bisa di isi 'Alpha, Terlambat, ATL'<br>
-                     - Kolom Menit wajib diisi ketika Type 'Terlambat' <br>
-                     - Kolom Menit diisi bilangan bulat (Contoh terlambat 15 menit, maka diisi 15)
+                     - Kolom <b>Type</b> diisi 'Alpha/Terlambat/ATL/Izin/Cuti/SPT/Sakit/Dinas Luar/Off Kontrak'<br>
+                     - Kolom <b>Keterlambatan</b> wajib diisi ketika value <b>Type</b> 'Terlambat' <br>
+                     - Kolom <b>Keterlambatan</b> diisi 'T1/T2/T3/T4'
 
                   </div>
                </div>

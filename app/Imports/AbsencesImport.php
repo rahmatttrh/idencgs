@@ -68,6 +68,18 @@ class AbsencesImport implements ToCollection,  WithHeadingRow
                           $location = $loc->id;
                        }
                     }
+
+                    if ($row['keterlambatan'] == 'T1') {
+                        $min = 30;
+                    } elseif($row['keterlambatan'] == 'T2'){
+                     $min = 60;
+                    } elseif($row['keterlambatan'] == 'T3'){
+                     $min = 90;
+                    } elseif($row['keterlambatan'] == 'T4'){
+                     $min = 120;
+                    } else {
+                     $min = null;
+                    }
      
                     $currentAbsence = Absence::where('employee_id', $employee->id)->where('date', $date)->first();
                     if (!$currentAbsence) {
@@ -78,7 +90,7 @@ class AbsencesImport implements ToCollection,  WithHeadingRow
                             'year' => $date->format('Y'),
                             'date' => $date,
                             'desc' => $row['desc'],
-                            'minute' => $row['menit'],
+                            'minute' => $min,
                             'location_id' => $location,
                             'value' => $value
                         ]);

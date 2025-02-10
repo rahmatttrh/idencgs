@@ -61,14 +61,20 @@ class PayrollController extends Controller
          }
          if ($payroll != null) {
             // dd('ada');
+            if ($employee->unit_id == 9) {
+               $payTotal = $payroll->pokok;
+            } else {
+               $paytotal = $payroll->total;
+            }
             foreach ($reductions as $red) {
                $currentRed = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $employee->id)->first();
                // dd($red->max_salary);
 
-               if ($payroll->pokok <= $red->min_salary) {
+
+               if ($payTotal <= $red->min_salary) {
                   // dd('kurang dari minimum gaji');
                   $salary = $red->min_salary;
-                  $realSalary = $payroll->pokok;
+                  $realSalary = $payTotal;
    
                   $bebanPerusahaan = ($red->company * $salary) / 100;
                   $bebanKaryawan = ($red->employee * $realSalary) / 100;
@@ -79,24 +85,24 @@ class PayrollController extends Controller
                   // $selisih = $bebanKaryawanReal - $bebanKaryawan;
                   // $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
    
-               } else if ($payroll->pokok >= $red->min_salary) {
-                  if ($payroll->pokok > $red->max_salary) {
+               } else if ($payTotal >= $red->min_salary) {
+                  if ($payTotal > $red->max_salary) {
                      // dd('ok');
                      if ($red->max_salary != 0) {
-                        $salary = $payroll->pokok;
+                        $salary = $payTotal;
                         $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
                         $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
                         $bebanKaryawanReal = 0;
                         $bebanPerusahaanReal = $bebanPerusahaan;
                      } else {
-                        $salary = $payroll->pokok;
+                        $salary = $payTotal;
                         $bebanPerusahaan = ($red->company * $salary) / 100;
                         $bebanKaryawan = ($red->employee * $salary) / 100;
                         $bebanKaryawanReal = 0;
                         $bebanPerusahaanReal = $bebanPerusahaan;
                      }
                   } else {
-                     $salary = $payroll->pokok;
+                     $salary = $payTotal;
                      $bebanPerusahaan = ($red->company * $salary) / 100;
                      $bebanKaryawan = ($red->employee * $salary) / 100;
                      $bebanKaryawanReal = 0;

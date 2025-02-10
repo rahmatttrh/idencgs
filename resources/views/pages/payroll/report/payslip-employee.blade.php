@@ -161,11 +161,12 @@ Peyslip Employee Report
                      <td rowspan="5" class="text-center">Potongan</td>
                      <td>BPJS Ketenagakerjaan</td>
                      <td class="text-right">
-                        @if ($transaction->getDeduction('JHT', 'employee') != null )
+                        {{-- @if ($transaction->getDeduction('JHT', 'employee') != null )
                               {{formatRupiahB(2/100 * $transaction->employee->payroll->total)}}
                               @else
                               0
-                           @endif
+                           @endif --}}
+                           {{formatRupiahB($transaction->getDeduction('JHT', 'employee'))}}
                         {{-- {{formatRupiahB(2/100 * $transaction->employee->payroll->total)}} --}}
                      </td>
                   </tr>
