@@ -149,6 +149,7 @@ Payroll Transaction
                      <th class="text-center text-white">Tunj. Jabatan</th>
                      <th class="text-center text-white">Tunj. OPS</th>
                      <th class="text-center text-white">Tunj. Kinerja</th>
+                     <th class="text-center text-white">Tunj. Fungsional</th>
                      <th class="text-center text-white">Total Gaji</th>
                      <th class="text-center text-white">Lembur</th>
                      <th class="text-center text-white">Lain-Lain</th>
@@ -169,6 +170,7 @@ Payroll Transaction
                      $totalJabatan = 0;
                      $totalOps = 0;
                      $totalKinerja = 0;
+                     $totalFungsional = 0;
                      $totalGaji = 0;
                      $totalOvertime = 0;
                      $totalAdditionalPenambahan = 0;
@@ -189,6 +191,7 @@ Payroll Transaction
                         <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_jabatan)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_ops)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_kinerja)}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_fungsional)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->employee->payroll->total)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->overtime)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->additional_penambahan)}}</td>
@@ -216,10 +219,11 @@ Payroll Transaction
                         $jabatan = $transaction->employee->payroll->tunj_jabatan;
                         $ops = $transaction->employee->payroll->tunj_ops;
                         $kinerja = $transaction->employee->payroll->tunj_kinerja;
+                        $fungsional = $transaction->employee->payroll->tunj_fungsional;
                         $gaji = $transaction->employee->payroll->total;
                         $overtime = $transaction->overtime;
                         $additional_penambahan = $transaction->additional_penambahan;
-                        $bruto = $transaction->bruto;
+                        $bruto = $transaction->employee->payroll->total + $transaction->overtime + $transaction->additional_penambahan;
                         $tk = 2/100 * $transaction->employee->payroll->total;
                         $ks = $transaction->getDeduction('BPJS KS', 'employee');
                         $jp = $transaction->getDeduction('JP', 'employee');
@@ -231,6 +235,7 @@ Payroll Transaction
                         $totalJabatan += $jabatan;
                         $totalOps += $ops;
                         $totalKinerja += $kinerja;
+                        $totalFungsional += $fungsional;
                         $totalGaji += $gaji;
                         $totalOvertime += $transaction->overtime;
                         $totalAdditionalPenambahan  += $additional_penambahan;
@@ -252,6 +257,7 @@ Payroll Transaction
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalJabatan)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalOps)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalKinerja)}}</b></td>
+                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalFungsional)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalGaji)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalOvertime)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalAdditionalPenambahan)}}</b></td>
