@@ -86,9 +86,9 @@ class TransactionController extends Controller
       $transReduction = TransactionReduction::where('transaction_id', $transaction->id)->where('class', 'Default')->where('name', 'JP')->where('type', 'employee')->first();
       // $transReduction = Reduction::where('class', 'Default')->where('type', 'employee')
       // dd($transReduction);
-      if ($transReduction) {
-         $value = $value + $transReduction->value;
-      }
+      // if ($transReduction) {
+      //    $value = $value + $transReduction->value;
+      // }
       
       // dd($r);
 

@@ -560,6 +560,18 @@ class AbsenceController extends Controller
       //    ]);
       // }
 
+      if ($req->minute == 'T1') {
+         $min = 30;
+      } elseif($req->minute == 'T2'){
+         $min = 60;
+      } elseif($req->minute == 'T3'){
+         $min = 90;
+      } elseif($req->minute == 'T4'){
+         $min = 120;
+      } else {
+         $min = null;
+      }
+
       $currentAbsence = Absence::where('employee_id', $employee->id)->where('date', $req->date)->first();
 
       if (!$currentAbsence) {
@@ -571,7 +583,7 @@ class AbsenceController extends Controller
             'date' => $req->date,
             'desc' => $req->desc,
             'doc' => $doc,
-            'minute' => $req->minute,
+            'minute' => $min,
             'location_id' => $location,
             'type_izin' => $req->type_izin,
             'type_spt' => $req->type_spt,
