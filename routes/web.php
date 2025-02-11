@@ -154,6 +154,8 @@ Route::middleware(["auth"])->group(function () {
    Route::get('payroll/transaction/employee', [TransactionController::class, 'employee'])->name('payroll.transaction.employee');
 
 
+   Route::get('overtime/employee/detail/{id}/{from}/{to}', [OvertimeController::class, 'indexEmployeeDetail'])->name('payroll.overtime.employee.detail');
+   Route::post('overtime/filter/team', [OvertimeController::class, 'filterTeam'])->name('payroll.overtime.filter.team');
 
 
    Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC']], function () {
@@ -408,7 +410,7 @@ Route::middleware(["auth"])->group(function () {
             Route::get('index', [OvertimeController::class, 'index'])->name('payroll.overtime');
             Route::get('team', [OvertimeController::class, 'team'])->name('overtime.team');
             Route::get('employee/index', [OvertimeController::class, 'indexEmployee'])->name('payroll.overtime.employee');
-            Route::get('employee/detail/{id}/{from}/{to}', [OvertimeController::class, 'indexEmployeeDetail'])->name('payroll.overtime.employee.detail');
+           
             Route::get('draft', [OvertimeController::class, 'draft'])->name('payroll.overtime.draft');
             Route::get('draft/delete', [OvertimeController::class, 'draftDelete'])->name('payroll.overtime.draft.delete');
             Route::get('index/delete', [OvertimeController::class, 'indexDelete'])->name('payroll.overtime.index.delete');
