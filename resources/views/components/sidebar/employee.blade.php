@@ -52,6 +52,12 @@
       <p>SPKL</p>
    </a>
 </li>
+<li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.absence')}}">
+      <i class="fas fa-clock"></i>
+      <p>Absensi</p>
+   </a>
+</li>
 <li class="nav-item {{ (request()->is('employee/sp/*')) ? 'active' : '' }}">
    <a href="#">
       <i class="fas fa-file"></i>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsenceController;
+use App\Http\Controllers\AbsenceEmployeeController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AdditionalController;
 use App\Http\Controllers\AllowanceController;
@@ -226,6 +227,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('detail/{id}', [UnitController::class, 'detail'])->name('unit.detail');
          Route::get('edit/{unit:id}', [UnitController::class, 'edit'])->name('unit.edit');
          Route::put('update', [UnitController::class, 'update'])->name('unit.update');
+         Route::put('update/detail', [UnitController::class, 'updateDetail'])->name('unit.update.detail');
          Route::get('delete/{unit:id}', [UnitController::class, 'delete'])->name('unit.delete');
       });
 
@@ -803,6 +805,18 @@ Route::middleware(["auth"])->group(function () {
             Route::post('/store', [SpklController::class, 'store'])->name('employee.spkl.store');
             Route::get('/send/{id}', [SpklController::class, 'send'])->name('employee.spkl.send');
             Route::get('/delete/{id}', [SpklController::class, 'delete'])->name('employee.spkl.delete');
+         });
+
+         Route::prefix('absence')->group(function () {
+            Route::get('/index', [AbsenceEmployeeController::class, 'index'])->name('employee.absence');
+            Route::get('/create', [AbsenceEmployeeController::class, 'create'])->name('employee.absence.create');
+            Route::get('/pending', [AbsenceEmployeeController::class, 'pending'])->name('employee.absence.pending');
+            Route::get('/detail/{id}', [AbsenceEmployeeController::class, 'detail'])->name('employee.absence.detail');
+            Route::post('/store', [AbsenceEmployeeController::class, 'store'])->name('employee.absence.store');
+            Route::get('/delete/{id}', [AbsenceEmployeeController::class, 'delete'])->name('employee.absence.delete');
+
+            // Approval
+            Route::get('/approve/{id}', [AbsenceEmployeeController::class, 'approve'])->name('employee.absence.approve');
          });
 
          Route::prefix('spt')->group(function () {

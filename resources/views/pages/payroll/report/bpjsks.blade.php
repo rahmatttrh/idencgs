@@ -168,22 +168,22 @@ Payroll Report BPJS KS
                   <tr>
                      <td style="padding: 0px !important;">1</td>
                      <td style="padding: 0px !important;">NAMA INSTANSI/BADAN/PERUSAHAAN</td>
-                     <td style="padding: 0px !important;" colspan="2">PT EKA NURI</td>
+                     <td style="padding: 0px !important;" colspan="2">PT {{$unit->name}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">KODE BADAN USAHA</td>
-                     <td style="padding: 0px !important;" colspan="2">01143486</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->kode}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">ALAMAT</td>
-                     <td style="padding: 0px !important;" colspan="2">Jl. Hayam Wuruk No. 2XX, Jakarta Pusat</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->alamat}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">TELP</td>
-                     <td style="padding: 0px !important;" colspan="2">(021) 3459888</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->telp}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;" colspan="3"></td>
@@ -196,12 +196,12 @@ Payroll Report BPJS KS
                   <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">KODE VIRTUAL ACCOUNT</td>
-                     <td style="padding: 0px !important;" colspan="2">903243459888</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->va}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">BANK TEMPAT PEMBAYARAN IURAN</td>
-                     <td style="padding: 0px !important;" colspan="2">MANDIRI</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->bank}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;" colspan="4">-</td>

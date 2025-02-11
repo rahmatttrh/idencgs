@@ -58,20 +58,20 @@ Employee
          <form action="{{route('employee.spkl.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
-               <div class="col-6">
+               <div class="col-12">
                   
                      {{-- <input type="number" name="employee" id="employee" value="{{$transaction->employee_id}}" hidden>
                      <input type="number" name="spkl_type" id="spkl_type" value="{{$transaction->employee->unit->spkl_type}}" hidden>
                      <input type="number" name="transaction" id="transaction" value="{{$transaction->id}}" hidden> --}}
                      
                      <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                            <div class="form-group form-group-default">
                               <label>Date</label>
                               <input type="date" required class="form-control" id="date" name="date" >
                            </div>
                         </div>
-                        <div class="col">
+                        <div class="col-md-12">
                            <div class="form-group form-group-default">
                               <label>Piket/Lembur</label>
                               <select class="form-control " required name="type" id="type">

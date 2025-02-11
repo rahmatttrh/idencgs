@@ -126,7 +126,7 @@ Payroll Transaction
    <div class="card card-with-nav shadow-none border">
       <div class="card-header  d-flex justify-content-between ">
          <div class="mt-3">
-            <h2 class="text-uppercase"><b>PAYSLIP REPORT </b> <br> {{$unit->name}} {{$unitTransaction->month}} {{$unitTransaction->year}} </h2>
+            <h2 class="text-uppercase"><b>PAYSLIP REPORT </b> <br>PT {{$unit->name}} {{$unitTransaction->month}} {{$unitTransaction->year}} </h2>
             
             
          </div>

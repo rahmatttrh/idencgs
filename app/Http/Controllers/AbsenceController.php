@@ -44,11 +44,12 @@ class AbsenceController extends Controller
       } elseif (auth()->user()->hasRole('HRD-KJ45')) {
 
          // dd('ok');
-         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
-            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
-            ->select('employees.*')
-            ->get();
-         $employees = Employee::where('status', 1)->where('location_id', 4)->orWhere('location_id', 5)->get();
+         // $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+         //    ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+         //    ->select('employees.*')
+         //    ->get();
+         // $employees = Employee::where('status', 1)->where('location_id', 4)->orWhere('location_id', 5)->get();
+         $employees = Employee::whereIn('location_id', [4,5,21,22])->where('status', 1)->get();
          $absences = Absence::where('location_id', 4)->orWhere('location_id', 5)->orderBy('date', 'asc')->paginate(800);
       } elseif (auth()->user()->hasRole('HRD-JGC')) {
 
@@ -187,10 +188,12 @@ class AbsenceController extends Controller
       } elseif (auth()->user()->hasRole('HRD-KJ45')) {
 
          // dd('ok');
-         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
-            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
-            ->select('employees.*')
-            ->get();
+         // $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+         //    ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+         //    ->select('employees.*')
+         //    ->get();
+
+            $employees = Employee::whereIn('location_id', [4,5,21,22])->where('status', 1)->get();
       } elseif (auth()->user()->hasRole('HRD-JGC')) {
 
          // dd('ok');

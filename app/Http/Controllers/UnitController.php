@@ -128,4 +128,20 @@ class UnitController extends Controller
 
       return redirect()->back()->with('success', 'Bisnis Unit successfully updated');
     }
+
+    public function updateDetail(Request $req){
+      $unit = Unit::find($req->unit);
+
+      // dd(Str::title(str_replace('-', ' ', $unit->slug)));
+      $unit->update([
+         'kode' => $req->kode,
+         'telp' => $req->telp,
+         'va' => $req->va,
+         'bank' => $req->bank,
+         'npp' => $req->npp,
+         'alamat' => $req->alamat,
+      ]);
+
+      return redirect()->back()->with('success', 'Bisnis Unit Detail successfully updated');
+    }
 }

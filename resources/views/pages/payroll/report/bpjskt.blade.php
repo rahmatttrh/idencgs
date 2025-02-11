@@ -168,7 +168,7 @@ Payroll Report BPJS KT
                   <tr>
                      <td style="padding: 0px !important;" class="text-center">1</td>
                      <td style="padding: 0px !important;">NAMA INSTANSI/BADAN/PERUSAHAAN</td>
-                     <td style="padding: 0px !important;" colspan="2">PT EKA NURI</td>
+                     <td style="padding: 0px !important;" colspan="2">PT {{$unit->name}}</td>
                   </tr>
                   {{-- <tr>
                      <td style="padding: 0px !important;"></td>
@@ -178,12 +178,12 @@ Payroll Report BPJS KT
                   <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">ALAMAT</td>
-                     <td style="padding: 0px !important;" colspan="2">Jl. Hayam Wuruk No. 2XX, Jakarta Pusat</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->alamat}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">Nomor Pendaftaran Perusahan (NPP) </td>
-                     <td style="padding: 0px !important;" colspan="2">JJ001456</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->jpp}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important; height: 20px" colspan="3" ></td>
@@ -197,7 +197,7 @@ Payroll Report BPJS KT
                   <tr>
                      <td style="padding: 0px !important;" class="text-center">3</td>
                      <td style="padding: 0px !important;">Iuran disetor melalui  </td>
-                     <td style="padding: 0px !important;" colspan="2">Bank MANDIRI</td>
+                     <td style="padding: 0px !important;" colspan="2">Bank {{$unit->bank}}</td>
                   </tr>
                   {{-- <tr>
                      <td style="padding: 0px !important;" colspan="4">-</td>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Location;
 use App\Models\PayrollApproval;
 use App\Models\PayslipBpjsKs;
+use App\Models\Unit;
 use App\Models\UnitTransaction;
 use Illuminate\Http\Request;
 
@@ -25,8 +26,12 @@ class PayslipBpjsKsController extends Controller
 
       // dd($reportBpjsKs); 
 
+      $unit = Unit::find($reportBpjsKs->unit_transaction->unit->id);
+      // dd($unit);
+
 
       return view('pages.payroll.report.bpjsks', [
+         'unit' => $unit,
          'reportBpjsKs' => $reportBpjsKs,
          'unitTransaction' => $unitTransaction,
          'locations' => $locations,

@@ -923,7 +923,7 @@ class OvertimeController extends Controller
 
 
       $loc = $req->loc;
-      $employees = Employee::get();
+      // $employees = Employee::get();
       $export = true;
       
       return view('pages.payroll.overtime.employee', [

@@ -404,6 +404,9 @@ class EmployeeController extends Controller
       $dekripId = dekripRambo($id);
       $employee = Employee::find($dekripId);
       $user = User::where('username', $employee->nik)->first();
+      
+
+      // dd($employee->location_id);
 
       // dd($employee->role);
 

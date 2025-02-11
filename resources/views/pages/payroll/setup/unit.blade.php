@@ -160,6 +160,78 @@
                         </tbody>
                      </table>
                   </div>
+
+                  <hr>
+
+                  <div class="badge badge-info mb-2">Detail Info</div>
+                  <form action="{{route('unit.update.detail')}}" method="POST" enctype="multipart/form-data">
+                     @csrf
+                     @method('PUT')
+                     <input type="number" name="unit" id="unit" value="{{$unit->id}}" hidden>
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Kode Badan Usaha</label>
+                              <input type="text"  class="form-control" id="kode" name="kode" value="{{$unit->kode}}">
+                           </div>
+                        </div>
+
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Telp</label>
+                              <input type="text"  class="form-control" id="telp" name="telp" value="{{$unit->telp}}">
+                           </div>
+                        </div>
+
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Kode Virtual Account</label>
+                              <input type="text"  class="form-control" id="va" name="va" value="{{$unit->va}}">
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Bank</label>
+                              <input type="text"  class="form-control" id="bank" name="bank" value="{{$unit->bank}}">
+                           </div>
+                        </div>
+
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Nomor Pendaftaran Perusahan (NPP)</label>
+                              <input type="text"  class="form-control" id="npp" name="npp" value="{{$unit->npp}}">
+                           </div>
+                        </div>
+                        
+                        
+   
+                       
+                     </div>
+   
+                     <div class="form-group form-group-default type_spt">
+                        <label>Alamat</label>
+                        <textarea  class="form-control" id="alamat" name="alamat" rows="2">{{$unit->alamat}}</textarea>
+                     </div>
+   
+                     
+                     <hr>
+                     <button class="btn  btn-primary" type="submit">Submit</button>
+   
+                     
+   
+   
+                     
+   
+                     
+                     
+   
+   
+   
+                     
+                  </form>
+
+
+
                   
 
                   
