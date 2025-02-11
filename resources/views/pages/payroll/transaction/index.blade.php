@@ -57,7 +57,7 @@ Payroll Transaction
                         <tr>
                            <td>{{$trans->month}}</td>
                            <td>{{$trans->year}}</td>
-                           <td class="text-center">{{$trans->total_employee}} / {{count($trans->unit->employees->where('status', 1))}}</td>
+                           <td class="text-center">{{$trans->total_employee}} </td>
                            <td class="text-right">{{formatRupiahB($trans->total_salary)}}</td>
                            <td><x-status.unit-transaction :unittrans="$trans" /> </td>
                            <td>
