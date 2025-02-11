@@ -32,12 +32,7 @@ class OvertimeController extends Controller
       $locations = Location::get();
 
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      // $myteams = EmployeeLeader::join('employees', 'employee_leaders.employee_id', '=', 'employees.id')
-      //       ->join('biodatas', 'employees.biodata_id', '=', 'biodatas.id')
-      //       ->where('leader_id', $employee->id)
-      //       ->select('employees.*')
-      //       ->orderBy('biodatas.first_name', 'asc')
-      //       ->get();
+      
 
       $myTeamOvertimes = EmployeeLeader::join('overtimes', 'employee_leaders.employee_id', '=', 'overtimes.employee_id')
      
@@ -45,15 +40,17 @@ class OvertimeController extends Controller
       ->select('overtimes.*')
       ->get();
 
-            // dd($myTeamOvertimes);
+      $employees = Employee::join('employee_leaders', 'employees.id', '=', 'employee_leaders.employee_id')
+            
+            ->where('leader_id', $employee->id)
+            ->select('employees.*')
+            ->get();
 
-      // $overtimes = [];
-      // foreach($myteams as $team){
-      //    $overtimes[] = Overtime::where('employee_id', $team->id)->get();
-      // }
+     
 
-      // dd($overtimes);
+      
       return view('pages.payroll.overtime.team', [
+         'employees' => $employees,
          'export' => $export,
          'loc' => $loc,
          'locations' => $locations,
@@ -61,8 +58,42 @@ class OvertimeController extends Controller
          // 'employees' => $employees,
          'month' => $now->format('F'),
          'year' => $now->format('Y'),
-         'from' => null,
-         'to' => null
+         'from' => 0,
+         'to' => 0
+         // 'holidays' => $holidays
+      ])->with('i');
+   }
+
+
+   public function filterTeam(Request $req){
+      // $overtimes = Overtime::get();
+      $now = Carbon::now();
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
+
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      
+
+      $employees = Employee::join('employee_leaders', 'employees.id', '=', 'employee_leaders.employee_id') 
+            ->where('leader_id', $employee->id)
+            ->select('employees.*')
+            ->get();
+
+     
+
+      
+      return view('pages.payroll.overtime.team', [
+         'employees' => $employees,
+         'export' => $export,
+         'loc' => $loc,
+         'locations' => $locations,
+         // 'overtimes' => $myTeamOvertimes,
+         // 'employees' => $employees,
+         'month' => $now->format('F'),
+         'year' => $now->format('Y'),
+         'from' => $req->from,
+         'to' => $req->to
          // 'holidays' => $holidays
       ])->with('i');
    }

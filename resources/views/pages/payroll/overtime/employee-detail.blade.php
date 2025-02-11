@@ -31,6 +31,7 @@ SPKL
             <div class="alert alert-danger mt-2">{{ $message }}</div>
          @enderror
       <div class="card-body">
+         @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
          <div class="d-inline-flex align-items-center">
             <button type="submit" name="submit" class="btn btn-sm btn-danger mr-3">Delete</button>
             <div class="d-inline-flex align-items-center">
@@ -40,12 +41,16 @@ SPKL
             </div>
          </div>
          <hr>
+         @endif
+         
          
          <div class="table-responsive px-0">
             <table id="data" class="display basic-datatables table-sm">
                <thead>
                   <tr>
+                     @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                      <th>&nbsp; <input type="checkbox" id="selectall" /></th>
+                     @endif
                      <th>Type</th>
                      {{-- <th>NIK</th>
                      <th>Name</th> --}}
@@ -59,7 +64,9 @@ SPKL
                      <th class="text-right">Rate</th>
                      @endif
                      <th>Desc</th>
+                     @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                      <th></th>
+                     @endif
                   </tr>
                </thead>
                
@@ -67,7 +74,9 @@ SPKL
                   @foreach ($overtimes as $over)
                       <tr>
                         {{-- <td>{{++$i}}</td> --}}
+                        @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                         <td class="text-center"><input type="checkbox" class="case" name="id_item[]" value="{{$over->id}}" /> </td>
+                        @endif
                         <td>
                            {{-- @if (auth()->user()->hasRole('Administrator'))
                                {{$over->id}}
@@ -119,10 +128,12 @@ SPKL
                         <td class="text-truncate" style="max-width: 150px">
                            {{$over->description}}
                         </td>
+                        @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                         <td class="text-truncate">
                         <a href="{{route('payroll.overtime.edit', enkripRambo($over->id))}}">Edit</a> |
                            <a href="#" data-target="#modal-delete-overtime-{{$over->id}}" data-toggle="modal">Delete</a>
                         </td>
+                        @endif
                       </tr>
 
                      <div class="modal fade" id="modal-delete-overtime-{{$over->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
