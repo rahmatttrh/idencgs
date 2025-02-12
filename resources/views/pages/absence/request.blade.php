@@ -74,12 +74,15 @@ Form Absence
                      </div>
                   </div>
 
-                  <div class="form-group form-group-default type_spt">
+                  @if ($absence->type == 3)
+                      
+                  
+                  <div class="form-group form-group-default">
                      <label>Maksud Perintah Tugas</label>
                      <textarea  class="form-control" id="desc" name="desc" rows="2"></textarea>
                   </div>
 
-                  <div class="row type_spt">
+                  <div class="row ">
                      <div class="col-md-6 ">
                         <div class="form-group form-group-default">
                            <label>Jenis SPT</label>
@@ -131,21 +134,25 @@ Form Absence
                      </div>
                   </div>
 
-                  <div class="row type_spt">
+                  <div class="row">
                      <div class="col-6 ">
                         <div class="form-group form-group-default">
                            <label>Tanggal/Jam Berangkat</label>
                            <input type="datetime-local" class="form-control" id="departure" name="departure">
                         </div>
                      </div>
-                     <div class="col-6 type_spt">
+                     <div class="col-6">
                         <div class="form-group form-group-default">
                            <label>Tanggal/Jam Kembali</label>
                            <input type="datetime-local" class="form-control" id="return" name="return">
                         </div>
                      </div>
                   </div>
-                  <div class="form-group form-group-default type_spt">
+
+                  @endif
+
+
+                  <div class="form-group form-group-default">
                      <label>Keterangan</label>
                      <input type="text" class="form-control" id="remark" name="remark">
                   </div>

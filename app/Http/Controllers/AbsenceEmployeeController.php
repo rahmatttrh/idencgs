@@ -23,6 +23,18 @@ class AbsenceEmployeeController extends Controller
       ]);
    }
 
+   public function requestEmployee($id){
+      $absence = Absence::find(dekripRambo($id));
+
+      $activeTab = 'form';
+      return view('pages.absence.request', [
+         'activeTab' => $activeTab,
+         'absence' => $absence,
+         'from' => null,
+         'to' => null
+      ]);
+   }
+
    public function pending(){
 
       $employee = Employee::where('nik', auth()->user()->username)->first();
@@ -41,7 +53,7 @@ class AbsenceEmployeeController extends Controller
       $activeTab = 'form';
       return view('pages.absence.create', [
          'activeTab' => $activeTab,
-         
+         'absence' => null,
          'from' => null,
          'to' => null
       ]);

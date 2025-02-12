@@ -32,23 +32,23 @@ PE
     @if ($joinMonth < 6)
       {{-- {{$pd->pdds->count()}} --}}
     
-         @if($pd->pdds->count() == null || $pd->pdds->count() == 0) 
-         <div class="row">
-            <div class="col md-12">
-               <div class="card shadow-none border">
-                  <div class="card-header d-flex bg-warning">
-                     Informasi !!!
-                  </div>
-                  <div class="card-body">
-                        <h4 class="text-center"> Anda belum bisa melakukan submit karena : </h4>
-                        <h3 class="text-center">
-                              - Data Discipline (Absensi) masih belum lengkap !</h3>
-                        
+            @if($pd->pdds->count() == null || $pd->pdds->count() == 0) 
+            <div class="row">
+               <div class="col md-12">
+                  <div class="card shadow-none border">
+                     <div class="card-header d-flex bg-warning">
+                        Informasi !!!
+                     </div>
+                     <div class="card-body">
+                           <h4 class="text-center"> Anda belum bisa melakukan submit karena : </h4>
+                           <h3 class="text-center">
+                                 - Data Discipline (Absensi) masih belum lengkap !</h3>
+                           
+                     </div>
                   </div>
                </div>
             </div>
-         </div>
-         @endif
+            @endif
         @else
         @if($pd->pdds->count() < 6) 
          <div class="row">
@@ -128,7 +128,7 @@ PE
                 <div class="btn-group btn-group-page-header ml-auto">
                         <div class="button-group">
                             {{-- @if(isset($pd) && $pd->pdds->count() == 6) --}}
-                            @if(isset($pd))
+                            @if(isset($pd) && $pd->pdds->count() == 6)
                             
                             <button class="btn btn-xs btn-light" data-toggle="modal" data-target="#modal-submit-{{$kpa->id}}"><i class="fas fa-rocket"></i> Submit </button>
                             <!-- <x-modal.submit :id="$pe->id" :body="'KPI ' . $kpa->employe->biodata->fullName() . ' semester '. $kpa->semester.' '. $pe->tahun " url="{{route('qpe.submit', enkripRambo($pe->id))}}" /> -->

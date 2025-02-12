@@ -820,6 +820,7 @@ Route::middleware(["auth"])->group(function () {
             Route::get('/delete/{id}', [AbsenceEmployeeController::class, 'delete'])->name('employee.absence.delete');
 
             // Approval
+            Route::get('/request/{id}', [AbsenceEmployeeController::class, 'requestEmployee'])->name('employee.absence.request');
             Route::get('/approve/{id}', [AbsenceEmployeeController::class, 'approve'])->name('employee.absence.approve');
          });
 

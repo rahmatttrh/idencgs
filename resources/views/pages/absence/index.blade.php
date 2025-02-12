@@ -122,6 +122,11 @@ Absence
                                         Validasi Atasan
                                     @endif
                                   </span>
+                                  @else
+                                  @if ($absence->type == 1 || $absence->type == 3)
+                                  <a href="{{route('employee.absence.request', enkripRambo($absence->id))}}" class="btn btn-sm btn-light border">Request</a>
+                                  @endif
+                                  
                               @endif
                            </td>
                            
