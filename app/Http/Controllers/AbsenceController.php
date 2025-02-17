@@ -269,6 +269,18 @@ class AbsenceController extends Controller
 
       $value =  1 * 1 / 30 * $payroll->total;
 
+      if ($req->minute == 'T1') {
+         $min = 30;
+      } elseif($req->minute == 'T2'){
+         $min = 60;
+      } elseif($req->minute == 'T3'){
+         $min = 90;
+      } elseif($req->minute == 'T4'){
+         $min = 120;
+      } else {
+         $min = null;
+      }
+
       if (auth()->user()->hasRole('HRD|HRD-Payroll|HRD-KJ45|HRD-KJ12')) {
          $absence->update([
             'type' => $req->type,
@@ -278,7 +290,7 @@ class AbsenceController extends Controller
             'date' => $req->date,
             'desc' => $req->desc,
             'doc' => $evidence,
-            'minute' => $req->minute,
+            'minute' => $min,
             'location_id' => $location,
             'type_izin' => $req->type_izin,
             'type_spt' => $req->type_spt,

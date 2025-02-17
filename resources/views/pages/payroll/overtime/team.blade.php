@@ -80,7 +80,10 @@ SPKL Team
                            {{-- <th>Unit</th> --}}
                            <th class="text-center">Lembur</th>
                            <th class="text-center">Piket</th>
-                           <th class="text-right">Rate</th>
+                           @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+                              <th class="text-right">Rate</th>
+                           @endif
+                           
                         </tr>
                      </thead>
                      
@@ -100,7 +103,9 @@ SPKL Team
                               {{-- <td>{{$emp->department->name}}</td> --}}
                               <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 1))}}</td>
                               <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 2))}}</td>
+                              @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                               <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td>
+                              @endif
                             </tr>
                         @endforeach
                      </tbody>

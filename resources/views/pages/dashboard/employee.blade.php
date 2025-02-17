@@ -53,7 +53,7 @@ Dashboard
            
             <div class="card-body">
 
-               <h1>{{$employee->unit->name}}</h1>
+               <h4>{{$employee->unit->name}}</h4>
                
             </div>
             <div class="card-footer d-flex justify-content-between">
@@ -69,10 +69,44 @@ Dashboard
                
             </div>
          </div>
+         
 
          <div class="card">
-            <div class="card-header bg-primary text-white p-2">
-               <small class="text-uppercase">Recent PE</small>
+            <div class="card-header bg-light border p-2">
+               <small class="text-uppercase"> <b># Cuti department {{$employee->department->name}}</b> </small>
+            </div>
+            <div class="card-body p-0">
+               <table class=" ">
+                  {{-- <thead >
+
+                     <tr class="bg-primary text-white">
+                        <th scope="col">ID</th>
+                        
+                     </tr>
+                  </thead> --}}
+                  <tbody>
+                     @if (count($cutis) > 0)
+                     @foreach ($cutis as $cuti)
+                     <tr>
+                        <td>
+                          {{formatDate($cuti->date)}} 
+                        </td>
+                        <td>{{$cuti->employee->biodata->fullName()}}</td>
+                        
+                     </tr>
+                     @endforeach
+                     @else
+                     <tr>
+                        <td colspan="1" class="text-center">Empty</td>
+                     </tr>
+                     @endif
+
+
+                  </tbody>
+               </table>
+            </div>
+            <div class="card-header bg-light border p-2">
+               <small class="text-uppercase"> <b># Recent PE</b> </small>
             </div>
             <div class="card-body p-0">
                <table class=" ">
@@ -103,9 +137,37 @@ Dashboard
                   </tbody>
                </table>
             </div>
+            <div class="card-header bg-light border p-2">
+               <b># RECENT SP</b>
+            </div>
+            <div class="card-body p-0">
+               <table class=" ">
+                  
+                  <tbody>
+                     @if (count($spHistories) > 0)
+                     @foreach ($spHistories as $spHis)
+                     <tr>
+                        <td>
+                           <a href="{{route('sp.detail', enkripRambo($spHis->id))}}">{{$spHis->code}} - SP {{$spHis->level}}</a>
+                        </td>
+                        
+                     </tr>
+                     @endforeach
+                     @else
+                     <tr>
+                        <td colspan="1" class="">Empty</td>
+                     </tr>
+                     @endif
+
+
+                  </tbody>
+               </table>
+            </div>
          </div>
 
-         <div class="card">
+         
+
+         {{-- <div class="card">
             <div class="card-header bg-danger text-white p-2">
                <small class="text-uppercase">Recent SP</small>
             </div>
@@ -138,7 +200,7 @@ Dashboard
                   </tbody>
                </table>
             </div>
-         </div>
+         </div> --}}
 
       </div>
 
@@ -238,109 +300,13 @@ Dashboard
             </div>
          @endif
 
-         {{-- <span class="badge badge-info mb-2">{{$now->format('F')}} 2024</span> <br> --}}
-         
-
-         {{-- <div class="card">
-            <div class="card-header bg-secondary text-white p-2">
-               <small class="text-uppercase">SPKL Request</small>
-            </div>
-            <div class="card-body p-0">
-               <table class=" ">
-                  <thead>
-
-                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Date</th>
-                        <th>Desc</th>
-                        <th scope="col">Status</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     @if (count($spkls) > 0)
-                     @foreach ($spkls as $spkl)
-                     <tr>
-                        <td><a href="{{route('spkl.detail', enkripRambo($spkl->id))}}">{{$spkl->code}}</a></td>
-                        <td>{{formatDate($spkl->date)}}</td>
-                        <td style="max-width: 190px" class="text-truncate">{{$spkl->desc}}</td>
-                        <td>
-                           <x-status.spkl :spkl="$spkl" />
-                        </td>
-                     </tr>
-                     @endforeach
-                     @else
-                     <tr>
-                        <td colspan="5" class="text-center">SPKL Empty</td>
-                     </tr>
-                     @endif
-
-                     @if (count($spkls) > 0)
-                     @foreach ($spkls as $spkl)
-                     <tr>
-                        <td><a href="{{route('spkl.detail', enkripRambo($spkl->id))}}">{{$spkl->code}}</a></td>
-                        <td>{{formatDate($spkl->date)}}</td>
-                        <td style="max-width: 190px" class="text-truncate">{{$spkl->desc}}</td>
-                        <td>
-                           <x-status.spkl :spkl="$spkl" />
-                        </td>
-                     </tr>
-                     @endforeach
-                     @else
-                     <tr>
-                        <td colspan="5" class="text-center">SPT Empty</td>
-                     </tr>
-                     @endif
-
-
-                  </tbody>
-               </table>
-            </div>
-         </div> --}}
-         {{-- <div class="card">
-            <div class="card-header p-2">
-               <small class="text-uppercase">SPT Request</small>
-            </div>
-            <div class="card-body p-0">
-               <table class=" ">
-                  <thead>
-
-                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Date</th>
-                        <th>Desc</th>
-                        <th scope="col">Status</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     @if (count($spkls) > 0)
-                     @foreach ($spkls as $spkl)
-                     <tr>
-                        <td><a href="{{route('spkl.detail', enkripRambo($spkl->id))}}">{{$spkl->code}}</a></td>
-                        <td>{{formatDate($spkl->date)}}</td>
-                        <td style="max-width: 190px" class="text-truncate">{{$spkl->desc}}</td>
-                        <td>
-                           <x-status.spkl :spkl="$spkl" />
-                        </td>
-                     </tr>
-                     @endforeach
-                     @else
-                     <tr>
-                        <td colspan="5" class="text-center">Empty</td>
-                     </tr>
-                     @endif
-
-
-                  </tbody>
-               </table>
-            </div>
-         </div> --}}
-
+        
          <div class="card">
             <div class="card-header bg-primary text-white p-2">
                <small class="text-uppercase">Task List</small>
             </div>
             <div class="card-body p-0">
-               <div class="table-responsive overflow-auto" style="height: 170px">
+               <div class="table-responsive overflow-auto" style="height: 140px">
                   <table class=" ">
                      <thead>
          
@@ -404,10 +370,10 @@ Dashboard
 
          <div class="card">
             <div class="card-header bg-primary text-white p-2">
-               <small class="text-uppercase">Recent Absences {{$now->format('Y')}}</small>
+               <small class="text-uppercase">Recent Absences </small>
             </div>
             <div class="card-body p-0">
-               <div class="table-responsive overflow-auto" style="height: 120px">
+               <div class="table-responsive overflow-auto" style="height: 170px">
                   <table class=" table-sm p-0 ">
                      <thead>
                         <tr>

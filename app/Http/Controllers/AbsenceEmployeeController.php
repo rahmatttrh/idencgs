@@ -73,11 +73,13 @@ class AbsenceEmployeeController extends Controller
       $activeTab = 'form';
       $date = 0;
       $employee = Employee::where('nik', auth()->user()->username)->first();
+      $employees = Employee::where('department_id', $employee->department_id)->get();
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
       // dd($employeeLeaders);
       return view('pages.absence-request.create', [
          'activeTab' => $activeTab,
          'employeeLeaders' => $employeeLeaders,
+         'employees' => $employees,
          'absence' => null,
          'from' => null,
          'to' => null,

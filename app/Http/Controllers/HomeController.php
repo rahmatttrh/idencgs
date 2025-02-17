@@ -7,6 +7,7 @@ use App\Models\AbsenceEmployee;
 use App\Models\Announcement;
 use App\Models\Biodata;
 use App\Models\Contract;
+use App\Models\Cuti;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Employee;
@@ -723,6 +724,13 @@ class HomeController extends Controller
             ->select('employees.*')
             ->orderBy('biodatas.first_name', 'asc')
             ->get();
+
+         $spteams = EmployeeLeader::join('sps', 'employee_leaders.employee_id', '=', 'sps.employee_id')
+            
+            ->where('employee_leaders.leader_id', $employee->id)
+            ->where('sps.status', 5)
+            ->select('sps.*')
+            ->get();
          //  dd($myteams);
          // ->join('biodatas', 'employees.biodata_id', '=', 'biodatas.id')
          // ->where('leader_id', $employee->id)
@@ -753,6 +761,13 @@ class HomeController extends Controller
 
          $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
          $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
+         $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
+            ->where('employees.department_id', $employee->department_id)
+            ->where('absences.type', 5)
+            ->where('absences.date', '>=', $now->format('Y-m-d'))
+            ->select('absences.*')
+            ->get();
+         
          return view('pages.dashboard.supervisor', [
             'employee' => $biodata->employee,
             'teams' => $teams,
@@ -760,7 +775,7 @@ class HomeController extends Controller
             'dates' => $dates,
             'presences' => $presences,
             'pending' => $pending,
-
+            'cutis' => $cutis,
             'spkls' => $spkls,
             'allpes' => $allpes,
             'spRecents' => $spRecents,
@@ -770,7 +785,9 @@ class HomeController extends Controller
             'personals' => $personals,
 
             'reqForms' => $reqForms,
-            'reqBackForms' => $reqBackForms
+            'reqBackForms' => $reqBackForms,
+
+            'spteams' => $spteams
          ]);
       } else {
 
@@ -788,11 +805,17 @@ class HomeController extends Controller
          // dd(auth()->user()->getEmployeeId());
 
          $peHistories = Pe::where('employe_id', $employee->id)->where('status', '>', 1)->paginate(3);
-         $tasks = Task::where('employee_id', $employee->id)->get();
+         $tasks = Task::where('employee_id', $employee->id)->whereIn('status', [0,1])->get();
 
          $now = Carbon::now();
          $currentTransaction = Transaction::where('employee_id', $employee->id)->where('status', '>=', 6)->where('payslip_status', 'show')->orderBy('cut_to', 'desc')->first();
          // dd($currentTransaction);
+         $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
+            ->where('employees.department_id', $employee->department_id)
+            ->where('absences.type', 5)
+            ->where('absences.date', '>=', $now->format('Y-m-d'))
+            ->select('absences.*')
+            ->get();
 
          // $absences =
          return view('pages.dashboard.employee', [
@@ -810,7 +833,8 @@ class HomeController extends Controller
             'peHistories' => $peHistories,
             'tasks' => $tasks,
             'absences' => $absences,
-            'currentTransaction' => $currentTransaction
+            'currentTransaction' => $currentTransaction,
+            'cutis' => $cutis
          ])->with('i');
       }
    }
