@@ -44,7 +44,7 @@ QPE Report
                         </tr>
                         <tr>
                            <th >Total Employee</th>
-                           <th >{{count($depart->getEmployeeQpe($semester, $year, 0))}}</th>
+                           <th >{{count($department->getEmployeeQpe($semester, $year, 0))}}</th>
                            
                         </tr>
                         
