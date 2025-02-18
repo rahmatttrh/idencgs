@@ -102,15 +102,15 @@ class TransactionExport implements FromQuery, WithMapping, ShouldAutoSize, WithH
             formatRupiahB($location->getValueGaji($this->unitTransaction->unit->id, $this->unitTransaction)),
             formatRupiahB($location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('overtime')),
             formatRupiahB($location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('additional_penambahan')),
-            formatRupiahB($location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('bruto')),
+            formatRupiahB($location->getValueGaji($this->unitTransaction->unit->id, $this->unitTransaction) + $location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('overtime') + $location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('additional_penambahan')),
 
-            formatRupiahB(2/100 * $location->getValueGaji($this->unitTransaction->unit->id, $this->unitTransaction)),
+            formatRupiahB($location->getReduction($this->unitTransaction->unit->id, $this->unitTransaction, 'JHT')),
             
             formatRupiahB($location->getReduction($this->unitTransaction->unit->id, $this->unitTransaction, 'BPJS KS')),
             formatRupiahB($location->getReduction($this->unitTransaction->unit->id, $this->unitTransaction, 'JP')),
             formatRupiahB($location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('reduction_absence')),
             formatRupiahB($location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('reduction_late')),
-            formatRupiahB($location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('total'))
+            formatRupiahB(($location->getValueGaji($this->unitTransaction->unit->id, $this->unitTransaction) + $location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('overtime') + $location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('additional_penambahan')) - ($location->getReduction($this->unitTransaction->unit->id, $this->unitTransaction, 'JHT') + $location->getReduction($this->unitTransaction->unit->id, $this->unitTransaction, 'BPJS KS') + $location->getReduction($this->unitTransaction->unit->id, $this->unitTransaction, 'JP') + $location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('reduction_absence') + $location->getUnitTransaction($this->unitTransaction->unit->id, $this->unitTransaction)->sum('reduction_late') ))
         ];
         
     }
