@@ -154,6 +154,7 @@ Route::middleware(["auth"])->group(function () {
 
 
    Route::get('overtime/employee/detail/{id}/{from}/{to}', [OvertimeController::class, 'indexEmployeeDetail'])->name('payroll.overtime.employee.detail');
+   Route::get('index', [OvertimeController::class, 'index'])->name('payroll.overtime');
    Route::post('overtime/filter/team', [OvertimeController::class, 'filterTeam'])->name('payroll.overtime.filter.team');
 
    Route::get('payroll/absence/detail/{id}', [AbsenceController::class, 'detail'])->name('payroll.absence.detail');
@@ -418,7 +419,7 @@ Route::middleware(["auth"])->group(function () {
             });
          });
          Route::prefix('overtime')->group(function () {
-            Route::get('index', [OvertimeController::class, 'index'])->name('payroll.overtime');
+            
             Route::get('team', [OvertimeController::class, 'team'])->name('overtime.team');
             Route::get('employee/index', [OvertimeController::class, 'indexEmployee'])->name('payroll.overtime.employee');
            
