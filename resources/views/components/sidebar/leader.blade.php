@@ -149,10 +149,10 @@
    </a>
 </li>
 
-<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
+<li class="nav-item {{ (request()->is('overtime/team')) ? 'active' : '' }}">
    <a href="{{route('overtime.team')}}">
       <i class="fas fa-file-code"></i>
-      <p>My Team</p>
+      <p>Summary</p>
    </a>
 </li>
 
