@@ -21,7 +21,7 @@ SPKL Team
       <div class="card-body px-0">
 
          <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
                <h4>Form Filter</h4>
                <hr>
                <form class="" action="{{route('payroll.overtime.filter.team')}}" method="POST">
@@ -61,7 +61,7 @@ SPKL Team
                   </div>
                </form>  
             </div>
-            <div class="col-md-10">
+            <div class="col-md-9">
                
                
                {{-- @if ($export == false)

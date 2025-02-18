@@ -1212,6 +1212,11 @@ $pbaAchievement = 0;
     </div>
 </div>
 
+@if (auth()->user()->hasRole('Administrator'))
+<small><a href="#" data-target="#modalDeleteQpe" data-toggle="modal" >Delete</a></small>
+@endif
+
+
 
 </div>
 
@@ -1339,6 +1344,38 @@ $pbaAchievement = 0;
 
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modalDeleteQpe" data-bs-backdrop="static">
+   <div class="modal-dialog modal-sm">
+       <div class="modal-content">
+
+           <!-- Bagian header modal -->
+           <div class="modal-header">
+               <h3 class="modal-title">Delete Confirmation</h3>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+           </div>
+           <form method="POST" action="{{route('qpe.delete') }}" enctype="multipart/form-data">
+               @csrf
+
+               <input type="hidden" name="pe" id="pe" value="{{$pe->id}}">
+
+               <!-- Bagian konten modal -->
+               <div class="modal-body">
+
+                   Delete QPE <br>
+                    {{$pe->employe->biodata->fullName()}} Semester {{$pe->semester}} / {{$pe->tahun}}
+               </div>
+
+               <!-- Bagian footer modal -->
+               <div class="modal-footer">
+                   {{-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> --}}
+                   <button type="submit" class="btn btn-danger">Delete</button>
+               </div>
+           </form>
+
+       </div>
+   </div>
 </div>
 
 <!-- End Modal Reject  -->

@@ -331,10 +331,10 @@ class QuickPEController extends Controller
       ])->with('i');
    }
 
-   public function delete($id){
+   public function delete(Request $req){
       // dd('ok');
 
-      $pe = Pe::find(dekripRambo($id));
+      $pe = Pe::find($req->pe);
       $peKpa = PeKpa::where('pe_id', $pe->id)->first();
       if ($peKpa) {
          $peKpaDetails = PekpaDetail::where('kpa_id', $peKpa->id)->get();
@@ -365,7 +365,7 @@ class QuickPEController extends Controller
       }
       
       $pe->delete();
-      return redirect()->back()->with('success', 'QPE successfully deleted');
+      return redirect()->route('qpe')->with('success', 'QPE successfully deleted');
    }
 
    public function verification()

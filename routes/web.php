@@ -742,7 +742,7 @@ Route::middleware(["auth"])->group(function () {
 
 
          // Delete
-         Route::get('delete/{id}', [QuickPEController::class, 'delete'])->name('qpe.delete');
+         Route::post('delete', [QuickPEController::class, 'delete'])->name('qpe.delete');
 
          // Route::put('update/{id}', [QuickPEController::class, 'update'])->name('qpe.update');
          // // ADDTIONAL
