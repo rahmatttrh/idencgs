@@ -229,11 +229,14 @@ Payroll Transaction
                               {{-- <td class="text-right text-truncate">{{formatRupiahB(2/100 * $loc->getValueGaji($unit->id, $unitTransaction))}}</td> --}}
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JHT'))}}</td>
                               
-                              <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'BPJS KS'))}}</td>
+                              <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'BPJS KS'))}} 
+                                 {{-- add : {{$loc->getReductionAdditional($unit->id, $unitTransaction)}} --}}
+                              </td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JP'))}}</td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence'))}}</td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late'))}}</td>
-                              <td class="text-right text-truncate">{{formatRupiahB($loc->getUnitTransaction($unit->id, $unitTransaction)->sum('total'))}}</td>
+
+                              <td class="text-right text-truncate">{{formatRupiahB($loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan') - $loc->getReduction($unit->id, $unitTransaction, 'JHT') - $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') - $loc->getReduction($unit->id, $unitTransaction, 'JP')- $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence') - $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late'))}}</td>
                            </tr>
                            @php
                                
@@ -245,14 +248,14 @@ Payroll Transaction
                               $gaji = $loc->getValueGaji($unit->id, $unitTransaction);
                               $overtime = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime');
                               $additional = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
-                              $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime');
+                              $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
                               // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
                               $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
                               $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS');
                               $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
                               $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
                               $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
-                              $total = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('total');
+                              $total = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan') - $loc->getReduction($unit->id, $unitTransaction, 'JHT') - $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') - $loc->getReduction($unit->id, $unitTransaction, 'JP') - $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence') - $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
       
                               $totalPokok += $pokok;
                               $totalJabatan += $jabatan;

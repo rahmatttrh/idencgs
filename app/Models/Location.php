@@ -93,6 +93,28 @@ class Location extends Model
       return $value;
    }
 
+   public function getReductionAdditional($unitId, $unitTrans)
+   {
+      $value = 0;
+      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $unitId)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      foreach ($transactions as $trans) {
+
+         // if ($name == 'JP') {
+         //    $transReduction = TransactionReduction::where('transaction_id', $trans->id)->where('name', $name)->where('type', 'company')->first();
+         // } else {
+         //    $transReduction = TransactionReduction::where('transaction_id', $trans->id)->where('name', $name)->where('type', 'employee')->first();
+         // }
+         $redAdditionals = ReductionEmployee::where('employee_id', $trans->employee->id)->where('type', 'Additional')->get();
+         // $transReduction = TransactionReduction::where('transaction_id', $trans->id)->where('name', $name)->where('type', 'employee')->first();
+         
+         if ($redAdditionals) {
+            $value += $redAdditionals->sum('employee_value');
+         }
+      }
+
+      return $value;
+   }
+
    public function getDeduction($unitTrans, $name, $user)
    {
       $value = 0;

@@ -57,6 +57,10 @@ class HomeController extends Controller
       //    ]);
       // }
 
+      // $userDebug = User::where('username', 'kj-4-022')->first();
+      // $userDebug->update([
+      //          'password' => Hash::make('12345678')
+      //       ]);
       // foreach ($allUsers as $user) {
       //    $user->update([
       //       'password' => Hash::make('12345678')

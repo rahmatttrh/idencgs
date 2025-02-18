@@ -4,7 +4,7 @@
 
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<title>MyENC - Login</title>
+	<title>IDENC - Login</title>
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<link rel="icon" href="{{asset('/img/anchor.png')}}" type="image/x-icon"/>
 
@@ -48,7 +48,7 @@
 								<div class="p-5">
 									<div class="">
 										{{-- <h4 class="text-gray-900">Welcome Back! NEW</h4> --}}
-										<h1 class="" style="font-weight: 900">MY<span class="text-primary">ENC</span></h1>
+										<h1 class="" style="font-weight: 900">ID<span class="text-primary">ENC</span></h1>
                               <small>Ekanuri Human Resource Management System</small> <br>
                               
 									</div>

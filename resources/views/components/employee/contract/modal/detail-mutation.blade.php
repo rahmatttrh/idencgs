@@ -125,7 +125,7 @@
                            <div class="col-md-6">
                               <div class="form-group form-group-default">
                                  <label>Jabatan</label>
-                                 <input type="text" class="form-control" name="desc" id="desc" value="{{$mutation->become->position->name}}" >
+                                 <input type="text" class="form-control" name="desc" id="desc" value="{{$mutation->become->position->name ?? ''}}" >
                               </div>
                            </div>
                            
