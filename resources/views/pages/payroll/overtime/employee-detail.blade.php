@@ -14,8 +14,12 @@ SPKL
    </nav>
 
    <div class="card shadow-none border ">
-      <div class=" card-header">
-         <h3 class="">Daftar SKPL <br> {{$employee->nik}} {{$employee->biodata->fullName()}}</h3>
+      <div class=" card-header d-flex justify-content-between">
+         <div>
+            <h3 class="">Daftar SKPL</h3>
+            <h3><b>{{$employee->nik}} {{$employee->biodata->fullName()}}</b></h3>
+         </div>
+         
          @if ($from == 0)
              <small>All</small>
              @else

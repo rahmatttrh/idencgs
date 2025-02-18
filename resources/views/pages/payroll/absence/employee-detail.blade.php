@@ -14,8 +14,12 @@ Absence
    </nav>
 
    <div class="card shadow-none border ">
-      <div class=" card-header">
-         <h3 class="">Daftar Absensi <br> {{$employee->nik}} {{$employee->biodata->fullName()}}</h3>
+      <div class=" card-header d-flex justify-content-between">
+         <div>
+            <h3 class="">Daftar Absensi</h3>
+            <h3><b>{{$employee->nik}} {{$employee->biodata->fullName()}}</b> </h3>
+         </div>
+        
          @if ($from == 0)
              <small>All</small>
              @else
@@ -29,7 +33,7 @@ Absence
          @error('id_item')
             <div class="alert alert-danger mt-2">{{ $message }}</div>
          @enderror
-      <div class="card-body">
+         <div class="card-body">
          {{-- <div class="d-inline-flex align-items-center">
             <button type="submit" name="submit" class="btn btn-sm btn-danger mr-3">Delete</button>
             <div class="d-inline-flex align-items-center">
@@ -61,25 +65,7 @@ Absence
                         @if ($absence->status == 404)
                            <span class="text-danger">Permintaan Perubahan</span>
                             @else
-                            @if ($absence->type == 1)
-                           Alpha
-                           @elseif($absence->type == 2)
-                           Terlambat ({{$absence->minute}} Menit)
-                           @elseif($absence->type == 3)
-                           ATL
-                           @elseif($absence->type == 4)
-                           Izin ({{$absence->type_izin}})
-                           @elseif($absence->type == 5)
-                           Cuti
-                           @elseif($absence->type == 6)
-                           SPT ({{$absence->type_spt}})
-                           @elseif($absence->type == 7)
-                           Sakit 
-                           @elseif($absence->type == 8)
-                           Dinas Luar
-                           @elseif($absence->type == 9)
-                           Off Kontrak
-                           @endif
+                            <x-absence.type :absence="$absence" />
                         @endif
                         
                      </td>
@@ -87,8 +73,18 @@ Absence
                      <td>{{formatDate($absence->date)}}</td>
                      <td>{{$absence->desc}}</td>
                      <td class="text-truncate">
-                      <a href="{{route('payroll.absence.edit', enkripRambo($absence->id))}}" class="">Update</a> |
+                        @if ($absence->getRequest() != null )
+                        <a href="{{route('employee.absence.detail', enkripRambo($absence->getRequest()->id))}}" class="badge badge-info">
+                           <x-absence.type :absence="$absence->getRequest()" />
+                           :
+                           <x-status.form :form="$absence->getRequest()" />
+                          
+                         </a>
+                            @else
+                            <a href="{{route('payroll.absence.edit', enkripRambo($absence->id))}}" class="">Update</a> |
                         <a href="#" data-target="#modal-delete-absence-{{$absence->id}}" data-toggle="modal">Delete</a>
+                        @endif
+                        
                      </td>
                   </tr>
 

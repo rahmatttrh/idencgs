@@ -491,6 +491,7 @@ class OvertimeController extends Controller
       if (auth()->user()->hasRole('HRD-KJ12')) {
          $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
             ->where('contracts.loc', 'kj1-2')
+            ->where('employees.status', 1)
             ->select('employees.*')
             ->get();
 
@@ -500,6 +501,7 @@ class OvertimeController extends Controller
          // dd('ok');
          $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
             ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+            ->where('employees.status', 1)
             ->select('employees.*')
             ->get();
          $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(800);
@@ -509,13 +511,14 @@ class OvertimeController extends Controller
          // dd('ok');
          $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
             ->where('contracts.loc', 'jgc')
+            ->where('employees.status', 1)
             ->select('employees.*')
             ->get();
          $overtimes = Overtime::orderBy('updated_at', 'desc')->where('location_id', 2)->paginate(2000);
          // dd($overtimes);
       } else {
 
-         $employees = Employee::get();
+         $employees = Employee::where('status', 1)->get();
          $overtimes = Overtime::orderBy('created_at', 'desc')->paginate(800);
       }
 
@@ -1134,7 +1137,7 @@ class OvertimeController extends Controller
 
 
 
-      return redirect()->back()->with('success', 'Overtime Data successfully added');
+      return redirect()->back( )->with('success', 'Overtime Data successfully added');
    }
 
 
@@ -1278,7 +1281,7 @@ class OvertimeController extends Controller
          if ($holiday_type == 1) {
             $finalHour = $hours;
          } elseif ($holiday_type == 2) {
-            $finalHour = $hours * 2;
+            $finalHour = $hours;
          } elseif ($holiday_type == 3) {
             $employee = Employee::where('payroll_id', $payroll->id)->first();
             if ($employee->unit_id ==  7 || $employee->unit_id ==  8 || $employee->unit_id ==  9) {
@@ -1326,9 +1329,6 @@ class OvertimeController extends Controller
 
          if ($hour_type == 1) {
             $rate = $finalHour * round($rateOvertime);
-            // dd('ok');
-            // dd($finalHour);
-
          } else {
             // dd('okee');
             if ($holiday_type == 2) {
@@ -1343,8 +1343,6 @@ class OvertimeController extends Controller
                $rate = $totalHours * round($rateOvertime);
                // dd($rateOvertime);
             }
-            // dd('finish');
-            
          }
 
          // dd($finalHour);

@@ -115,6 +115,13 @@ function formatDayName($data)
 }
 
 
+function formatYear($data)
+{
+   $date = \Carbon\Carbon::parse($data)->format('Y');
+   return $date;
+}
+
+
 
 
 

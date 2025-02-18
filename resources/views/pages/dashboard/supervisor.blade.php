@@ -81,17 +81,84 @@ Dashboard
             </div>
          </div>
          <div class="card">
-            {{-- <div class="card-header bg-primary text-white p-2">
-               <small>Employee</small>
-            </div> --}}
+            <div class="card-header bg-light border p-2">
+               <small class="text-uppercase"><b># Recent Cuti</b></small>
+            </div>
             <div class="card-body p-0">
                <table class=" ">
-                  <thead>
+                  {{-- <thead >
+
+                     <tr class="bg-primary text-white">
+                        <th scope="col">ID</th>
+                        
+                     </tr>
+                  </thead> --}}
+                  <tbody>
+                     @if (count($cutis) > 0)
+                     @foreach ($cutis as $cuti)
+                     <tr>
+                        <td>
+                          {{formatDate($cuti->date)}} {{$cuti->employee->biodata->fullName()}}
+                        </td>
+                        
+                     </tr>
+                     @endforeach
+                     @else
+                     <tr>
+                        <td colspan="1" class="text-center">Empty</td>
+                     </tr>
+                     @endif
+
+
+                  </tbody>
+               </table>
+            </div>
+            
+            <div class="card-header text-uppercase bg-light border p-2">
+               <b># RECENT surat peringatan</b>
+            </div>
+            <div class="card-body p-0">
+               <table class=" ">
+                  {{-- <thead>
                      <tr>
                         <th colspan="2">Team</th>
-                        {{-- <th>Name</th> --}}
                      </tr>
-                  </thead>
+                  </thead> --}}
+                  <tbody>
+                     {{-- @foreach ($teams as $team)
+                         <tr>
+                           <td>{{$team->employee->department->name}} </td>
+                           <td>{{$team->employee->nik}}</td>
+                           <td> {{$team->employee->biodata->fullName()}}</td>
+                         </tr>
+                     @endforeach --}}
+                     @foreach ($spteams as $sp)
+                         {{-- @php
+                             $bio = DB::table('biodatas')->where('id', $team->biodata_id)->first();
+                         @endphp --}}
+                         <tr>
+                           {{-- <td>{{$team->department->name}} </td> --}}
+                           {{-- <td><a href="{{route('employee.detail', [enkripRambo($team->id), enkripRambo('basic')])}}">{{$team->nik}}</a> </td> --}}
+                           <td>{{$sp->employee->biodata->fullName()}}</td>
+                           <td>SP {{$sp->level}}</td>
+                           {{-- <td><a href="{{route('employee.overview.simple', enkripRambo($team->id))}}">{{$bio->first_name}} {{$bio->last_name}}</a> </td> --}}
+                         </tr>
+                     @endforeach
+                     
+                     
+                  </tbody>
+               </table>
+            </div>
+            <div class="card-header text-uppercase bg-light border p-2">
+               <b># Team List</b>
+            </div>
+            <div class="card-body p-0">
+               <table class=" ">
+                  {{-- <thead>
+                     <tr>
+                        <th colspan="2">Team</th>
+                     </tr>
+                  </thead> --}}
                   <tbody>
                      {{-- @foreach ($teams as $team)
                          <tr>
@@ -116,6 +183,9 @@ Dashboard
                   </tbody>
                </table>
             </div>
+         </div>
+         <div class="card">
+            
          </div>
       </div>
       <div class="col-md-8">
@@ -167,6 +237,38 @@ Dashboard
             </div>
             @endforeach
          @endif
+
+         <div class="row">
+            <div class="col-md-6">
+               <div class="card card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        <div class="col-icon">
+                           <div class="icon-big text-center icon-primary bubble-shadow-small">
+                              <i class="fas fa-users"></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('leader.absence')}}">
+                           <div class="numbers">
+                              <p class="card-category">  Form Pengajuan </p>
+                              <h4 class="card-title">{{count($reqForms) + count($reqBackForms)}}</h4>
+                           </div>
+                        </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               {{-- <div class="card ">
+                  <div class="card-body">
+                     <a href="{{route('leader.absence')}}">
+                        <span>Formulir Pengajuan</span>
+                        <h2>{{count($reqForms)}}</h2>
+                     </a>
+                  </div>
+               </div> --}}
+            </div>
+         </div>
          <div class="card">
             <div class="card-header bg-primary text-white p-2">
                <small>Latest QPE</small>

@@ -70,4 +70,13 @@ class Transaction extends Model
 
       return $value;
    }
+
+   public function getDeductionAdditional()
+   {
+      $value = 0;
+      $redAdditionals = ReductionAdditional::where('employee_id', $this->employee->id)->get();
+      
+
+      return $redAdditionals->sum('employee_value');;
+   }
 }

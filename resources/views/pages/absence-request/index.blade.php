@@ -26,6 +26,9 @@ Absence
                     <a class="nav-link{{ $activeTab === 'pending' ? ' active' : '' }}" href="{{ route('employee.absence.pending') }}">Pending Request</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link{{ $activeTab === 'draft' ? ' active' : '' }}" href="{{ route('employee.absence.draft') }}">Drafting</a>
+               </li>
+                <li class="nav-item">
                     <a class="nav-link{{ $activeTab === 'form' ? ' active' : '' }}" href="{{ route('employee.absence.create') }}">Create</a>
                 </li>
                 
@@ -117,14 +120,37 @@ Absence
                            <td>{{formatDate($absence->date)}}</td>
                            <td>
                               @if ($absence->getRequest() != null)
-                                  <span class="badge badge-info">Requested :
-                                    @if ($absence->getRequest()->status == 0)
-                                        Validasi Atasan
-                                    @endif
-                                  </span>
+                                  <a href="{{route('employee.absence.detail', enkripRambo($absence->getRequest()->id))}}" class="badge badge-info">
+                                    @if ($absence->getRequest()->type == 1)
+                                       Alpha
+                                       @elseif($absence->getRequest()->type == 2)
+                                       Terlambat ({{$absence->getRequest()->minute}} Menit)
+                                       @elseif($absence->getRequest()->type == 3)
+                                       ATL
+                                       @elseif($absence->getRequest()->type == 4)
+                                       Izin 
+                                       @elseif($absence->getRequest()->type == 5)
+                                       Cuti
+                                       @elseif($absence->getRequest()->type == 6)
+                                       SPT 
+                                       @elseif($absence->getRequest()->type == 7)
+                                       Sakit 
+                                       @elseif($absence->getRequest()->type == 8)
+                                       Dinas Luar
+                                       @elseif($absence->getRequest()->type == 9)
+                                       Off Kontrak
+                                    @endif 
+                                    :
+                                    <x-status.form :form="$absence->getRequest()" />
+                                    {{-- @if ($absence->getRequest()->status == 0)
+                                        Draft
+                                        @elseif($absence->getRequest()->status == 1)
+                                        Approval Atasan
+                                    @endif --}}
+                                  </a>
                                   @else
                                   @if ($absence->type == 1 || $absence->type == 3)
-                                  <a href="{{route('employee.absence.request', enkripRambo($absence->id))}}" class="btn btn-sm btn-light border">Request</a>
+                                  <a href="{{route('employee.absence.request', enkripRambo($absence->id))}}" class="badge badge-light">Request Perubahan</a>
                                   @endif
                                   
                               @endif

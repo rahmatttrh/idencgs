@@ -702,7 +702,7 @@ class TransactionController extends Controller
 
 
       // dd($overtimes->sum('rate'));
-      $redAdditionals = ReductionAdditional::where('employee_id', $employee->id)->get();
+      $redAdditionals = ReductionEmployee::where('employee_id', $employee->id)->where('type', 'Additional')->get();
 
       $totalReduction = $transaction->reductions->where('type', 'employee')->sum('value');
       // dd($totalReduction);
@@ -714,13 +714,13 @@ class TransactionController extends Controller
 
       $transaction->update([
          'overtime' => $totalOvertime,
-         'reduction' => $totalReduction,
+         'reduction' => $totalReduction + $redAdditionals->sum('employee_value'),
          'reduction_absence' => $totalReductionAbsence,
          'reduction_late' => $potongan,
          'additional_penambahan' => $addPenambahan,
          'additional_pengurangan' => $addPengurangan,
-         'bruto' => $transactionDetails->sum('value') - $totalReduction,
-         'total' => $transactionDetails->sum('value') - $totalReduction + $totalOvertime - $totalReductionAbsence + $addPenambahan - $addPengurangan - $redAdditionals->sum('employee_value') - $potongan
+         'bruto' => $transactionDetails->sum('value') + $addPenambahan + $totalOvertime,
+         'total' => ($transactionDetails->sum('value') + $addPenambahan + $totalOvertime) - ($totalReduction  + $totalReductionAbsence  + $addPengurangan  + $potongan + $redAdditionals->sum('employee_value'))
       ]);
 
       // dd($payroll->total);
@@ -785,7 +785,7 @@ class TransactionController extends Controller
             'remark' => null,
             'off' => 0,
             'reduction_off' => 0,
-            'total' => $transactionDetails->sum('value') - $totalReduction + $totalOvertime - $totalReductionAbsence + $addPenambahan - $addPengurangan - $redAdditionals->sum('employee_value') - $potongan
+            'total' => ($transactionDetails->sum('value') + $totalOvertime + $addPenambahan) - ($totalReduction  + $totalReductionAbsence + $addPengurangan + $redAdditionals->sum('employee_value') + $potongan)
          ]);
       }
    }

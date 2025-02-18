@@ -137,7 +137,7 @@ Payroll Transaction
             </ul>
          </div>
       </div> --}}
-      {{-- <h1>{{count($transactions)}}</h1> --}}
+      {{-- {{count(transactions)}} --}}
       <div class="card-body p-0">
          <div class="table-responsive p-0 pt-2" style="overflow-x: auto;">
             <table id="data" class="display  table-sm">
@@ -157,6 +157,7 @@ Payroll Transaction
                      <th class="text-center text-white">Total Bruto</th>
                      <th class="text-center text-white">BPJS TK</th>
                      <th class="text-center text-white">BPJS KS</th>
+                     {{-- <th class="text-center text-white">BPJS Additional</th> --}}
                      <th class="text-center text-white">JP</th>
                      <th class="text-center text-white">Absen</th>
                      <th class="text-center text-white">Terlambat</th>
@@ -207,7 +208,8 @@ Payroll Transaction
                            {{formatRupiahB($transaction->getDeduction('JHT', 'employee'))}}
                            {{-- {{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JHT'))}} --}}
                         </td>
-                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee'))}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getDeductionAdditional())}}</td>
+                        {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('JP', 'employee'))}} </td>
                         <td class="text-right">{{formatRupiahB($transaction->reduction_absence)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->reduction_late)}}</td>
@@ -228,6 +230,7 @@ Payroll Transaction
                         // $tk = 2/100 * $transaction->employee->payroll->total;
                         $tk = $transaction->getDeduction('JHT', 'employee');
                         $ks = $transaction->getDeduction('BPJS KS', 'employee');
+                        $ksAdd = $transaction->getDeductionAdditional();
                         $jp = $transaction->getDeduction('JP', 'employee');
                         $abs = $transaction->reduction_absence;
                         $late = $transaction->reduction_late;
@@ -245,6 +248,7 @@ Payroll Transaction
                         $totalBruto += $bruto;
                         $totalTk += $tk;
                         $totalKs += $ks;
+                        $totalKsAdd = $ksAdd;
                         $totalJp += $jp;
                         $totalAbsence += $abs;
                         $totalLate += $late;
@@ -261,11 +265,12 @@ Payroll Transaction
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalKinerja)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalFungsional)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalGaji)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalOvertime)}}</b></td>
+                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalOvertime)}} </b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalAdditionalPenambahan)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalBruto)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalTk)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalKs)}}</b></td>
+                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalKs + $totalKsAdd)}}</b></td>
+                     {{-- <td class="text-right text-truncate"><b>{{formatRupiahB($totalKsAdd)}}</b></td> --}}
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalJp)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalAbsence)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalLate)}}</b></td>

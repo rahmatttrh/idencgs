@@ -154,6 +154,16 @@ class PeKpiController extends Controller
         ])->with('i');
     }
 
+
+    public function update(Request $req){
+      $kpi = PeKpi::find($req->kpi);
+      $kpi->update([
+         'title' => $req->title
+      ]);
+
+      return redirect()->back()->with('success', 'KPI Header updated');
+    }
+
     public function delete($id)
     {
         // CEK APAKAH ADA RELASI DI TABLE KPA DETAIL

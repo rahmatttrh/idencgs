@@ -11,7 +11,22 @@ class AbsenceEmployee extends Model
 
     protected $guarded = [];
 
+
+   public function absence(){
+      return $this->belongsTo(Absence::class);
+   }
+
    public function employee()
+   {
+      return $this->belongsTo(Employee::class);
+   }
+
+   public function leader()
+   {
+      return $this->belongsTo(Employee::class);
+   }
+
+   public function cuti_backup()
    {
       return $this->belongsTo(Employee::class);
    }

@@ -85,7 +85,13 @@ class TransactionExport implements FromQuery, WithMapping, ShouldAutoSize, WithH
 
     public function map($location): array
     {
+
+      if(count($location->getUnitTransaction($this->unitTransaction->unit_id, $this->unitTransaction)) == 0) {
+         return [];
+      } 
         return [
+
+
             $location->name,
             count($location->getUnitTransaction($this->unitTransaction->unit_id, $this->unitTransaction)),
             formatRupiahB($location->getValue($this->unitTransaction->unit->id, $this->unitTransaction, 'Gaji Pokok')),

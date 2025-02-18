@@ -17,25 +17,33 @@ KPI Detail
             <div class="card shadow-none border">
                 <div class="card-header d-flex">
                     <div class="d-flex  align-items-center">
-                        {{$kpi->title}}
+                        Detail KPI
                     </div>
 
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form action="{{route('kpi.update')}}" method="POST">
                         @csrf
+                        @method('PUT')
+                        <input type="number" name="kpi" id="kpi" value="{{$kpi->id}}" hidden>
+                        <div class="form-group form-group-default">
+                           <label>Title</label>
+                           <input type="text" class="form-control" name="title" id="title" value="{{$kpi->title}}">
+                           {{-- <i class="fa fa-user"></i> {{$kpi->departement->name}} --}}
+                       </div>
                         <div class="form-group form-group-default">
                             <label>Department</label>
-                            <i class="fa fa-user"></i> {{$kpi->departement->name}}
+                             {{$kpi->departement->name}}
                         </div>
                         <div class="form-group form-group-default">
                             <label>Jabatan</label>
-                            <i class="fa fa-user"></i> {{$kpi->position->name}}
+                             {{$kpi->position->name}}
                         </div>
                         <div class="form-group form-group-default">
                            <label>Used on QPE </label>
                            <i class="fa fa-user"></i> {{count($kpi->kpas)}}
                        </div>
+                       <button class="btn btn-primary btn block">Update</button>
                     </form>
                 </div>
             </div>

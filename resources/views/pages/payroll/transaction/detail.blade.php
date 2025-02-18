@@ -195,7 +195,7 @@ Detail Transaction Payroll Employee
                                        </tr>
                                        <tr>
                                           <th colspan="">Potongan</th>
-                                          <th class="text-right">{{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late + $transaction->reduction_off)}}</th>
+                                          <th class="text-right">{{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late + $transaction->reduction_off)}} red:  {{$transaction->reduction}}</th>
                                        </tr>
                                        <tr>
                                           <th colspan="">Gaji Bersih</th>

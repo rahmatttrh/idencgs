@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbsenceController;
 use App\Http\Controllers\AbsenceEmployeeController;
+use App\Http\Controllers\AbsenceLeaderController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AdditionalController;
 use App\Http\Controllers\AllowanceController;
@@ -157,8 +158,20 @@ Route::middleware(["auth"])->group(function () {
    Route::get('overtime/employee/detail/{id}/{from}/{to}', [OvertimeController::class, 'indexEmployeeDetail'])->name('payroll.overtime.employee.detail');
    Route::post('overtime/filter/team', [OvertimeController::class, 'filterTeam'])->name('payroll.overtime.filter.team');
 
+   Route::get('payroll/absence/detail/{id}', [AbsenceController::class, 'detail'])->name('payroll.absence.detail');
+
+
+   Route::get('export/spt/{id}', [AbsenceEmployeeController::class, 'exportSpt'])->name('export.spt');
+   Route::get('export/cuti/{id}', [AbsenceEmployeeController::class, 'exportCuti'])->name('export.cuti');
 
    Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC']], function () {
+      Route::prefix('hrd')->group(function () {
+         Route::get('absence/index', [AbsenceLeaderController::class, 'indexHrd'])->name('hrd.absence');
+         Route::get('absence/history', [AbsenceLeaderController::class, 'historyHrd'])->name('hrd.absence.history');
+
+         Route::get('absence/approve/{id}', [AbsenceEmployeeController::class, 'approveHrd'])->name('employee.absence.approve.hrd');
+      });
+      
       Route::prefix('cuti')->group(function () {
          Route::get('/', [CutiController::class, 'index'])->name('cuti');
          Route::get('edit/{id}', [CutiController::class, 'edit'])->name('cuti.edit');
@@ -519,6 +532,8 @@ Route::middleware(["auth"])->group(function () {
    Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC|Karyawan|Manager|Asst. Manager|Supervisor|Leader']], function () {
       Route::get('overtime/team', [OvertimeController::class, 'team'])->name('overtime.team');
       Route::get('absence/team', [AbsenceController::class, 'team'])->name('absence.team');
+      Route::get('employee/absence/approve/backup/{id}', [AbsenceEmployeeController::class, 'approveBackup'])->name('employee.absence.approve.pengganti');
+      
       Route::prefix('payroll/approval')->group(function () {
          Route::post('submit/master', [PayrollApprovalController::class, 'submit'])->name('payroll.submit.master.transaction');
          Route::post('publish/master', [PayrollApprovalController::class, 'publish'])->name('payroll.publish');
@@ -650,6 +665,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('/', [PeKpiController::class, 'index'])->name('kpi');
          Route::post('', [PeKpiController::class, 'store'])->name('kpi.store');
          Route::get('{id}', [PeKpiController::class, 'edit'])->name('kpi.edit');
+         Route::put('update', [PeKpiController::class, 'update'])->name('kpi.update');
          Route::get('delete/{id}', [PeKpiController::class, 'delete'])->name('kpi.delete');  // Belum selesai semua
 
          Route::get('delete-objective/{id}', [PeKpiController::class, 'deleteObjective'])->name('kpi.objective.delete');  // Belum selesai semua
@@ -800,8 +816,15 @@ Route::middleware(["auth"])->group(function () {
       Route::get('/detail/{id}', [SpklController::class, 'detail'])->name('spkl.detail');
    });
    // Role Karyawan
-   Route::group(['middleware' => ['role:Karyawan|Leader']], function () {
+   Route::group(['middleware' => ['role:Karyawan|Leader|Supervisor|Manager']], function () {
       // kpi
+
+      Route::prefix('leader')->group(function () {
+         Route::get('absence/index', [AbsenceLeaderController::class, 'index'])->name('leader.absence');
+         Route::get('absence/history', [AbsenceLeaderController::class, 'history'])->name('leader.absence.history');
+      });
+
+
       Route::prefix('employee')->group(function () {
 
          Route::prefix('spkl')->group(function () {
@@ -815,12 +838,15 @@ Route::middleware(["auth"])->group(function () {
             Route::get('/index', [AbsenceEmployeeController::class, 'index'])->name('employee.absence');
             Route::get('/create', [AbsenceEmployeeController::class, 'create'])->name('employee.absence.create');
             Route::get('/pending', [AbsenceEmployeeController::class, 'pending'])->name('employee.absence.pending');
+            Route::get('/draft', [AbsenceEmployeeController::class, 'draft'])->name('employee.absence.draft');
             Route::get('/detail/{id}', [AbsenceEmployeeController::class, 'detail'])->name('employee.absence.detail');
             Route::post('/store', [AbsenceEmployeeController::class, 'store'])->name('employee.absence.store');
+            Route::put('/update', [AbsenceEmployeeController::class, 'update'])->name('employee.absence.update');
             Route::get('/delete/{id}', [AbsenceEmployeeController::class, 'delete'])->name('employee.absence.delete');
 
             // Approval
             Route::get('/request/{id}', [AbsenceEmployeeController::class, 'requestEmployee'])->name('employee.absence.request');
+            Route::get('/release/{id}', [AbsenceEmployeeController::class, 'release'])->name('employee.absence.release');
             Route::get('/approve/{id}', [AbsenceEmployeeController::class, 'approve'])->name('employee.absence.approve');
          });
 

@@ -89,7 +89,13 @@ Payroll Absence
                      <div class="col-md-4">
                         <div class="form-group form-group-default">
                            <label>Menit</label>
-                           <input type="number" class="form-control" id="minute" value="{{$absence->minute}}" name="minute">
+                           <select class="form-control"  name="minute" id="minute">
+                              <option value="" disabled selected>Select</option>
+                              <option  {{$absence->minute == '30' ? 'selected' : ''}} value="T1">T1</option>
+                              <option {{$absence->minute == '60' ? 'selected' : ''}} value="T2">T2</option>
+                              <option {{$absence->minute == '90' ? 'selected' : ''}} value="T3">T3</option>
+                              <option {{$absence->minute == '120' ? 'selected' : ''}} value="T4">T4</option>
+                           </select>
                         </div>
                      </div>
                      <div class="col">
