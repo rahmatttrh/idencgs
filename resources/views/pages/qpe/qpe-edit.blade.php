@@ -1212,7 +1212,10 @@ $pbaAchievement = 0;
     </div>
 </div>
 
+@if (auth()->user()->hasRole('Administrator'))
 <small><a href="#" data-target="#modalDeleteQpe" data-toggle="modal" >Delete</a></small>
+@endif
+
 
 
 </div>
