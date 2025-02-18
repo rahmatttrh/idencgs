@@ -20,7 +20,10 @@ SP
                <div class="row row-nav-line">
                   <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
                      <li class="nav-item"> <a class="nav-link show active" id="pills-index-tab-nobd" data-toggle="pill" href="#pills-index-nobd" role="tab" aria-controls="pills-index-nobd" aria-selected="true">SP</a> </li>
+                     @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll'))
                      <li class="nav-item"> <a class="nav-link " id="pills-doc-tab-nobd" data-toggle="pill" href="#pills-doc-nobd" role="tab" aria-controls="pills-doc-nobd" aria-selected="true">Export</a> </li>
+                     @endif
+                     
                      
                   </ul>
                </div>

@@ -16,7 +16,12 @@ SPKL
    <div class="card shadow-none border ">
       <div class=" card-header d-flex justify-content-between">
          <div>
-            <a class="btn btn-light btn-sm border" href="{{route('payroll.overtime')}}"><i class="fa fa-backward"></i> Kembali</a> |
+            @if (auth()->user()->hasRole('HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
+            <a class="btn btn-light btn-sm border" href="{{route('payroll.overtime')}}"><i class="fa fa-backward"></i> Kembali</a>
+            @else
+            <a class="btn btn-light btn-sm border" href="{{route('overtime.team')}}"><i class="fa fa-backward"></i> Kembali</a>
+            @endif
+             |
             <span class="">SPKL List</b></span>
             
          </div>
@@ -199,9 +204,9 @@ SPKL
          </div>
 
       </form>
-      <div class="card-footer">
+      {{-- <div class="card-footer">
          <a href="{{route('overtime.refresh')}}">Refresh</a>
-      </div>
+      </div> --}}
 
 
    </div>
