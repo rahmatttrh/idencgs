@@ -53,7 +53,7 @@ QPE Report
                            @foreach ($unit->departments as $depart)
                                <tr>
                                  <td><a href="{{route('qpe.report.department', [enkripRambo($depart->id),enkripRambo($semester),enkripRambo($year)])}}">{{$depart->name}}</a></td>
-                                 <td class="text-center">{{count($depart->employees->where('status', 1))}}</td>
+                                 <td class="text-center">{{count($depart->getEmployeeQpe($semester, $year, 0))}}</td>
                                  <td class="text-center">{{$depart->getQpe($semester, $year, 0)}}</td>
                                  <td class="text-center">{{$depart->getQpe($semester, $year, 1)}}</td>
                                  <td class="text-center">{{$depart->getQpe($semester, $year, 2)}}</td>

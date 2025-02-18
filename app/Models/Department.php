@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -63,7 +64,17 @@ class Department extends Model
 
    public function getEmptyQpe($semester, $year)
    {
+
+      if ($semester == 1) {
+         $start = Carbon::create('01-01-' . $year);
+         $end = Carbon::create('30-06-' . $year);
+         // dd($end);
+      } else {
+         $start = Carbon::create('01-07-' . $year);
+         $end = Carbon::create('30-12-' . $year);
+      }
       $employees = $this->employees->where('status', 1);
+      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
 
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
 
@@ -84,8 +95,16 @@ class Department extends Model
 
    public function getQpe($semester, $year, $status)
    {
+      if ($semester == 1) {
+         $start = Carbon::create('01-01-' . $year);
+         $end = Carbon::create('30-06-' . $year);
+         // dd($end);
+      } else {
+         $start = Carbon::create('01-07-' . $year);
+         $end = Carbon::create('30-12-' . $year);
+      }
       $employees = $this->employees->where('status', 1);
-
+      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->where('status', $status)->get();
 
       $employeeQpe = 0;
@@ -102,8 +121,17 @@ class Department extends Model
 
    public function getPendingQpe($semester, $year)
    {
+      
+      if ($semester == 1) {
+         $start = Carbon::create('01-01-' . $year);
+         $end = Carbon::create('30-06-' . $year);
+         // dd($end);
+      } else {
+         $start = Carbon::create('01-07-' . $year);
+         $end = Carbon::create('30-12-' . $year);
+      }
       $employees = $this->employees->where('status', 1);
-
+      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
       $pendings = [];
       // $employeeQpe = 0;
@@ -121,8 +149,16 @@ class Department extends Model
 
    public function getCompleteQpe($semester, $year)
    {
+      if ($semester == 1) {
+         $start = Carbon::create('01-01-' . $year);
+         $end = Carbon::create('30-06-' . $year);
+         // dd($end);
+      } else {
+         $start = Carbon::create('01-07-' . $year);
+         $end = Carbon::create('30-12-' . $year);
+      }
       $employees = $this->employees->where('status', 1);
-
+      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
       $completes = [];
       // $employeeQpe = 0;
@@ -136,5 +172,27 @@ class Department extends Model
 
 
       return $completes;
+   }
+
+   public function getEmployeeQpe($semester, $year)
+   {
+
+      if ($semester == 1) {
+         $start = Carbon::create('01-01-' . $year);
+         $end = Carbon::create('30-06-' . $year);
+         // dd($end);
+      } else {
+         $start = Carbon::create('01-07-' . $year);
+         $end = Carbon::create('30-12-' . $year);
+      }
+      $employees = $this->employees->where('status', 1);
+      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
+      // $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
+
+      
+
+      // $employeeEmptyQpe = count($employees) - $employeeQpe;
+
+      return $employees;
    }
 }
