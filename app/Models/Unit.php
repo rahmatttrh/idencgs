@@ -72,7 +72,7 @@ class Unit extends Model
          $end = Carbon::create('30-12-' . $year);
       }
       $employees = $this->employees->where('status', 1);
-      $employees = Employee::where('unit_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '>=', $start)->where('join', '<=', $end)->get();
+      $employees = Employee::where('unit_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
 
       $employeeQpe = 0;
@@ -102,7 +102,7 @@ class Unit extends Model
          $start = Carbon::create('01-07-' . $year);
          $end = Carbon::create('30-12-' . $year);
       }
-      $employees = Employee::where('unit_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '>=', $start)->where('join', '<=', $end)->get();
+      $employees = Employee::where('unit_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
 
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->where('status', $status)->get();
 
@@ -130,7 +130,7 @@ class Unit extends Model
          $end = Carbon::create('30-12-' . $year);
       }
       $employees = $this->employees->where('status', 1);
-      $employees = Employee::where('unit_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '>=', $start)->where('join', '<=', $end)->get();
+      $employees = Employee::where('unit_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
 
       
