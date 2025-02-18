@@ -714,7 +714,7 @@ class TransactionController extends Controller
          'reduction_late' => $potongan,
          'additional_penambahan' => $addPenambahan,
          'additional_pengurangan' => $addPengurangan,
-         'bruto' => $transactionDetails->sum('value') + $totalOvertime,
+         'bruto' => $transactionDetails->sum('value') + $addPenambahan + $totalOvertime,
          'total' => ($transactionDetails->sum('value') + $addPenambahan + $totalOvertime) - ($totalReduction  + $totalReductionAbsence  + $addPengurangan  + $potongan + $redAdditionals->sum('employee_value'))
       ]);
 

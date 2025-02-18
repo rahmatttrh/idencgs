@@ -26,6 +26,13 @@ class Location extends Model
       return $transactions;
    }
 
+   // public function getDeductionAdditional($id, $unitTrans){
+   //    $redAdditionals = ReductionAdditional::where('employee_id', $this->employee->id)->get();
+      
+
+   //    return $redAdditionals->sum('employee_value');;
+   // }
+
    public function getValue($id, $unitTrans, $desc)
    {
       $value = 0;
@@ -48,7 +55,8 @@ class Location extends Model
          $ops = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. OPS')->first()->value;
          $kinerja = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Kinerja')->first()->value;
          $insentif = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Insentif')->first()->value;
-         $total = $pokok + $jabatan + $ops + $kinerja + $insentif;
+         $fungsional = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Fungsional')->first()->value;
+         $total = $pokok + $jabatan + $ops + $kinerja + $insentif + $fungsional;
          $value = $value + $total;
       }
 
