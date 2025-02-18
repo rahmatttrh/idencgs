@@ -254,3 +254,10 @@
       <p>Task</p>
    </a>
 </li>
+
+<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
+   <a href="{{route('overtime.team')}}">
+      <i class="fas fa-file-code"></i>
+      <p>Summary</p>
+   </a>
+</li>

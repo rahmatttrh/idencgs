@@ -16,7 +16,8 @@ SPKL Edit
    <div class="card shadow-none border ">
       
       <div class="card-header">
-         <h2>SPKL Edit</h2>
+         <a class="btn btn-light btn-sm border" href="{{route('payroll.overtime.employee.detail', [enkripRambo($overtime->employee->id), 0, 0])}}"> <i class="fa fa-backward"></i> Kembali</a> |
+         <span>Form Edit SPKL/Piket</span>
       </div>
 
       <div class="card-body">

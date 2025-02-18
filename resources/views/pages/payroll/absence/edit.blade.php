@@ -16,7 +16,8 @@ Payroll Absence
 
    <div class="card">
       <div class="card-header">
-         <h4>Form Edit Absence</h4>
+         <a class="btn btn-light btn-sm border" href="{{route('payroll.absence.employee.detail', [enkripRambo($absence->employee->id), 0, 0])}}"> <i class="fa fa-backward"></i> Kembali</a> |
+         <span>Form Edit Absensi</span>
       </div>
       <div class="card-body">
          <div class="row">

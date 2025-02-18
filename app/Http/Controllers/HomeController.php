@@ -650,12 +650,13 @@ class HomeController extends Controller
          $spkls = Spkl::where('status', 1)->orWhere('status', 2)->where('department_id', $employee->department_id)->get();
          $sps = Sp::where('status', '>', 2)->where('department_id', $employee->department_id)->orderBy('updated_at', 'desc')->paginate('5');
          // dd($spkls);
-
+         // dd('ok');
          if (count($employee->positions) > 0) {
             $teams = null;
             $pes = null;
             $recentPes = null;
          } else {
+            // dd('ok');
             if ($employee->position->sub_dept_id != null) {
                // dd('ada sub');
                $teams = Employee::where('status', 1)->where('sub_dept_id', $employee->position->sub_dept_id)->where('id', '!=', $employee->id)->get();
@@ -687,6 +688,8 @@ class HomeController extends Controller
 
          $spNotifs = Sp::where('status', 2)->orWhere('status', 202)->where('by_id', $employee->id)->where('department_id', $employee->department_id)->orderBy('updated_at', 'desc')->get();
          $spManNotifs = Sp::where('status', 3)->where('department_id', $employee->department_id)->orderBy('updated_at', 'desc')->get();
+        
+         // dd($teams);
          return view('pages.dashboard.manager', [
             'employee' => $biodata->employee,
             'dates' => $dates,

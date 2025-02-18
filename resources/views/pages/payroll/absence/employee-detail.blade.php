@@ -16,15 +16,16 @@ Absence
    <div class="card shadow-none border ">
       <div class=" card-header d-flex justify-content-between">
          <div>
-            <h3 class="">Daftar Absensi</h3>
-            <h3><b>{{$employee->nik}} {{$employee->biodata->fullName()}}</b> </h3>
+            <a class="btn btn-light btn-sm border" href="{{route('payroll.absence')}}"><i class="fa fa-backward"></i> Kembali</a> |
+            <span class="">Daftar Absensi</span>
+            {{-- <h3><b>{{$employee->nik}} {{$employee->biodata->fullName()}}</b> </h3> --}}
          </div>
         
-         @if ($from == 0)
+         {{-- @if ($from == 0)
              <small>All</small>
              @else
              <small>{{formatDate($from)}} - {{formatDate($to)}}</small>
-         @endif
+         @endif --}}
       </div>
 
 
@@ -43,87 +44,108 @@ Absence
             </div>
          </div>
          <hr> --}}
-         
-         <div class="table-responsive px-0">
-            <table id="data" class="display basic-datatables table-sm">
-               <thead>
-                  <tr>
-                     
-                     <th>Type</th>
-                     <th>Day</th>
-                     <th>Date</th>
-                     <th>Desc</th>
-                     <th></th>
-                  </tr>
-               </thead>
-
-               <tbody>
-                  @foreach ($absences as $absence)
-                  <tr>
-                     
-                     <td>
-                        @if ($absence->status == 404)
-                           <span class="text-danger">Permintaan Perubahan</span>
-                            @else
-                            <x-absence.type :absence="$absence" />
-                        @endif
-                        
-                     </td>
-                     <td>{{formatDayName($absence->date)}}</td>
-                     <td>{{formatDate($absence->date)}}</td>
-                     <td>{{$absence->desc}}</td>
-                     <td class="text-truncate">
-                        @if ($absence->getRequest() != null )
-                        <a href="{{route('employee.absence.detail', enkripRambo($absence->getRequest()->id))}}" class="badge badge-info">
-                           <x-absence.type :absence="$absence->getRequest()" />
-                           :
-                           <x-status.form :form="$absence->getRequest()" />
-                          
-                         </a>
-                            @else
-                            <a href="{{route('payroll.absence.edit', enkripRambo($absence->id))}}" class="">Update</a> |
-                        <a href="#" data-target="#modal-delete-absence-{{$absence->id}}" data-toggle="modal">Delete</a>
-                        @endif
-                        
-                     </td>
-                  </tr>
-
-                  <div class="modal fade" id="modal-delete-absence-{{$absence->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                     <div class="modal-dialog modal-sm" role="document">
-                        <div class="modal-content text-dark">
-                           <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                 <span aria-hidden="true">&times;</span>
-                              </button>
-                           </div>
-                           <div class="modal-body ">
-                              Delete data
-                              @if ($absence->type == 1)
-                              Alpha
-                              @elseif($absence->type == 2)
-                              Terlambat ({{$absence->minute}})
-                              @elseif($absence->type == 3)
-                              ATL
+         <div class="row">
+            <div class="col-md-3">
+               <div class="card shadow-none border">
+                  <div class="card-body">
+                     <h4>{{$employee->nik}}</h4>
+                     <h4>{{$employee->biodata->fullName()}}</h4>
+                  </div>
+                  <div class="card-footer">
+                     <small>Periode :</small> <br>
+                     @if ($from == 0)
+                     <small>All</small>
+                     @else
+                     <small>{{formatDate($from)}} - {{formatDate($to)}}</small>
+                  @endif
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-9">
+               <div class="table-responsive px-0">
+                  <table id="data" class="display basic-datatables table-sm">
+                     <thead>
+                        <tr>
+                           
+                           <th>Type</th>
+                           <th>Day</th>
+                           <th>Date</th>
+                           {{-- <th>Desc</th> --}}
+                           <th></th>
+                        </tr>
+                     </thead>
+      
+                     <tbody>
+                        @foreach ($absences as $absence)
+                        <tr>
+                           
+                           <td>
+                              @if ($absence->status == 404)
+                                 <span class="text-danger">Permintaan Perubahan</span>
+                                  @else
+                                  <x-absence.type :absence="$absence" />
                               @endif
-                              {{$absence->employee->nik}} {{$absence->employee->biodata->fullName()}}
-                              tanggal {{formatDate($absence->date)}}
-                              ?
-                           </div>
-                           <div class="modal-footer">
-                              <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-danger ">
-                                 <a class="text-light" href="{{route('payroll.absence.delete', enkripRambo($absence->id))}}">Delete</a>
-                              </button>
+                              
+                           </td>
+                           <td>{{formatDayName($absence->date)}}</td>
+                           <td>{{formatDate($absence->date)}}</td>
+                           {{-- <td>{{$absence->desc}}</td> --}}
+                           <td class="text-truncate">
+                              @if ($absence->getRequest() != null )
+                              <a href="{{route('employee.absence.detail', enkripRambo($absence->getRequest()->id))}}" class="badge badge-info">
+                                 <x-absence.type :absence="$absence->getRequest()" />
+                                 :
+                                 <x-status.form :form="$absence->getRequest()" />
+                                
+                               </a>
+                                  @else
+                                  <a href="{{route('payroll.absence.edit', enkripRambo($absence->id))}}" class="">Update</a> |
+                              <a href="#" data-target="#modal-delete-absence-{{$absence->id}}" data-toggle="modal">Delete</a>
+                              @endif
+                              
+                           </td>
+                        </tr>
+      
+                        <div class="modal fade" id="modal-delete-absence-{{$absence->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                           <div class="modal-dialog modal-sm" role="document">
+                              <div class="modal-content text-dark">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                    </button>
+                                 </div>
+                                 <div class="modal-body ">
+                                    Delete data
+                                    @if ($absence->type == 1)
+                                    Alpha
+                                    @elseif($absence->type == 2)
+                                    Terlambat ({{$absence->minute}})
+                                    @elseif($absence->type == 3)
+                                    ATL
+                                    @endif
+                                    {{$absence->employee->nik}} {{$absence->employee->biodata->fullName()}}
+                                    tanggal {{formatDate($absence->date)}}
+                                    ?
+                                 </div>
+                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-danger ">
+                                       <a class="text-light" href="{{route('payroll.absence.delete', enkripRambo($absence->id))}}">Delete</a>
+                                    </button>
+                                 </div>
+                              </div>
                            </div>
                         </div>
-                     </div>
-                  </div>
-                  @endforeach
-               </tbody>
-               
-            </table>
+                        @endforeach
+                     </tbody>
+                     
+                  </table>
+               </div>
+            </div>
          </div>
+         
+         
 
 
       </div>

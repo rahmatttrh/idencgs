@@ -91,7 +91,7 @@ Payroll Transaction
                   {{$unitTransaction->month}} {{$unitTransaction->year}} 
                   <hr class="bg-white">
                     
-                  {{$unitTransaction->total_employee}} / {{count($unitTransaction->unit->employees->where('status', 1))}} Karyawan <br>
+                  {{count($unitTransaction->transactions)}} Karyawan <br>
                   {{-- Total Salary <br> --}}
                    {{formatRupiah($unitTransaction->total_salary)}}
             </div>

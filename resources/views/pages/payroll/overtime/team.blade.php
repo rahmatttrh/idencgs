@@ -88,26 +88,48 @@ SPKL Team
                      </thead>
                      
                      <tbody>
-                        @foreach ($employees as $emp)
-                        @php
-                              $bio = DB::table('biodatas')->where('id', $emp->biodata_id)->first();
-                              // $employee = DB::table('employees')->where('id', $emp->id)->first();
-                        @endphp
-                            <tr>
-                              <td class="text-truncate">{{$emp->nik}} </td>
-                              <td class="text-truncate" style="max-width: 140px"> 
-                                 <a href="{{route('payroll.overtime.employee.detail', [enkripRambo($emp->id), $from, $to])}}">{{$bio->first_name}} {{$bio->last_name}}</a>
-                              </td>
-                              {{-- <td>{{$emp->location->name ?? '-'}}</td> --}}
-                              {{-- <td class="text-truncate" style="max-width: 100px">{{$emp->unit->name}}</td> --}}
-                              {{-- <td>{{$emp->department->name}}</td> --}}
-                              <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 1))}}</td>
-                              <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 2))}}</td>
-                              @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
-                              <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td>
-                              @endif
-                            </tr>
-                        @endforeach
+                        @if (count($employee->positions) > 0)
+                              @foreach ($employee->positions as $pos)
+                                    
+                                    @foreach ($pos->department->employees->where('status', 1) as $emp)
+                                       <tr>
+                                       <td>{{$emp->nik}}</td>
+                                       {{-- <td>{{$emp->sub_dept->name ?? ''}}</td> --}}
+                                       {{-- <td></td> --}}
+                                       <td class="text-truncate" style="max-width: 140px"> 
+                                          <a href="{{route('payroll.overtime.employee.detail', [enkripRambo($emp->id), $from, $to])}}">{{$emp->biodata->fullName()}}</a>
+                                       </td>
+                                       <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 1))}}</td>
+                                    <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 2))}}</td>
+                                    @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+                                    <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td>
+                                    @endif
+                                       </tr>
+                                    @endforeach
+                              @endforeach
+                            @else
+                            @foreach ($employees as $emp)
+                                 @php
+                                       $bio = DB::table('biodatas')->where('id', $emp->biodata_id)->first();
+                                       // $employee = DB::table('employees')->where('id', $emp->id)->first();
+                                 @endphp
+                                 <tr>
+                                    <td class="text-truncate">{{$emp->nik}} </td>
+                                    <td class="text-truncate" style="max-width: 140px"> 
+                                       <a href="{{route('payroll.overtime.employee.detail', [enkripRambo($emp->id), $from, $to])}}">{{$bio->first_name}} {{$bio->last_name}}</a>
+                                    </td>
+                                    {{-- <td>{{$emp->location->name ?? '-'}}</td> --}}
+                                    {{-- <td class="text-truncate" style="max-width: 100px">{{$emp->unit->name}}</td> --}}
+                                    {{-- <td>{{$emp->department->name}}</td> --}}
+                                    <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 1))}}</td>
+                                    <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 2))}}</td>
+                                    @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+                                    <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td>
+                                    @endif
+                                 </tr>
+                              @endforeach
+                        @endif
+                        
                      </tbody>
                      
                   </table>
