@@ -16,7 +16,13 @@ Absence
    <div class="card shadow-none border ">
       <div class=" card-header d-flex justify-content-between">
          <div>
-            <a class="btn btn-light btn-sm border" href="{{route('payroll.absence')}}"><i class="fa fa-backward"></i> Kembali</a> |
+            @if (auth()->user()->hasRole('HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
+            <a class="btn btn-light btn-sm border" href="{{route('payroll.absence')}}"><i class="fa fa-backward"></i> Kembali</a>
+            @else
+            <a class="btn btn-light btn-sm border" href="{{route('absence.team')}}"><i class="fa fa-backward"></i> Kembali</a>
+            @endif
+            |
+            {{-- <a class="btn btn-light btn-sm border" href="{{route('payroll.absence')}}"><i class="fa fa-backward"></i> Kembali</a> | --}}
             <span class="">Daftar Absensi</span>
             {{-- <h3><b>{{$employee->nik}} {{$employee->biodata->fullName()}}</b> </h3> --}}
          </div>

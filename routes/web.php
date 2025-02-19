@@ -160,6 +160,8 @@ Route::middleware(["auth"])->group(function () {
    Route::post('overtime/filter/team', [OvertimeController::class, 'filterTeam'])->name('payroll.overtime.filter.team');
 
    Route::get('payroll/absence/detail/{id}', [AbsenceController::class, 'detail'])->name('payroll.absence.detail');
+   Route::post('absence/filter/team', [AbsenceController::class, 'filterTeam'])->name('payroll.absence.filter.team');
+   Route::get('payroll/absence/employee/detail/{id}/{from}/{to}', [AbsenceController::class, 'indexEmployeeDetail'])->name('payroll.absence.employee.detail');
 
 
    Route::get('export/spt/{id}', [AbsenceEmployeeController::class, 'exportSpt'])->name('export.spt');
@@ -473,7 +475,7 @@ Route::middleware(["auth"])->group(function () {
 
             Route::post('filter', [AbsenceController::class, 'filter'])->name('payroll.absence.filter');
             Route::post('filter/employee', [AbsenceController::class, 'filterEmployee'])->name('payroll.absence.filter.employee');
-            Route::get('employee/detail/{id}/{from}/{to}', [AbsenceController::class, 'indexEmployeeDetail'])->name('payroll.absence.employee.detail');
+           
             Route::post('/store', [AbsenceController::class, 'store'])->name('payroll.absence.store');
             Route::get('/delete/{id}', [AbsenceController::class, 'delete'])->name('payroll.absence.delete');
             // Route::get('/detail/{id}' , [TransactionController::class, 'detail'])->name('payroll.transaction.detail');

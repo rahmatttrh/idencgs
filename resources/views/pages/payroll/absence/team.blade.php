@@ -13,34 +13,35 @@ Payroll Absence
       </ol>
    </nav>
 
-   <div class="card shadow-none border col-md-12">
+   <div class="card shadow-none border ">
       <div class=" card-header">
          <x-overtime.overtime-team-tab :activeTab="request()->route()->getName()" />
       </div>
 
-      <div class="card-body px-0">
+      <div class="card-body">
 
          <div class="row">
-            
-            <div class="col">
-               <form action="{{route('payroll.absence.filter')}}" method="POST">
+            <div class="col-md-2">
+               <h4>Filter Data</h4>
+               <hr>
+               <form action="{{route('payroll.absence.filter.team')}}" method="POST">
                   @csrf
                   <div class="row">
 
-                     <div class="col-md-2">
+                     <div class="col-md-12">
                         <div class="form-group form-group-default">
                            <label>From</label>
                            <input type="date" name="from" id="from" value="{{$from}}" class="form-control">
                         </div>
                      </div>
-                     <div class="col-md-2">
+                     <div class="col-md-12">
                         <div class="form-group form-group-default">
                            <label>To</label>
                            <input type="date" name="to" id="to" value="{{$to}}" class="form-control">
                         </div>
                      </div>
                      @if (auth()->user()->hasRole('Administrator|HRD-Payroll'))
-                     <div class="col-md-2">
+                     <div class="col-md-12">
                         <div class="form-group form-group-default">
                            <label>Lokasi</label>
                            {{-- <input id="name" name="name" type="text" class="form-control" placeholder="Fill Name"> --}}
@@ -54,8 +55,8 @@ Payroll Absence
                      </div>
                      @endif
                      
-                     <div class="col">
-                        <button class="btn btn-primary" type="submit">Filter</button>
+                     <div class="col-12">
+                        <button class="btn btn-primary btn-block" type="submit">Filter</button>
                      </div>
 
                      @if (auth()->user()->hasRole('Administrator|HRD-Payroll'))
@@ -70,23 +71,77 @@ Payroll Absence
 
                   <!--  End Filter Table  -->
                </form>
+            </div>
+            <div class="col-md-10">
+               
                <div class="table-responsive p-0">
                   <table id="data" class="display basic-datatables table-sm p-0">
                      <thead>
                         <tr>
                            <th>NIK</th>
-                            <th>Name</th>
-                            <th>Loc</th>
-                           <th>Type</th>
-                           <th>Day</th>
-                           <th>Date</th>
-                           <th>Desc</th>
-                           {{-- <th></th> --}}
+                           <th>Name</th>
+                           {{-- <th>Location</th> --}}
+                           {{-- <th>Unit</th> --}}
+                           <th class="text-center">Alpha</th>
+                           <th class="text-center">Terlambat</th>
+                           <th class="text-center">ATL</th>
+                           <th class="text-center">Izin</th>
+                           <th class="text-center">Cuti</th>
+                           <th class="text-center">Sakit</th>
+                           {{-- <th class="text-right">Rate</th> --}}
                         </tr>
                      </thead>
 
                      <tbody>
-                        @foreach ($absences as $absence)
+
+                        @if (count($employee->positions) > 0)
+                              @foreach ($employee->positions as $pos)
+                                    
+                                    @foreach ($pos->department->employees->where('status', 1) as $emp)
+                                    <tr>
+                                       <td class="text-truncate">{{$emp->nik}}</td>
+                                       <td class="text-truncate" style="max-width: 140px"> 
+                                          <a href="{{route('payroll.absence.employee.detail', [enkripRambo($emp->id), $from, $to])}}">{{$emp->biodata->fullName()}}</a>
+                                       </td>
+                                       {{-- <td>{{$emp->location->name ?? '-'}}</td> --}}
+                                       {{-- <td class="text-truncate" style="max-width: 100px">{{$emp->unit->name}}</td> --}}
+                                       {{-- <td>{{$emp->department->name}}</td> --}}
+                                       <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 1))}}</td>
+                                       <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 2))}}</td>
+                                       <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 3))}}</td>
+                                       <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 4))}}</td>
+                                       <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 5))}}</td>
+                                       <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 7))}}</td>
+                                       {{-- <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td> --}}
+                                     </tr>
+                                    @endforeach
+                              @endforeach
+                            @else
+                            @foreach ($employees as $emp)
+                                 @php
+                                       $bio = DB::table('biodatas')->where('id', $emp->biodata_id)->first();
+                                 @endphp
+                                 <tr>
+                                    <td class="text-truncate">{{$emp->nik}}</td>
+                                    <td class="text-truncate" style="max-width: 140px"> 
+                                       <a href="{{route('payroll.absence.employee.detail', [enkripRambo($emp->id), $from, $to])}}">{{$emp->biodata->fullName()}}</a>
+                                    </td>
+                                    {{-- <td>{{$emp->location->name ?? '-'}}</td> --}}
+                                    {{-- <td class="text-truncate" style="max-width: 100px">{{$emp->unit->name}}</td> --}}
+                                    {{-- <td>{{$emp->department->name}}</td> --}}
+                                    <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 1))}}</td>
+                                    <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 2))}}</td>
+                                    <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 3))}}</td>
+                                    <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 4))}}</td>
+                                    <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 5))}}</td>
+                                    <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 7))}}</td>
+                                    {{-- <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td> --}}
+                                  </tr>
+                              @endforeach
+                        @endif
+
+
+                        {{-- @foreach ($absences as $absence)
                         <tr>
                            <td>{{$absence->employee->nik}}</td>
                             <td> {{$absence->employee->biodata->fullName()}}</td>
@@ -120,10 +175,7 @@ Payroll Absence
                            <td>{{formatDayName($absence->date)}}</td>
                            <td>{{formatDate($absence->date)}}</td>
                            <td>{{$absence->desc}}</td>
-                           {{-- <td>
-                            <a href="{{route('payroll.absence.edit', enkripRambo($absence->id))}}" class="">Update</a> |
-                              <a href="#" data-target="#modal-delete-absence-{{$absence->id}}" data-toggle="modal">Delete</a>
-                           </td> --}}
+                          
                         </tr>
 
                         <div class="modal fade" id="modal-delete-absence-{{$absence->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -157,7 +209,7 @@ Payroll Absence
                               </div>
                            </div>
                         </div>
-                        @endforeach
+                        @endforeach --}}
                      </tbody>
 
                   </table>

@@ -3,10 +3,10 @@
 
     <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-            <a class="nav-link{{ $activeTab === 'overtime.team' ? ' active' : '' }}" href="{{ route('overtime.team') }}">SPKL</a>
+            <a class="nav-link{{ $activeTab === 'overtime.team' ? ' active' : '' }} {{ $activeTab === 'payroll.overtime.filter.team' ? ' active' : '' }}" href="{{ route('overtime.team') }}">SPKL</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link{{ $activeTab === 'absence.team' ? ' active' : '' }}" href="{{ route('absence.team') }}">Absence</a>
+            <a class="nav-link{{ $activeTab === 'absence.team' ? ' active' : '' }} {{ $activeTab === 'payroll.absence.filter.team' ? ' active' : '' }}" href="{{ route('absence.team') }}">Absence</a>
       </li>
         
         

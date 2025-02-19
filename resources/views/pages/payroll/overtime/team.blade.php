@@ -13,16 +13,16 @@ SPKL Team
       </ol>
    </nav>
 
-   <div class="card shadow-none border col-md-12">
+   <div class="card shadow-none border">
       <div class=" card-header">
          <x-overtime.overtime-team-tab :activeTab="request()->route()->getName()" />
       </div>
 
-      <div class="card-body px-0">
+      <div class="card-body">
 
          <div class="row">
             <div class="col-md-3">
-               <h4>Form Filter</h4>
+               <h4>Filter Data</h4>
                <hr>
                <form class="" action="{{route('payroll.overtime.filter.team')}}" method="POST">
                   @csrf

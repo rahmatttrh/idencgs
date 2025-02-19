@@ -125,7 +125,7 @@ class AbsenceController extends Controller
    {
 
       $now = Carbon::now();
-      $employees = Employee::get();
+      
 
       $export = false;
       $loc = 'All';
@@ -138,6 +138,12 @@ class AbsenceController extends Controller
       ->select('absences.*')
       ->get();
 
+      $employees = Employee::join('employee_leaders', 'employees.id', '=', 'employee_leaders.employee_id')
+            
+            ->where('leader_id', $employee->id)
+            ->select('employees.*')
+            ->get();
+
 
       
 
@@ -148,12 +154,48 @@ class AbsenceController extends Controller
          'export' => $export,
          'loc' => $loc,
          'locations' => $locations,
+         'employee' => $employee,
          'employees' => $employees,
          'absences' => $myTeamAbsences,
          'month' => $now->format('F'),
          'year' => $now->format('Y'),
-         'from' => null,
-         'to' => null
+         'from' => 0,
+         'to' => 0
+      ])->with('i');
+   }
+
+   public function filterTeam(Request $req){
+      // dd('ok');
+      // $overtimes = Overtime::get();
+      $now = Carbon::now();
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
+
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      
+
+      $employees = Employee::join('employee_leaders', 'employees.id', '=', 'employee_leaders.employee_id') 
+            ->where('leader_id', $employee->id)
+            ->select('employees.*')
+            ->get();
+
+     
+
+      
+      return view('pages.payroll.absence.team', [
+         'employee' => $employee,
+         'employees' => $employees,
+         'export' => $export,
+         'loc' => $loc,
+         'locations' => $locations,
+         // 'overtimes' => $myTeamOvertimes,
+         // 'employees' => $employees,
+         'month' => $now->format('F'),
+         'year' => $now->format('Y'),
+         'from' => $req->from,
+         'to' => $req->to
+         // 'holidays' => $holidays
       ])->with('i');
    }
 
