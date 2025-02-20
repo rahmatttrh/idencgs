@@ -14,4 +14,8 @@ class Cuti extends Model
    {
       return $this->belongsTo(Employee::class);
    }
+
+   public function details(){
+      return $this->hasMany(CutiDetail::class);
+   }
 }

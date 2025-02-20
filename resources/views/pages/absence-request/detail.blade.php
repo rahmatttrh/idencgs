@@ -20,7 +20,7 @@ Form Absence
    <div class="card shadow-none border ">
       <div class=" card-header">
          
-            Detail Request Absensi
+            Detail Formulir {{$type}} 
         
         
       </div>
@@ -67,7 +67,7 @@ Form Absence
 
                   @if ($absenceEmp->type == 5)
                      <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Persetujuan</label>
                               <select class="form-control " required name="persetujuan" id="persetujuan">
@@ -82,50 +82,7 @@ Form Absence
                               </select>
                            </div>
                         </div>
-                        {{-- <div class="col-md-4">
-                           <div class="form-group form-group-default">
-                              <label>Jumlah Cuti </label>
-                              <input type="text" class="form-control" id="cuti_taken" name="cuti_taken" value="{{$absenceEmp->cuti_taken}}">
-                           </div>
-                        </div> --}}
-                        <div class="col-md-4">
-                           <div class="form-group form-group-default">
-                              <label>Lama Cuti</label>
-                              <input type="text" class="form-control" id="cuti_qty" name="cuti_qty" value="{{$absenceEmp->cuti_qty}}">
-                           </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="form-group form-group-default">
-                              <label>Mulai cuti</label>
-                              <input type="date" class="form-control" id="cuti_start" name="cuti_start" value="{{$absenceEmp->cuti_start}}">
-                           </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="form-group form-group-default">
-                              <label>Sampai dengan</label>
-                              <input type="date" class="form-control" id="cuti_end" name="cuti_end" value="{{$absenceEmp->cuti_end}}">
-                           </div>
-                        </div>
-
                         <div class="col-md-6">
-                           <div class="form-group form-group-default">
-                              <label>Cuti Diambil</label>
-                              <input type="text" class="form-control" id="cuti_qty" name="cuti_qty" readonly value="{{$cuti->used}}">
-                           </div>
-                        </div>
-                        <div class="col-md-6">
-                           <div class="form-group form-group-default">
-                              <label>Sisa Cuti </label>
-                              <input type="text" class="form-control" id="cuti_qty" name="cuti_qty" readonly value="{{$cuti->sisa}}">
-                           </div>
-                        </div>
-                        <div class="col-md-12">
-                           <div class="form-group form-group-default">
-                              <label>Keperluan</label>
-                              <input type="text" class="form-control" id="keperluan" name="keperluan" value="{{$absenceEmp->desc}}">
-                           </div>
-                        </div>
-                        <div class="col-md-12">
                            <div class="form-group form-group-default">
                               <label>Karyawan Pengganti</label>
                               <select class="form-control"  name="cuti_backup" id="cuti_backup">
@@ -138,6 +95,51 @@ Form Absence
                               </select>
                            </div>
                         </div>
+                        {{-- <div class="col-md-4">
+                           <div class="form-group form-group-default">
+                              <label>Jumlah Cuti </label>
+                              <input type="text" class="form-control" id="cuti_taken" name="cuti_taken" value="{{$absenceEmp->cuti_taken}}">
+                           </div>
+                        </div> --}}
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Cuti Diambil</label>
+                              <input type="text" class="form-control" id="cuti_qty" name="cuti_qty" readonly value="{{$cuti->used}}">
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Sisa Cuti </label>
+                              <input type="text" class="form-control"  id="cuti_qty" name="cuti_qty" readonly value="{{$cuti->sisa}}">
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="form-group form-group-default">
+                              <label>Lama Cuti</label>
+                              <input type="text" class="form-control" readonly id="cuti_qty" name="cuti_qty" value="{{$absenceEmp->cuti_qty}}">
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="form-group form-group-default">
+                              <label>Mulai cuti</label>
+                              <input type="date" class="form-control" readonly id="cuti_start" name="cuti_start" value="{{$absenceEmp->cuti_start}}">
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="form-group form-group-default">
+                              <label>Sampai dengan</label>
+                              <input type="date" class="form-control "  readonly id="cuti_end" name="cuti_end" value="{{$absenceEmp->cuti_end}}">
+                           </div>
+                        </div>
+
+                        
+                        <div class="col-md-12">
+                           <div class="form-group form-group-default">
+                              <label>Keperluan</label>
+                              <input type="text" class="form-control" id="keperluan" name="keperluan" value="{{$absenceEmp->desc}}">
+                           </div>
+                        </div>
+                        
                      </div>
                   @endif
 
@@ -273,6 +275,37 @@ Form Absence
                      
                   </div>
                </div>
+
+
+               @if ($absenceEmp->type == 5)
+               <form action="{{route('employee.absence.detail.store')}}" method="POST">
+                  @csrf
+                  <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="form-group form-group-default">
+                           <label>Tanggal Cuti</label>
+                           <input type="date" required class="form-control" id="date" name="date">
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <button class="btn btn-primary btn-block" type="submit">Add</button>
+                     </div>
+                  </div>
+               </form>
+               <table>
+                  <tbody>
+                     @foreach ($absenceEmployeeDetails as $detail)
+                     <tr>
+                        <td>{{formatDate($detail->date)}}</td>
+                        <td><a href="{{route('employee.absence.detail.delete', enkripRambo($detail->id))}}">Remove</a></td>
+                     </tr>
+                     @endforeach
+                     
+                  </tbody>
+               </table>
+               <hr>
+               @endif
                
                @if($absenceEmp->status == 0)
                <a href="" class="btn btn-primary btn-block" data-target="#modal-release-absence-employee" data-toggle="modal">Release</a>

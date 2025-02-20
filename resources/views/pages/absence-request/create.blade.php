@@ -60,21 +60,9 @@ Form Absence
                            </select>
                         </div>
                      </div>
-                     <div class="col-md-12 type_spt">
-                        <div class="form-group form-group-default">
-                           <label>Pemberi Perintah</label>
-                           <select class="form-control "  name="leader" id="leader">
-                              <option value="" disabled selected>Select</option>
-                              @foreach ($employeeLeaders as $lead)
-                                 <option  value="{{$lead->leader_id}}">{{$lead->leader->biodata->fullName()}}</option>
-                              @endforeach
-                              {{-- <option  value="4">Izin</option>
-                              <option value="5">Cuti</option>
-                              <option  value="6">SPT</option>
-                              <option value="7">Sakit</option> --}}
-                           </select>
-                        </div>
-                     </div>
+
+                     
+                     
                      
 
                      <div class="col-md-6 type_izin">
@@ -92,7 +80,7 @@ Form Absence
 
                   <span class="type_cuti">
                      <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                            <div class="form-group form-group-default ">
                               <label>Persetujuan</label>
                               <select class="form-control "  name="persetujuan" id="persetujuan">
@@ -107,13 +95,26 @@ Form Absence
                               </select>
                            </div>
                         </div>
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Karyawan Pengganti</label>
+                              <select class="form-control"  name="cuti_backup" id="cuti_backup">
+                                 <option value="" disabled selected>Select</option>
+                                 @foreach ($employees as $emp)
+                                 <option value="{{$emp->id}}">{{$emp->biodata->fullName()}}</option>
+                                 @endforeach
+                                 
+                                
+                              </select>
+                           </div>
+                        </div>
                         {{-- <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Jumlah cuti yang sudah diambil</label>
                               <input type="text" class="form-control" id="cuti_taken" name="cuti_taken">
                            </div>
                         </div> --}}
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                            <div class="form-group form-group-default">
                               <label>Lama Cuti </label>
                               <input type="text" class="form-control" id="cuti_qty" name="cuti_qty">
@@ -130,30 +131,31 @@ Form Absence
                               <label>Sampai dengan</label>
                               <input type="date" class="form-control" id="cuti_end" name="cuti_end">
                            </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-12">
                            <div class="form-group form-group-default">
                               <label>Keperluan</label>
                               <input type="text" class="form-control" id="keperluan" name="keperluan">
                            </div>
                         </div>
-                        <div class="col-md-12">
-                           <div class="form-group form-group-default">
-                              <label>Karyawan Pengganti</label>
-                              <select class="form-control"  name="cuti_backup" id="cuti_backup">
-                                 <option value="" disabled selected>Select</option>
-                                 @foreach ($employees as $emp)
-                                 <option value="{{$emp->id}}">{{$emp->biodata->fullName()}}</option>
-                                 @endforeach
-                                 
-                                
-                              </select>
-                           </div>
-                        </div>
+                        
                      </div>
                   </span>
 
                   <span class="type_spt">
+                     <div class="form-group form-group-default">
+                        <label>Pemberi Perintah</label>
+                        <select class="form-control "  name="leader" id="leader">
+                           <option value="" disabled selected>Select</option>
+                           @foreach ($employeeLeaders as $lead)
+                              <option  value="{{$lead->leader_id}}">{{$lead->leader->biodata->fullName()}}</option>
+                           @endforeach
+                           {{-- <option  value="4">Izin</option>
+                           <option value="5">Cuti</option>
+                           <option  value="6">SPT</option>
+                           <option value="7">Sakit</option> --}}
+                        </select>
+                     </div>
                      <div class="form-group form-group-default">
                         <label>Maksud Perintah Tugas</label>
                         <textarea  class="form-control" id="desc" name="desc" rows="2"></textarea>
@@ -236,7 +238,7 @@ Form Absence
                      <input type="file" class="form-control" id="doc" name="doc">
                   </div>
                   <hr>
-                  <button class="btn  btn-primary" type="submit">Submit</button>
+                  <button class="btn  btn-primary" type="submit">Save</button>
 
                   
 

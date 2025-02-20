@@ -439,11 +439,13 @@ class PayrollController extends Controller
       }
 
 
+
+
       $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
 
-      // foreach($redEmployees as $redemp){
-      //    $redemp->delete();
-      // }
+      foreach($redEmployees as $redemp){
+         $redemp->delete();
+      }
 
 
       // foreach ($reductions as $red) {

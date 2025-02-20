@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Absence;
 use App\Models\AbsenceEmployee;
+use App\Models\AbsenceEmployeeDetail;
 use App\Models\Cuti;
 use App\Models\Employee;
 use App\Models\EmployeeLeader;
@@ -116,13 +117,31 @@ class AbsenceEmployeeController extends Controller
       $cuti = Cuti::where('employee_id', $employee->id)->first();
       $employees = Employee::where('department_id', $employee->department_id)->get();
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
+      
 
+      if ($absenceEmployee->type == 5) {
+         $absenceEmployeeDetails = AbsenceEmployeeDetail::where('absence_employee_id', $absenceEmployee->id)->get();
+         $start = AbsenceEmployeeDetail::where('absence_employee_id', $absenceEmployee->id)->orderBy('date', 'asc')->first();
+         $end = AbsenceEmployeeDetail::where('absence_employee_id', $absenceEmployee->id)->orderBy('date', 'desc')->first();
+         $total = count($absenceEmployeeDetails);
+
+         if (count($absenceEmployeeDetails) > 0) {
+            $absenceEmployee->update([
+               'cuti_qty' => $total,
+               'cuti_start' => $start->date,
+               'cuti_end' => $end->date
+            ]);
+         }
+         
+         // dd($total);
+      }
       return view('pages.absence-request.detail', [
          'activeTab' => $activeTab,
          'type' => $type,
          'employee' => $employee,
          'absenceEmp' => $absenceEmployee,
          'employeeLeaders' => $employeeLeaders,
+         'absenceEmployeeDetails' => $absenceEmployeeDetails,
          'employees' => $employees,
          'cuti' => $cuti,
          'from' => null,

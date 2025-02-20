@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbsenceController;
 use App\Http\Controllers\AbsenceEmployeeController;
+use App\Http\Controllers\AbsenceEmployeeDetailController;
 use App\Http\Controllers\AbsenceLeaderController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AdditionalController;
@@ -61,6 +62,7 @@ use App\Http\Controllers\ReductionAdditionalController;
 use App\Http\Controllers\ReductionEmployeeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UnitTransactionController;
+use App\Models\AbsenceEmployeeDetail;
 use App\Models\Emergency;
 use App\Models\EmployeeLeader;
 use App\Models\Overtime;
@@ -844,6 +846,9 @@ Route::middleware(["auth"])->group(function () {
             Route::post('/store', [AbsenceEmployeeController::class, 'store'])->name('employee.absence.store');
             Route::put('/update', [AbsenceEmployeeController::class, 'update'])->name('employee.absence.update');
             Route::get('/delete/{id}', [AbsenceEmployeeController::class, 'delete'])->name('employee.absence.delete');
+
+            Route::post('/detail/store', [AbsenceEmployeeDetailController::class, 'store'])->name('employee.absence.detail.store');
+            Route::get('/detail/delte/{id}', [AbsenceEmployeeDetailController::class, 'delete'])->name('employee.absence.detail.delete');
 
             // Approval
             Route::get('/request/{id}', [AbsenceEmployeeController::class, 'requestEmployee'])->name('employee.absence.request');

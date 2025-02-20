@@ -30,4 +30,8 @@ class AbsenceEmployee extends Model
    {
       return $this->belongsTo(Employee::class);
    }
+
+   public function details(){
+      $this->hasMany(AbsenceEmployeeDetail::class);
+   }
 }
