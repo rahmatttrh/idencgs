@@ -121,6 +121,34 @@ Payroll Transaction
       </div>
       @endif
    </div>
+
+
+   @php
+                           
+                           $totalGrandHead = 0;
+                        @endphp
+                        @foreach ($locations as $loc)
+                           @if ($loc->totalEmployee($unit->id) > 0)
+                           
+                              @php
+                                 
+                                 $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
+
+                                 // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
+                                 $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
+                                 $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction);
+                                 $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
+                                 $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
+                                 $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
+
+                                 $total = ($bruto) - ($tk + $ks + $jp + $abs + $late);
+                                 
+                                 $totalGrandHead += $total;
+                              @endphp
+
+                           @endif
+                        
+                        @endforeach
    
 
    <div class="card card-with-nav shadow-none border">
@@ -132,7 +160,7 @@ Payroll Transaction
          </div>
          
          <div class="text-right">
-            <h2 class="mt-3"> <b>{{formatRupiahB($unit->getUnitTransaction($unitTransaction)->sum('total'))}}</b></h2>
+            <h2 class="mt-3"> <b>{{formatRupiahB($totalGrandHead)}}</b></h2>
             <small>Status : <span class="text-uppercase"> <x-status.unit-transaction :unittrans="$unitTransaction"/> </span></small>
          </div>
          
@@ -247,7 +275,7 @@ Payroll Transaction
                               $gaji = $loc->getValueGaji($unit->id, $unitTransaction);
                               $overtime = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime');
                               $additional = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
-                              $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime');
+                              $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
 
                               // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
                               $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
@@ -255,7 +283,8 @@ Payroll Transaction
                               $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
                               $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
                               $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
-                              $total = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('total');
+
+                              $total = ($bruto) - ($tk + $ks + $jp + $abs + $late);
       
                               $totalPokok += $pokok;
                               $totalJabatan += $jabatan;
