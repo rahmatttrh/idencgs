@@ -42,12 +42,34 @@ class TransactionExport implements FromQuery, WithMapping, ShouldAutoSize, WithH
     public function headings(): array
     {
 
+                     
+      $totalGrandHead = 0;
+      $locations = Location::get();
+      foreach($locations as $loc){
+         if(count($loc->getUnitTransaction($this->unitTransaction->unit_id, $this->unitTransaction)) > 0) {
+            $bruto = $loc->getValueGaji($this->unitTransaction->unit_id, $this->unitTransaction) + $loc->getUnitTransaction($this->unitTransaction->unit_id, $this->unitTransaction)->sum('overtime') + $loc->getUnitTransaction($this->unitTransaction->unit_id, $this->unitTransaction)->sum('additional_penambahan');
+            // $tk = 2/100 * $loc->getValueGaji($this->unitTransaction->unit_id, $this->unitTransaction);
+            $tk = $loc->getReduction($this->unitTransaction->unit_id, $this->unitTransaction, 'JHT');
+            $ks = $loc->getReduction($this->unitTransaction->unit_id, $this->unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($this->unitTransaction->unit_id, $this->unitTransaction);
+            $jp = $loc->getReduction($this->unitTransaction->unit_id, $this->unitTransaction, 'JP');
+            $abs = $loc->getUnitTransaction($this->unitTransaction->unit_id, $this->unitTransaction)->sum('reduction_absence');
+            $late = $loc->getUnitTransaction($this->unitTransaction->unit_id, $this->unitTransaction)->sum('reduction_late');
+
+            $total = ($bruto) - ($tk + $ks + $jp + $abs + $late);
+            
+            $totalGrandHead += $total;
+         } 
+      }
+
+   
+   
+
         return [
             [
                 $this->unitTransaction->unit->name,
             ],
             [
-                formatRupiahB($this->unitTransaction->unit->getUnitTransaction($this->unitTransaction)->sum('total'))
+                formatRupiahB($totalGrandHead)
             ],
             [
                 $this->unitTransaction->month,
