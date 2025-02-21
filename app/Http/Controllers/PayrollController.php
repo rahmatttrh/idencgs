@@ -31,8 +31,7 @@ class PayrollController extends Controller
       //       'payslip_status' => 'show'
       //    ]);
       // }
-      $employees = Employee::where('status', 1)->where('unit_id', 9)->get();
-      // dd($employees);
+      $employees = Employee::where('status', 1)->where('unit_id', 13)->get();
       // $transactionCon = new TransactionController;
       // $transactions = Transaction::where('status', '!=', 3)->get();
       // foreach ($transactions as $tran) {
@@ -41,6 +40,13 @@ class PayrollController extends Controller
       
       $locations = Location::get();
       foreach($employees as $employee){
+
+         $redEmpExists = ReductionEmployee::where('employee_id', $employee->id)->get();
+         foreach($redEmpExists as $red){
+            $red->delete();
+         }
+         
+         
          $payroll = Payroll::find($employee->payroll_id);
          $reductions = Reduction::where('unit_id', $employee->unit_id)->get();
          $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
@@ -222,7 +228,7 @@ class PayrollController extends Controller
                      'type' => 'Default',
                      'location_id' => $location,
                      'employee_id' => $employee->id,
-                     'status' => 1,
+                     // 'status' => 1,
                      'employee_value' => $bebanKaryawan,
                      'employee_value_real' => $bebanKaryawanReal,
                      'company_value' => $bebanPerusahaan,
@@ -532,7 +538,7 @@ class PayrollController extends Controller
                   'type' => 'Default',
                   'location_id' => $location,
                   'employee_id' => $employee->id,
-                  // 'status' => 1,
+                  'status' => 1,
                   'employee_value' => $bebanKaryawan,
                   'employee_value_real' => $bebanKaryawanReal,
                   'company_value' => $bebanPerusahaan,

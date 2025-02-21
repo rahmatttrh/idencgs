@@ -39,7 +39,7 @@ History Formulir Pengajuan
             <div class="col-md-12">
                
                <div class="table-responsive ">
-                  <table id="data" class="">
+                  <table id="data" class="basic-datatables">
                      <thead>
                         <tr>
                            <th>Type</th>

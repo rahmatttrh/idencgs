@@ -90,7 +90,7 @@ SPKL
                               <th class="text-right">Rate</th>
                               @endif
                               <th>Desc</th>
-                              @if (auth()->user()->hasRole('HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
+                              @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
                               <th></th>
                               @endif
                            </tr>
@@ -154,7 +154,7 @@ SPKL
                                  <td class="text-truncate" style="max-width: 150px">
                                     {{$over->description}}
                                  </td>
-                                 @if (auth()->user()->hasRole('HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
+                                 @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
                                  <td class="text-truncate">
                                  <a href="{{route('payroll.overtime.edit', enkripRambo($over->id))}}">Edit</a> |
                                     <a href="#" data-target="#modal-delete-overtime-{{$over->id}}" data-toggle="modal">Delete</a>
