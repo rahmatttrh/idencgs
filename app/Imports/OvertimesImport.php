@@ -62,6 +62,28 @@ class OvertimesImport implements ToCollection,  WithHeadingRow
             }
 
             // $hoursFinal = 0;
+            // if ($holidayType == 1) {
+            //    $finalHour = $row['hours'];
+            //    if ($hour_type == 2) {
+            //       // dd('test');
+            //       $multiHours = $row['hours'] - 1;
+            //       $finalHour = $multiHours * 2 + 1.5;
+            //       // dd($finalHour);
+            //    }
+            // } elseif ($holidayType == 2) {
+            //    $finalHour = $row['hours'] * 2;
+            // } elseif ($holidayType == 3) {
+            //    $finalHour = $row['hours'] * 2;
+            // } elseif ($holidayType == 4) {
+            //    $finalHour = $row['hours'] * 3;
+            // }
+
+            // if ($type == 1) {
+            //    $finalHour = $finalHour;
+            // } else {
+
+            // }
+
             if ($holidayType == 1) {
                $finalHour = $row['hours'];
                if ($hour_type == 2) {
@@ -74,14 +96,52 @@ class OvertimesImport implements ToCollection,  WithHeadingRow
                $finalHour = $row['hours'] * 2;
             } elseif ($holidayType == 3) {
                $finalHour = $row['hours'] * 2;
+               // $employee = Employee::where('payroll_id', $payroll->id)->first();
+                  if ($employee->unit_id ==  7 || $employee->unit_id ==  8 || $employee->unit_id ==  9) {
+                     // dd('ok');
+                     if ($row['hours'] <= 7) {
+                        $finalHour = $row['hours'] * 2;
+                     } else{
+                        // dd('ok');
+                        $hours7 = 14;
+                        $sisa1 = $row['hours'] - 7;
+                        $hours8 = 3;
+                        if ($sisa1 > 1) {
+                           $sisa2 = $sisa1 - 1;
+                           $hours9 = $sisa2 * 4;
+                        } else {
+                           $hours9 = 0;
+                        }
+         
+                        $finalHour = $hours7 + $hours8 + $hours9;
+                        // dd($finalHour);
+      
+                     }
+                  } else {
+                     if ($row['hours'] <= 8) {
+                        $finalHour = $row['hours'] * 2;
+                     } else{
+                        $hours8 = 16;
+                        $sisa1 = $row['hours'] - 8;
+                        $hours9 = 3;
+                        if ($sisa1 > 1) {
+                           $sisa2 = $sisa1 - 1;
+                           $hours10 = $sisa2 * 4;
+                        } else {
+                           $hours10 = 0;
+                        }
+         
+                        $finalHour = $hours8 + $hours9 + $hours10;
+                     }
+                  }
             } elseif ($holidayType == 4) {
                $finalHour = $row['hours'] * 3;
             }
-
+      
             if ($type == 1) {
                $finalHour = $finalHour;
             } else {
-
+      
             }
 
             // dd('ok');
