@@ -36,14 +36,14 @@ Setup Payroll Employee
                
                <div class="card-list">
                   <div class="item-list">
-                     <div class="avatar avatar-lg avatar-online " >
+                     {{-- <div class="avatar avatar-lg avatar-online " >
 
                         @if ($employee->picture)
                         <img src="{{asset('storage/' . $employee->picture)}}" alt="..." class="avatar-img rounded-circle border" >
                         @else
                         <img src="{{asset('img/user.png')}}" alt="..." class="avatar-img rounded-circle">
                         @endif
-                     </div>
+                     </div> --}}
                      <div class="info-user ml-3">
                         <div class="username">
                            <h3>{{$employee->biodata->first_name}} {{$employee->biodata->last_name}}</h3>
@@ -267,7 +267,7 @@ Setup Payroll Employee
                                     <div class="row">
                                        <div class="col">
                                           <div class="form-group form-group-default">
-                                             <label>{{$red->reduction->name}} {{$red->id}}</label>
+                                             <label>{{$red->reduction->name}} </label>
                                              <input type="text" name="" id="" class="form-control" value="{{formatRupiah($red->employee_value)}}">
                                           </div>
                                        </div>
@@ -347,7 +347,7 @@ Setup Payroll Employee
                                  </thead>
                                  <tbody>
                                     
-                                    @foreach ($redEmployees->where('type', 'Additional') as $red)
+                                    @foreach ($redAddEmployees as $red)
                                        <tr>
                                           <td>{{$red->reduction->name}}</td>
                                           <td>{{$red->description}}</td>

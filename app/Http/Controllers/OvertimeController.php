@@ -1207,7 +1207,7 @@ class OvertimeController extends Controller
          'department_id' => $departmentId,
          'user_id' => auth()->user()->id,
          'action' => 'Add',
-         'desc' => 'Data SPKL ' . $employee->nik . ' ' . $employee->biodata->fullName()
+         'desc' => 'Data SPKL ' . $overtime->id . ' ' . $employee->nik . ' ' . $employee->biodata->fullName()
       ]);
 
 

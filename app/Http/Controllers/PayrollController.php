@@ -444,7 +444,7 @@ class PayrollController extends Controller
 
 
 
-      $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
+      $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->where('type', 'Default')->get();
 
       // foreach($redEmployees as $redemp){
       //    $redemp->delete();
@@ -549,7 +549,7 @@ class PayrollController extends Controller
                ]);
             }
          }
-         $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
+         $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->where('type', 'Default')->get();
          // dd('ok');
       } else {
          // dd('empty');
@@ -566,11 +566,13 @@ class PayrollController extends Controller
 
       // dd($redEmployees);
       // dd($redAdditionals);
+      $redAddEmployees = ReductionEmployee::where('employee_id', $employee->id)->where('type', 'Additional')->get();
 
       return view('pages.payroll.detail', [
          'employee' => $employee,
          'reductions' => $reductions,
          'redEmployees' => $redEmployees,
+         'redAddEmployees' => $redAddEmployees,
          'redAdditionals' => $redAdditionals
       ]);
    }

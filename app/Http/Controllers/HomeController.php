@@ -51,7 +51,7 @@ class HomeController extends Controller
    public function index()
    {
 
-      $allUsers = User::get();
+      // $allUsers = User::gett();
       // $transactions = Transaction::get();
       // foreach($transactions as $tran){
       //    $tran->update([
@@ -71,12 +71,12 @@ class HomeController extends Controller
          // dd('tidak ada role');
       }
 
-      $overtimes = Overtime::get();
-      foreach ($overtimes as $over) {
-         if ($over->hours == 0) {
-            $over->delete();
-         }
-      }
+      // $overtimes = Overtime::get();
+      // foreach ($overtimes as $over) {
+      //    if ($over->hours == 0) {
+      //       $over->delete();
+      //    }
+      // }
 
       // }
       // if (auth()->user()->hasRole('Manager')) {
