@@ -25,6 +25,7 @@ class OvertimeController extends Controller
 {
 
    public function debug(){
+      // dd('okeee');
       $overtimes = Overtime::join('employees', 'overtimes.employee_id', '=', 'employees.id')
       ->whereIn('employees.unit_id', [7,8,9])
       ->select('overtimes.*')
@@ -438,6 +439,7 @@ class OvertimeController extends Controller
 
 
    public function refresh(){
+      // dd('ok');
       $overtimes = Overtime::get();
       $employees = Employee::where('status', 1)->get();
       foreach($employees as $emp){
@@ -1062,11 +1064,12 @@ class OvertimeController extends Controller
 
    public function store(Request $req)
    {
-      // // dd('ok');
+      // dd('ok');
       // $req->validate([
       //    'doc' => 'required|image|mimes:jpg,jpeg,png|max:5120',
       // ]);
       // dd($req->holiday_type);
+      // dd($req->employee);
 
       $employee = Employee::find($req->employee);
       $transaction = Transaction::find($req->transaction);
@@ -1200,6 +1203,8 @@ class OvertimeController extends Controller
       //    $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
       // }
 
+      // dd($overtime->id);
+
       if (auth()->user()->hasRole('Administrator')) {
          $departmentId = null;
       } else {
@@ -1210,12 +1215,12 @@ class OvertimeController extends Controller
          'department_id' => $departmentId,
          'user_id' => auth()->user()->id,
          'action' => 'Add',
-         'desc' => 'Data SPKL ' . $employee->nik . ' ' . $employee->biodata->fullName()
+         'desc' => 'Data SPKL ' . $overtime->id . ' ' . $employee->nik . ' ' . $employee->biodata->fullName()
       ]);
 
 
 
-      return redirect()->back( )->with('success', 'Overtime Data successfully added');
+      return redirect()->back()->with('success', 'Overtime Data successfully added');
    }
 
 
@@ -1323,6 +1328,7 @@ class OvertimeController extends Controller
          $user = Employee::find(auth()->user()->getEmployeeId());
          $departmentId = $user->department_id;
       }
+      // dd($overtime->id);
       Log::create([
          'department_id' => $departmentId,
          'user_id' => auth()->user()->id,

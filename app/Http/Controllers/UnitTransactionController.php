@@ -100,7 +100,7 @@ class UnitTransactionController extends Controller
          $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
          $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
 
-         $total = ($bruto) - ($tk + $ks + $jp + $abs + $late);
+         $total = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('total');
          
          $totalGrandHead += $total;
       }

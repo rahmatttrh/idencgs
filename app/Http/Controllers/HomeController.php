@@ -59,9 +59,9 @@ class HomeController extends Controller
       //    ]);
       // }
 
-      // $userDebug = User::where('username', 'kj-4-022')->first();
+      // $userDebug = User::where('username', 'EN-4-095')->first();
       // $userDebug->update([
-      //          'password' => Hash::make('12345678')
+      //          'password' => Hash::make('dobby123')
       //       ]);
       // foreach ($allUsers as $user) {
       //    $user->update([
@@ -76,11 +76,11 @@ class HomeController extends Controller
       }
 
       $overtimes = Overtime::get();
-      foreach ($overtimes as $over) {
-         if ($over->hours == 0) {
-            $over->delete();
-         }
-      }
+      // foreach ($overtimes as $over) {
+      //    if ($over->hours == 0) {
+      //       $over->delete();
+      //    }
+      // }
 
       // }
       // if (auth()->user()->hasRole('Manager')) {
@@ -228,6 +228,9 @@ class HomeController extends Controller
       $broadcasts = Announcement::where('type', 1)->where('status', 1)->get();
       if (auth()->user()->hasRole('Administrator')) {
          $personals = [];
+
+         // $overs = Overtime::where('employee_id', 23)->orderBy('created_at', 'desc')->get();
+         // dd($overs);
       } else {
          $employee = Employee::where('nik', auth()->user()->username)->first();
          $personals = Announcement::where('type', 2)->where('status', 1)->where('employee_id', $employee->id)->get();

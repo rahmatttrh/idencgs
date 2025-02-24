@@ -97,6 +97,9 @@ SPKL
                               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
                               <th></th>
                               @endif
+                              @if (auth()->user()->hasRole('Administrator'))
+                              <th></th>
+                              @endif
                            </tr>
                         </thead>
                         
@@ -163,6 +166,9 @@ SPKL
                                  <a href="{{route('payroll.overtime.edit', enkripRambo($over->id))}}">Edit</a> |
                                     <a href="#" data-target="#modal-delete-overtime-{{$over->id}}" data-toggle="modal">Delete</a>
                                  </td>
+                                 @endif
+                                 @if (auth()->user()->hasRole('Administrator'))
+                                 <td>{{formatDateTime($over->created_at)}}</td>
                                  @endif
                               </tr>
       

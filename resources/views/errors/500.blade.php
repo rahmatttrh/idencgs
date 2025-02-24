@@ -35,8 +35,8 @@
 			Back To Home
 		</a>
 		<hr>
-		{{Request::url()}} <br>
-    	{{$exception->getMessage() . ' line: ' . __LINE__}}
+		{{-- {{Request::url()}} <br>
+    	{{$exception->getMessage() . ' line: ' . __LINE__}} --}}
 	</div>
 	<script src="{{asset('js/core/jquery.3.2.1.min.js')}}"></script>
 	<script src="{{asset('js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')}}"></script>
