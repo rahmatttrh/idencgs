@@ -61,7 +61,7 @@ class Transaction extends Model
    {
       $value = 0;
       
-      $transReduction = TransactionReduction::where('transaction_id', $this->id)->where('name', $name)->where('type', $user)->first();
+      $transReduction = TransactionReduction::where('transaction_id', $this->id)->where('name', $name)->where('type', $user)->get();
       // $transReduction = Reduction::where('class', 'Default')->where('type', 'employee')
       
       if ($transReduction) {

@@ -208,7 +208,7 @@ Payroll Transaction
                            {{formatRupiahB($transaction->getDeduction('JHT', 'employee'))}}
                            {{-- {{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JHT'))}} --}}
                         </td>
-                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getDeductionAdditional())}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee'))}}</td>
                         {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('JP', 'employee'))}} </td>
                         <td class="text-right">{{formatRupiahB($transaction->reduction_absence)}}</td>

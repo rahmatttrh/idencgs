@@ -125,21 +125,21 @@ Payroll Transaction
 
    @php
                            
-                           $totalGrandHead = 0;
-                        @endphp
-                        @foreach ($locations as $loc)
-                           @if ($loc->totalEmployee($unit->id) > 0)
-                           
-                              @php
-                                 
-                                 $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
+      $totalGrandHead = 0;
+   @endphp
+   @foreach ($locations as $loc)
+      @if ($loc->totalEmployee($unit->id) > 0)
+      
+         @php
+            
+            $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
 
-                                 // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
-                                 $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
-                                 $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction);
-                                 $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
-                                 $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
-                                 $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
+            // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
+            $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
+            $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction);
+            $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
+            $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
+            $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
 
                                  // $total = ($bruto) - ($tk + $ks + $jp + $abs + $late);
                                  $total = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('total');
@@ -147,9 +147,9 @@ Payroll Transaction
                                  $totalGrandHead += $total;
                               @endphp
 
-                           @endif
-                        
-                        @endforeach
+      @endif
+   
+   @endforeach
    
 
    <div class="card card-with-nav shadow-none border">
@@ -258,7 +258,7 @@ Payroll Transaction
                               {{-- <td class="text-right text-truncate">{{formatRupiahB(2/100 * $loc->getValueGaji($unit->id, $unitTransaction))}}</td> --}}
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JHT'))}}</td>
                               
-                              <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction))}}
+                              <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'BPJS KS'))}}
                                  @if (auth()->user()->hasRole('Administratro'))
                                   Add : {{$loc->getReductionAdditional($unit->id, $unitTransaction)}}
                                      
@@ -284,7 +284,7 @@ Payroll Transaction
 
                               // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
                               $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
-                              $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction);
+                              $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS');
                               $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
                               $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
                               $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');

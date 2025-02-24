@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,26 +23,25 @@
 	<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('css/azzara.min.css')}}">
 </head>
-<body class="page-not-found">
-	<div class="wrapper not-found">
-		<h1 class="">ERROR</h1>
-		<div class="desc ">Maaf, ada kesalahan didalam sistem</div>
-      <span class="">Screenshoot halaman ini dan segera laporkan kepada tim IT/HRD, terimakasih :)</span>
-      {{-- <span>{{$exception->getMessage()}}</span> --}}
-		<a href="/" class="btn btn-primary btn-back-home mt-4 Up">
-			<span class="btn-label mr-2">
-				<i class="flaticon-home"></i>
-			</span>
-			Back To Home
-		</a>
-		<hr>
-		{{-- {{Request::url()}} <br>
-    	{{$exception->getMessage() . ' line: ' . __LINE__}} --}}
-	</div>
-	<script src="{{asset('js/core/jquery.3.2.1.min.js')}}"></script>
-	<script src="{{asset('js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')}}"></script>
-	<script src="{{asset('js/core/popper.min.js')}}"></script>
+<body class="">
+
+      <div class="container">
+         <div class=" d-flex justify-content-center">
+            <div class="card card-light border text-center mt-4" style="width: 570px">
+               <div class="card-header">ERROR</div>
+               <div class="card-body">
+                  Screenshot halaman ini dan segera informasikan kepada tim IT/HRD, maaf atas kendala yang terjadi.
+               </div>
+               <div class="card-footer text-muted">
+                  <small>{{Request::url()}}</small>
+                  <small>{{$exception->getMessage() . ' line: ' . __LINE__}}</small>
+               </div>
+            </div>
+            {{-- <h1>OKE</h1> --}}
+         </div>
+      </div>
+	
+	
 	<script src="{{asset('js/core/bootstrap.min.js')}}"></script>
-	<script type="text/javascript" src="//themera.net/embed/themera.js?id=71769"></script>
 </body>
 </html>

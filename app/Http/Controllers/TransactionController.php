@@ -526,39 +526,9 @@ class TransactionController extends Controller
       ]);
 
       $reductions = Reduction::where('unit_id', $employee->unit_id)->get();
-      $reductionEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
+      $reductionEmployees = ReductionEmployee::where('employee_id', $employee->id)->where('type', 'Default')->get();
       foreach ($reductionEmployees as $red) {
-         // if ($payroll->total <= $red->reduction->min_salary) {
-         //    // dd('kurang dari minimum gaju');
-         //    $salary = $red->reduction->min_salary;
-         //    $realSalary = $payroll->total;
-
-         //    $bebanPerusahaan = ($red->reduction->company * $salary) / 100;
-         //    $bebanKaryawan = ($red->reduction->employee * $realSalary) / 100;
-         //    $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
-         //    $selisih = $bebanKaryawanReal - $bebanKaryawan;
-         //    $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
-         //    $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
-         //    $selisih = $bebanKaryawanReal - $bebanKaryawan;
-         //    $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
-         // } else {
-         //    $salary = $payroll->total;
-         //    $bebanPerusahaan = ($red->reduction->company * $salary) / 100;
-         //    $bebanKaryawan = ($red->reduction->employee * $salary) / 100;
-         //    $bebanKaryawanReal = 0;
-         //    $bebanPerusahaanReal = $bebanPerusahaan;
-         //    // $bebanKaryawanReal = 0;
-         //    // $bebanPerusahaanReal = $bebanPerusahaan;
-         // }
-         // $bebanPerusahaan = ($red->company * $salary) / 100;
-         // $bebanKaryawan = ($red->employee * $salary) / 100;
-         // dd($bebanPerusahaan);
-
-         // $reductionEmployee = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $employee->id)->first();
-         // if ($reductionEmployee->status == 1) {
-
-         // }
-
+        
          if ($red->status == 1) {
             TransactionReduction::create([
                'transaction_id' => $transaction->id,
@@ -590,16 +560,33 @@ class TransactionController extends Controller
          }
       }
 
-      // $transactionDetails = TransactionDetail::where('transaction_id', $transaction->id)->get();
+      $reductionAddEmployees = ReductionEmployee::where('employee_id', $employee->id)->where('type', 'Additional')->get();
+      foreach ($reductionAddEmployees as $red) {
+         TransactionReduction::create([
+            'transaction_id' => $transaction->id,
+            'reduction_id' => $red->reduction_id,
+            'reduction_employee_id' => $red->id,
+            'class' => $red->type,
+            'type' => 'company',
+            'location_id' => $location,
+            'name' => $red->reduction->name . $red->description,
+            'value' => $red->company_value,
+            'value_real' => $red->company_value_real,
+         ]);
 
+         TransactionReduction::create([
+            'transaction_id' => $transaction->id,
+            'reduction_id' => $red->reduction_id,
+            'reduction_employee_id' => $red->id,
+            'class' => $red->type,
+            'type' => 'employee',
+            'location_id' => $location,
+            'name' => $red->reduction->name . $red->description,
+            'value' => $red->employee_value,
+            'value_real' => $red->employee_value_real,
+         ]);
+      }
 
-      // $overtimes = Overtime::where('month', $transaction->month)->get();
-      // $totalOvertime = $overtimes->sum('rate');
-
-
-      // $transaction->update([
-      //    'total' => $transactionDetails->sum('value') - $transaction->reductions->where('type', 'employee')->sum('value')
-      // ]);
 
       if ($employee->join > $req->from) {
          $transaction->update([
@@ -620,9 +607,6 @@ class TransactionController extends Controller
       $employee = Employee::find($transaction->employee_id);
       $payroll = Payroll::find($employee->payroll_id);
       $transactionDetails = TransactionDetail::where('transaction_id', $transaction->id)->get();
-
-
-
 
       $overtimes = Overtime::where('date', '>=', $from)->where('date', '<=', $to)->where('employee_id', $employee->id)->where('status', 1)->get();
       // dd($from);
@@ -710,17 +694,19 @@ class TransactionController extends Controller
       $totalReductionAbsence = $totalAlpha + $totalOffContract;
 
 
-
+      $bruto = $transactionDetails->sum('value') + $addPenambahan + $totalOvertime;
+      $total_deduction =  $totalReduction  + $totalReductionAbsence  + $addPengurangan  + $potongan ;
 
       $transaction->update([
          'overtime' => $totalOvertime,
-         'reduction' => $totalReduction + $redAdditionals->sum('employee_value'),
+         'reduction' => $totalReduction,
          'reduction_absence' => $totalReductionAbsence,
          'reduction_late' => $potongan,
          'additional_penambahan' => $addPenambahan,
          'additional_pengurangan' => $addPengurangan,
-         'bruto' => $transactionDetails->sum('value') + $addPenambahan + $totalOvertime,
-         'total' => ($transactionDetails->sum('value') + $addPenambahan + $totalOvertime) - ($totalReduction  + $totalReductionAbsence  + $addPengurangan  + $potongan + $redAdditionals->sum('employee_value'))
+         'bruto' => $bruto,
+         'total_deduction' => $total_deduction,
+         'total' => $bruto - $total_deduction
       ]);
 
       // dd($payroll->total);
@@ -785,7 +771,7 @@ class TransactionController extends Controller
             'remark' => null,
             'off' => 0,
             'reduction_off' => 0,
-            'total' => ($transactionDetails->sum('value') + $totalOvertime + $addPenambahan) - ($totalReduction  + $totalReductionAbsence + $addPengurangan + $redAdditionals->sum('employee_value') + $potongan)
+            'total' => ($transactionDetails->sum('value') + $totalOvertime + $addPenambahan) - ($totalReduction  + $totalReductionAbsence + $addPengurangan +  $potongan)
          ]);
       }
    }
