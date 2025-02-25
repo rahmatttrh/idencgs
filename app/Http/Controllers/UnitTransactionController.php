@@ -105,6 +105,7 @@ class UnitTransactionController extends Controller
    }
 
    public function refresh ($id){
+      // dd('okeee');
       $unitTransaction = UnitTransaction::find(dekripRambo($id));
       $transactionCon = new TransactionController;
       $transactions = Transaction::where('unit_transaction_id', $unitTransaction->id)->get();

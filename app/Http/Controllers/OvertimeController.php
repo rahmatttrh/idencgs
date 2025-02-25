@@ -440,19 +440,19 @@ class OvertimeController extends Controller
    public function refresh(){
       $overtimes = Overtime::get();
       $employees = Employee::where('status', 1)->get();
-      foreach($employees as $emp){
-         $duplicated = DB::table('overtimes')->where('type', 2)->where('employee_id', $emp->id)
-                    ->select('date', DB::raw('count(`date`) as occurences'))
-                    ->groupBy('date')
-                    ->having('occurences', '>', 1)
-                    ->get();
+      // foreach($employees as $emp){
+      //    $duplicated = DB::table('overtimes')->where('type', 2)->where('employee_id', $emp->id)
+      //               ->select('date', DB::raw('count(`date`) as occurences'))
+      //               ->groupBy('date')
+      //               ->having('occurences', '>', 1)
+      //               ->get();
 
-         foreach($duplicated as $dup){
-            // dd($dup->date);
-            $overtime = Overtime::where('type', 2)->where('employee_id', $emp->id)->where('date', $dup->date)->first();
-            $overtime->delete();
-         }
-      }
+      //    foreach($duplicated as $dup){
+      //       // dd($dup->date);
+      //       $overtime = Overtime::where('type', 2)->where('employee_id', $emp->id)->where('date', $dup->date)->first();
+      //       $overtime->delete();
+      //    }
+      // }
 
       // $duplicated = DB::table('overtimes')->where('type', 1)->where('employee_id', 150)
       //               ->select('date', DB::raw('count(`date`) as occurences'))
@@ -671,7 +671,7 @@ class OvertimeController extends Controller
       } else {
 
          $employees = Employee::get();
-         $overtimes = Overtime::where('status', 0)->orderBy('created_at', 'desc')->paginate(12);
+         $overtimes = Overtime::where('status', 0)->orderBy('created_at', 'desc')->paginate();
       }
 
       return view('pages.payroll.overtime.draft', [
@@ -1154,7 +1154,17 @@ class OvertimeController extends Controller
       if ($req->type == 1) {
          $finalHour = $finalHour;
       } else {
-
+         if ($req->holiday_type == 1) {
+            $finalHour = 1 ;
+         } elseif ($req->holiday_type == 2) {
+            // $rate = 1 * $rateOvertime;
+            $finalHour = 1 ;
+            // dd($rate);
+         } elseif ($req->holiday_type == 3) {
+            $finalHour = 2 ;
+         } elseif ($req->holiday_type == 4) {
+            $finalHour = 3 ;
+         }
       }
 
       // dd($finalHour);
