@@ -93,13 +93,16 @@ Payroll Transaction
       
       <a class="btn  btn-light border mb-2" href="{{route('payroll.transaction.export', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to Excel</a>
       
-      {{-- Action Approval --}}
-      @if (auth()->user()->username == 'EN-2-001' && $unitTransaction->status == 1)
-      <div class="btn-group ml-2">
-         <a href="#" class="btn btn-primary  mb-2 " data-target="#modal-approve-hrd-tu" data-toggle="modal">Approve</a>
-         <a href="" class="btn btn-danger  mb-2">Reject</a>
-      </div>
+      {{-- Action Approval --}}  
+      @if ($unitTransaction->status == 1)
+         @if (auth()->user()->username == 'EN-2-001' && auth()->user()->username == 'EN-4-093')
+         <div class="btn-group ml-2">
+            <a href="#" class="btn btn-primary  mb-2 " data-target="#modal-approve-hrd-tu" data-toggle="modal">Approve</a>
+            <a href="" class="btn btn-danger  mb-2">Reject</a>
+         </div>
+         @endif
       @endif
+     
       @if (auth()->user()->username == '11304' && $unitTransaction->status == 2)
       <div class="btn-group ml-2 mb-2">
          <a href="#" class="btn btn-primary" data-target="#modal-approve-fin-tu" data-toggle="modal">Approve</a>
