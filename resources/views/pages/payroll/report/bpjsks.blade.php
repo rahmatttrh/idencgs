@@ -293,7 +293,7 @@ Payroll Report BPJS KS
                         <td>Jaminan Kesehatan</td>
                         <td class="text-center">{{$unitTransaction->unit->reductions->where('name', 'BPJS KS')->first()->company + $unitTransaction->unit->reductions->where('name', 'BPJS KS')->first()->employee}} %</td>
                         <td class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)->sum('total'))}}</td>
+                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'BPJS KS', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'BPJS KS', 'employee'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'BPJS KS', 'company')+$loc->getDeduction($unitTransaction, 'BPJS KS', 'employee'))}}</td>
@@ -311,7 +311,7 @@ Payroll Report BPJS KS
                      @php
                          
                         $totalEmployee += count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction));
-                        $totalUpah += $loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)->sum('total');
+                        $totalUpah += $loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction);
                         $totalIuranPerusahaan += $loc->getDeduction($unitTransaction, 'BPJS KS', 'company');
                         $totalIuranKaryawan += $loc->getDeduction($unitTransaction, 'BPJS KS', 'employee');
 

@@ -28,14 +28,16 @@ class Location extends Model
 
    public function getUnitTransactionBpjs($id, $unitTrans)
    {
+      $value = 0;
       $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      
       // dd(count($transactions));
 
-      // foreach($transactions as $tran){
-      //    $payroll= Payroll::find($transaction);
-
-      // }
-      return $transactions;
+      foreach($transactions as $tran){
+         $payroll= Payroll::find($tran->payroll_id);
+         $value += $payroll->total;
+      }
+      return $value;
    }
 
    // public function getDeductionAdditional($id, $unitTrans){

@@ -293,7 +293,7 @@ Payroll Report BPJS KT
                         <td>Jaminan Kecelakaan Kerja (JKK)</td>
                         <td  class="text-center">{{$unitTransaction->unit->reductions->where('name', 'JKK')->first()->company + $unitTransaction->unit->reductions->where('name', 'JKK')->first()->employee}} %</td>
                         <td  class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)->sum('total'))}}</td>
+                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKK', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKK', 'employee'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKK', 'company')+$loc->getDeduction($unitTransaction, 'JKK', 'employee'))}}</td>
@@ -304,7 +304,7 @@ Payroll Report BPJS KT
                         <td>Jaminan Hari Tua (JHT)</td>
                         <td  class="text-center">{{$unitTransaction->unit->reductions->where('name', 'JHT')->first()->company + $unitTransaction->unit->reductions->where('name', 'JHT')->first()->employee}} %</td>
                         <td  class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)->sum('total'))}}</td>
+                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JHT', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JHT', 'employee'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JHT', 'company')+$loc->getDeduction($unitTransaction, 'JHT', 'employee'))}}</td>
@@ -315,7 +315,7 @@ Payroll Report BPJS KT
                         <td>Jaminan Kematian (JKM)</td>
                         <td  class="text-center">{{$unitTransaction->unit->reductions->where('name', 'JKM')->first()->company + $unitTransaction->unit->reductions->where('name', 'JKM')->first()->employee}} %</td>
                         <td  class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)->sum('total'))}}</td>
+                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKM', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKM', 'employee'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKM', 'company')+$loc->getDeduction($unitTransaction, 'JKM', 'employee'))}}</td>
@@ -326,7 +326,7 @@ Payroll Report BPJS KT
                         <td>Jaminan Pensiun</td>
                         <td  class="text-center">{{$unitTransaction->unit->reductions->where('name', 'JP')->first()->company + $unitTransaction->unit->reductions->where('name', 'JP')->first()->employee}} %</td>
                         <td  class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)->sum('total'))}}</td>
+                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JP', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JP', 'employee'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JP', 'company')+$loc->getDeduction($unitTransaction, 'JP', 'employee'))}}</td>
