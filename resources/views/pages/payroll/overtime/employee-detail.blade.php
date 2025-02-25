@@ -88,7 +88,7 @@ SPKL
                               <th>Day</th>
                               <th class="text-right">Date</th>
                               
-                              <th class="text-center">Hours</th>
+                              <th class="text-center">Qty</th>
                               {{-- <td></td> --}}
                               @if (auth()->user()->hasRole('HRD|HRD-Payroll|Administrator'))
                               <th class="text-right">Rate</th>
@@ -149,7 +149,7 @@ SPKL
                                              {{$over->hours}} ({{$over->hours_final}}) 
                                           @endif
                                        @else
-                                       -
+                                       {{$over->hours_final}}
                                     @endif
                                     
                                     

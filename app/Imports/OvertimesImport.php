@@ -140,8 +140,22 @@ class OvertimesImport implements ToCollection,  WithHeadingRow
       
             if ($type == 1) {
                $finalHour = $finalHour;
+               $hours = $row['hours'];
             } else {
+               if ($holidayType == 1) {
+                  $finalHour = 1 ;
+                  
+               } elseif ($holidayType == 2) {
+                  // $rate = 1 * $rateOvertime;
+                  $finalHour = 1 ;
+                  // dd($rate);
+               } elseif ($holidayType == 3) {
+                  $finalHour = 2 ;
+               } elseif ($holidayType == 4) {
+                  $finalHour = 3 ;
+               }
       
+               $hours = $finalHour;
             }
 
             // dd('ok');
@@ -167,7 +181,7 @@ class OvertimesImport implements ToCollection,  WithHeadingRow
                         'type' => $type,
                         'hour_type' => $hour_type,
                         'holiday_type' => $holidayType,
-                        'hours' => $row['hours'],
+                        'hours' => $hours,
                         'hours_final' => $finalHour,
                         'rate' => round($rate),
                         'description' => $row['note'],
