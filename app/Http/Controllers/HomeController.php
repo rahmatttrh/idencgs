@@ -71,6 +71,11 @@ class HomeController extends Controller
          // dd('tidak ada role');
       }
 
+
+      // $overtimes = Overtime::where('type', 2)->get();
+      // foreach($overtimes as $over){
+        
+      // }
       // $overtimes = Overtime::get();
       // foreach ($overtimes as $over) {
       //    if ($over->hours == 0) {
@@ -325,6 +330,17 @@ class HomeController extends Controller
          $recentPes = Pe::orderBy('updated_at', 'desc')->paginate(8);
 
          $payrollApprovals = UnitTransaction::where('status', 4)->get();
+         $units = Unit::get();
+            $qpes = Pe::get();
+
+            $now = Carbon::now();
+            $month = $now->format('m');
+            if ($month < 7) {
+               $semester = 1;
+            } else {
+               $semester = 2;
+            }
+            
 
          return view('pages.dashboard.bod', [
             'user' => $user,
@@ -342,7 +358,10 @@ class HomeController extends Controller
             'pes' => $pes,
             'recentPes' => $recentPes,
             'positions' => [],
-            'payrollApprovals' => $payrollApprovals
+            'payrollApprovals' => $payrollApprovals,
+            'units' => $units,
+            'semester' => 1,
+            'year' => 2024 
          ]);
       } elseif (auth()->user()->hasRole('HRD-Manager|HRD')) {
 

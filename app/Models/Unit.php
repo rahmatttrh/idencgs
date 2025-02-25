@@ -118,6 +118,26 @@ class Unit extends Model
       return $employeeQpe;
    }
 
+   public function getAllQpe( $status)
+   {
+      $employees = $this->employees->where('status', 1);
+      
+      $employees = Employee::where('unit_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->get();
+
+      $qpes = Pe::where('status', $status)->get();
+
+      $employeeQpe = 0;
+      foreach ($employees as $employee) {
+         foreach ($qpes as $qpe) {
+            if ($qpe->employe_id == $employee->id) {
+               $employeeQpe = $employeeQpe + 1;
+            }
+         }
+      }
+
+      return $employeeQpe;
+   }
+
    public function getEmployeeQpe($semester, $year)
    {
 
