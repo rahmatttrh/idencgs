@@ -183,7 +183,7 @@ Payroll Report BPJS KT
                   <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">Nomor Pendaftaran Perusahan (NPP) </td>
-                     <td style="padding: 0px !important;" colspan="2">{{$unit->jpp}}</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->npp}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important; height: 20px" colspan="3" ></td>

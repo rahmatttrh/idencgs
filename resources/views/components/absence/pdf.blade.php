@@ -29,11 +29,11 @@
          </tr>
          <tr>
             <td colspan="">Perusahaan</td>
-            <td colspan="7">{{$employee->unit->name}}</td>
+            <td colspan="7">{{$cuti->employee->unit->name}}</td>
          </tr>
          <tr>
             <td colspan="">Nama</td>
-            <td colspan="7">{{$employee->biodata->fullName()}}</td>
+            <td colspan="7">{{$cuti->employee->biodata->fullName()}}</td>
          </tr>
          <tr>
             <td colspan="">NIK</td>

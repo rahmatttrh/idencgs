@@ -41,17 +41,7 @@ SPKL
             <div class="alert alert-danger mt-2">{{ $message }}</div>
          @enderror
          <div class="card-body">
-            @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
-            <div class="d-inline-flex align-items-center">
-               <button type="submit" name="submit" class="btn btn-sm btn-danger mr-3">Delete</button>
-               <div class="d-inline-flex align-items-center">
-                     <span class="badge badge-muted badge-counter">
-                        <span id="total">0</span>
-                     </span>
-               </div>
-            </div>
-            <hr>
-            @endif
+            
             
             <div class="row">
                <div class="col-md-3">
@@ -68,12 +58,22 @@ SPKL
                      @endif
                      </div>
                   </div>
+                  @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+                  <div class="d-inline-flex align-items-center">
+                     <button type="submit" name="submit" class="btn  btn-danger mr-3">Delete</button>
+                     <span class="btn btn-light border">
+                        <span id="total">Data dipilih : 0</span>
+                     </span>
+                  </div>
+                  <hr>
+                  @endif
                   @if (auth()->user()->hasRole('Administrator'))
                   <a href="{{route('overtime.refresh')}}">Refresh</a>
                   @endif
                   
                </div>
                <div class="col-md-9">
+                  
                   <div class="table-responsive px-0">
                      <table id="data" class="display basic-datatables table-sm">
                         <thead>
@@ -218,6 +218,68 @@ SPKL
 
 
 </div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+   <script>
+      $(document).ready(function() {
+         $('.tanggal').datepicker({
+               format: "yyyy-mm-dd",
+               autoclose: true
+         });
+      });
+
+      var total = document.getElementById("total");
+
+      $(function() {
+
+         $("#selectall").change(function() {
+               if (this.checked) {
+                  $(".case").each(function() {
+                     this.checked = true;
+                  });
+                  var jumlahCheck = $(".case").length;
+               } else {
+                  $(".case").each(function() {
+                     this.checked = false;
+                  });
+                  var jumlahCheck = 0;
+               }
+
+               // menampilkan output ke elemen hasil
+               total.innerHTML = jumlahCheck;
+               // console.log(jumlahCheck);
+         });
+
+         $(".case").click(function() {
+               if ($(this).is(":checked")) {
+                  var isAllChecked = 0;
+                  var jumlahCheck = $('input:checkbox:checked').length;
+
+                  $(".case").each(function() {
+                     if (!this.checked)
+                           isAllChecked = 1;
+                  });
+
+                  if (isAllChecked == 0) {
+                     $("#selectall").prop("checked", true);
+
+                     jumlahCheck = $(".case").length;
+                  }
+
+
+               } else {
+                  $("#selectall").prop("checked", false);
+
+                  jumlahCheck = $('input:checkbox:checked').length;
+               }
+               total.innerHTML = jumlahCheck;
+               console.log(jumlahCheck);
+
+         });
+
+
+      });
+   </script>
 
 
 

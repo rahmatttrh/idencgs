@@ -384,7 +384,7 @@ Form Absence
       <div class="card-body">
          <div class="d-flex justify-content-between">
             <span>
-               {{-- @if ($absenceEmp->leader->nik == auth()->user()->username)
+               @if ($absenceEmp->leader->nik == auth()->user()->username)
                   <a href="{{route('leader.absence')}}" class="btn btn-sm btn-light border"><< Kembali</a> |
                   @if($absenceEmp->status <= 2)
                   <a href="" class="btn btn-sm btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
@@ -395,7 +395,7 @@ Form Absence
                   
                   @endif
                    
-               @endif --}}
+               @endif
 
 
                @if ($absenceEmp->cuti_backup_id != null)

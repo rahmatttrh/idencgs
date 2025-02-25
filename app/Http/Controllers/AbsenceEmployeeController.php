@@ -77,12 +77,14 @@ class AbsenceEmployeeController extends Controller
       $date = 0;
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $employees = Employee::where('department_id', $employee->department_id)->get();
+      // dd($employees);
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
       $now = Carbon::now();
       // $cutis = Absence::where()
       $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
       ->where('absences.type', 5)->whereDate('absences.date', '>=', $now)->select('absences.*')->get();
       // dd($employeeLeaders);
+      // dd($cutis);
       return view('pages.absence-request.create', [
          'activeTab' => $activeTab,
          'employeeLeaders' => $employeeLeaders,
@@ -119,10 +121,12 @@ class AbsenceEmployeeController extends Controller
          $type = 'Sakit';
       }
 
-      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $leader = Employee::where('nik', auth()->user()->username)->first();
+      $employee = Employee::find($absenceEmployee->employee_id);
+
       $cuti = Cuti::where('employee_id', $employee->id)->first();
       $employees = Employee::where('department_id', $employee->department_id)->get();
-      $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
+      $employeeLeaders = EmployeeLeader::where('employee_id', $leader->id)->get();
       
 
       if ($absenceEmployee->type == 5) {
@@ -143,6 +147,8 @@ class AbsenceEmployeeController extends Controller
       } else {
          $absenceEmployeeDetails = null;
       }
+      // dd($employee->nik);
+      // dd($absenceEmployee->employee->biodata->fullName());
       return view('pages.absence-request.detail', [
          'activeTab' => $activeTab,
          'type' => $type,
@@ -362,6 +368,52 @@ class AbsenceEmployeeController extends Controller
          'app_backup_date' => $backupDate,
          'app_leader_date' => $now
       ]);
+
+      $date = Carbon::create($reqForm->date);
+      if ($reqForm->absence_id != null) {
+         $absence = Absence::find($reqForm->absence_id);
+         
+         if ($absence->type == 1){
+            $type = 'Alpha';
+         } elseif($absence->type == 2){
+            $type = 'Terlambat';
+         } elseif($absence->type == 3) {
+            $type = 'ATL';
+         } elseif($absence->type == 4){
+            $type = 'Izin';
+         } elseif($absence->type == 5){
+            $type = 'Cuti';
+         } elseif($absence->type == 6){
+            $type = 'SPT';
+         } elseif($absence->type == 7){
+            $type = 'Sakit';
+         } elseif($absence->type == 8){
+            $type = 'Dinas Luar';
+         } elseif($absence->type == 9){
+            $type = 'Off Contract';
+         }
+         
+         $revisi = $type;
+         $absence->update([
+            'type' => $reqForm->type,
+            'type_izin' => $reqForm->type_desc,
+            'type_spt' => $reqForm->type_desc,
+            'desc' => $reqForm->desc,
+            'revisi' => $revisi
+         ]);
+      } else {
+         Absence::create([
+            'employee_id' => $reqForm->employee_id,
+            'type' => $reqForm->type,
+            'type_izin' => $reqForm->type_desc,
+            'type_spt' => $reqForm->type_desc,
+            'desc' => $reqForm->desc,
+            'month' => $date->format('F'),
+            'year' => $date->format('Y'),
+            'date' => $reqForm->date,
+            // 'revisi' => $revisi
+         ]);
+      }
 
       return redirect()->back()->with('success', 'Formulir ' . $form . ' ' . 'berhasil di setujui');
 

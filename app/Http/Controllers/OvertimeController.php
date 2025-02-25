@@ -1178,20 +1178,20 @@ class OvertimeController extends Controller
          $hours = $req->hours;
          $finalHour = $finalHour;
       } else {
-         // if ($req->holiday_type == 1) {
-         //    $finalHour = 1 ;
+         if ($req->holiday_type == 1) {
+            $finalHour = 1 ;
             
-         // } elseif ($req->holiday_type == 2) {
-         //    // $rate = 1 * $rateOvertime;
-         //    $finalHour = 1 ;
-         //    // dd($rate);
-         // } elseif ($req->holiday_type == 3) {
-         //    $finalHour = 2 ;
-         // } elseif ($req->holiday_type == 4) {
-         //    $finalHour = 3 ;
-         // }
+         } elseif ($req->holiday_type == 2) {
+            // $rate = 1 * $rateOvertime;
+            $finalHour = 1 ;
+            // dd($rate);
+         } elseif ($req->holiday_type == 3) {
+            $finalHour = 2 ;
+         } elseif ($req->holiday_type == 4) {
+            $finalHour = 3 ;
+         }
 
-         // $hours = $finalHour;
+         $hours = $finalHour;
       }
 
       // dd($finalHour);
