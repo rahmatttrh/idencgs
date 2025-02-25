@@ -294,9 +294,9 @@ Payroll Report BPJS KT
                         <td  class="text-center">{{$unitTransaction->unit->reductions->where('name', 'JKK')->first()->company + $unitTransaction->unit->reductions->where('name', 'JKK')->first()->employee}} %</td>
                         <td  class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKK', 'company'))}}</td>
+                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JKK', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKK', 'employee'))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKK', 'company')+$loc->getDeduction($unitTransaction, 'JKK', 'employee'))}}</td>
+                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JKK', 'company')+$loc->getDeduction($unitTransaction, 'JKK', 'employee'))}}</td>
                      </tr>
                      <tr>
                         {{-- <td rowspan="5"></td>
@@ -305,9 +305,9 @@ Payroll Report BPJS KT
                         <td  class="text-center">{{$unitTransaction->unit->reductions->where('name', 'JHT')->first()->company + $unitTransaction->unit->reductions->where('name', 'JHT')->first()->employee}} %</td>
                         <td  class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JHT', 'company'))}}</td>
+                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JHT', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JHT', 'employee'))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JHT', 'company')+$loc->getDeduction($unitTransaction, 'JHT', 'employee'))}}</td>
+                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JHT', 'company')+$loc->getDeduction($unitTransaction, 'JHT', 'employee'))}}</td>
                      </tr>
                      <tr>
                         {{-- <td rowspan="5"></td>
@@ -316,9 +316,9 @@ Payroll Report BPJS KT
                         <td  class="text-center">{{$unitTransaction->unit->reductions->where('name', 'JKM')->first()->company + $unitTransaction->unit->reductions->where('name', 'JKM')->first()->employee}} %</td>
                         <td  class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKM', 'company'))}}</td>
+                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JKM', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKM', 'employee'))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKM', 'company')+$loc->getDeduction($unitTransaction, 'JKM', 'employee'))}}</td>
+                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JKM', 'company')+$loc->getDeduction($unitTransaction, 'JKM', 'employee'))}}</td>
                      </tr>
                      <tr>
                         {{-- <td rowspan="5"></td>
@@ -327,13 +327,13 @@ Payroll Report BPJS KT
                         <td  class="text-center">{{$unitTransaction->unit->reductions->where('name', 'JP')->first()->company + $unitTransaction->unit->reductions->where('name', 'JP')->first()->employee}} %</td>
                         <td  class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JP', 'company'))}}</td>
+                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JP', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JP', 'employee'))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JP', 'company')+$loc->getDeduction($unitTransaction, 'JP', 'employee'))}}</td>
+                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JP', 'company')+$loc->getDeduction($unitTransaction, 'JP', 'employee'))}}</td>
                      </tr>
 
                      @php
-                         $totalIuranPerusahaan = $loc->getDeduction($unitTransaction, 'JKK', 'company') + $loc->getDeduction($unitTransaction, 'JHT', 'company') + $loc->getDeduction($unitTransaction, 'JKM', 'company') + $loc->getDeduction($unitTransaction, 'jp', 'company');
+                         $totalIuranPerusahaan = $loc->getDeductionReal($unitTransaction, 'JKK', 'company') + $loc->getDeductionReal($unitTransaction, 'JHT', 'company') + $loc->getDeductionReal($unitTransaction, 'JKM', 'company') + $loc->getDeductionReal($unitTransaction, 'jp', 'company');
                          $totalIuranKaryawan = $loc->getDeduction($unitTransaction, 'JKK', 'employee') + $loc->getDeduction($unitTransaction, 'JHT', 'employee') + $loc->getDeduction($unitTransaction, 'JKM', 'employee') + $loc->getDeduction($unitTransaction, 'jp', 'employee');
                            $grandTotal =  $totalIuranPerusahaan + $totalIuranKaryawan;
                      @endphp

@@ -152,6 +152,20 @@ class Location extends Model
       return $value;
    }
 
+   public function getDeductionReal($unitTrans, $name, $user)
+   {
+      $value = 0;
+      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $unitTrans->unit_id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      foreach ($transactions as $trans) {
+         $transReduction = TransactionReduction::where('transaction_id', $trans->id)->where('name', $name)->where('type', $user)->first();
+         if ($transReduction) {
+            $value = $value + $transReduction->value_real;
+         }
+      }
+
+      return $value;
+   }
+
    public function getDeductionAdditional($unitTrans, $user)
    {
       $value = 0;
