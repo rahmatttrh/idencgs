@@ -41,7 +41,7 @@ class UnitTransactionController extends Controller
       if (!$reportBpjsKt) {
          PayslipBpjsKt::create([
             'unit_transaction_id' => $unitTransaction->id,
-            'month' => $now->addMonth()->format('F'),
+            'month' => $now->format('F'),
             'year' => $unitTransaction->year,
             'status' => 0,
             'payslip_employee' => count($transactions),
@@ -50,7 +50,7 @@ class UnitTransactionController extends Controller
       } else {
          $reportBpjsKt->update([
             'unit_transaction_id' => $unitTransaction->id,
-            'month' => $now->addMonth()->format('F'),
+            'month' => $now->format('F'),
             'year' => $unitTransaction->year,
             'status' => 0,
             'payslip_employee' => count($transactions),
