@@ -1178,20 +1178,20 @@ class OvertimeController extends Controller
          $hours = $req->hours;
          $finalHour = $finalHour;
       } else {
-         if ($req->holiday_type == 1) {
-            $finalHour = 1 ;
+         // if ($req->holiday_type == 1) {
+         //    $finalHour = 1 ;
             
-         } elseif ($req->holiday_type == 2) {
-            // $rate = 1 * $rateOvertime;
-            $finalHour = 1 ;
-            // dd($rate);
-         } elseif ($req->holiday_type == 3) {
-            $finalHour = 2 ;
-         } elseif ($req->holiday_type == 4) {
-            $finalHour = 3 ;
-         }
+         // } elseif ($req->holiday_type == 2) {
+         //    // $rate = 1 * $rateOvertime;
+         //    $finalHour = 1 ;
+         //    // dd($rate);
+         // } elseif ($req->holiday_type == 3) {
+         //    $finalHour = 2 ;
+         // } elseif ($req->holiday_type == 4) {
+         //    $finalHour = 3 ;
+         // }
 
-         $hours = $finalHour;
+         // $hours = $finalHour;
       }
 
       // dd($finalHour);
@@ -1218,7 +1218,7 @@ class OvertimeController extends Controller
          'type' => $req->type,
          'hour_type' => $hour_type,
          'holiday_type' => $req->holiday_type,
-         'hours' => $hours,
+         'hours' => $req->hours,
          'hours_final' => $finalHour,
          'rate' => round($rate),
          'description' => $req->desc,
@@ -1462,7 +1462,7 @@ class OvertimeController extends Controller
          if ($holiday_type == 1) {
             $rate = 1 * $rateOvertime;
          } elseif ($holiday_type == 2) {
-            $rate = 1 * $rateOvertime;
+            // $rate = 1 * $rateOvertime;
             // dd($rate);
             $rate = 1 * $rateOvertime;
          } elseif ($holiday_type == 3) {
