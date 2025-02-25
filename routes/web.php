@@ -436,7 +436,7 @@ Route::middleware(["auth"])->group(function () {
             Route::get('import', [OvertimeController::class, 'import'])->name('payroll.overtime.import');
             Route::post('publish', [OvertimeController::class, 'publish'])->name('payroll.overtime.publish');
             Route::get('create', [OvertimeController::class, 'create'])->name('payroll.overtime.create');
-            Route::get('refresh', [OvertimeController::class, 'debug'])->name('overtime.refresh');
+            Route::get('refresh', [OvertimeController::class, 'refresh'])->name('overtime.refresh');
             Route::post('filter', [OvertimeController::class, 'filter'])->name('payroll.overtime.filter');
             Route::post('filter/employee', [OvertimeController::class, 'filterEmployee'])->name('payroll.overtime.filter.employee');
             Route::get('excel/{from}/{to}/{loc}', [OvertimeController::class, 'overtimeExcel'])->name('payroll.overtime.export');

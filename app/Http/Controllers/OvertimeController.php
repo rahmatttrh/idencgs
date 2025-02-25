@@ -440,8 +440,30 @@ class OvertimeController extends Controller
 
    public function refresh(){
       // dd('ok');
-      $overtimes = Overtime::get();
-      $employees = Employee::where('status', 1)->get();
+      $overtimes = Overtime::where('type', 2)->get();
+      
+      foreach($overtimes as $over){
+         if ($over->holiday_type == 1) {
+            $finalHour = 1 ;
+            
+         } elseif ($over->holiday_type == 2) {
+            // $rate = 1 * $rateOvertime;
+            $finalHour = 1 ;
+            // dd($rate);
+         } elseif ($over->holiday_type == 3) {
+            $finalHour = 2 ;
+         } elseif ($over->holiday_type == 4) {
+            $finalHour = 3 ;
+         }
+
+         $over->update([
+            'hours' => $finalHour,
+            'hours_final' => $finalHour
+         ]);
+      }
+
+
+
       // foreach($employees as $emp){
       //    $duplicated = DB::table('overtimes')->where('type', 2)->where('employee_id', $emp->id)
       //               ->select('date', DB::raw('count(`date`) as occurences'))

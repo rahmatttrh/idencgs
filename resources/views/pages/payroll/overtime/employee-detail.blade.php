@@ -130,7 +130,7 @@ SPKL
                                     @if ($over->holiday_type == 1)
                                        <span  class="text-info ">
                                        @elseif($over->holiday_type == 2)
-                                       <span class="text-danger">
+                                       <span class="text-warning">
                                        @elseif($over->holiday_type == 3)
                                        <span class="text-danger">LN -
                                        @elseif($over->holiday_type == 4)
