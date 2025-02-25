@@ -103,7 +103,7 @@ SPKL
                               <td class="text-truncate" style="max-width: 100px">{{$emp->unit->name}}</td>
                               {{-- <td>{{$emp->department->name}}</td> --}}
                               <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 1))}}</td>
-                              <td class="text-center">{{count($emp->getOvertimes($from, $to)->where('type', 2))}}</td>
+                              <td class="text-center">{{$emp->getOvertimes($from, $to)->where('type', 2)->sum('hours_final')}}</td>
                               @if (auth()->user()->hasRole('HRD|HRD-Payroll|Administrator'))
                               <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td>
                               @endif
