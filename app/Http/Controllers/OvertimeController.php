@@ -663,7 +663,7 @@ class OvertimeController extends Controller
             ->select('employees.*')
             ->get();
 
-         $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 3)->paginate(800);
+         $overtimes = Overtime::where('status', 0)->orderBy('created_at', 'desc')->where('location_id', 3)->paginate(800);
       } elseif (auth()->user()->hasRole('HRD-KJ45')) {
 
          // dd('ok');
@@ -671,13 +671,14 @@ class OvertimeController extends Controller
             ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
             ->select('employees.*')
             ->get();
-         $overtimes = Overtime::orderBy('created_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(800);
+         $overtimes = Overtime::where('status', 0)->orderBy('created_at', 'desc')->where('location_id', 4)->orWhere('location_id', 5)->paginate(800);
          // dd($overtimes);
       } else {
 
          $employees = Employee::get();
-         $overtimes = Overtime::where('status', 0)->orderBy('created_at', 'desc')->paginate(12);
+         $overtimes = Overtime::where('status', 0)->orderBy('created_at', 'desc')->get();
       }
+      // dd('ok');
 
       return view('pages.payroll.overtime.draft', [
          'overtimes' => $overtimes,
