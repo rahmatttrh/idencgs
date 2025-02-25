@@ -191,7 +191,7 @@ Payroll Report BPJS KS
                   <tr>
                      <td style="padding: 0px !important;">2</td>
                      <td style="padding: 0px !important;">IURAN UNTUK BULAN</td>
-                     <td style="padding: 0px !important;"colspan="2" class="text-uppercase">{{$reportBpjsKs->month}} 2024</td>
+                     <td style="padding: 0px !important;"colspan="2" class="text-uppercase">{{$reportBpjsKs->month}} {{$reportBpjsKs->year}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;"></td>
