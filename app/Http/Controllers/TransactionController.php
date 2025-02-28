@@ -438,40 +438,120 @@ class TransactionController extends Controller
 
       // dd('ok');
 
-      $payslipReport = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->first();
-      // dd($payslipReports);
-      if ($payslipReport == null) {
-         foreach ($locations as $loc){
-            if ($loc->totalEmployee($unit->id) > 0){
-               PayslipReport::create([
-                  'unit_transaction_id' => $unitTransaction->id,
-                  'location_id' => $loc->id,
-                  'location_name' => $loc->name,
-                  'qty' => count($loc->getUnitTransaction($unit->id, $unitTransaction)),
-                  'pokok' => $loc->getValue($unit->id, $unitTransaction, 'Gaji Pokok'),
-                  'jabatan' => $loc->getValue($unit->id, $unitTransaction,  'Tunj. Jabatan'),
-                  'ops' => $loc->getValue($unit->id, $unitTransaction, 'Tunj. OPS'),
-                  'kinerja' => $loc->getValue($unit->id, $unitTransaction, 'Tunj. Kinerja'),
-                  'fungsional' => $loc->getValue($unit->id, $unitTransaction, 'Tunj. Fungsional'),
-                  'total' => $loc->getValueGaji($unit->id, $unitTransaction),
+      // $payslipReport = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->first();
+      
+      // if ($payslipReport == null) {
+      //    foreach ($locations as $loc){
+      //       if ($loc->totalEmployee($unit->id) > 0){
+      //          PayslipReport::create([
+      //             'unit_transaction_id' => $unitTransaction->id,
+      //             'location_id' => $loc->id,
+      //             'location_name' => $loc->name,
+      //             'qty' => count($loc->getUnitTransaction($unit->id, $unitTransaction)),
+      //             'pokok' => $loc->getValue($unit->id, $unitTransaction, 'Gaji Pokok'),
+      //             'jabatan' => $loc->getValue($unit->id, $unitTransaction,  'Tunj. Jabatan'),
+      //             'ops' => $loc->getValue($unit->id, $unitTransaction, 'Tunj. OPS'),
+      //             'kinerja' => $loc->getValue($unit->id, $unitTransaction, 'Tunj. Kinerja'),
+      //             'fungsional' => $loc->getValue($unit->id, $unitTransaction, 'Tunj. Fungsional'),
+      //             'total' => $loc->getValueGaji($unit->id, $unitTransaction),
    
-                  'lain' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan'),
-                  'lembur' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime'),
+      //             'lain' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan'),
+      //             'lembur' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime'),
    
-                  'bruto' => $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan'),
+      //             'bruto' => $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan'),
    
-                  'bpjskt' => $loc->getReduction($unit->id, $unitTransaction, 'JHT'),
-                  'bpjsks' => $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS'),
-                  'jp' => $loc->getReduction($unit->id, $unitTransaction, 'JP'),
-                  'absen' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence'),
-                  'terlambat' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late'),
-                  'gaji_bersih' => ($loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan') - ($loc->getReduction($unit->id, $unitTransaction, 'JHT') + $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction) + $loc->getReduction($unit->id, $unitTransaction, 'JP') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late')))
+      //             'bpjskt' => $loc->getReduction($unit->id, $unitTransaction, 'JHT'),
+      //             'bpjsks' => $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS'),
+      //             'jp' => $loc->getReduction($unit->id, $unitTransaction, 'JP'),
+      //             'absen' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence'),
+      //             'terlambat' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late'),
+      //             'gaji_bersih' => ($loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan') - ($loc->getReduction($unit->id, $unitTransaction, 'JHT') + $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction) + $loc->getReduction($unit->id, $unitTransaction, 'JP') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late')))
    
-               ]);
+      //          ]);
                
-            }
-         }
-      }
+      //       }
+      //    }
+      // }
+
+      // $bpjsKsReport = BpjsKsReport::where('unit_transaction_id', $unitTransaction->id)->first();
+      // if ($bpjsKsReport == null) {
+      //    foreach ($locations as $loc){
+      //       if ($loc->totalEmployee($unitTransaction->unit->id) > 0){
+      //          $bpjsKsReport = BpjsKsReport::where('unit_transaction_id', $unitTransaction->id)->where('location_id', $loc->id)->first();
+      //          if ($bpjsKsReport == null) {
+      //             BpjsKsReport::create([
+      //                'unit_transaction_id' => $unitTransaction->id,
+      //                'location_id' => $loc->id,
+      //                'location_name' => $loc->name,
+      //                'program' => 'Jaminan Kesehatan',
+      //                'tarif' => $unitTransaction->unit->reductions->where('name', 'BPJS KS')->first()->company + $unitTransaction->unit->reductions->where('name', 'BPJS KS')->first()->employee,
+      //                'qty' => count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)),
+      //                'upah' => $loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction),
+      //                'perusahaan' => $loc->getDeductionReal($unitTransaction, 'BPJS KS', 'company'),
+      //                'karyawan' => $loc->getDeduction($unitTransaction, 'BPJS KS', 'employee'),
+      //                'total_iuran' => $loc->getDeductionReal($unitTransaction, 'BPJS KS', 'company')+$loc->getDeduction($unitTransaction, 'BPJS KS', 'employee'),
+      //                'additional_iuran' => $loc->getDeductionAdditional($unitTransaction, 'employee')
+      //             ]);
+      //          }
+      //       }
+      //    }
+      // }
+
+      // $bpjsKtReport = BpjsKtReport::where('unit_transaction_id', $unitTransaction->id)->first();
+      // if ($bpjsKtReport == null) {
+      //    foreach ($locations as $loc){
+      //       if ($loc->totalEmployee($unitTransaction->unit->id) > 0){
+      //          BpjsKtReport::create([
+      //             'unit_transaction_id' => $unitTransaction->id,
+      //             'location_id' => $loc->id,
+      //             'location_name' => $loc->name,
+      //             'program' => 'Jaminan Kecelakaan Kerja (JKK)',
+      //             'tarif' => $unitTransaction->unit->reductions->where('name', 'JKK')->first()->company + $unitTransaction->unit->reductions->where('name', 'JKK')->first()->employee,
+      //             'qty' => count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)),
+      //             'upah' => $loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction),
+      //             'perusahaan' => $loc->getDeductionReal($unitTransaction, 'JKK', 'company'),
+      //             'karyawan' => $loc->getDeduction($unitTransaction, 'JKK', 'employee'),
+      //             'total_iuran' => $loc->getDeductionReal($unitTransaction, 'JKK', 'company')+$loc->getDeduction($unitTransaction, 'JKK', 'employee'),
+      //          ]);
+      //          BpjsKtReport::create([
+      //             'unit_transaction_id' => $unitTransaction->id,
+      //             'location_id' => $loc->id,
+      //             'location_name' => $loc->name,
+      //             'program' => 'Jaminan Hari Tua (JHT)',
+      //             'tarif' => $unitTransaction->unit->reductions->where('name', 'JHT')->first()->company + $unitTransaction->unit->reductions->where('name', 'JHT')->first()->employee,
+      //             'qty' => count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)),
+      //             'upah' => $loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction),
+      //             'perusahaan' => $loc->getDeductionReal($unitTransaction, 'JHT', 'company'),
+      //             'karyawan' => $loc->getDeduction($unitTransaction, 'JHT', 'employee'),
+      //             'total_iuran' => $loc->getDeductionReal($unitTransaction, 'JHT', 'company')+$loc->getDeduction($unitTransaction, 'JHT', 'employee'),
+      //          ]);
+      //          BpjsKtReport::create([
+      //             'unit_transaction_id' => $unitTransaction->id,
+      //             'location_id' => $loc->id,
+      //             'location_name' => $loc->name,
+      //             'program' => 'Jaminan Kematian (JKM)',
+      //             'tarif' => $unitTransaction->unit->reductions->where('name', 'JKM')->first()->company + $unitTransaction->unit->reductions->where('name', 'JKM')->first()->employee,
+      //             'qty' => count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)),
+      //             'upah' => $loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction),
+      //             'perusahaan' => $loc->getDeductionReal($unitTransaction, 'JKM', 'company'),
+      //             'karyawan' => $loc->getDeduction($unitTransaction, 'JKM', 'employee'),
+      //             'total_iuran' => $loc->getDeductionReal($unitTransaction, 'JKM', 'company')+$loc->getDeduction($unitTransaction, 'JKM', 'employee'),
+      //          ]);
+      //          BpjsKtReport::create([
+      //             'unit_transaction_id' => $unitTransaction->id,
+      //             'location_id' => $loc->id,
+      //             'location_name' => $loc->name,
+      //             'program' => 'Jaminan Pensiun',
+      //             'tarif' => $unitTransaction->unit->reductions->where('name', 'JP')->first()->company + $unitTransaction->unit->reductions->where('name', 'JP')->first()->employee,
+      //             'qty' => count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)),
+      //             'upah' => $loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction),
+      //             'perusahaan' => $loc->getDeductionReal($unitTransaction, 'JP', 'company'),
+      //             'karyawan' => $loc->getDeduction($unitTransaction, 'JP', 'employee'),
+      //             'total_iuran' => $loc->getDeductionReal($unitTransaction, 'JP', 'company')+$loc->getDeduction($unitTransaction, 'JP', 'employee'),
+      //          ]);
+      //       }
+      //    }
+      // }
       
 
       $payslipReports = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->get();

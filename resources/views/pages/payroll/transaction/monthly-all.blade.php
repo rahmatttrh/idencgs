@@ -103,10 +103,15 @@ Payroll Transaction
          <a href="{{route('payroll.report.bpjsks', enkripRambo($unitTransaction->id))}}" class="btn btn-light border btn-block text-left">BPJS Kesehatan</a>
          <a href="{{route('payroll.report.bpjskt', enkripRambo($unitTransaction->id))}}" class="btn btn-light border btn-block text-left">BPJS Ketenagakerjaan</a>
          <hr>
+
          <a href="{{route('payroll.transaction.unit.refresh', enkripRambo($unitTransaction->id))}}" class="">Refresh Transaction</a> <br> <br>
+
+         @if (auth()->user()->hasRole('Administrator'))
          <a href="{{route('refresh.report.payslip', enkripRambo($unitTransaction->id))}}" >Refresh Payslip Report</a> <br>
          <a href="{{route('refresh.report.bpjsks', enkripRambo($unitTransaction->id))}}" >Refresh BPJS KS Report</a><br>
          <a href="{{route('refresh.report.bpjskt', enkripRambo($unitTransaction->id))}}" >Refresh BPJS KT Report</a>
+         @endif
+         
 
          
       </div>
