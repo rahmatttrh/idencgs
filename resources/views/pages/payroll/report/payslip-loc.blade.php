@@ -208,7 +208,7 @@ Payroll Transaction
                            {{formatRupiahB($transaction->getDeduction('JHT', 'employee'))}}
                            {{-- {{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JHT'))}} --}}
                         </td>
-                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee'))}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee'))}}</td>
                         {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('JP', 'employee'))}} </td>
                         <td class="text-right">{{formatRupiahB($transaction->reduction_absence)}}</td>
@@ -229,7 +229,7 @@ Payroll Transaction
                         $bruto = $transaction->employee->payroll->total + $transaction->overtime + $transaction->additional_penambahan;
                         // $tk = 2/100 * $transaction->employee->payroll->total;
                         $tk = $transaction->getDeduction('JHT', 'employee');
-                        $ks = $transaction->getDeduction('BPJS KS', 'employee');
+                        $ks = $transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee');
                         $ksAdd = $transaction->getDeductionAdditional();
                         $jp = $transaction->getDeduction('JP', 'employee');
                         $abs = $transaction->reduction_absence;

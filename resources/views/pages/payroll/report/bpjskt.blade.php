@@ -294,7 +294,7 @@ Payroll Report BPJS KT
                         <td  class="text-center">{{$unitTransaction->unit->reductions->where('name', 'JKK')->first()->company + $unitTransaction->unit->reductions->where('name', 'JKK')->first()->employee}} %</td>
                         <td  class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
                         <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JKK', 'company'))}}</td>
+                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKK', 'company'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'JKK', 'employee'))}}</td>
                         <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'JKK', 'company')+$loc->getDeduction($unitTransaction, 'JKK', 'employee'))}}</td>
                      </tr>

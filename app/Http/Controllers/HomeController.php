@@ -501,7 +501,7 @@ class HomeController extends Controller
          $month = $now->format('m');
          $holidays = Holiday::whereMonth('date', $month)->orderBy('date', 'asc')->get();
          $transactions = Transaction::where('status', 0)->get();
-         $unitTransactions = UnitTransaction::paginate(15);
+         $unitTransactions = UnitTransaction::orderBy('cut_to', 'desc')->paginate(25);
          $emptyPayroll = Employee::where('status', '!=', 3)->where('payroll_id', null)->get();
          $reqForms = AbsenceEmployee::where('status', 3)->get();
          return view('pages.dashboard.hrd-payroll', [
@@ -541,7 +541,7 @@ class HomeController extends Controller
          $month = $now->format('m');
          // $holidays = Holiday::whereMonth('date', $month)->orderBy('date', 'asc')->get();
          // $transactions = Transaction::where('status', 0)->get();
-         $overtimes = Overtime::where('location_id', 3)->orderBy('updated_at', 'desc')->get();
+         $overtimes = Overtime::whereIn('location_id', [3,11,12,13,14,20])->orderBy('updated_at', 'desc')->get();
          // $now = Carbon::now();
 
          // $employees = Employee::where('status', 1)->where('location_id', 3)->get();
@@ -554,7 +554,9 @@ class HomeController extends Controller
             ->orWhere('contracts.loc', 'kj1-2-petrogas')
             ->orWhere('contracts.loc', 'kj1-2-star-energy')
             ->orWhere('contracts.loc', 'kj1-2-housekeeping')
+            ->where('employees.status', 1)
             ->select('employees.*')
+            
             ->get();
          // dd($overtimes);
 
@@ -591,7 +593,7 @@ class HomeController extends Controller
          $month = $now->format('m');
          $holidays = Holiday::whereMonth('date', $month)->orderBy('date', 'asc')->get();
          $transactions = Transaction::where('status', 0)->get();
-         $overtimes = Overtime::where('location_id', 4)->orWhere('location_id', 5)->orderBy('updated_at', 'desc')->get();
+         $overtimes = Overtime::whereIn('location_id', [4,5,21,22])->orderBy('updated_at', 'desc')->get();
          $now = Carbon::now();
 
          if (auth()->user()->hasRole('HRD-KJ12')) {
@@ -602,11 +604,14 @@ class HomeController extends Controller
                ->orWhere('contracts.loc', 'kj1-2-petrogas')
                ->orWhere('contracts.loc', 'kj1-2-star-energy')
                ->orWhere('contracts.loc', 'kj1-2-housekeeping')
+
                ->select('employees.*')
                ->get();
          } elseif (auth()->user()->hasRole('HRD-KJ45')) {
             $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
                ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+               ->orWhere('contracts.loc', 'kj4-housekeeping')
+               ->orWhere('contracts.loc', 'kj5-housekeeping')
                ->select('employees.*')
                ->get();
          }

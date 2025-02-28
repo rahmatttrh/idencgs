@@ -723,7 +723,7 @@ class TransactionController extends Controller
             $qty += 1;
          }
 
-         $offQty = $qty - 1;
+         $offQty = $qty - 2;
          // dd($interval->days);
 
          // for ($x = 0; $x <= $interval->days; $x++) {

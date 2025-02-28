@@ -95,7 +95,7 @@ Payroll Transaction
       
       {{-- Action Approval --}}  
       @if ($unitTransaction->status == 1)
-         @if (auth()->user()->username == 'EN-2-001' && auth()->user()->username == 'EN-4-093')
+         @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093')
          <div class="btn-group ml-2">
             <a href="#" class="btn btn-primary  mb-2 " data-target="#modal-approve-hrd-tu" data-toggle="modal">Approve</a>
             <a href="" class="btn btn-danger  mb-2">Reject</a>
@@ -139,7 +139,7 @@ Payroll Transaction
 
             // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
             $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
-            $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction);
+            $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getAddReduction($unit->id, $unitTransaction);
             $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
             $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
             $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
@@ -261,11 +261,11 @@ Payroll Transaction
                               {{-- <td class="text-right text-truncate">{{formatRupiahB(2/100 * $loc->getValueGaji($unit->id, $unitTransaction))}}</td> --}}
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JHT'))}}</td>
                               
-                              <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'BPJS KS'))}}
-                                 @if (auth()->user()->hasRole('Administratro'))
-                                  Add : {{$loc->getReductionAdditional($unit->id, $unitTransaction)}}
+                              <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getAddReduction($unit->id, $unitTransaction))}}
+                                 {{-- @if (auth()->user()->hasRole('Administrator'))
+                                  Add : {{$loc->getAddReduction($unit->id, $unitTransaction)}}
                                      
-                                 @endif
+                                 @endif --}}
                               </td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JP'))}}</td>
                               <td class="text-right text-truncate">{{formatRupiahB($loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence'))}}</td>
@@ -287,7 +287,7 @@ Payroll Transaction
 
                               // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
                               $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
-                              $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS');
+                              $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getAddReduction($unit->id, $unitTransaction);
                               $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
                               $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
                               $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
