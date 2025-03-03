@@ -79,47 +79,27 @@ Payroll Transaction
    
    <div class="d-flex">
       <a href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a>
-
+      <div class="btn-group ml-2 mb-2">
+         <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
+         <a href="" class="btn btn-danger">Reject</a>
+      </div>
       
-      {{-- <a class="btn  btn-light border mb-2" href="{{route('payroll.transaction.export', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to Excel</a> --}}
-      
-      {{-- Action Approval --}}
-      {{-- @if (auth()->user()->username == 'EN-2-001' && $unitTransaction->status == 1)
-      <div class="btn-group ml-2">
-         <a href="#" class="btn btn-primary  mb-2 " data-target="#modal-approve-hrd-tu" data-toggle="modal">Approve</a>
-         <a href="" class="btn btn-danger  mb-2">Reject</a>
-      </div>
-      @endif
-      @if (auth()->user()->username == '11304' && $unitTransaction->status == 2)
-      <div class="btn-group ml-2 mb-2">
-         <a href="#" class="btn btn-primary" data-target="#modal-approve-fin-tu" data-toggle="modal">Approve</a>
-         <a href="" class="btn btn-danger">Reject</a>
-      </div>
-      @endif
-
-      @if (auth()->user()->username == 'EN-2-006' && $unitTransaction->status == 3)
-      <div class="btn-group ml-2 mb-2">
-         <a href="#" class="btn btn-primary" data-target="#modal-approve-gm-tu" data-toggle="modal">Approve</a>
-         <a href="" class="btn btn-danger">Reject</a>
-      </div>
-      @endif
-
-      @if (auth()->user()->username == 'BOD-002' && $unitTransaction->status == 4)
-      <div class="btn-group ml-2 mb-2">
-         <a href="#" class="btn btn-primary" data-target="#modal-approve-bod-tu" data-toggle="modal">Approve</a>
-         <a href="" class="btn btn-danger">Reject</a>
-      </div>
-      @endif --}}
+   
    </div>
    
 
    <div class="card  shadow-none border">
       <div class="card-header  d-flex justify-content-between ">
-         <div class="mt-3">
-            <h2 class="text-uppercase"><b>PAYSLIP REPORT </b> <br><span>{{$location->name}}</span> {{$unitTransaction->unit->name}} {{$unitTransaction->month}} {{$unitTransaction->year}}  </h2>
-            
-            
+         <div class="">
+            <h2 class="text-uppercase"><b>PAYSLIP REPORT </b> <br><span>{{$payslipReport->location->name}}</span> {{$unitTransaction->unit->name}} {{$unitTransaction->month}} {{$unitTransaction->year}}  </h2>
          </div>
+         <span>
+            @if ($payslipReport->status == 1)
+                <span>Approved</span>
+                @else
+                <span>Waiting Validation</span>
+            @endif
+         </span>
          
          {{-- <div class="text-right">
             <h2 class="mt-3"> <b>{{formatRupiahB($unitTransaction->unit->getUnitTransaction($unitTransaction)->sum('total'))}}</b> <br>Total Karyawan <span class="text-uppercase"> {{count($location->getUnitTransaction($unitTransaction->unit->id, $unitTransaction))}} </span> </h2>
@@ -138,7 +118,7 @@ Payroll Transaction
          </div>
       </div> --}}
       {{-- {{count(transactions)}} --}}
-      <div class="card-body p-0">
+      <div class="card-body pt-2 px-4">
          <div class="table-responsive p-0 pt-2" style="overflow-x: auto;">
             <table id="data" class="display  table-sm">
                <thead >
@@ -296,43 +276,12 @@ Payroll Transaction
 
    <hr>
 
-   <div class="card">
-      <div class="card-body">
-          {{-- <h4 class="card-title mb-5">Horizontal Timeline</h4> --}}
-
-          
-      </div>
-   </div>
+   
    
    
 </div>
 
-<div class="modal fade" id="modal-export" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Export Excel</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         
-         <div class="modal-body">
-
-           
-            
-         </div>
-         <div class="modal-footer">
-            {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">SIMPLE DATA</button> --}}
-            {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
-            <a  href="{{route('employee.export.simple')}}" class="btn btn-info">SIMPLE DATA</a>
-            <a  href="{{route('employee.export')}}" class="btn btn-primary">FULL DATA</a>
-         </div>
-      </div>
-   </div>
-</div>
-
-<div class="modal fade" id="modal-submit-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="approve-payslip-loc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
          <div class="modal-header">
@@ -343,146 +292,11 @@ Payroll Transaction
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-         <form action="{{route('payroll.submit.master.transaction')}}" method="POST" >
+         <form action="{{route('payroll.approve.loc')}}" method="POST" >
             <div class="modal-body">
                @csrf
-               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
-               <span>Submit this Report and send to HRD Manager?</span>
-                  
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary ">Submit</button>
-            </div>
-         </form>
-      </div>
-   </div>
-</div>
-
-<div class="modal fade" id="modal-publish-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Confirm<br>
-               
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <form action="{{route('payroll.publish')}}" method="POST" >
-            <div class="modal-body">
-               @csrf
-               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
-               <span>Publish PaySlip dan tampilkan di Dashboard Karyawan?</span>
-                  
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary ">Publish</button>
-            </div>
-         </form>
-      </div>
-   </div>
-</div>
-
-<div class="modal fade" id="modal-approve-hrd-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Confirm<br>
-               
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <form action="{{route('payroll.approve.hrd')}}" method="POST" >
-            <div class="modal-body">
-               @csrf
-               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
-               <span>Approve this Report and send to Manager Finance?</span>
-                  
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary ">Approve</button>
-            </div>
-         </form>
-      </div>
-   </div>
-</div>
-
-<div class="modal fade" id="modal-approve-fin-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Confirm<br>
-               
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <form action="{{route('payroll.approve.manfin')}}" method="POST" >
-            <div class="modal-body">
-               @csrf
-               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
-               <span>Approve this Payslip Report and send to General Manager?</span>
-                  
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary ">Approve</button>
-            </div>
-         </form>
-      </div>
-   </div>
-</div>
-
-<div class="modal fade" id="modal-approve-gm-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Confirm<br>
-               
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <form action="{{route('payroll.approve.gm')}}" method="POST" >
-            <div class="modal-body">
-               @csrf
-               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
-               <span>Approve this Report and send to Direksi/BOD?</span>
-                  
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary ">Approve</button>
-            </div>
-         </form>
-      </div>
-   </div>
-</div>
-
-<div class="modal fade" id="modal-approve-bod-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Confirm<br>
-               
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <form action="{{route('payroll.approve.bod')}}" method="POST" >
-            <div class="modal-body">
-               @csrf
-               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
-               <span>Approve this Payroll Report ?</span>
+               <input type="text" value="{{$payslipReport->id}}" name="paysliReport" id="paysliReport" hidden>
+               <span>Approve this Payslip Report {{$payslipReport->unit_transaction->unit->name}} {{$payslipReport->location_name}}?</span>
                   
             </div>
             <div class="modal-footer">

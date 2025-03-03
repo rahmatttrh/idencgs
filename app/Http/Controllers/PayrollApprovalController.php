@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\PayrollApproval;
+use App\Models\PayslipReport;
 use App\Models\Transaction;
 use App\Models\UnitTransaction;
 use Illuminate\Http\Request;
@@ -210,7 +211,9 @@ class PayrollApprovalController extends Controller
          'type' => 'approve',
       ]);
 
-      return redirect()->back()->with('success', 'Payroll approved');
+      
+
+      return redirect()->route('payroll.approval.bod', enkripRambo($unitTransaction->id))->with('success', 'Payslip Report approved');
    }
 
    public function manhrdHistory()
@@ -251,5 +254,20 @@ class PayrollApprovalController extends Controller
       return view('pages.payroll.approval.history', [
          'unitTransactions' => $unitTransactions
       ])->with('i');
+   }
+
+
+
+
+   public function approveBodLocation(Request $req){
+      $payslipReport = PayslipReport::find($req->payslipReport);
+      $unitTransaction = UnitTransaction::find($payslipReport->unit_transaction_id);
+
+      $payslipReport->update([
+         'status' => 5
+      ]);
+
+
+      return redirect()->route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))->with('success', 'Pasylip Report '. $payslipReport->location_name . ' approved' );
    }
 }

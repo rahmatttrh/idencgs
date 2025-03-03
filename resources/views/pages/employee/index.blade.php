@@ -100,6 +100,7 @@ Employee
                      </td>
                      
                      <td class="text-truncate">{{$employee->nik}}</td>
+                     <td class="text-truncate">{{$employee->nik}}</td>
                      {{-- <td><a href="{{route('employee.detail', enkripRambo($employee->id))}}">{{$employee->name}}</a> </td> --}}
                      <td class="text-truncate">
                         <div>

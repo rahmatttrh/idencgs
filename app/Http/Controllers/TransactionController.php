@@ -590,10 +590,13 @@ class TransactionController extends Controller
       // dd($unitTransaction->id);
       // dd($transactions);
 
+      $payslipReport = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->where('location_id', $location->id)->first();
+
       return view('pages.payroll.report.payslip-loc', [
          'unitTransaction' => $unitTransaction,
          'transactions' => $transactions,
-         'location' => $location
+         'location' => $location,
+         'payslipReport' => $payslipReport
       ])->with('i');
    }
 

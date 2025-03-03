@@ -564,6 +564,9 @@ Route::middleware(["auth"])->group(function () {
          Route::get('manfin/history', [PayrollApprovalController::class, 'manfinHistory'])->name('payroll.approval.manfin.history');
          Route::get('gm/history', [PayrollApprovalController::class, 'gmHistory'])->name('payroll.approval.gm.history');
          Route::get('bod/history', [PayrollApprovalController::class, 'bodHistory'])->name('payroll.approval.bod.history');
+
+
+         Route::post('approve/location', [PayrollApprovalController::class, 'approveLocation'])->name('payroll.approve.loc');
       });
 
       Route::prefix('payslip/report')->group(function () {
