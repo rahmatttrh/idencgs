@@ -105,9 +105,13 @@ Absence
                                 
                                </a>
                                   @else
+                                  @if (auth()->user()->hasRole('Karyawan|Leader|Supervisor|Manager|Asst. Manager|BOD'))
+                              
+                                    @else
                                   <a href="{{route('payroll.absence.edit', enkripRambo($absence->id))}}" class="">Update</a> |
-                              <a href="#" data-target="#modal-delete-absence-{{$absence->id}}" data-toggle="modal">Delete</a>
-                              @endif
+                                 <a href="#" data-target="#modal-delete-absence-{{$absence->id}}" data-toggle="modal">Delete</a>
+                               @endif
+                                 @endif
                               
                            </td>
                         </tr>

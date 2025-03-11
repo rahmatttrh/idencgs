@@ -208,7 +208,7 @@ SP Detail
          
          <div class="row">
             <div class="col-md-12">
-               @if ($sp->status > 1 && $sp->status != 505)
+               @if ( $sp->status != 505)
                <x-sp.preview :sp="$sp" :gen="$gen" :user="$user" :hrd="$hrd" :manager="$manager" :suspect="$suspect" />
                
                <hr>

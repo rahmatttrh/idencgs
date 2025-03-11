@@ -20,7 +20,7 @@ SP
                <div class="row row-nav-line">
                   <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
                      <li class="nav-item"> <a class="nav-link show active" id="pills-index-tab-nobd" data-toggle="pill" href="#pills-index-nobd" role="tab" aria-controls="pills-index-nobd" aria-selected="true">SP</a> </li>
-                     @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll'))
+                     @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
                      <li class="nav-item"> <a class="nav-link " id="pills-doc-tab-nobd" data-toggle="pill" href="#pills-doc-nobd" role="tab" aria-controls="pills-doc-nobd" aria-selected="true">Export</a> </li>
                      @endif
                      
@@ -158,11 +158,28 @@ SP
                                     </tr>
                                     @endforeach
                                     @else
-                                       @foreach ($employee->positions as $pos)
-                                          {{-- <tr>
-                                          <td colspan="6">{{$pos->department->unit->name}} {{$pos->department->name}}</td>
-                                          </tr> --}}
-                                          @foreach ($pos->department->sps()->orderBy('updated_at', 'desc')->get() as $sp)
+                                       @if (count($employee->positions) > 0)
+                                          @foreach ($employee->positions as $pos)
+                                             {{-- <tr>
+                                             <td colspan="6">{{$pos->department->unit->name}} {{$pos->department->name}}</td>
+                                             </tr> --}}
+                                             @foreach ($pos->department->sps()->orderBy('updated_at', 'desc')->get() as $sp)
+                                                <tr>
+                                                   {{-- <th></th> --}}
+                                                   <td><a href="{{route('sp.detail', enkripRambo($sp->id))}}">{{$sp->employee->nik}} {{$sp->employee->biodata->fullName()}}</a></td>
+                                                   <td>{{$sp->code}}</td>
+                                                   {{-- <td>{{$sp->employee->biodata->first_name}} {{$sp->employee->biodata->last_name}}</td> --}}
+                                                   
+                                                   <td>SP {{$sp->level}}</td>
+                                                   <td>
+                                                      <x-status.sp :sp="$sp" />
+                                                   </td>
+                                                   <td>{{formatDate($sp->date_from)}}</td>
+                                                </tr>
+                                             @endforeach
+                                          @endforeach
+                                          @else
+                                          @foreach ($sps as $sp)
                                              <tr>
                                                 {{-- <th></th> --}}
                                                 <td><a href="{{route('sp.detail', enkripRambo($sp->id))}}">{{$sp->employee->nik}} {{$sp->employee->biodata->fullName()}}</a></td>
@@ -176,7 +193,8 @@ SP
                                                 <td>{{formatDate($sp->date_from)}}</td>
                                              </tr>
                                           @endforeach
-                                       @endforeach
+                                       @endif
+                                       
                                     @endif
                                  </tbody>
                               </table>

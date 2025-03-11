@@ -96,6 +96,7 @@ Employee
                         @if (auth()->user()->hasRole('Administrator'))
                         {{$employee->id}}
                         {{-- {{$employee->user_id}} --}}
+                        {{-- Dept ID : {{$employee->department_id}} --}}
                         @endif
                      </td>
                      

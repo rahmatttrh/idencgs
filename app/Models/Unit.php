@@ -72,7 +72,7 @@ class Unit extends Model
          $end = Carbon::create('30-12-' . $year);
       }
       $employees = $this->employees->where('status', 1);
-      $employees = Employee::where('unit_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['kj-5-167', 'kj-5-176','kj-5-175', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177'])->where('status', 1)->where('join', '<=', $end)->get();
+      $employees = Employee::where('unit_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['EN-4-113','kj-5-167', 'kj-5-176','kj-5-175', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177'])->where('status', 1)->where('join', '<=', $end)->get();
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
 
       $employeeQpe = 0;

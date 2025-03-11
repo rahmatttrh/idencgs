@@ -1128,6 +1128,7 @@ class QuickPEController extends Controller
    public function edit($id)
    {
 
+      // dd('ok');
         $kpa = PeKpa::find(dekripRambo($id));
       $datas = PekpaDetail::where('kpa_id', $kpa->id)->where('addtional', '0')->get();
       $valueAvg = ROUND(PekpaDetail::where('kpa_id', $kpa->id)->where('addtional', '0')->avg('value'), 2);
@@ -1208,10 +1209,21 @@ class QuickPEController extends Controller
         $pe = Pe::find($kpa->pe_id);
         $today = Carbon::now();
         $date1 = Carbon::createFromDate($pe->employe->join);
-        $date2 = Carbon::createFromDate($today->format('Y'), 6, 30);
+        $date2 = Carbon::createFromDate($pe->tahun, 6, 30);
         $time = $today->diff($pe->employe->join);
 
+        if ($pe->semester == 1) {
+         $m = 6;
+        } else {
+         $m = 12;
+        }
+        $date2 = Carbon::createFromDate($pe->tahun, $m, 30);
+
         $joinMonth = $date1->diffInMonths($date2);
+        if (auth()->user()->hasRole('Administrator')) {
+         // dd($joinMonth);
+        }
+      //   dd($joinMonth);
 
         $pd = PeDiscipline::where('pe_id', $kpa->pe_id)->first();
 

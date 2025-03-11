@@ -55,11 +55,11 @@ class AppServiceProvider extends ServiceProvider
                // $peNotifNd = [];
                // $peNotifs = $peNotif->concat($peNotifNd);
             } elseif(auth()->user()->hasRole('Supervisor|Leader')){
-               $id = auth()->user()->getEmployeeId();
-               $employee = Employee::find($id);
+               // $id = auth()->user()->username;
+               $employee = Employee::where('nik', auth()->user()->username)->first();
                $spNotifNd = Sp::where('status', 101)->where('nd_for', 1)->orWhere('nd_for', 3)->where('by_id', $employee->id)->orderBy('updated_at', 'desc')->get();
-               $spNotif = Sp::where('status', 2)->orWhere('status', 202)->where('by_id', $employee->id)->where('department_id', $employee->department_id)->orderBy('updated_at', 'desc')->get();
-               $spNotifs = $spNotifNd->concat($spNotif);
+               $spNotif = Sp::where('by_id', $employee->id)->where('department_id', $employee->department_id)->where('status', 2)->orWhere('status', 202)->orderBy('updated_at', 'desc')->get();
+               $spNotifs = $spNotif;
 
                // $peNotif = null;
                // $department

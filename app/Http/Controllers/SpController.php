@@ -48,6 +48,7 @@ class SpController extends Controller
          // $employees = Employee::where('direct_leader_id', auth()->user()->getEmployeeId())->get();
          $employees = EmployeeLeader::where('leader_id', auth()->user()->getEmployee()->id)->get();
          $sps = Sp::where('by_id', auth()->user()->getEmployee()->id)->orderBy('created_at', 'desc')->get();
+         // dd($sps);
          $allEmployees = [];
       }
       
@@ -491,10 +492,10 @@ class SpController extends Controller
    {
       $sp = Sp::find($req->id);
       // dd($sp->code);
-      $employee = Employee::find($req->employee);
+      $employee = Employee::find($sp->employee_id);
 
       $sp->update([
-         'employee_id' => $req->employee,
+         // 'employee_id' => $req->employee,
          'level' => $req->level,
          'reason' => $req->reason,
          'desc' => $req->desc

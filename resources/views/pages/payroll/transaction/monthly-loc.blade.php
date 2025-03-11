@@ -128,11 +128,72 @@ Payroll Transaction
 
    
    
+   {{-- <div class="hori-timeline mt-3" dir="ltr">
+      <ul class="list-inline events">
+          
+          <li class="list-inline-item event-list">
+              <div class="px-4">
+               
+               @if ($manHrd)
+                  <div class="event-date bg-primary text-white">MANAGER HRD</div>
+                  <h5 class="font-size-16">{{formatDateTime($manhrd->created_at)}}</h5>
+                  
+                  @else  
+                  <div class="event-date bg-light border">HRD MANAGER</div>
+                  <h5 class="font-size-16">Waiting</h5>
+                  
+               @endif
+                  
+              </div>
+          </li>
+          <li class="list-inline-item event-list">
+              <div class="px-4">
+               @if ($manFin)
+                  <div class="event-date bg-primary text-white">MANAGER FINANCE</div>
+                  <h5 class="font-size-16">{{formatDateTime($manfin->created_at)}}</h5>
+                  
+                  @else  
+                  <div class="event-date bg-light border">MANAGER FINANCE</div>
+                  <h5 class="font-size-16">Waiting</h5>
+                  
+               @endif
+              </div>
+          </li>
+          <li class="list-inline-item event-list">
+              <div class="px-4">
+               @if ($gm)
+                  <div class="event-date bg-primary text-white">GENERAL MANAGER</div>
+                  <h5 class="font-size-16">{{formatDateTime($gm->created_at)}}</h5>
+                  
+                  @else  
+                  <div class="event-date bg-light border">GENERAL MANAGER</div>
+                  <h5 class="font-size-16">Waiting</h5>
+                  
+               @endif
+              </div>
+          </li>
+          <li class="list-inline-item event-list">
+             <div class="px-4">
+               @if ($bod)
+                  <div class="event-date bg-primary text-white">DIREKSI / BOD</div>
+                  <h5 class="font-size-16">{{formatDateTime($bod->created_at)}}</h5>
+                  
+                  @else  
+                  <div class="event-date bg-light border">DIREKSI / BOD </div>
+                  <h5 class="font-size-16">Waiting</h5>
+                  
+               @endif
+             </div>
+         </li>
+          
+      </ul>
+   </div> --}}
 
    <div class="card card-with-nav shadow-none border">
       <div class="card-header  d-flex justify-content-between ">
          <div class="mt-3">
-            <h2 class="text-uppercase"><b>PAYSLIP REPORT </b> <br>PT {{$unit->name}} {{$unitTransaction->month}} {{$unitTransaction->year}} </h2>
+            <b>PAYSLIP REPORT </b>
+            <h2 class="text-uppercase"> PT {{$unit->name}} {{$unitTransaction->month}} {{$unitTransaction->year}} </h2>
             
             
          </div>
@@ -150,6 +211,7 @@ Payroll Transaction
                @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' || auth()->user()->hasRole('Administrator'))
                <li class="nav-item"> <a class="nav-link " id="pills-ks-tab-nobd" data-toggle="pill" href="#pills-ks-nobd" role="tab" aria-controls="pills-ks-nobd" aria-selected="true">BPJS Kesehatan</a> </li>
                <li class="nav-item"> <a class="nav-link " id="pills-kt-tab-nobd" data-toggle="pill" href="#pills-kt-nobd" role="tab" aria-controls="pills-kt-nobd" aria-selected="true">BPJS Ketenagakerjaan</a> </li>
+               <li class="nav-item"> <a class="nav-link " id="pills-timeline-tab-nobd" data-toggle="pill" href="#pills-timeline-nobd" role="tab" aria-controls="pills-timeline-nobd" aria-selected="true">Timeline</a> </li>
                @endif
             </ul>
          </div>
@@ -769,30 +831,95 @@ Payroll Transaction
                
             </div>
 
+            <div class="tab-pane fade " id="pills-timeline-nobd" role="tabpanel" aria-labelledby="pills-timeline-tab-nobd">
+               <div class="hori-timeline mt-3" dir="ltr">
+                  <ul class="list-inline events">
+                      
+                      <li class="list-inline-item event-list">
+                          <div class="px-4">
+                           
+                           @if ($manHrd)
+                              <div class="event-date bg-primary text-white">MANAGER HRD</div>
+                              <h5 class="font-size-16">{{formatDateTime($manHrd->created_at)}}</h5>
+                              
+                              @else  
+                              <div class="event-date bg-light border">HRD MANAGER</div>
+                              <h5 class="font-size-16">Waiting</h5>
+                              
+                           @endif
+                              
+                              {{-- <p class="text-muted">Everyone realizes why a new common language one could refuse translators.</p> --}}
+                              {{-- <div>
+                                  <a href="#" class="btn btn-primary btn-sm">Read more</a>
+                              </div> --}}
+                          </div>
+                      </li>
+                      <li class="list-inline-item event-list">
+                          <div class="px-4">
+                           @if ($manFin)
+                              <div class="event-date bg-primary text-white">MANAGER FINANCE</div>
+                              <h5 class="font-size-16">{{formatDateTime($manFin->created_at)}}</h5>
+                              
+                              @else  
+                              <div class="event-date bg-light border">MANAGER FINANCE</div>
+                              <h5 class="font-size-16">Waiting</h5>
+                              
+                           @endif
+                              {{-- <p class="text-muted">If several languages coalesce the grammar of the resulting simple and regular</p>
+                              <div>
+                                  <a href="#" class="btn btn-primary btn-sm">Read more</a>
+                              </div> --}}
+                          </div>
+                      </li>
+                      <li class="list-inline-item event-list">
+                          <div class="px-4">
+                           @if ($gm)
+                              <div class="event-date bg-primary text-white">GENERAL MANAGER</div>
+                              <h5 class="font-size-16">{{formatDateTime($gm->created_at)}}</h5>
+                              
+                              @else  
+                              <div class="event-date bg-light border">GENERAL MANAGER</div>
+                              <h5 class="font-size-16">Waiting</h5>
+                              
+                           @endif
+                          </div>
+                      </li>
+                      <li class="list-inline-item event-list">
+                         <div class="px-4">
+                           @if ($bod)
+                              <div class="event-date bg-primary text-white">DIREKSI / BOD</div>
+                              <h5 class="font-size-16">{{formatDateTime($bod->created_at)}}</h5>
+                              
+                              @else  
+                              <div class="event-date bg-light border">DIREKSI / BOD </div>
+                              <h5 class="font-size-16">Waiting</h5>
+                              
+                           @endif
+                         </div>
+                     </li>
+                      
+                  </ul>
+               </div>
+               
+            </div>
            
 
          </div>
 
       </div>
    </div>
-   
-
-   
-
 
    
    
 
+   
 
-   <hr>
 
-   <div class="card">
-      <div class="card-body">
-          {{-- <h4 class="card-title mb-5">Horizontal Timeline</h4> --}}
+   
+   
 
-          
-      </div>
-   </div>
+
+   
    
    
 </div>
