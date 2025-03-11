@@ -82,7 +82,7 @@ class AbsenceEmployeeController extends Controller
       $now = Carbon::now();
       // $cutis = Absence::where()
       $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
-      ->where('absences.type', 5)->whereDate('absences.date', '>=', $now)->select('absences.*')->get();
+      ->where('absences.type', 5)->where('employees.department_id', $employee->department_id)->whereDate('absences.date', '>=', $now)->select('absences.*')->get();
       // dd($employeeLeaders);
       // dd($cutis);
       return view('pages.absence-request.create', [
