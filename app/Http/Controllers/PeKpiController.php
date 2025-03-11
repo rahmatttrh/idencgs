@@ -206,6 +206,20 @@ class PeKpiController extends Controller
         }
     }
 
+    public function updateObjective(Request $req)
+    {
+        // CEK APAKAH ADA RELASI DI TABLE KPA DETAIL
+        
+
+        $kpiDetail = PekpiDetail::find($req->objectiveId);
+        $kpiDetail->update([
+         'objective' => $req->name
+        ]);
+        return redirect()->back()->with('success', 'Objective updated');
+      //   dd($kpiDetail->objective);
+
+      }
+
     public function deletePoint($id)
     {
 

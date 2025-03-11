@@ -495,7 +495,7 @@ class SpController extends Controller
       $employee = Employee::find($req->employee);
 
       $sp->update([
-         'employee_id' => $req->employee,
+         // 'employee_id' => $req->employee,
          'level' => $req->level,
          'reason' => $req->reason,
          'desc' => $req->desc

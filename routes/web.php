@@ -679,6 +679,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('delete/{id}', [PeKpiController::class, 'delete'])->name('kpi.delete');  // Belum selesai semua
 
          Route::get('delete-objective/{id}', [PeKpiController::class, 'deleteObjective'])->name('kpi.objective.delete');  // Belum selesai semua
+         Route::put('objective/update', [PeKpiController::class, 'updateObjective'])->name('kpi.objective.update'); 
 
          // id yang di gunakan id employee
          // untuk melakukan penilaian

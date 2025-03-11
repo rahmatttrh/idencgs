@@ -1208,7 +1208,12 @@ class QuickPEController extends Controller
         $pe = Pe::find($kpa->pe_id);
         $today = Carbon::now();
         $date1 = Carbon::createFromDate($pe->employe->join);
-        $date2 = Carbon::createFromDate($today->format('Y'), 6, 30);
+        if ($pe->semester == 1) {
+         $m = 1;
+        } else {
+         $m = 6;
+        }
+        $date2 = Carbon::createFromDate($pe->tahun, $m, 30);
         $time = $today->diff($pe->employe->join);
 
         $joinMonth = $date1->diffInMonths($date2);
