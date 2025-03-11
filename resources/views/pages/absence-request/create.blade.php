@@ -26,6 +26,9 @@ Form Absence
                     <a class="nav-link{{ $activeTab === 'pending' ? ' active' : '' }}" href="{{ route('employee.absence') }}">Pending Request</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link{{ $activeTab === 'draft' ? ' active' : '' }}" href="{{ route('employee.absence.draft') }}">Drafting</a>
+               </li>
+                <li class="nav-item">
                     <a class="nav-link{{ $activeTab === 'form' ? ' active' : '' }}" href="{{ route('employee.absence.create') }}">Form Create</a>
                 </li>
                 

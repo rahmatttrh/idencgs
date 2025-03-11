@@ -289,7 +289,7 @@ class AbsenceEmployeeController extends Controller
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
       $absenceEmployee->delete();
 
-      return redirect()->route('employee.absence')->with('success', 'Data berhasil dihapus');
+      return redirect()->back()->with('success', 'Data berhasil dihapus');
    }
 
 
