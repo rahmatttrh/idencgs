@@ -260,14 +260,8 @@ Payroll Report BPJS KS
                      <td style="padding: 0px !important;" colspan="9">BAGIAN III : Rincian Iuran bulan ini</td>
                   </tr>
                   <tr>
-                     {{-- <td style="padding: 0px !important;" colspan="5"></td>
-                     <td style="padding: 0px !important;"></td>
-                     <td style="padding: 0px !important;">Perusahaan</td>
-                     <td style="padding: 0px !important;">Karyawan</td>
-                     <td style="padding: 0px !important;">Jumlah Iuran</td>
-                  </tr> --}}
+                  
                   <tr>
-                     {{-- <td style="padding: 0px !important;" colspan="2">(1)</td> --}}
                      <td style="padding: 0px !important;" colspan="3" class="text-center">Program</td>
                      <td style="padding: 0px !important;" class="text-center">Tarif</td>
                      <td style="padding: 0px !important;" class="text-center">Tenaga <br> Kerja</td>
@@ -276,144 +270,49 @@ Payroll Report BPJS KS
                      <td style="padding: 0px !important;" class="text-center" >Karyawan</td>
                      <td style="padding: 0px !important;" class="text-center" >Jumlah Iuran</td>
                   </tr>
-                  @php
-                      $totalEmployee = 0;
-                      $totalUpah = 0;
-                      $totalIuranPerusahaan = 0;
-                      $totalIuranKaryawan = 0;
+                  
 
-                      $total = 0;
-                      $totalAdditional = 0;
-                  @endphp
-                  @foreach ($locations as $loc)
-                     @if ($loc->totalEmployee($unitTransaction->unit->id) > 0)
+                  @foreach ($bpjsKsReports as $bpjs)
+                  @if ($bpjs->qty > 0)
+                  <tr>
                      <tr>
                         <td rowspan="2"></td>
-                        <td rowspan="2" class="text-center">{{$loc->name}}</td>
+                        <td rowspan="2" class="text-center"><a href="{{route('report.bjpsks.detail', enkripRambo($bpjs->id) )}}">{{$bpjs->location_name}}</a></td>
                         <td>Jaminan Kesehatan</td>
-                        <td class="text-center">{{$unitTransaction->unit->reductions->where('name', 'BPJS KS')->first()->company + $unitTransaction->unit->reductions->where('name', 'BPJS KS')->first()->employee}} %</td>
-                        <td class="text-center">{{count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right" >{{formatRupiahB($loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'BPJS KS', 'company'))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeduction($unitTransaction, 'BPJS KS', 'employee'))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeductionReal($unitTransaction, 'BPJS KS', 'company')+$loc->getDeduction($unitTransaction, 'BPJS KS', 'employee'))}}</td>
+                        <td class="text-center">{{$bpjs->tarif}} %</td>
+                        <td class="text-center">{{$bpjs->qty}}</td>
+                        <td class="text-right" >{{formatRupiahB($bpjs->upah)}}</td>
+                        <td class="text-right">{{formatRupiahB($bpjs->perusahaan)}}</td>
+                        <td class="text-right">{{formatRupiahB($bpjs->karyawan)}}</td>
+                        <td class="text-right">{{formatRupiahB($bpjs->total_iuran)}}</td>
                      </tr>
                      <tr>
-                        {{-- <td></td> --}}
                         <td>Iuran Tambahan</td>
                         <td class="text-center">1%</td>
                         <td class="text-center">-</td>
                         <td></td>
                         <td></td>
-                        <td class="text-right"> {{formatRupiahB($loc->getDeductionAdditional($unitTransaction, 'employee'))}}</td>
-                        <td class="text-right">{{formatRupiahB($loc->getDeductionAdditional($unitTransaction, 'employee'))}}</td>
+                        <td class="text-right"> {{formatRupiahB($bpjs->additional_iuran)}}</td>
+                        <td class="text-right">{{formatRupiahB($bpjs->additional_iuran)}}</td>
                      </tr>
-                     @php
-                         
-                        $totalEmployee += count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction));
-                        $totalUpah += $loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction);
-                        $totalIuranPerusahaan += $loc->getDeductionReal($unitTransaction, 'BPJS KS', 'company');
-                        $totalIuranKaryawan += $loc->getDeduction($unitTransaction, 'BPJS KS', 'employee');
-
-                         $total += $loc->getDeductionReal($unitTransaction, 'BPJS KS', 'company')+$loc->getDeduction($unitTransaction, 'BPJS KS', 'employee');
-                         $totalAdditional += $loc->getDeductionAdditional($unitTransaction, 'employee');
-
-
-                     @endphp
-                     @endif
+                  </tr>
+                  @endif
+                     
+                      
                   @endforeach
                   <tr>
                      <td colspan="2"></td>
                      <td><b>Total</b></td>
-                     <td class="text-center"><b>{{$totalEmployee}}</b></td>
+                     <td class="text-center"><b>{{$bpjsKsReports->sum('qty')}}</b></td>
                      <td></td>
-                     <td class="text-right"><b>{{formatRupiahB($totalUpah)}}</b></td>
-                     <td class="text-right"><b>{{formatRupiahB($totalIuranPerusahaan)}}</b></td>
-                     <td class="text-right"><b>{{formatRupiahB($totalIuranKaryawan)}}</b></td>
-                     <td class="text-right"><b>{{formatRupiahB($total)}}</b></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('upah'))}}</b></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('perusahaan'))}}</b></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('karyawan'))}}</b></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('total_iuran') + $bpjsKsReports->sum('additional_iuran'))}}</b></td>
                      
                   </tr>
                   
-                {{--  <tr>
-                     <td></td>
-                     <td>Iuran Ekanuri KJ1-2 (612312444)</td>
-                     <td>5,00%</td>
-                     <td>15</td>
-                     <td>8300099333</td>
-                     <td>30000000</td>
-                     <td>813999</td>
-                     <td>4000292929</td>
-                  </tr>
-                  <tr>
-                     <td></td>
-                     <td>Iuran Tambahan</td>
-                     <td>1%</td>
-                     <td>-</td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <td></td>
-                     <td>Iuran Ekanuri KJ4 (612312444)</td>
-                     <td>5,00%</td>
-                     <td>15</td>
-                     <td>8300099333</td>
-                     <td>30000000</td>
-                     <td>813999</td>
-                     <td>4000292929</td>
-                  </tr>
-                  <tr>
-                     <td></td>
-                     <td>Iuran Tambahan</td>
-                     <td>1%</td>
-                     <td>-</td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <td></td>
-                     <td>Iuran Ekanuri KJ5 (612312444)</td>
-                     <td>5,00%</td>
-                     <td>15</td>
-                     <td>8300099333</td>
-                     <td>30000000</td>
-                     <td>813999</td>
-                     <td>4000292929</td>
-                  </tr>
-                  <tr>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td>813999</td>
-                     <td>4000292929</td>
-                  </tr>
-                  <tr>
-                     <td></td>
-                     <td>Iuran Non Employee (612312444)</td>
-                     <td>5,00%</td>
-                     <td>15</td>
-                     <td>8300099333</td>
-                     <td>30000000</td>
-                     <td>813999</td>
-                     <td>4000292929</td>
-                  </tr>
-                  <tr>
-                     <td></td>
-                     <td>Iuran Tambahan</td>
-                     <td>1%</td>
-                     <td>-</td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                  </tr> --}}
+               
                   <tr>
                      <td colspan="9">BAGIAN IV - Jumlah Seluruhnya</td>
                      
@@ -426,7 +325,7 @@ Payroll Report BPJS KS
                      <td></td>
                      <td></td>
                      <td></td>
-                     <td class="text-right"><b>{{formatRupiahB($total + $totalAdditional)}}</b></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('total_iuran') + $bpjsKsReports->sum('additional_iuran'))}}</b></td>
                   </tr>
                </tbody>
                

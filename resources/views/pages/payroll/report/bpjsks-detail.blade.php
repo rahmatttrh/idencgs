@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-Payroll Report BPJS KT
+Payroll Report BPJS KS
 @endsection
 @section('content')
 
@@ -110,7 +110,7 @@ Payroll Report BPJS KT
          <li class="breadcrumb-item" aria-current="page"><a href="{{route('payroll.transaction')}}">Transaction</a></li>
          <li class="breadcrumb-item" aria-current="page">{{$unitTransaction->unit->name}}</li>
          <li class="breadcrumb-item" aria-current="page">{{$unitTransaction->month}}</li>
-         <li class="breadcrumb-item active" aria-current="page">Report BPJS Ketenagakerjaan </li>
+         <li class="breadcrumb-item active" aria-current="page">Report BPJS Kesehatan </li>
       </ol>
    </nav>
 
@@ -155,7 +155,7 @@ Payroll Report BPJS KT
             <table  >
                <thead>
                   <tr>
-                     <th colspan="4" class="bg-white px-2 py-2"><img src="{{asset('img/logo/bpjskt.png')}}" width="150px" alt=""></th>
+                     <th colspan="4 p-2" class="bg-white"><img src="{{asset('img/logo/bpjsks.png')}}" width="150px" alt=""></th>
                   </tr>
                   <tr style="padding: 0px!">
                      <th colspan="4" class="text-center bg-white p0" style="padding: 0px !important;" >RINCIAN IURAN</th>
@@ -163,18 +163,18 @@ Payroll Report BPJS KT
                </thead>
                <tbody>
                   <tr>
-                     <td colspan="4" style="padding: 0px !important;" class="bg-success" >BAGIAN I - Perusahaan</td>
+                     <td colspan="4" style="padding: 0px !important;"  >BAGIAN I - Perusahaan</td>
                   </tr>
                   <tr>
-                     <td style="padding: 0px !important;" class="text-center">1</td>
+                     <td style="padding: 0px !important;">1</td>
                      <td style="padding: 0px !important;">NAMA INSTANSI/BADAN/PERUSAHAAN</td>
                      <td style="padding: 0px !important;" colspan="2">PT {{$unit->name}}</td>
                   </tr>
-                  {{-- <tr>
+                  <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">KODE BADAN USAHA</td>
-                     <td style="padding: 0px !important;" colspan="2">01143486</td>
-                  </tr> --}}
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->kode}}</td>
+                  </tr>
                   <tr>
                      <td style="padding: 0px !important;"></td>
                      <td style="padding: 0px !important;">ALAMAT</td>
@@ -182,28 +182,32 @@ Payroll Report BPJS KT
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;"></td>
-                     <td style="padding: 0px !important;">Nomor Pendaftaran Perusahan (NPP) </td>
-                     <td style="padding: 0px !important;" colspan="2">{{$unit->npp}}</td>
+                     <td style="padding: 0px !important;">TELP</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->telp}}</td>
                   </tr>
                   <tr>
-                     <td style="padding: 0px !important; height: 20px" colspan="3" ></td>
+                     <td style="padding: 0px !important;" colspan="3"></td>
                   </tr>
                   <tr>
-                     <td style="padding: 0px !important;" class="text-center">2</td>
-                     <td style="padding: 0px !important;">Iuran untuk bulan / thn</td>
-                     <td style="padding: 0px !important;"colspan="2" class="">{{$reportBpjsKt->month}} {{$reportBpjsKt->year}}</td>
+                     <td style="padding: 0px !important;">2</td>
+                     <td style="padding: 0px !important;">IURAN UNTUK BULAN</td>
+                     <td style="padding: 0px !important;"colspan="2" class="">{{$reportBpjsKs->month}} {{$reportBpjsKs->year}}</td>
                   </tr>
-                 
                   <tr>
-                     <td style="padding: 0px !important;" class="text-center">3</td>
-                     <td style="padding: 0px !important;">Iuran disetor melalui  </td>
-                     <td style="padding: 0px !important;" colspan="2">Bank {{$unit->bank}}</td>
+                     <td style="padding: 0px !important;"></td>
+                     <td style="padding: 0px !important;">KODE VIRTUAL ACCOUNT</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->va}}</td>
                   </tr>
-                  {{-- <tr>
+                  <tr>
+                     <td style="padding: 0px !important;"></td>
+                     <td style="padding: 0px !important;">BANK TEMPAT PEMBAYARAN IURAN</td>
+                     <td style="padding: 0px !important;" colspan="2">{{$unit->bank}}</td>
+                  </tr>
+                  <tr>
                      <td style="padding: 0px !important;" colspan="4">-</td>
-                  </tr> --}}
+                  </tr>
                   <tr>
-                     <td style="padding: 0px !important;" colspan="4" class="bg-success">BAGIAN II : Rekapitulasi tenaga kerja dan upah</td>
+                     <td style="padding: 0px !important;" colspan="4">BAGIAN II : Rekapitulasi tenaga kerja dan upah</td>
                   </tr>
                   
                   <tr>
@@ -216,31 +220,31 @@ Payroll Report BPJS KT
                   </tr>
 
                   <tr>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">A</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;">A</td>
                      <td style="padding: 0px !important;">Bulan lalu</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{$reportBpjsKs->payslip_employee}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatRupiahB($reportBpjsKs->payslip_total)}}</td>
                   </tr>
                   <tr>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">B</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;">B</td>
                      <td style="padding: 0px !important;">Penambahan tenaga kerja</td>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
                   </tr>
                   <tr>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">C</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;">C</td>
                      <td style="padding: 0px !important;">Pengurangan tenaga kerja</td>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
                   </tr>
                   <tr>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">D</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;">D</td>
                      <td style="padding: 0px !important;">Perubahan Upah</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;"  class="text-center"></td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right"></td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
                   </tr>
                   <tr>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">E</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;">E</td>
                      <td style="padding: 0px !important;">Jumlah (A+B+C)</td>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
@@ -253,12 +257,11 @@ Payroll Report BPJS KT
             <table>
                <tbody>
                   <tr>
-                     <td style="padding: 0px !important;" colspan="9" class="bg-success">BAGIAN III : Rincian Iuran bulan ini</td>
+                     <td style="padding: 0px !important;" colspan="9">BAGIAN III : Rincian Iuran bulan ini</td>
                   </tr>
                   <tr>
                   
                   <tr>
-                     {{-- <td style="padding: 0px !important;" colspan="2">(1)</td> --}}
                      <td style="padding: 0px !important;" colspan="3" class="text-center">Program</td>
                      <td style="padding: 0px !important;" class="text-center">Tarif</td>
                      <td style="padding: 0px !important;" class="text-center">Tenaga <br> Kerja</td>
@@ -267,52 +270,63 @@ Payroll Report BPJS KT
                      <td style="padding: 0px !important;" class="text-center" >Karyawan</td>
                      <td style="padding: 0px !important;" class="text-center" >Jumlah Iuran</td>
                   </tr>
+                  
 
-                  @foreach ($bpjsKtReports as $kt)
-                  @if ($kt->qty > 0)
+                  @foreach ($bpjsKsReports as $bpjs)
+                  @if ($bpjs->qty > 0)
                   <tr>
-                     {{-- <td  class="text-center">-</td> --}}
-                     <td   class="text-center" colspan="2">{{$kt->location_name}}</td>
-                     <td>{{$kt->program}}</td>
-                     <td class="text-center">{{$kt->tarif}} %</td>
-                     <td class="text-center">{{$kt->qty}}</td>
-                     <td class="text-right" >{{formatRupiahB($kt->upah)}}</td>
-                     <td class="text-right">{{formatRupiahB($kt->perusahaan)}}</td>
-                     <td class="text-right">{{formatRupiahB($kt->karyawan)}}</td>
-                     <td class="text-right">{{formatRupiahB($kt->total_iuran)}}</td>
+                     <tr>
+                        <td rowspan="2"></td>
+                        <td rowspan="2" class="text-center">{{$bpjs->location_name}}</td>
+                        <td>Jaminan Kesehatan</td>
+                        <td class="text-center">{{$bpjs->tarif}} %</td>
+                        <td class="text-center">{{$bpjs->qty}}</td>
+                        <td class="text-right" >{{formatRupiahB($bpjs->upah)}}</td>
+                        <td class="text-right">{{formatRupiahB($bpjs->perusahaan)}}</td>
+                        <td class="text-right">{{formatRupiahB($bpjs->karyawan)}}</td>
+                        <td class="text-right">{{formatRupiahB($bpjs->total_iuran)}}</td>
+                     </tr>
+                     <tr>
+                        <td>Iuran Tambahan</td>
+                        <td class="text-center">1%</td>
+                        <td class="text-center">-</td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right"> {{formatRupiahB($bpjs->additional_iuran)}}</td>
+                        <td class="text-right">{{formatRupiahB($bpjs->additional_iuran)}}</td>
+                     </tr>
                   </tr>
                   @endif
                      
-
-                    
+                      
                   @endforeach
-                  {{-- <tr>
-                       
-                     <td>Jumlah (a+b+c+d)</td>
-                     <td  class="text-center">1%</td>
-                     <td  class="text-center">-</td>
-                     <td></td>
-                     <td class="text-right"> </td>
-                     <td class="text-right"> </td>
-                     <td class="text-right"></td>
-                  </tr> --}}
-
                   <tr>
-                     <td colspan="9" class="bg-success">BAGIAN IV - Jumlah Seluruhnya</td>
+                     <td colspan="2"></td>
+                     <td><b>Total</b></td>
+                     <td class="text-center"><b>{{$bpjsKsReports->sum('qty')}}</b></td>
+                     <td></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('upah'))}}</b></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('perusahaan'))}}</b></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('karyawan'))}}</b></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('total_iuran') + $bpjsKsReports->sum('additional_iuran'))}}</b></td>
                      
-                  </tr>
-                  <tr>
-                     {{-- <td></td> --}}
-                     <td colspan="4">Jumlah seluruhnya (III-IV+V)</td>
-                     
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td class="text-right">{{formatRupiahB($bpjsKtReports->sum('total_iuran'))}}</td>
                   </tr>
                   
-      
+               
+                  <tr>
+                     <td colspan="9">BAGIAN IV - Jumlah Seluruhnya</td>
+                     
+                  </tr>
+                  <tr>
+                     <td></td>
+                     <td colspan="3">Jumlah seluruhnya (III-IV+V)</td>
+                     
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('total_iuran') + $bpjsKsReports->sum('additional_iuran'))}}</b></td>
+                  </tr>
                </tbody>
                
             </table>

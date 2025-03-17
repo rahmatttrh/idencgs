@@ -17,4 +17,8 @@ class UnitTransaction extends Model
    public function transactions(){
       return $this->hasMany(Transaction::class);
    }
+
+   public function payslipReports(){
+      return $this->hasMany(PayslipReport::class);
+   }
 }

@@ -19,8 +19,11 @@ class PayslipBpjsKtController extends Controller
       $unit = Unit::find($unitTransaction->unit_id);
       $locations = Location::get();
 
-      $reportBpjsKt = PayslipBpjsKt::where('unit_transaction_id', $unitTransaction->id)->first();
+      $bpjsKtReports = BpjsKtReport::where('unit_transaction_id', $unitTransaction->id)->get();
+      // $reportBpjsKt = PayslipBpjsKt::where('unit_transaction_id', $unitTransaction->id)->get();
 
+      // $reportBpjsKs = PayslipBpjsKs::where('unit_transaction_id', $unitTransaction->id)->first();
+      $reportBpjsKt = PayslipBpjsKt::where('unit_transaction_id', $unitTransaction->id)->first();
       $hrd = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'hrd')->first();
       $manHrd = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-hrd')->first();
       $manFin = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-fin')->first();
@@ -30,6 +33,7 @@ class PayslipBpjsKtController extends Controller
       return view('pages.payroll.report.bpjskt', [
          'unit' => $unit,
          'reportBpjsKt' => $reportBpjsKt,
+         'bpjsKtReports' => $bpjsKtReports,
          'unitTransaction' => $unitTransaction,
          'locations' => $locations,
          'hrd' => $hrd,

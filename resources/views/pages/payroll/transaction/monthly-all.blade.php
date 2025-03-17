@@ -93,7 +93,7 @@ Payroll Transaction
                     
                   {{count($unitTransaction->transactions)}} Karyawan <br>
                   {{-- Total Salary <br> --}}
-                   {{formatRupiah($unitTransaction->total_salary)}}
+                  {{formatRupiahB($payslipReports->sum('gaji_bersih'))}}
             </div>
             
             

@@ -557,6 +557,7 @@ class TransactionController extends Controller
       $payslipReports = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->get();
       $bpjsKsReports = BpjsKsReport::where('unit_transaction_id', $unitTransaction->id)->get();
       $bpjsKtReports = BpjsKtReport::where('unit_transaction_id', $unitTransaction->id)->get();
+      // dd($bpjsKsReports);
 
       return view('pages.payroll.transaction.monthly-loc', [
          'unit' => $unit,

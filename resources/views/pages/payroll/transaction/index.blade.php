@@ -58,7 +58,10 @@ Payroll Transaction
                            <td>{{$trans->month}} </td>
                            <td>{{$trans->year}}</td>
                            <td class="text-center">{{$trans->total_employee}} </td>
-                           <td class="text-right">{{formatRupiahB($trans->total_salary)}}</td>
+                           <td class="text-right">
+                              {{formatRupiahB($trans->payslipReports->sum('gaji_bersih'))}}
+                              {{-- {{formatRupiahB($trans->total_salary)}} --}}
+                           </td>
                            <td><x-status.unit-transaction :unittrans="$trans" /> </td>
                            <td>
                               <a href="{{route('payroll.transaction.monthly.all', enkripRambo($trans->id))}}">Detail</a> 

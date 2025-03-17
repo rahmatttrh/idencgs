@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\CutiImport;
 use App\Models\Absence;
 use App\Models\Contract;
 use App\Models\Cuti;
 use App\Models\Employee;
+use App\Models\Log;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CutiController extends Controller
 {
@@ -212,6 +216,46 @@ class CutiController extends Controller
       ]);
 
       return redirect()->route('cuti')->with('success', 'Data Cuti updated');
+   }
+
+   public function import(){
+      return view('pages.cuti.import');
+   }
+
+   public function importStore(Request $req)
+   {
+
+      $req->validate([
+         'excel' => 'required'
+      ]);
+      $file = $req->file('excel');
+      $fileName = $file->getClientOriginalName();
+      $file->move('OvertimeData', $fileName);
+
+      try {
+         // Excel::import(new CargoItemImport($parent->id), $req->file('file-cargo'));
+         Excel::import(new CutiImport, public_path('/CutiData/' . $fileName));
+      } catch (Exception $e) {
+         return redirect()->back()->with('danger', 'Import Failed ' . $e->getMessage());
+      }
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+         $userId = 1;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $userId = $user->id;
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Import',
+         'desc' => 'Data Cuti '
+      ]);
+
+
+      return redirect()->route('cuti')->with('success', 'Cuti Data successfully imported');
    }
 
    public function calculateCuti($cuti){

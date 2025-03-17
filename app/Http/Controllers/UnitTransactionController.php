@@ -6,6 +6,7 @@ use App\Models\Location;
 use App\Models\PayrollApproval;
 use App\Models\PayslipBpjsKs;
 use App\Models\PayslipBpjsKt;
+use App\Models\PayslipReport;
 use App\Models\Transaction;
 use App\Models\Unit;
 use App\Models\UnitTransaction;
@@ -87,35 +88,7 @@ class UnitTransactionController extends Controller
       //    'status' => 0,
       // ]);
 
-      
-   $totalGrandHead = 0;
-   foreach ($locations as $loc){
-      if ($loc->totalEmployee($unit->id) > 0){
-         $bruto = $loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan');
-
-                                 // $tk = 2/100 * $loc->getValueGaji($unit->id, $unitTransaction);
-         $tk = $loc->getReduction($unit->id, $unitTransaction, 'JHT');
-         $ks = $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction);
-         $jp = $loc->getReduction($unit->id, $unitTransaction, 'JP');
-         $abs = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence');
-         $late = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late');
-
-         $total = $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('total');
-         
-         $totalGrandHead += $total;
-      }
-                           
-                              
-                                 
-                  
-   }
-
-   // dd($totalGrandHead);
-                           
-   $unitTransaction->update([
-      'total_salary' => $totalGrandHead
-   ]);
-                        
+      $payslipReports = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->get();
 
       return view('pages.payroll.transaction.monthly-all', [
          'unit' => $unit,
@@ -126,6 +99,7 @@ class UnitTransactionController extends Controller
          'firstLoc' => $firstLoc,
          'unitTransaction' => $unitTransaction,
          'transactions' => $transactions,
+         'payslipReports' => $payslipReports,
 
          'manhrd' => $manhrd,
          'manfin' => $manfin,
