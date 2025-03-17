@@ -207,6 +207,7 @@ class Employee extends Model
 
    public function getOvertimes($from, $to) {
       if ($from == 0) {
+         
          $overtimes = Overtime::where('employee_id', $this->id)->orderBy('updated_at', 'desc')->get();
       } else {
          $overtimes = Overtime::where('employee_id', $this->id)->whereBetween('date', [$from, $to])->orderBy('updated_at', 'desc')->get();

@@ -202,6 +202,7 @@ class TransactionController extends Controller
             }
 
             $offQty = $qty - 2;
+            
             $reductionOff = $rate * $offQty;
             $transaction->update([
                'remark' => 'Karyawan Baru',
