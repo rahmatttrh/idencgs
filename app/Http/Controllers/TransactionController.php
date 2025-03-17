@@ -192,7 +192,7 @@ class TransactionController extends Controller
 
       if (auth()->user()->hasRole('Administrator')) {
          if ($employee->join > $transaction->cut_from && $employee->join < $transaction->cut_to) {
-            dd('karyawan baru');
+            // dd('karyawan baru');
             $datetime0 = new DateTime($transaction->cut_to);
             $datetime1 = new DateTime($transaction->cut_from);
             $datetime2 = new DateTime($employee->join);
@@ -205,6 +205,12 @@ class TransactionController extends Controller
             }
 
             $offQty = $qty - 2;
+            $intervalOn = $datetime2->diff($datetime0);
+            $qtyOn = 0;
+            foreach (range(0, $intervalOn->days) as $item) {
+               $qtyOn += 1;
+            }
+            // dd($rate);
             $reductionOff = $rate * $offQty;
             $transaction->update([
                'remark' => 'Karyawan Baru',
