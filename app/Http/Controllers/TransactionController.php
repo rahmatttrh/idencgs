@@ -80,6 +80,7 @@ class TransactionController extends Controller
    public function detail($id)
    {
 
+      
       // dd('ok');
       // dd($employee->id);
       // $payroll = Payroll::find($employee->payroll_id);
@@ -185,6 +186,32 @@ class TransactionController extends Controller
       $transactionReductionAdditionals = TransactionReduction::where('transaction_id', $transaction->id)->where('class', 'additional')->get();
 
       // dd($transaction->id);
+
+      if (auth()->user()->hasRole('Administrator')) {
+         if ($employee->join > $transaction->cut_from && $employee->join < $transaction->cut_to) {
+            dd('karyawan baru');
+            $datetime0 = new DateTime($transaction->cut_to);
+            $datetime1 = new DateTime($transaction->cut_from);
+            $datetime2 = new DateTime($employee->join);
+            $interval = $datetime1->diff($datetime2);
+            // dd($interval->days);
+            $rate = 1 * 1 / 30 * $payroll->total;
+            $qty = 0;
+            foreach (range(0, $interval->days) as $item) {
+               $qty += 1;
+            }
+
+            $offQty = $qty - 2;
+            $reductionOff = $rate * $offQty;
+            $transaction->update([
+               'remark' => 'Karyawan Baru',
+               'off' => $offQty,
+               'reduction_off' => $reductionOff,
+               'total' => $transaction->total - $reductionOff
+            ]);
+         }
+      }
+      
 
 
 
@@ -469,7 +496,7 @@ class TransactionController extends Controller
             }
          }
       }
-
+      
       $bpjsKsReport = BpjsKsReport::where('unit_transaction_id', $unitTransaction->id)->first();
       if ($bpjsKsReport == null) {
          foreach ($locations as $loc){
