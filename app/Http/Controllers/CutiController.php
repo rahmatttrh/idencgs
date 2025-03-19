@@ -17,9 +17,17 @@ class CutiController extends Controller
 {
    public function index(){
       $cutis = Cuti::get();
-      // foreach($cutis as $cuti){
-      //    $cuti->delete();
-      // }
+      foreach($cutis as $cuti){
+         if ($cuti->start) {
+            $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
+   
+            $used = count($absences);
+            $cuti->update([
+               'used' => $used,
+               'sisa' => $cuti->total - $used
+            ]);
+         }
+      }
 
       // $employees = Employee::where('status', 1)->get();
       // foreach($employees as $emp){

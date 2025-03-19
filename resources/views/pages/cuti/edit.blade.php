@@ -77,9 +77,9 @@ Cuti Edit
                         <div class="card-header d-flex justify-content-between p-2 bg-dark text-white">
                            <small> <i class="fas fa-file-contract"></i> Riwayat Cuti</small>
                            
-                              {{-- @if ($cuti->start)
-                           <span>{{formatDate($cuti->start)}} - {{formatDate($cuti->end)}}</span>
-                           @endif --}}
+                              
+                           <span>{{count($absences)}}</span>
+                           
                         
                         </div>
                         <div class="card-body p-0">
