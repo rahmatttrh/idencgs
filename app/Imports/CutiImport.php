@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Cuti;
 use App\Models\Employee;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -20,14 +21,23 @@ class CutiImport implements ToCollection,  WithHeadingRow
             $employee = Employee::where('nik', $row['nik'])->first();
             $cuti = Cuti::where('employee_id', $employee->id)->first();
             $totalCuti = $row['cuti_tahunan']+ $row['cuti_masa_kerja'] + $row['cuti_extend'];
-            if ($cuti) {
+            
+            $berlaku = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['berlaku'])->format('Y-m-d');
+            $berlakuDate = Carbon::create($berlaku);
+            $expired = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['expired'])->format('Y-m-d');
+            $expiredDate = Carbon::create($expired);
+            $extend = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['cuti_extend_expired'])->format('Y-m-d');
+            $extendDate = Carbon::create($extend);
+            
+            
+            if ($cuti != null) {
                $cuti->update([
-                  'start' => $row['berlaku'],
-                  'end' => $row['expired'],
+                  'start' => $berlakuDate->format('Y-m-d'),
+                  'end' => $expiredDate->format('Y-m-d'),
                   'tahunan' => $row['cuti_tahunan'],
                   'masa_kerja' => $row['cuti_masa_kerja'],
                   'extend' => $row['cuti_extend'],
-                  'expired' => $row['cuti_extend_expired'],
+                  'expired' => $extendDate->format('Y-m-d'),
                   'total' => $totalCuti,
                   'used' => $row['cuti_dipakai'],
                   'sisa' => $totalCuti - $row['cuti_dipakai']
@@ -35,12 +45,12 @@ class CutiImport implements ToCollection,  WithHeadingRow
             } else {
                Cuti::create([
                   'employee_id' => $employee->id,
-                  'start' => $row['berlaku'],
-                  'end' => $row['expired'],
+                  'start' => $berlakuDate->format('Y-m-d'),
+                  'end' => $expiredDate->format('Y-m-d'),
                   'tahunan' => $row['cuti_tahunan'],
                   'masa_kerja' => $row['cuti_masa_kerja'],
                   'extend' => $row['cuti_extend'],
-                  'expired' => $row['cuti_extend_expired'],
+                  'expired' => $extendDate->format('Y-m-d'),
                   'total' => $totalCuti,
                   'used' => $row['cuti_dipakai'],
                   'sisa' => $totalCuti - $row['cuti_dipakai']

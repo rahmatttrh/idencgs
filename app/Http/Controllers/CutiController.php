@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class CutiController extends Controller
 {
    public function index(){
-      // $cutis = Cuti::get();
+      $cutis = Cuti::get();
       // foreach($cutis as $cuti){
       //    $cuti->delete();
       // }
@@ -39,67 +39,67 @@ class CutiController extends Controller
       $today = Carbon::now();
       // dd($cutis);
 
-      // foreach($cutis as $cuti){
-      //    $contract = Contract::find($cuti->employee->contract_id);
-      //    if ($contract->start != null && $contract->end != null) {
-      //       // dd($cuti->start);
-      //       $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $contract->start)->where('date', '<=', $contract->end)->where('type', 5)->get();
-      //       if ($cuti->expired != null) {
-      //          if ($cuti->expired < $today) {
-      //             $extend = $cuti->extend;
-      //          } else {
-      //             $extend = 0;
-      //          }
-      //       } else {
-      //          $extend = $cuti->extend;
-      //       }
+      foreach($cutis as $cuti){
+         $contract = Contract::find($cuti->employee->contract_id);
+         if ($contract->start != null && $contract->end != null) {
+            // dd($cuti->start);
+            $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $contract->start)->where('date', '<=', $contract->end)->where('type', 5)->get();
+            if ($cuti->expired != null) {
+               if ($cuti->expired < $today) {
+                  $extend = $cuti->extend;
+               } else {
+                  $extend = 0;
+               }
+            } else {
+               $extend = $cuti->extend;
+            }
 
-      //       $total = $cuti->tahunan + $cuti->masa_kerja + $extend;
-      //       $cuti->update([
-      //          'used' => count($absences),
-      //          'total' => $total,
-      //          'sisa' => $total - count($absences)
-      //       ]);
-      //    }
+            $total = $cuti->tahunan + $cuti->masa_kerja + $extend;
+            $cuti->update([
+               'used' => count($absences),
+               'total' => $total,
+               'sisa' => $total - count($absences)
+            ]);
+         }
 
 
-      //    // Generate Data Cuti
+         // Generate Data Cuti
          
-      //    if ($cuti->employee->contract->type = 'Tetap') {
-      //       // dd($cuti->employee->biodata->fullName());
-      //       $join = Carbon::create($cuti->employee->join);
-      //       // dd($join);
-      //       $start = Carbon::create($today->format('Y') . '-' . $join->format('m-d')  );
-      //       $startB = Carbon::create($today->format('Y') . '-' . $join->format('m-d')  );
-      //       // dd($start);
+         if ($cuti->employee->contract->type == 'Tetap') {
+            // // dd($cuti->employee->biodata->fullName());
+            // $join = Carbon::create($cuti->employee->join);
+            // // dd($join);
+            // $start = Carbon::create($today->format('Y') . '-' . $join->format('m-d')  );
+            // $startB = Carbon::create($today->format('Y') . '-' . $join->format('m-d')  );
+            // // dd($start);
 
-      //       if ($start > $today) {
-      //          // dd($start->subYear());
-      //          $fixStart = $start->subYear();
-      //          $finalStart = $fixStart;
-      //          $finalEnd = $startB;
+            // if ($start > $today) {
+            //    // dd($start->subYear());
+            //    $fixStart = $start->subYear();
+            //    $finalStart = $fixStart;
+            //    $finalEnd = $startB;
                
-      //          // dd($start->addYear());
-      //          // $finalEnd = $start
-      //       } else {
-      //          //  dd($cuti->employee->biodata->fullName());
-      //          $finalStart = $startB;
-      //          $finalEnd = $start->addYear();
-      //       }
+            //    // dd($start->addYear());
+            //    // $finalEnd = $start
+            // } else {
+            //    //  dd($cuti->employee->biodata->fullName());
+            //    $finalStart = $startB;
+            //    $finalEnd = $start->addYear();
+            // }
 
-      //       $cuti->update([
-      //          'start' => $finalStart,
-      //          'end' => $finalEnd
-      //       ]);
-      //    } elseif($cuti->employee->contract->type == 'Kontrak') {
-      //       $cuti->update([
-      //          'start' => $contract->start,
-      //          'end' => $contract->end
-      //       ]);
-      //    }
+            // $cuti->update([
+            //    'start' => $finalStart,
+            //    'end' => $finalEnd
+            // ]);
+         } elseif($cuti->employee->contract->type == 'Kontrak') {
+            $cuti->update([
+               'start' => $contract->start,
+               'end' => $contract->end
+            ]);
+         }
         
          
-      // }
+      }
 
       // Generate Cuti Masa Kerja
       // $today = Carbon::now();
@@ -160,13 +160,18 @@ class CutiController extends Controller
    public function edit($id){
       $cuti = Cuti::find(dekripRambo($id));
       // dd($cuti->start);
-      $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
+      if ($cuti->start) {
+         $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
 
-      $used = count($absences);
-      $cuti->update([
-         'used' => $used,
-         'sisa' => $cuti->total - $used
-      ]);
+         $used = count($absences);
+         $cuti->update([
+            'used' => $used,
+            'sisa' => $cuti->total - $used
+         ]);
+      } else {
+         $absences = [];
+      }
+      
 
 
       // dd($cuti->employee->contract->type);
@@ -230,7 +235,7 @@ class CutiController extends Controller
       ]);
       $file = $req->file('excel');
       $fileName = $file->getClientOriginalName();
-      $file->move('OvertimeData', $fileName);
+      $file->move('CutiData', $fileName);
 
       try {
          // Excel::import(new CargoItemImport($parent->id), $req->file('file-cargo'));
