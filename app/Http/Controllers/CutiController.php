@@ -17,8 +17,10 @@ class CutiController extends Controller
 {
    public function index(){
       $cutis = Cuti::get();
+
+      // kalkulasi cuti dipakai dari table Absences
       foreach($cutis as $cuti){
-         if ($cuti->start) {
+         if ($cuti->start != null && $cuti->end != null) {
             $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
    
             $used = count($absences);

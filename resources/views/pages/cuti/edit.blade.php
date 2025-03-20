@@ -14,11 +14,13 @@ Cuti Edit
 
    <div class="card shadow-none border ">
       
-      <div class="card-header">
-         <h3>Info Cuti Karyawan </h3>
-      </div>
+      {{-- <div class="card-header">
+         
+      </div> --}}
 
       <div class="card-body">
+         <h4>Info Cuti Karyawan </h4>
+         <hr>
          
          <form action="{{route('cuti.update')}}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -46,7 +48,7 @@ Cuti Edit
                                     </tr>
                                     <tr>
                                        <td>Name</td>
-                                       <td>{{$cuti->employee->biodata->fullName()}}</td>
+                                       <td><a href="{{route('employee.detail', [enkripRambo($cuti->employee->id), enkripRambo('basic')])}}">{{$cuti->employee->biodata->fullName()}}</a> </td>
                                     </tr>
                                     <tr>
                                        <td>Tipe</td>
