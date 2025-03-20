@@ -689,6 +689,13 @@ class AbsenceController extends Controller
          return redirect()->back()->with('danger', 'Gagal, Karyawan sudah memiliki data absensi di tanggal tersebut');
       }
 
+      // Kalkulasi Cuti
+      if ($req->type == 5) {
+         $cutiCon = new CutiController;
+         $cuti = Cuti::where('employee_id',  $req->employee)->first();
+         $cutiCon->calculateCuti($cuti->id);
+      }
+
       
 
       

@@ -2,8 +2,10 @@
 
 namespace App\Imports;
 
+use App\Http\Controllers\CutiController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Absence;
+use App\Models\Cuti;
 use App\Models\Employee;
 use App\Models\Location;
 use App\Models\Payroll;
@@ -28,83 +30,87 @@ class AbsencesImport implements ToCollection,  WithHeadingRow
             $employee = Employee::where('nik', $row['id'])->first();
             $payroll = Payroll::find($employee->payroll_id);
             if ($payroll) {
-                if ($row['type'] != null) {
-                    if ($row['type'] == 'Alpha') {
-                       $type = 1;
-                         $value =  1 * 1 / 30 * $payroll->total;
-                    } elseif($row['type'] == 'Terlambat'){
-                       $type = 2;
-                       $value = null;
-                    } elseif($row['type'] == 'ATL') {
-                       $type = 3;
-                       $value = null;
-                    } elseif($row['type'] == 'Izin') {
-                        $type = 4;
-                        $value = null;
-                        // $type_izin = 
-                     } elseif($row['type'] == 'Cuti') {
-                        $type = 5;
-                        $value = null;
-                     } elseif($row['type'] == 'SPT') {
-                        $type = 6;
-                        $value = null;
-                     } elseif($row['type'] == 'Sakit') {
-                        $type = 7;
-                        $value = null;
-                     } elseif($row['type'] == 'Dinas Luar') {
-                        $type = 8;
-                        $value = null;
-                     } elseif($row['type'] == 'Off Kontrak') {
-                        $type = 9;
-                        $value = null;
+               if ($row['type'] != null) {
+                  if ($row['type'] == 'Alpha') {
+                     $type = 1;
+                        $value =  1 * 1 / 30 * $payroll->total;
+                  } elseif($row['type'] == 'Terlambat'){
+                     $type = 2;
+                     $value = null;
+                  } elseif($row['type'] == 'ATL') {
+                     $type = 3;
+                     $value = null;
+                  } elseif($row['type'] == 'Izin') {
+                     $type = 4;
+                     $value = null;
+                     // $type_izin = 
+                  } elseif($row['type'] == 'Cuti') {
+                     $type = 5;
+                     $value = null;
+                  } elseif($row['type'] == 'SPT') {
+                     $type = 6;
+                     $value = null;
+                  } elseif($row['type'] == 'Sakit') {
+                     $type = 7;
+                     $value = null;
+                  } elseif($row['type'] == 'Dinas Luar') {
+                     $type = 8;
+                     $value = null;
+                  } elseif($row['type'] == 'Off Kontrak') {
+                     $type = 9;
+                     $value = null;
+                  }
+   
+                  $date = Carbon::create($row['tanggal']);
+   
+                  $locations = Location::get();
+   
+                  foreach ($locations as $loc) {
+                     if ($loc->code == $employee->contract->loc) {
+                        $location = $loc->id;
                      }
-     
-                    $date = Carbon::create($row['tanggal']);
-     
-                    $locations = Location::get();
-     
-                    foreach ($locations as $loc) {
-                       if ($loc->code == $employee->contract->loc) {
-                          $location = $loc->id;
-                       }
-                    }
+                  }
 
-                    if ($row['keterlambatan'] == 'T1') {
+                  if ($row['keterlambatan'] == 'T1') {
                         $min = 30;
-                    } elseif($row['keterlambatan'] == 'T2'){
+                  } elseif($row['keterlambatan'] == 'T2'){
                      $min = 60;
-                    } elseif($row['keterlambatan'] == 'T3'){
+                  } elseif($row['keterlambatan'] == 'T3'){
                      $min = 90;
-                    } elseif($row['keterlambatan'] == 'T4'){
+                  } elseif($row['keterlambatan'] == 'T4'){
                      $min = 120;
-                    } else {
+                  } else {
                      $min = null;
-                    }
-     
-                    $currentAbsence = Absence::where('employee_id', $employee->id)->where('date', $date)->first();
-                    if (!$currentAbsence) {
+                  }
+   
+                  $currentAbsence = Absence::where('employee_id', $employee->id)->where('date', $date)->first();
+                  if (!$currentAbsence) {
                         Absence::create([
-                            'type' => $type,
-                            'employee_id' => $employee->id,
-                            'month' => $date->format('F'),
-                            'year' => $date->format('Y'),
-                            'date' => $date,
-                            'desc' => $row['desc'],
-                            'minute' => $min,
-                            'location_id' => $location,
-                            'value' => $value
+                           'type' => $type,
+                           'employee_id' => $employee->id,
+                           'month' => $date->format('F'),
+                           'year' => $date->format('Y'),
+                           'date' => $date,
+                           'desc' => $row['desc'],
+                           'minute' => $min,
+                           'location_id' => $location,
+                           'value' => $value
                         ]);
 
                         $transactionCon = new TransactionController;
                         $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
 
                         foreach($transactions as $tran){
-                            $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+                           $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
                         }
-                    }
-     
-                    
-                }
+                  }
+
+                  if ($type == 5) {
+                     $cutiCon = new CutiController;
+                     $cuti = Cuti::where('employee_id',  $employee->id)->first();
+                     $cutiCon->calculateCuti($cuti->id);
+                  }
+               }
             }
             
          }

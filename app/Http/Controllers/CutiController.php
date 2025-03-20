@@ -20,15 +20,16 @@ class CutiController extends Controller
 
       // kalkulasi cuti dipakai dari table Absences
       foreach($cutis as $cuti){
-         if ($cuti->start != null && $cuti->end != null) {
-            $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
+         $this->calculateCuti($cuti->id);
+         // if ($cuti->start != null && $cuti->end != null) {
+         //    $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
    
-            $used = count($absences);
-            $cuti->update([
-               'used' => $used,
-               'sisa' => $cuti->total - $used
-            ]);
-         }
+         //    $used = count($absences);
+         //    $cuti->update([
+         //       'used' => $used,
+         //       'sisa' => $cuti->total - $used
+         //    ]);
+         // }
       }
 
       // $employees = Employee::where('status', 1)->get();
@@ -173,11 +174,11 @@ class CutiController extends Controller
       if ($cuti->start) {
          $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
 
-         $used = count($absences);
-         $cuti->update([
-            'used' => $used,
-            'sisa' => $cuti->total - $used
-         ]);
+         // $used = count($absences);
+         // $cuti->update([
+         //    'used' => $used,
+         //    'sisa' => $cuti->total - $used
+         // ]);
       } else {
          $absences = [];
       }
@@ -275,6 +276,7 @@ class CutiController extends Controller
 
    public function calculateCuti($cuti){
       $today = Carbon::now();
+      $cuti = Cuti::find($cuti);
       $contract = Contract::find($cuti->employee->contract_id);
       if ($contract->start != null && $contract->end != null) {
          $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $contract->start)->where('date', '<=', $contract->end)->where('type', 5)->get();
