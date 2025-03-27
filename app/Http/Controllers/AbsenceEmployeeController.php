@@ -47,7 +47,8 @@ class AbsenceEmployeeController extends Controller
    public function pending(){
 
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $absences = AbsenceEmployee::where('employee_id', $employee->id)->where('status', 1)->get();
+      $absences = AbsenceEmployee::where('employee_id', $employee->id)->whereIn('status', [1,2])->get();
+      // dd($absences);
       $activeTab = 'pending';
       return view('pages.absence-request.pending', [
          'activeTab' => $activeTab,

@@ -155,6 +155,11 @@ PE
         <div class="col-md-3">
             {{-- {{$kpa->id}} --}}
             <x-qpe.performance-appraisal :kpa="$kpa" />
+            <div class="card card-primary">
+                <div class="card-body text-center">
+                 <h4><i class="fa fa-star"></i>  {{$pe->achievement}}</h4>
+                </div>
+             </div>
             <x-discipline :pd="$pd" />
         </div>
         <div class="col-md-9">
@@ -244,6 +249,39 @@ PE
                </div>
             </div>
                
+            @endif
+            @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
+            <div class="text-right mb-1">
+            
+               <div class="btn-group">
+                <a href="#" data-target="#modalDeleteQpe" data-toggle="modal" class=" btn btn-danger btn-sm" >Delete</a>
+               </div>
+            </div>
+                <div class="modal fade" id="modalDeleteQpe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-sm" role="document">
+                     <form action="{{route('qpe.delete')}}" method="POST">
+                        @csrf
+                        <input type="number" name="pe" id="pe" value="{{$pe->id}}" hidden >
+                        <div class="modal-content text-dark">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                              </button>
+                           </div>
+                           <div class="modal-body ">
+                              Delete QPE {{$pe->employe->biodata->fullName()}} {{$pe->semester}} / {{$pe->tahun}} ?
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-danger ">
+                                 Delete
+                              </button>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+               </div>
             @endif
             <x-qpe.kpi-table :kpa="$kpa" :datas="$datas" :valueAvg="$valueAvg" :addtional="$addtional" :i="$i" />
             <div class="card shadow-none border">
@@ -525,7 +563,7 @@ PE
     <!-- rangkuman nilai -->
     <div class="row">
         <div class="col-md-12">
-            <x-summary-appraisal :pd-achievement="$pdAchievement" :datas="$datas" :kpa="$kpa" :behaviors="$behaviors" :pba="$pba" :pe="$pe" />
+            <x-qpe.summary-appraisal :pd-achievement="$pdAchievement" :pd="$pd" :datas="$datas" :kpa="$kpa" :behaviors="$behaviors" :pba="$pba" :pe="$pe" />
 
         </div>
     </div>

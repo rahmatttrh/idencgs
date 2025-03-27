@@ -218,7 +218,7 @@ Payroll Report BPJS KT
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">A</td>
                      <td style="padding: 0px !important;">Bulan lalu</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{$lastReportBpjsKt->payslip_employee}}</td>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
                   </tr>
                   <tr>

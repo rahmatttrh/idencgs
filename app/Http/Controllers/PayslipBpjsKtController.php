@@ -8,6 +8,7 @@ use App\Models\PayrollApproval;
 use App\Models\PayslipBpjsKs;
 use App\Models\PayslipBpjsKt;
 use App\Models\Unit;
+use App\Models\Transaction;
 use App\Models\UnitTransaction;
 use Illuminate\Http\Request;
 
@@ -30,9 +31,21 @@ class PayslipBpjsKtController extends Controller
       $gm = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'gm')->first();
       $bod = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'bod')->first();
 
+      $lastUnitTransaction = UnitTransaction::where('unit_id', $unitTransaction->unit_id)->orderBy('cut_from', 'desc')->where('cut_from', '<', $unitTransaction->cut_from)->first();
+      $lastReportBpjsKt = PayslipBpjsKt::where('unit_transaction_id', $lastUnitTransaction->id)->first();
+      $newTransactions = Transaction::where('unit_transaction_id', $unitTransaction->id)->where('remark', 'Karyawan Baru')->get();
+      $outTransactions = Transaction::where('unit_transaction_id', $unitTransaction->id)->where('remark', 'Karyawan Out')->get();
+
+      if (auth()->user()->hasRole('Administrator')) {
+         // dd($newTransactions);
+      }
+
       return view('pages.payroll.report.bpjskt', [
          'unit' => $unit,
          'reportBpjsKt' => $reportBpjsKt,
+         'lastReportBpjsKt' => $lastReportBpjsKt,
+         'newTransactions' => $newTransactions,
+         'outTransactions' => $outTransactions,
          'bpjsKtReports' => $bpjsKtReports,
          'unitTransaction' => $unitTransaction,
          'locations' => $locations,

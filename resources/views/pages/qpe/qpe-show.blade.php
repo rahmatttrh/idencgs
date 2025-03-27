@@ -29,6 +29,11 @@ PE
                 app/View/Components/File.php
             -->
             <x-qpe.performance-appraisal :kpa="$kpa" />
+            <div class="card card-primary">
+                <div class="card-body text-center">
+                 <h4><i class="fa fa-star"></i>  {{$pe->achievement}}</h4>
+                </div>
+             </div>
             <x-discipline :pd="$pd" />
         </div>
         <div class="col-md-9">
@@ -160,6 +165,40 @@ PE
             </div>
             <!-- Akhir Action Karyawan  -->
             @endif
+
+            @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
+            <div class="text-right mb-1">
+            
+               <div class="btn-group">
+                <a href="#" data-target="#modalDeleteQpe" data-toggle="modal" class=" btn btn-danger btn-sm" >Delete</a>
+               </div>
+            </div>
+                <div class="modal fade" id="modalDeleteQpe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-sm" role="document">
+                     <form action="{{route('qpe.delete')}}" method="POST">
+                        @csrf
+                        <input type="number" name="pe" id="pe" value="{{$pe->id}}" hidden >
+                        <div class="modal-content text-dark">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                              </button>
+                           </div>
+                           <div class="modal-body ">
+                              Delete QPE {{$pe->employe->biodata->fullName()}} {{$pe->semester}} / {{$pe->tahun}} ?
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-danger ">
+                                 Delete
+                              </button>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            @endif
             <!-- KPI table component -->
             <x-qpe.kpi-table :kpa="$kpa" :valueAvg="$valueAvg" :datas="$datas" :addtional="$addtional" :i="$i" />
             <x-behavior-form :kpa="$kpa" :pba="$pba" :behaviors="$behaviors" :pbads="$pbads" />
@@ -272,10 +311,103 @@ PE
     <div class="row">
         <div class="col-md-12">
             <!-- Summary appraisal component -->
-            <x-summary-appraisal :pd-achievement="$pdAchievement" :datas="$datas" :kpa="$kpa" :behaviors="$behaviors" :pba="$pba" :pe="$pe" />
+            <x-qpe.summary-appraisal :pd-achievement="$pdAchievement" :pd="$pd" :datas="$datas" :kpa="$kpa" :behaviors="$behaviors" :pba="$pba" :pe="$pe" />
         </div>
     </div>
 </div>
+
+@foreach ($datas as $data)
+<div class="modal fade" id="myModal-{{$data->id}}" data-bs-backdrop="static">
+    <div class="modal-dialog" style="max-width: 80%;">
+        <div class="modal-content">
+
+            <!-- Bagian header modal -->
+            <div class="modal-header bg-primary">
+                <h3 class="modal-title">{{$data->kpidetail->objective}} </h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Bagian konten modal -->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card shadow-none border">
+                            <form method="POST" action="{{route('kpa.update',$kpa->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+
+                                <input type="hidden" name="id" value="{{$data->id}}">
+                                <input type="hidden" name="kpa_id" value="{{$kpa->id}}">
+                                <div class="card-header d-flex">
+                                    <div class="d-flex  align-items-center">
+                                        <div class="card-title">Form Edit</div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="objective">Objective:</label>
+                                        <input type="text" class="form-control" id="objective" name="objective" value="{{ $data->kpidetail->objective }}" readonly>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="weight">Weight:</label>
+                                        <input type="text" class="form-control" id="weight" name="weight" value="{{ $data->kpidetail->weight }}" readonly>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="target">Target:</label>
+                                        <input type="text" class="form-control" id="target" name="target" value="{{ $data->kpidetail->target }}" readonly>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="value">Value:</label>
+                                        <input type="text" class="form-control value" {{ in_array($kpa->status, ['1', '2', '3', '4']) ? 'readonly' : '' }} id="value" name="value" data-key="{{ $data->id }}" data-target="{{ $data->kpidetail->target }}" data-weight="{{ $data->kpidetail->weight }}" value="{{ old('value', $data->value) }}" autocomplete="off">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="achievement">Achievement:</label>
+                                        <input type="text" class="form-control" id="achievement-{{$data->id}}" name="achievement" value="{{ $data->achievement }}" readonly>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card shadow-none border">
+                            <div class="card-header d-flex">
+                                <div class="d-flex  align-items-center">
+                                    <div class="card-title">Evidence</div>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                @if ($data->evidence)
+                                <iframe src="{{ asset('storage/'. $data->evidence) }}" id="pdfPreview-{{$data->id}}" width=" 100%" height="575px"></iframe>
+                                @else
+                                <p>No attachment available.</p>
+                                @endif
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <!-- Bagian footer modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+    
+@endforeach
 
 
 @endsection

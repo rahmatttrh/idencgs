@@ -3,9 +3,9 @@
     <div class="card-header bg-primary">
         <div class="card-title text-white text-center">RANGKUMAN HASIL PENILAIAN AKHIR </div>
     </div>
-    <div class="card-body">
+    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="displays table table-striped ">
+            <table class="">
                 <thead>
                     <tr>
                         <th rowspan="2" colspan="2" class="text-white text-center">Indikator</th>
@@ -21,7 +21,7 @@
                         <td>1</td>
                         <td class="text-center">DISIPLIN</td>
                         <td class="text-center">3</td>
-                        <td class="text-center">15</td>
+                        <td class="text-center">{{$pd->weight}}</td>
                         <td class="text-center"><b>{{round(($pdAchievement/15)*100)}}</b></td>
                         <!-- <td class="">{{round((4.00/4)* 4 , 2)}}</td> -->
                         <td class="text-center text-bold"><b>{{ $pdAchievement }}</b></td>
@@ -71,7 +71,7 @@
             </table>
         </div>
         <div class="table-responsive mt-3">
-            <table class="displays table table-striped ">
+            <table class=" ">
                 <tr>
                     <td colspan="2">Note : </td>
                     <td colspan="2">Pengurang</td>

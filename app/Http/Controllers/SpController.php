@@ -29,7 +29,7 @@ class SpController extends Controller
       if (auth()->user()->hasRole('Administrator')) {
          $employee = null;
          $employees = Employee::get();
-         $sps = Sp::orderBy('created_at', 'asc')->get();
+         $sps = Sp::orderBy('created_at', 'desc')->get();
          $allEmployees = [];
       } elseif (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Manager|HRD-Recruitment')) {
          $employee = auth()->user()->getEmployee();
@@ -337,6 +337,9 @@ class SpController extends Controller
    {
       $spkl = Spkl::get()->first();
       $sp = Sp::find(dekripRambo($id));
+      if (auth()->user()->hasRole('Administrator')) {
+         // dd($sp->id);
+      }
       // $manager = Employee::find(1);
       $employee = Employee::find($sp->employee_id);
 
@@ -449,10 +452,14 @@ class SpController extends Controller
       }
 
       if ($sp->note) {
-         $user = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Submit')->first();
+         $user = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Release')->first();
       } else {
          $user = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Submit')->first();
       }
+      if (auth()->user()->hasRole('Administrator')) {
+         // dd($user);
+      } 
+
       // dd($user->id);
       $hrd = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Approve')->where('level', 'hrd')->first();
       // dd($hrd->id);

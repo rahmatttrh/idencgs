@@ -61,6 +61,7 @@ Employee
                      
                      <th>NIK</th>
                      <th>Name</th>
+                     <th>Level</th>
                      {{-- <th>KPI</th>
                      <th>Leader</th> --}}
                      {{-- <th>Phone</th> --}}
@@ -110,6 +111,10 @@ Employee
                         </div>
                        
                      </td>
+                     {{-- @if (auth()->user()->hasRole('Administrator'))
+                         
+                     @endif --}}
+                     <td>{{$employee->designation->name}}</td>
                      
                      {{-- <td class="text-truncate">
                         @if ($employee->kpi_id != null)

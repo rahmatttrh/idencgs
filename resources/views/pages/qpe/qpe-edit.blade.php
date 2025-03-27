@@ -342,7 +342,7 @@ PE
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="value">Value:</label>
+                                                                    <label for="value">Value: {{$kpa->status}}</label>
                                                                     <input type="text" class="form-control value" {{ in_array($kpa->status, ['1', '2', '3', '4']) ? 'readonly' : '' }} id="value" name="value" data-key="{{ $data->id }}" data-target="{{ $data->kpidetail->target }}" data-weight="{{ $data->kpidetail->weight }}" value="{{ old('value', $data->value) }}" autocomplete="off">
                                                                 </div>
 

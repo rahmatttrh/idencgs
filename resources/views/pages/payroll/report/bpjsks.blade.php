@@ -222,20 +222,20 @@ Payroll Report BPJS KS
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;">A</td>
                      <td style="padding: 0px !important;">Bulan lalu</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{$reportBpjsKs->payslip_employee}}</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatRupiahB($reportBpjsKs->payslip_total)}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{$lastReportBpjsKs->payslip_employee}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatRupiahB($lastReportBpjsKs->payslip_total)}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;">B</td>
                      <td style="padding: 0px !important;">Penambahan tenaga kerja</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{count($newTransactions)}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatrupiahB($newTransactions->sum('total'))}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;">C</td>
                      <td style="padding: 0px !important;">Pengurangan tenaga kerja</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{count($outTransactions)}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatrupiahB($outTransactions->sum('total'))}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;">D</td>
@@ -246,8 +246,8 @@ Payroll Report BPJS KS
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;">E</td>
                      <td style="padding: 0px !important;">Jumlah (A+B+C)</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{$reportBpjsKs->payslip_employee}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatRupiahB($reportBpjsKs->payslip_total)}}</td>
                   </tr>
                   
 
@@ -365,7 +365,7 @@ Payroll Report BPJS KS
                         @endif
                      </td>
                      <td colspan="" style="height: 80px" class="text-center">
-                        @if ($bod)
+                        @if ($bod != null)
                         {{formatDateTime($bod->created_at)}} 
                         @endif
                      </td>

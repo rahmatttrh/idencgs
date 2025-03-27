@@ -118,6 +118,7 @@ SPKL Team
                                     <td class="text-truncate" style="max-width: 140px"> 
                                        <a href="{{route('payroll.overtime.employee.detail', [enkripRambo($emp->id), $from, $to])}}">{{$bio->first_name}} {{$bio->last_name}}</a>
                                     </td>
+                                    <td>{{$emp->position->name}}</td>
                                     {{-- <td>{{$emp->location->name ?? '-'}}</td> --}}
                                     {{-- <td class="text-truncate" style="max-width: 100px">{{$emp->unit->name}}</td> --}}
                                     {{-- <td>{{$emp->department->name}}</td> --}}

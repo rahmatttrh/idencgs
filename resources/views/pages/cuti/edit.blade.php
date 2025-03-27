@@ -22,9 +22,7 @@ Cuti Edit
          <h4>Info Cuti Karyawan </h4>
          <hr>
          
-         <form action="{{route('cuti.update')}}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('put')
+         
             <div class="row">
                <div class="col-6">
                   <div class="card shadow-none">
@@ -77,10 +75,10 @@ Cuti Edit
                      
                      <div class="card shadow-none ">
                         <div class="card-header d-flex justify-content-between p-2 bg-dark text-white">
-                           <small> <i class="fas fa-file-contract"></i> Riwayat Cuti</small>
+                           <small> <i class="fas fa-file-contract"></i> Riwayat Cuti : {{count($absences)}}</small>
                            
                               
-                           <span>{{count($absences)}}</span>
+                           <span><a href="#" data-target="#modal-add-cuti-history" class="text-white" data-toggle="modal">Add</a> </span>
                            
                         
                         </div>
@@ -94,7 +92,7 @@ Cuti Edit
                                        <th>Day</th>
                                        <th>Date</th>
                                        <th>Desc</th>
-                                       {{-- <th></th> --}}
+                                       <th></th>
                                     </tr>
                                  </thead>
             
@@ -105,8 +103,33 @@ Cuti Edit
                                        <td>{{formatDayName($absence->date)}}</td>
                                        <td>{{formatDate($absence->date)}}</td>
                                        <td>{{$absence->desc}}</td>
-                                       
+                                       <td>
+                                          <a href="#" data-target="#modal-delete-absence-{{$absence->id}}" data-toggle="modal">Delete</a>
+                                       </td>
                                     </tr>
+
+                                    <div class="modal fade" id="modal-delete-absence-{{$absence->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                       <div class="modal-dialog modal-sm" role="document">
+                                          <div class="modal-content text-dark">
+                                             <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                   <span aria-hidden="true">&times;</span>
+                                                </button>
+                                             </div>
+                                             <div class="modal-body ">
+                                                Delete data Cuti {{formatDate($absence->date)}} {{$absence->employee->biodata->fullName()}}
+                                                ?
+                                             </div>
+                                             <div class="modal-footer">
+                                                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger ">
+                                                   <a class="text-light" href="{{route('payroll.absence.delete', enkripRambo($absence->id))}}">Delete</a>
+                                                </button>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
             
                                    
                                     @endforeach
@@ -130,6 +153,10 @@ Cuti Edit
                <div class="col-md-6">
                   <h4>Form Update Cuti</h4>
                <hr>
+               <form action="{{route('cuti.update')}}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  @method('put')
+                  <input type="number" name="cutiId" id="cutiId" value="{{$cuti->id}}" hidden>
                   <div class="row">
                      <div class="col-md-6">
                         <div class="form-group form-group-default">
@@ -232,10 +259,10 @@ Cuti Edit
                      <label>Document</label>
                      <input type="file"  class="form-control" id="doc" name="doc" >
                   </div> --}}
-                  
+               </form>
                </div>
             </div>
-         </form>
+        
 
 
       </div>
@@ -245,6 +272,43 @@ Cuti Edit
    <!-- End Row -->
 
 
+</div>
+
+<div class="modal fade" id="modal-add-cuti-history" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Form Add Riwayat Cuti<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('payroll.absence.store')}}" method="POST" enctype="multipart/form-data">
+            <div class="modal-body">
+               @csrf
+               <input type="number" name="employee" id="employee" value="{{$cuti->employee_id}}" hidden >
+               <input type="number" name="type" id="type" value="5" hidden >
+               {{-- <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden> --}}
+               {{-- <span>Submit this Report and send to HRD Manager?</span> --}}
+               <div class="form-group form-group-default">
+                  <label>Date*</label>
+                  <input type="date" required class="form-control" id="date" name="date">
+               </div>
+               <div class="form-group form-group-default">
+                  <label>Document</label>
+                  <input type="file" class="form-control" id="doc" name="doc">
+               </div>
+                  
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary ">Submit</button>
+            </div>
+         </form>
+      </div>
+   </div>
 </div>
 
 

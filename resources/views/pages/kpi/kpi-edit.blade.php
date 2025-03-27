@@ -33,11 +33,11 @@ KPI Detail
                        </div>
                         <div class="form-group form-group-default">
                             <label>Department</label>
-                             {{$kpi->departement->name}}
+                             {{$kpi->departement->name ?? ''}}
                         </div>
                         <div class="form-group form-group-default">
                             <label>Jabatan</label>
-                             {{$kpi->position->name}}
+                             {{$kpi->position->name ?? ''}}
                         </div>
                         <div class="form-group form-group-default">
                            <label>Used on QPE </label>

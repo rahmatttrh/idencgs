@@ -163,5 +163,12 @@
       <p>SP</p>
    </a>
 </li>
+<li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
+   <a href="{{route('cuti')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Cuti</p>
+   </a>
+</li>
+
 
 <hr>

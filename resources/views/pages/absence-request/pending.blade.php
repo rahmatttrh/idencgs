@@ -60,7 +60,7 @@ Absence
                      </thead>
 
                      <tbody>
-                        @foreach ($absences->where('status', 1) as $absence)
+                        @foreach ($absences as $absence)
                         <tr>
                            {{-- <td>{{$absence->employee->nik}}</td>
                             <td> {{$absence->employee->biodata->fullName()}}</td> --}}
@@ -95,7 +95,7 @@ Absence
                            <td>{{formatDate($absence->date)}}</td>
                            <td>{{$absence->desc}}</td>
                            <td>
-                              @if ($absence->status == 1)
+                              @if ($absence->status == 1 || $absence->status == 2)
                                   <span class="text-primary">Approval Atasan</span>
                               @endif
                            </td>

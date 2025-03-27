@@ -47,7 +47,7 @@ Formulir Pengajuan
                             <th>Name</th>
                             {{-- <th>Loc</th> --}}
                            
-                           <th>Day</th>
+                           {{-- <th>Day</th> --}}
                            <th>Date</th>
                            <th>Desc</th>
                            <th>Status</th>
@@ -91,7 +91,7 @@ Formulir Pengajuan
                                  <td> {{$absence->employee->biodata->fullName()}}</td>
                                  {{-- <td>{{$absence->employee->location->name}}</td> --}}
                                  
-                                 <td>{{formatDayName($absence->date)}}</td>
+                                 {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                                  <td>{{formatDate($absence->date)}}</td>
                                  <td>{{$absence->desc}}</td>
                                  <td>

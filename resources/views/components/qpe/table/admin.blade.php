@@ -57,6 +57,7 @@
                         @endif --}}
                      <th>NIK</th>
                      <th class="text-white">Employe</th>
+                     <th class="text-white">Level</th>
                      <th class="text-white">Semester</th>
                      <th class="text-white text-center">Disc</th>
                      <th class="text-white text-center">KPI</th>
@@ -103,6 +104,7 @@
                         <a href="/qpe/show/{{enkripRambo($pe->kpa->id)}}">{{$pe->employe->biodata->fullName()}} </a>
                         @endif
                      </td>
+                     <td>{{$pe->employe->designation->name}}</td>
                      <td>{{$pe->semester}} / {{$pe->tahun}}</td>
                      <td class="text-center">
                         <span class="">{{$pe->discipline}}</span>
@@ -130,6 +132,7 @@
                         @elseif(($pe->status == 0 || $pe->status == 101 || $pe->status == 202) && auth()->user()->hasRole('Leader'))
                         <!-- <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal-submit-{{$pe->id}}"><i class="fas fa-rocket"></i> Submit</button> -->
                         @endif
+                        {{-- <a href="{{ route('export.qpe', $pe->id) }}" target="_blank">PDF</a> --}}
                      </td>
                      {{-- <td>
                         <a href="#"  data-toggle="modal" data-target="#modal-delete-{{$pe->id}}"> Delete</a>

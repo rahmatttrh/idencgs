@@ -100,6 +100,13 @@
    </div>
 </li>
 
+<li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
+   <a href="{{route('payroll.absence')}}">
+      <i class="fas fa-calendar-minus"></i>
+      <p>Absence</p>
+   </a>
+</li>
+
 {{-- @if (auth()->user()->hasRole('Supervisor|Leader'))
 
 <div class="collapse" id="qpe">

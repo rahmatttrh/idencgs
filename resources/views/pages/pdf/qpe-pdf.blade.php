@@ -212,7 +212,7 @@ PDF Example
                      <td class=" text-center"><b>3</b></td>
                      <td colspan="2"><b>BEHAVIOR</b></td>
                      {{-- <td></td> --}}
-                     <td colspan="" class="text-center"><b>15</b></td>
+                     <td colspan="" class="text-center"><b>{{$pba->weight}}</b></td>
                      <td></td>
                      <td></td>
                   </tr>

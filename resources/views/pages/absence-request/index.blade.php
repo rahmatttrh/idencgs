@@ -76,8 +76,9 @@ Absence
                      <thead>
                         <tr>
                            {{-- <th>NIK</th>
-                            <th>Name</th> --}}
+                            {{-- <th>Name</th> --}}
                             {{-- <th>Loc</th> --}}
+                            <th>Name</th>
                            <th>Type</th>
                            <th>Day</th>
                            <th>Date</th>
@@ -92,6 +93,7 @@ Absence
                            {{-- <td>{{$absence->employee->nik}}</td>
                             <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                             {{-- <td>{{$absence->employee->location->name}}</td> --}}
+                            <td> {{$absence->employee->biodata->fullName()}}</td>
                            <td >
                               <span data-toggle="tooltip" data-placement="top" title="{{$absence->desc ?? '-'}}">
                               @if ($absence->type == 1)
@@ -165,9 +167,9 @@ Absence
                </div>
                <!-- End Table  -->
 
-               <div class="card-footer">
+               {{-- <div class="card-footer">
                   <a href="{{route('absence.refresh')}}">Refresh</a>
-               </div>
+               </div> --}}
 
             </div>
          </div>

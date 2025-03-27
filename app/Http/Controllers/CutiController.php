@@ -171,8 +171,11 @@ class CutiController extends Controller
    public function indexEmployee(){
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $cuti = Cuti::where('employee_id', $employee->id)->first();
+      if ($cuti->start){
       $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
-
+      } else {
+         $absences = [];
+      }
       return view('pages.cuti.employee.index', [
          'cuti' => $cuti,
          'employee' => $employee,
@@ -210,13 +213,19 @@ class CutiController extends Controller
    public function update(Request $req){
       $cuti = Cuti::find($req->cutiId);
       $today = Carbon::now();
-
+      
+      // dd($cuti);
       $contract = Contract::find($cuti->employee->contract_id);
-      $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $contract->start)->where('date', '<=', $contract->end)->where('type', 5)->get();
+      if ($cuti->start != null && $cuti->end != null) {
+         $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
+      } else {
+         $absence = [];
+      }
+      
 
       if ($req->expired != null) {
-         if ($cuti->expired < $today) {
-            $extend = $cuti->extend;
+         if ($req->expired < $today) {
+            $extend = $req->extend;
          } else {
             $extend = 0;
          }
@@ -225,7 +234,7 @@ class CutiController extends Controller
          $extend = 0;
       }
 
-      $total = $cuti->tahunan + $cuti->masa_kerja + $extend;
+      $total = $req->tahunan + $req->masa_kerja + $extend;
       // $cuti->update([
       //    'used' => count($absences),
       //    'total' => $total,
@@ -246,7 +255,7 @@ class CutiController extends Controller
          'sisa' => $total - $req->used
       ]);
 
-      return redirect()->route('cuti')->with('success', 'Data Cuti updated');
+      return redirect()->back()->with('success', 'Data Cuti updated');
    }
 
    public function import(){

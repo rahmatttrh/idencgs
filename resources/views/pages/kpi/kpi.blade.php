@@ -103,7 +103,7 @@ KPI
                                        {{$kpi->id}} -
                                        @endif
                                        {{$kpi->title}} </a></td>
-                                    <td>{{$kpi->departement->name}}</td>
+                                    <td>{{$kpi->departement->name ?? ''}}</td>
                                     <td>{{$kpi->position->name ?? '-'}}</td>
                                     {{-- <td class="text-right">
                                         <a href="{{route('kpi.edit', enkripRambo($kpi->id) )}}">Edit</a>
