@@ -78,7 +78,7 @@ Absence
                            <th>Date</th>
                            {{-- <th>Desc</th> --}}
                            @if (auth()->user()->hasRole('Karyawan|Leader|Supervisor|Manager|Asst. Manager|BOD'))
-                              
+                                 <th></th>
                                @else
                                <th></th>
                            @endif

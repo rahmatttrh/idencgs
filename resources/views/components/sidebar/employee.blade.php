@@ -54,13 +54,13 @@
 </li>
 <li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
    <a href="{{route('employee.absence')}}">
-      <i class="fas fa-clock"></i>
+      <i class="fas fa-calendar-check"></i>
       <p>Absensi</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
    <a href="{{route('employee.cuti')}}">
-      <i class="fas fa-clock"></i>
+      <i class="fas fa-briefcase"></i>
       <p>Cuti</p>
    </a>
 </li>

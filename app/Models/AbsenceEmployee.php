@@ -32,6 +32,6 @@ class AbsenceEmployee extends Model
    }
 
    public function details(){
-      $this->hasMany(AbsenceEmployeeDetail::class);
+      return $this->hasMany(AbsenceEmployeeDetail::class);
    }
 }

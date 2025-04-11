@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Http\Controllers\CutiController;
 use App\Models\Cuti;
 use App\Models\Employee;
 use App\Http\Controllers\CutiController;
@@ -44,6 +45,7 @@ class CutiImport implements ToCollection,  WithHeadingRow
                   'expired' => $extendDate->format('Y-m-d'),
                   // 'sisa' => $totalCuti - $row['cuti_dipakai']
                ]);
+               
             } else {
                $cuti = Cuti::create([
                   'employee_id' => $employee->id,
@@ -57,6 +59,8 @@ class CutiImport implements ToCollection,  WithHeadingRow
                   'expired' => $extendDate->format('Y-m-d'),
                   'expired' => $extendDate->format('Y-m-d'),
                ]);
+
+               
             }
 
             $cutiCon = new CutiController;

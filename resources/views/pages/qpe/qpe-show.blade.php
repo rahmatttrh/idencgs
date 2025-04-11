@@ -35,6 +35,9 @@ PE
                 </div>
              </div>
             <x-discipline :pd="$pd" />
+            <span>Created by :</span> <br>
+                  <span>{{$pe->getCreatedBy()->nik}} {{$pe->getCreatedBy()->biodata->fullName()}}</span> <br>
+                  {{formatDateTime($pe->created_at)}}
         </div>
         <div class="col-md-9">
             @if (auth()->user()->hasRole('Karyawan'))

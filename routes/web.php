@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbsenceController;
 use App\Http\Controllers\AbsenceEmployeeController;
+use App\Http\Controllers\AbsenceEmployeeDetailController;
 use App\Http\Controllers\AbsenceLeaderController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AdditionalController;
@@ -54,6 +55,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\FuncController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\OvertimeEmployeeController;
 use App\Http\Controllers\PayrollApprovalController;
 use App\Http\Controllers\PayslipBpjsKsController;
 use App\Http\Controllers\PayslipBpjsKtController;
@@ -62,9 +64,11 @@ use App\Http\Controllers\ReductionAdditionalController;
 use App\Http\Controllers\ReductionEmployeeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UnitTransactionController;
+use App\Models\AbsenceEmployeeDetail;
 use App\Models\Emergency;
 use App\Models\EmployeeLeader;
 use App\Models\Overtime;
+use App\Models\OvertimeEmployee;
 use App\Models\Reduction;
 use App\Models\SpApproval;
 use App\Models\TransactionOvertime;
@@ -86,10 +90,6 @@ Route::middleware(["auth"])->group(function () {
    // Route::get('{any?}', function ($any = null) {
    //    return view('errors.maintenance');
    // })->where('any', '.*');
-
-   Route::get('debug/employee', [EmployeeController::class, 'debug']);
-
-   Route::get('phpini', fn () => phpinfo());
    // Func
    Route::get('update/position', [FuncController::class, 'updatePosition']);
    Route::get('test/email', [FuncController::class, 'testEmail']);
@@ -592,7 +592,7 @@ Route::middleware(["auth"])->group(function () {
          Route::put('update/picture', [EmployeeController::class, 'updatePicture'])->name('employee.update.picture');
          Route::get('remove/picture/{id}', [EmployeeController::class, 'removePicture'])->name('employee.remove.picture');
          Route::put('update/role', [EmployeeController::class, 'updateRole'])->name('employee.update.role');
-         Route::get('reset/password/{id}', [EmployeeController::class, 'resetPassword'])->name('employee.reset.password');
+         Route::put('reset/password/{id}', [EmployeeController::class, 'resetPassword'])->name('employee.reset.password');
       });
 
       // Quick PE All
@@ -842,14 +842,25 @@ Route::middleware(["auth"])->group(function () {
       Route::prefix('leader')->group(function () {
          Route::get('absence/index', [AbsenceLeaderController::class, 'index'])->name('leader.absence');
          Route::get('absence/history', [AbsenceLeaderController::class, 'history'])->name('leader.absence.history');
+
+         Route::get('spkl/index', [OvertimeEmployeeController::class, 'indexLeader'])->name('leader.spkl');
       });
 
 
       Route::prefix('employee')->group(function () {
 
          Route::prefix('spkl')->group(function () {
-            Route::get('/index', [SpklController::class, 'index'])->name('employee.spkl');
-            Route::post('/store', [SpklController::class, 'store'])->name('employee.spkl.store');
+            Route::get('/index', [OvertimeEmployeeController::class, 'index'])->name('employee.spkl');
+            Route::get('/progress', [OvertimeEmployeeController::class, 'progress'])->name('employee.spkl.progress');
+            Route::get('/draft', [OvertimeEmployeeController::class, 'draft'])->name('employee.spkl.draft');
+            Route::get('/create', [OvertimeEmployeeController::class, 'create'])->name('employee.spkl.create');
+            Route::post('store', [OvertimeEmployeeController::class, 'store'])->name('employee.spkl.store');
+            Route::get('detail/{id}', [OvertimeEmployeeController::class, 'detail'])->name('employee.spkl.detail');
+            Route::get('detail/l/{id}', [OvertimeEmployeeController::class, 'detailLeader'])->name('employee.spkl.detail.leader');
+            Route::get('release/{id}', [OvertimeEmployeeController::class, 'release'])->name('employee.spkl.release');
+            
+
+            // Route::post('/store', [SpklController::class, 'store'])->name('employee.spkl.store');
             Route::get('/send/{id}', [SpklController::class, 'send'])->name('employee.spkl.send');
             Route::get('/delete/{id}', [SpklController::class, 'delete'])->name('employee.spkl.delete');
          });
@@ -870,6 +881,9 @@ Route::middleware(["auth"])->group(function () {
             Route::post('/store', [AbsenceEmployeeController::class, 'store'])->name('employee.absence.store');
             Route::put('/update', [AbsenceEmployeeController::class, 'update'])->name('employee.absence.update');
             Route::get('/delete/{id}', [AbsenceEmployeeController::class, 'delete'])->name('employee.absence.delete');
+
+            Route::post('/detail/store', [AbsenceEmployeeDetailController::class, 'store'])->name('employee.absence.detail.store');
+            Route::get('/detail/delte/{id}', [AbsenceEmployeeDetailController::class, 'delete'])->name('employee.absence.detail.delete');
 
             // Approval
             Route::get('/request/{id}', [AbsenceEmployeeController::class, 'requestEmployee'])->name('employee.absence.request');

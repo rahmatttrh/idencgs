@@ -51,7 +51,7 @@ table th {
             <i class="flaticon-right-arrow"></i>
          </li>
          <li class="nav-item">
-            <a href="#">SPKL</a>
+            <a href="#">SPKLLLL</a>
          </li>
       </ul>
       <div class="ml-auto">

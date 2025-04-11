@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-SPKL Draft
+SPKL Progress
 @endsection
 @section('content')
 
@@ -9,7 +9,7 @@ SPKL Draft
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
          
-         <li class="breadcrumb-item active" aria-current="page">SPKL Draft</li>
+         <li class="breadcrumb-item active" aria-current="page">SPKL Progress</li>
       </ol>
    </nav>
 
@@ -20,13 +20,13 @@ SPKL Draft
                <i class="fas fa-address-book mr-1"></i>
                List Lembur/Piket
             </a>
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.spkl.progress')}}" aria-controls="v-pills-contract" aria-selected="false">
+            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.spkl.progress')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                Progress
             </a>
             
-            <a class="nav-link active text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.absence.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
+            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.spkl.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
                <i class="fas fa-user mr-1"></i>
                Draft
             </a>
@@ -49,7 +49,7 @@ SPKL Draft
       </div>
       <div class="col-md-9">
          <div class="table-responsive p-0 mt-2">
-            <table  class="display  table-sm p-0">
+            <table id="data" class="display basic-datatables table-sm p-0">
                <thead>
                   <tr>
                      {{-- <th>NIK</th>
@@ -60,7 +60,7 @@ SPKL Draft
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
                      <th class="text-center">Qty</th>
-                     <th>Action</th>
+                     {{-- <th></th> --}}
                      {{-- <th></th> --}}
                   </tr>
                </thead>
@@ -103,9 +103,6 @@ SPKL Draft
                         @endif
                         
                         
-                     </td>
-                     <td>
-                        <a href="{{route('employee.spkl.detail', enkripRambo($spkl->id))}}">Detail</a>
                      </td>
 
                   </tr>

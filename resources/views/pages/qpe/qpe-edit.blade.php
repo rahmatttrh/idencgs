@@ -73,7 +73,16 @@ PE
 <div class="row" id="boxCreate">
     <div class="col-md-3">
         <x-qpe.performance-appraisal :kpa="$kpa" />
-        <div class="card shadow-none border">
+        <div class="card card-primary">
+         <div class="card-body text-center">
+          <h4><i class="fa fa-star"></i>  {{$pe->achievement}}</h4>
+         </div>
+      </div>
+        <x-discipline :pd="$pd" />
+        <span>Created by :</span> <br>
+            <span>{{$pe->getCreatedBy()->nik}} {{$pe->getCreatedBy()->biodata->fullName()}}</span> <br>
+            {{formatDateTime($pe->created_at)}}
+        {{-- <div class="card shadow-none border">
          <div class="card-header d-flex bg-primary">
              <div class="d-flex  align-items-center">
                  <small class=" text-white">Discipline</small>
@@ -110,8 +119,8 @@ PE
                      </label>
                  </div>
              </form>
-         </div>
-     </div>
+         </div> --}}
+     {{-- </div> --}}
     </div>
     <div class="col-md-9">
         @if (auth()->user()->hasRole('Administrator'))

@@ -161,6 +161,11 @@ PE
                 </div>
              </div>
             <x-discipline :pd="$pd" />
+            <hr>
+
+            <span>Created by :</span> <br>
+            <span>{{$pe->getCreatedBy()->nik}} {{$pe->getCreatedBy()->biodata->fullName()}}</span> <br>
+            {{formatDateTime($pe->created_at)}}
         </div>
         <div class="col-md-9">
             @if (auth()->user()->hasRole('Manager') && ($kpa->pe->status == '1' || $kpa->pe->status == '202') )
@@ -285,8 +290,9 @@ PE
             @endif
             <x-qpe.kpi-table :kpa="$kpa" :datas="$datas" :valueAvg="$valueAvg" :addtional="$addtional" :i="$i" />
             <div class="card shadow-none border">
-               <div class="card-header bg-primary">
-                   <small class=" text-white">Behavior</small>
+               <div class="card-header d-flex justify-content-between p-2 bg-primary text-white">
+                  <small> <i class="fas fa-file-contract"></i> Behavior</small>
+                  {{-- <a href="{{route('qpe')}}" class="text-white">More..</a> --}}
                </div>
                @if($pba == null)
 

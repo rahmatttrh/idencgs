@@ -1,8 +1,9 @@
 <!-- resources/views/components/behavior-form.blade.php -->
 <div class="card shadow-none border">
-    <div class="card-header bg-primary">
-        <small class=" text-white">Behavior</small>
-    </div>
+   <div class="card-header d-flex justify-content-between p-2 bg-primary text-white">
+      <small> <i class="fas fa-file-contract"></i> Behavior</small>
+      {{-- <a href="{{route('qpe')}}" class="text-white">More..</a> --}}
+   </div>
     @if($pba == null)
     <form action="{{ route('qpe.behavior.store') }}" name="formBehavior" method="POST" enctype="multipart/form-data" accept=".jpg, .jpeg, .png, .pdf">
         @endif

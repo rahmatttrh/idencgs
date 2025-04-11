@@ -28,7 +28,6 @@ class CutiController extends Controller
          $this->calculateCuti($cuti->id);
          // if ($cuti->start != null && $cuti->end != null) {
          //    $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
-   
          //       $used = count($absences);
          //       $cuti->update([
          //          'used' => $used,
@@ -217,6 +216,11 @@ class CutiController extends Controller
       // dd($cuti);
       $contract = Contract::find($cuti->employee->contract_id);
       if ($cuti->start != null && $cuti->end != null) {
+      $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
+      } else {
+         $absences = [];
+      }
+      if ($cuti->start != null && $cuti->end != null) {
          $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
       } else {
          $absence = [];
@@ -276,6 +280,8 @@ class CutiController extends Controller
          // Excel::import(new CargoItemImport($parent->id), $req->file('file-cargo'));
          // dd($fileName);
          Excel::import(new CutiImport, public_path('CutiData/' . $fileName));
+
+         
       } catch (Exception $e) {
          return redirect()->back()->with('danger', 'Import Failed ' . $e->getMessage());
       }

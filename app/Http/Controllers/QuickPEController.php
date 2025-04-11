@@ -73,7 +73,7 @@ class QuickPEController extends Controller
          $verification = Pe::where('status', 1)->orderBy('updated_at', 'asc')->get();
          $done = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
          $reject = Pe::where('status', 101)->orderBy('updated_at', 'asc')->get();
-        }  else if (auth()->user()->hasRole('Manager|Asst. Manager')) {
+      } else if (auth()->user()->hasRole('Manager|Asst. Manager')) {
         //  dd('ok');
          $employee = auth()->user()->getEmployee();
          // $pes = Pe::join('employees', 'pes.employe_id', '=', 'employees.id')
@@ -347,11 +347,14 @@ class QuickPEController extends Controller
 
       $peDiscipline = PeDiscipline::where('pe_id', $pe->id)->first();
       if ($peDiscipline) {
-         $peDisciplineDetails = PeDisciplineDetail::where('pd_id', $peDiscipline->id)->get();
-         foreach($peDisciplineDetails as $pdd){
-            $pdd->delete();
-         }
-         $peDiscipline->delete();
+         $peDiscipline->update([
+            'pe_id' => null
+         ]);
+         // $peDisciplineDetails = PeDisciplineDetail::where('pd_id', $peDiscipline->id)->get();
+         // foreach($peDisciplineDetails as $pdd){
+         //    $pdd->delete();
+         // }
+         // $peDiscipline->delete();
       }
       
 
@@ -1216,6 +1219,9 @@ class QuickPEController extends Controller
 
         if (isset($pba)) {
             $pbads = PeBehaviorApprasialDetail::where('pba_id', $pba->id)->get();
+            // if (count($pbads) == 0) {
+            //    $pba->delete();
+            // }
         } else {
             $pbads = null;
         }

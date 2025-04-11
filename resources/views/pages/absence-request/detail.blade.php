@@ -282,48 +282,36 @@ Form Absence
             </div>
             <div class="col-md-5 ">
             
-               {{-- <div class="card card-light border shadow-none">
-                  <div class="card-body">
-                     Status :  
-                     
-                     @if ($absenceEmp->status == 0)
-                         Draft
-                         @elseif($absenceEmp->status == 1)
-                         Menunggu Approval Atasan Langsung
-                     @endif
-                     
-                  </div>
-               </div> --}}
 
 
                @if ($absenceEmp->type == 5)
-               <form action="{{route('employee.absence.detail.store')}}" method="POST">
-                  @csrf
-                  <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
-                  <div class="row">
-                     <div class="col-md-6">
-                        <div class="form-group form-group-default">
-                           <label>Tanggal Cuti</label>
-                           <input type="date" required class="form-control" id="date" name="date">
+                  <form action="{{route('employee.absence.detail.store')}}" method="POST">
+                     @csrf
+                     <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Tanggal Cuti</label>
+                              <input type="date" required class="form-control" id="date" name="date">
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <button class="btn btn-primary btn-block" type="submit">Add</button>
                         </div>
                      </div>
-                     <div class="col-md-6">
-                        <button class="btn btn-primary btn-block" type="submit">Add</button>
-                     </div>
-                  </div>
-               </form>
-               <table>
-                  <tbody>
-                     @foreach ($absenceEmployeeDetails as $detail)
-                     <tr>
-                        <td>{{formatDate($detail->date)}}</td>
-                        <td><a href="{{route('employee.absence.detail.delete', enkripRambo($detail->id))}}">Remove</a></td>
-                     </tr>
-                     @endforeach
-                     
-                  </tbody>
-               </table>
-               <hr>
+                  </form>
+                  <table>
+                     <tbody>
+                        @foreach ($absenceEmployeeDetails as $detail)
+                        <tr>
+                           <td>{{formatDate($detail->date)}}</td>
+                           <td><a href="{{route('employee.absence.detail.delete', enkripRambo($detail->id))}}">Remove</a></td>
+                        </tr>
+                        @endforeach
+                        
+                     </tbody>
+                  </table>
+                  <hr>
                @endif
                
                @if($absenceEmp->status == 0)
@@ -384,18 +372,21 @@ Form Absence
       <div class="card-body">
          <div class="d-flex justify-content-between">
             <span>
-               @if ($absenceEmp->leader->nik == auth()->user()->username)
-                  <a href="{{route('leader.absence')}}" class="btn btn-sm btn-light border"><< Kembali</a> |
-                  @if($absenceEmp->status <= 2)
-                  <a href="" class="btn btn-sm btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
-                  <a href="" class="btn btn-sm btn-danger">Reject</a>
-                  @elseif($absenceEmp->status > 2)
+               @if ($absenceEmp->leader != null)
+                  @if ($absenceEmp->leader->nik == auth()->user()->username)
+                     <a href="{{route('leader.absence')}}" class="btn btn-sm btn-light border"><< Kembali</a> |
+                     @if($absenceEmp->status <= 2)
+                     <a href="" class="btn btn-sm btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
+                     <a href="" class="btn btn-sm btn-danger">Reject</a>
+                     @elseif($absenceEmp->status > 2)
 
-                  <a  class="btn btn-sm btn-light border">Status : <x-status.form :form="$absenceEmp" /></a>
-                  
+                     <a  class="btn btn-sm btn-light border">Status : <x-status.form :form="$absenceEmp" /></a>
+                     
+                     @endif
+                     
                   @endif
-                   
                @endif
+              
 
 
                @if ($absenceEmp->cuti_backup_id != null)

@@ -13,142 +13,145 @@ Draft Request Absence
       </ol>
    </nav>
 
-   <div class="card shadow-none border">
-      <div class=" card-header">
-         <div>
-            <!-- resources/views/components/tab-absence.blade.php -->
-        
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                    <a class="nav-link{{ $activeTab === 'index' ? ' active' : '' }}" href="{{ route('employee.absence') }}">Absence</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{{ $activeTab === 'pending' ? ' active' : '' }}" href="{{ route('employee.absence.pending') }}">Pending Request</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link{{ $activeTab === 'draft' ? ' active' : '' }}" href="{{ route('employee.absence.draft') }}">Drafting</a>
-               </li>
-                <li class="nav-item">
-                    <a class="nav-link{{ $activeTab === 'form' ? ' active' : '' }}" href="{{ route('employee.absence.create') }}">Create</a>
-                </li>
-                
-            </ul>
-        
-        </div>
-      </div>
-
-      <div class="card-body ">
-
-         <div class="row">
+   <div class="row">
+      <div class="col-md-3">
+         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
+               <i class="fas fa-address-book mr-1"></i>
+               List Absensi
+            </a>
+            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.absence.pending')}}" aria-controls="v-pills-contract" aria-selected="false">
+               <i class="fas fa-file-contract mr-1"></i>
+               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+               Progress
+            </a>
             
-            <div class="col-md-12">
-               
-               <div class="table-responsive p-0">
-                  <table id="data" class="display basic-datatables table-sm p-0">
-                     <thead>
-                        <tr>
-                           {{-- <th>NIK</th>
-                            <th>Name</th> --}}
-                            {{-- <th>Loc</th> --}}
-                           <th>Type</th>
-                           <th>Day</th>
-                           <th>Date</th>
-                           <th>Desc</th>
-                           {{-- <th>Status</th> --}}
-                           <th></th>
-                        </tr>
-                     </thead>
+            <a class="nav-link active text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.absence.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
+               <i class="fas fa-user mr-1"></i>
+               Draft
+            </a>
+           
 
-                     <tbody>
-                        @foreach ($absences as $absence)
-                        <tr>
-                           {{-- <td>{{$absence->employee->nik}}</td>
-                            <td> {{$absence->employee->biodata->fullName()}}</td> --}}
-                            {{-- <td>{{$absence->employee->location->name}}</td> --}}
-                           <td>
-                              @if ($absence->status == 404)
-                                 <span class="text-danger">Permintaan Perubahan</span>
-                                  @else
-                                  @if ($absence->type == 1)
-                                 Alpha
-                                 @elseif($absence->type == 2)
-                                 Terlambat ({{$absence->minute}} Menit)
-                                 @elseif($absence->type == 3)
-                                 ATL
-                                 @elseif($absence->type == 4)
-                                 Izin ({{$absence->type_izin}})
-                                 @elseif($absence->type == 5)
-                                 Cuti
-                                 @elseif($absence->type == 6)
-                                 SPT ({{$absence->type_spt}})
-                                 @elseif($absence->type == 7)
-                                 Sakit 
-                                 @elseif($absence->type == 8)
-                                 Dinas Luar
-                                 @elseif($absence->type == 9)
-                                 Off Kontrak
-                                 @endif
-                              @endif
-                              
-                           </td>
-                           <td>{{formatDayName($absence->date)}}</td>
-                           <td>{{formatDate($absence->date)}}</td>
-                           <td>{{$absence->desc}}</td>
-                           
-                           <td class="text-truncate">
-                            <a class="" href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> |
-                              <a href="#" class="" data-target="#modal-delete-absence-employee-{{$absence->id}}" data-toggle="modal">Delete</a>
-                           </td>
-                        </tr>
-
-                        <div class="modal fade" id="modal-delete-absence-employee-{{$absence->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                           <div class="modal-dialog modal-sm" role="document">
-                              <div class="modal-content text-dark">
-                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                       <span aria-hidden="true">&times;</span>
-                                    </button>
-                                 </div>
-                                 <div class="modal-body ">
-                                    Delete data
-                                    @if ($absence->type == 6)
-                                    SPT
-                                    @elseif($absence->type == 4)
-                                    Izin
-                                    
-                                    @endif
-                                    
-                                    tanggal {{formatDate($absence->date)}}
-                                    ?
-                                 </div>
-                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-danger ">
-                                       <a class="text-light" href="{{route('employee.absence.delete', enkripRambo($absence->id))}}">Delete</a>
-                                    </button>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        @endforeach
-                     </tbody>
-
-                  </table>
-               </div>
-               <!-- End Table  -->
-
-               
-
+            <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.absence.create')}}" aria-controls="v-pills-document" aria-selected="false">
+               <i class="fas fa-file mr-1"></i>
+               Form Absensi
+            </a>
+            
+         </div>
+         <hr>
+         <div class="card">
+            <div class="card-body">
+               <small>Daftar pengajuan yang masih dalam status Draft dan belum dikirim untuk proses persetujuan</small>
             </div>
          </div>
-
-
+         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
+      <div class="col-md-9">
+         <div class="table-responsive p-0">
+            <table id="data" class="display basic-datatables table-sm p-0">
+               <thead>
+                  <tr>
+                     {{-- <th>NIK</th>
+                      <th>Name</th> --}}
+                      {{-- <th>Loc</th> --}}
+                     <th>Type</th>
+                     {{-- <th>Day</th> --}}
+                     <th>Date</th>
+                     <th>Desc</th>
+                     {{-- <th>Status</th> --}}
+                     <th></th>
+                  </tr>
+               </thead>
 
+               <tbody>
+                  @foreach ($absences as $absence)
+                  <tr>
+                     {{-- <td>{{$absence->employee->nik}}</td>
+                      <td> {{$absence->employee->biodata->fullName()}}</td> --}}
+                      {{-- <td>{{$absence->employee->location->name}}</td> --}}
+                     <td>
+                        @if ($absence->status == 404)
+                           <span class="text-danger">Permintaan Perubahan</span>
+                            @else
+                            @if ($absence->type == 1)
+                           Alpha
+                           @elseif($absence->type == 2)
+                           Terlambat ({{$absence->minute}} Menit)
+                           @elseif($absence->type == 3)
+                           ATL
+                           @elseif($absence->type == 4)
+                           Izin ({{$absence->type_izin}})
+                           @elseif($absence->type == 5)
+                           Cuti
+                           @elseif($absence->type == 6)
+                           SPT ({{$absence->type_spt}})
+                           @elseif($absence->type == 7)
+                           Sakit 
+                           @elseif($absence->type == 8)
+                           Dinas Luar
+                           @elseif($absence->type == 9)
+                           Off Kontrak
+                           @endif
+                        @endif
+                        
+                     </td>
+                     {{-- <td>{{formatDayName($absence->date)}}</td> --}}
+                     <td>
+                        @if ($absence->type == 5)
+                           @foreach ($absence->details  as $item)
+                                 {{formatDate($item->date)}} -
+                           @endforeach
+                              @else
+                              {{formatDate($absence->date)}}
+                        @endif
+                     </td>
+                     <td>{{$absence->desc}}</td>
+                     
+                     <td class="text-truncate">
+                      <a class="" href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> |
+                        <a href="#" class="" data-target="#modal-delete-absence-employee-{{$absence->id}}" data-toggle="modal">Delete</a>
+                     </td>
+                  </tr>
 
+                  <div class="modal fade" id="modal-delete-absence-employee-{{$absence->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                     <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content text-dark">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                              </button>
+                           </div>
+                           <div class="modal-body ">
+                              Delete data
+                              @if ($absence->type == 6)
+                              SPT
+                              @elseif($absence->type == 4)
+                              Izin
+                              
+                              @endif
+                              
+                              tanggal {{formatDate($absence->date)}}
+                              ?
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-danger ">
+                                 <a class="text-light" href="{{route('employee.absence.delete', enkripRambo($absence->id))}}">Delete</a>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  @endforeach
+               </tbody>
+
+            </table>
+         </div>
+      </div>
    </div>
-   <!-- End Row -->
+
+   
 
 
 </div>
