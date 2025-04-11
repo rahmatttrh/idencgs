@@ -149,7 +149,15 @@
                            <a class="dropdown-item" href="{{route('employee.detail', [enkripRambo(auth()->user()->getEmployeeId()), enkripRambo('contract')])}}">
                               My Profile
                            </a>
+                           <a class="dropdown-item" href="{{route('employee.absence')}}">
+                              My Absence
+                           </a>
+                           <a class="dropdown-item" href="{{route('employee.cuti')}}">
+                              My Cuti
+                           </a>
                            @endif
+
+                           
                            
                            
                            {{-- @if (Route::has('password.request'))

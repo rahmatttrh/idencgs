@@ -82,8 +82,8 @@ Designation
                   <td>{{$designation->name}}</td>
                   <td>{{$designation->golongan}}</td>
                   <td class="text-right">
-                     <a href="{{route('designation.edit', enkripRambo($designation->id) )}}">Edit</a>
-                     <a href="#" data-toggle="modal" data-target="#modal-delete-{{$designation->id}}">Delete</a>
+                     {{-- <a href="{{route('designation.edit', enkripRambo($designation->id) )}}">Edit</a>
+                     <a href="#" data-toggle="modal" data-target="#modal-delete-{{$designation->id}}">Delete</a> --}}
                   </td>
                </tr>
                <x-modal.delete :id="$designation->id" :body="$designation->name" url="{{route('designation.delete', enkripRambo($designation->id))}}" />

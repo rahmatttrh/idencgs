@@ -1,4 +1,3 @@
-@if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Recruitment|HRD-Manager'))
 <li class="nav-item">
    <a data-toggle="collapse" href="#vessel">
       <i class="fas fa-server"></i>
@@ -40,6 +39,7 @@
       </ul>
    </div>
 </li>
+
 <li class="nav-item">
    <a data-toggle="collapse" href="#employee">
       <i class="fas fa-users"></i>
@@ -87,98 +87,6 @@
       </ul>
    </div>
 </li>
-@endif
-
-<li class="nav-item">
-   <a data-toggle="collapse" href="#kpi">
-      <i class="fas fa-file-contract"></i>
-      <p>Performance</p>
-      <span class="caret"></span>
-   </a>
-   <div class="collapse" id="kpi">
-      <ul class="nav nav-collapse">
-         @if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Recruitment'))
-         <li>
-            <a href="{{route('pe.component')}}">
-               <span class="sub-item">Component</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('discipline')}}">
-               <span class="sub-item">Discipline</span>
-            </a>
-         </li>
-         @endif
-         <li>
-            <a href="{{route('kpi')}}">
-               <span class="sub-item">KPI</span>
-            </a>
-         </li>
-         
-      </ul>
-   </div>
-</li>
-
-
-<li class="nav-item">
-   <a data-toggle="collapse" href="#qpe">
-      <!-- <a  href="{{route('qpe')}}"> -->
-      <i class="fas fa-file"></i>
-      <p>Quick PE</p>
-      <span class="caret"></span>
-   </a>
-   <div class="collapse" id="qpe">
-      <ul class="nav nav-collapse">
-         <li>
-            <a href="{{route('qpe.create')}}">
-               <span class="sub-item">Create PE</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('qpe')}}">
-               <span class="sub-item">Daftar PE</span>
-            </a>
-         </li>
-         @if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Recruitment|HRD-Manager'))
-         <li>
-            <a href="{{route('qpe.report')}}">
-               <span class="sub-item">Monitoring</span>
-            </a>
-         </li>
-         @endif
-      </ul>
-   </div>
-</li>
-@if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Recruitment|HRD-Manager'))
-
-
-
-
-<li class="nav-item {{ (request()->is('announcement/*')) ? 'active' : '' }}">
-   <a href="{{route('announcement')}}">
-      <i class="fas fa-money-bill"></i>
-      <p>Anouncement</p>
-   </a>
-</li>
-@endif
-
-<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
-   <a href="{{route('sp')}}">
-      <i class="fas fa-file-code"></i>
-      <p>SP</p>
-   </a>
-</li>
-
-<li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
-   <a href="{{route('cuti')}}">
-      <i class="fas fa-calendar"></i>
-      <p>Master Cuti </p>
-   </a>
-</li>
-
-@if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Recruitment|HRD-Manager'))
-<hr>
-
 
 <li class="nav-item">
    <a data-toggle="collapse" href="#payroll">
@@ -259,22 +167,9 @@
    </div>
 </li>
 
-
-
-<hr>
-@endif
-
-<li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
-   <a href="{{route('task')}}">
-      <i class="fas fa-calendar"></i>
-      <p>Task</p>
-   </a>
-</li>
-
-
-<li class="nav-item {{ (request()->is('overtime/team')) ? 'active' : '' }}">
-   <a href="{{route('overtime.team')}}">
-      <i class="fas fa-file-code"></i>
-      <p>Summary</p>
+<li class="nav-item {{ (request()->is('announcement/*')) ? 'active' : '' }}">
+   <a href="{{route('announcement')}}">
+      <i class="fas fa-money-bill"></i>
+      <p>Anouncement</p>
    </a>
 </li>

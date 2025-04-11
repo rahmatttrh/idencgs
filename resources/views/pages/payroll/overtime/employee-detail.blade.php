@@ -90,7 +90,7 @@ SPKL
                               
                               <th class="text-center">Qty</th>
                               {{-- <td></td> --}}
-                              @if (auth()->user()->hasRole('HRD|HRD-Payroll|Administrator'))
+                              @if (auth()->user()->hasRole('HRD-Payroll|Administrator'))
                               <th class="text-right">Rate</th>
                               @endif
                               <th>Desc</th>
@@ -155,7 +155,7 @@ SPKL
                                     
                                  </td>
                                  {{-- <td class="text-center">{{getMultiple($over->hours)}}</td> --}}
-                                 @if (auth()->user()->hasRole('HRD|HRD-Payroll|Administrator'))
+                                 @if (auth()->user()->hasRole('HRD-Payroll|Administrator'))
                                  <td class="text-right text-truncate">{{formatRupiah($over->rate)}}</td>
                                  @endif
                                  <td class="text-truncate" style="max-width: 150px">

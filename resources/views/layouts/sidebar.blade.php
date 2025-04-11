@@ -54,16 +54,15 @@
             </li>
             @if (auth()->user()->hasRole('Administrator'))
                <x-sidebar.administrator />
-            @endif
-
-            @if (auth()->user()->hasRole('BOD'))
+               @elseif (auth()->user()->hasRole('BOD'))
                <x-sidebar.bod />
-            @endif
-
-            @if (auth()->user()->hasRole('HRD&Supervisor'))
-               <x-sidebar.hrd-spv />
+              
                
             @endif
+
+           
+
+            
             @if (auth()->user()->hasRole('HRD-Recruitment'))
                <x-sidebar.hrd-recruitment />
                
@@ -81,6 +80,7 @@
 
 
             @if (auth()->user()->hasRole('Manager|Asst. Manager'))
+            
                <x-sidebar.manager />
                @elseif(auth()->user()->hasRole('Leader|Supervisor'))
                <x-sidebar.leader />

@@ -35,6 +35,12 @@ class Unit extends Model
    }
 
 
+   public function getLocs(){
+      $locations = Location::get();
+      return $locations;
+   }
+
+
    // public function totalSubDept($unitId = 2)
    // {
    //    // Memanggil ModelA dan salah satu metodenya

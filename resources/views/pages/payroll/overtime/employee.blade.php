@@ -86,7 +86,7 @@ SPKL
                            <th>Unit</th>
                            <th class="text-center">Lembur</th>
                            <th class="text-center">Piket</th>
-                           @if (auth()->user()->hasRole('HRD|HRD-Payroll|Administrator'))
+                           @if (auth()->user()->hasRole('HRD-Payroll|Administrator'))
                            <th class="text-right">Rate</th>
                            @endif
                         </tr>
@@ -111,7 +111,7 @@ SPKL
                                  {{-- {{$emp->getOvertimes($from, $to)->where('type', 1)->sum('hours_final')}} --}}
                               </td>
                               <td class="text-center">{{$emp->getOvertimes($from, $to)->where('type', 2)->sum('hours_final')}}</td>
-                              @if (auth()->user()->hasRole('HRD|HRD-Payroll|Administrator'))
+                              @if (auth()->user()->hasRole('HRD-Payroll|Administrator'))
                               <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td>
                               @endif
                             </tr>

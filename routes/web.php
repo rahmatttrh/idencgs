@@ -836,7 +836,7 @@ Route::middleware(["auth"])->group(function () {
       Route::get('/detail/{id}', [SpklController::class, 'detail'])->name('spkl.detail');
    });
    // Role Karyawan
-   Route::group(['middleware' => ['role:Karyawan|Leader|Supervisor|Manager']], function () {
+   Route::group(['middleware' => ['role:Karyawan|Leader|Supervisor|Manager|Asst. Manager']], function () {
       // kpi
 
       Route::prefix('leader')->group(function () {

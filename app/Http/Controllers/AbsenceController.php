@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use League\Flysystem\Adapter\Local;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AbsenceController extends Controller
@@ -78,9 +79,14 @@ class AbsenceController extends Controller
       }
 
 
+      $units = Unit::get();
+      $locations = Location::get();
 
-
-      return view('pages.payroll.absence.employee', [
+      return view('pages.payroll.absence.summary', [
+         'units' => $units,
+         'locations' => $locations,
+         'from' => 0,
+         'to' => 0,
          'export' => $export,
          'loc' => $loc,
          'locations' => $locations,

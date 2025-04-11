@@ -20,6 +20,73 @@ class Location extends Model
       return $total;
    }
 
+   public function totalAbsence($id, $from, $to){
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      $total = 0;
+      foreach ($employees as $emp) {
+        $alphas =  $emp->getAbsences($from, $to)->where('type', 1);
+        $totalAlpha = count($alphas);
+        $total = $total + $totalAlpha;
+      }
+      return $total;
+   }
+
+   public function totalLate($id, $from, $to){
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      $total = 0;
+      foreach ($employees as $emp) {
+        $alphas =  $emp->getAbsences($from, $to)->where('type', 2);
+        $totalAlpha = count($alphas);
+        $total = $total + $totalAlpha;
+      }
+      return $total;
+   }
+
+   public function totalAtl($id, $from, $to){
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      $total = 0;
+      foreach ($employees as $emp) {
+        $alphas =  $emp->getAbsences($from, $to)->where('type', 3);
+        $totalAlpha = count($alphas);
+        $total = $total + $totalAlpha;
+      }
+      return $total;
+   }
+
+   public function totalIzin($id, $from, $to){
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      $total = 0;
+      foreach ($employees as $emp) {
+        $alphas =  $emp->getAbsences($from, $to)->where('type', 4);
+        $totalAlpha = count($alphas);
+        $total = $total + $totalAlpha;
+      }
+      return $total;
+   }
+   public function totalCuti($id, $from, $to){
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      $total = 0;
+      foreach ($employees as $emp) {
+        $alphas =  $emp->getAbsences($from, $to)->where('type', 5);
+        $totalAlpha = count($alphas);
+        $total = $total + $totalAlpha;
+      }
+      return $total;
+   }
+
+   public function totalSakit($id, $from, $to){
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      $total = 0;
+      foreach ($employees as $emp) {
+        $alphas =  $emp->getAbsences($from, $to)->where('type', 7);
+        $totalAlpha = count($alphas);
+        $total = $total + $totalAlpha;
+      }
+      return $total;
+   }
+
+   
+
    public function getUnitTransaction($id, $unitTrans)
    {
       $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
