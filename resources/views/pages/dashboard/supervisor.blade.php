@@ -251,7 +251,7 @@ Dashboard
                         <div class="col col-stats ml-3 ml-sm-0">
                            <a href="{{route('leader.absence')}}">
                            <div class="numbers">
-                              <p class="card-category">  Form Pengajuan </p>
+                              <p class="card-category"> Approval Absensi </p>
                               <h4 class="card-title">{{count($reqForms) + count($reqBackForms)}}</h4>
                            </div>
                         </a>
@@ -259,14 +259,30 @@ Dashboard
                      </div>
                   </div>
                </div>
-               {{-- <div class="card ">
-                  <div class="card-body">
-                     <a href="{{route('leader.absence')}}">
-                        <span>Formulir Pengajuan</span>
-                        <h2>{{count($reqForms)}}</h2>
-                     </a>
+               
+            </div>
+
+            <div class="col-md-6">
+               <div class="card card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        <div class="col-icon">
+                           <div class="icon-big text-center icon-primary bubble-shadow-small">
+                              <i class="fas fa-users"></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('leader.spkl')}}">
+                           <div class="numbers">
+                              <p class="card-category"> Approval Lembur/Piket </p>
+                              <h4 class="card-title">{{$approvalEmployeeSpkl}}</h4>
+                           </div>
+                        </a>
+                        </div>
+                     </div>
                   </div>
-               </div> --}}
+               </div>
+               
             </div>
          </div>
          <div class="card">

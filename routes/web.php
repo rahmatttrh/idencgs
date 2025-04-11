@@ -55,6 +55,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\FuncController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\OvertimeEmployeeController;
 use App\Http\Controllers\PayrollApprovalController;
 use App\Http\Controllers\PayslipBpjsKsController;
 use App\Http\Controllers\PayslipBpjsKtController;
@@ -67,6 +68,7 @@ use App\Models\AbsenceEmployeeDetail;
 use App\Models\Emergency;
 use App\Models\EmployeeLeader;
 use App\Models\Overtime;
+use App\Models\OvertimeEmployee;
 use App\Models\Reduction;
 use App\Models\SpApproval;
 use App\Models\TransactionOvertime;
@@ -840,15 +842,25 @@ Route::middleware(["auth"])->group(function () {
       Route::prefix('leader')->group(function () {
          Route::get('absence/index', [AbsenceLeaderController::class, 'index'])->name('leader.absence');
          Route::get('absence/history', [AbsenceLeaderController::class, 'history'])->name('leader.absence.history');
+
+         Route::get('spkl/index', [OvertimeEmployeeController::class, 'indexLeader'])->name('leader.spkl');
       });
 
 
       Route::prefix('employee')->group(function () {
 
          Route::prefix('spkl')->group(function () {
-            Route::get('/index', [SpklController::class, 'index'])->name('employee.spkl');
-            Route::get('/progress', [SpklController::class, 'progress'])->name('employee.spkl.progress');
-            Route::post('/store', [SpklController::class, 'store'])->name('employee.spkl.store');
+            Route::get('/index', [OvertimeEmployeeController::class, 'index'])->name('employee.spkl');
+            Route::get('/progress', [OvertimeEmployeeController::class, 'progress'])->name('employee.spkl.progress');
+            Route::get('/draft', [OvertimeEmployeeController::class, 'draft'])->name('employee.spkl.draft');
+            Route::get('/create', [OvertimeEmployeeController::class, 'create'])->name('employee.spkl.create');
+            Route::post('store', [OvertimeEmployeeController::class, 'store'])->name('employee.spkl.store');
+            Route::get('detail/{id}', [OvertimeEmployeeController::class, 'detail'])->name('employee.spkl.detail');
+            Route::get('detail/l/{id}', [OvertimeEmployeeController::class, 'detailLeader'])->name('employee.spkl.detail.leader');
+            Route::get('release/{id}', [OvertimeEmployeeController::class, 'release'])->name('employee.spkl.release');
+            
+
+            // Route::post('/store', [SpklController::class, 'store'])->name('employee.spkl.store');
             Route::get('/send/{id}', [SpklController::class, 'send'])->name('employee.spkl.send');
             Route::get('/delete/{id}', [SpklController::class, 'delete'])->name('employee.spkl.delete');
          });

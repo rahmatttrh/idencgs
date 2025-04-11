@@ -15,6 +15,7 @@ use App\Models\EmployeeLeader;
 use App\Models\Holiday;
 use App\Models\Log;
 use App\Models\Overtime;
+use App\Models\OvertimeEmployee;
 use App\Models\Pe;
 use App\Models\Position;
 use App\Models\Presence;
@@ -809,6 +810,7 @@ class HomeController extends Controller
             $peRecents = Pe::where('created_by', $employee->id)->where('status', '!=', 2)->orderBy('updated_at', 'desc')->paginate(8);
          }
          $allpes = Pe::orderBy('updated_at', 'desc')->get();
+         
 
          $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
          $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
@@ -818,6 +820,21 @@ class HomeController extends Controller
             ->where('absences.date', '>=', $now->format('Y-m-d'))
             ->select('absences.*')
             ->get();
+
+
+         $allEmployeeSpkls = OvertimeEmployee::where('status', 1)->get();
+         $approvalEmployeeSpkl = 0;
+         foreach ($myteams as $team) {
+            foreach ($allEmployeeSpkls as $spkl) {
+               if ($spkl->employee_id == $team->id) {
+                  $approvalEmployeeSpkl = $approvalEmployeeSpkl + 1;
+               }
+            }
+         }
+
+
+
+         
          
          return view('pages.dashboard.supervisor', [
             'employee' => $biodata->employee,
@@ -838,7 +855,9 @@ class HomeController extends Controller
             'reqForms' => $reqForms,
             'reqBackForms' => $reqBackForms,
 
-            'spteams' => $spteams
+            'spteams' => $spteams,
+
+            'approvalEmployeeSpkl' => $approvalEmployeeSpkl
          ]);
       } else {
 

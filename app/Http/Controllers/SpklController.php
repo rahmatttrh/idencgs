@@ -11,25 +11,7 @@ use Illuminate\Http\Request;
 
 class SpklController extends Controller
 {
-   public function index(){
-      // dd('ok');
-      $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spkls = Overtime::where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
-      // dd($spkls);
-      return view('pages.spkl.index', [
-         'spkls' => $spkls
-      ]);
-   }
-
-   public function progress(){
-      // dd('ok');
-      $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spkls = Overtime::where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
-      // dd($spkls);
-      return view('pages.spkl.progress', [
-         'spkls' => $spkls
-      ]);
-   }
+   
 
    public function indexSupervisor(){
       // dd('ok');

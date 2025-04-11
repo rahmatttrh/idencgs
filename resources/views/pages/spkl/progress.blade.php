@@ -18,7 +18,7 @@ SPKL Progress
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
-               My SPKL
+               List Lembur/Piket
             </a>
             <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.spkl.progress')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
@@ -26,15 +26,15 @@ SPKL Progress
                Progress
             </a>
             
-            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.absence.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
+            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.spkl.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
                <i class="fas fa-user mr-1"></i>
                Draft
             </a>
            
 
-            <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.absence.create')}}" aria-controls="v-pills-document" aria-selected="false">
+            <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create')}}" aria-controls="v-pills-document" aria-selected="false">
                <i class="fas fa-file mr-1"></i>
-               Form
+               Form Lembur/Piket
             </a>
             
          </div>

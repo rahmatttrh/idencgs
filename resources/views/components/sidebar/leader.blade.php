@@ -142,12 +142,12 @@
    </a>
 </li>
 @endif
-<li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
+{{-- <li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
    <a href="{{route('employee.absence')}}">
       <i class="fas fa-clock"></i>
       <p>Absensi</p>
    </a>
-</li>
+</li> --}}
 <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
    <a href="{{route('employee.cuti')}}">
       <i class="fas fa-clock"></i>

@@ -18,7 +18,7 @@ Draft Request Absence
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
-               My Absence
+               List Absensi
             </a>
             <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.absence.pending')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
@@ -34,7 +34,7 @@ Draft Request Absence
 
             <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.absence.create')}}" aria-controls="v-pills-document" aria-selected="false">
                <i class="fas fa-file mr-1"></i>
-               Form
+               Form Absensi
             </a>
             
          </div>
