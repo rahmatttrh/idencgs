@@ -1523,6 +1523,7 @@ class OvertimeController extends Controller
          } elseif ($holiday_type == 4) {
             $finalHour = $hours * 3;
          }
+         // dd($holiday_type);
 
          if ($hour_type == 1) {
             $rate = $finalHour * round($rateOvertime);

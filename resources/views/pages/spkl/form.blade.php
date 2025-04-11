@@ -129,7 +129,7 @@ Form Lembur/Piket
                <div class="col-md-4">
                   <div class="form-group form-group-default">
                      <label>Lokasi Pekerjaan</label>
-                     <select class="form-control " required name="holiday_type" id="holiday_type">
+                     <select class="form-control "  required name="location" id="location">
                         <option value="" disabled selected>Select</option>
                         @foreach ($locations as $loc)
                         <option value="{{$loc->name}}">{{$loc->name}}</option>

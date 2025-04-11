@@ -187,6 +187,11 @@ class OvertimeEmployeeController extends Controller
          $hours = $finalHour;
       }
 
+      // dd($finalHour);
+
+     
+
+
       $spkl = OvertimeEmployee::create([
          'status' => 0,
          'location_id' => $locId,
