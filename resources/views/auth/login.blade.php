@@ -62,7 +62,7 @@
 									<form class="user" method="POST" action="{{ route('login') }}">
 										@csrf
 										<div class="form-group form-group-default">
-											<label for="username" class="placeholder"><b>NIK or Email</b></label>
+											<label for="username" class="placeholder"><b>NIK Karyawan</b></label>
 											<input id="username" name="username" type="text" class="form-control @error('username') is-invalid @enderror" required>
 											@error('username')
 											<span class="invalid-feedback bg-danger p-2 rounded mb-2 text-light" role="alert">
