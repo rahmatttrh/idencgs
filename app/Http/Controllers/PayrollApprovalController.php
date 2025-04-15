@@ -181,7 +181,7 @@ class PayrollApprovalController extends Controller
    {
 
       $unitTransactions = UnitTransaction::where('status', '=', 4)->get();
-
+      
       return view('pages.payroll.approval.hrd', [
          'unitTransactions' => $unitTransactions
       ])->with('i');

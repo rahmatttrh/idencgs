@@ -45,7 +45,7 @@ History Formulir Pengajuan
                      
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
-                     <th>Desc</th>
+                     {{-- <th>Desc</th> --}}
                      <th>Status</th>
                      {{-- <th></th> --}}
                   </tr>
@@ -59,30 +59,12 @@ History Formulir Pengajuan
                         @if ($absence->status == 404)
                            <span class="text-danger">Permintaan Perubahan</span>
                             @else
-                            @if ($absence->type == 1)
-                           Alpha
-                           @elseif($absence->type == 2)
-                           Terlambat ({{$absence->minute}} Menit)
-                           @elseif($absence->type == 3)
-                           ATL
-                           @elseif($absence->type == 4)
-                           Izin ({{$absence->type_izin}})
-                           @elseif($absence->type == 5)
-                           Cuti
-                           @elseif($absence->type == 6)
-                           SPT
-                           @elseif($absence->type == 7)
-                           Sakit 
-                           @elseif($absence->type == 8)
-                           Dinas Luar
-                           @elseif($absence->type == 9)
-                           Off Kontrak
-                           @endif
+                            <x-status.absence-type :absence="$absence" /> 
                         @endif
                      </a>
                         
                      </td>
-                     <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
+                     <td class="text-truncate"><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
                       <td> {{$absence->employee->biodata->fullName()}}</td>
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
                      
@@ -96,7 +78,7 @@ History Formulir Pengajuan
                               {{formatDate($absence->date)}}
                         @endif
                      </td>
-                     <td>{{$absence->desc}}</td>
+                     {{-- <td>{{$absence->desc}}</td> --}}
                      <td>
                         <x-status.form :form="$absence" />
                         {{-- @if ($absence->status == 1)

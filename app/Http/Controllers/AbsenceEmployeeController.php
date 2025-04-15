@@ -34,11 +34,13 @@ class AbsenceEmployeeController extends Controller
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
       $activeTab = 'form';
       $employees = Employee::where('department_id', $employee->department_id)->get();
+      $date = Carbon::make($absence->date);
       return view('pages.absence-request.request', [
          'activeTab' => $activeTab,
          'absence' => $absence,
          'employeeLeaders' => $employeeLeaders,
          'employees' => $employees,
+         'date' => $date,
          'from' => null,
          'to' => null
       ]);
@@ -148,9 +150,14 @@ class AbsenceEmployeeController extends Controller
       } else {
          $absenceEmployeeDetails = null;
       }
+
+      
+      // dd($code);
+
       // dd($employee->nik);
       // dd($absenceEmployee->employee->biodata->fullName());
       return view('pages.absence-request.detail', [
+         
          'activeTab' => $activeTab,
          'type' => $type,
          'employee' => $employee,
@@ -160,7 +167,8 @@ class AbsenceEmployeeController extends Controller
          'employees' => $employees,
          'cuti' => $cuti,
          'from' => null,
-         'to' => null
+         'to' => null,
+         
       ]);
    }
 
@@ -206,7 +214,7 @@ class AbsenceEmployeeController extends Controller
          'absence_id' => $absenceCurrentId,
          'leader_id' => $leader,
          'type' => $req->type,
-         'type_desc' => $req->type_desc,
+         'type_desc' => $req->type_izin,
          'date' => $req->date,
          'transport' => $req->transport,
          'destination' => $req->destination,
@@ -229,6 +237,29 @@ class AbsenceEmployeeController extends Controller
       ]);
 
       return redirect()->route('employee.absence.detail', enkripRambo($absence->id))->with('success', 'Pengajuan berhasil dibuat');
+   }
+
+   public function edit($id){
+      $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
+      $leader = Employee::where('nik', auth()->user()->username)->first();
+      $employee = Employee::find($absenceEmployee->employee_id);
+
+      if ($absenceEmployee->type == 4){
+         $type = 'izin';
+      } elseif($absenceEmployee->type == 5){
+         $type = 'Cuti';
+      } elseif($absenceEmployee->type == 6){
+         $type = 'SPT';
+      } elseif($absenceEmployee->type == 7){
+         $type = 'Sakit';
+      }
+      
+      $employeeLeaders = EmployeeLeader::where('employee_id', $leader->id)->get();
+      return view('pages.absence-request.edit', [
+         'type' => $type,
+         'absenceEmp' => $absenceEmployee,
+         'employeeLeaders' => $employeeLeaders
+      ]);
    }
 
 
@@ -290,7 +321,8 @@ class AbsenceEmployeeController extends Controller
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
       $absenceEmployee->delete();
 
-      return redirect()->back()->with('success', 'Data berhasil dihapus');
+      // {{route()}}
+      return redirect()->route('employee.absence.draft')->with('success', 'Data berhasil dihapus');
    }
 
 
@@ -330,15 +362,64 @@ class AbsenceEmployeeController extends Controller
             return redirect()->back()->with('danger', 'Gagal, Tanggal Cuti belum di pilih');
          }
          $status = 1;
-      } elseif($reqForm->type == 6){
+      } elseif($reqForm->type == 6 ){
          $status = 2;
+      } elseif( $reqForm->type == 4){
+         // dd('ok');
+         $status = 5;
+         $ddate = Carbon::make($reqForm->date);
+
+         Absence::create([
+            'employee_id' => $reqForm->employee_id,
+            'type' => $reqForm->type,
+            'type_izin' => $reqForm->type_desc,
+            'type_spt' => $reqForm->type_desc,
+            'desc' => $reqForm->desc,
+            'remark' => $reqForm->remark,
+            'month' => $ddate->format('F'),
+            'year' => $ddate->format('Y'),
+            'date' => $ddate,
+            // 'revisi' => $revisi
+         ]);
+         // dd($reqForm->absence_id);
+
+
       }
       // dd('ok');
       $now = Carbon::now();
+      
+      $lastAbsence = Absence::where('type', 6)->orderBy('updated_at', 'desc')->get();
+
+      if ($lastAbsence != null) {
+         $id = count($lastAbsence) + 1;
+      } else {
+         $id = 1;
+      }
+
+      $date = Carbon::make($reqForm->date);
+
+      
+      if($reqForm->type == 6 ){
+         $code = $id . '/HRD/SPT/' . $date->format('m') . '/' . $date->format('Y');
+      } else {
+         $code = '';
+      }
+      
+      
       $reqForm->update([
          'status' => $status,
-         'release_date' => $now
+         'release_date' => $now,
+         'code' => $code
       ]);
+      // dd($reqForm->absence_id);
+
+      if ($reqForm->absence_id != null) {
+         // dd('kosong');
+         $absence = Absence::find($reqForm->absence_id);
+         $absence->update([
+            'code' => $code
+         ]);
+      }
 
       return redirect()->back()->with('success', 'Pengajuan Absensi berhasil dikirim');
    }
@@ -357,7 +438,7 @@ class AbsenceEmployeeController extends Controller
             // dd($dates);
             foreach($dates as $d){
                $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->first();
-               dd($cuti->start);
+               // dd($cuti->start);
             }
       }
       
@@ -439,7 +520,10 @@ class AbsenceEmployeeController extends Controller
                ]);
                
                $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->where('start', '>=', $d->date)->where('end', '<=', $d->date)->first();
-               $cutiCon->calculateCuti($cuti->id);
+               if ($cuti) {
+                  $cutiCon->calculateCuti($cuti->id);
+               }
+               
             }
             
          } else {

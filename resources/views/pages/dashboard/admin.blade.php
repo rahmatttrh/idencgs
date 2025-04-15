@@ -173,7 +173,7 @@ Dashboard
          <div class="card-header d-flex justify-content-between p-2 text-white" style="background-color: rgb(72, 72, 72)">
                   <small><b>Latest Log Activity</b></small>
                   <a href="{{route('log.auth')}}" class="text-white">More..</a>
-      </div>
+         </div>
       <div class="card-body p-0">
          <div class="table-responsive overflow-auto" style="height: 350px">
          <table class="display  table-sm table-bordered   ">

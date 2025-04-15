@@ -100,6 +100,16 @@ Form Absence
                      </select>
                   </div>
                </div>
+               <div class="col-md-6 type_izin">
+                  <div class="form-group form-group-default">
+                     <label>Awal/Akhir</label>
+                     <select class="form-control"  name="remark" id="remark">
+                        <option value="" disabled selected>Select</option>
+                        <option value="Tidak Absen Masuk">Tidak Absen Masuk</option>
+                        <option value="Tidak Absen Pulang">Tidak Absen Pulang</option>
+                     </select>
+                  </div>
+               </div>
             </div>
 
 
@@ -252,15 +262,19 @@ Form Absence
                      </div>
                   </div>
                </div>
-               <div class="form-group form-group-default type_spt">
+               {{-- <div class="form-group form-group-default type_spt">
                   <label>Keterangan</label>
                   <input type="text" class="form-control" id="remark" name="remark">
-               </div>
+               </div> --}}
             </span>
             
             <div class="form-group form-group-default">
                <label>Document</label>
                <input type="file" class="form-control" id="doc" name="doc">
+            </div>
+            <div class="form-group form-group-default">
+               <label>Description</label>
+               <textarea type="text" class="form-control" id="desc" name="desc" rows="3"></textarea>
             </div>
             <hr>
             <button class="btn  btn-primary" type="submit">Save to Draft</button>

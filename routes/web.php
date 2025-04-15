@@ -466,10 +466,14 @@ Route::middleware(["auth"])->group(function () {
          });
          Route::prefix('absence')->group(function () {
             Route::get('/index', [AbsenceController::class, 'index'])->name('payroll.absence');
+            Route::get('/unit/index/{unit}/{from}/{to}/{locs}', [AbsenceController::class, 'indexUnit'])->name('payroll.absence.unit');
+            Route::post('/unit/index', [AbsenceController::class, 'indexUnit'])->name('payroll.absence.unit');
+            Route::get('/unit/loc/{unit}/{loc}/{from}/{to}/{locAll}', [AbsenceController::class, 'indexLoc'])->name('payroll.absence.loc');
             Route::get('/refresh', [AbsenceController::class, 'refresh'])->name('absence.refresh');
 
             Route::get('/form', [AbsenceController::class, 'create'])->name('payroll.absence.create');
 
+            // Route::put('/edit/{id}', [AbsenceController::class, 'edit'])->name('payroll.absence.edit');
             Route::put('/update', [AbsenceController::class, 'update'])->name('payroll.absence.update');
             Route::get('/approval', [AbsenceController::class, 'approval'])->name('payroll.absence.approval');
             Route::put('/approve', [AbsenceController::class, 'approve'])->name('absence.approve.hrd');
@@ -488,6 +492,7 @@ Route::middleware(["auth"])->group(function () {
 
             Route::post('filter', [AbsenceController::class, 'filter'])->name('payroll.absence.filter');
             Route::post('filter/employee', [AbsenceController::class, 'filterEmployee'])->name('payroll.absence.filter.employee');
+            Route::post('filter/summary', [AbsenceController::class, 'filterSummary'])->name('payroll.absence.filter.summary');
            
             Route::post('/store', [AbsenceController::class, 'store'])->name('payroll.absence.store');
             Route::get('/delete/{id}', [AbsenceController::class, 'delete'])->name('payroll.absence.delete');
@@ -879,6 +884,8 @@ Route::middleware(["auth"])->group(function () {
             Route::get('/draft', [AbsenceEmployeeController::class, 'draft'])->name('employee.absence.draft');
             Route::get('/detail/{id}', [AbsenceEmployeeController::class, 'detail'])->name('employee.absence.detail');
             Route::post('/store', [AbsenceEmployeeController::class, 'store'])->name('employee.absence.store');
+
+            Route::get('/edit/{id}', [AbsenceEmployeeController::class, 'edit'])->name('employee.absence.edit');
             Route::put('/update', [AbsenceEmployeeController::class, 'update'])->name('employee.absence.update');
             Route::get('/delete/{id}', [AbsenceEmployeeController::class, 'delete'])->name('employee.absence.delete');
 

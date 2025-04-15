@@ -46,7 +46,7 @@ Form Absensi
                      
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
-                     {{-- <th>Desc</th> --}}
+                     <th>Desc</th>
                      <th>Status</th>
                      {{-- <th></th> --}}
                   </tr>

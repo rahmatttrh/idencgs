@@ -312,8 +312,190 @@
   
 @endif
 
-   @if ($absenceemp->type == 6)
-   <table>
+@if ($absenceemp->type == 6)
+<table>
+   <tbody>
+      <tr>
+         <td class="text-center" colspan="2" rowspan="2">
+            <img src="{{asset('img/logo/enc1.png')}}" alt="" width="100">
+         </td>
+         <td class="text-center" colspan="2">
+            <h4>FORMULIR</h4>
+         </td>
+         <td class="text-center" colspan="2" rowspan="2">
+            <img src="{{asset('img/logo/ekanuri.png')}}" alt="" width="100"><br>
+            <span>PT Ekanuri</span>
+         </td>
+      </tr>
+      <tr class="text-center">
+         <td><h4>SURAT PERINTAH TUGAS</h4></td>
+      </tr>
+      <tr class="text-center">
+         <td colspan="2">No. Dok : FM.PS.HRD.19</td>
+         <td colspan="2">Rev: 01/22</td>
+         <td colspan="2">Hal : 1 dari 1</td>
+      </tr>
+      <tr class="text-center">
+         <td colspan="6">Nomor : {{$absenceemp->code}}</td>
+      </tr>
+
+
+
+      {{-- Body --}}
+      <tr>
+         <td colspan="6"><b>1. Pemberi Perintah</b></td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">Nama</td>
+         <td colspan="4" class="">{{$absenceemp->leader->biodata->fullName()}}</td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">Jabatan</td>
+         <td colspan="4" class="">{{$absenceemp->leader->position->name}}</td>
+      </tr>
+      
+
+      <tr>
+         <td colspan="6"><b>2. Karyawan yang diperintahkan</b></td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1" style="width: 250px">Nama</td>
+         <td colspan="4" class="">{{$absenceemp->employee->biodata->fullName()}}</td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">NIK</td>
+         <td colspan="4" class="">{{$absenceemp->employee->nik}}</td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">Departemen</td>
+         <td colspan="4" class="">{{$absenceemp->employee->department->name}}</td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">Jabatan</td>
+         <td colspan="4" class="">{{$absenceemp->employee->position->name}}</td>
+      </tr>
+      
+      <tr>
+         <td colspan="2"><b>3. Maksud Perintah Tugas</b></td>
+         <td colspan="4" class="">
+            <textarea  name="" id="" style="width: 100%" rows="3" readonly>{{$absenceemp->desc}}</textarea>
+            
+         </td>
+      </tr>
+      <tr>
+         <td colspan="2"><b>4. Alat angkutan yang di pergunakan</b></td>
+         <td colspan="4" class="">
+            <span>{{$absenceemp->transport}}</span>
+            {{-- <textarea  name="" id="" style="width: 100%" rows="3" readonly>{{$absenceemp->desc}}</textarea> --}}
+            
+         </td>
+      </tr>
+      
+      <tr>
+         <td colspan="2"><b>4. Tempat Tujuan</b></td>
+         <td colspan="4" class="">
+            <span>{{$absenceemp->destination}}</span>
+            {{-- <textarea  name="" id="" style="width: 100%" rows="3" readonly>{{$absenceemp->desc}}</textarea> --}}
+            
+         </td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">Berangkat dari</td>
+         <td colspan="4" class="">{{$absenceemp->from}}</td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">Tempat transit</td>
+         <td colspan="4" class="">{{$absenceemp->transit}}</td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">Lama tugas</td>
+         <td colspan="4" class="">{{$absenceemp->duration}}</td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">Tanggal/Jam Berangkat</td>
+         <td colspan="4" class="">{{formatDateTime($absenceemp->departure)}}</td>
+      </tr>
+      <tr>
+         <td style="width: 20px"></td>
+         <td colspan="1">Tanggal/Jam Kembali</td>
+         <td colspan="4" class="">{{formatDateTime($absenceemp->return)}}</td>
+      </tr>
+      <tr>
+         <td colspan="2"><b>5. Keterangan</b></td>
+         <td colspan="4" class="">
+            <textarea  name="" id="" style="width: 100%" rows="3" readonly>{{$absenceemp->remark}}</textarea>
+            
+         </td>
+      </tr>
+      <tr>
+         <td colspan="6" class="text-center text-dark" style="background-color: rgb(167, 164, 164)" ><h4>Surat Perintah Tugas ini berlaku selama yang bersangkutan menjadi karyawan  PT. EKA NURI.</h4></td>
+      </tr>
+
+
+
+      <tr>
+         <td colspan="6">Jakarta, {{formatDate($absenceemp->date)}}</td>
+      </tr>
+      <tr>
+         <td colspan="2">
+            <table>
+               <tbody>
+                  <tr class="bg-dark text-light">
+                     <td>Pemberi Perintah</td>
+                  </tr>
+                  <tr>
+                     <td style="height: 100px" class="text-center">
+
+                        @if ($absenceemp->status >= 3)
+                              <small class="text-success"><i>APPROVED</i></small> <br>
+                              <small class="text-muted">{{formatDateTime($absenceemp->app_leader_date)}}</small>
+                        @endif
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                     Nama : {{$absenceemp->leader->biodata->fullName()}}
+                  </td>
+                  </tr>
+
+               </tbody>
+            </table>
+            {{-- <div class="card">
+               <div class="card-header bg-dark text-light"></div>
+               <div class="card-body" style="height: 100px">
+
+               </div>
+               <div class="card-footer">
+                  Nama : {{$absenceemp->leader->biodata->fullName()}}
+               </div>
+            </div> --}}
+         </td>
+      </tr>
+      <tr>
+         <td colspan="6">Tembusan : <br>
+         - <br>
+         -
+         </td>
+      </tr>
+      
+
+      
+   </tbody>
+</table>
+@endif
+
+@if ($absenceemp->type == 4)
+    <table>
       <tbody>
          <tr>
             <td class="text-center" colspan="2" rowspan="2">
@@ -328,37 +510,7 @@
             </td>
          </tr>
          <tr class="text-center">
-            <td><h4>SURAT PERINTAH TUGAS</h4></td>
-         </tr>
-         <tr class="text-center">
-            <td colspan="2">No. Dok : FM.PS.HRD.19</td>
-            <td colspan="2">Rev: 01/22</td>
-            <td colspan="2">Hal : 1 dari 1</td>
-         </tr>
-         <tr class="text-center">
-            <td colspan="6">Nomor : ……../HRD/SPT/…../20…</td>
-         </tr>
-
-
-
-         {{-- Body --}}
-         <tr>
-            <td colspan="6"><b>1. Pemberi Perintah</b></td>
-         </tr>
-         <tr>
-            <td style="width: 20px"></td>
-            <td colspan="1">Nama</td>
-            <td colspan="4" class="">{{$absenceemp->leader->biodata->fullName()}}</td>
-         </tr>
-         <tr>
-            <td style="width: 20px"></td>
-            <td colspan="1">Jabatan</td>
-            <td colspan="4" class="">{{$absenceemp->leader->position->name}}</td>
-         </tr>
-         
-
-         <tr>
-            <td colspan="6"><b>2. Karyawan yang diperintahkan</b></td>
+            <td><h4>SURAT IZIN</h4></td>
          </tr>
          <tr>
             <td style="width: 20px"></td>
@@ -370,128 +522,32 @@
             <td colspan="1">NIK</td>
             <td colspan="4" class="">{{$absenceemp->employee->nik}}</td>
          </tr>
-         <tr>
+         {{-- <tr>
             <td style="width: 20px"></td>
             <td colspan="1">Departemen</td>
             <td colspan="4" class="">{{$absenceemp->employee->department->name}}</td>
-         </tr>
+         </tr> --}}
          <tr>
             <td style="width: 20px"></td>
             <td colspan="1">Jabatan</td>
             <td colspan="4" class="">{{$absenceemp->employee->position->name}}</td>
          </tr>
-         
          <tr>
-            <td colspan="2"><b>3. Maksud Perintah Tugas</b></td>
-            <td colspan="4" class="">
-               <textarea  name="" id="" style="width: 100%" rows="3" readonly>{{$absenceemp->desc}}</textarea>
-               
-            </td>
-         </tr>
-         <tr>
-            <td colspan="2"><b>4. Alat angkutan yang di pergunakan</b></td>
-            <td colspan="4" class="">
-               <span>{{$absenceemp->transport}}</span>
-               {{-- <textarea  name="" id="" style="width: 100%" rows="3" readonly>{{$absenceemp->desc}}</textarea> --}}
-               
-            </td>
-         </tr>
-         
-         <tr>
-            <td colspan="2"><b>4. Tempat Tujuan</b></td>
-            <td colspan="4" class="">
-               <span>{{$absenceemp->destination}}</span>
-               {{-- <textarea  name="" id="" style="width: 100%" rows="3" readonly>{{$absenceemp->desc}}</textarea> --}}
-               
-            </td>
+            <td colspan="6"></td>
          </tr>
          <tr>
             <td style="width: 20px"></td>
-            <td colspan="1">Berangkat dari</td>
-            <td colspan="4" class="">{{$absenceemp->from}}</td>
+            <td colspan="1">Izin</td>
+            <td colspan="4" class="">{{$absenceemp->type_desc}} ({{$absenceemp->remark}})</td>
          </tr>
          <tr>
             <td style="width: 20px"></td>
-            <td colspan="1">Tempat transit</td>
-            <td colspan="4" class="">{{$absenceemp->transit}}</td>
+            <td colspan="1">Tanggal</td>
+            <td colspan="4" class="">{{formatDate($absenceemp->date)}}</td>
          </tr>
-         <tr>
-            <td style="width: 20px"></td>
-            <td colspan="1">Lama tugas</td>
-            <td colspan="4" class="">{{$absenceemp->duration}}</td>
-         </tr>
-         <tr>
-            <td style="width: 20px"></td>
-            <td colspan="1">Tanggal/Jam Berangkat</td>
-            <td colspan="4" class="">{{formatDateTime($absenceemp->departure)}}</td>
-         </tr>
-         <tr>
-            <td style="width: 20px"></td>
-            <td colspan="1">Tanggal/Jam Kembali</td>
-            <td colspan="4" class="">{{formatDateTime($absenceemp->return)}}</td>
-         </tr>
-         <tr>
-            <td colspan="2"><b>5. Keterangan</b></td>
-            <td colspan="4" class="">
-               <textarea  name="" id="" style="width: 100%" rows="3" readonly>{{$absenceemp->remark}}</textarea>
-               
-            </td>
-         </tr>
-         <tr>
-            <td colspan="6" class="text-center text-dark" style="background-color: rgb(167, 164, 164)" ><h4>Surat Perintah Tugas ini berlaku selama yang bersangkutan menjadi karyawan  PT. EKA NURI.</h4></td>
-         </tr>
-
-
-
-         <tr>
-            <td colspan="6">Jakarta, {{formatDate($absenceemp->date)}}</td>
-         </tr>
-         <tr>
-            <td colspan="2">
-               <table>
-                  <tbody>
-                     <tr class="bg-dark text-light">
-                        <td>Pemberi Perintah</td>
-                     </tr>
-                     <tr>
-                        <td style="height: 100px" class="text-center">
-
-                           @if ($absenceemp->status >= 3)
-                                 <small class="text-success"><i>APPROVED</i></small> <br>
-                                 <small class="text-muted">{{formatDateTime($absenceemp->app_leader_date)}}</small>
-                           @endif
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                        Nama : {{$absenceemp->leader->biodata->fullName()}}
-                     </td>
-                     </tr>
-                  </tbody>
-               </table>
-               {{-- <div class="card">
-                  <div class="card-header bg-dark text-light"></div>
-                  <div class="card-body" style="height: 100px">
-
-                  </div>
-                  <div class="card-footer">
-                     Nama : {{$absenceemp->leader->biodata->fullName()}}
-                  </div>
-               </div> --}}
-            </td>
-         </tr>
-         <tr>
-            <td colspan="6">Tembusan : <br>
-            - <br>
-            -
-            </td>
-         </tr>
-         
-
-         
       </tbody>
-   </table>
-   @endif
+    </table>
+@endif
 
 
          <hr>
@@ -501,34 +557,4 @@
          @endif
          
 
-         @if ($absenceemp->absence_id !=  null)
-         @if ($absenceemp->absence_id != null)
-                   
-               
-               Perubahan untuk Absensi :
-               <br>
-               <x-absence.type :absence="$absenceemp->absence" />
-                  - {{$absenceemp->absence->revisi}} <br>
-         {{-- @if ($absenceemp->absence->type == 1)
-            Alpha
-            @elseif($absenceemp->absence->type == 2)
-            Terlambat ({{$absenceemp->absence->minute}} Menit)
-            @elseif($absenceemp->absence->type == 3)
-            ATL
-            @elseif($absenceemp->absence->type == 4)
-            Izin ({{$absenceemp->absence->type_izin}})
-            @elseif($absenceemp->absence->type == 5)
-            Cuti
-            @elseif($absenceemp->absence->type == 6)
-            SPT ({{$absenceemp->absence->type_spt}})
-            @elseif($absenceemp->absence->type == 7)
-            Sakit 
-            @elseif($absenceemp->absence->type == 8)
-            Dinas Luar
-            @elseif($absenceemp->absence->type == 9)
-            Off Kontrak
-         @endif --}}
-         {{formatDate($absenceemp->absence->date)}} <br>
-         - {{$absenceemp->absence->desc}} 
-         @endif
-   @endif
+        

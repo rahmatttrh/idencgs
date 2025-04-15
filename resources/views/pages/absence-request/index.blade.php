@@ -79,7 +79,7 @@ Absence
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>{{formatDate($absence->date)}}</td>
                      <td>
-                        @if ($absence->getRequest() != null)
+                        @if ($absence->getRequest() != null) 
                             <a href="{{route('employee.absence.detail', enkripRambo($absence->getRequest()->id))}}" class="badge badge-info">
                               @if ($absence->getRequest()->type == 1)
                                  Alpha

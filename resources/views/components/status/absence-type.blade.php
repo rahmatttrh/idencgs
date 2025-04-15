@@ -2,15 +2,15 @@
    @if ($absence->type == 1)
       Alpha
       @elseif($absence->type == 2)
-      Terlambat ({{$absence->minute}} Menit)
+      Terlambat 
       @elseif($absence->type == 3)
-      ATL ({{$absence->desc ?? '-'}})
+      ATL 
       @elseif($absence->type == 4)
-      Izin {{$absence->type_izin}} ({{$absence->remark}})
+      Izin 
       @elseif($absence->type == 5)
       Cuti
       @elseif($absence->type == 6)
-      SPT ({{$absence->type_desc}})
+      SPT 
       @elseif($absence->type == 7)
       Sakit 
       @elseif($absence->type == 8)

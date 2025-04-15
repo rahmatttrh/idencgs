@@ -129,10 +129,29 @@ Cuti
                      </td>
                   </tr>
                   <tr>
-                     <td style="height: 70px"></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
+                     <td class="text-center" style="height: 70px">
+                        @if ($absenceEmp->status >= 1)
+                           <span class="text-success"><i>CREATED</i></span> <br>
+                           {{-- <small>{{formatDateTime($absenceEmp->release_date)}}</small> --}}
+                        @endif
+                     </td>
+                     <td class="text-center">
+                        @if ($absenceEmp->status >= 2)
+                           <span class="text-success"><i>APPROVED</i></span> <br>
+                           {{-- <small>{{formatDateTime($absenceEmp->app_backup_date)}}</small> --}}
+                        @endif
+                     </td>
+                     <td class="text-center">
+                        @if ($absenceEmp->status >= 3)
+                           <span class="text-success"><i>APPROVED</i></span><br>
+                           {{-- <small>{{formatDateTime($absenceEmp->app_leader_date)}}</small> --}}
+                        @endif
+                     </td>
+                     <td class="text-center">
+                        @if ($absenceEmp->status == 5)
+                           <span class="text-success"><i>VALIDATED</i></span>
+                        @endif
+                     </td>
                      <td colspan="4" rowspan="2">Catatan :</td>
                   </tr>
                   <tr>
@@ -143,10 +162,26 @@ Cuti
                      {{-- <td colspan="4"></td> --}}
                   </tr>
                   <tr>
-                     <td>{{formatDate($absenceEmp->date)}}</td>
-                     <td>{{formatDate($absenceEmp->date)}}</td>
-                     <td>{{formatDate($absenceEmp->date)}}</td>
-                     <td>{{formatDate($absenceEmp->date)}}</td>
+                     <td>
+                        @if ($absenceEmp->status >= 1)
+                           <small>{{formatDateTime($absenceEmp->release_date)}}</small>
+                        @endif
+                     </td>
+                     <td>
+                        @if ($absenceEmp->status >= 2)
+                           <small>{{formatDateTime($absenceEmp->app_backup_date)}}</small>
+                        @endif
+                     </td>
+                     <td>
+                        @if ($absenceEmp->status >= 3)
+                           <small>{{formatDateTime($absenceEmp->app_leader_date)}}</small>
+                        @endif
+                     </td>
+                     <td>
+                        @if ($absenceEmp->status == 5)
+                        <small>{{formatDateTime($absenceEmp->app_hrd_date)}}</small>
+                        @endif
+                     </td>
                      <td colspan="4" class="text-end">Lembar 1 : HRD</td>
                   </tr>
                   
@@ -241,10 +276,29 @@ Cuti
                      </td>
                   </tr>
                   <tr>
-                     <td style="height: 70px"></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
+                     <td class="text-center" style="height: 70px">
+                        @if ($absenceEmp->status >= 1)
+                           <span class="text-success"><i>CREATED</i></span> <br>
+                           {{-- <small>{{formatDateTime($absenceEmp->release_date)}}</small> --}}
+                        @endif
+                     </td>
+                     <td class="text-center">
+                        @if ($absenceEmp->status >= 2)
+                           <span class="text-success"><i>APPROVED</i></span> <br>
+                           {{-- <small>{{formatDateTime($absenceEmp->app_backup_date)}}</small> --}}
+                        @endif
+                     </td>
+                     <td class="text-center">
+                        @if ($absenceEmp->status >= 3)
+                           <span class="text-success"><i>APPROVED</i></span><br>
+                           {{-- <small>{{formatDateTime($absenceEmp->app_leader_date)}}</small> --}}
+                        @endif
+                     </td>
+                     <td class="text-center">
+                        @if ($absenceEmp->status == 5)
+                           <span class="text-success"><i>VALIDATED</i></span>
+                        @endif
+                     </td>
                      <td colspan="4" rowspan="2">Catatan :</td>
                   </tr>
                   <tr>
@@ -255,10 +309,26 @@ Cuti
                      {{-- <td colspan="4"></td> --}}
                   </tr>
                   <tr>
-                     <td>{{formatDate($absenceEmp->date)}}</td>
-                     <td>{{formatDate($absenceEmp->date)}}</td>
-                     <td>{{formatDate($absenceEmp->date)}}</td>
-                     <td>{{formatDate($absenceEmp->date)}}</td>
+                     <td>
+                        @if ($absenceEmp->status >= 1)
+                           <small>{{formatDateTime($absenceEmp->release_date)}}</small>
+                        @endif
+                     </td>
+                     <td>
+                        @if ($absenceEmp->status >= 2)
+                           <small>{{formatDateTime($absenceEmp->app_backup_date)}}</small>
+                        @endif
+                     </td>
+                     <td>
+                        @if ($absenceEmp->status >= 3)
+                           <small>{{formatDateTime($absenceEmp->app_leader_date)}}</small>
+                        @endif
+                     </td>
+                     <td>
+                        @if ($absenceEmp->status == 5)
+                        <small>{{formatDateTime($absenceEmp->app_hrd_date)}}</small>
+                        @endif
+                     </td>
                      <td colspan="4" class="text-end">Lembar 2 : Karyawan</td>
                   </tr>
                   

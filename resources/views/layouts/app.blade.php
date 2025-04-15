@@ -186,6 +186,7 @@
          $(document).ready(function() {
             
             $('.select2').select2({});
+            $('.js-example-basic-multiple').select2();
             $('#material_usage').select2({});
             // $('.select2b').select2({});
             $('.js-example-basic-single').select2({});
