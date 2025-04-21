@@ -32,7 +32,7 @@ class PayrollController extends Controller
       //       'payslip_status' => 'show'
       //    ]);
       // }
-      $employees = Employee::where('status', 1)->get();
+      $employees = Employee::where('status', 1)->where('unit_id', 22)->get();
       // $transactionCon = new TransactionController;
       // $transactions = Transaction::where('status', '!=', 3)->get();
       // foreach ($transactions as $tran) {
@@ -62,13 +62,13 @@ class PayrollController extends Controller
          }
          if ($payroll != null) {
             // dd('ada');
-            if ($employee->unit_id == 9) {
+            if ($employee->unit_id == 22) {
                $payTotal = $payroll->pokok;
-               // $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
+               $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
 
-               // foreach($redEmployees as $redemp){
-               //    $redemp->delete();
-               // }
+               foreach($redEmployees as $redemp){
+                  $redemp->delete();
+               }
             } else {
                $payTotal = $payroll->total;
                $payTotal = $payroll->total;

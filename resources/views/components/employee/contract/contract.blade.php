@@ -372,7 +372,7 @@
                            <div class="modal-body">
                   
                               Delete this Contract ? <br>
-                              {{$contract->employee->nik}} <br>
+                              {{-- {{$contract->employee->nik}} <br> --}}
                               {{formatDate($contract->start)}} -  {{formatDate($contract->end)}}
                   
                   

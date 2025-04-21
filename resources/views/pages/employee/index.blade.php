@@ -65,6 +65,7 @@ Employee
                      {{-- <th>KPI</th>
                      <th>Leader</th> --}}
                      {{-- <th>Phone</th> --}}
+                     <th>Loc</th>
                      <th class="text-truncate">Bisnis Unit</th>
                      <th>Department</th>
                      {{-- <th>Sub</th> --}}
@@ -134,11 +135,16 @@ Employee
                         @endif
                      </td> --}}
                      {{-- <td>{{$employee->biodata->phone}}</td> --}}
-                     
-                     <td class="text-truncate">
+                     <td class="text-truncate"> 
                         @if (auth()->user()->hasRole('Administrator'))
-                           loc {{$employee->location_id ?? ''}} - 
+                           @if ($employee->contract->loc == null)
+                               Kosong
+                           @endif
                         @endif
+                        {{$employee->location->code}}
+                     </td>
+                     <td class="text-truncate">
+                        
                         {{$employee->unit->name ?? ''}}
                         {{-- @if (count($employee->positions) > 0)
                               Multiple

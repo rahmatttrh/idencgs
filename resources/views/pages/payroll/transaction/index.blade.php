@@ -17,6 +17,7 @@ Payroll Transaction
          {{-- <div class="card shadow-none border">
             
             <div class="card-body"> --}}
+               <div class="table-responsive overfloe-auto" style="height: 550px">
                   <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                      @foreach ($units as $unit)
                         <a class="nav-link {{$firstUnit->id == $unit->id ? 'active' : ''}} text-left pl-3" id="v-pills-{{$unit->id}}-tab" data-toggle="pill" href="#v-pills-{{$unit->id}}" role="tab" aria-controls="v-pills-{{$unit->id}}" aria-selected="true">
@@ -25,6 +26,7 @@ Payroll Transaction
                         </a>
                      @endforeach
                   </div>
+               </div>
             {{-- </div>
             
          </div> --}}
