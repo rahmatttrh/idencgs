@@ -58,8 +58,8 @@ Absence
                      {{-- <th>NIK</th>
                       {{-- <th>Name</th> --}}
                       {{-- <th>Loc</th> --}}
-                      <th>Karyawan</th>
-                      {{-- <th>Name</th> --}}
+                      <th>NIK</th>
+                      <th>Name</th>
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
@@ -76,18 +76,31 @@ Absence
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
                       {{-- <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       <td>{{$absence->id}}</td>
-                      <td>
-                        <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">{{$absence->employee->nik}} {{$absence->employee->biodata->fullName()}}</a>
+                      <td class="text-truncate">
+                        <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">{{$absence->employee->nik}} </a>
                         
                      </td>
-                      {{-- <td> {{$absence->employee->biodata->fullName()}}</td> --}}
+                      <td class="text-truncate"> <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->biodata->fullName()}}</a></td>
                      <td >
                         <x-status.absence :absence="$absence" />
                         
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                     <td>{{formatDate($absence->date)}}</td>
-                     <td>
+                     <td class="text-truncate">
+                        @if ($absence->type == 5)
+                              @if (count($absence->details) > 0)
+                                    @foreach ($absence->details  as $item)
+                                       {{formatDate($item->date)}} -
+                                    @endforeach
+                                 @else
+                                 Tanggal belum dipilih
+                              @endif
+                           {{-- {{count($absence->details)}} Hari --}}
+                              @else
+                              {{formatDate($absence->date)}}
+                        @endif
+                     </td>
+                     <td class="text-truncate">
                         <x-status.form :form="$absence" />
                      </td>
                      

@@ -247,7 +247,7 @@ Payroll Report BPJS KS
                      <td style="padding: 0px !important;" style="padding: 0px !important;">E</td>
                      <td style="padding: 0px !important;">Jumlah (A+B+C)</td>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{$reportBpjsKs->payslip_employee}}</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatRupiahB($reportBpjsKs->payslip_total)}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatRupiahB($lastReportBpjsKs->payslip_total + $newTransactions->sum('total') )}}</td>
                   </tr>
                   
 

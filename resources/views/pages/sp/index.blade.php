@@ -58,7 +58,7 @@ SP
                                                 {{-- @foreach ($employees as $emp)
                                                 <option value="{{$emp->id}}">{{$emp->nik}} {{$emp->biodata->fullName()}} </option>
                                                 @endforeach --}}
-                                             @elseif(auth()->user()->hasRole('HRD') || auth()->user()->hasRole('HRD-Spv|HRD-Payroll'))
+                                             @elseif(auth()->user()->hasRole('HRD|Administrator') || auth()->user()->hasRole('HRD-Spv|HRD-Payroll'))
                                                 @foreach ($allEmployees as $emp)
                                                    <option value="{{$emp->id}}">{{$emp->nik}} {{$emp->biodata->fullName()}} </option>
                                                 @endforeach

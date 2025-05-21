@@ -260,6 +260,7 @@ Route::middleware(["auth"])->group(function () {
       Route::prefix('master/project')->group(function () {
          Route::get('/', [ProjectController::class, 'index'])->name('project');
          Route::post('store', [ProjectController::class, 'store'])->name('project.store');
+         Route::put('update', [ProjectController::class, 'update'])->name('project.update');
 
          // // Belum
          // Route::post('store', [UnitController::class, 'store'])->name('unit.store');

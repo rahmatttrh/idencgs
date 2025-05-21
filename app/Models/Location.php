@@ -161,18 +161,25 @@ class Location extends Model
 
    public function getValue($id, $unitTrans, $desc)
    {
-      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('project_id', null)->get();
-      $employeeId = [];
-
-      foreach($employees as $emp){
-         $employeeId[] = $emp->id;
-      }
-
+      
       $value = 0;
       $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
          $transDetail = TransactionDetail::where('transaction_id', $trans->id)->where('desc', $desc)->first();
-         $value = $value + $transDetail->value;
+         if ($trans->remark == 'Karyawan Baru'){
+            // dd($trans->employee->biodata->fullName());
+            
+            // $offContratcs = $trans->employee->absences->where('date', '>=', $trans->cut_from)->where('date', '<=', $trans->cut_to)->where('type', 9);
+            $prorate = $transDetail->value / 30;
+            $qty = 30 - $trans->off;
+            $nominal = $prorate * $qty;
+            // dd(count($offContratcs));
+            $value = $value + $nominal;
+         } else {
+            $value = $value + $transDetail->value;
+         }
+                   
+         // $value = $value + $transDetail->value;
       }
 
       return $value;
@@ -190,14 +197,53 @@ class Location extends Model
       $value = 0;
       $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
-         $pokok = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Gaji Pokok')->first()->value;
-         $jabatan = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Jabatan')->first()->value;
-         $ops = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. OPS')->first()->value;
-         $kinerja = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Kinerja')->first()->value;
-         $insentif = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Insentif')->first()->value;
-         $fungsional = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Fungsional')->first()->value;
-         $total = $pokok + $jabatan + $ops + $kinerja + $insentif + $fungsional;
-         $value = $value + $total;
+         if ($trans->remark == 'Karyawan Baru'){
+            // dd($trans->employee->biodata->fullName());
+            
+            $pokok = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Gaji Pokok')->first()->value;
+            $proratePokok = $pokok / 30;
+            $qtyPokok = 30 - $trans->off;
+            $nominalPokok = $proratePokok * $qtyPokok;
+
+            $jabatan = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Jabatan')->first()->value;
+            $prorateJabatan = $jabatan / 30;
+            $qtyJabatan = 30 - $trans->off;
+            $nominalJabatan = $prorateJabatan * $qtyJabatan;
+
+            $ops = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. OPS')->first()->value;
+            $prorateOps= $ops/ 30;
+            $qtyOps= 30 - $trans->off;
+            $nominalOps= $prorateOps * $qtyJabatan;
+
+            $kinerja = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Kinerja')->first()->value;
+            $prorateKinerja= $kinerja/ 30;
+            $qtyKinerja= 30 - $trans->off;
+            $nominalKinerja= $prorateKinerja * $qtyJabatan;
+
+            $insentif = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Insentif')->first()->value;
+            $prorateInsentif= $insentif/ 30;
+            $qtyInsentif= 30 - $trans->off;
+            $nominalInsentif= $prorateInsentif * $qtyJabatan;
+
+            $fungsional = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Fungsional')->first()->value;
+            $prorateFungsional = $fungsional/ 30;
+            $qtyFungsional= 30 - $trans->off;
+            $nominalFungsional= $prorateFungsional * $qtyJabatan;
+
+
+            $total = $nominalPokok + $nominalJabatan + $nominalOps + $nominalKinerja + $nominalInsentif + $nominalFungsional;
+            $value = $value + $total;
+         } else {
+            $pokok = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Gaji Pokok')->first()->value;
+            $jabatan = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Jabatan')->first()->value;
+            $ops = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. OPS')->first()->value;
+            $kinerja = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Kinerja')->first()->value;
+            $insentif = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Insentif')->first()->value;
+            $fungsional = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Fungsional')->first()->value;
+            $total = $pokok + $jabatan + $ops + $kinerja + $insentif + $fungsional;
+            $value = $value + $total;
+         }
+         
       }
 
       return $value;

@@ -167,6 +167,103 @@ Payroll Transaction
                   @endphp
 
                   @foreach ($transactions as $transaction)
+                  @if ($transaction->remark == 'Karyawan Baru')
+                     
+                     @php
+                        
+                        $proratePokok = $transaction->employee->payroll->pokok / 30;
+                        $qtyPokok = 30 - $transaction->off;
+                        $nominalPokok = $proratePokok * $qtyPokok;
+
+                        $prorateJabatan = $transaction->employee->payroll->tunj_jabatan / 30;
+                        $qtyJabatan = 30 - $transaction->off;
+                        $nominalJabatan = $prorateJabatan * $qtyJabatan;
+
+                        $prorateOps = $transaction->employee->payroll->tunj_ops / 30;
+                        $qtyOps = 30 - $transaction->off;
+                        $nominalOps = $prorateOps * $qtyOps;
+
+                        $prorateKinerja = $transaction->employee->payroll->tunj_kinerja / 30;
+                        $qtyKinerja = 30 - $transaction->off;
+                        $nominalKinerja = $prorateKinerja * $qtyKinerja;
+
+                        $prorateFungsional = $transaction->employee->payroll->tunj_fungsional / 30;
+                        $qtyFungsional = 30 - $transaction->off;
+                        $nominalFungsional = $prorateFungsional * $qtyFungsional;
+
+                        $prorateTotal = $transaction->employee->payroll->total / 30;
+                        $qtyTotal = 30 - $transaction->off;
+                        $nominalTotal = $prorateTotal * $qtyTotal;
+                     @endphp
+                     <tr>
+                        <td class="text-truncate"><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->nik}} </a></td>
+                        <td class="text-truncate" style="max-width: 150px" ><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->biodata->fullName()}}</a></td>
+                        <td class="text-right">{{formatRupiahB($nominalPokok)}}</td>
+                        <td class="text-right">{{formatRupiahB($nominalJabatan)}}</td>
+                        <td class="text-right">{{formatRupiahB($nominalOps)}}</td>
+                        <td class="text-right">{{formatRupiahB($nominalKinerja)}}</td>
+                        <td class="text-right">{{formatRupiahB($nominalFungsional)}}</td>
+                        <td class="text-right">{{formatRupiahB($nominalTotal)}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->overtime)}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->additional_penambahan)}}</td>
+                        <td class="text-right">{{formatRupiahB($nominalTotal + $transaction->overtime + $transaction->additional_penambahan)}}</td>
+                     
+                        <td class="text-right">
+                           {{-- @if ($transaction->getDeduction('JHT', 'employee') != null )
+                              {{formatRupiahB(2/100 * $transaction->employee->payroll->total)}}
+                              @else
+                              0
+                           @endif --}}
+                           {{formatRupiahB($transaction->getDeduction('JHT', 'employee'))}}
+                           {{-- {{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JHT'))}} --}}
+                        </td>
+                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee'))}}</td>
+                        {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
+                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('JP', 'employee'))}} </td>
+                        <td class="text-right">{{formatRupiahB($transaction->reduction_absence)}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->reduction_late)}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->total)}}</td>
+                     
+                     </tr>
+
+                     @php
+                        $pokok =  $nominalPokok;
+                        $jabatan = $nominalJabatan;
+                        $ops = $nominalOps;
+                        $kinerja = $nominalKinerja;
+                        $fungsional = $nominalFungsional;
+                        $gaji = $nominalTotal;
+                        $overtime = $transaction->overtime;
+                        $additional_penambahan = $transaction->additional_penambahan;
+                        $bruto = $nominalTotal + $transaction->overtime + $transaction->additional_penambahan;
+                        // $tk = 2/100 * $transaction->employee->payroll->total;
+                        $tk = $transaction->getDeduction('JHT', 'employee');
+                        $ks = $transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee');
+                        $ksAdd = $transaction->getDeductionAdditional();
+                        $jp = $transaction->getDeduction('JP', 'employee');
+                        $abs = $transaction->reduction_absence;
+                        $late = $transaction->reduction_late;
+                        $total = $transaction->total;
+
+                        $totalPokok += $pokok;
+                        $totalJabatan += $jabatan;
+                        $totalOps += $ops;
+                        $totalKinerja += $kinerja;
+                        $totalFungsional += $fungsional;
+                        $totalGaji += $gaji;
+                        $totalOvertime += $transaction->overtime;
+                        $totalAdditionalPenambahan  += $additional_penambahan;
+                        
+                        $totalBruto += $bruto;
+                        $totalTk += $tk;
+                        $totalKs += $ks;
+                        $totalKsAdd = $ksAdd;
+                        $totalJp += $jp;
+                        $totalAbsence += $abs;
+                        $totalLate += $late;
+                        $totalGrand += $total;
+                     @endphp
+                     @else
                      <tr>
                         <td class="text-truncate"><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->nik}} </a></td>
                         <td class="text-truncate" style="max-width: 150px" ><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->biodata->fullName()}}</a></td>
@@ -235,6 +332,8 @@ Payroll Transaction
                         $totalLate += $late;
                         $totalGrand += $total;
                      @endphp
+                  @endif
+                     
                   @endforeach
                   
                   

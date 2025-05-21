@@ -6,7 +6,7 @@
     <li class="nav-item {{ (request()->is('payroll/overtime/*')) ? 'active' : '' }}">
       <a href="{{route('payroll.overtime')}}">
          <i class="fas fa-calendar-plus"></i>
-         <p>SPKL</p>
+         <p>SPKL Karyawan</p>
       </a>
    </li>
 @endif
@@ -14,7 +14,7 @@
 <li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
    <a href="{{route('payroll.absence')}}">
       <i class="fas fa-calendar-plus"></i>
-      <p>Absence</p>
+      <p>Absensi Karyawan</p>
    </a>
 </li>
 {{-- <li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">

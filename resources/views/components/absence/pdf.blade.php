@@ -33,7 +33,7 @@
          </tr>
          <tr>
             <td colspan="">Nama</td>
-            <td colspan="7">{{$cuti->employee->biodata->fullName()}}</td>
+            <td colspan="7">{{$cuti->employee->biodata->fullName() ?? ''}}</td>
          </tr>
          <tr>
             <td colspan="">NIK</td>
@@ -63,22 +63,34 @@
 
          <tr class="text-center">
             <td style="height: 40px">{{$cuti->used}}</td>
-            <td>{{$absenceemp->cuti_qty}}</td>
             <td>
                @if (count($absdetails) > 0)
+               {{$absenceemp->cuti_qty}}
+               @else
+               0
+               @endif
+            </td>
+            <td>
+               {{-- {{$absenceemp->cuti_start}} --}}
+               @if (count($absdetails) > 0)
                {{formatDate($absenceemp->cuti_start)}}
+               @else
+               -
                @endif
                
             </td>
             <td>
                @if (count($absdetails) > 0)
                {{formatDate($absenceemp->cuti_end)}}
+               @else
+               -
                @endif
+               
             </td>
             <td>{{$cuti->sisa}}</td>
             <td>{{$absenceemp->desc}}</td>
-            <td>{{$absenceemp->cuti_backup->biodata->fullName()}}</td>
-            <td>{{$absenceemp->cuti_backup->biodata->phone}}</td>
+            <td>{{$absenceemp->cuti_backup->biodata->fullName() ?? ''}}</td>
+            <td>{{$absenceemp->cuti_backup->biodata->phone ?? ''}}</td>
          </tr>
 
          <tr>
@@ -117,9 +129,9 @@
             <td colspan="4" rowspan="2">Catatan :</td>
          </tr>
          <tr>
-            <td>{{$absenceemp->employee->biodata->fullName()}}</td>
-            <td>{{$absenceemp->cuti_backup->biodata->fullName()}}</td>
-            <td>{{$absenceemp->leader->biodata->fullName()}}</td>
+            <td>{{$absenceemp->employee->biodata->fullName() ?? ''}}</td>
+            <td>{{$absenceemp->cuti_backup->biodata->fullName() ?? ''}}</td>
+            <td>{{$absenceemp->leader->biodata->fullName() ?? ''}}</td>
             <td>HRD</td>
             {{-- <td colspan="4"></td> --}}
          </tr>
@@ -189,7 +201,7 @@
          </tr>
          <tr>
             <td colspan="">Nama</td>
-            <td colspan="7">{{$employee->biodata->fullName()}}</td>
+            <td colspan="7">{{$employee->biodata->fullName() ?? ''}}</td>
          </tr>
          <tr>
             <td colspan="">NIK</td>
@@ -224,10 +236,10 @@
                {{formatDate($absenceemp->cuti_start)}}
             </td>
             <td>{{formatDate($absenceemp->cuti_end)}}</td>
-            <td>{{$cuti->used}}</td>
+            <td>{{$cuti->sisa}}</td>
             <td>{{$absenceemp->desc}}</td>
-            <td>{{$absenceemp->cuti_backup->biodata->fullName()}}</td>
-            <td>{{$absenceemp->cuti_backup->biodata->phone}}</td>
+            <td>{{$absenceemp->cuti_backup->biodata->fullName() ?? ''}}</td>
+            <td>{{$absenceemp->cuti_backup->biodata->phone ?? ''}}</td>
          </tr>
 
          <tr>
@@ -263,9 +275,9 @@
             <td colspan="4" rowspan="2">Catatan :</td>
          </tr>
          <tr>
-            <td>{{$absenceemp->employee->biodata->fullName()}}</td>
-            <td>{{$absenceemp->cuti_backup->biodata->fullName()}}</td>
-            <td>{{$absenceemp->leader->biodata->fullName()}}</td>
+            <td>{{$absenceemp->employee->biodata->fullName() ?? ''}}</td>
+            <td>{{$absenceemp->cuti_backup->biodata->fullName() ?? ''}}</td>
+            <td>{{$absenceemp->leader->biodata->fullName() ?? ''}}</td>
             <td>HRD</td>
          </tr>
          <tr>
@@ -355,7 +367,7 @@
       <tr>
          <td style="width: 20px"></td>
          <td colspan="1">Nama</td>
-         <td colspan="4" class="">{{$absenceemp->leader->biodata->fullName()}}</td>
+         <td colspan="4" class="">{{$absenceemp->leader->biodata->fullName() ?? ''}}</td>
       </tr>
       <tr>
          <td style="width: 20px"></td>
@@ -370,7 +382,7 @@
       <tr>
          <td style="width: 20px"></td>
          <td colspan="1" style="width: 250px">Nama</td>
-         <td colspan="4" class="">{{$absenceemp->employee->biodata->fullName()}}</td>
+         <td colspan="4" class="">{{$absenceemp->employee->biodata->fullName() ?? ''}}</td>
       </tr>
       <tr>
          <td style="width: 20px"></td>
@@ -471,7 +483,7 @@
                   </tr>
                   <tr>
                      <td>
-                     Nama : {{$absenceemp->leader->biodata->fullName()}}
+                     Nama : {{$absenceemp->leader->biodata->fullName() ?? ''}}
                   </td>
                   </tr>
 
@@ -522,7 +534,7 @@
          <tr>
             <td style="width: 20px"></td>
             <td colspan="1" style="width: 250px">Nama</td>
-            <td colspan="4" class="">{{$absenceemp->employee->biodata->fullName()}}</td>
+            <td colspan="4" class="">{{$absenceemp->employee->biodata->fullName() ?? ''}}</td>
          </tr>
          <tr>
             <td style="width: 20px"></td>

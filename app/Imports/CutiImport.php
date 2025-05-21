@@ -23,11 +23,13 @@ class CutiImport implements ToCollection,  WithHeadingRow
             $employee = Employee::where('nik', $row['nik'])->first();
             $cuti = Cuti::where('employee_id', $employee->id)->first();
 
-            $berlaku = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['berlaku'])->format('Y-m-d');
+            // dd($row['berlaku']);
+            $berlaku = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($row['berlaku']))->format('Y-m-d');
+            // dd($berlaku);
             $berlakuDate = Carbon::create($berlaku);
-            $expired = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['expired'])->format('Y-m-d');
+            $expired = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($row['expired']))->format('Y-m-d');
             $expiredDate = Carbon::create($expired);
-            $extend = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['cuti_extend_expired'])->format('Y-m-d');
+            $extend = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($row['cuti_extend_expired']))->format('Y-m-d');
             $extendDate = Carbon::create($extend);
             if ($cuti != null) {
                

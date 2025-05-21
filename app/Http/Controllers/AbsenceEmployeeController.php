@@ -32,7 +32,7 @@ class AbsenceEmployeeController extends Controller
    public function indexAdmin(){
 
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $absences = AbsenceEmployee::orderBy('date', 'desc')->get();
+      $absences = AbsenceEmployee::orderBy('created_at', 'desc')->get();
       $activeTab = 'index';
       return view('pages.absence-request.admin.index', [
          'activeTab' => $activeTab,
@@ -295,12 +295,15 @@ class AbsenceEmployeeController extends Controller
    public function edit($id){
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
       $leader = Employee::where('nik', auth()->user()->username)->first();
+      
       $employee = Employee::find($absenceEmployee->employee_id);
+      $employees = Employee::where('department_id', $employee->department_id)->get();
 
       if ($absenceEmployee->type == 4){
          $type = 'izin';
       } elseif($absenceEmployee->type == 5){
          $type = 'Cuti';
+         $cuti = $absenceEmployee;
       } elseif($absenceEmployee->type == 6){
          $type = 'SPT';
       } elseif($absenceEmployee->type == 7){
@@ -311,7 +314,9 @@ class AbsenceEmployeeController extends Controller
       return view('pages.absence-request.edit', [
          'type' => $type,
          'absenceEmp' => $absenceEmployee,
-         'employeeLeaders' => $employeeLeaders
+         'employeeLeaders' => $employeeLeaders,
+         'cuti' => $cuti,
+         'employees' => $employees
       ]);
    }
 

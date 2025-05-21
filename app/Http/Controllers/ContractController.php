@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Log;
 use App\Models\Position;
 use App\Models\User;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -126,7 +127,12 @@ class ContractController extends Controller
          'note' => $req->note
       ]);
 
-      // dd($req->project);
+      $locations = Location::get();
+      foreach ($locations as $loc) {
+         if ($loc->code == $req->loc) {
+            $location = $loc->id;
+         }
+      }
 
       $employee->update([
          // 'unit_id' => $req->unit,
@@ -139,8 +145,7 @@ class ContractController extends Controller
          'department_id' => $contract->department_id,
          'sub_dept_id' => $contract->sub_dept_id,
          'position_id' => $position->id,
-         'project_id' => $req->project,
-
+         'location_id' => $location
 
 
 

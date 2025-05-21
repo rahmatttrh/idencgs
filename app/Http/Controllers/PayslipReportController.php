@@ -86,7 +86,8 @@ class PayslipReportController extends Controller
                   }
                }
             } else {
-               // $payslipReport->update([
+               // dd($loc->getValue($unit->id, $unitTransaction, 'Gaji Pokok'));
+               $payslipReport->update([
                   
                //    'qty' => count($loc->getUnitTransaction($unit->id, $unitTransaction)),
                //    'pokok' => $loc->getValue($unit->id, $unitTransaction, 'Gaji Pokok'),

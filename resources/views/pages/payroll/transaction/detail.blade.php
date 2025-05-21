@@ -600,7 +600,7 @@ Detail Transaction Payroll Employee
                                        @endforeach
                                        <tr>
                                           <td class="text-right"><b>Total</b></td>
-                                          <td class="text-right"><b>{{formatRupiah($offContracts->sum('value'))}}</b></td>
+                                          <td class="text-right"><b>{{formatRupiah($offContracts->sum('value'))}} </b></td>
                                        </tr>
                                       
                                        

@@ -31,6 +31,12 @@ class SpController extends Controller
          $employees = Employee::get();
          $sps = Sp::orderBy('created_at', 'desc')->get();
          $allEmployees = [];
+         return view('pages.sp.index-hrd', [
+            'employee' => $employee,
+            'allEmployees' => $allEmployees,
+            'employees' => $employees,
+            'sps' => $sps
+         ])->with('i');
       } elseif (auth()->user()->hasRole('BOD|HRD-Spv|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll')) {
          $employee = auth()->user()->getEmployee();
          $allEmployees = Employee::get();
@@ -311,7 +317,7 @@ class SpController extends Controller
 
       $posMan = Position::where('department_id', $sp->department->id)->where('designation_id', 6)->first();
       $empPos = EmployeePosition::where('position_id', $posMan->id)->first();
-      $manager = Employee::find($empPos->employee_id);
+      // $manager = Employee::find($empPos->employee_id);
       
       // SpApproval::create([
       //    'status' => 1,

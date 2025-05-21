@@ -18,16 +18,16 @@ QPE
    </div>
 
 
-   {{-- <div class="card border shadow-none">
+   <div class="card border shadow-none">
       <div class="card-header d-flex justify-content-between">
          <h3>{{$title}}</h3>
           
       </div>
       
       
-      <div class="card-body  pt-3"> --}}
+      <div class="card-body  pt-3">
          @if (auth()->user()->hasRole('BOD|Administrator|HRD|HRD-Manager|HRD-Recruitment'))
-         <x-qpe.table.admin :pes="$pes" :title="$title" :i="$i" :title="$title" :total="$total" :draft="$draft" :verification="$verification" :done="$done" :reject="$reject" />
+         <x-qpe.table.admin :pes="$pes" :i="$i" :title="$title" :total="$total" :draft="$draft" :verification="$verification" :done="$done" :reject="$reject" />
          @elseif($employee->role == 5 || $employee->role == 8)
          <x-qpe.table.manager :pes="$pes" :i="$i" :employee="$employee" :title="$title" :total="$total" :draft="$draft" :verification="$verification" :done="$done" :reject="$reject" />
          @elseif($employee->role == 4 || $employee->role == 7 )
@@ -38,7 +38,7 @@ QPE
       {{-- </div>
       <div class="card-footer text-muted">
       </div>
-  </div> --}}
+  </div>
 
 
 

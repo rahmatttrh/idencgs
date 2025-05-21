@@ -15,7 +15,7 @@ class ProjectController extends Controller
 
    public function store(Request $req){
       $req->validate([
-
+         'name' => 'required'
       ]);
 
       Project::create([
@@ -25,4 +25,18 @@ class ProjectController extends Controller
 
       return redirect()->back()->with('success', 'Project baru berhasil disimpan');
    }
+
+   public function update(Request $req){
+      $req->validate([]);
+
+      $project = Project::find($req->project);
+      $project->update([
+         'name' => $req->name,
+         'code' => $req->code
+      ]);
+
+      return redirect()->back()->with('success', 'Project baru berhasil diubah');
+   }
+
+
 }

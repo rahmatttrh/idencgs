@@ -219,13 +219,13 @@ Payroll Report BPJS KT
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">A</td>
                      <td style="padding: 0px !important;">Bulan lalu</td>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{$lastReportBpjsKt->payslip_employee}}</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatRupiahB($lastReportBpjsKt->payslip_total)}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">B</td>
                      <td style="padding: 0px !important;">Penambahan tenaga kerja</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{count($newTransactions)}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatrupiahB($newTransactions->sum('total'))}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">C</td>
@@ -236,14 +236,14 @@ Payroll Report BPJS KT
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">D</td>
                      <td style="padding: 0px !important;">Perubahan Upah</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;"  class="text-center"></td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right"></td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;"  class="text-center">{{count($outTransactions)}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatrupiahB($outTransactions->sum('total'))}}</td>
                   </tr>
                   <tr>
                      <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">E</td>
                      <td style="padding: 0px !important;">Jumlah (A+B+C)</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">0</td>
-                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">0</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-center">{{$reportBpjsKt->payslip_employee}}</td>
+                     <td style="padding: 0px !important;" style="padding: 0px !important;" class="text-right">{{formatRupiahB($lastReportBpjsKt->payslip_total + $newTransactions->sum('total') )}}</td>
                   </tr>
                   
 
@@ -267,13 +267,24 @@ Payroll Report BPJS KT
                      <td style="padding: 0px !important;" class="text-center" >Karyawan</td>
                      <td style="padding: 0px !important;" class="text-center" >Jumlah Iuran</td>
                   </tr>
+                  
 
+                  @php
+                      $num = 0
+                  @endphp
                   @foreach ($bpjsKtReports as $kt)
                   @if ($kt->qty > 0)
+                  @php
+                      $num = $num +1;
+                  @endphp
                   <tr>
                      {{-- <td  class="text-center">-</td> --}}
-                     <td   class="text-center" colspan="2">{{$kt->location_name}}</td>
-                     <td>{{$kt->program}}</td>
+                     @if ($num == 1 || $num == 5 || $num == 9 || $num == 13 || $num == 17 || $num == 21 || $num == 25 || $num == 29 || $num == 33 || $num == 37 || $num == 41)
+                        <td   class="text-center" colspan="2" rowspan="4">{{$kt->location_name}}</td>
+                     @endif
+                     {{-- <td   class="text-center" colspan="2" >{{$kt->location_name}}</td> --}}
+                     
+                     <td>{{$kt->program}} </td>
                      <td class="text-center">{{$kt->tarif}} %</td>
                      <td class="text-center">{{$kt->qty}}</td>
                      <td class="text-right" >{{formatRupiahB($kt->upah)}}</td>

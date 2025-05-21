@@ -98,8 +98,8 @@ class AbsenceController extends Controller
             'absences' => $absences,
             'month' => $now->format('F'),
             'year' => $now->format('Y'),
-            'from' => 0,
-            'to' => 0
+            'from' => $now->format('d-m-Y'),
+            'to' => $now->format('d-m-Y')
          ])->with('i');
       } else {
          return view('pages.payroll.absence.summary', [
@@ -755,6 +755,9 @@ class AbsenceController extends Controller
    public function store(Request $req)
    {
 
+      if (auth()->user()->hasRole('Administrator')) {
+         // dd('ok');
+      }
       // dd('ok');
       $employee = Employee::find($req->employee);
       $payroll = Payroll::find($employee->payroll_id);
@@ -795,8 +798,16 @@ class AbsenceController extends Controller
       foreach ($locations as $loc) {
          if ($loc->code == $employee->contract->loc) {
             $location = $loc->id;
+         } else {
+            $location = $employee->location_id;
          }
       }
+
+      // if (auth()->user()->hasRole('Administrator')) {
+      //    dd($location->name);
+      // }
+
+      
 
       $value =  1 * 1 / 30 * $payroll->total;
 

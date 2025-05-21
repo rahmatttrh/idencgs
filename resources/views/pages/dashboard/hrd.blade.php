@@ -25,7 +25,7 @@
                      </div>
                      <div class="col col-stats ml-3 ml-sm-0">
                         <div class="numbers">
-                           <p class="card-category">QPE</p>
+                           <p class="card-category">QPEeee</p>
                            <h4 class="card-title">{{count($payrollApprovals)}}</h4>
                         </div>
                      </div>
@@ -63,7 +63,7 @@
                         </div>
                         <div class="col col-stats ml-3 ml-sm-0">
                            <div class="numbers">
-                              <p class="card-category">Payslip</p>
+                              <p class="card-category">Payslippp</p>
                               <h4 class="card-title">{{count($payrollApprovals)}}</h4>
                            </div>
                         </div>
@@ -128,6 +128,69 @@
                   </div>
                </div> --}}
             </a>
+         </div>
+
+         <div class="col ">
+
+            <a href="{{route('leader.absence')}}">
+               <div class="card card-stats card-round border">
+                  <div class="card-body">
+                     <div class="row align-items-center">
+                        <div class="col-icon ">
+                           <div class="icon-big text-center icon-success bubble-shadow-small">
+                              <i class="far fa-newspaper"></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <div class="numbers">
+                              <p class="card-category">Form Request</p>
+                              <h4 class="card-title">{{count($reqForms)}}</h4>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               {{-- <div class="card card-stats card-primary card-round">
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-3">  
+                           <div class="icon-big text-center ml-3">
+                              <i class="flaticon-interface-6 "></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats">
+                           <div class="numbers">
+                              <p class="card-category">Absence</p>
+                              <h4 class="card-title">{{count($absenceApprovals)}}</h4>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div> --}}
+            </a>
+         </div>
+
+         <div class="col">
+            <div class="card card-stats card-round">
+               <div class="card-body ">
+                  <div class="row align-items-center">
+                     <div class="col-icon">
+                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                           <i class="fas fa-users"></i>
+                        </div>
+                     </div>
+                     <div class="col col-stats ml-3 ml-sm-0">
+                        <a href="{{route('leader.absence')}}">
+                        <div class="numbers">
+                           <p class="card-category"> Approval Absensi </p>
+                           <h4 class="card-title">{{count($reqForms)}}</h4>
+                        </div>
+                     </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
          </div>
 
          <div class="col ">

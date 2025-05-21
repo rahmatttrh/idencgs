@@ -113,6 +113,12 @@ Form Absence
                      </select>
                   </div>
                </div>
+               <div class="col-md-12 type_izin">
+                  <div class="form-group form-group-default">
+                     <label>Description</label>
+                     <textarea type="text" class="form-control" id="desc" name="desc" rows="3"></textarea>
+                  </div>
+               </div>
             </div>
 
 

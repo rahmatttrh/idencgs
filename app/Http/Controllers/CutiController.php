@@ -278,6 +278,7 @@ class CutiController extends Controller
 
       try {
          // Excel::import(new CargoItemImport($parent->id), $req->file('file-cargo'));
+         // dd($fileName);
          Excel::import(new CutiImport, public_path('CutiData/' . $fileName));
 
          
@@ -309,10 +310,24 @@ class CutiController extends Controller
       $cuti = Cuti::find($cuti);
       // dd($cuti->end);
       $contract = Contract::find($cuti->employee->contract_id);
+      
       if ($cuti->expired != null) {
-         if ($cuti->expired < $today) {
+         
+         $expired = Carbon::create($cuti->expired);
+         // if(auth()->user()->hasRole('Administrator')){
+            
+         //    dd($today->format('Y-m-d'));
+         // }
+         
+         if ($cuti->expired > $today->format('Y-m-d')) {
             $extend = $cuti->extend;
+            // if(auth()->user()->hasRole('Administrator')){
+            
+            //    dd($extend);
+            // }
+            
          } else {
+           
             $extend = 0;
          }
       } else {

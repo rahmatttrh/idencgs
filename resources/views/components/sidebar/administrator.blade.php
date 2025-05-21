@@ -249,7 +249,7 @@
       <p>Task</p>
    </a>
 </li>
-<li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
+<li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
    <a href="{{route('admin.employee.absence')}}">
       <i class="fas fa-calendar"></i>
       <p>Form Absensi</p>

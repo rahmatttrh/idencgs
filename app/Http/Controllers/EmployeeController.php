@@ -676,9 +676,9 @@ class EmployeeController extends Controller
       $projects = Project::get();
       // dd($roles);
 
+
       return view('pages.employee.detail', [
          'employee' => $employee,
-         'projects' => $projects,
          'departments' => $departments,
          'designations' => $designations,
          'positions' => $positions,
@@ -703,7 +703,8 @@ class EmployeeController extends Controller
          // 'tab' => $tab,
          'employeeLeaders' => $employeeLeaders,
          'myManagers' => $myManagers,
-         'locations' => $locations
+         'locations' => $locations,
+         'projects' => $projects
       ]);
    }
 

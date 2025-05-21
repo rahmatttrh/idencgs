@@ -98,7 +98,7 @@
 <li class="nav-item">
    <a data-toggle="collapse" href="#employee">
       <i class="fas fa-users"></i>
-      <p>Employee</p>
+      <p>Data Karyawan</p>
       <span class="caret"></span>
    </a>
    <div class="collapse" id="employee">

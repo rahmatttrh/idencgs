@@ -6,6 +6,7 @@ use App\Models\Aggreement;
 use App\Models\Contract;
 use App\Models\Employee;
 use App\Models\Log;
+use App\Models\Location;
 use App\Models\Mutation;
 use Illuminate\Http\Request;
 
@@ -74,6 +75,13 @@ class MutationController extends Controller
          
          'loc' => $req->loc
       ]);
+      $locations = Location::get();
+
+      foreach ($locations as $loc) {
+         if ($loc->code == $employee->contract->loc) {
+            $location = $loc->id;
+         }
+      }
 
       $employee->update([
          'unit_id' => $req->unit_mutation,
@@ -83,6 +91,7 @@ class MutationController extends Controller
          'position_id' => $req->position_mutation,
          'manager_id' => $req->manager_mutation,
          'direct_leader_id' => $req->leader_mutation,
+         'location_id' => $location
       ]);
 
       $user = Employee::find(auth()->user()->getEmployeeId());

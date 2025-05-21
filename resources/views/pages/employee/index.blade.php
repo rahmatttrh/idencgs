@@ -65,9 +65,10 @@ Employee
                      {{-- <th>KPI</th>
                      <th>Leader</th> --}}
                      {{-- <th>Phone</th> --}}
+                     <th>Loc</th>
                      <th class="text-truncate">Bisnis Unit</th>
                      <th>Department</th>
-                     <th>Loc</th>
+                     {{-- <th>Sub</th> --}}
                      {{-- <th  >Posisi</th> --}}
                      {{-- <th>Kontrak/Tetap</th> --}}
                      {{-- <th class="text-right">Action</th> --}}
@@ -93,35 +94,68 @@ Employee
                <tbody>
                   @foreach ($employees as $employee)
                   <tr>
-                     <td class="text-center">
+                     <td class="text-center text-truncate">
                         {{++$i}}
                         @if (auth()->user()->hasRole('Administrator'))
                         {{$employee->id}}
-                       
+                        {{-- {{$employee->user_id}} --}}
+                        {{-- Dept ID : {{$employee->department_id}} --}}
                         @endif
                      </td>
                      
                      <td class="text-truncate">{{$employee->nik}}</td>
                      {{-- <td><a href="{{route('employee.detail', enkripRambo($employee->id))}}">{{$employee->name}}</a> </td> --}}
-                     <td class="text-truncate">
+                     <td class="text-truncate" style="max-width: 220px">
                         <div>
                            <a href="{{route('employee.detail', [enkripRambo($employee->id), enkripRambo('basic')])}}">{{$employee->biodata->first_name ?? ''}} {{$employee->biodata->last_name ?? ''}}</a> 
                            {{-- <small class="text-muted">{{$employee->biodata->email}}</small> --}}
                         </div>
                        
                      </td>
-                     
+                     {{-- @if (auth()->user()->hasRole('Administrator'))
+                         
+                     @endif --}}
                      <td>{{$employee->designation->name}}</td>
                      
-                    
-                     
+                     {{-- <td class="text-truncate">
+                        @if ($employee->kpi_id != null)
+                        {
+                            <i class="fa fa-check"></i>
+                            
+                            @else
+                            Empty
+                        @endif
+                        
+                     </td>
+                     <td>
+                        @if (count($employee->getLeaders()) > 0)
+                            <i class="fa fa-check"></i>
+                            @else
+                            Empty
+                        @endif
+                     </td> --}}
+                     {{-- <td>{{$employee->biodata->phone}}</td> --}}
+                     <td class="text-truncate"> 
+                        @if (auth()->user()->hasRole('Administrator'))
+                        {{$employee->location_id}}
+                           @if ($employee->contract->loc == null)
+                               Kosong
+                           @endif
+                        @endif
+                        {{$employee->location->code}}
+                     </td>
                      <td class="text-truncate">
-                        {{-- @if (auth()->user()->hasRole('Administrator'))
-                           loc {{$employee->location_id ?? ''}} - 
-                        @endif --}}
+                        
                         {{$employee->unit->name ?? ''}}
-                       
-      
+                        {{-- @if (count($employee->positions) > 0)
+                              Multiple
+                            @else
+                            @if (auth()->user()->hasRole('Administrator'))
+                            {{$employee->department->unit->id ?? ''}}
+                           @endif
+                            {{$employee->department->unit->name ?? ''}}
+                        @endif --}}
+                        
                      </td>
                      
                      <td class="text-truncate">
@@ -129,31 +163,53 @@ Employee
                             {{$employee->department->id ?? ''}} -
                            @endif
                         {{$employee->department->name ?? ''}}
-                        
+                        {{-- @if (count($employee->positions) > 0)
+                              Multiple
+                            @else
+                            
+                            
+                        @endif --}}
                      </td>
-
-                     <td class="text-truncate">
-                        {{-- @if (auth()->user()->hasRole('Administrator'))
-                            {{$employee->department->id ?? ''}} -
+                     {{-- <td class="text-truncate">
+                        @if (auth()->user()->hasRole('Administrator'))
+                            {{$employee->sub_dept->id ?? ''}} -
                            @endif
-                        {{$employee->department->name ?? ''}} --}}
-
-                        {{$employee->location->name ?? ''}} 
-                        @if ($employee->project != null)
-                        ({{$employee->project->name ?? ''}})
+                        {{$employee->sub_dept->name ?? ''}}
+                        
+                        @if (count($employee->positions) > 0)
+                              @foreach ($employee->positions as $pos)
+                                  {{$pos->sub_dept->name ?? ''}}
+                              @endforeach
+                            @else
+                            {{$employee->sub_dept->name ?? ''}}
                         @endif
-                        
-                       
-                        
-                     </td>
-
-
-                    
+                     </td> --}}
+                     {{-- <td>{{$employee->contract->designation->name ?? ''}}</td> --}}
                      <td class="text-truncate">
                         {{formatDate($employee->join)}}
-                      
+                        {{-- @if (auth()->user()->hasRole('Administrator'))
+                            {{$employee->position->id ?? ''}} -
+                           @endif
+                        {{$employee->position->name ?? ''}} --}}
+                        {{-- @if (count($employee->positions) > 0)
+                              Multiple
+                            @else
+                            @if (auth()->user()->hasRole('Administrator'))
+                            {{$employee->position->id ?? ''}}
+                           @endif
+                            {{$employee->position->name ?? ''}}
+                        @endif --}}
                      </td>
-                   
+                     {{-- <td>
+                        @if ($employee->contract->type == 'Kontrak')
+                        <span class="badge badge-info">Kontrak</span>
+                        @elseif($employee->contract->type == 'Tetap')
+                        <span class="badge badge-info">Tetap</span>
+                        @else
+                        <span class="badge badge-muted">Empty</span>
+                        @endif
+      
+                     </td> --}}
                   </tr>
                   @endforeach
                </tbody>

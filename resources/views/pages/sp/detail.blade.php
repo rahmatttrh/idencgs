@@ -212,6 +212,12 @@ SP Detail
                <x-sp.preview :sp="$sp" :gen="$gen" :user="$user" :hrd="$hrd" :manager="$manager" :suspect="$suspect" />
                
                <hr>
+               @if ($sp->file)
+                  <iframe src="{{asset('storage/' . $sp->file)}}" width="100%" height="500px" scrolling="auto" frameborder="0"></iframe>
+                  @else
+                  <br>
+                  <small>Empty</small>
+                  @endif
                
                @endif
                

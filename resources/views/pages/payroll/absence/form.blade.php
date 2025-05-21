@@ -35,6 +35,10 @@ Form Absence
             
          </div>
          <hr>
+         <b>#INFO</b><br>
+         <small>Form Absence ini digunakan untuk input data final dari Alpha,Cuti, SPT, ATL dll yang sudah melalui proses Approval Manual.</small><br><br>
+         <small>Jika anda ingin mengajukan Cuti/SPT/Izin pribadi melalui sistem. Silahkan untuk membuka menu 'Absensi Saya' di menu sidebar</small>
+
          {{-- <table>
             <tbody>
                <tr>
