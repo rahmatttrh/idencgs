@@ -355,19 +355,110 @@ class OvertimeController extends Controller
       // $employees = Employee::get();
       // $holidays = Holiday::orderBy('date', 'asc')->get();
       // dd($overtimes);
-      // dd('ok');
-      return view('pages.payroll.overtime.employee', [
-         'export' => $export,
-         'loc' => $loc,
-         'from' => 0,
-         'to' => 0,
+      $units = Unit::get();
+      $locations = Location::get();
+      if (auth()->user()->hasRole('HRD-KJ12') || auth()->user()->hasRole('HRD-KJ45') || auth()->user()->hasRole('HRD-JGC'))  {
+         return view('pages.payroll.overtime.employee', [
+            'unitAll' => 1,
+            'locAll' => 1,
+            'allUnits' => $units,
+            'allLocations' => $locations,
+            'units' => $units,
+            'locations' => $locations,
+           
+            'export' => $export,
+            'loc' => $loc,
+            'locations' => $locations,
+            'employees' => $employees,
+            // 'absences' => $absences,
+            'month' => $now->format('F'),
+            'year' => $now->format('Y'),
+            'from' => 0,
+            'to' => 0
+         ])->with('i');
+      } else {
+         return view('pages.payroll.overtime.summary', [
+            'unitAll' => 1,
+            'locAll' => 1,
+            'allUnits' => $units,
+            'allLocations' => $locations,
+            'units' => $units,
+            'locations' => $locations,
+           
+            'export' => $export,
+            'loc' => $loc,
+            'locations' => $locations,
+            'employees' => $employees,
+            // 'absences' => $absences,
+            'month' => $now->format('F'),
+            'year' => $now->format('Y'),
+            'from' => 0,
+            'to' => 0
+            // 'from' => $now->format('d-m-Y'),
+            // 'to' => $now->format('d-m-Y')
+         ])->with('i');
+      }
+      // return view('pages.payroll.overtime.employee', [
+      //    'export' => $export,
+      //    'loc' => $loc,
+      //    'from' => 0,
+      //    'to' => 0,
+      //    'locations' => $locations,
+      //    'overtimes' => $overtimes,
+      //    'employees' => $employees,
+      //    'month' => $now->format('F'),
+      //    'year' => $now->format('Y'),
+      //    // 'holidays' => $holidays
+      // ])->with('i');
+   }
+
+   public function filterSummary(Request $req){
+      $req->validate([]);
+      // dd($req->units);
+      $unitAll = 0;
+      foreach($req->units as $u){
+         if ($u == 'all') {
+            $unitAll = 1;
+         }
+      }
+
+      $locAll = 0;
+      foreach($req->locations as $l){
+         if ($l == 'all') {
+            $locAll = 1;
+         }
+      }
+      
+      
+      if ($unitAll == 1) {
+         $units = Unit::get();
+      } else {
+         $units = Unit::whereIn('id', $req->units)->get();
+      }
+
+      if ($locAll == 1) {
+         $locations = Location::get();
+      } else {
+         $locations = Location::whereIn('id', $req->locations)->get();
+      }
+
+      
+      $allUnits = Unit::get();
+      $allLocations = Location::get();
+      
+      
+      return view('pages.payroll.overtime.summary', [
+         'allUnits' => $allUnits,
+         'allLocations' => $allLocations,
+         'units' => $units,
          'locations' => $locations,
-         'overtimes' => $overtimes,
-         'employees' => $employees,
-         'month' => $now->format('F'),
-         'year' => $now->format('Y'),
-         // 'holidays' => $holidays
+         'unitAll' => $unitAll,
+         'locAll' => $locAll,
+         
+         'from' => $req->from,
+         'to' => $req->to
       ])->with('i');
+
    }
 
    public function indexEmployee()

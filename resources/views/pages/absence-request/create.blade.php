@@ -15,6 +15,8 @@ Form Absence
 
    <div class="row">
       <div class="col-md-3">
+         <h4><b>ABSENSI</b></h4>
+         <hr>
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
@@ -65,15 +67,10 @@ Form Absence
             @csrf
             
             <div class="row">
+               
                <div class="col-md-6">
                   <div class="form-group form-group-default">
-                     <label>Date</label>
-                     <input type="date" required class="form-control" id="date" name="date" value="">
-                  </div>
-               </div>
-               <div class="col-md-6">
-                  <div class="form-group form-group-default">
-                     <label>Type</label>
+                     <label>Jenis Permintaan</label>
                      <select class="form-control type" required name="type" id="type">
                         <option value="" disabled selected>Select</option>
                         
@@ -83,6 +80,12 @@ Form Absence
                         <option  value="6">SPT</option>
                         <option value="7">Sakit</option>
                      </select>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="form-group date form-group-default">
+                     <label>Date</label>
+                     <input type="date"  class="form-control" id="date" name="date" value="">
                   </div>
                </div>
 
@@ -278,7 +281,6 @@ Form Absence
                <label>Document</label>
                <input type="file" class="form-control" id="doc" name="doc">
             </div>
-            
             {{-- <div class="form-group form-group-default">
                <label>Description</label>
                <textarea type="text" class="form-control" id="desc" name="desc" rows="3"></textarea>
@@ -323,25 +325,28 @@ $(document).ready(function() {
             // console.log('okeee');
             var type = $(this).val();
             if (type == 6) {
-            //   $('#foto').show();
+              $('.date').show();
               $('.type_spt').show();
               $('.type_izin').hide();
               $('.type_late').hide();
               $('.type_cuti').hide();
             } else if(type == 5) {
                //   $('#foto').show();
+               $('.date').hide();
                $('.type_izin').hide();
                $('.type_spt').hide();
                $('.type_late').hide();
                $('.type_cuti').show();
             } else if(type == 4) {
                //   $('#foto').show();
+               $('.date').show();
                $('.type_izin').show();
                $('.type_spt').hide();
                $('.type_late').hide();
                $('.type_cuti').hide();
             } else  {
                //   $('#foto').show();
+               $('.date').show();
                $('.type_izin').hide();
                $('.type_spt').hide();
                $('.type_late').hide();

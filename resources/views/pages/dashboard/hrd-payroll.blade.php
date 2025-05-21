@@ -26,7 +26,7 @@
                </div>
             </div>
 
-            <div class="card">
+            {{-- <div class="card">
                <div class="card-header p-2 bg-primary text-white">
                   <i class="fas fa-desktop"></i> <small>Monitoring</small>
                </div>
@@ -35,32 +35,63 @@
                      <thead>
                         <tr>
                            <th colspan="2">Transaction</th>
-                           {{-- <th colspan="2">QPE</th> --}}
                         </tr>
                      </thead>
                      <tbody>
                         <tr>
                            <td>Draft</td>
                            <td class="text-center">0</td>
-                           {{-- <td>Draft</td>
-                           <td class="text-center">{{count($qpes->where('status', 0))}}</td> --}}
                         </tr>
                         <tr>
                            <td>Completed</td>
                            <td class="text-center">0</td>
-                           {{-- <td>Porgress</td>
-                           <td class="text-center">{{count($qpes->where('status', 1))}}</td> --}}
                         </tr>
                         
-                        {{-- <tr>
-                           <td>Nonactive</td>
-                           <td class="text-center">{{count($employees->where('status', 3))}}</td>
-                        </tr> --}}
                      </tbody>
                   </table>
                   
                </div>
+            </div> --}}
+
+            <a href="{{route('hrd.absence')}}" class="btn btn-block btn-primary">Monitoring Form Absensi</a>
+            <hr>
+            <div class="card card-stats card-round border">
+               <div class="card-body ">
+                  <div class="row align-items-center">
+                     <div class="col-icon">
+                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                           <i class="fas fa-users"></i>
+                        </div>
+                     </div>
+                     <div class="col col-stats ml-3 ml-sm-0">
+                        <a href="{{route('leader.absence')}}">
+                        <div class="numbers">
+                           <p class="card-category"> Approval Absensi </p>
+                           <h4 class="card-title">{{count($reqForms) + count($reqBackForms)}}</h4>
+                        </div>
+                     </a>
+                     </div>
+                  </div>
+               </div>
+               <div class="card-body">
+                  <small>Daftar Request Absensi Cuti, SPT, dan lainnya yang memiliki relasi terhadap anda sebagai pengganti maupun sebagai atasan</small>
+               </div>
             </div>
+            {{-- <div class="card card-stats card-round">
+               <div class="card-body ">
+                  <div class="row align-items-center">
+                     
+                     <div class="col col-stats ml-3 ml-sm-0">
+                        <a href="{{route('hrd.absence')}}">
+                        <div class="numbers">
+                           <p class="card-category"> Monitoring Request Absensi </p>
+                           <h4 class="card-title">{{count($reqForms)}}</h4>
+                        </div>
+                     </a>
+                     </div>
+                  </div>
+               </div>
+            </div> --}}
 
             
            
@@ -97,30 +128,12 @@
                   </a>
                </div>
             </div> --}}
-            <div class="row">
+            {{-- <div class="row">
                <div class="col-md-6">
-                  <div class="card card-stats card-round">
-                     <div class="card-body ">
-                        <div class="row align-items-center">
-                           <div class="col-icon">
-                              <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                 <i class="fas fa-users"></i>
-                              </div>
-                           </div>
-                           <div class="col col-stats ml-3 ml-sm-0">
-                              <a href="{{route('hrd.absence')}}">
-                              <div class="numbers">
-                                 <p class="card-category">  Form Pengajuan </p>
-                                 <h4 class="card-title">{{count($reqForms)}}</h4>
-                              </div>
-                           </a>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+                  
                   
                </div>
-            </div>
+            </div> --}}
 
             <div class="card">
                <div class="card-header p-2 bg-primary text-white">

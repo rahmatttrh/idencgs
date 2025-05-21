@@ -164,7 +164,7 @@
       </tbody>
    </table>
    
-   <table>
+   {{-- <table>
       <tbody>
          <tr>
             <td colspan="8"></td>
@@ -232,7 +232,9 @@
          <tr class="text-center">
             <td style="height: 40px">{{$cuti->used}}</td>
             <td>{{$absenceemp->cuti_qty}}</td>
-            <td>{{formatDate($absenceemp->cuti_start)}}</td>
+            <td>
+               {{formatDate($absenceemp->cuti_start)}}
+            </td>
             <td>{{formatDate($absenceemp->cuti_end)}}</td>
             <td>{{$cuti->sisa}}</td>
             <td>{{$absenceemp->desc}}</td>
@@ -253,19 +255,16 @@
             <td class="text-center" style="height: 70px">
                @if ($absenceemp->status >= 1)
                   <span class="text-success"><i>CREATED</i></span> <br>
-                  {{-- <small>{{formatDateTime($absenceemp->release_date)}}</small> --}}
                @endif
             </td>
             <td class="text-center">
                @if ($absenceemp->status >= 2)
                   <span class="text-success"><i>APPROVED</i></span> <br>
-                  {{-- <small>{{formatDateTime($absenceemp->app_backup_date)}}</small> --}}
                @endif
             </td>
             <td class="text-center">
                @if ($absenceemp->status >= 3)
                   <span class="text-success"><i>APPROVED</i></span><br>
-                  {{-- <small>{{formatDateTime($absenceemp->app_leader_date)}}</small> --}}
                @endif
             </td>
             <td class="text-center">
@@ -280,7 +279,6 @@
             <td>{{$absenceemp->cuti_backup->biodata->fullName() ?? ''}}</td>
             <td>{{$absenceemp->leader->biodata->fullName() ?? ''}}</td>
             <td>HRD</td>
-            {{-- <td colspan="4"></td> --}}
          </tr>
          <tr>
             <td>
@@ -309,8 +307,8 @@
 
          
       </tbody>
-   </table>
-   <hr>
+   </table> --}}
+   {{-- <hr>
    <div class="row">
       <div class="col-md-4">
          <table>
@@ -329,7 +327,7 @@
             </tbody>
          </table>
       </div>
-   </div>
+   </div> --}}
   
 @endif
 

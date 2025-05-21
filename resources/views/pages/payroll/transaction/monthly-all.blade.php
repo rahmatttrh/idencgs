@@ -197,6 +197,7 @@ Payroll Transaction
                            <th>Type</th>
                            @endif
                            <th>Loc</th>
+                           <th>Project</th>
                            <th class="text-right">Pendapatan</th>
                            <th class="text-right">Lembur</th>
                            <th class="text-right">Deduction</th>
@@ -224,6 +225,7 @@ Payroll Transaction
                                  </td>
                               @endif
                            <td class="text-truncate">{{$trans->location->name}}</td>
+                           <td class="text-truncate">{{$trans->employee->project->name ?? ''}}</td>
                            <td class="text-right" >{{formatRupiahB($trans->employee->payroll->total)}}</td>
                            <td class="text-right" >{{formatRupiahB($trans->overtime)}}</td>
                            <td class="text-right" >{{formatRupiahB($trans->reduction+$trans->reduction_absence+$trans->reduction_late)}}</td>

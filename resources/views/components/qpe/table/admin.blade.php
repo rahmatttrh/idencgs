@@ -1,8 +1,9 @@
 <div class="row">
-   <div class="col-md-2">
+   <div class="col-md-3">
       <div class="card">
          <div class="card-header p-2 bg-primary text-white">
-            <i class="fas fa-desktop"></i> <small>Monitoring</small>
+            {{-- <i class="fas fa-desktop"></i>  --}}
+            <small>{{$title}}</small>
          </div>
          <div class="card-body p-0">
             <table>
@@ -43,15 +44,16 @@
       </div>
       
       <hr>
-      <a href="{{route('kpa.summary')}}">Summary</a>
+      {{-- <a href="{{route('kpa.summary')}}">Summary</a> --}}
+      <a href="{{route('export.qpe.list', enkripRambo($title))}}" target="_blank" class="btn btn-primary btn-block">Export PDF</a>
    </div>
 
-   <div class="col-md-10">
+   <div class="col-md-9">
       <div class="table-responsive">
          <table id="basic-datatables" class="display basic-datatables table-sm table-striped ">
              <thead>
                  <tr>
-                     <th class="text-white text-center" style="width: 20px">No </th>
+                     {{-- <th class="text-white text-center" style="width: 20px">No </th> --}}
                      {{-- @if (auth()->user()->hasRole('Administrator'))
                         <th>ID</th>
                         @endif --}}
@@ -59,7 +61,7 @@
                      <th class="text-white">Employe</th>
                      <th class="text-white">Level</th>
                      <th class="text-white">Semester</th>
-                     <th class="text-white text-center">Disc</th>
+                     <th class="text-white text-center">Dis</th>
                      <th class="text-white text-center">KPI</th>
                      <th class="text-white text-center">Behav</th>
                      
@@ -72,13 +74,13 @@
              <tbody>
                @foreach ($pes->sortByDesc('updated_at') as $pe)
                   <tr>
-                     <td class="text-center text-truncate">{{++$i}} - 
+                     {{-- <td class="text-center text-truncate">{{++$i}} 
                         @if (auth()->user()->hasRole('Administrator'))
-                     
+                        -
                            {{$pe->id}} 
                         
                         @endif   
-                     </td>
+                     </td> --}}
                     
                         {{-- @if (auth()->user()->hasRole('Administrator'))
                         <td>
@@ -95,7 +97,7 @@
                         <a href="/qpe/show/{{enkripRambo($pe->kpa->id)}}">{{$pe->employe->nik}}  </a>
                         @endif
                      </td>
-                     <td class="text-truncate" style="max-width: 150px">
+                     <td class="text-truncate" style="max-width: 100px">
                         @if($pe->status == '0' || $pe->status == '101')
                         <a href="/qpe/edit/{{enkripRambo($pe->kpa->id)}}">{{$pe->employe->biodata->fullName()}} </a>
                         @elseif($pe->status == '1' || $pe->status == '202' )
@@ -104,7 +106,7 @@
                         <a href="/qpe/show/{{enkripRambo($pe->kpa->id)}}">{{$pe->employe->biodata->fullName()}} </a>
                         @endif
                      </td>
-                     <td>{{$pe->employe->designation->name}}</td>
+                     <td class="text-truncate" style="max-width: 60px">{{$pe->employe->designation->name}}</td>
                      <td>{{$pe->semester}} / {{$pe->tahun}}</td>
                      <td class="text-center">
                         <span class="">{{$pe->discipline}}</span>

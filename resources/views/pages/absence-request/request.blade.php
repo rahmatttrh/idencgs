@@ -15,6 +15,8 @@ Form Perubahan Absence
 
    <div class="row">
       <div class="col-md-3">
+         <h4><b>ABSENSI</b></h4>
+         <hr>
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
@@ -274,7 +276,7 @@ Form Perubahan Absence
                <input type="file" class="form-control" id="doc" name="doc">
             </div>
             <div class="form-group form-group-default">
-               <label>Description</label>
+               <label>Descriptionn</label>
                <textarea type="text" class="form-control" id="remark" name="remark" rows="3"></textarea>
             </div>
             

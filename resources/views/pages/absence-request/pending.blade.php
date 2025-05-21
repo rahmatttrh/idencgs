@@ -15,6 +15,8 @@ Absence
 
    <div class="row">
       <div class="col-md-3">
+         <h4><b>ABSENSI</b></h4>
+         <hr>
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
@@ -73,34 +75,21 @@ Absence
                         @if ($absence->status == 404)
                            <span class="text-danger">Permintaan Perubahan</span>
                             @else
-                            @if ($absence->type == 1)
-                           Alpha
-                           @elseif($absence->type == 2)
-                           Terlambat ({{$absence->minute}} Menit)
-                           @elseif($absence->type == 3)
-                           ATL
-                           @elseif($absence->type == 4)
-                           Izin ({{$absence->type_izin}})
-                           @elseif($absence->type == 5)
-                           Cuti
-                           @elseif($absence->type == 6)
-                           SPT ({{$absence->type_spt}})
-                           @elseif($absence->type == 7)
-                           Sakit 
-                           @elseif($absence->type == 8)
-                           Dinas Luar
-                           @elseif($absence->type == 9)
-                           Off Kontrak
-                           @endif
+                            <x-status.absence :absence="$absence" />
                         @endif
                         
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
                         @if ($absence->type == 5)
-                           @foreach ($absence->details  as $item)
-                                 {{formatDate($item->date)}} -
-                           @endforeach
+                              @if (count($absence->details) > 0)
+                                    @foreach ($absence->details  as $item)
+                                       {{formatDate($item->date)}} -
+                                    @endforeach
+                                 @else
+                                 Tanggal belum dipilih
+                              @endif
+                           {{-- {{count($absence->details)}} Hari --}}
                               @else
                               {{formatDate($absence->date)}}
                         @endif

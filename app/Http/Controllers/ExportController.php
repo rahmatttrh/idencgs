@@ -185,4 +185,28 @@ class ExportController extends Controller
    public function employeeExcel($unit, $loc, $gender, $type){
       return Excel::download(new EmployeeExport($unit, $loc, $gender, $type), 'employee.xlsx');
    }
+
+   public function qpeList($status){
+      $dekripStatus = dekripRambo($status);
+      // dd($dekripStatus);
+
+      if ($dekripStatus == 'ALL QPE') {
+         // dd('all');
+         $pes = Pe::orderBy('updated_at', 'asc')->get();
+      } elseif($dekripStatus == 'DRAFT QPE') {
+         $pes = Pe::where('status', 0)->orderBy('updated_at', 'asc')->get();
+      } elseif($dekripStatus == 'VERIFIKASI QPE') {
+         $pes = Pe::where('status', 1)->orderBy('updated_at', 'asc')->get();
+      } elseif($dekripStatus == 'COMPLETE QPE') {
+         $pes = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
+      }
+
+      return view('pages.pdf.qpe-list', [
+         'title' => $dekripStatus,
+         'pes' => $pes
+      ])->with('i');
+
+
+
+   }
 }

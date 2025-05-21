@@ -15,6 +15,10 @@ class Employee extends Model
       return $this->belongsToMany(Task::class);
    }
 
+   public function project(){
+      return $this->belongsTo(Project::class);
+   }
+
    public function biodata()
    {
       return $this->belongsTo(Biodata::class);
@@ -226,5 +230,16 @@ class Employee extends Model
       }
       
       return $absences;
+   }
+
+   public function getSpkl($from, $to) {
+      if ($from == 0) {
+         $spkl = Overtime::where('employee_id', $this->id)->orderBy('updated_at', 'desc')->get();
+      } else {
+         $spkl = Overtime::where('employee_id', $this->id)->whereBetween('date', [$from, $to])->orderBy('updated_at', 'desc')->get();
+
+      }
+      
+      return $spkl;
    }
 }

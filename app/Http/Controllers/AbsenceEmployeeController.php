@@ -8,6 +8,7 @@ use App\Models\AbsenceEmployeeDetail;
 use App\Models\Cuti;
 use App\Models\Employee;
 use App\Models\EmployeeLeader;
+use App\Models\Log;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,6 +23,20 @@ class AbsenceEmployeeController extends Controller
       return view('pages.absence-request.index', [
          'activeTab' => $activeTab,
          'employee' => $employee,
+         'absences' => $absences,
+         'from' => null,
+         'to' => null
+      ]);
+   }
+
+   public function indexAdmin(){
+
+      // $employee = Employee::where('nik', auth()->user()->username)->first();
+      $absences = AbsenceEmployee::orderBy('created_at', 'desc')->get();
+      $activeTab = 'index';
+      return view('pages.absence-request.admin.index', [
+         'activeTab' => $activeTab,
+         // 'employee' => $employee,
          'absences' => $absences,
          'from' => null,
          'to' => null
@@ -127,9 +142,16 @@ class AbsenceEmployeeController extends Controller
       $leader = Employee::where('nik', auth()->user()->username)->first();
       $employee = Employee::find($absenceEmployee->employee_id);
 
+      
       $cuti = Cuti::where('employee_id', $employee->id)->first();
       $employees = Employee::where('department_id', $employee->department_id)->get();
-      $employeeLeaders = EmployeeLeader::where('employee_id', $leader->id)->get();
+      if ($leader) {
+         $employeeLeaders = EmployeeLeader::where('employee_id', $leader->id)->get();
+
+      } else{
+         $employeeLeaders = [];
+      }
+      
       
 
       if ($absenceEmployee->type == 5) {
@@ -199,6 +221,7 @@ class AbsenceEmployeeController extends Controller
          ]);
          $desc = $req->keperluan;
          $leader = $req->persetujuan;
+         $date = Carbon::now();
       } elseif($req->type == 6){
          $req->validate([
             'leader' => 'required',
@@ -206,16 +229,14 @@ class AbsenceEmployeeController extends Controller
          ]);
          $desc = $req->desc;
          $leader = $req->leader;
+         $date = $req->date;
       } else {
          $desc = $req->desc;
          $leader = null;
+         $date = $req->date;
       }
 
-      // if (request('doc')) {
-      //    $doc = request()->file('doc')->store('docs/formulir');
-      // } else {
-      //    $doc = null;
-      // }
+      
 
       $absence = AbsenceEmployee::create([
          'status' => 0,
@@ -224,7 +245,7 @@ class AbsenceEmployeeController extends Controller
          'leader_id' => $leader,
          'type' => $req->type,
          'type_desc' => $req->type_izin,
-         'date' => $req->date,
+         'date' => $date,
          'transport' => $req->transport,
          'destination' => $req->destination,
          'from' => $req->from,
@@ -243,6 +264,29 @@ class AbsenceEmployeeController extends Controller
          'desc' => $desc,
          'remark' => $req->remark,
          'doc' => $doc
+      ]);
+
+      if ($absence->type == 4) {
+         $type = 'Izin';
+      } else if($absence->type == 5){
+         $type = 'Cuti';
+      } else if($absence->type == 6){
+         $type = 'SPT';
+      }
+      
+      
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Create',
+         'desc' => 'Form Request ' . $type . ' ' 
       ]);
 
       return redirect()->route('employee.absence.detail', enkripRambo($absence->id))->with('success', 'Pengajuan berhasil dibuat');

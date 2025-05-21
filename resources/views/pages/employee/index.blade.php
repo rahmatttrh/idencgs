@@ -94,7 +94,7 @@ Employee
                <tbody>
                   @foreach ($employees as $employee)
                   <tr>
-                     <td class="text-center">
+                     <td class="text-center text-truncate">
                         {{++$i}}
                         @if (auth()->user()->hasRole('Administrator'))
                         {{$employee->id}}
@@ -105,7 +105,7 @@ Employee
                      
                      <td class="text-truncate">{{$employee->nik}}</td>
                      {{-- <td><a href="{{route('employee.detail', enkripRambo($employee->id))}}">{{$employee->name}}</a> </td> --}}
-                     <td class="text-truncate">
+                     <td class="text-truncate" style="max-width: 220px">
                         <div>
                            <a href="{{route('employee.detail', [enkripRambo($employee->id), enkripRambo('basic')])}}">{{$employee->biodata->first_name ?? ''}} {{$employee->biodata->last_name ?? ''}}</a> 
                            {{-- <small class="text-muted">{{$employee->biodata->email}}</small> --}}

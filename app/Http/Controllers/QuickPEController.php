@@ -40,7 +40,7 @@ class QuickPEController extends Controller
       // Data KPI
     //   if (auth()->user()->hasRole('Administrator')) {
       // Data KPI
-      if (auth()->user()->hasRole('Administrator|HRD|HRD-Spv|HRD-Manager|HRD-Recruitment')) {
+      if (auth()->user()->hasRole('BOD|Administrator|HRD|HRD-Spv|HRD-Manager|HRD-Recruitment')) {
          $employee = null;
          $kpas = PeKpa::where('status', '!=', '0')
             ->orderBy('employe_id')
@@ -152,7 +152,7 @@ class QuickPEController extends Controller
       } 
 
         // dd($pes);
-
+      // dd('OK');
 
       return view('pages.qpe.qpe', [
          // 'kpas' => $kpas,
@@ -194,7 +194,7 @@ class QuickPEController extends Controller
          $verification = Pe::where('status', 1)->orderBy('updated_at', 'asc')->get();
          $done = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
          $reject = Pe::where('status', 101)->orderBy('updated_at', 'asc')->get();
-      } else if (auth()->user()->hasRole('HRD|HRD-Spv|HRD-Manager')) {
+      } else if (auth()->user()->hasRole('HRD|HRD-Spv|HRD-Manager|HRD-Recruitment')) {
          // dd('ok');
          $employee = auth()->user()->getEmployee();
          // $kpas = PeKpa::where('status', '!=', '0')
@@ -552,7 +552,7 @@ class QuickPEController extends Controller
          $verification = Pe::where('status', 1)->orderBy('updated_at', 'asc')->get();
          $done = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
          $reject = Pe::where('status', 101)->orderBy('updated_at', 'asc')->get();
-      } else if (auth()->user()->hasRole('HRD|HRD-Spv|HRD-Manager|HRD-Recruitment')) {
+      } else if (auth()->user()->hasRole('BOD|HRD|HRD-Spv|HRD-Manager|HRD-Recruitment')) {
          // dd('ok');
          $employee = auth()->user()->getEmployee();
          // $kpas = PeKpa::where('status', '!=', '0')

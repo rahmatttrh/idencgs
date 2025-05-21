@@ -18,4 +18,9 @@ class PayslipReport extends Model
    public function location(){
       return $this->belongsTo(Location::class);
    }
+
+
+   public function projects(){
+      return $this->hasMany(PayslipReportProject::class, 'payslip_report_id');
+   }
 }

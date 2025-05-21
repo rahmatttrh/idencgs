@@ -31,7 +31,7 @@
 <li class="nav-item {{ (request()->is('qpe')) ? 'active' : '' }}">
    <a href="{{route('qpe')}}">
       <i class="fas fa-file"></i>
-      <p>Quick PE</p>
+      <p>My PE</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
@@ -43,7 +43,7 @@
 <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
    <a href="{{route('payroll.transaction.employee')}}">
       <i class="fas fa-money-bill"></i>
-      <p>Payroll</p>
+      <p>Payslip</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
@@ -55,7 +55,7 @@
 <li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
    <a href="{{route('employee.absence')}}">
       <i class="fas fa-calendar-check"></i>
-      <p>Absensi</p>
+      <p>Absensi Saya</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">

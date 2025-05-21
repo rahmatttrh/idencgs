@@ -26,6 +26,56 @@
 
 <hr>
 
+<li class="nav-item {{ (request()->is('qpe')) ? 'active' : '' }}">
+   <a href="{{route('qpe')}}">
+      <i class="fas fa-file"></i>
+      <p>My PE</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
+   <a href="{{route('task')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Task</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+   <a href="{{route('payroll.transaction.employee')}}">
+      <i class="fas fa-money-bill"></i>
+      <p>Payslip</p>
+   </a>
+</li>
+{{-- <li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.spkl')}}">
+      <i class="fas fa-clock"></i>
+      <p>SPKL</p>
+   </a>
+</li> --}}
+<li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.absence')}}">
+      <i class="fas fa-calendar-check"></i>
+      <p>Absensi Saya</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.cuti')}}">
+      <i class="fas fa-briefcase"></i>
+      <p>Cuti Saya</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/sp/*')) ? 'active' : '' }}">
+   <a href="#">
+      <i class="fas fa-file"></i>
+      <p>SP</p>
+   </a>
+</li>
+<hr>
+<li class="nav-item {{ (request()->is('pass/reset')) ? 'active' : '' }}">
+   <a href="{{ route('pass.reset') }}">
+      <i class="fas fa-lock"></i>
+      <p>Reset Password</p>
+   </a>
+</li>
+
 
 {{-- <li class="nav-section">
    <span class="sidebar-mini-icon">

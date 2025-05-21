@@ -60,33 +60,42 @@
                
             @endif
 
+            @if (auth()->user()->hasRole('HRD|HRD-Recruitment|HRD-Payroll|HRD-KJ45|HRD-KJ12|HRD-JGC'))
+            @if (auth()->user()->hasRole('HRD'))
+                  <x-sidebar.hrd />
+               @endif
+               @if (auth()->user()->hasRole('HRD-Recruitment'))
+                  <x-sidebar.hrd-recruitment />
+               @endif
+               @if (auth()->user()->hasRole('HRD-Payroll'))
+                  <x-sidebar.hrd-payroll />
+               @endif
+               @if (auth()->user()->hasRole('HRD-KJ45|HRD-KJ12|HRD-JGC'))
+                  <x-sidebar.hrd-site />
+                  
+                  
+               @endif
+               
+
+               @else
+
+                  @if (auth()->user()->hasRole('Manager|Asst. Manager'))
+                     <x-sidebar.manager />
+                     @elseif(auth()->user()->hasRole('Leader|Supervisor'))
+                     <x-sidebar.leader />
+                     @elseif(auth()->user()->hasRole('Karyawan'))
+                     <x-sidebar.employee />
+                  @endif
+
+            @endif
+
            
 
             
-            @if (auth()->user()->hasRole('HRD-Recruitment'))
-               <x-sidebar.hrd-recruitment />
-               
-            @endif
-            @if (auth()->user()->hasRole('HRD-Payroll'))
-               <x-sidebar.hrd-payroll />
-               
-            @endif
-
-
-            @if (auth()->user()->hasRole('HRD-KJ45|HRD-KJ12|HRD-JGC'))
-               <x-sidebar.hrd-site />
-               
-            @endif
-
-
-            @if (auth()->user()->hasRole('Manager|Asst. Manager'))
             
-               <x-sidebar.manager />
-               @elseif(auth()->user()->hasRole('Leader|Supervisor'))
-               <x-sidebar.leader />
-               @elseif(auth()->user()->hasRole('Karyawan'))
-               <x-sidebar.employee />
-            @endif
+
+
+            
 
 
 

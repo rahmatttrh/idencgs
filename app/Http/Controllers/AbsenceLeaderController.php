@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AbsenceEmployee;
 use App\Models\Employee;
+use App\Models\EmployeeLeader;
 use Illuminate\Http\Request;
 
 class AbsenceLeaderController extends Controller
@@ -11,31 +12,55 @@ class AbsenceLeaderController extends Controller
    public function index(){
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
+      $allReqForms = AbsenceEmployee::whereIn('status', [1,2])->get();
       $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
       $activeTab = 'index';
 
+      $myteams = EmployeeLeader::join('employees', 'employee_leaders.employee_id', '=', 'employees.id')
+            ->join('biodatas', 'employees.biodata_id', '=', 'biodatas.id')
+            ->where('leader_id', $employee->id)
+            ->select('employees.*')
+            ->orderBy('biodatas.first_name', 'asc')
+            ->get();
+
+      // dd($reqBackForms);
 
       return view('pages.absence-request.leader.index', [
          'activeTab' => $activeTab,
          'reqForms' => $reqForms,
-         'reqBackForms' => $reqBackForms
+         'reqBackForms' => $reqBackForms,
+
+         'allReqForms' => $allReqForms,
+         'myteams' => $myteams
       ]);
    }
 
    public function history(){
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->where('status', '>=', 3)->get();
+      $allReqForms = AbsenceEmployee::where('status', '>=', 3)->get();
+      $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->where('status', '>', 1)->get();
       $activeTab = 'history';
+
+      $myteams = EmployeeLeader::join('employees', 'employee_leaders.employee_id', '=', 'employees.id')
+            ->join('biodatas', 'employees.biodata_id', '=', 'biodatas.id')
+            ->where('leader_id', $employee->id)
+            ->select('employees.*')
+            ->orderBy('biodatas.first_name', 'asc')
+            ->get();
       return view('pages.absence-request.leader.history', [
          'activeTab' => $activeTab,
-         'reqForms' => $reqForms
+         'reqForms' => $reqForms,
+         'allReqForms' => $allReqForms,
+         'reqBackForms' => $reqBackForms,
+         'myteams' => $myteams
       ]);
    }
 
 
    public function indexHrd(){
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::whereIn('status', [3])->get();
+      $reqForms = AbsenceEmployee::where('status', '!=', 5)->orderBy('created_at', 'desc')->get();
       $activeTab = 'index';
       return view('pages.absence-request.hrd.index', [
          'activeTab' => $activeTab,
@@ -45,7 +70,7 @@ class AbsenceLeaderController extends Controller
 
    public function historyHrd(){
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::where('status', 5)->get();
+      $reqForms = AbsenceEmployee::where('status', 5)->orderBy('created_at', 'desc')->get();
       $activeTab = 'history';
       return view('pages.absence-request.hrd.history', [
          'activeTab' => $activeTab,

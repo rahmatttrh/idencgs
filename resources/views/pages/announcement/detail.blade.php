@@ -13,7 +13,7 @@
          </ol>
       </nav>
       
-      @if (auth()->user()->hasRole('Administrator|HRD'))
+      @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment'))
           @if ($announcement->status == 0)
             <a href="#" data-target="#activate-announcement" data-toggle="modal" class="btn btn-light border">Status : Deactivate</a>
             @elseif($announcement->status == 1)

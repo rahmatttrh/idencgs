@@ -17,7 +17,19 @@ Form Perubahan Absence
       <div class="col-md-3">
          
          @if($absenceEmp->status == 0)
+            @if ($absenceEmp->type == 5)
+                  @if (count($absenceEmployeeDetails) > 0)
+                  <a href="" class="btn btn-primary btn-block" data-target="#modal-release-absence-employee" data-toggle="modal">Release</a>
+                  @else
+                  <a href="#" class="btn btn-light border text-muted btn-block" >Release</a>
+                  @endif   
+               @else
+
                <a href="" class="btn btn-primary btn-block" data-target="#modal-release-absence-employee" data-toggle="modal">Release</a>
+            @endif
+         
+        
+               
          @endif
 
          @if ($absenceEmp->leader != null)
@@ -69,8 +81,29 @@ Form Perubahan Absence
             <a href="" class="btn btn-primary btn-block" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
             @endif
          @endif --}}
+         @if ($absenceEmp->type == 5 && $absenceEmp->status == 0)
+         <hr>
+         <form action="{{route('employee.absence.detail.store')}}" method="POST">
+            @csrf
+            <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="form-group form-group-default">
+                     <label>Tanggal Cuti</label>
+                     <input type="date" required class="form-control" id="date" name="date">
+                  </div>
+               </div>
+               <div class="col-md-12">
+                  <button class="btn mb-3 btn-primary btn-block" type="submit">Add</button>
+               </div>
+            </div>
+         </form>
+        
+
          
-         <table class="mt-3">
+      @endif
+         
+         <table class="">
             <thead>
                <tr>
                   <th colspan="2"><x-status.absence-type :absence="$absenceEmp" /> : <x-status.form :form="$absenceEmp" /> </th>
@@ -78,6 +111,23 @@ Form Perubahan Absence
                
             </thead>
             <tbody>
+               
+               @if ($absenceEmp->type == 5)
+                  <tr>
+                     <td colspan="2">{{count($absenceEmployeeDetails)}} Hari</td>
+                  </tr>
+                  @foreach ($absenceEmployeeDetails as $detail)
+                  <tr>
+                     <td></td>
+                     <td> {{formatDate($detail->date)}} 
+                        @if ($absenceEmp->status == 0)
+                        <a href="{{route('employee.absence.detail.delete', enkripRambo($detail->id))}}">Remove</a>
+                        @endif
+                        
+                     </td>
+                  </tr>
+                  @endforeach
+               @endif
                <tr>
                   <td></td>
                   <td>
@@ -102,7 +152,7 @@ Form Perubahan Absence
                      @endif
                   </td>
                </tr>
-               @if ($absenceEmp->type == 5)
+               {{-- @if ($absenceEmp->type == 5)
                   <tr>
                      <td colspan="2">Cuti {{count($absenceEmployeeDetails)}} Hari</td>
                   </tr>
@@ -117,9 +167,10 @@ Form Perubahan Absence
                      </td>
                   </tr>
                   @endforeach
-               @endif
+               @endif --}}
             </tbody>
          </table>
+         
          @if ($absenceEmp->absence_id != null)
          <table>
             <thead>
@@ -150,6 +201,21 @@ Form Perubahan Absence
          @else 
          
          @endif
+
+         @if ($absenceEmp->status == 0)
+         <hr>
+         <small>
+            <b>#INFO</b> <br>
+            @if ($absenceEmp->type == 5)
+            Pilih tanggal cuti <br>
+            @endif
+            
+            Klik 'Release' untuk untuk meminta persetujuan pihak terkait
+         </small>
+         @endif
+         
+
+        
         
          
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}

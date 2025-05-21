@@ -15,16 +15,23 @@ History Formulir Pengajuan
 
    <div class="row">
       <div class="col-md-3">
+         <h4><b>History Approval Absensi</b></h4>
+         <hr>
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
-               Form Absensi
+               Request Absensi/Cuti
             </a>
             <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('leader.absence.history') }}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                History
             </a>
+            <hr>
+         <small>
+            <b>#INFO</b> <br>
+            Daftar Riwayat Form Request Absensi yang memiliki relasi terhadap anda, sebagai pengganti maupun sebagai atasan
+         </small>
             
            
             
@@ -52,7 +59,7 @@ History Formulir Pengajuan
                </thead>
 
                <tbody>
-                  @foreach ($reqForms as $absence)
+                  {{-- @foreach ($reqForms as $absence)
                   <tr>
                      <td>
                         <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
@@ -66,9 +73,6 @@ History Formulir Pengajuan
                      </td>
                      <td class="text-truncate"><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
                       <td> {{$absence->employee->biodata->fullName()}}</td>
-                      {{-- <td>{{$absence->employee->location->name}}</td> --}}
-                     
-                     {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
                         @if ($absence->type == 5)
                            @foreach ($absence->details  as $item)
@@ -78,50 +82,74 @@ History Formulir Pengajuan
                               {{formatDate($absence->date)}}
                         @endif
                      </td>
-                     {{-- <td>{{$absence->desc}}</td> --}}
                      <td>
                         <x-status.form :form="$absence" />
-                        {{-- @if ($absence->status == 1)
-                            <span class="text-primary">Approval Atasan</span>
-                        @endif --}}
                      </td>
-                     {{-- <td class="text-truncate">
-                      <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> |
-                        <a href="#"  data-target="#modal-delete-absence-employee-{{$absence->id}}" data-toggle="modal">Delete</a>
-                     </td> --}}
                   </tr>
 
-                  {{-- <div class="modal fade" id="modal-delete-absence-employee-{{$absence->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                     <div class="modal-dialog modal-sm" role="document">
-                        <div class="modal-content text-dark">
-                           <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                 <span aria-hidden="true">&times;</span>
-                              </button>
-                           </div>
-                           <div class="modal-body ">
-                              Delete data
-                              @if ($absence->type == 6)
-                              SPT
-                              @elseif($absence->type == 4)
-                              Izin
+                  @endforeach --}}
+                  @if (auth()->user()->hasRole('Karyawan'))
+                  
+                        @foreach ($reqBackForms as $absence)
+                                    
+                                    <tr>
+                                       <td>
+                                          <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
+                                             <x-status.absence :absence="$absence" />
+                                       </a>
+                                          
+                                       </td>
+                                       <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
+                                       <td> {{$absence->employee->biodata->fullName()}}</td>
+                                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
+                                       
+                                       {{-- <td>{{formatDayName($absence->date)}}</td> --}}
+                                       <td>{{formatDate($absence->date)}}</td>
+                                       {{-- <td>{{$absence->desc}}</td> --}}
+                                       <td>
+                                          <x-status.form :form="$absence" />
+                                          
+                                       </td>
+                                    
+                                    </tr>
+                        @endforeach
+                      @else
+
+
+
+                        @foreach ($myteams as $team)
+                           @foreach ($allReqForms as $absence)
+                              @if ($absence->employee_id == $team->id)
+                              <tr>
+                                 <td>
+                                    <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
+                                       <x-status.absence :absence="$absence" />
+                                 </a>
+                                    
+                                 </td>
+                                 <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
+                                 <td> {{$absence->employee->biodata->fullName()}}</td>
+                                 {{-- <td>{{$absence->employee->location->name}}</td> --}}
+                                 
+                                 {{-- <td>{{formatDayName($absence->date)}}</td> --}}
+                                 <td>{{formatDate($absence->date)}}</td>
+                                 {{-- <td>{{$absence->desc}}</td> --}}
+                                 <td>
+                                    <x-status.form :form="$absence" />
+                                    
+                                 </td>
                               
+                              </tr>
                               @endif
-                              
-                              tanggal {{formatDate($absence->date)}}
-                              ?
-                           </div>
-                           <div class="modal-footer">
-                              <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-danger ">
-                                 <a class="text-light" href="{{route('employee.absence.delete', enkripRambo($absence->id))}}">Delete</a>
-                              </button>
-                           </div>
-                        </div>
-                     </div>
-                  </div> --}}
-                  @endforeach
+                           @endforeach
+                     
+                        @endforeach
+
+                  @endif
+                  
+                  
+                  
+                  
                </tbody>
 
             </table>

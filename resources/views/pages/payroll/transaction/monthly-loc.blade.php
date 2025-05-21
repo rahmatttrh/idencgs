@@ -72,7 +72,7 @@ Payroll Transaction
          @endif
          <li class="breadcrumb-item" aria-current="page">{{$unit->name}}</li>
          <li class="breadcrumb-item " aria-current="page">{{$unitTransaction->month}}</li>
-         <li class="breadcrumb-item active" aria-current="page">Payslip Reporttt </li>
+         <li class="breadcrumb-item active" aria-current="page">Payslip Report </li>
       </ol>
    </nav>
    
@@ -229,39 +229,42 @@ Payroll Transaction
                   <table id="data" class=" table table-sm">
                      <thead >
                         <tr class="text-white">
-                           <th rowspan="2" class="text-white">Loc</th>
-                           <th rowspan="2" class="text-white">Jml Pgw</th>
+                           <th rowspan="2" class="text-white" colspan="2">Loc</th>
+                           <th rowspan="2" class="text-white ">Jml Pgw</th>
                            
                            <th colspan="9" class="text-center text-white">Pendapatan</th>
                            <th colspan="5" class="text-center text-white">Potongan</th>
                            <th rowspan="2" class="text-center text-white">Gaji Bersih</th>
                         </tr>
                         <tr>
-                           <th class="text-center text-white">Gaji Pokok</th>
-                           <th class="text-center text-white">Tunj. Jabatan</th>
-                           <th class="text-center text-white">Tunj. OPS</th>
-                           <th class="text-center text-white">Tunj. Kinerja</th>
-                           <th class="text-center text-white">Tunj. Fungsional</th>
-                           <th class="text-center text-white">Total Gaji</th>
-                           <th class="text-center text-white">Lembur</th>
-                           <th class="text-center text-white">Lain-Lain</th>
-                           <th class="text-center text-white">Total Bruto</th>
-                           <th class="text-center text-white">BPJS TK</th>
-                           <th class="text-center text-white">BPJS KS</th>
-                           <th class="text-center text-white">JP</th>
-                           <th class="text-center text-white">Absen</th>
-                           <th class="text-center text-white">Terlambat</th>
+                           <th class="text-center text-white text-truncate">Gaji Pokok</th>
+                           <th class="text-center text-white text-truncate">Tunj. Jabatan</th>
+                           <th class="text-center text-white text-truncate">Tunj. OPS</th>
+                           <th class="text-center text-white text-truncate">Tunj. Kinerja</th>
+                           <th class="text-center text-white text-truncate">Tunj. Fungsional</th>
+                           <th class="text-center text-white text-truncate">Total Gaji</th>
+                           <th class="text-center text-white text-truncate">Lembur</th>
+                           <th class="text-center text-white text-truncate">Lain-Lain</th>
+                           <th class="text-center text-white text-truncate">Total Bruto</th>
+                           <th class="text-center text-white text-truncate">BPJS TK</th>
+                           <th class="text-center text-white text-truncate">BPJS KS</th>
+                           <th class="text-center text-white text-truncate">JP</th>
+                           <th class="text-center text-white text-truncate">Absen</th>
+                           <th class="text-center text-white text-truncate">Terlambat</th>
                            
                         </tr>
                      </thead>
       
                      <tbody>
 
+                        @php
+                            $proTotalQty = 0;
+                        @endphp
                         @foreach ($payslipReports as $report)
 
                         @if ($report->qty > 0)
                         <tr>
-                           <td class="text-truncate"><a href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                           <td class="text-truncate" colspan="2"><a href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
                            <td class="text-center text-truncate">{{$report->qty}}</td>
                            
                            <td class="text-right text-truncate">{{formatRupiahB($report->pokok)}}</td>
@@ -290,28 +293,110 @@ Payroll Transaction
                            <td class="text-right text-truncate">{{formatRupiahB($report->terlambat)}}</td>
                            <td class="text-right text-truncate">{{formatRupiahB($report->gaji_bersih)}}</td>
                         </tr>
+
+                        @php
+                           
+                            $proPokok = 0;
+                            $proJabatan = 0;
+                            $proOps = 0;
+                            $proKinerja = 0;
+                            $proFung = 0;
+                            $proTotal = 0;
+                            $proLembur = 0;
+                            $proLain = 0;
+                            $proBruto = 0;
+                            $proBpjskt = 0;
+                            $proBpjsks = 0;
+                            $proJp = 0;
+                            $proAbsen = 0;
+                            $proTerlambat = 0;
+                            $proBersih = 0;
+                        @endphp
+                        @foreach ($report->projects as $pro)
+                        <tr>
+                           <td></td>
+                           <td class=" text-truncate">{{$pro->project->name}} </td>
+                           <td class="text-center text-truncate">{{$pro->qty}}</td>
+                  
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->pokok)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->jabatan)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->ops)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->kinerja)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->fungsional)}}</td>
+   
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->total)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->lembur)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->lain)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->bruto)}}</td>
+   
+                           {{-- Potongan --}}
+                           {{-- <td class="text-right text-truncate">{{formatRupiahB(2/100 * $loc->getValueGaji($unit->id, $unitTransaction))}}</td> --}}
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->bpjskt)}}</td>
+                           
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->bpjsks)}}
+                              {{-- @if (auth()->user()->hasRole('Administratro'))
+                              Add : {{$loc->getReductionAdditional($unit->id, $unitTransaction)}}
+                                 
+                              @endif --}}
+                           </td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->jp)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->absen)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->terlambat)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($pro->gaji_bersih)}}</td>
+                        </tr>
+
+                        
+                        @php
+                           $proTotalQty = $proTotalQty + $pro->qty ;
+                            $proPokok = $proPokok + $pro->pokok ;
+                            $proJabatan = $proJabatan + $pro->jabatan;
+                            $proOps = $proOps + $pro->ops;
+                            $proKinerja = $proKinerja + $pro->kinerja;
+                            $proFung = $proFung + $pro->fungsional;
+                            $proTotal = $proTotal + $pro->total;
+                            $proLembur = $proLembur + $pro->lembur;
+                            $proLain = $proLain + $pro->lain;
+                            $proBruto = $proBruto + $pro->bruto;
+                            $proBpjskt = $proBpjskt + $pro->bpjskt;
+                            $proBpjsks = $proBpjsks + $pro->bpjsks;
+                            $proJp = $proJp + $pro->jp;
+                            $proAbsen =  $proAbsen + $pro->absen;
+                            $proTerlambat = $proTerlambat + $pro->terlambat;
+                            $proBersih = $proBersih + $pro->gaji_bersih;
+                        @endphp
+
+                        
+                            
+                        @endforeach
+                        
+
+                           
+
                         @endif
                         
                         @endforeach
 
+                        {{-- <h4>{{$report->projects->sum('qty')}}</h4> --}}
+
                         <tr>
-                           <td colspan="2" class="text-right"><b> Total</b></td>
+                           <td colspan="2" class="text-right" colspan="2"><b> Total</b></td>
                            {{-- <td><b></b></td> --}}
-                           <td class="text-right text-truncate"><b> {{formatRupiahB($payslipReports->sum('pokok'))}}</b></b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('jabatan'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('ops'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('kinerja'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('fungsional'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('total'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('lembur'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('lain'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('bruto'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('bpjskt'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('bpjsks'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('jp'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('absen'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('terlambat'))}}</b></td>
-                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('gaji_bersih'))}}</b></td>
+                           <td>{{$payslipReports->sum('qty') + $proTotalQty }} </td>
+                           <td class="text-right text-truncate"><b> {{formatRupiahB($payslipReports->sum('pokok') + $proPokok )}}</b></b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('jabatan') + $proJabatan)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('ops') + $proOps)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('kinerja') + $proKinerja)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('fungsional') + $proFung)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('total') + $proTotal)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('lembur') + $proLembur)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('lain') + $proLain)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('bruto') + $proBruto)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('bpjskt') + $proBpjskt)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('bpjsks') + $proBpjsks)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('jp') + $proJp)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('absen') + $proAbsen)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('terlambat') + $proTerlambat)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('gaji_bersih') + $proBersih)}}</b></td>
                         </tr>
                         
                         

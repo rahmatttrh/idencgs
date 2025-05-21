@@ -10,9 +10,37 @@ class Location extends Model
    use HasFactory;
    protected $guarded = [];
 
-   public function totalEmployee($id)
+   public function getLembur($id, $from, $to)
    {
       $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      $total = 0;
+      foreach ($employees as $emp) {
+         $lemburs =  $emp->getSpkl($from, $to)->where('type', 1);
+         foreach($lemburs as $lembur){
+            $total = $total + $lembur->hours;
+         }
+          
+       }
+      return $total;
+   }
+
+   public function getPiket($id, $from, $to)
+   {
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      $total = 0;
+      foreach ($employees as $emp) {
+         $lemburs =  $emp->getSpkl($from, $to)->where('type', 2);
+         foreach($lemburs as $lembur){
+            $total = $total + $lembur->hours;
+         }
+          
+       }
+      return $total;
+   }
+
+   public function totalEmployee($id)
+   {
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('project_id', null)->where('status', 1)->get();
       // dd($employees);
       // $transactions =
       $total = count($employees);
@@ -89,7 +117,14 @@ class Location extends Model
 
    public function getUnitTransaction($id, $unitTrans)
    {
-      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('project_id', null)->get();
+      $employeeId = [];
+
+      foreach($employees as $emp){
+         $employeeId[] = $emp->id;
+      }
+
+      $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       // dd(count($transactions));
       return $transactions;
    }
@@ -128,7 +163,7 @@ class Location extends Model
    {
       
       $value = 0;
-      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
          $transDetail = TransactionDetail::where('transaction_id', $trans->id)->where('desc', $desc)->first();
          if ($trans->remark == 'Karyawan Baru'){
@@ -152,8 +187,15 @@ class Location extends Model
 
    public function getValueGaji($id, $unitTrans)
    {
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('project_id', null)->get();
+      $employeeId = [];
+
+      foreach($employees as $emp){
+         $employeeId[] = $emp->id;
+      }
+
       $value = 0;
-      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
          if ($trans->remark == 'Karyawan Baru'){
             // dd($trans->employee->biodata->fullName());
@@ -209,8 +251,16 @@ class Location extends Model
 
    public function getValueGajiBersih($id, $unitTrans)
    {
+
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('project_id', null)->get();
+      $employeeId = [];
+
+      foreach($employees as $emp){
+         $employeeId[] = $emp->id;
+      }
+
       $value = 0;
-      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
          $pokok = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Gaji Pokok')->first()->value;
          $jabatan = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Tunj. Jabatan')->first()->value;
@@ -243,8 +293,15 @@ class Location extends Model
 
    public function getReduction($unitId, $unitTrans, $name)
    {
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $unitId)->where('project_id', null)->get();
+      $employeeId = [];
+
+      foreach($employees as $emp){
+         $employeeId[] = $emp->id;
+      }
+
       $value = 0;
-      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $unitId)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $unitId)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
 
          // if ($name == 'JP') {
@@ -265,8 +322,16 @@ class Location extends Model
 
    public function getAddReduction($unitId, $unitTrans)
    {
+
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $unitId)->where('project_id', null)->get();
+      $employeeId = [];
+
+      foreach($employees as $emp){
+         $employeeId[] = $emp->id;
+      }
+
       $value = 0;
-      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $unitId)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $unitId)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
 
          // if ($name == 'JP') {
@@ -408,5 +473,18 @@ class Location extends Model
    public function reductions()
    {
       return $this->hasMany(Reduction::class);
+   }
+
+
+
+   public function projectExist(){
+      $employees = Employee::where('status', 1)->where('location_id', $this->id)->where('project_id', '!=', null)->get();
+      if (count($employees) > 0) {
+         $result = true;
+      } else {
+         $result = false;
+      }
+
+      return $result;
    }
 }

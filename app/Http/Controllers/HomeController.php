@@ -411,8 +411,11 @@ class HomeController extends Controller
          $absenceApprovals = Absence::where('status', 404)->get();
          $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
 
+         $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->whereIn('status', [1])->get();
 
-         // dd('ok');
+
+
 
          // dd(count($final));
          // $employeePositiddons = $user->positions;
@@ -435,7 +438,9 @@ class HomeController extends Controller
             'recentPes' => $recentPes,
             'positions' => [],
             'payrollApprovals' => $unitTransactionApproval,
-            'absenceApprovals' => $absenceApprovals
+            'absenceApprovals' => $absenceApprovals,
+            'reqForms' => $reqForms,
+            'reqBackForms' => $reqBackForms
          ]);
       } elseif (auth()->user()->hasRole('HRD-Spv')) {
          $user = Employee::find(auth()->user()->getEmployeeId());
@@ -451,6 +456,8 @@ class HomeController extends Controller
          $empty = Contract::where('type', null)->get()->count();
 
          $logs = Log::where('department_id', $user->department_id)->orderBy('created_at', 'desc')->paginate(5);
+         $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->whereIn('status', [1])->get();
          return view('pages.dashboard.hrd-spv', [
             'units' => $units,
             'employees' => $employees,
@@ -461,7 +468,9 @@ class HomeController extends Controller
             'kontrak' => $kontrak,
             'tetap' => $tetap,
             'empty' => $empty,
-            'logs' => $logs
+            'logs' => $logs,
+            'reqForms' => $reqForms,
+            'reqBackForms' => $reqBackForms
          ]);
       } elseif (auth()->user()->hasRole('HRD-Recruitment')) {
          $user = Employee::find(auth()->user()->getEmployeeId());
@@ -475,9 +484,9 @@ class HomeController extends Controller
          $tetap = Contract::where('status', 1)->where('type', 'Tetap')->get()->count();
          $empty = Contract::where('type', null)->get()->count();
 
-         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
-         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
-         
+         $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->whereIn('status', [1])->get();
+         // dd($reqForms);
          return view('pages.dashboard.hrd-recruitment', [
             'units' => $units,
             'employee' => $user,
@@ -512,8 +521,9 @@ class HomeController extends Controller
          $transactions = Transaction::where('status', 0)->get();
          $unitTransactions = UnitTransaction::orderBy('cut_to', 'desc')->paginate(25);
          $emptyPayroll = Employee::where('status', '!=', 3)->where('payroll_id', null)->get();
-         $reqForms = AbsenceEmployee::where('status', 3)->get();
-         
+         // $reqForms = AbsenceEmployee::where('status', 3)->get();
+         $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->whereIn('status', [1])->get();
          return view('pages.dashboard.hrd-payroll', [
             'units' => $units,
             'employee' => $user,
@@ -532,7 +542,8 @@ class HomeController extends Controller
             'unitTransactions' => $unitTransactions,
             'emptyPayroll' => $emptyPayroll,
 
-            'reqForms' => $reqForms
+            'reqForms' => $reqForms,
+            'reqBackForms' => $reqBackForms
          ])->with('i');
       } elseif (auth()->user()->hasRole('HRD-KJ12')) {
          $user = Employee::find(auth()->user()->getEmployeeId());
@@ -605,7 +616,7 @@ class HomeController extends Controller
          $month = $now->format('m');
          $holidays = Holiday::whereMonth('date', $month)->orderBy('date', 'asc')->get();
          $transactions = Transaction::where('status', 0)->get();
-         $overtimes = Overtime::whereIn('location_id', [4,5,21,22])->orderBy('updated_at', 'desc')->get();
+         $overtimes = Overtime::whereIn('location_id', [4,5,21,22])->orderBy('updated_at', 'desc')->paginate(500);
          $now = Carbon::now();
 
          if (auth()->user()->hasRole('HRD-KJ12')) {

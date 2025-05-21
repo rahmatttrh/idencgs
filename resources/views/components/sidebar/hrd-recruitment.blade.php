@@ -52,6 +52,47 @@
    </a>
 </li> --}}
 <li class="nav-item">
+   <a data-toggle="collapse" href="#vessel">
+      <i class="fas fa-server"></i>
+      <p>Master Data</p>
+      <span class="caret"></span>
+   </a>
+   <div class="collapse" id="vessel">
+      <ul class="nav nav-collapse">
+         <li>
+            <a href="{{route('unit')}}">
+               <span class="sub-item">Bisnis Unit</span>
+            </a>
+         </li>
+         {{-- <li>
+            <a href="{{route('department')}}">
+               <span class="sub-item">Department</span>
+            </a>
+         </li> --}}
+         <li>
+            <a href="{{route('designation')}}">
+               <span class="sub-item">Level</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('cuti')}}">
+               <span class="sub-item">Cuti Karyawan</span>
+            </a>
+         </li>
+         {{-- <li>
+            <a href="{{route('position')}}">
+               <span class="sub-item">Jabatan</span>
+            </a>
+         </li> --}}
+         {{-- <li>
+            <a href="{{route('so')}}">
+               <span class="sub-item">Struktur Organisasi</span>
+            </a>
+         </li> --}}
+      </ul>
+   </div>
+</li>
+<li class="nav-item">
    <a data-toggle="collapse" href="#qpe">
       <!-- <a  href="{{route('qpe')}}"> -->
       <i class="fas fa-file"></i>
@@ -75,6 +116,25 @@
                <span class="sub-item">Monitoring</span>
             </a>
          </li>
+         <hr>
+         {{-- @if (auth()->user()->hasRole('Administrator|HRD')) --}}
+         <li>
+            <a href="{{route('pe.component')}}">
+               <span class="sub-item">Component</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('discipline')}}">
+               <span class="sub-item">Discipline</span>
+            </a>
+         </li>
+         {{-- @endif --}}
+         <li>
+            <a href="{{route('kpi')}}">
+               <span class="sub-item">KPI</span>
+            </a>
+         </li>
+         
       </ul>
    </div>
 </li>
@@ -82,7 +142,7 @@
 <li class="nav-item">
    <a data-toggle="collapse" href="#employee">
       <i class="fas fa-users"></i>
-      <p>Employee</p>
+      <p>Data Karyawan</p>
       <span class="caret"></span>
    </a>
    <div class="collapse" id="employee">
@@ -111,10 +171,88 @@
       </ul>
    </div>
 </li>
+{{-- <li class="nav-item">
+   <a data-toggle="collapse" href="#summary">
+      <i class="fas fa-users"></i>
+      <p>Summary</p>
+      <span class="caret"></span>
+   </a>
+   <div class="collapse" id="summary">
+      <ul class="nav nav-collapse">
+         <li>
+            <a href="{{route('payroll.absence')}}">
+               <span class="sub-item">Absensi</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('payroll.overtime')}}">
+               <span class="sub-item">SPKL & Piket</span>
+            </a>
+         </li>
+         
 
-<li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
-   <a href="{{route('cuti')}}">
-      <i class="fas fa-calendar"></i>
-      <p>Master Cuti</p>
+      </ul>
+   </div>
+</li> --}}
+<li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
+   <a href="{{route('payroll.absence')}}">
+      <i class="fas fa-calendar-minus"></i>
+      <p>Absensi Karyawan</p>
    </a>
 </li>
+<li class="nav-item {{ (request()->is('payroll/spkl/*')) ? 'active' : '' }}">
+   <a href="{{route('payroll.overtime')}}">
+      <i class="fas fa-calendar-plus"></i>
+      <p>SPKL Karyawan</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
+   <a href="{{route('sp')}}">
+      <i class="fas fa-file-code"></i>
+      <p>SP Karyawan</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('announcement/*')) ? 'active' : '' }}">
+   <a href="{{route('announcement')}}">
+      <i class="fas fa-money-bill"></i>
+      <p>Anouncement</p>
+   </a>
+</li> 
+
+
+<li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
+   <a href="{{route('task')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Task</p>
+   </a>
+</li>
+
+
+<hr>
+{{-- <li class="nav-item {{ (request()->is('qpe')) ? 'active' : '' }}">
+   <a href="{{route('qpe')}}">
+      <i class="fas fa-file"></i>
+      <p>KPI Saya</p>
+   </a>
+</li> --}}
+<li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.absence')}}">
+      <i class="fas fa-calendar-check"></i>
+      <p>Absensi Saya</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.cuti')}}">
+      <i class="fas fa-briefcase"></i>
+      <p>Cuti Saya</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+   <a href="{{route('payroll.transaction.employee')}}">
+      <i class="fas fa-money-bill"></i>
+      <p>Payslip Saya</p>
+   </a>
+</li>
+
+
+

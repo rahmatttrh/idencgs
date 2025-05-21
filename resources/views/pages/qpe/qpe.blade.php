@@ -21,15 +21,12 @@ QPE
    <div class="card border shadow-none">
       <div class="card-header d-flex justify-content-between">
          <h3>{{$title}}</h3>
-          {{-- <div>
-             <a href="{{route('task.history')}}" class="btn btn-light border btn-sm">History</a>
-             <a href="{{route('task.create')}}" class="btn btn-primary btn-sm">Add New Task</a>
-          </div> --}}
+          
       </div>
       
       
       <div class="card-body  pt-3">
-         @if (auth()->user()->hasRole('Administrator|HRD|HRD-Manager|HRD-Recruitment'))
+         @if (auth()->user()->hasRole('BOD|Administrator|HRD|HRD-Manager|HRD-Recruitment'))
          <x-qpe.table.admin :pes="$pes" :i="$i" :title="$title" :total="$total" :draft="$draft" :verification="$verification" :done="$done" :reject="$reject" />
          @elseif($employee->role == 5 || $employee->role == 8)
          <x-qpe.table.manager :pes="$pes" :i="$i" :employee="$employee" :title="$title" :total="$total" :draft="$draft" :verification="$verification" :done="$done" :reject="$reject" />
@@ -38,9 +35,8 @@ QPE
          @else
          <x-qpe.table.other :pes="$pes" :i="$i" />
       @endif
-      </div>
+      {{-- </div>
       <div class="card-footer text-muted">
-          {{-- <small>Data Task List dapat dilihat oleh atasan untuk tujuan monitoring pekerjaan</small> --}}
       </div>
   </div>
 

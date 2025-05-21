@@ -27,18 +27,19 @@
                               <h4 style="font-weight: bolder" class="text-uppercase">
                                  @if ($employee->contract->type == 'Kontrak')
                                  {{-- {{$employee->contract->type}}  --}}
-                                 Kontrak
+                                 Karyawan Kontrak
                                  @elseif($employee->contract->type == 'Tetap')
-                                 Tetap
+                                 Karyawan Tetap
                                  @else
                                  Kontrak/Tetap
                                  @endif
                                  
                                  <br> 
                                  @if ($employee->contract->type == 'Kontrak')
-                                    {{formatDate($employee->contract->start)}} - {{formatDate($employee->contract->end)}} 
+                                    Periode {{formatDate($employee->contract->start)}} - {{formatDate($employee->contract->end)}} 
                                     @elseif($employee->contract->type == 'Tetap')
-                                    {{formatDate($employee->contract->determination)}}
+                                   Penetapan {{formatDate($employee->contract->determination)}}
+                                    
                                  @endif
                               </h4>
                            </div>
@@ -143,6 +144,7 @@
                         
                         
                            {{-- @if ($employee->designation->name == 'Manager')
+                           {{-- @if ($employee->designation->name == 'Manager')
                                @else
                                <hr class="bg-white">
                               <div class="text-small text-uppercase fw-bold op-8"> {{$employee->contract->desc ?? 'Jobdesk Empty'}} </div>
@@ -179,6 +181,7 @@
                                  </div>
                                  
                               </div>
+                           @endif 
                            @endif --}}
                            
                            
@@ -238,12 +241,6 @@
                   
                   <div class="card-body bubble-shadow ">
                     
-                       
-                    
-                    
-                    
-                    
-                    
                        @if ($employee->designation->name == 'Manager')
                            @else
                            {{-- <hr class="bg-white"> --}}
@@ -257,8 +254,10 @@
                                    @foreach ($empleaders as $empleader)
                                    @if (auth()->user()->hasRole('Administrator|HRD|HRD-Staff|HRD-Recruitment|HRD-Payroll'))
                                    <a href="#"   data-toggle="modal" data-target="#modal-revoke-leader-{{$empleader->id}}">{{$empleader->leader->nik}} {{$empleader->leader->biodata->fullName()}}</a>
-                                    @else
-                                    {{$empleader->leader->nik}} {{$empleader->leader->biodata->fullName()}}
+              
+
+               
+               
                                    @endif
                                   
                                       <br>
@@ -723,10 +722,10 @@
    </div>
 </div>
 
-<x-employee.contract.modal.edit-contract :employee="$employee" :locations="$locations" :shifts="$shifts" :designations="$designations" :departments="$departments" :positions="$positions" :managers="$managers" :spvs="$spvs"  :leaders="$leaders" :subdepts="$subdepts" :units="$units" :allpositions="$allpositions" />
-<x-employee.contract.modal.add-contract :employee="$employee" :shifts="$shifts" :designations="$designations" :departments="$departments" :positions="$positions" :managers="$managers" :spvs="$spvs"  :leaders="$leaders" :subdepts="$subdepts" :units="$units" :allpositions="$allpositions" />
+<x-employee.contract.modal.edit-contract :employee="$employee" :projects="$projects" :locations="$locations" :shifts="$shifts" :designations="$designations" :departments="$departments" :positions="$positions" :managers="$managers" :spvs="$spvs"  :leaders="$leaders" :subdepts="$subdepts" :units="$units" :allpositions="$allpositions" />
+<x-employee.contract.modal.add-contract :employee="$employee" :projects="$projects" :shifts="$shifts" :designations="$designations" :departments="$departments" :positions="$positions" :managers="$managers" :spvs="$spvs"  :leaders="$leaders" :subdepts="$subdepts" :units="$units" :allpositions="$allpositions" />
 
-<x-employee.contract.modal.create-mutation :employee="$employee" :shifts="$shifts" :designations="$designations" :departments="$departments" :positions="$positions" :managers="$managers" :spvs="$spvs"  :leaders="$leaders" :allmanagers="$allmanagers" :allspvs="$allspvs"  :allleaders="$allleaders" :subdepts="$subdepts" :units="$units" :allpositions="$allpositions" />
+<x-employee.contract.modal.create-mutation :employee="$employee" :projects="$projects" :shifts="$shifts" :designations="$designations" :departments="$departments" :positions="$positions" :managers="$managers" :spvs="$spvs"  :leaders="$leaders" :allmanagers="$allmanagers" :allspvs="$allspvs"  :allleaders="$allleaders" :subdepts="$subdepts" :units="$units" :allpositions="$allpositions" />
 <x-employee.contract.modal.add-leader :employee="$employee" :leaders="$leaders" />
 
 {{-- <x-employee.contract.modal.add-position :employee="$employee" :leaders="$leaders" /> --}}

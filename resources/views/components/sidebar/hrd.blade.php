@@ -16,11 +16,11 @@
                <span class="sub-item">Department</span>
             </a>
          </li> --}}
-         <li>
+         {{-- <li>
             <a href="{{route('designation')}}">
                <span class="sub-item">Level</span>
             </a>
-         </li>
+         </li> --}}
          {{-- <li>
             <a href="{{route('position')}}">
                <span class="sub-item">Jabatan</span>
@@ -31,19 +31,74 @@
                <span class="sub-item">Location</span>
             </a>
          </li>
+         {{-- <li>
+            <a href="{{route('cuti')}}">
+               <span class="sub-item">Cuti Karyawan</span>
+            </a>
+         </li> --}}
          <li>
+            <a href="{{route('project')}}">
+               <span class="sub-item">Project</span>
+            </a>
+         </li>
+         {{-- <li>
             <a href="{{route('so')}}">
                <span class="sub-item">Struktur Organisasi</span>
             </a>
-         </li>
+         </li> --}}
       </ul>
    </div>
 </li>
-
+<li class="nav-item">
+   <a data-toggle="collapse" href="#qpe">
+      <!-- <a  href="{{route('qpe')}}"> -->
+      <i class="fas fa-file"></i>
+      <p>Quick PE</p>
+      <span class="caret"></span>
+   </a>
+   <div class="collapse" id="qpe">
+      <ul class="nav nav-collapse">
+         <li>
+            <a href="{{route('qpe.create')}}">
+               <span class="sub-item">Create PE</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('qpe')}}">
+               <span class="sub-item">Daftar PE</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('qpe.report')}}">
+               <span class="sub-item">Monitoring</span>
+            </a>
+         </li>
+         <hr>
+         {{-- @if (auth()->user()->hasRole('Administrator|HRD')) --}}
+         <li>
+            <a href="{{route('pe.component')}}">
+               <span class="sub-item">Component</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('discipline')}}">
+               <span class="sub-item">Discipline</span>
+            </a>
+         </li>
+         {{-- @endif --}}
+         <li>
+            <a href="{{route('kpi')}}">
+               <span class="sub-item">KPI</span>
+            </a>
+         </li>
+         
+      </ul>
+   </div>
+</li>
 <li class="nav-item">
    <a data-toggle="collapse" href="#employee">
       <i class="fas fa-users"></i>
-      <p>Employee</p>
+      <p>Data Karyawan</p>
       <span class="caret"></span>
    </a>
    <div class="collapse" id="employee">
@@ -88,6 +143,33 @@
    </div>
 </li>
 
+
+<li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
+   <a href="{{route('cuti')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Cuti Karyawan</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
+   <a href="{{route('task')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Task</p>
+   </a>
+</li>
+
+<li class="nav-item {{ (request()->is('announcement/*')) ? 'active' : '' }}">
+   <a href="{{route('announcement')}}">
+      <i class="fas fa-money-bill"></i>
+      <p>Anouncement</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
+   <a href="{{route('sp')}}">
+      <i class="fas fa-file-code"></i>
+      <p>SP Karyawan</p>
+   </a>
+</li>
+<hr>
 <li class="nav-item">
    <a data-toggle="collapse" href="#payroll">
       <i class="fas fa-file"></i>
@@ -166,10 +248,22 @@
       </ul>
    </div>
 </li>
-
-<li class="nav-item {{ (request()->is('announcement/*')) ? 'active' : '' }}">
-   <a href="{{route('announcement')}}">
+<hr>
+<li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.absence')}}">
+      <i class="fas fa-calendar-check"></i>
+      <p>Absensi Saya</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.cuti')}}">
+      <i class="fas fa-briefcase"></i>
+      <p>Cuti Saya</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+   <a href="{{route('payroll.transaction.employee')}}">
       <i class="fas fa-money-bill"></i>
-      <p>Anouncement</p>
+      <p>Payslip Saya</p>
    </a>
 </li>

@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\PeKpi;
+use App\Models\Project;
 
 class EmployeeController extends Controller
 {
@@ -54,23 +55,9 @@ class EmployeeController extends Controller
    {
       $tab = dekripRambo($enkripTab);
 
-      $employees = Employee::where('status', 1)->get();
+      $employees = Employee::get();
       // $employees = Employee::where('role', 4)->orWhere('role', 5)->orWhere('role', 6)->orWhere('role', 7)->orWhere('role', 8)->get();
-      $locs = location::get();
-      // if (auth()->user()->hasRole('Administrator')) {
-      //    foreach ($employees as $emp) {
-      //       if ($emp->contract->loc == null) {
-      //          $myLoc = Location::find($emp->location_id);
-      //          // if ($myLoc == null) {
-      //          //    dd($emp->nik);
-      //          // }
-      //          $contract = Contract::find($emp->contract_id);
-      //          $contract->update([
-      //             'loc' => $myLoc->code
-      //          ]);
-      //       }
-      //    }
-      // }
+
       // $qty = 0;
       // foreach ($employees as $emp) {
       //    $user = User::where('username', $emp->nik)->first();
@@ -686,7 +673,9 @@ class EmployeeController extends Controller
 
       // dd($myManagers);
       $locations = Location::get();
+      $projects = Project::get();
       // dd($roles);
+
 
       return view('pages.employee.detail', [
          'employee' => $employee,
@@ -714,7 +703,8 @@ class EmployeeController extends Controller
          // 'tab' => $tab,
          'employeeLeaders' => $employeeLeaders,
          'myManagers' => $myManagers,
-         'locations' => $locations
+         'locations' => $locations,
+         'projects' => $projects
       ]);
    }
 

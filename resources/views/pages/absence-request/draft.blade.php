@@ -15,6 +15,8 @@ Draft Request Absence
 
    <div class="row">
       <div class="col-md-3">
+         <h4><b>ABSENSI</b></h4>
+      <hr>
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
@@ -79,10 +81,17 @@ Draft Request Absence
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
+                        
                         @if ($absence->type == 5)
-                           @foreach ($absence->details  as $item)
-                                 {{formatDate($item->date)}} -
-                           @endforeach
+                        
+                           @if (count($absence->details) > 0)
+                                 @foreach ($absence->details  as $item)
+                                    {{formatDate($item->date)}} -
+                                  @endforeach
+                               @else
+                               Tanggal belum dipilih
+                           @endif
+                              
                               @else
                               {{formatDate($absence->date)}}
                         @endif

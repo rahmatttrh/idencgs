@@ -55,16 +55,64 @@
                <span class="sub-item">Level</span>
             </a>
          </li>
+         <li>
+            <a href="{{route('cuti')}}">
+               <span class="sub-item">Cuti Karyawan</span>
+            </a>
+         </li>
          {{-- <li>
             <a href="{{route('position')}}">
                <span class="sub-item">Jabatan</span>
             </a>
          </li> --}}
-         <li>
+         {{-- <li>
             <a href="{{route('so')}}">
                <span class="sub-item">Struktur Organisasi</span>
             </a>
+         </li> --}}
+      </ul>
+   </div>
+</li>
+<li class="nav-item">
+   <a data-toggle="collapse" href="#employee">
+      <i class="fas fa-users"></i>
+      <p>Employee</p>
+      <span class="caret"></span>
+   </a>
+   <div class="collapse" id="employee">
+      <ul class="nav nav-collapse">
+         <li>
+            <a href="{{route('employee', enkripRambo('active'))}}">
+               <span class="sub-item">Active</span>
+            </a>
          </li>
+         <li>
+            <a href="{{route('employee.nonactive')}}">
+               <span class="sub-item">Non Active</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('employee.draft')}}">
+               <span class="sub-item">Import</span>
+            </a>
+         </li>
+
+         <li>
+            <a href="{{route('employee.draft')}}">
+               <span class="sub-item">Draft</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('employee.create')}}">
+               <span class="sub-item">Create</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('employee.draft')}}">
+               <span class="sub-item">Import by Excel</span>
+            </a>
+         </li>
+
       </ul>
    </div>
 </li>
@@ -147,66 +195,29 @@
       </ul>
    </div>
 </li>
-<li class="nav-item">
-   <a data-toggle="collapse" href="#employee">
-      <i class="fas fa-users"></i>
-      <p>Employee</p>
-      <span class="caret"></span>
-   </a>
-   <div class="collapse" id="employee">
-      <ul class="nav nav-collapse">
-         <li>
-            <a href="{{route('employee', enkripRambo('active'))}}">
-               <span class="sub-item">Active</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('employee.nonactive')}}">
-               <span class="sub-item">Non Active</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('employee.draft')}}">
-               <span class="sub-item">Import</span>
-            </a>
-         </li>
 
-         <li>
-            <a href="{{route('employee.draft')}}">
-               <span class="sub-item">Draft</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('employee.create')}}">
-               <span class="sub-item">Create</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('employee.draft')}}">
-               <span class="sub-item">Import by Excel</span>
-            </a>
-         </li>
-
-      </ul>
-   </div>
-</li>
-<li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
+{{-- <li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
    <a href="{{route('cuti')}}">
       <i class="fas fa-calendar"></i>
       <p>Cuti</p>
+   </a>
+</li> --}}
+{{-- <li class="nav-item {{ (request()->is('payroll/perdin/*')) ? 'active' : '' }}">
+   <a href="{{route('perdin')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Perdin</p>
+   </a>
+</li> --}}
+<li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
+   <a href="{{route('task')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Task</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
       <i class="fas fa-file-code"></i>
-      <p>SP</p>
-   </a>
-</li>
-<li class="nav-item {{ (request()->is('payroll/perdin/*')) ? 'active' : '' }}">
-   <a href="#">
-      {{-- <a href="{{route('perdin')}}"> --}}
-      <i class="fas fa-calendar"></i>
-      <p>Perdin</p>
+      <p>Surat Peringatan</p>
    </a>
 </li>
 
@@ -270,3 +281,16 @@
       </ul>
    </div>
 </li> --}}
+<hr>
+<li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.absence')}}">
+      <i class="fas fa-calendar-check"></i>
+      <p>Absensi Saya</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.cuti')}}">
+      <i class="fas fa-briefcase"></i>
+      <p>Cuti Saya</p>
+   </a>
+</li>

@@ -123,6 +123,7 @@ class ContractController extends Controller
          'desc' => $req->desc,
          'cuti' => $req->cuti,
          'loc' => $req->loc,
+         'project_id' => $req->project,
          'note' => $req->note
       ]);
 

@@ -89,7 +89,7 @@
 </li>
 @endif
 
-<li class="nav-item">
+{{-- <li class="nav-item">
    <a data-toggle="collapse" href="#kpi">
       <i class="fas fa-file-contract"></i>
       <p>Performance</p>
@@ -117,7 +117,7 @@
          
       </ul>
    </div>
-</li>
+</li> --}}
 
 
 <li class="nav-item">
@@ -146,6 +146,12 @@
             </a>
          </li>
          @endif
+         <hr>
+         <li>
+            <a href="{{route('kpi')}}">
+               <span class="sub-item">KPI</span>
+            </a>
+         </li>
       </ul>
    </div>
 </li>
@@ -162,19 +168,14 @@
 </li>
 @endif
 
-<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
-   <a href="{{route('sp')}}">
-      <i class="fas fa-file-code"></i>
-      <p>SP</p>
-   </a>
-</li>
 
-<li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
+
+{{-- <li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
    <a href="{{route('cuti')}}">
       <i class="fas fa-calendar"></i>
       <p>Master Cuti </p>
    </a>
-</li>
+</li> --}}
 
 @if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Recruitment|HRD-Manager'))
 <hr>
@@ -264,6 +265,14 @@
 <hr>
 @endif
 
+
+{{-- <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.cuti')}}">
+      <i class="fas fa-briefcase"></i>
+      <p>Cuti</p>
+   </a>
+</li>
+
 <li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
    <a href="{{route('employee.spkl')}}">
       <i class="fas fa-clock"></i>
@@ -275,13 +284,7 @@
       <i class="fas fa-calendar-check"></i>
       <p>Absensi</p>
    </a>
-</li>
-<li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
-   <a href="{{route('employee.cuti')}}">
-      <i class="fas fa-briefcase"></i>
-      <p>Cuti</p>
-   </a>
-</li>
+</li> --}}
 
 <li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
    <a href="{{route('task')}}">
@@ -295,5 +298,12 @@
    <a href="{{route('overtime.team')}}">
       <i class="fas fa-file-code"></i>
       <p>Summary</p>
+   </a>
+</li>
+<hr>
+<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
+   <a href="{{route('sp')}}">
+      <i class="fas fa-file-code"></i>
+      <p>Surat Peringatan</p>
    </a>
 </li>
