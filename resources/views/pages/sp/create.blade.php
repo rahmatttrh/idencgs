@@ -186,6 +186,38 @@ SP
          })
       })
    </script>
+
+<script>
+   console.log('get_leaders');
+
+   $(document).ready(function() {
+
+      $('.employee').change(function() {
+         var employee = $('.employee').val();
+         var _token = $('meta[name="csrf-token"]').attr('content');
+         // console.log('okeee');
+         console.log('employee :' + employee);
+         
+         $.ajax({
+            url: "/fetch/leader/" + employee ,
+            method: "GET",
+            dataType: 'json',
+
+            success: function(result) {
+               
+               $.each(result.result, function(i, index) {
+                  $('.to').html(result.result);
+
+               });
+            },
+            error: function(error) {
+               console.log(error)
+            }
+
+         })
+      })
+   })
+</script>
 @endpush
 
 

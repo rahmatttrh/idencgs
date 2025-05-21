@@ -864,7 +864,7 @@ Route::middleware(["auth"])->group(function () {
    Route::group(['middleware' => ['role:Administrator|Karyawan|Leader|Supervisor|Manager|Asst. Manager']], function () {
       // kpi
 
-      Route::prefix('leader')->group(function () {
+      Route::prefix('approval')->group(function () {
          Route::get('absence/index', [AbsenceLeaderController::class, 'index'])->name('leader.absence');
          Route::get('absence/history', [AbsenceLeaderController::class, 'history'])->name('leader.absence.history');
 

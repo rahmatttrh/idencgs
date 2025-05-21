@@ -31,7 +31,7 @@ class SpController extends Controller
          $employees = Employee::get();
          $sps = Sp::orderBy('created_at', 'desc')->get();
          $allEmployees = [];
-      } elseif (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll')) {
+      } elseif (auth()->user()->hasRole('BOD|HRD-Spv|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll')) {
          $employee = auth()->user()->getEmployee();
          $allEmployees = Employee::get();
          $employees = [];

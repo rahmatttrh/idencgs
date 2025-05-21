@@ -906,6 +906,9 @@ class HomeController extends Controller
             ->get();
 
          // $absences =
+
+         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
          return view('pages.dashboard.employee', [
             'now' => $now,
             'employee' => $employee,
@@ -922,7 +925,9 @@ class HomeController extends Controller
             'tasks' => $tasks,
             'absences' => $absences,
             'currentTransaction' => $currentTransaction,
-            'cutis' => $cutis
+            'cutis' => $cutis, 
+            'reqForms' => $reqForms,
+            'reqBackForms' => $reqBackForms
          ])->with('i');
       }
    }

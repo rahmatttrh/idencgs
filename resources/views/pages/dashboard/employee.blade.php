@@ -301,6 +301,32 @@ Dashboard
             </div>
          @endif
 
+         <div class="card card-stats card-round border">
+            <div class="card-body ">
+               <div class="row align-items-center">
+                  <div class="col-icon">
+                     <div class="icon-big text-center icon-primary bubble-shadow-small">
+                        <i class="fas fa-users"></i>
+                     </div>
+                  </div>
+                  <div class="col col-stats ml-3 ml-sm-0">
+                     <a href="{{route('leader.absence')}}">
+                        <div class="numbers">
+                           <p class="card-category"> Approval Absensi </p>
+                           <h4 class="card-title">{{count($reqForms) + count($reqBackForms)}}</h4>
+                        </div>
+                     </a>
+                  </div>
+                  <div class="col-6">
+                     <small>Daftar Request Absensi Cuti, SPT, dan lainnya yang memiliki relasi terhadap anda sebagai pengganti maupun sebagai atasan</small>
+                  </div>
+               </div>
+            </div>
+            {{-- <div class="card-body">
+               <small>Melihat Request Absensi Cuti, SPT, dan lainnya yang memiliki relasi terhadap anda sebagai pengganti maupun sebagai atasan</small>
+            </div> --}}
+         </div>
+
         
         
 

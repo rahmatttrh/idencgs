@@ -26,7 +26,7 @@ QPE
       
       
       <div class="card-body  pt-3"> --}}
-         @if (auth()->user()->hasRole('Administrator|HRD|HRD-Manager|HRD-Recruitment'))
+         @if (auth()->user()->hasRole('BOD|Administrator|HRD|HRD-Manager|HRD-Recruitment'))
          <x-qpe.table.admin :pes="$pes" :title="$title" :i="$i" :title="$title" :total="$total" :draft="$draft" :verification="$verification" :done="$done" :reject="$reject" />
          @elseif($employee->role == 5 || $employee->role == 8)
          <x-qpe.table.manager :pes="$pes" :i="$i" :employee="$employee" :title="$title" :total="$total" :draft="$draft" :verification="$verification" :done="$done" :reject="$reject" />
