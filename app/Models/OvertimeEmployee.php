@@ -15,8 +15,16 @@ class OvertimeEmployee extends Model
       return $this->belongsTo(Employee::class);
     }
 
+    public function by(){
+      return $this->belongsTo(Employee::class, 'by_id');
+    }
+
     public function location(){
       return $this->belongsTo(Location::class);
+    }
+
+    public function parent(){
+      return $this->belongsTo(OvertimeParent::class, 'parent_id');
     }
 
     public function getFinalHours(){

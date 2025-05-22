@@ -1,19 +1,8 @@
 @extends('layouts.app')
 @section('title')
-Summary SPKL
+Summary Absence
 @endsection
 @section('content')
-<style>
-   .btn-rm {
-    background: none;
-    color: inherit;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-}
-</style>
 
 <div class="page-inner">
    <nav aria-label="breadcrumb ">
@@ -29,7 +18,7 @@ Summary SPKL
             <b><i>SPKL KARYAWAN</i></b>
          </div>
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{route('payroll.overtime')}}" aria-controls="v-pills-basic" aria-selected="true">
+            <a class="nav-link text-left pl-3" id="v-pills-basic-tab" href="{{route('payroll.overtime')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
                Summary SPKL
             </a>
@@ -60,7 +49,7 @@ Summary SPKL
           <hr>
           <table>
             <thead>
-               <tr><th colspan="2">SPKL</th></tr>
+               <tr><th colspan="2">SPKL/Unit</th></tr>
             </thead>
             <tbody>
                <tr>
@@ -88,17 +77,10 @@ Summary SPKL
                <tr>
                   <td></td>
                   <td>
-                     @if ($unitAll == 1)
-                         All
-                         @else
-                         @foreach ($units as $u)
-                           {{$u->name}}, 
-                        @endforeach
-                     @endif
+                    {{$unit->name}}
                      
                   </td>
                </tr>
-
                <tr>
                   <td colspan="2">Location</td>
                </tr>
@@ -112,18 +94,19 @@ Summary SPKL
                            {{$l->name}}, 
                         @endforeach
                      @endif
+                    
                      
                   </td>
                </tr>
+
+             
                
             </tbody>
           </table>
         
       </div>
       <div class="col-md-9">
-         
-          
-          <div class="collapse" id="collapseExample">
+         <div class="collapse" id="collapseExample">
             <form action="{{route('payroll.overtime.filter.summary')}}" method="POST">
                @csrf
                <div class="row">
@@ -170,64 +153,39 @@ Summary SPKL
                
             </form>  
           </div>
-         <div class="table-responsive p-0">
-            <table id="data" class="display  table-sm p-0">
+         <div class="table-responsive">
+            <table id="data" class="display basic-datatables table-sm">
                <thead>
                   <tr>
-                     <th>Unit</th>
-                     <th>Location</th>
+                     <th>NIK</th>
+                     <th>Name</th>
+                     {{-- <th>Location</th> --}}
+                     <th>Loc</th>
                      <th class="text-center">Lembur</th>
                      <th class="text-center">Piket</th>
-                     
+                     {{-- <th class="text-right">Rate</th> --}}
                   </tr>
                </thead>
-
+               
                <tbody>
-                  @foreach ($units as $unit)
+                  @foreach ($employees as $emp)
                       <tr>
-                        <td colspan="8">
-                           {{-- <a href="{{route('payroll.absence.unit', [enkripRambo($unit->id), enkripRambo($from), enkripRambo($to), ])}}">{{$unit->name}}</a> --}}
-                           
-                           <form action="{{route('payroll.overtime.unit')}}" method="POST">
-                              @csrf
-                              <input type="number" name="unit" id="unit" value="{{$unit->id}}" hidden>
-                              <input type="number" name="locAll" id="locAll" value="{{$locAll}}" hidden>
-                              <input type="date" name="from" id="from" value="{{$from}}" hidden>
-                              <input type="date" name="to" id="to" value="{{$to}}" hidden>
-                              <select  name="locations[]" id="locations" hidden class=" "  multiple="multiple">
-                                 @foreach ($allLocations as $loc)
-                                    @foreach ($locations as $l)
-                                       @if ($l->id == $loc->id)
-                                       <option value="{{$l->id}}" selected></option>
-                                       @endif
-                                    @endforeach
-                                     
-                                 @endforeach
-                                 <option value=""></option>
-                              </select>
-                              <button type="submit" class="btn-rm text-primary">{{$unit->name}}</button>
-                           </form>
+                        <td class="text-truncate">{{$emp->nik}}</td>
+                        <td class="text-truncate" style="max-width: 140px"> 
+                           {{-- {{route('payroll.absence.employee.detail', [enkripRambo($emp->id), $from, $to])}} --}}
+                           <a href="{{route('payroll.overtime.employee.detail', [enkripRambo($emp->id), $from, $to])}}">{{$emp->biodata->fullName()}}</a>
                         </td>
+                        {{-- <td>{{$emp->location->name ?? '-'}}</td> --}}
+                        <td class="text-truncate" style="max-width: 100px">{{$emp->location->name ?? ''}} </td>
+                        {{-- <td>{{$emp->department->name}}</td> --}}
+                        <td class="text-center">{{count($emp->getSpkl($from, $to)->where('type', 1))}}</td>
+                        <td class="text-center">{{count($emp->getSpkl($from, $to)->where('type', 2))}}</td>
                         
+                        {{-- <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td> --}}
                       </tr>
-                      @foreach($locations as $loc)
-                        @if ($loc->totalEmployee($unit->id))
-                        <tr>
-                           <td></td>
-                           <td>
-                              <a href="{{route('payroll.overtime.loc', [enkripRambo($unit->id), enkripRambo($loc->id), $from, $to, $locAll])}}">{{$loc->code}}</a>
-                              
-                           </td>
-                           <td class="text-center">{{$loc->getLembur($unit->id,$from,$to)}}</td>
-                           <td class="text-center">{{$loc->getPiket($unit->id,$from,$to)}}</td>
-                           
-                        </tr>
-                        @endif
-                     
-                      @endforeach
                   @endforeach
                </tbody>
-
+               
             </table>
          </div>
       </div>

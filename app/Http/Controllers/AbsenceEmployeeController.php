@@ -97,6 +97,7 @@ class AbsenceEmployeeController extends Controller
       $employees = Employee::where('department_id', $employee->department_id)->get();
       // dd($employees);
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
+      $managers = Employee::where('unit_id', $employee->unit_id)->where('role', 5)->get();
       $now = Carbon::now();
       // $cutis = Absence::where()
       $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
@@ -106,6 +107,7 @@ class AbsenceEmployeeController extends Controller
       return view('pages.absence-request.create', [
          'activeTab' => $activeTab,
          'employeeLeaders' => $employeeLeaders,
+         'managers' => $managers,
          'employees' => $employees,
          'absence' => null,
          'from' => null,
@@ -178,6 +180,7 @@ class AbsenceEmployeeController extends Controller
 
       // dd($employee->nik);
       // dd($absenceEmployee->employee->biodata->fullName());
+      $user = Employee::where('nik', auth()->user()->username)->first();
       return view('pages.absence-request.detail', [
          
          'activeTab' => $activeTab,
@@ -190,7 +193,7 @@ class AbsenceEmployeeController extends Controller
          'cuti' => $cuti,
          'from' => null,
          'to' => null,
-         
+         'user' => $user
       ]);
    }
 
@@ -217,8 +220,9 @@ class AbsenceEmployeeController extends Controller
          $req->validate([
             'keperluan' => 'required',
             'persetujuan' => 'required',
-            'cuti_backup' => 'required'
+            // 'cuti_backup' => 'required'
          ]);
+         $manager = $req->manager;
          $desc = $req->keperluan;
          $leader = $req->persetujuan;
          $date = Carbon::now();
@@ -229,10 +233,12 @@ class AbsenceEmployeeController extends Controller
          ]);
          $desc = $req->desc;
          $leader = $req->leader;
+         $manager = null;
          $date = $req->date;
       } else {
          $desc = $req->desc;
          $leader = null;
+         $manager = null;
          $date = $req->date;
       }
 
@@ -242,6 +248,7 @@ class AbsenceEmployeeController extends Controller
          'status' => 0,
          'employee_id' => $employee->id,
          'absence_id' => $absenceCurrentId,
+         'manager_id' => $manager,
          'leader_id' => $leader,
          'type' => $req->type,
          'type_desc' => $req->type_izin,

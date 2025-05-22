@@ -35,7 +35,7 @@ Form Absensi
          <hr>
          <small>
             <b>#INFO</b> <br>
-            Daftar Form Request Absensi yang membutuhkan approval anda, sebagai pengganti maupun sebagai atasan
+            Daftar Form Request Absensi yang membutuhkan approval anda.
          </small>
          
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
@@ -144,7 +144,7 @@ Form Absensi
                      <th>Date</th>
                      {{-- <th>Desc</th> --}}
                      <th>Status</th>
-                     {{-- <th></th> --}}
+                     <th></th>
                   </tr>
                </thead>
 
@@ -165,11 +165,28 @@ Form Absensi
                            {{-- <td>{{$absence->employee->location->name}}</td> --}}
                            
                            {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                           <td>{{formatDate($absence->date)}}</td>
+                           <td>
+                              @if ($absence->type == 5)
+                        
+                              @if (count($absence->details) > 0)
+                                    @foreach ($absence->details  as $item)
+                                       {{formatDate($item->date)}} -
+                                     @endforeach
+                                  @else
+                                  Tanggal belum dipilih
+                              @endif
+                                 
+                                 @else
+                                 {{formatDate($absence->date)}}
+                           @endif
+                           </td>
                            {{-- <td>{{$absence->desc}}</td> --}}
                            <td>
                               <x-status.form :form="$absence" />
                               
+                           </td>
+                           <td>
+                              {{$absence->release_date}}
                            </td>
                         
                         </tr>
@@ -178,7 +195,7 @@ Form Absensi
                   
                   @endforeach
 
-                  @foreach ($reqBackForms as $absence)
+                  {{-- @foreach ($reqBackForms as $absence)
                         
                         <tr>
                            <td>
@@ -189,19 +206,18 @@ Form Absensi
                            </td>
                            <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
                            <td> {{$absence->employee->biodata->fullName()}}</td>
-                           {{-- <td>{{$absence->employee->location->name}}</td> --}}
-                           
-                           {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                            <td>{{formatDate($absence->date)}}</td>
-                           {{-- <td>{{$absence->desc}}</td> --}}
                            <td>
                               <x-status.form :form="$absence" />
                               
                            </td>
+                           <td>
+                              {{$absence->created_at}}
+                           </td>
                         
                         </tr>
                         
-                     @endforeach
+                     @endforeach --}}
 
 
                   

@@ -18,6 +18,8 @@ class Overtime extends Model
       return $this->belongsTo(Location::class);
     }
 
+   
+
     public function getFinalHours(){
 
       if ($this->holiday_type == 1) {

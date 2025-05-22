@@ -251,8 +251,8 @@ Dashboard
                         <div class="col col-stats ml-3 ml-sm-0">
                            <a href="{{route('leader.absence')}}">
                            <div class="numbers">
-                              <p class="card-category"> Approval Absensi </p>
-                              <h4 class="card-title">{{count($reqForms) + count($reqBackForms)}}</h4>
+                              <p class="card-category"> Approval Form Absensi </p>
+                              <h4 class="card-title">{{count($reqForms) }}</h4>
                            </div>
                         </a>
                         </div>

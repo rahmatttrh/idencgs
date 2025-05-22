@@ -1,7 +1,7 @@
 @if ($form->status == 0)
     Draft
     @elseif($form->status == 1)
-    Approval Pengganti
+    Approval Atasan
     @elseif($form->status == 2)
     Approval Atasan
     @elseif($form->status == 3)

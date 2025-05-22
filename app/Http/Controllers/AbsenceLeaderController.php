@@ -11,8 +11,8 @@ class AbsenceLeaderController extends Controller
 {
    public function index(){
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
-      $allReqForms = AbsenceEmployee::whereIn('status', [1,2])->get();
+      $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->orderBy('created_at', 'asc')->get();
+      $allReqForms = AbsenceEmployee::whereIn('status', [1,2])->where('leader_id', $employee->id)->orderBy('release_date', 'desc')->get();
       $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
       $activeTab = 'index';
 
@@ -60,7 +60,7 @@ class AbsenceLeaderController extends Controller
 
    public function indexHrd(){
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::where('status', '!=', 5)->orderBy('created_at', 'desc')->get();
+      $reqForms = AbsenceEmployee::where('status', '!=', 5)->get();
       $activeTab = 'index';
       return view('pages.absence-request.hrd.index', [
          'activeTab' => $activeTab,
@@ -70,7 +70,7 @@ class AbsenceLeaderController extends Controller
 
    public function historyHrd(){
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::where('status', 5)->orderBy('created_at', 'desc')->get();
+      $reqForms = AbsenceEmployee::where('status', 5)->get();
       $activeTab = 'history';
       return view('pages.absence-request.hrd.history', [
          'activeTab' => $activeTab,

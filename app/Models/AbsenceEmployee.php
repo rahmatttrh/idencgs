@@ -26,6 +26,11 @@ class AbsenceEmployee extends Model
       return $this->belongsTo(Employee::class);
    }
 
+   public function manager()
+   {
+      return $this->belongsTo(Employee::class);
+   }
+
    public function cuti_backup()
    {
       return $this->belongsTo(Employee::class);

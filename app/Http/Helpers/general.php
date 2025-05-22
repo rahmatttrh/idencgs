@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Cookie;
+
 function formatRupiah($data)
 {
    $rupiah = 'Rp ' . number_format($data, 0, ",", ".");
@@ -172,4 +174,16 @@ function getMultiple($hours)
    $totalHours = $multiHours * 2 + 1.5;
    // $rate = $totalHours * round($rateOvertime);
    return $totalHours;
+}
+
+function clearAllCookies()
+{
+   $cookies = request()->cookies->all();
+   
+   foreach ($cookies as $name => $value) {
+      Cookie::queue(Cookie::forget($name));
+   }
+
+   // dd('ok');
+   
 }

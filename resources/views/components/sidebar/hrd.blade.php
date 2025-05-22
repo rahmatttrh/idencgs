@@ -249,6 +249,12 @@
    </div>
 </li>
 <hr>
+<li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.spkl')}}">
+      <i class="fas fa-clock"></i>
+      <p>SPKL Saya</p>
+   </a>
+</li>
 <li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
    <a href="{{route('employee.absence')}}">
       <i class="fas fa-calendar-check"></i>
