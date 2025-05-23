@@ -16,6 +16,13 @@ class Absence extends Model
       return $this->belongsTo(Employee::class);
    }
 
+   public function absenceEmp()
+   {
+      return $this->belongsTo(AbsenceEmployee::class, 'absence_employee_id');
+   }
+
+
+
    public function getRequest(){
       $absenceEmployee = AbsenceEmployee::where('absence_id', $this->id)->first();
 

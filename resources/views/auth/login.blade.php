@@ -34,7 +34,7 @@
 
 <body class="login" style="background-image: url({{asset('img/bg-blue.jpg')}}); background-size: cover;">
 	
-	{{clearAllCookies()}}
+	{{-- {{clearAllCookies()}} --}}
 	<div class="container">
         <div class="row justify-content-center">
 			<div class="col-xl-10 col-lg-12 col-md-9">

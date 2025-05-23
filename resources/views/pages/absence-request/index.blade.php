@@ -78,6 +78,7 @@ Absence
                      <td >
                         <x-status.absence :absence="$absence" />
                         
+                        
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>{{formatDate($absence->date)}}</td>
@@ -116,6 +117,10 @@ Absence
                             <a href="{{route('employee.absence.request', enkripRambo($absence->id))}}" class="badge badge-light">Request Perubahan</a>
                             @endif
                             
+                        @endif
+
+                        @if ($absence->absence_employee_id != null)
+                        <a href="{{route('employee.absence.detail', enkripRambo($absence->absence_employee_id))}}" >Lihat Form</a>
                         @endif
                      </td>
                      

@@ -17,5 +17,7 @@
       Dinas Luar
       @elseif($absence->type == 9)
       Off Kontrak
+      @elseif($absence->type == 10)
+      Izin Resmi
    @endif
 </span>

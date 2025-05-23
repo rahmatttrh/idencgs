@@ -41,11 +41,8 @@ Draft Request Absence
             
          </div>
          <hr>
-         <div class="card">
-            <div class="card-body">
-               <small>Daftar pengajuan yang masih dalam status Draft dan belum dikirim untuk proses persetujuan</small>
-            </div>
-         </div>
+         <b>#INFO</b><br>
+         <small>Daftar pengajuan yang masih dalam status Draft dan belum dikirim untuk proses persetujuan</small>
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
@@ -55,7 +52,7 @@ Draft Request Absence
                   <tr>
                      {{-- <th>NIK</th>
                       <th>Name</th> --}}
-                      {{-- <th>Loc</th> --}}
+                      <th>ID</th>
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
@@ -71,6 +68,7 @@ Draft Request Absence
                      {{-- <td>{{$absence->employee->nik}}</td>
                       <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
+                      <td>{{$absence->code}}</td>
                      <td>
                         @if ($absence->status == 404)
                            <span class="text-danger">Permintaan Perubahan</span>
@@ -82,11 +80,11 @@ Draft Request Absence
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
                         
-                        @if ($absence->type == 5)
+                        @if ($absence->type == 5 || $absence->type == 10)
                         
                            @if (count($absence->details) > 0)
                                  @foreach ($absence->details  as $item)
-                                    {{formatDate($item->date)}} -
+                                    [{{formatDate($item->date)}}] 
                                   @endforeach
                                @else
                                Tanggal belum dipilih
@@ -96,7 +94,7 @@ Draft Request Absence
                               {{formatDate($absence->date)}}
                         @endif
                      </td>
-                     <td>{{$absence->desc}}</td>
+                     <td>{{$absence->desc}} {{$absence->permit->name ?? ''}}</td>
                      
                      <td class="text-truncate">
                       <a class="" href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> |
@@ -114,15 +112,19 @@ Draft Request Absence
                               </button>
                            </div>
                            <div class="modal-body ">
-                              Delete data
-                              @if ($absence->type == 6)
+                              Delete Form
+                              @if ($absence->type == 5)
+                              Cuti
+                              @elseif ($absence->type == 6)
                               SPT
                               @elseif($absence->type == 4)
                               Izin
+                              @elseif($absence->type == 10)
+                              Izin Resmi
                               
                               @endif
                               
-                              tanggal {{formatDate($absence->date)}}
+                              
                               ?
                            </div>
                            <div class="modal-footer">

@@ -41,11 +41,8 @@ Absence
             
          </div>
          <hr>
-         <div class="card">
-            <div class="card-body">
-               <small>Daftar pengajuan yang masih dalam tahap persetujuan</small>
-            </div>
-         </div>
+         <b>#INFO</b><br>
+         <small>Daftar pengajuan yang masih dalam tahap persetujuan</small>
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
@@ -101,7 +98,8 @@ Absence
                         @endif
                      </td>
                      <td class="text-truncate">
-                      <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> |
+                      <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a>
+                       |
                         <a href="#"  data-target="#modal-delete-absence-employee-{{$absence->id}}" data-toggle="modal">Delete</a>
                      </td>
                   </tr>

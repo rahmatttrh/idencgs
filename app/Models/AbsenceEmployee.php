@@ -16,6 +16,10 @@ class AbsenceEmployee extends Model
       return $this->belongsTo(Absence::class);
    }
 
+   public function permit(){
+      return $this->belongsTo(Permit::class);
+   }
+
    public function employee()
    {
       return $this->belongsTo(Employee::class);

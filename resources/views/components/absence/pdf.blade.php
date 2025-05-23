@@ -64,7 +64,7 @@
          <tr class="text-center">
             <td style="height: 40px">{{$cuti->used}}</td>
             <td>
-               @if (count($absdetails) > 0)
+               @if ($absdetails && count($absdetails) > 0)
                {{$absenceemp->cuti_qty}}
                @else
                0
@@ -72,7 +72,8 @@
             </td>
             <td>
                {{-- {{$absenceemp->cuti_start}} --}}
-               @if (count($absdetails) > 0)
+               
+               @if ($absdetails && count($absdetails) > 0)
                {{formatDate($absenceemp->cuti_start)}}
                @else
                -
@@ -80,7 +81,7 @@
                
             </td>
             <td>
-               @if (count($absdetails) > 0)
+               @if ($absdetails && count($absdetails) > 0)
                {{formatDate($absenceemp->cuti_end)}}
                @else
                -
@@ -585,6 +586,120 @@
             <td style="width: 20px"></td>
             <td colspan="1">Tanggal</td>
             <td colspan="4" class="">{{formatDate($absenceemp->date)}}</td>
+         </tr>
+      </tbody>
+    </table>
+@endif
+
+@if ($absenceemp->type == 10)
+    <table>
+      <tbody>
+         <tr>
+            <td class="text-center" colspan="2" rowspan="2">
+               <img src="{{asset('img/logo/enc1.png')}}" alt="" width="100">
+            </td>
+            <td class="text-center" colspan="2">
+               <h4>FORMULIR</h4>
+            </td>
+            <td class="text-center" colspan="2" rowspan="2">
+               <img src="{{asset('img/logo/ekanuri.png')}}" alt="" width="100"><br>
+               <span>PT Ekanuri</span>
+            </td>
+         </tr>
+         <tr class="text-center">
+            <td><h4>SURAT IZIN RESMI</h4></td>
+         </tr>
+         <tr>
+            <td style="width: 20px"></td>
+            <td colspan="1" style="width: 250px">Nama</td>
+            <td colspan="4" class="">{{$absenceemp->employee->biodata->fullName() ?? ''}}</td>
+         </tr>
+         <tr>
+            <td style="width: 20px"></td>
+            <td colspan="1">NIK</td>
+            <td colspan="4" class="">{{$absenceemp->employee->nik}}</td>
+         </tr>
+         {{-- <tr>
+            <td style="width: 20px"></td>
+            <td colspan="1">Departemen</td>
+            <td colspan="4" class="">{{$absenceemp->employee->department->name}}</td>
+         </tr> --}}
+         <tr>
+            <td style="width: 20px"></td>
+            <td colspan="1">Jabatan</td>
+            <td colspan="4" class="">{{$absenceemp->employee->position->name}}</td>
+         </tr>
+         <tr>
+            <td colspan="6"></td>
+         </tr>
+         <tr>
+            <td style="width: 20px"></td>
+            <td colspan="1">Izin</td>
+            <td colspan="4" class="">{{$absenceemp->permit->name}}</td>
+         </tr>
+         <tr>
+            <td style="width: 20px"></td>
+            <td colspan="5">Tanggal</td>
+            {{-- <td colspan="4" class="">
+               @if (count($absdetails) > 0)
+               @foreach ($absdetails as $detail)
+                  {{formatDate($detail->date)}}
+               @endforeach
+               
+               @else
+               Tanggal belum dipilih
+               @endif
+            </td> --}}
+         </tr>
+         @foreach ($absdetails as $item)
+         <tr>
+            <td style="width: 20px"></td>
+            <td></td>
+            <td colspan="4">{{formatDate($item->date)}}</td>
+         </tr>
+             
+         @endforeach
+         <tr>
+            <td colspan="6"></td>
+         </tr>
+
+         <tr>
+            <td colspan="6">Jakarta, {{formatDate($absenceemp->date)}}</td>
+         </tr>
+         <tr>
+            <td colspan="2">
+               <table>
+                  <tbody>
+                     <tr class="bg-dark text-light">
+                        <td>Karyawan</td>
+                     </tr>
+                     <tr>
+                        <td style="height: 100px" class="text-center">
+   
+                           @if ($absenceemp->status >= 3)
+                                 <small class="text-success"><i>APPROVED</i></small> <br>
+                                 <small class="text-muted">{{formatDateTime($absenceemp->app_leader_date)}}</small>
+                           @endif
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                        Nama : {{$absenceemp->employee->biodata->fullName()}}
+                     </td>
+                     </tr>
+   
+                  </tbody>
+               </table>
+               {{-- <div class="card">
+                  <div class="card-header bg-dark text-light"></div>
+                  <div class="card-body" style="height: 100px">
+   
+                  </div>
+                  <div class="card-footer">
+                     Nama : {{$absenceemp->leader->biodata->fullName()}}
+                  </div>
+               </div> --}}
+            </td>
          </tr>
       </tbody>
     </table>

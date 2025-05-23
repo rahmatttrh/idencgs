@@ -73,11 +73,10 @@ Form Absence
                      <label>Jenis Form</label>
                      <select class="form-control type" required name="type" id="type">
                         <option value="" disabled selected>Select</option>
-                        
-                        <option  value="4">Izin</option>
-                        <option value="10">Izin Resmi</option>
                         <option value="5">Cuti</option>
                         <option  value="6">SPT</option>
+                        <option  value="4">Izin</option>
+                        <option value="10">Izin Resmi</option>
                         <option value="7">Sakit</option>
                      </select>
                   </div>
@@ -89,7 +88,11 @@ Form Absence
                   </div>
                   <span class="type_cuti">
                      {{-- #Info <br> --}}
-                     Tanggal cuti dapat dipilih setelah <br> anda klik 'Save to Draft'
+                     Tanggal Cuti dapat dipilih setelah <br> anda klik 'Save to Draft'
+                  </span>
+                  <span class="type_izin_resmi">
+                     {{-- #Info <br> --}}
+                     Tanggal Izin Resmi dapat dipilih setelah <br> anda klik 'Save to Draft'
                   </span>
                </div>
 
@@ -124,6 +127,18 @@ Form Absence
                   </div>
                </div>
             </div>
+            <span class="type_izin_resmi">
+               <div class="form-group form-group-default">
+                  <label>Jenis Izin Resmi</label>
+                  <select class="form-control"  name="permit" id="permit">
+                     <option value="" disabled selected>Select</option>
+                     @foreach ($permits as $permit)
+                     <option value="{{$permit->id}}">{{$permit->name}} {{$permit->desc}} - {{$permit->qty}} Hari</option>
+                     @endforeach
+                     
+                  </select>
+               </div>
+            </span>
 
 
             <span class="type_cuti">
@@ -338,6 +353,7 @@ $(document).ready(function() {
          $('.type_izin').hide();
          $('.type_late').hide();
          $('.type_cuti').hide();
+         $('.type_izin_resmi').hide();
          // $('.spt').hide();
 
          $('.type').change(function() {
@@ -346,6 +362,7 @@ $(document).ready(function() {
             if (type == 6) {
               $('.date').show();
               $('.type_spt').show();
+              $('.type_izin_resmi').hide();
               $('.type_izin').hide();
               $('.type_late').hide();
               $('.type_cuti').hide();
@@ -353,6 +370,7 @@ $(document).ready(function() {
                //   $('#foto').show();
                $('.date').hide();
                $('.type_izin').hide();
+               $('.type_izin_resmi').hide();
                $('.type_spt').hide();
                $('.type_late').hide();
                $('.type_cuti').show();
@@ -360,11 +378,22 @@ $(document).ready(function() {
                //   $('#foto').show();
                $('.date').show();
                $('.type_izin').show();
+               $('.type_izin_resmi').hide();
+               $('.type_spt').hide();
+               $('.type_late').hide();
+               $('.type_cuti').hide();
+            }
+            else if(type == 10) {
+               //   $('#foto').show();
+               $('.date').hide();
+               $('.type_izin_resmi').show();
+               $('.type_izin').hide();
                $('.type_spt').hide();
                $('.type_late').hide();
                $('.type_cuti').hide();
             } else  {
                //   $('#foto').show();
+               $('.type_izin_resmi').hide();
                $('.date').show();
                $('.type_izin').hide();
                $('.type_spt').hide();

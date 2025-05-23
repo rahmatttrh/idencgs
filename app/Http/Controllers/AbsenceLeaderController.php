@@ -11,8 +11,16 @@ class AbsenceLeaderController extends Controller
 {
    public function index(){
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->orderBy('created_at', 'asc')->get();
-      $allReqForms = AbsenceEmployee::whereIn('status', [1,2])->where('leader_id', $employee->id)->orderBy('release_date', 'desc')->get();
+      if (auth()->user()->hasRole('Manager')) {
+         // dd($employee->id);
+         $reqForms = AbsenceEmployee::where('manager_id', $employee->id)->whereIn('status', [1,2])->orderBy('updated_at', 'desc')->get();
+      } else {
+         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->orderBy('updated_at', 'desc')->get();
+      }
+
+      // dd($reqForms);
+      
+      $allReqForms = AbsenceEmployee::whereIn('status', [1,2])->where('leader_id', $employee->id)->orderBy('updated_at', 'desc')->get();
       $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
       $activeTab = 'index';
 
@@ -25,14 +33,29 @@ class AbsenceLeaderController extends Controller
 
       // dd($reqBackForms);
 
-      return view('pages.absence-request.leader.index', [
-         'activeTab' => $activeTab,
-         'reqForms' => $reqForms,
-         'reqBackForms' => $reqBackForms,
+      if (auth()->user()->hasRole('Manager')) {
+         // dd($employee->id);
+         // dd($reqForms);
+         return view('pages.absence-request.manager.index', [
+            'activeTab' => $activeTab,
+            'reqForms' => $reqForms,
+            'reqBackForms' => $reqBackForms,
+   
+            'allReqForms' => $allReqForms,
+            'myteams' => $myteams
+         ]);
+      } else {
+         return view('pages.absence-request.leader.index', [
+            'activeTab' => $activeTab,
+            'reqForms' => $reqForms,
+            'reqBackForms' => $reqBackForms,
+   
+            'allReqForms' => $allReqForms,
+            'myteams' => $myteams
+         ]);
+      }
 
-         'allReqForms' => $allReqForms,
-         'myteams' => $myteams
-      ]);
+      
    }
 
    public function history(){

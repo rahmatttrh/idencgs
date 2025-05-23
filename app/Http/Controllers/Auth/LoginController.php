@@ -76,7 +76,7 @@ class LoginController extends Controller
       
 
       $this->guard()->logout();
-      // clearAllCookies();
+      clearAllCookies();
          return redirect('/');
 
          

@@ -37,6 +37,11 @@
                <span class="sub-item">Project</span>
             </a>
          </li>
+         <li>
+            <a href="{{route('permit')}}">
+               <span class="sub-item">Izin Resmi</span>
+            </a>
+         </li>
          {{-- <li>
             <a href="{{route('position')}}">
                <span class="sub-item">Jabatan</span>
