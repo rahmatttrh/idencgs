@@ -38,6 +38,7 @@ class LoginController extends Controller
     */
    public function __construct()
    {
+      
       $this->middleware('guest')->except('logout');
    }
 
@@ -72,10 +73,17 @@ class LoginController extends Controller
          
       // }
 
+      
+
       $this->guard()->logout();
+      // clearAllCookies();
          return redirect('/');
+
+         
       
    }
+
+
 
    public function username()
    {
