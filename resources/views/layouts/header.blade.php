@@ -147,13 +147,13 @@
                            
                            @else
                            <a class="dropdown-item" href="{{route('employee.detail', [enkripRambo(auth()->user()->getEmployeeId()), enkripRambo('contract')])}}">
-                              My Profile
+                              Profile
                            </a>
                            <a class="dropdown-item" href="{{route('employee.absence')}}">
-                              My Absence
+                              Absensi Saya
                            </a>
                            <a class="dropdown-item" href="{{route('employee.cuti')}}">
-                              My Cuti
+                              Cuti Saya
                            </a>
                            @endif
 

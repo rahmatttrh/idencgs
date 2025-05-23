@@ -15,12 +15,12 @@ SPKL Draft
 
    <div class="row">
       <div class="col-md-3">
-         <h4><b>SPKL & PIKET</b></h4>
+         <h4><b>SPKL SAYA</b></h4>
          <hr>
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
-               List Lembur/Piket
+               List SPKL
             </a>
             <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.spkl.progress')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
@@ -36,28 +36,28 @@ SPKL Draft
 
             <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create')}}" aria-controls="v-pills-document" aria-selected="false">
                <i class="fas fa-file mr-1"></i>
-               Form Lembur/Piket
+               Form SPKL A
+            </a>
+            <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create.multiple')}}" aria-controls="v-pills-document" aria-selected="false">
+               <i class="fas fa-file mr-1"></i>
+               Form SPKL B
             </a>
             
          </div>
          <hr>
-         <form action="">
-            <select name="" id="" class="form-control">
-               <option value="">Januari</option>
-               <option value="">Februari</option>
-            </select>
-         </form>
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
+         <b>#INFO</b> <br>
+         <small>Daftar Form SPKL yang belum di release untuk pengajuan approval</small> <br> 
       </div>
       <div class="col-md-9">
          <div class="table-responsive p-0 mt-2">
-            <table  class="display  table-sm p-0">
+            <table id="data" class="display basic-datatables table-sm p-0">
                <thead>
                   <tr>
                      {{-- <th>NIK</th>
                       {{-- <th>Name</th> --}}
                       {{-- <th>Loc</th> --}}
                       <th>NIK</th>
+                      <th>Name</th>
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
@@ -71,6 +71,7 @@ SPKL Draft
                   @foreach ($spkls as $spkl)
                   <tr>
                      <td>{{$spkl->employee->nik}}</td>
+                     <td>{{$spkl->employee->biodata->fullName()}}</td>
                      <td>
                         @if ($spkl->type == 1)
                             Lembur
@@ -80,15 +81,15 @@ SPKL Draft
                      </td>
                      <td class=" text-truncate">
                         @if ($spkl->holiday_type == 1)
-                           <span  class="text-info ">
+                           <span  >
                            @elseif($spkl->holiday_type == 2)
-                           <span class="text-warning">
+                           <span >
                            @elseif($spkl->holiday_type == 3)
-                           <span class="text-danger">LN -
+                           <span >LN -
                            @elseif($spkl->holiday_type == 4)
-                           <span class="text-danger">LR -
+                           <span >LR -
                         @endif
-                        <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" class="text-white">{{formatDate($spkl->date)}}</a>
+                        <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" >{{formatDate($spkl->date)}}</a>
                         </span>
                      </td>
                      
@@ -108,6 +109,10 @@ SPKL Draft
                      </td>
                      <td>
                         <a href="{{route('employee.spkl.detail', enkripRambo($spkl->id))}}">Detail</a>
+                        @if ($spkl->parent_id != null)
+                        | <a href="{{route('employee.spkl.detail.multiple', enkripRambo($spkl->parent_id))}}">Lihat Group</a>
+                            
+                        @endif
                      </td>
 
                   </tr>

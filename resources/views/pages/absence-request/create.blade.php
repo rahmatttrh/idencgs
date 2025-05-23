@@ -15,7 +15,7 @@ Form Absence
 
    <div class="row">
       <div class="col-md-3">
-         <h4><b>ABSENSI</b></h4>
+         <h4><b>ABSENSI SAYA</b></h4>
          <hr>
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
@@ -70,7 +70,7 @@ Form Absence
                
                <div class="col-md-6">
                   <div class="form-group form-group-default">
-                     <label>Jenis Permintaan</label>
+                     <label>Jenis Form</label>
                      <select class="form-control type" required name="type" id="type">
                         <option value="" disabled selected>Select</option>
                         
@@ -87,6 +87,10 @@ Form Absence
                      <label>Date</label>
                      <input type="date"  class="form-control" id="date" name="date" value="">
                   </div>
+                  <span class="type_cuti">
+                     {{-- #Info <br> --}}
+                     Tanggal cuti dapat dipilih setelah <br> anda klik 'Save to Draft'
+                  </span>
                </div>
 
                
@@ -126,7 +130,7 @@ Form Absence
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group form-group-default ">
-                        <label>Persetujuan</label>
+                        <label>Atasan Langsung</label>
                         <select class="form-control "  name="persetujuan" id="persetujuan">
                            <option value="" disabled selected>Select</option>
                            @foreach ($employeeLeaders as $lead)
@@ -140,6 +144,21 @@ Form Absence
                      </div>
                   </div>
                   <div class="col-md-6">
+                     <div class="form-group form-group-default ">
+                        <label>Manager</label>
+                        <select class="form-control "  name="manager" id="manager">
+                           <option value="" disabled selected>Select</option>
+                           @foreach ($managers as $man)
+                              <option  value="{{$man->id}}">{{$man->biodata->fullName()}}</option>
+                           @endforeach
+                           {{-- <option  value="4">Izin</option>
+                           <option value="5">Cuti</option>
+                           <option  value="6">SPT</option>
+                           <option value="7">Sakit</option> --}}
+                        </select>
+                     </div>
+                  </div>
+                  {{-- <div class="col-md-6">
                      <div class="form-group form-group-default">
                         <label>Karyawan Pengganti</label>
                         <select class="form-control"  name="cuti_backup" id="cuti_backup">
@@ -151,7 +170,7 @@ Form Absence
                            
                         </select>
                      </div>
-                  </div>
+                  </div> --}}
                   {{-- <div class="col-md-6">
                      <div class="form-group form-group-default">
                         <label>Jumlah cuti yang sudah diambil</label>

@@ -412,6 +412,71 @@ class OvertimeController extends Controller
       // ])->with('i');
    }
 
+
+
+   public function indexUnit(Request $req){
+      // dd('ok');
+      $unit = Unit::find($req->unit);
+      // dd($req->from);
+      $employees = Employee::where('unit_id', $unit->id)->whereIn('location_id', $req->locations)->get();
+
+      $locations = Location::whereIn('id', $req->locations)->get();
+      // dd($req->from);
+      if ($req->from == null) {
+         $from = 0;
+      } else {
+         $from = $req->from;
+      }
+
+      if ($req->to == null) {
+         $to = 0;
+      } else {
+         $to = $req->to;
+      }
+      $allUnits = Unit::get();
+      $allLocations = Location::get();
+      // dd('ok');
+      return view('pages.payroll.overtime.summary-unit', [
+         'allUnits' => $allUnits,
+         'allLocations' => $allLocations,
+         'locations' => $locations,
+         'unit' => $unit,
+         'employees' => $employees,
+         'from' => $from,
+         'to' => $to,
+         'locAll' => $req->locAll
+      ])->with('i');
+
+   }
+
+   public function indexLoc($unit, $loc, $from, $to, $locAll){
+      $employees = Employee::where('unit_id', dekripRambo($unit))->where('location_id', dekripRambo($loc))->get();
+      $unit = Unit::find(dekripRambo($unit));
+      $location = Location::find(dekripRambo($loc));
+      if ($from == null) {
+         $ffrom = 0;
+      } else {
+         $ffrom = $from;
+      }
+      if ($to == null) {
+         $fto = 0;
+      } else {
+         $fto = $to;
+      }
+      $allUnits = Unit::get();
+      $allLocations = Location::get();
+      return view('pages.payroll.overtime.summary-loc', [
+         'allUnits' => $allUnits,
+         'allLocations' => $allLocations,
+         'location' => $location,
+         'unit' => $unit,
+         'employees' => $employees,
+         'from' => $ffrom,
+         'to' => $fto,
+         'locAll' => $locAll
+      ])->with('i');
+   }
+
    public function filterSummary(Request $req){
       $req->validate([]);
       // dd($req->units);

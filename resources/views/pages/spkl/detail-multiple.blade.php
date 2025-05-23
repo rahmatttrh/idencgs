@@ -45,12 +45,7 @@ Form Lembur/Piket
             
          </div>
          <hr>
-         {{-- <form action="">
-            <select name="" id="" class="form-control">
-               <option value="">Januari</option>
-               <option value="">Februari</option>
-            </select>
-         </form> --}}
+         
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
@@ -70,10 +65,6 @@ Form Lembur/Piket
          <table>
             <tbody>
                {{-- <tr>
-                  <td style="width: 150px">Status</td>
-                  <td class="bg-secondary text-white">Draft</td>
-               </tr> --}}
-               <tr>
                   <td style="width: 150px">Nama</td>
                   <td>{{$empSpkl->employee->biodata->fullName()}}</td>
                </tr>
@@ -88,7 +79,7 @@ Form Lembur/Piket
                <tr>
                   <td>Departemen</td>
                   <td>{{$empSpkl->employee->department->name}}</td>
-               </tr>
+               </tr> --}}
                <tr>
                   <td>Tanggal</td>
                   <td>{{formatDate($empSpkl->date)}}</td>
@@ -128,19 +119,36 @@ Form Lembur/Piket
                      
                      @endif
                      
-                     
                   </td>
                </tr>
                <tr>
                   <td></td>
                   <td></td>
-                  <td>{{$empSpkl->employee->biodata->fullName()}}</td>
+                  <td>
+                     {{$empSpkl->by->biodata->fullName()}}
+                  </td>
                </tr>
                <tr>
                   <td></td>
                   <td></td>
                   <td>{{$empSpkl->release_employee_date ?? ''}}</td>
                </tr>
+            </tbody>
+         </table>
+         <hr>
+         <table>
+            <thead>
+               <tr>
+                  <th colspan="2">Daftar Karyawan</th>
+               </tr>
+            </thead>
+            <tbody>
+               @foreach ($empSpkl->overtimes as $over)
+                   <tr>
+                     <td>{{$over->employee->nik}}</td>
+                     <td>{{$over->employee->biodata->fullName()}}</td>
+                   </tr>
+               @endforeach
             </tbody>
          </table>
       </div>
@@ -152,7 +160,7 @@ Form Lembur/Piket
 </div>
 
 <div class="modal fade" id="modal-release-spkl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-sm" role="document">
+   <div class="modal-dialog " role="document">
       <div class="modal-content text-dark">
          <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
@@ -161,14 +169,14 @@ Form Lembur/Piket
             </button>
          </div>
          <div class="modal-body ">
-            Release Form Pengajuan ? 
+            Release Form Pengajuan Multple Karyawan ? 
             <hr>
-            Kirim Pengajuan ke atasan terkait untuk proses Approval
+            <span class="text-muted">Mengirim Form Pengajuan ke atasan terkait untuk proses Approval</span>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary ">
-               <a class="text-light" href="{{route('employee.spkl.release', enkripRambo($empSpkl->id))}}">Release</a>
+               <a class="text-light" href="{{route('employee.spkl.release.multiple', enkripRambo($empSpkl->id))}}">Release</a>
             </button>
          </div>
       </div>

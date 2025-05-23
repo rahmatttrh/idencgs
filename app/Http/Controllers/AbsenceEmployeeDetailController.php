@@ -16,6 +16,18 @@ class AbsenceEmployeeDetailController extends Controller
       return redirect()->back()->with('success', 'Tanggal berhasil ditambahkan');
    }
 
+   public function update(Request $req){
+      $absenceEmployeeDetail = AbsenceEmployeeDetail::find($req->detail);
+
+      $absenceEmployeeDetail->update([
+         'date' => $req->date,
+         'remark' => $req->remark
+      ]);
+
+
+     return redirect()->back()->with('success', 'Tanggal berhasil diubah');
+   }
+
    public function delete($id){
       $absenceEmployeeDetail = AbsenceEmployeeDetail::find(dekripRambo($id));
       $absenceEmployeeDetail->delete();

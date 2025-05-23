@@ -55,7 +55,7 @@
 <li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
    <a href="{{route('employee.absence')}}">
       <i class="fas fa-calendar-check"></i>
-      <p>Absensi Saya</p>
+      <p>Absensi</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">

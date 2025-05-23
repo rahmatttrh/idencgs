@@ -15,12 +15,12 @@ SPKL Progress
 
    <div class="row">
       <div class="col-md-3">
-         <h4><b>SPKL & PIKET</b></h4>
+         <h4><b>SPKL SAYA</b></h4>
          <hr>
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
-               List Lembur/Piket
+               List SPKL
             </a>
             <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.spkl.progress')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
@@ -36,7 +36,11 @@ SPKL Progress
 
             <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create')}}" aria-controls="v-pills-document" aria-selected="false">
                <i class="fas fa-file mr-1"></i>
-               Form Lembur/Piket
+               Form SPKL A
+            </a>
+            <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create.multiple')}}" aria-controls="v-pills-document" aria-selected="false">
+               <i class="fas fa-file mr-1"></i>
+               Form SPKL B
             </a>
             
          </div>

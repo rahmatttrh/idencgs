@@ -10,7 +10,8 @@
       @elseif($absence->type == 5)
       Cuti
       @elseif($absence->type == 6)
-      SPT ({{$absence->type_desc}})
+      SPT 
+      {{-- ({{$absence->type_desc}}) --}}
       @elseif($absence->type == 7)
       Sakit 
       @elseif($absence->type == 8)

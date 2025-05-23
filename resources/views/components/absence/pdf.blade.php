@@ -89,13 +89,22 @@
             </td>
             <td>{{$cuti->sisa}}</td>
             <td>{{$absenceemp->desc}}</td>
-            <td>{{$absenceemp->cuti_backup->biodata->fullName() ?? ''}}</td>
-            <td>{{$absenceemp->cuti_backup->biodata->phone ?? ''}}</td>
+            <td>
+               @if ($absenceemp->cuti_backup != null)
+               {{$absenceemp->cuti_backup->biodata->fullName() ?? ''}}
+               @endif
+               
+            </td>
+            <td>
+               @if ($absenceemp->cuti_backup != null)
+               {{$absenceemp->cuti_backup->biodata->phone ?? ''}}
+               @endif
+            </td>
          </tr>
 
          <tr>
             <td class="bg-dark text-light text-truncate">Diajukan Oleh :</td>
-            <td class="bg-dark text-light text-truncate">Pengganti :</td>
+            <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
             <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
             <td class="bg-dark text-light text-truncate">Diketahui Oleh :</td>
             <td colspan="4" >Masuk Kembali
@@ -130,8 +139,21 @@
          </tr>
          <tr>
             <td>{{$absenceemp->employee->biodata->fullName() ?? ''}}</td>
-            <td>{{$absenceemp->cuti_backup->biodata->fullName() ?? ''}}</td>
-            <td>{{$absenceemp->leader->biodata->fullName() ?? ''}}</td>
+            {{-- <td>
+               @if ($absenceemp->cuti_backup != null)
+               {{$absenceemp->cuti_backup->biodata->fullName() ?? ''}}
+               @endif
+            </td> --}}
+            <td>
+               @if ($absenceemp->leader_id != null)
+               {{$absenceemp->leader->biodata->fullName() ?? ''}}
+               @endif
+            </td>
+            <td>
+               @if ($absenceemp->manager_id != null)
+               {{$absenceemp->manager->biodata->fullName() ?? ''}}
+               @endif
+            </td>
             <td>HRD</td>
             {{-- <td colspan="4"></td> --}}
          </tr>
@@ -156,7 +178,7 @@
                <small>{{formatDateTime($absenceemp->app_hrd_date)}}</small>
                @endif
             </td>
-            <td colspan="4" class="text-end">Lembar 2 : Karyawan</td>
+            <td colspan="4" class="text-end"></td>
          </tr>
          
 

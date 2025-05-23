@@ -168,7 +168,7 @@ class Location extends Model
          $employeeId[] = $emp->id;
       }
       $value = 0;
-      $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
          $transDetail = TransactionDetail::where('transaction_id', $trans->id)->where('desc', $desc)->first();
          if ($trans->remark == 'Karyawan Baru'){

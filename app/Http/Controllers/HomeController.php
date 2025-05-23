@@ -244,6 +244,7 @@ class HomeController extends Controller
 
 
       if (auth()->user()->hasRole('Administrator')) {
+         // clearAllCookies();
          $employees = Employee::get();
 
          $tetap = Contract::where('status', 1)->where('type', 'Tetap')->get()->count();
@@ -835,7 +836,7 @@ class HomeController extends Controller
          
 
          $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
-         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
+         // $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
          $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
             ->where('employees.department_id', $employee->department_id)
             ->where('absences.type', 5)
@@ -875,7 +876,7 @@ class HomeController extends Controller
             'personals' => $personals,
 
             'reqForms' => $reqForms,
-            'reqBackForms' => $reqBackForms,
+            // 'reqBackForms' => $reqBackForms,
 
             'spteams' => $spteams,
 
