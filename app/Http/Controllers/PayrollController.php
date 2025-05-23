@@ -242,6 +242,8 @@ class PayrollController extends Controller
 
    public function index()
    {
+
+      // OK
       $employees = Employee::where('status', 1)->get();
       $transactionCon = new TransactionController;
       // $transactions = Transaction::where('status', '!=', 3)->get();

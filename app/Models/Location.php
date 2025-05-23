@@ -161,7 +161,12 @@ class Location extends Model
 
    public function getValue($id, $unitTrans, $desc)
    {
-      
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('project_id', null)->get();
+      $employeeId = [];
+
+      foreach($employees as $emp){
+         $employeeId[] = $emp->id;
+      }
       $value = 0;
       $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
