@@ -104,7 +104,21 @@ History Formulir Pengajuan
                                        {{-- <td>{{$absence->employee->location->name}}</td> --}}
                                        
                                        {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                                       <td>{{formatDate($absence->date)}}</td>
+                                       <td>
+                                          @if ($absence->type == 5 || $absence->type == 10)
+                        
+                                          @if (count($absence->details) > 0)
+                                                @foreach ($absence->details  as $item)
+                                                   {{formatDate($item->date)}} -
+                                                @endforeach
+                                             @else
+                                             Tanggal belum dipilih
+                                          @endif
+                                             
+                                             @else
+                                             {{formatDate($absence->date)}}
+                                       @endif
+                                       </td>
                                        {{-- <td>{{$absence->desc}}</td> --}}
                                        <td>
                                           <x-status.form :form="$absence" />
@@ -127,12 +141,26 @@ History Formulir Pengajuan
                                  </a>
                                     
                                  </td>
-                                 <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
-                                 <td> {{$absence->employee->biodata->fullName()}}</td>
+                                 <td class="text-truncate"><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
+                                 <td class="text-truncate"> {{$absence->employee->biodata->fullName()}}</td>
                                  {{-- <td>{{$absence->employee->location->name}}</td> --}}
                                  
                                  {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                                 <td>{{formatDate($absence->date)}}</td>
+                                 <td>
+                                    @if ($absence->type == 5 || $absence->type == 10)
+                        
+                                          @if (count($absence->details) > 0)
+                                                @foreach ($absence->details  as $item)
+                                                   {{formatDate($item->date)}} -
+                                                @endforeach
+                                             @else
+                                             Tanggal belum dipilih
+                                          @endif
+                                             
+                                             @else
+                                             {{formatDate($absence->date)}}
+                                       @endif
+                                 </td>
                                  {{-- <td>{{$absence->desc}}</td> --}}
                                  <td>
                                     <x-status.form :form="$absence" />

@@ -161,7 +161,9 @@ Route::middleware(["auth"])->group(function () {
 
 
    Route::get('overtime/employee/detail/{id}/{from}/{to}', [OvertimeController::class, 'indexEmployeeDetail'])->name('payroll.overtime.employee.detail');
-   Route::get('index', [OvertimeController::class, 'index'])->name('payroll.overtime');
+   Route::get('overtime/index', [OvertimeController::class, 'index'])->name('payroll.overtime');
+   Route::get('overtime/summary', [OvertimeController::class, 'indexList'])->name('payroll.overtime.summary.list');
+   Route::get('overtime/recent', [OvertimeController::class, 'indexRecent'])->name('payroll.overtime.recent');
 
    Route::get('/unit/index/{unit}/{from}/{to}/{locs}', [OvertimeController::class, 'indexUnit'])->name('payroll.overtime.unit');
    Route::post('/unit/index', [OvertimeController::class, 'indexUnit'])->name('payroll.overtime.unit');
@@ -204,6 +206,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('/index', [AnnouncementController::class, 'index'])->name('announcement');
          Route::get('create', [AnnouncementController::class, 'create'])->name('announcement.create');
          Route::post('store', [AnnouncementController::class, 'store'])->name('announcement.store');
+         Route::get('delete/{id}', [AnnouncementController::class, 'delete'])->name('announcement.delete');
 
          Route::get('activate/{id}', [AnnouncementController::class, 'activate'])->name('announcement.activate');
          Route::get('deactivate/{id}', [AnnouncementController::class, 'deactivate'])->name('announcement.deactivate');
@@ -618,7 +621,7 @@ Route::middleware(["auth"])->group(function () {
          Route::put('update/picture', [EmployeeController::class, 'updatePicture'])->name('employee.update.picture');
          Route::get('remove/picture/{id}', [EmployeeController::class, 'removePicture'])->name('employee.remove.picture');
          Route::put('update/role', [EmployeeController::class, 'updateRole'])->name('employee.update.role');
-         Route::put('reset/password/{id}', [EmployeeController::class, 'resetPassword'])->name('employee.reset.password');
+         Route::get('reset/password/{id}', [EmployeeController::class, 'resetPassword'])->name('employee.reset.password');
       });
 
       // Quick PE All
@@ -874,7 +877,10 @@ Route::middleware(["auth"])->group(function () {
          Route::get('absence/history', [AbsenceLeaderController::class, 'history'])->name('leader.absence.history');
 
          Route::get('spkl/index', [OvertimeEmployeeController::class, 'indexLeader'])->name('leader.spkl');
+         Route::get('spkl/history', [OvertimeEmployeeController::class, 'historyLeader'])->name('leader.spkl.history');
       });
+
+      Route::get('cuti/pengganti', [AbsenceLeaderController::class, 'cutiBackup'])->name('backup.cuti');
 
 
       Route::prefix('employee')->group(function () {

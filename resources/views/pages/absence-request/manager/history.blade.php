@@ -45,6 +45,7 @@ History Formulir Pengajuan
             <table id="data" class="basic-datatables">
                <thead>
                   <tr>
+                     <th>ID</th>
                      <th>Type</th>
                      <th>NIK</th>
                       <th>Name</th>
@@ -59,40 +60,12 @@ History Formulir Pengajuan
                </thead>
 
                <tbody>
-                  {{-- @foreach ($reqForms as $absence)
-                  <tr>
-                     <td>
-                        <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
-                        @if ($absence->status == 404)
-                           <span class="text-danger">Permintaan Perubahan</span>
-                            @else
-                            <x-status.absence-type :absence="$absence" /> 
-                        @endif
-                     </a>
-                        
-                     </td>
-                     <td class="text-truncate"><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
-                      <td> {{$absence->employee->biodata->fullName()}}</td>
-                     <td>
-                        @if ($absence->type == 5)
-                           @foreach ($absence->details  as $item)
-                                 {{formatDate($item->date)}} -
-                           @endforeach
-                              @else
-                              {{formatDate($absence->date)}}
-                        @endif
-                     </td>
-                     <td>
-                        <x-status.form :form="$absence" />
-                     </td>
-                  </tr>
-
-                  @endforeach --}}
-                  @if (auth()->user()->hasRole('Karyawan'))
-                  
-                        @foreach ($reqBackForms as $absence)
+                  @foreach ($reqForms as $absence)
                                     
                                     <tr>
+                                       <td>
+                                          {{$absence->code}}
+                                       </td>
                                        <td>
                                           <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                                              <x-status.absence :absence="$absence" />
@@ -104,7 +77,21 @@ History Formulir Pengajuan
                                        {{-- <td>{{$absence->employee->location->name}}</td> --}}
                                        
                                        {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                                       <td>{{formatDate($absence->date)}}</td>
+                                       <td>
+                                          @if ($absence->type == 5 || $absence->type == 10)
+                  
+                                             @if (count($absence->details) > 0)
+                                                   @foreach ($absence->details  as $item)
+                                                      {{formatDate($item->date)}} -
+                                                   @endforeach
+                                                @else
+                                                Tanggal belum dipilih
+                                             @endif
+                                                
+                                                @else
+                                                {{formatDate($absence->date)}}
+                                          @endif
+                                       </td>
                                        {{-- <td>{{$absence->desc}}</td> --}}
                                        <td>
                                           <x-status.form :form="$absence" />
@@ -113,40 +100,6 @@ History Formulir Pengajuan
                                     
                                     </tr>
                         @endforeach
-                      @else
-
-
-
-                        @foreach ($myteams as $team)
-                           @foreach ($allReqForms as $absence)
-                              @if ($absence->employee_id == $team->id)
-                              <tr>
-                                 <td>
-                                    <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
-                                       <x-status.absence :absence="$absence" />
-                                 </a>
-                                    
-                                 </td>
-                                 <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
-                                 <td> {{$absence->employee->biodata->fullName()}}</td>
-                                 {{-- <td>{{$absence->employee->location->name}}</td> --}}
-                                 
-                                 {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                                 <td>{{formatDate($absence->date)}}</td>
-                                 {{-- <td>{{$absence->desc}}</td> --}}
-                                 <td>
-                                    <x-status.form :form="$absence" />
-                                    
-                                 </td>
-                              
-                              </tr>
-                              @endif
-                           @endforeach
-                     
-                        @endforeach
-
-                  @endif
-                  
                   
                   
                   

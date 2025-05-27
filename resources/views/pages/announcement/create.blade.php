@@ -12,7 +12,7 @@
          </ol>
       </nav>
       
-      <form action="{{route('announcement.store')}}" method="POST">
+      <form action="{{route('announcement.store')}}" method="POST" enctype="multipart/form-data">
          @csrf
          <div class="row">
             <div class="col-md-4">
@@ -37,6 +37,10 @@
                <div class="form-group form-group-default">
                   <label>Title*</label>
                   <input id="title" name="title" required type="text" class="form-control">
+               </div>
+               <div class="form-group form-group-default">
+                  <label>Lampiran</label>
+                  <input id="doc" name="doc" required type="file" class="form-control">
                </div>
                <button type="submit" class="btn btn-block btn-primary">Submit</button>
                <hr>

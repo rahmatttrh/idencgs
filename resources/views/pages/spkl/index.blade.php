@@ -68,6 +68,7 @@ SPKL
                       {{-- <th>Name</th> --}}
                       {{-- <th>Loc</th> --}}
                       <th>NIK</th>
+                      <th>Name</th>
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
@@ -81,6 +82,7 @@ SPKL
                   @foreach ($spkls as $spkl)
                   <tr>
                      <td>{{$spkl->employee->nik}}</td>
+                     <td>{{$spkl->employee->biodata->fullName()}}</td>
                      <td>
                         @if ($spkl->type == 1)
                             Lembur

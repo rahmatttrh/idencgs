@@ -9,7 +9,7 @@ Form Perubahan Absence
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
          
-         <li class="breadcrumb-item active" aria-current="page">Form Perubahan Absence</li>
+         <li class="breadcrumb-item active" aria-current="page">Form Absensi</li>
       </ol>
    </nav>
 
@@ -42,15 +42,20 @@ Form Perubahan Absence
             @if ($absenceEmp->leader->nik == auth()->user()->username)
                @if($absenceEmp->status == 1)
                <span class="btn btn-group btn-block p-0" >
-                  @if ($absenceEmp->cuti_backup_id != null)
-                  <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
-                  @else
-                  <a href="#" class="btn btn-block  mb-2 btn-light border" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Karyawan Pengganti">Approve</a>
+                  @if ($absenceEmp->type == 5)
+                     @if ($absenceEmp->cuti_backup_id != null)
+                     <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
+                     @else
+                     <a href="#" class="btn btn-block  mb-2 btn-light border" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Karyawan Pengganti">Approve</a>
+                     @endif
+                     @else
+                     <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
                   @endif
                   
                   <a href="#" class="btn mb-2 btn-danger">Reject</a>
                </span>
 
+               @if ($absenceEmp->type == 5)
                <hr>
                <form action="{{route('employee.absence.update.pengganti')}}" method="POST">
                   @csrf
@@ -74,6 +79,8 @@ Form Perubahan Absence
                      </div>
                   </div>
                </form>
+               @endif
+               
                <hr>
                
                
@@ -384,7 +391,7 @@ Form Perubahan Absence
             Pilih 'Tanggal', dan klik tombol 'Plus' <br>
             @endif
             
-            Klik 'Release' untuk untuk meminta persetujuan pihak terkait
+            Klik 'Release' untuk meminta Approval pihak terkait
          </small>
          @endif
 
@@ -506,6 +513,7 @@ Form Perubahan Absence
                 CUTI
                 @elseif($absenceEmp->type == 6)
                 SPT
+                
             @endif
             ?
          </div>

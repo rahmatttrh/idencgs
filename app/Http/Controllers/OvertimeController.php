@@ -412,6 +412,250 @@ class OvertimeController extends Controller
       // ])->with('i');
    }
 
+   public function indexList()
+   {
+
+      $now = Carbon::now();
+      // $overtimes = Overtime::get();
+
+      // foreach($overtimes as $over){
+      //    $over->update([
+      //       'status' => 1
+      //    ]);
+      // }
+
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
+
+      
+
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj1-2')
+            ->orWhere('contracts.loc', 'kj1-2-medco')
+            ->orWhere('contracts.loc', 'kj1-2-premier-oil')
+            ->orWhere('contracts.loc', 'kj1-2-petrogas')
+            ->orWhere('contracts.loc', 'kj1-2-star-energy')
+            ->orWhere('contracts.loc', 'kj1-2-housekeeping')
+            ->select('employees.*')
+            ->get();
+
+            $employees = Employee::where('status', 1)->whereIn('location_id', [3,11,12,13,14,20])->get();
+
+         $overtimes = Overtime::orderBy('date', 'desc')->where('location_id', 3)->paginate(2000);
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+            ->orWhere('contracts.loc', 'kj4-housekeeping')
+            ->orWhere('contracts.loc', 'kj5-housekeeping')
+            ->select('employees.*')
+            ->get();
+
+            $employees = Employee::where('status', 1)->whereIn('location_id', [4,5,21,22])->get();
+         $overtimes = Overtime::orderBy('date', 'desc')->whereIn('location_id', [4,5,21,22])->paginate(2000);
+         // dd($overtimes);
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+
+         // dd('ok');
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'jgc')
+            ->select('employees.*')
+            ->get();
+
+         $employees = Employee::where('status', 1)->where('location_id', 10)->orWhere('unit_id', 13)->orWhere('unit_id', 14)->get();
+         $overtimes = Overtime::orderBy('date', 'desc')->where('location_id', 2)->paginate(2000);
+         // dd($overtimes);
+      } else {
+
+         $employees = Employee::where('status', 1)->get();
+         $overtimes = Overtime::orderBy('date', 'desc')->paginate(1000);
+      }
+
+      
+
+
+      // $employee = Employee::find(301);
+      // $spkl_type = $employee->unit->spkl_type;
+      // $hour_type = $employee->unit->hour_type;
+      // $payroll = Payroll::find($employee->payroll_id);
+
+
+      // $overtimes = Overtime::where('employee_id', '301')->orderBy('created_at', 'desc')->get();
+      // foreach($overtimes as $over){
+      //    $rate = $this->calculateRate($payroll, $over->type, $spkl_type, $hour_type, $over->hours, $over->holiday_type);
+         
+      //    if ($over->holiday_type == 1) {
+      //       $finalHour = $over->hours;
+      //       if ($hour_type == 2) {
+      //          // dd('test');
+      //          $multiHours = $over->hours - 1;
+      //          $finalHour = $multiHours * 2 + 1.5;
+      //          // dd($finalHour);
+      //       }
+      //    } elseif ($over->holiday_type == 2) {
+      //       $finalHour = $over->hours * 2;
+      //    } elseif ($over->holiday_type == 3) {
+      //       $finalHour = $over->hours * 2;
+      //    } elseif ($over->holiday_type == 4) {
+      //       $finalHour = $over->hours * 3;
+      //    }
+
+      //    $over->update([
+      //       'hours_final' => $finalHour,
+      //       'rate' => round($rate),
+      //    ]);
+      // }
+
+      
+
+
+      
+      
+
+
+
+
+      // $debugOver = Overtime::find(713);
+      // $employee = Employee::find($debugOver->employee_id);
+      // $payroll = Payroll::find($employee->payroll_id);
+      // $spkl_type = $employee->unit->spkl_type;
+      // $newRate = $this->calculateRate($payroll, $debugOver->type, $spkl_type, $debugOver->hour_type, $debugOver->hours, $debugOver->holiday_type);
+      // dd($newRate);
+
+      // foreach($overtimes as $over){
+      //    $employee = Employee::find($over->employee_id);
+      //    $payroll = Payroll::find($employee->payroll_id);
+      //    $spkl_type = $employee->unit->spkl_type;
+      //    $newRate = $this->calculateRate($payroll, $over->type, $spkl_type, $over->hour_type, $over->hours, $over->holiday_type);
+
+      //    $over->update([
+      //       'rate' => $newRate
+      //    ]);
+      // }
+      // $testOver = Overtime::find(1);
+
+      // dd('ok');
+
+
+
+      // foreach ($overtimes as $over) {
+      //    $employee = Employee::find($over->employee_id);
+      //    $spkl_type = $employee->unit->spkl_type;
+      //    $hour_type = $employee->unit->hour_type;
+      //    $payroll = Payroll::find($employee->payroll_id);
+      //    $rate = $this->calculateRate($payroll, $over->type, $spkl_type, $hour_type, $over->hours, $over->holiday_type);
+
+      //    $over->update([
+      //       'rate' => $rate
+      //    ]);
+
+      //    $transactionCon = new TransactionController;
+      //    $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
+
+      //    foreach ($transactions as $tran) {
+      //       $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+      //    }
+
+      //    // if ($over->hours == 0) {
+      //    //    $over->delete();
+      //    // }
+      // }
+
+
+
+      // $transactionReductions = TransactionReduction::get();
+      // foreach ($transactionReductions as $tr) {
+      //    $transaction = Transaction::find($tr->transaction_id);
+      //    $tr->update([
+      //       'month' => $transaction->month,
+      //       'year' => $transaction->year
+      //    ]);
+      // }
+      // if (auth()->user()->hasRole('HRD-KJ12')) {
+      //    $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+      //       ->where('contracts.loc', 'kj1-2')
+      //       ->select('employees.*')
+      //       ->get();
+      // } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+      //    $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+      //       ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+      //       ->select('employees.*')
+      //       ->get();
+      // } else {
+      //    $employees = Employee::get();
+      // }
+      // $employees = Employee::get();
+      // $holidays = Holiday::orderBy('date', 'asc')->get();
+      // dd($overtimes);
+      $units = Unit::get();
+      $locations = Location::get();
+      if (auth()->user()->hasRole('HRD-KJ12') || auth()->user()->hasRole('HRD-KJ45') || auth()->user()->hasRole('HRD-JGC'))  {
+         return view('pages.payroll.overtime.employee', [
+            'unitAll' => 1,
+            'locAll' => 1,
+            'allUnits' => $units,
+            'allLocations' => $locations,
+            'units' => $units,
+            'locations' => $locations,
+           
+            'export' => $export,
+            'loc' => $loc,
+            'locations' => $locations,
+            'employees' => $employees,
+            // 'absences' => $absences,
+            'month' => $now->format('F'),
+            'year' => $now->format('Y'),
+            'from' => 0,
+            'to' => 0
+         ])->with('i');
+      } else {
+         return view('pages.payroll.overtime.summary-list', [
+            'unitAll' => 1,
+            'locAll' => 1,
+            'allUnits' => $units,
+            'allLocations' => $locations,
+            'units' => $units,
+            'locations' => $locations,
+           
+            'export' => $export,
+            'loc' => $loc,
+            'locations' => $locations,
+            'employees' => $employees,
+            // 'absences' => $absences,
+            'month' => $now->format('F'),
+            'year' => $now->format('Y'),
+            'from' => 0,
+            'to' => 0
+            // 'from' => $now->format('d-m-Y'),
+            // 'to' => $now->format('d-m-Y')
+         ])->with('i');
+      }
+      // return view('pages.payroll.overtime.employee', [
+      //    'export' => $export,
+      //    'loc' => $loc,
+      //    'from' => 0,
+      //    'to' => 0,
+      //    'locations' => $locations,
+      //    'overtimes' => $overtimes,
+      //    'employees' => $employees,
+      //    'month' => $now->format('F'),
+      //    'year' => $now->format('Y'),
+      //    // 'holidays' => $holidays
+      // ])->with('i');
+   }
+
+   public function indexRecent(){
+      $overtimes = Overtime::orderBy('updated_at', 'desc')->paginate(500);
+
+      return view('pages.payroll.overtime.summary-recent', [
+         'overtimes' => $overtimes
+      ])->with('i');
+   }
+
 
 
    public function indexUnit(Request $req){
@@ -1021,7 +1265,7 @@ class OvertimeController extends Controller
          'action' => 'Publish',
          'desc' => 'SPKL Data'
       ]);
-      return redirect()->route('payroll.overtime')->with('success', 'SPKL Data successfully published');
+      return redirect()->route('payroll.overtime.recent')->with('success', 'SPKL Data successfully published');
    }
 
    public function edit($id){

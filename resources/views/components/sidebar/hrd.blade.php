@@ -41,6 +41,11 @@
                <span class="sub-item">Project</span>
             </a>
          </li>
+         <li>
+            <a href="{{route('permit')}}">
+               <span class="sub-item">Izin Resmi</span>
+            </a>
+         </li>
          {{-- <li>
             <a href="{{route('so')}}">
                <span class="sub-item">Struktur Organisasi</span>

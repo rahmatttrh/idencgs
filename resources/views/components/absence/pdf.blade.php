@@ -159,22 +159,22 @@
             {{-- <td colspan="4"></td> --}}
          </tr>
          <tr>
-            <td>
+            <td class="text-truncate">
                @if ($absenceemp->status >= 1)
                   <small>{{formatDateTime($absenceemp->release_date)}}</small>
                @endif
             </td>
-            <td>
+            <td class="text-truncate">
                @if ($absenceemp->status >= 2)
                   <small>{{formatDateTime($absenceemp->app_backup_date)}}</small>
                @endif
             </td>
-            <td>
+            <td class="text-truncate">
                @if ($absenceemp->status >= 3)
                   <small>{{formatDateTime($absenceemp->app_leader_date)}}</small>
                @endif
             </td>
-            <td>
+            <td class="text-truncate">
                @if ($absenceemp->status == 5)
                <small>{{formatDateTime($absenceemp->app_hrd_date)}}</small>
                @endif
@@ -677,7 +677,7 @@
                         <td style="height: 100px" class="text-center">
    
                            @if ($absenceemp->status >= 3)
-                                 <small class="text-success"><i>APPROVED</i></small> <br>
+                                 <small class="text-success"><i>CREATED</i></small> <br>
                                  <small class="text-muted">{{formatDateTime($absenceemp->app_leader_date)}}</small>
                            @endif
                         </td>

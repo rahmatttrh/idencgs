@@ -524,7 +524,7 @@ class HomeController extends Controller
          $emptyPayroll = Employee::where('status', '!=', 3)->where('payroll_id', null)->get();
          // $reqForms = AbsenceEmployee::where('status', 3)->get();
          $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
-         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->whereIn('status', [1])->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->get();
          return view('pages.dashboard.hrd-payroll', [
             'units' => $units,
             'employee' => $user,
@@ -543,8 +543,11 @@ class HomeController extends Controller
             'unitTransactions' => $unitTransactions,
             'emptyPayroll' => $emptyPayroll,
 
+            'broadcasts' => $broadcasts,
+            'personals' => $personals,
+
             'reqForms' => $reqForms,
-            'reqBackForms' => $reqBackForms
+            'reqBackupForms' => $reqBackForms
          ])->with('i');
       } elseif (auth()->user()->hasRole('HRD-KJ12')) {
          $user = Employee::find(auth()->user()->getEmployeeId());
@@ -838,8 +841,8 @@ class HomeController extends Controller
          $allpes = Pe::orderBy('updated_at', 'desc')->get();
          
 
-         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
-         // $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
+         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->orderBy('updated_at', 'desc')->get();
          $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
             ->where('employees.department_id', $employee->department_id)
             ->where('absences.type', 5)
@@ -879,7 +882,7 @@ class HomeController extends Controller
             'personals' => $personals,
 
             'reqForms' => $reqForms,
-            // 'reqBackForms' => $reqBackForms,
+            'reqBackupForms' => $reqBackForms,
 
             'spteams' => $spteams,
 
@@ -915,8 +918,9 @@ class HomeController extends Controller
 
          // $absences =
 
-         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1,2])->get();
-         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
+         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->get();
+         
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->get();
          return view('pages.dashboard.employee', [
             'now' => $now,
             'employee' => $employee,
@@ -935,7 +939,7 @@ class HomeController extends Controller
             'currentTransaction' => $currentTransaction,
             'cutis' => $cutis, 
             'reqForms' => $reqForms,
-            'reqBackForms' => $reqBackForms
+            'reqBackupForms' => $reqBackForms
          ])->with('i');
       }
    }

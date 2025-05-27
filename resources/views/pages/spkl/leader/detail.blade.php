@@ -35,8 +35,8 @@ Form Absensi
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
-         <h4>Detail Lembur/Piket</h4>
-         <hr>
+         {{-- <h4>Detail Lembur/Piket</h4>
+         <hr> --}}
          @if ($empSpkl->status == 0)
          <span class="btn btn-group btn-sm p-0 mb-2">
             <a href="" class="btn btn-primary btn-sm" data-target="#modal-release-spkl" data-toggle="modal">Release</a>
@@ -45,12 +45,12 @@ Form Absensi
          </span>
          @elseif($empSpkl->status == 1)
          {{-- <a href="" class="btn btn-light btn-sm border mb-2">Menunggu Approval Atasan</a> --}}
-         @if ($approval == 1)
-         <span class="btn btn-group btn-sm p-0 mb-2">
-            <a href="" class="btn btn-primary btn-sm" data-target="#modal-release-spkl" data-toggle="modal">Approve</a>
-            <a href="" class="btn btn-light btn-sm border">Reject</a>
-         </span>
-         @endif
+            @if ($approval == 1)
+            <span class="btn btn-group btn-sm p-0 mb-2">
+               <a href="" class="btn btn-primary btn-sm" data-target="#modal-release-spkl" data-toggle="modal">Approve</a>
+               <a href="" class="btn btn-light btn-sm border">Reject</a>
+            </span>
+            @endif
          @endif
          
          <a href="" class="btn btn-light border btn-sm mb-2"><i class="fa fa-file"></i> Export PDF</a>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-Draft SPKL
+SPKL
 @endsection
 @section('content')
 
@@ -8,79 +8,35 @@ Draft SPKL
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
-         <li class="breadcrumb-item active" aria-current="page">Draft SPKL</li>
+         <li class="breadcrumb-item" aria-current="page">Payroll</li>
+         <li class="breadcrumb-item active" aria-current="page">SPKL</li>
       </ol>
    </nav>
 
-   <form action="{{route('payroll.overtime.publish')}}" method="post" >
-      @csrf
-   <div class="row">
-      
-         <div class="col-md-3">
-            {{-- <div class="btn btl-light btn-block text-left mb-3 border">
-               <b><i>SPKL KARYAWAN</i></b>
-            </div> --}}
-            <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-               <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('payroll.overtime')}}" aria-controls="v-pills-basic" aria-selected="true">
-                  <i class="fas fa-address-book mr-1"></i>
-                  Summary SPKL
-               </a>
-               <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('payroll.overtime.recent')}}" aria-controls="v-pills-basic" aria-selected="true">
-                  <i class="fas fa-clock mr-1"></i>
-                  Recent SPKL
-               </a>
-               <a class="nav-link active text-left pl-3" id="v-pills-contract-tab" href="{{route('payroll.overtime.draft')}}" aria-controls="v-pills-contract" aria-selected="false">
-                  <i class="fas fa-file-contract mr-1"></i>
-                  {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-                  Draft SPKL
-               </a>
-               <a class="nav-link  text-left pl-3" id="v-pills-contract-tab" href="{{route('payroll.overtime.create')}}" aria-controls="v-pills-contract" aria-selected="false">
-                  <i class="fas fa-file-contract mr-1"></i>
-                  {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-                  Form SPKL
-               </a>
-               
-               <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('payroll.overtime.import')}}" aria-controls="v-pills-personal" aria-selected="true">
-                  <i class="fas fa-user mr-1"></i>
-                  Import by Excel
-               </a>
-            
+   <div class="card shadow-none border col-md-12">
+      <div class=" card-header">
+         <x-overtime.overtime-tab :activeTab="request()->route()->getName()" />
+      </div>
 
-               
-               
+
+      <form action="{{route('payroll.overtime.multiple.delete')}}" method="post" >
+         @csrf
+         @error('id_item')
+            <div class="alert alert-danger mt-2">{{ $message }}</div>
+         @enderror
+         <div class="card-body px-0">
+            {{-- <div class="card-header"> 
+               <div class="card-title">Draft</div>
+            </div>  --}}
+            <div class="d-inline-flex align-items-center">
+               <button type="submit" name="submit" class="btn btn-sm btn-danger mr-3">Delete</button>
+               <div class="d-inline-flex align-items-center">
+                     <span class="badge badge-muted badge-counter">
+                        <span id="total">0</span>
+                     </span>
+               </div>
             </div>
             <hr>
-            @error('id_item')
-                  <div class="alert alert-danger mt-2">{{ $message }}</div>
-               @enderror
-               <button type="submit" name="submit" class="btn btn-sm btn-block btn-primary mr-3">Publish <span class="ml-2 badge badge-muted badge-counter">
-                  <span id="total">0</span>
-               </span></button>
-           
-               <br>
-            <a href="{{route('payroll.overtime.draft.delete')}}">Delete multiple data? click here</a>
-            <hr>
-            <b>#INFO</b> <br>
-            <small>Daftar Data SPKL yang belum aktif</small>
-            {{-- <table>
-               <tbody>
-                  <tr>
-                     <td colspan="3">Recent add</td>
-                  </tr>
-                  @foreach ($absences as $abs)
-                  <tr>
-                     <td class="text-truncate" style="max-width: 120px">{{$abs->employee->nik}} </td>
-                     <td>{{formatDate($abs->date)}}</td>
-                     <td><x-status.absence-type :absence="$abs" /> </td>
-                     </tr>
-                  @endforeach
-               </tbody>
-            </table> --}}
-         
-         </div>
-         <div class="col-md-9">
-            
-               
             <div class="table-responsive">
                <table id="multi-filter-select" class="display  table-sm  " >
                   <thead>
@@ -105,13 +61,13 @@ Draft SPKL
                            <td class="text-center"><input type="checkbox" class="case" name="id_item[]" value="{{$over->id}}" /> </td>
                            <td>
                               {{-- @if (auth()->user()->hasRole('Administrator'))
-                                 {{$over->id}}
+                                  {{$over->id}}
                               @endif --}}
                               
                               @if ($over->type == 1)
-                                 Lembur
-                                 @else
-                                 Piket
+                                  Lembur
+                                  @else
+                                  Piket
                               @endif
                            </td>
                            <td class="text-truncate">{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</td>
@@ -138,8 +94,8 @@ Draft SPKL
                                        @elseif ($over->employee->unit->hour_type == 2)
                                        {{$over->hours}} ({{$over->hours_final}})
                                     @endif
-                                 @else
-                                 -
+                                  @else
+                                  -
                               @endif
                               
                               
@@ -185,80 +141,77 @@ Draft SPKL
                   </tbody>
                </table>
             </div>
-            
          </div>
-      
+      </form>
+
+
    </div>
-</form>
-   
    <!-- End Row -->
 
 
 </div>
 
-@push('myjs')
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script>
-   $(document).ready(function() {
-      $('.tanggal').datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true
-      });
-   });
-
-   var total = document.getElementById("total");
-
-   $(function() {
-
-      $("#selectall").change(function() {
-            if (this.checked) {
-               $(".case").each(function() {
-                  this.checked = true;
-               });
-               var jumlahCheck = $(".case").length;
-            } else {
-               $(".case").each(function() {
-                  this.checked = false;
-               });
-               var jumlahCheck = 0;
-            }
-
-            // menampilkan output ke elemen hasil
-            total.innerHTML = jumlahCheck;
-            // console.log(jumlahCheck);
+   <script>
+      $(document).ready(function() {
+         $('.tanggal').datepicker({
+               format: "yyyy-mm-dd",
+               autoclose: true
+         });
       });
 
-      $(".case").click(function() {
-            if ($(this).is(":checked")) {
-               var isAllChecked = 0;
-               var jumlahCheck = $('input:checkbox:checked').length;
+      var total = document.getElementById("total");
 
-               $(".case").each(function() {
-                  if (!this.checked)
-                        isAllChecked = 1;
-               });
+      $(function() {
 
-               if (isAllChecked == 0) {
-                  $("#selectall").prop("checked", true);
-
-                  jumlahCheck = $(".case").length;
+         $("#selectall").change(function() {
+               if (this.checked) {
+                  $(".case").each(function() {
+                     this.checked = true;
+                  });
+                  var jumlahCheck = $(".case").length;
+               } else {
+                  $(".case").each(function() {
+                     this.checked = false;
+                  });
+                  var jumlahCheck = 0;
                }
 
+               // menampilkan output ke elemen hasil
+               total.innerHTML = jumlahCheck;
+               // console.log(jumlahCheck);
+         });
 
-            } else {
-               $("#selectall").prop("checked", false);
+         $(".case").click(function() {
+               if ($(this).is(":checked")) {
+                  var isAllChecked = 0;
+                  var jumlahCheck = $('input:checkbox:checked').length;
 
-               jumlahCheck = $('input:checkbox:checked').length;
-            }
-            total.innerHTML = jumlahCheck;
-            console.log(jumlahCheck);
+                  $(".case").each(function() {
+                     if (!this.checked)
+                           isAllChecked = 1;
+                  });
+
+                  if (isAllChecked == 0) {
+                     $("#selectall").prop("checked", true);
+
+                     jumlahCheck = $(".case").length;
+                  }
+
+
+               } else {
+                  $("#selectall").prop("checked", false);
+
+                  jumlahCheck = $('input:checkbox:checked').length;
+               }
+               total.innerHTML = jumlahCheck;
+               console.log(jumlahCheck);
+
+         });
+
 
       });
-
-
-   });
-</script>
-@endpush
+   </script>
 
 
 

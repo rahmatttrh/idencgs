@@ -63,7 +63,7 @@ Form Lembur/Piket
             <a href="" class="btn btn-light btn-sm border">Delete</a>
          </span>
          @elseif($empSpkl->status == 1)
-         <a href="" class="btn btn-light btn-sm border mb-2">Menunggu Approval Atasan</a>
+         <a href="" class="btn btn-light btn-sm border mb-2">Approval Atasan</a>
          @endif
          
          <a href="" class="btn btn-light border btn-sm mb-2"><i class="fa fa-file"></i> Export PDF</a>
@@ -73,6 +73,10 @@ Form Lembur/Piket
                   <td style="width: 150px">Status</td>
                   <td class="bg-secondary text-white">Draft</td>
                </tr> --}}
+               <tr>
+                  <td style="width: 150px">ID</td>
+                  <td>{{$empSpkl->code}}</td>
+               </tr>
                <tr>
                   <td style="width: 150px">Nama</td>
                   <td>{{$empSpkl->employee->biodata->fullName()}}</td>

@@ -52,11 +52,11 @@ Absence
                   <tr>
                      {{-- <th>NIK</th>
                       <th>Name</th> --}}
-                      {{-- <th>Loc</th> --}}
+                      <th>ID</th>
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
-                     <th>Desc</th>
+                     {{-- <th>Desc</th> --}}
                      <th>Status</th>
                      <th></th>
                   </tr>
@@ -68,6 +68,9 @@ Absence
                      {{-- <td>{{$absence->employee->nik}}</td>
                       <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
+                      <td>
+                        {{$absence->code}}
+                      </td>
                      <td>
                         @if ($absence->status == 404)
                            <span class="text-danger">Permintaan Perubahan</span>
@@ -91,7 +94,7 @@ Absence
                               {{formatDate($absence->date)}}
                         @endif
                      </td>
-                     <td>{{$absence->desc}}</td>
+                     {{-- <td>{{$absence->desc}}</td> --}}
                      <td>
                         @if ($absence->status == 1 || $absence->status == 2)
                             <span class="text-primary">Approval Atasan</span>

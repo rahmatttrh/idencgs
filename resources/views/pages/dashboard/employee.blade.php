@@ -258,27 +258,27 @@ Dashboard
 
 
          @if (count($sps) > 0)
-         <div class="d-none d-sm-block">
-            <div class="alert alert-danger shadow-sm">
+            <div class="d-none d-sm-block">
+               <div class="alert alert-danger shadow-sm">
 
-               <div class="card-opening">
-                  <h4>
-                     <img src="{{asset('img/flaticon/promote.png')}}" height="28" alt="" class="mr-1">
-                     <b>Announcement</b>
-                  </h4>
+                  <div class="card-opening">
+                     <h4>
+                        <img src="{{asset('img/flaticon/promote.png')}}" height="28" alt="" class="mr-1">
+                        <b>Announcement</b>
+                     </h4>
+                  </div>
+                  <hr>
+                  <div class="card-desc">
+                     
+                        @foreach ($sps as $sp)
+                        S orry, you've got SP {{$sp->level}} {{$sp->code}}, <a href="{{route('sp.detail', enkripRambo($sp->id))}}">click here to confirm </a><br>
+                           
+                        @endforeach
+                     
+                  </div>
                </div>
                <hr>
-               <div class="card-desc">
-                  
-                      @foreach ($sps as $sp)
-                      S orry, you've got SP {{$sp->level}} {{$sp->code}}, <a href="{{route('sp.detail', enkripRambo($sp->id))}}">click here to confirm </a><br>
-                         
-                      @endforeach
-                  
-               </div>
             </div>
-            <hr>
-         </div>
          @endif
 
          @if ($currentTransaction)
@@ -300,8 +300,7 @@ Dashboard
                </div>
             </div>
          @endif
-
-         <div class="card card-stats card-round border">
+         <div class="card card-stats card-round">
             <div class="card-body ">
                <div class="row align-items-center">
                   <div class="col-icon">
@@ -310,22 +309,21 @@ Dashboard
                      </div>
                   </div>
                   <div class="col col-stats ml-3 ml-sm-0">
-                     <a href="{{route('leader.absence')}}">
-                        <div class="numbers">
-                           <p class="card-category"> Approval Form Absensi </p>
-                           <h4 class="card-title">{{count($reqForms) + count($reqBackForms)}}</h4>
-                        </div>
-                     </a>
+                     <a href="{{route('backup.cuti')}}">
+                     <div class="numbers">
+                        <p class="card-category">Cuti Pengganti </p>
+                        <h4 class="card-title">{{count($reqBackupForms)}}</h4>
+                     </div>
+                  </a>
                   </div>
                   <div class="col-6">
-                     <small>Daftar Request Absensi Cuti, SPT, dan lainnya yang memiliki relasi terhadap anda sebagai pengganti maupun sebagai atasan</small>
+                     <small>Daftar Cuti yang memiliki relasi terhadap anda sebagai Karyawan Pengganti</small>
                   </div>
                </div>
             </div>
-            {{-- <div class="card-body">
-               <small>Melihat Request Absensi Cuti, SPT, dan lainnya yang memiliki relasi terhadap anda sebagai pengganti maupun sebagai atasan</small>
-            </div> --}}
          </div>
+
+         
 
         
         

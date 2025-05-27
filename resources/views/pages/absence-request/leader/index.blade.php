@@ -166,19 +166,19 @@ Form Absensi
                            
                            {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                            <td>
-                              @if ($absence->type == 5)
+                              @if ($absence->type == 5 || $absence->type == 10)
                         
-                              @if (count($absence->details) > 0)
-                                    @foreach ($absence->details  as $item)
-                                       {{formatDate($item->date)}} -
-                                     @endforeach
-                                  @else
-                                  Tanggal belum dipilih
+                                 @if (count($absence->details) > 0)
+                                       @foreach ($absence->details  as $item)
+                                          {{formatDate($item->date)}} -
+                                       @endforeach
+                                    @else
+                                    Tanggal belum dipilih
+                                 @endif
+                                    
+                                    @else
+                                    {{formatDate($absence->date)}}
                               @endif
-                                 
-                                 @else
-                                 {{formatDate($absence->date)}}
-                           @endif
                            </td>
                            {{-- <td>{{$absence->desc}}</td> --}}
                            <td>

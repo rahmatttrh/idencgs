@@ -25,7 +25,7 @@ SP
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                Export
             </a>
-            @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll'))
+            @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-KJ45|HRD-KJ12'))
             <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('sp.hrd.create')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
@@ -87,6 +87,31 @@ SP
 
                      </tr>
                      @endforeach
+                  @elseif(auth()->user()->hasRole('HRD-KJ45|HRD-KJ12'))
+                     @foreach ($sps as $sp)
+                        @foreach ($allEmployees as $emp)
+                            @if ($sp->employee_id == $emp->id)
+                            <tr>
+                              {{-- <td class="text-center">{{++$i}}</td> --}}
+                              <td><a href="{{route('sp.detail', enkripRambo($sp->id))}}">{{$sp->code}}</a> </td>
+                              <td>{{$sp->employee->nik}}</td>
+                              <td> {{$sp->employee->biodata->fullName()}}</td>
+                              {{-- <td>{{$sp->employee->nik}}</td> --}}
+                              {{-- <td>{{formatDate($sp->date)}}</td> --}}
+                              <td>SP {{$sp->level}}</td>
+                              
+                              <td>{{formatDate($sp->date_from)}}</td>
+                              <td>
+                                 <x-status.sp :sp="$sp" />
+                              </td>
+                              {{-- <td class="text-truncate" style="max-width: 240px">{{$sp->desc}}</td> --}}
+   
+                           </tr>
+                            @endif
+                        @endforeach
+                        
+                        @endforeach
+
                   @else
                      @if (count($employee->positions) > 0)
                         @foreach ($employee->positions as $pos)

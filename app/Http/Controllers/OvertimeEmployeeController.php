@@ -27,7 +27,7 @@ class OvertimeEmployeeController extends Controller
    public function indexLeader(){
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $empSpkls = OvertimeEmployee::where('status', 1)->get();
+      $empSpkls = OvertimeEmployee::where('status', 1)->orderBy('updated_at', 'desc')->get();
       $myteams = EmployeeLeader::join('employees', 'employee_leaders.employee_id', '=', 'employees.id')
          ->join('biodatas', 'employees.biodata_id', '=', 'biodatas.id')
          ->where('leader_id', $employee->id)
@@ -206,9 +206,27 @@ class OvertimeEmployeeController extends Controller
 
       //   Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, dolores! Esse ipsum molestiae porro quod, voluptate praesentium. Nemo ullam velit unde quia recusandae.
 
+      $lastOver = OvertimeEmployee::orderBy('updated_at', 'desc')->get();
+
+      if ($lastOver != null) {
+         $id = count($lastOver) + 1;
+      } else {
+         $id = 1;
+      }
+
+      $date = Carbon::make($req->date);
+
+      
+      if($req->type == 1 ){
+         $code =  'FHRD/FL/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+      } elseif($req->type == 2 ){
+         $code = 'FHRD/FP/' . $date->format('m') . '/' . $date->format('y') . '/' .$id ;
+      } 
+
 
       $spkl = OvertimeEmployee::create([
          'status' => 0,
+         'code' => $code,
          'location_id' => $locId,
          'employee_id' => $employee->id,
          'month' => $date->format('F'),
@@ -228,6 +246,8 @@ class OvertimeEmployeeController extends Controller
          'by_id' => $employee->id
       ]);
 
+      
+
       return redirect()->route('employee.spkl.detail', enkripRambo($spkl->id))->with('success', 'Pengajuan Lembur/Piket berhasil dibuat');
 
    }
@@ -241,9 +261,27 @@ class OvertimeEmployeeController extends Controller
       }
       $date = Carbon::create($req->date);
       $user = Employee::where('nik', auth()->user()->username)->first();
+
+      $lastParent = OvertimeParent::orderBy('updated_at', 'desc')->get();
+
+      if ($lastParent != null) {
+         $id = count($lastParent) + 1;
+      } else {
+         $id = 1;
+      }
+
+      $date = Carbon::make($req->date);
+
+      if($req->type == 1 ){
+         $code =  'FHRD/FL/M/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+      } elseif($req->type == 2 ){
+         $code = 'FHRD/FP/M/' . $date->format('m') . '/' . $date->format('y')  . '/' . $id ;
+      } 
+      
       
       $parent = OvertimeParent::create([
          // 'location_id' => $req->location,
+         'code' => $code,
          'status' => 0,
          'month' => $date->format('F'),
          'year' => $date->format('Y'),
@@ -361,8 +399,28 @@ class OvertimeEmployeeController extends Controller
          }
 
 
+         $lastOver = OvertimeEmployee::orderBy('updated_at', 'desc')->get();
+
+         if ($lastOver != null) {
+            $id = count($lastOver) + 1;
+         } else {
+            $id = 1;
+         }
+
+         $date = Carbon::make($req->date);
+
+         
+         if($req->type == 1 ){
+            $code =  'FHRD/FL/' . $date->format('m') . '/' . $date->format('Y') . $id ;
+         } elseif($req->type == 2 ){
+            $code = 'FHRD/FP/' . $date->format('m') . '/' . $date->format('Y') .$id ;
+         } 
+         
+
+
          // Inser
          $spkl = OvertimeEmployee::create([
+            'code' => $code,
             'parent_id' => $parent->id,
             'status' => 0,
             'location_id' => $locId,

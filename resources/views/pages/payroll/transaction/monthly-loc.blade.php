@@ -78,14 +78,25 @@ Payroll Transaction
    
    <div class="d-flex">
       @if (auth()->user()->username == 'EN-2-001'  )
-      <a href="{{route('payroll.approval.hrd', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a>
-      @elseif (auth()->user()->username == '11304' )
-      <a href="{{route('payroll.approval.manfin', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a>
-      @elseif (auth()->user()->username == 'EN-2-006' )
-      <a href="{{route('payroll.approval.gm', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a>
-      @elseif ( auth()->user()->username == 'BOD-002' )
-      <a href="{{route('payroll.approval.bod', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a>
+         {{-- @if ($unitTransaction->status == 1) --}}
+            <a href="{{route('payroll.approval.hrd', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Approval List</a>
+         {{-- @else --}}
+            <a href="{{route('payroll.approval.manhrd.history')}}" class="btn btn-light border mb-2  mr-2 ">Lihat History</a>
+         {{-- @endif --}}
       
+      @elseif (auth()->user()->username == '11304' )
+         <a href="{{route('payroll.approval.manfin', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Approval List</a>
+         <a href="{{route('payroll.approval.manfin.history', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Lihat History</a>
+      @elseif (auth()->user()->username == 'EN-2-006' )
+         <a href="{{route('payroll.approval.gm', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Approval List</a>
+         <a href="{{route('payroll.approval.gm.history', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Lihat History</a>
+      @elseif ( auth()->user()->username == 'BOD-002' )
+         {{-- @if ($unitTransaction->status == 5) --}}
+         
+         {{-- @else --}}
+         <a href="{{route('payroll.approval.bod', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Approval List</a>
+         <a href="{{route('payroll.approval.bod.history')}}" class="btn btn-light border mb-2  mr-2 ">Lihat History</a>
+         {{-- @endif --}}
       @else
       <a href="{{route('payroll.transaction.monthly.all', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a>
       @endif
@@ -97,7 +108,7 @@ Payroll Transaction
       @if ($unitTransaction->status == 1)
          @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093')
          <div class="btn-group ml-2">
-            <a href="#" class="btn btn-primary  mb-2 " data-target="#modal-approve-hrd-tu" data-toggle="modal">Approve</a>
+            <a href="#" class="btn btn-primary  mb-2 " data-target="#modal-approve-hrd-tu" data-toggle="modal">Final Approve</a>
             <a href="" class="btn btn-danger  mb-2">Reject</a>
          </div>
          @endif
@@ -105,21 +116,21 @@ Payroll Transaction
      
       @if (auth()->user()->username == '11304' && $unitTransaction->status == 2)
       <div class="btn-group ml-2 mb-2">
-         <a href="#" class="btn btn-primary" data-target="#modal-approve-fin-tu" data-toggle="modal">Approve</a>
+         <a href="#" class="btn btn-primary" data-target="#modal-approve-fin-tu" data-toggle="modal">Final Approve</a>
          <a href="" class="btn btn-danger">Reject</a>
       </div>
       @endif
 
       @if (auth()->user()->username == 'EN-2-006' && $unitTransaction->status == 3)
       <div class="btn-group ml-2 mb-2">
-         <a href="#" class="btn btn-primary" data-target="#modal-approve-gm-tu" data-toggle="modal">Approve</a>
+         <a href="#" class="btn btn-primary" data-target="#modal-approve-gm-tu" data-toggle="modal">Final Approve</a>
          <a href="" class="btn btn-danger">Reject</a>
       </div>
       @endif
 
       @if (auth()->user()->username == 'BOD-002' && $unitTransaction->status == 4)
       <div class="btn-group ml-2 mb-2">
-         <a href="#" class="btn btn-primary" data-target="#modal-approve-bod-tu" data-toggle="modal">Approve</a>
+         <a href="#" class="btn btn-primary" data-target="#modal-approve-bod-tu" data-toggle="modal">Final Approve</a>
          <a href="" class="btn btn-danger">Reject</a>
       </div>
       @endif
@@ -233,7 +244,7 @@ Payroll Transaction
                            <th rowspan="2" class="text-white ">Jml Pgw</th>
                            
                            <th colspan="9" class="text-center text-white">Pendapatan</th>
-                           <th colspan="5" class="text-center text-white">Potongan</th>
+                           <th colspan="6" class="text-center text-white">Potongan</th>
                            <th rowspan="2" class="text-center text-white">Gaji Bersih</th>
                         </tr>
                         <tr>
@@ -251,6 +262,7 @@ Payroll Transaction
                            <th class="text-center text-white text-truncate">JP</th>
                            <th class="text-center text-white text-truncate">Absen</th>
                            <th class="text-center text-white text-truncate">Terlambat</th>
+                           <th class="text-center text-white text-truncate">Lain-lain</th>
                            
                         </tr>
                      </thead>
@@ -264,7 +276,39 @@ Payroll Transaction
 
                         @if ($report->qty > 0)
                         <tr>
-                           <td class="text-truncate" colspan="2"><a href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                           @if (auth()->user()->username == 'EN-2-001')
+                              @if ($report->status >= 1)
+                              <td class="text-truncate bg-success" colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                                 @else
+                                 <td class="text-truncate  " colspan="2"><a  href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                              @endif
+                           @endif
+
+                           @if (auth()->user()->username == '11304')
+                              @if ($report->status >= 2)
+                              <td class="text-truncate bg-success" colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                                 @else
+                                 <td class="text-truncate  " colspan="2"><a  href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                              @endif
+                           @endif
+
+                           @if (auth()->user()->username == 'EN-2-006')
+                              @if ($report->status >= 3)
+                              <td class="text-truncate bg-success" colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                                 @else
+                                 <td class="text-truncate  " colspan="2"><a  href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                              @endif
+                           @endif
+
+                           @if (auth()->user()->username == 'BOD-002')
+                              @if ($report->status >= 4)
+                              <td class="text-truncate bg-success" colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                                 @else
+                                 <td class="text-truncate  " colspan="2"><a  href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                              @endif
+                           @endif
+                           
+                           
                            <td class="text-center text-truncate">{{$report->qty}}</td>
                            
                            <td class="text-right text-truncate">{{formatRupiahB($report->pokok)}}</td>
@@ -291,6 +335,7 @@ Payroll Transaction
                            <td class="text-right text-truncate">{{formatRupiahB($report->jp)}}</td>
                            <td class="text-right text-truncate">{{formatRupiahB($report->absen)}}</td>
                            <td class="text-right text-truncate">{{formatRupiahB($report->terlambat)}}</td>
+                           <td class="text-right text-truncate">{{formatRupiahB($report->additional_pengurangan)}}</td>
                            <td class="text-right text-truncate">{{formatRupiahB($report->gaji_bersih)}}</td>
                         </tr>
 

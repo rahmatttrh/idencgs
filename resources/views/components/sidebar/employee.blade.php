@@ -37,7 +37,7 @@
 <li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
    <a href="{{route('task')}}">
       <i class="fas fa-calendar"></i>
-      <p>Task</p>
+      <p>Task List</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
@@ -49,7 +49,7 @@
 <li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
    <a href="{{route('employee.spkl')}}">
       <i class="fas fa-clock"></i>
-      <p>SPKL</p>
+      <p>SPKL & Piket</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
@@ -61,7 +61,7 @@
 <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
    <a href="{{route('employee.cuti')}}">
       <i class="fas fa-briefcase"></i>
-      <p>Cuti</p>
+      <p>Info Cuti</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/sp/*')) ? 'active' : '' }}">

@@ -17,6 +17,12 @@
       <p>Absensi Karyawan</p>
    </a>
 </li>
+<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
+   <a href="{{route('sp')}}">
+      <i class="fas fa-file-code"></i>
+      <p>SP Karyawan</p>
+   </a>
+</li>
 {{-- <li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
    <a href="{{route('payroll.absence')}}">
       <span class="sub-item">Absence</span>

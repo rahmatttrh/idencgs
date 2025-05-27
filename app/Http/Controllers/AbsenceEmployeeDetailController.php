@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absence;
 use App\Models\AbsenceEmployee;
 use App\Models\AbsenceEmployeeDetail;
 use Illuminate\Http\Request;
@@ -19,6 +20,39 @@ class AbsenceEmployeeDetailController extends Controller
             return redirect()->back()->with('danger', 'Failed, Anda telah mencapai maksimal jumlah hari untuk Izin '. $absEmp->permit->name);
          }
       }
+
+      $absence = Absence::where('employee_id', $absEmp->employee_id)->where('date', $req->date)->where('type', '!=', 1)->first();
+      
+      
+      
+     
+      
+
+      if ($absence) {
+         if($absence->type == 2) {
+            $title = 'Terlambat' ;
+         } elseif($absence->type == 3){
+            $title = 'ATL' ;
+         } elseif($absence->type == 4){
+            $title = 'Izin' ;
+         }  elseif($absence->type == 5){
+            $title = 'Cuti' ;
+         } elseif($absence->type == 6){
+            $title = 'SPT' ;
+         } elseif($absence->type == 7){
+            $title = 'Sakit' ;
+         } elseif($absence->type == 8){
+            $title = 'Dinas Luar' ;
+         } elseif($absence->type == 9){
+            $title = 'Off Kontrak' ;
+         } elseif($absence->type == 10){
+            $title = 'Izin Resmi' ;
+         } else {
+            $title = '';
+         }
+         return redirect()->back()->with('danger', 'Duplikat data absensi pada tanggal tersebut - '. $title . ' ' . formatDate($absence->date)) ;
+      }
+
       AbsenceEmployeeDetail::create([
          'absence_employee_id' => $req->absence_employee,
          'date' => $req->date

@@ -14,13 +14,17 @@ Import SPKL
 
    <div class="row">
       <div class="col-md-3">
-         <div class="btn btl-light btn-block text-left mb-3 border">
+         {{-- <div class="btn btl-light btn-block text-left mb-3 border">
             <b><i>SPKL KARYAWAN</i></b>
-         </div>
+         </div> --}}
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('payroll.overtime')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
                Summary SPKL
+            </a>
+            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('payroll.overtime.recent')}}" aria-controls="v-pills-basic" aria-selected="true">
+               <i class="fas fa-clock mr-1"></i>
+               Recent SPKL
             </a>
             <a class="nav-link  text-left pl-3" id="v-pills-contract-tab" href="{{route('payroll.overtime.draft')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
@@ -60,7 +64,11 @@ Import SPKL
         
       </div>
       <div class="col-md-9">
-         <img src="{{asset('img/xls-file.png')}}" class="img mb-4" height="110" alt="">
+         <div class="row">
+            <div class="col-md-3">
+               <img src="{{asset('img/xls-file.png')}}" class="img mb-4" height="180" alt="">
+            </div>
+            <div class="col">
                <form action="{{route('overtime.import.store')}}" method="POST" enctype="multipart/form-data">
                   @csrf
                   <div class="form-group ">
@@ -74,8 +82,12 @@ Import SPKL
                   <div class="form-group">
                      <button type="submit" class="btn btn-primary">Import</button>
                   </div>
-
+      
                </form>
+            </div>
+         </div>
+         
+        
                <hr>
                <div class="card card-light border shadow-none">
                   <div class="card-body ">

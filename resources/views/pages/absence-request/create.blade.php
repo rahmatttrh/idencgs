@@ -36,7 +36,7 @@ Form Absence
 
             <a class="nav-link active text-left pl-3" id="v-pills-document-tab" href="{{route('employee.absence.create')}}" aria-controls="v-pills-document" aria-selected="false">
                <i class="fas fa-file mr-1"></i>
-               Form Absensi
+               Form Cuti/SPT/Izin
             </a>
             
          </div>

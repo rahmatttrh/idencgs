@@ -135,6 +135,7 @@ Form Absensi
             <table id="data" class="">
                <thead>
                   <tr>
+                     <th>ID</th>
                      <th>Type</th>
                      <th>NIK</th>
                      <th>Name</th>
@@ -156,6 +157,9 @@ Form Absensi
                         
                   <tr>
                      <td>
+                        {{$absence->code}}
+                     </td>
+                     <td>
                         <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                            <x-status.absence :absence="$absence" />
                      </a>
@@ -167,19 +171,19 @@ Form Absensi
                      
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
-                        @if ($absence->type == 5)
+                        @if ($absence->type == 5 || $absence->type == 10)
                   
-                        @if (count($absence->details) > 0)
-                              @foreach ($absence->details  as $item)
-                                 {{formatDate($item->date)}} -
-                               @endforeach
-                            @else
-                            Tanggal belum dipilih
+                           @if (count($absence->details) > 0)
+                                 @foreach ($absence->details  as $item)
+                                    {{formatDate($item->date)}} -
+                                 @endforeach
+                              @else
+                              Tanggal belum dipilih
+                           @endif
+                              
+                              @else
+                              {{formatDate($absence->date)}}
                         @endif
-                           
-                           @else
-                           {{formatDate($absence->date)}}
-                     @endif
                      </td>
                      {{-- <td>{{$absence->desc}}</td> --}}
                      <td>

@@ -224,53 +224,57 @@ Dashboard
          </div>
          @endif
 
-         @if (auth()->user()->username == 11304 )
+         
+
+         
          <div class="row">
-            <div class="col-md-4">
-               <a href="{{route('payroll.approval.manfin')}}">
-                  <div class="card card-stats card-round border">
-                     <div class="card-body">
-                        <div class="row align-items-center">
-                           <div class="col-icon d-none d-md-block">
-                              <div class="icon-big text-center icon-info bubble-shadow-small">
-                                 <i class="far fa-newspaper"></i>
-                              </div>
+            <div class="col-md-6">
+               <div class="card border card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        <div class="col-icon">
+                           <div class="icon-big text-center icon-primary bubble-shadow-small">
+                              <i class="fas fa-users"></i>
                            </div>
-                           <div class="col col-stats ml-3 ml-sm-0">
-                              <div class="numbers">
-                                 <p class="card-category">Payslip</p>
-                                 <h4 class="card-title">{{count($payrollApprovals)}}</h4>
-                              </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('leader.absence')}}">
+                           <div class="numbers">
+                              <p class="card-category"> Approval Form Absensi </p>
+                              <h4 class="card-title">{{count($reqForms) }}</h4>
                            </div>
+                        </a>
                         </div>
                      </div>
                   </div>
-                  {{-- <div class="card card-stats card-primary card-round">
-                     <div class="card-body">
-                        <div class="row">
-                           <div class="col-3">
-                              <div class="icon-big text-center">
-                                 <i class="flaticon-interface-6"></i>
+               </div>
+            </div>
+            @if (auth()->user()->username == 11304 )
+               <div class="col-md-6">
+                  <a href="{{route('payroll.approval.manfin')}}">
+                     <div class="card card-stats card-round border">
+                        <div class="card-body">
+                           <div class="row align-items-center">
+                              <div class="col-icon d-none d-md-block">
+                                 <div class="icon-big text-center icon-info bubble-shadow-small">
+                                    <i class="far fa-newspaper"></i>
+                                 </div>
                               </div>
-                           </div>
-                           <div class="col col-stats">
-                              <div class="numbers">
-                                 <p class="card-category">Payslip Approval</p>
-                                 <h4 class="card-title">{{count($payrollApprovals)}}</h4>
+                              <div class="col col-stats ml-3 ml-sm-0">
+                                 <div class="numbers">
+                                    <p class="card-category">Payslip</p>
+                                    <h4 class="card-title">{{count($payrollApprovals)}}</h4>
+                                 </div>
                               </div>
                            </div>
                         </div>
                      </div>
-                  </div> --}}
-               </a>
-            </div>
-         </div>
-         
-         @endif
-
-         @if ( auth()->user()->username == 'EN-2-006')
-         <div class="row">
-            <div class="col-md-4">
+                  </a>
+               </div>
+            
+            @endif
+            @if ( auth()->user()->username == 'EN-2-006')
+            <div class="col-md-6">
                <a href="{{route('payroll.approval.gm')}}">
                   <div class="card card-stats card-round border">
                      <div class="card-body">
@@ -289,47 +293,12 @@ Dashboard
                         </div>
                      </div>
                   </div>
-                  {{-- <div class="card card-stats card-primary card-round">
-                     <div class="card-body">
-                        <div class="row">
-                           <div class="col-3">
-                              <div class="icon-big text-center">
-                                 <i class="flaticon-interface-6"></i>
-                              </div>
-                           </div>
-                           <div class="col col-stats">
-                              <div class="numbers">
-                                 <p class="card-category">Payslip Approval</p>
-                                 <h4 class="card-title">{{count($payrollApprovals)}}</h4>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div> --}}
                </a>
             </div>
+            @endif
          </div>
-         @endif
 
-         <div class="card card-stats card-round">
-            <div class="card-body ">
-               <div class="row align-items-center">
-                  <div class="col-icon">
-                     <div class="icon-big text-center icon-primary bubble-shadow-small">
-                        <i class="fas fa-users"></i>
-                     </div>
-                  </div>
-                  <div class="col col-stats ml-3 ml-sm-0">
-                     <a href="{{route('leader.absence')}}">
-                     <div class="numbers">
-                        <p class="card-category"> Approval Form Absensi </p>
-                        <h4 class="card-title">{{count($reqForms) }}</h4>
-                     </div>
-                  </a>
-                  </div>
-               </div>
-            </div>
-         </div>
+        
 
 
 

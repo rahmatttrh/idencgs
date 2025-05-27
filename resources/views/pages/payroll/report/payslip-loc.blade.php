@@ -79,12 +79,24 @@ Payroll Transaction
    
    <div class="d-flex">
       <a href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a>
-      <div class="btn-group ml-2 mb-2">
-         <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
-         <a href="" class="btn btn-danger">Reject</a>
-      </div>
       
-   
+      @if (auth()->user()->username == 'EN-2-001')
+         @if ($payslipReport->status == null)
+            <div class="btn-group ml-2 mb-2">
+               <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
+               <a href="" class="btn btn-danger">Reject</a>
+            </div>
+         @endif   
+      @endif
+
+      @if (auth()->user()->username == '11304')
+         @if ($payslipReport->status == null)
+            <div class="btn-group ml-2 mb-2">
+               <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
+               <a href="" class="btn btn-danger">Reject</a>
+            </div>
+         @endif   
+      @endif
    </div>
    
 
@@ -92,7 +104,7 @@ Payroll Transaction
       <div class="card-header  d-flex justify-content-between ">
          <div class="">
             <h2 class="text-uppercase"><b>PAYSLIP REPORT </b> <br><span>{{$payslipReport->location->name}}</span> {{$unitTransaction->unit->name}} {{$unitTransaction->month}} {{$unitTransaction->year}}  </h2>
-            <small>{{count($transactions)}}</small>
+            <small>{{count($transactions)}} Transaksi</small>
          </div>
          <span>
             @if ($payslipReport->status == 1)
@@ -395,9 +407,8 @@ Payroll Transaction
          <form action="{{route('payroll.approve.loc')}}" method="POST" >
             <div class="modal-body">
                @csrf
-               <input type="text" value="{{$payslipReport->id}}" name="paysliReport" id="paysliReport" hidden>
+               <input type="text" value="{{$payslipReport->id}}" name="payslipReport" id="payslipReport" hidden>
                <span>Approve this Payslip Report {{$payslipReport->unit_transaction->unit->name}} {{$payslipReport->location_name}}?</span>
-                  
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>

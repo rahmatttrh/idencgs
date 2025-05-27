@@ -56,13 +56,14 @@ SPKL Draft
                      {{-- <th>NIK</th>
                       {{-- <th>Name</th> --}}
                       {{-- <th>Loc</th> --}}
+                      <th>ID</th>
                       <th>NIK</th>
                       <th>Name</th>
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
                      <th class="text-center">Qty</th>
-                     <th>Action</th>
+                     <th>Status</th>
                      {{-- <th></th> --}}
                   </tr>
                </thead>
@@ -70,6 +71,14 @@ SPKL Draft
                <tbody>
                   @foreach ($spkls as $spkl)
                   <tr>
+                     <td>
+                        
+                        <a href="{{route('employee.spkl.detail', enkripRambo($spkl->id))}}">{{$spkl->code}}</a>
+                        @if ($spkl->parent_id != null)
+                        | <a href="{{route('employee.spkl.detail.multiple', enkripRambo($spkl->parent_id))}}">Lihat Group</a>
+                            
+                        @endif
+                     </td>
                      <td>{{$spkl->employee->nik}}</td>
                      <td>{{$spkl->employee->biodata->fullName()}}</td>
                      <td>
@@ -108,12 +117,15 @@ SPKL Draft
                         
                      </td>
                      <td>
+                        <x-status.spkl :spkl="$spkl" />
+                     </td>
+                     {{-- <td>
                         <a href="{{route('employee.spkl.detail', enkripRambo($spkl->id))}}">Detail</a>
                         @if ($spkl->parent_id != null)
                         | <a href="{{route('employee.spkl.detail.multiple', enkripRambo($spkl->parent_id))}}">Lihat Group</a>
                             
                         @endif
-                     </td>
+                     </td> --}}
 
                   </tr>
                   @endforeach
