@@ -151,7 +151,7 @@ Summary Absence
             <table id="data" class="display basic-datatables table-sm">
                <thead>
                   <tr>
-                     
+                     <th>ID</th>
                      <th>Type</th>
                      <th>Change</th>
                      <th>Day</th>
@@ -169,7 +169,7 @@ Summary Absence
                <tbody>
                   @foreach ($absences as $absence)
                   <tr>
-                     
+                     <td>{{$absence->id}}</td>
                      <td>
                         @if ($absence->status == 404)
                            <span class="text-danger">Permintaan Perubahan</span>

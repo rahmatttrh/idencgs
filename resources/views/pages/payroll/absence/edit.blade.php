@@ -86,7 +86,7 @@ Edit Absence
           <table>
             <tbody>
                <tr>
-                  <td>Progres Perubahan</td>
+                  <td>Progres Perubahan {{$absence->type}}</td>
                </tr>
                <tr>
                   <td>
@@ -153,7 +153,7 @@ Edit Absence
                </div>
                @endif
 
-               @if ($absence->type == 6)
+               @if ($absence->type == 4)
                <div class="col-md-6 type_izin">
                   <div class="form-group form-group-default">
                      <label>Jenis Izin</label>

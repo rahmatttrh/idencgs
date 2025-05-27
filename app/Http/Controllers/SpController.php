@@ -48,6 +48,34 @@ class SpController extends Controller
             'employees' => $employees,
             'sps' => $sps
          ])->with('i');
+      } elseif(auth()->user()->hasRole('HRD-KJ12')) {
+         $employee = auth()->user()->getEmployee();
+         $allEmployees = Employee::get();
+         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
+         $sps = Sp::orderBy('created_at', 'desc')->get();
+         $employees = [];
+         return view('pages.sp.index-hrd', [
+            'employee' => $employee,
+            'allEmployees' => $allEmployees,
+            'employees' => $employees,
+            'sps' => $sps
+         ])->with('i');
+            
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+
+
+         $employee = auth()->user()->getEmployee();
+         $allEmployees = Employee::get();
+         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [4])->get();
+         $sps = Sp::orderBy('created_at', 'desc')->get();
+         $employees = [];
+         return view('pages.sp.index-hrd', [
+            'employee' => $employee,
+            'allEmployees' => $allEmployees,
+            'employees' => $employees,
+            'sps' => $sps
+         ])->with('i');
+         // dd($overtimes);
       } elseif (auth()->user()->hasRole('Manager|Asst. Manager')) {
          $employee = auth()->user()->getEmployee();
          $employees = Employee::where('department_id', auth()->user()->getEmployee()->department_id)->where('designation_id', '<', 6)->get();
@@ -171,6 +199,21 @@ class SpController extends Controller
    public function hrdCreate()
    {
       $employees = Employee::where('status', 1)->get();
+
+      if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll')) {
+         
+         $employees = Employee::get();
+         
+      } elseif(auth()->user()->hasRole('HRD-KJ12')) {
+         
+         $employees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
+         
+            
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+
+         $employees = Employee::where('status', 1)->whereIn('location_id', [4])->get();
+         
+      }
       return view('pages.sp.create', [
          'allEmployees' => $employees
       ]);

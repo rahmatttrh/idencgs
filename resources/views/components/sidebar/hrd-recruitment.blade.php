@@ -79,6 +79,11 @@
                <span class="sub-item">Cuti Karyawan</span>
             </a>
          </li>
+         <li>
+            <a href="{{route('project')}}">
+               <span class="sub-item">Project</span>
+            </a>
+         </li>
          {{-- <li>
             <a href="{{route('position')}}">
                <span class="sub-item">Jabatan</span>

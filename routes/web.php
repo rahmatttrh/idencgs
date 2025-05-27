@@ -197,6 +197,7 @@ Route::middleware(["auth"])->group(function () {
          Route::post('store', [LocationController::class, 'store'])->name('location.store');
          Route::get('delete/{id}', [LocationController::class, 'delete'])->name('location.delete');
          // Route::get('create', [AnnouncementController::class, 'create'])->name('announcement.create');
+         Route::get('delete/{id}', [AnnouncementController::class, 'delete'])->name('announcement.delete');
       });
 
       Route::prefix('announcement')->group(function () {
@@ -619,7 +620,7 @@ Route::middleware(["auth"])->group(function () {
          Route::put('update/picture', [EmployeeController::class, 'updatePicture'])->name('employee.update.picture');
          Route::get('remove/picture/{id}', [EmployeeController::class, 'removePicture'])->name('employee.remove.picture');
          Route::put('update/role', [EmployeeController::class, 'updateRole'])->name('employee.update.role');
-         Route::put('reset/password/{id}', [EmployeeController::class, 'resetPassword'])->name('employee.reset.password');
+         Route::get('reset/password/{id}', [EmployeeController::class, 'resetPassword'])->name('employee.reset.password');
       });
 
       // Quick PE All

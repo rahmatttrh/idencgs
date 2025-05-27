@@ -30,6 +30,7 @@ use App\Models\UnitTransaction;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
@@ -289,60 +290,68 @@ class TransactionController extends Controller
          }
       }
 
-      // 01 Create Unit Transaction
-      $unitTransaction = UnitTransaction::create([
-         'status' => 0,
-         'unit_id' => $unit->id,
-         'cut_from' => $req->from,
-         'cut_to' => $req->to,
-         'month' => $req->month,
-         'year' => $req->year,
-         'total_employee' => $totalEmployee,
-         'total_salary' => $totalSalary
-      ]);
+      DB::beginTransaction();
+      try {
+         // 01 Create Unit Transaction
+         $unitTransaction = UnitTransaction::create([
+            'status' => 0,
+            'unit_id' => $unit->id,
+            'cut_from' => $req->from,
+            'cut_to' => $req->to,
+            'month' => $req->month,
+            'year' => $req->year,
+            'total_employee' => $totalEmployee,
+            'total_salary' => $totalSalary
+         ]);
 
-      foreach ($employees as $emp) {
-         if ($emp->payroll_id != null && $emp->join < $req->to) {
-            $totalSalary = $totalSalary + $emp->payroll->total;
-            $totalEmployee = $totalEmployee + 1;
+         foreach ($employees as $emp) {
+            if ($emp->payroll_id != null && $emp->join < $req->to) {
+               $totalSalary = $totalSalary + $emp->payroll->total;
+               $totalEmployee = $totalEmployee + 1;
 
-            $empTransaction = Transaction::where('employee_id', $emp->id)->where('month', $req->month)->first();
-            
-            if (!$empTransaction) {
-               $this->store($emp, $req, $unitTransaction);
+               $empTransaction = Transaction::where('employee_id', $emp->id)->where('month', $req->month)->first();
+               
+               if (!$empTransaction) {
+                  $this->store($emp, $req, $unitTransaction);
+               }
             }
          }
-      }
 
-      foreach ($resignEmployees as $emp) {
-         if ($emp->payroll_id != null && $emp->join < $req->to) {
-            $totalSalary = $totalSalary + $emp->payroll->total;
-            $totalEmployee = $totalEmployee + 1;
+         foreach ($resignEmployees as $emp) {
+            if ($emp->payroll_id != null && $emp->join < $req->to) {
+               $totalSalary = $totalSalary + $emp->payroll->total;
+               $totalEmployee = $totalEmployee + 1;
 
-            $empTransaction = Transaction::where('employee_id', $emp->id)->where('month', $req->month)->first();
-            if (!$empTransaction) {
-               $this->store($emp, $req, $unitTransaction);
+               $empTransaction = Transaction::where('employee_id', $emp->id)->where('month', $req->month)->first();
+               if (!$empTransaction) {
+                  $this->store($emp, $req, $unitTransaction);
+               }
             }
          }
-      }
 
-      $unitTransaction->update([
-         'total_employee' => $totalEmployee,
-         'total_salary' => $totalSalary
-      ]);
+         $unitTransaction->update([
+            'total_employee' => $totalEmployee,
+            'total_salary' => $totalSalary
+         ]);
 
-      if (auth()->user()->hasRole('Administrator')) {
-         $departmentId = null;
-      } else {
-         $user = Employee::find(auth()->user()->getEmployeeId());
-         $departmentId = $user->department_id;
+         if (auth()->user()->hasRole('Administrator')) {
+            $departmentId = null;
+         } else {
+            $user = Employee::find(auth()->user()->getEmployeeId());
+            $departmentId = $user->department_id;
+         }
+         DB::commit();
+         Log::create([
+            'department_id' => $departmentId,
+            'user_id' => auth()->user()->id,
+            'action' => 'Generate',
+            'desc' => 'Payslip ' . $unitTransaction->unit->name . ' Bulan ' . $unitTransaction->month
+         ]);
+      } catch (\Exception $e) {
+         // Membatalkan transaksi jika terjadi kesalahan
+         DB::rollBack();
+         return redirect()->back()->with('danger', 'An error occurred: ' . $e->getMessage());
       }
-      Log::create([
-         'department_id' => $departmentId,
-         'user_id' => auth()->user()->id,
-         'action' => 'Generate',
-         'desc' => 'Payslip ' . $unitTransaction->unit->name . ' Bulan ' . $unitTransaction->month
-      ]);
 
 
 
@@ -1042,10 +1051,13 @@ class TransactionController extends Controller
             $totalReduction = $transaction->reductions->where('type', 'employee')->sum('value');
             // dd($totalReduction);
             $reductionOff = $rate * $offQty;
-            $total = $rate * $qtyOn;
+            $total = $payroll->total - $reductionOff;
             // dd($totalReduction);
          
 
+            if (auth()->user()->hasRole('Administrator')) {
+               // dd($reductionOff);
+            }
          $transaction->update([
             'remark' => 'Karyawan Baru',
             'off' => $offQty,

@@ -96,8 +96,24 @@ class AbsenceEmployeeController extends Controller
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $employees = Employee::where('department_id', $employee->department_id)->get();
       // dd($employees);
+      $allManagers = Employee::where('role', 5)->get();
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
-      $managers = Employee::where('unit_id', $employee->unit_id)->where('role', 5)->get();
+      $managers = Employee::where('department_id', $employee->department_id)->where('role', 5)->get();
+
+      // $managers = [];
+
+      if (count($managers) == 0) {
+         foreach($allManagers as $man){
+            if (count($man->positions) > 0) {
+               foreach($man->positions as $pos){
+                  if ($pos->department_id == $employee->department_id) {
+                     $managers[] = $man;
+                  }
+               }
+            }
+         }
+      }
+
       $now = Carbon::now();
       // $cutis = Absence::where()
       $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
@@ -307,14 +323,20 @@ class AbsenceEmployeeController extends Controller
       $employees = Employee::where('department_id', $employee->department_id)->get();
 
       if ($absenceEmployee->type == 4){
-         $type = 'izin';
+         $type = 'Izin';
+         $cuti = null;
       } elseif($absenceEmployee->type == 5){
          $type = 'Cuti';
          $cuti = $absenceEmployee;
       } elseif($absenceEmployee->type == 6){
          $type = 'SPT';
+         $cuti = null;
       } elseif($absenceEmployee->type == 7){
          $type = 'Sakit';
+         $cuti = null;
+      } elseif($absenceEmployee->type == 10){
+         $type = 'Izin Resmi';
+         $cuti = null;
       }
       
       $employeeLeaders = EmployeeLeader::where('employee_id', $leader->id)->get();

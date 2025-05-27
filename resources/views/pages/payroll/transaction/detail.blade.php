@@ -196,7 +196,7 @@ Detail Transaction Payroll Employee
                                        <tr>
                                           <th colspan="">Potongan</th>
                                           <th class="text-right">
-                                             {{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late )}} 
+                                             {{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late + $transaction->additional_pengurangan )}} 
                                              {{-- red:  {{$transaction->reduction}}</th> --}}
                                        </tr>
                                        <tr>

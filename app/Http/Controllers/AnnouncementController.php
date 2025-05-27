@@ -6,6 +6,7 @@ use App\Models\Announcement;
 use App\Models\Employee;
 use App\Models\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AnnouncementController extends Controller
 {
@@ -43,7 +44,8 @@ class AnnouncementController extends Controller
           'employee_id' => $req->employee,
           'status' => 1,
           'title' => $req->title,
-          'body' => $req->body
+          'body' => $req->body,
+          'doc' => request()->file('doc')->store('doc/announcement')
        ]);
  
        if (auth()->user()->hasRole('Administrator')) {
@@ -61,6 +63,15 @@ class AnnouncementController extends Controller
  
        return redirect()->route('announcement')->with('success', 'Announcement successfully created');
     }
+
+    public function delete($id){
+        $announce = Announcement::find(dekripRambo($id));
+  
+        Storage::delete($announce->doc);
+        $announce->delete();
+  
+        return redirect()->route('announcement')->with('success', 'Data Announcement berhasil dihapus');
+      }
  
     public function detail($id)
     {

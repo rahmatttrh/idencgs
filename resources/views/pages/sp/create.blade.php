@@ -26,7 +26,7 @@ SP
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                Export
             </a>
-            @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll'))
+            @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-KJ45|HRD-KJ12'))
             <a class="nav-link  active text-left pl-3" id="v-pills-contract-tab" href="{{route('sp.hrd.create')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}

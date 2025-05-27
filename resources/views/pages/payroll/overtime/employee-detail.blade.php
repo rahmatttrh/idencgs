@@ -57,12 +57,43 @@ SPKL
                      
                   </td>
                </tr>
+               <tr>
+                  <td colspan="2">Detail</td>
+               </tr>
+               <tr>
+                  <td></td>
+                  <td>
+                     {{formatRupiahB($employee->getOvertimes($from, $to)->sum('rate'))}}
+                  </td>
+
+               </tr>
+               <tr>
+                  <td></td>
+                  <td>
+                     Lembur :
+                     @if ($employee->unit->hour_type == 1)
+                     {{$employee->getOvertimes($from, $to)->where('type', 1)->sum('hours')}}
+                        @elseif ($employee->unit->hour_type == 2)
+                        {{$employee->getOvertimes($from, $to)->where('type', 1)->sum('hours_final')}}
+                     @endif
+                  </td>
+               </tr>
+               <tr>
+                  <td></td>
+                  <td>
+                     Piket : 
+                     {{$employee->getOvertimes($from, $to)->where('type', 2)->sum('hours_final')}}
+                  </td>
+               </tr>
                
 
              
                
             </tbody>
          </table>
+         <hr>
+         <b>#INFO</b> <br>
+         <small>LN = Libur Nasional</small>
       </div>
       <div class="col-md-9">
          <div class="table-responsive px-0">
