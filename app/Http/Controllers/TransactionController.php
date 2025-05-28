@@ -39,6 +39,7 @@ class TransactionController extends Controller
 
    public function index()
    {
+      // dd('ok');
       $employees = Employee::get();
       $transactions = Transaction::get();
       $units = Unit::get();
