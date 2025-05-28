@@ -160,7 +160,12 @@ class AbsenceEmployeeController extends Controller
 
    public function detail($id){
       $activeTab = 'form';
-      $user = Employee::where('nik', auth()->user()->username)->first();
+      if (auth()->user()->hasRole('Administrator')) {
+        $user = null;
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+      }
+      
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
       $absenceCurrent = Absence::where('employee_id', $absenceEmployee->employee->id)->where('date', $absenceEmployee->date)->first();
       if ($absenceCurrent) {
@@ -185,13 +190,18 @@ class AbsenceEmployeeController extends Controller
          $type = 'Izin Resmi';
       }
 
-      $leader = Employee::where('nik', auth()->user()->username)->first();
+      if ($user) {
+         $leader = Employee::where('nik', auth()->user()->username)->first();
+      }
+      
       $employee = Employee::find($absenceEmployee->employee_id);
 
       
       $cuti = Cuti::where('employee_id', $employee->id)->first();
       $employees = Employee::where('department_id', $employee->department_id)->get();
-      if ($leader) {
+
+
+      if ($user) {
          $employeeLeaders = EmployeeLeader::where('employee_id', $leader->id)->get();
 
       } else{
@@ -205,7 +215,12 @@ class AbsenceEmployeeController extends Controller
       // ->select('employees.*')
       // ->orderBy('biodatas.first_name', 'asc')
       // ->get();
-      $myteams = EmployeeLeader::where('leader_id', $user->id)->get();
+      if ($user) {
+         $myteams = EmployeeLeader::where('leader_id', $user->id)->get();
+      } else {
+         $myteams = null;
+      }
+      
       // dd($absenceEmployee->type);
       
 

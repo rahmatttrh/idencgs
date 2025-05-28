@@ -395,14 +395,17 @@ Form Perubahan Absence
          </small>
          @endif
 
-         @if ($user->id == $absenceEmp->leader_id)
-            <hr>
-            <small>
-               <b>#INFO</b> <br>
-               Anda dapat merubah tanggal ataupun mengurangi tanggal cuti <br> <br>
-               Perubahan yang anda lakukan akan terinfokan ke karyawan 
-            </small>
+         @if ($user)
+            @if ($user->id == $absenceEmp->leader_id)
+               <hr>
+               <small>
+                  <b>#INFO</b> <br>
+                  Anda dapat merubah tanggal ataupun mengurangi tanggal cuti <br> <br>
+                  Perubahan yang anda lakukan akan terinfokan ke karyawan 
+               </small>
+            @endif
          @endif
+         
          
 
         
