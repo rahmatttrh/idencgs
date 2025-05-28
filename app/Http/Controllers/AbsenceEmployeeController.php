@@ -704,7 +704,7 @@ class AbsenceEmployeeController extends Controller
          if ($reqForm->manager_id == $employee->id) {
             $status = 5;
          } else {
-            $status = 2;
+            $status = 5;
          }
         
         $form = 'Cuti';
