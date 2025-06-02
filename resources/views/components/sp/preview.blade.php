@@ -82,9 +82,9 @@
                   <td style="height: 80px" class="">
                      {{-- {{$sp->id}} --}}
                      @if ($user)
-                     {{-- {{$user->id}} --}}
-                        {{$user->employee->biodata->fullName()}} <br>
-                        <small class="text-muted">{{$user->employee->position->name}}</small>
+                     {{-- {{($submittedBy)}} --}}
+                     {{$user->biodata->fullName()}} <br>
+                        <small class="text-muted">{{$user->position->name}}</small>
                         @else
                         -
                         @endif

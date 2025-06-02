@@ -94,16 +94,16 @@ class PayrollApprovalController extends Controller
       ])->with('i');
    }
 
-   public function approveLocation(Request $req){
-      $payslipReport = PayslipReport::find($req->payslipReport);
+   // public function approveLocation(Request $req){
+   //    $payslipReport = PayslipReport::find($req->payslipReport);
 
-      $payslipReport->update([
-         'status' => 1
-      ]);
+   //    $payslipReport->update([
+   //       'status' => 1
+   //    ]);
 
-      return redirect()->back()->with('success', "Payslip Report Location berhasil di approve");
+   //    return redirect()->back()->with('success', "Payslip Report Location berhasil di approve");
 
-   }
+   // }
 
    public function approveHrd(Request $req)
    {

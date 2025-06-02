@@ -81,14 +81,14 @@ class AnnouncementController extends Controller
        ])->with('i');
     }
 
-    public function delete($id){
-      $announce = Announcement::find(dekripRambo($id));
+    // public function delete($id){
+    //   $announce = Announcement::find(dekripRambo($id));
 
-      Storage::delete($announce->doc);
-      $announce->delete();
+    //   Storage::delete($announce->doc);
+    //   $announce->delete();
 
-      return redirect()->route('announcement')->with('success', 'Data Announcement berhasil dihapus');
-    }
+    //   return redirect()->route('announcement')->with('success', 'Data Announcement berhasil dihapus');
+    // }
  
  
  

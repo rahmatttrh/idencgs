@@ -519,14 +519,20 @@ class SpController extends Controller
          $employees = [];
       }
 
+      $submittedBy = $user;
+//   dd($user);
       if ($sp->note) {
          $user = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Release')->first();
+         //  dd($user->id);
       } else {
          $user = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Submit')->first();
+         //  dd($user->id);
       }
       if (auth()->user()->hasRole('Administrator')) {
          // dd($user);
       } 
+
+      $user = $submittedBy;
 
       // dd($user->id);
       $hrd = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Approve')->where('level', 'hrd')->first();
@@ -548,7 +554,9 @@ class SpController extends Controller
 
       $approvals = SpApproval::where('sp_id', $sp->id)->get();
 
-      // dd($employees);
+      // dd($submittedBy);
+            // dd($user->biodata->fullName());
+
       return view('pages.sp.detail', [
          'spkl' => $spkl,
          'sp' => $sp,
@@ -556,6 +564,7 @@ class SpController extends Controller
          'gen' => $gen,
          'employees' => $employees,
          'approvals' => $approvals,
+         'submittedBy' => $submittedBy,
          'user' => $user,
          'hrd' => $hrd,
          'manager' => $manager,
