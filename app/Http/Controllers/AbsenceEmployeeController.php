@@ -69,6 +69,11 @@ class AbsenceEmployeeController extends Controller
          $leader = $assmen;
       }
 
+      if ($leader == null) {
+         $assmen = Employee::where('department_id', $employee->department_id)->where('role', 5)->first();
+         $leader = $assmen;
+      }
+
       $managers = Employee::where('department_id', $employee->department_id)->where('role', 5)->get();
       if (count($managers) == 0) {
          foreach($allManagers as $man){
