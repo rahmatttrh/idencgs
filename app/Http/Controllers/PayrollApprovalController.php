@@ -7,6 +7,7 @@ use App\Models\PayrollApproval;
 use App\Models\PayslipReport;
 use App\Models\Transaction;
 use App\Models\UnitTransaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PayrollApprovalController extends Controller
@@ -80,7 +81,33 @@ class PayrollApprovalController extends Controller
          'status' => $status
       ]);
 
-      return redirect()->route('payroll.transaction.monthly', enkripRambo($payslipReport->unit_transaction_id))->with('success', "Payslip Report Location berhasil di approve");
+      return redirect()->route('payroll.transaction.monthly', enkripRambo($payslipReport->unit_transaction_id))->with('success', "Payslip Report Location berhasil di Approve");
+
+   }
+
+   public function rejectLocation(Request $req){
+      $payslipReport = PayslipReport::find($req->payslipReport);
+
+      if (auth()->user()->username == 'EN-2-001') {
+         $status = 101;
+      } else if(auth()->user()->username == '11304'){
+         $status = 202;
+      } else if(auth()->user()->username == 'EN-2-006'){
+         $status = 303;
+      } else if(auth()->user()->username == 'BOD-002'){
+         $status = 404;
+      }
+
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      $payslipReport->update([
+         'status' => $status,
+         'reject_by' => $employee->id,
+         'reject_date' => Carbon::now(),
+         'reject_desc' => $req->remark
+      ]);
+
+      return redirect()->route('payroll.transaction.monthly', enkripRambo($payslipReport->unit_transaction_id))->with('success', "Payslip Report Location berhasil di Reject");
 
    }
 
@@ -225,7 +252,44 @@ class PayrollApprovalController extends Controller
          'type' => 'approve',
       ]);
 
-      return redirect()->back()->with('success', 'Payroll approved');
+      return redirect()->back()->with('success', 'Payslip Report berhasil di Approve');
+   }
+
+   public function rejectGm(Request $req)
+   {
+
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $unitTransaction = UnitTransaction::find($req->unitTransactionId);
+      // $transactions = Transaction::where('unit_transaction_id', $unitTransaction->id)->get();
+
+      $unitTransaction->update([
+         'status' => 303,
+         'reject_by' => $employee->id,
+         'reject_date' => Carbon::now(),
+         'reject_desc' => $req->remark
+      ]);
+
+      // $payslipReports = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->get();
+      // foreach($payslipReports as $report){
+      //    $report->update([
+      //       'status' => 3
+      //    ]);
+      // }
+
+      // foreach ($transactions as $transaction) {
+      //    $transaction->update([
+      //       'status' => 4
+      //    ]);
+      // }
+
+      // PayrollApproval::create([
+      //    'unit_transaction_id' => $unitTransaction->id,
+      //    'employee_id' => $employee->id,
+      //    'level' => 'gm',
+      //    'type' => 'approve',
+      // ]);
+
+      return redirect()->back()->with('success', 'Payslip Report berhasil di Reject');
    }
 
    public function bod()

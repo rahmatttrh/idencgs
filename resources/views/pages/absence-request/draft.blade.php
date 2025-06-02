@@ -56,7 +56,7 @@ Draft Request Absence
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
-                     <th>Desc</th>
+                     {{-- <th>Desc</th> --}}
                      {{-- <th>Status</th> --}}
                      <th></th>
                   </tr>
@@ -75,26 +75,32 @@ Draft Request Absence
                             @else
                             <x-status.absence :absence="$absence" /> 
                         @endif
+
+                        {{$absence->permit->name ?? ''}}
                         
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
                         
                         @if ($absence->type == 5 || $absence->type == 10)
-                        
-                           @if (count($absence->details) > 0)
-                                 @foreach ($absence->details  as $item)
-                                    [{{formatDate($item->date)}}] 
-                                  @endforeach
-                               @else
-                               Tanggal belum dipilih
-                           @endif
-                              
+                              @if (count($absence->details) > 0)
+                                    @if (count($absence->details) > 1)
+                                          {{count($absence->details)}} Hari
+                                        @else
+                                          @foreach ($absence->details  as $item)
+                                          {{formatDate($item->date)}} 
+                                          @endforeach
+                                    @endif
+                                    
+                                 @else
+                                 Tanggal belum dipilih
+                              @endif
+                           {{-- {{count($absence->details)}} Hari --}}
                               @else
                               {{formatDate($absence->date)}}
                         @endif
                      </td>
-                     <td>{{$absence->desc}} {{$absence->permit->name ?? ''}}</td>
+                     {{-- <td>{{$absence->desc}} {{$absence->permit->name ?? ''}}</td> --}}
                      
                      <td class="text-truncate">
                       <a class="" href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> |

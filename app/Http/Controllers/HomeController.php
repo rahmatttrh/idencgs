@@ -863,8 +863,9 @@ class HomeController extends Controller
             }
          }
 
-
-
+         $absences = Absence::whereIn('type', [1,2,3])->where('employee_id', $employee->id)->get();
+         // dd($absences);
+         $myForms = AbsenceEmployee::where('employee_id', $employee->id)->where('status', '!=', 0)->where('status', '!=', 5)->orderBy('updated_at', 'desc')->get();
          
          
          return view('pages.dashboard.supervisor', [
@@ -880,8 +881,12 @@ class HomeController extends Controller
             'spRecents' => $spRecents,
             'peRecents' => $peRecents,
 
+            'absences' => $absences,
+
             'broadcasts' => $broadcasts,
             'personals' => $personals,
+
+            'myForms' => $myForms,
 
             'reqForms' => $reqForms,
             'reqBackupForms' => $reqBackForms,
@@ -921,7 +926,7 @@ class HomeController extends Controller
          // $absences =
 
          $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->get();
-         
+         $myForms = AbsenceEmployee::where('employee_id', $employee->id)->where('status', '!=', 0)->where('status', '!=', 5)->orderBy('updated_at', 'desc')->get();
          $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->get();
          return view('pages.dashboard.employee', [
             'now' => $now,
@@ -940,6 +945,7 @@ class HomeController extends Controller
             'absences' => $absences,
             'currentTransaction' => $currentTransaction,
             'cutis' => $cutis, 
+            'myForms' => $myForms,
             'reqForms' => $reqForms,
             'reqBackupForms' => $reqBackForms
          ])->with('i');

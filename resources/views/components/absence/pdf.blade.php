@@ -114,19 +114,19 @@
          </tr>
          <tr>
             <td class="text-center" style="height: 70px">
-               @if ($absenceemp->status >= 1)
+               @if ($absenceemp->status == 1 || $absenceemp->status == 2 || $absenceemp->status == 3 || $absenceemp->status == 5)
                   <span class="text-success"><i>CREATED</i></span> <br>
                   {{-- <small>{{formatDateTime($absenceemp->release_date)}}</small> --}}
                @endif
             </td>
             <td class="text-center">
-               @if ($absenceemp->status >= 2)
+               @if ($absenceemp->status == 2 || $absenceemp->status == 3 || $absenceemp->status == 5 )
                   <span class="text-success"><i>APPROVED</i></span> <br>
                   {{-- <small>{{formatDateTime($absenceemp->app_backup_date)}}</small> --}}
                @endif
             </td>
             <td class="text-center">
-               @if ($absenceemp->status >= 3)
+               @if ($absenceemp->status == 3 || $absenceemp->status == 5)
                   <span class="text-success"><i>APPROVED</i></span><br>
                   {{-- <small>{{formatDateTime($absenceemp->app_leader_date)}}</small> --}}
                @endif
@@ -160,17 +160,17 @@
          </tr>
          <tr>
             <td class="text-truncate">
-               @if ($absenceemp->status >= 1)
+               @if ($absenceemp->status == 1 || $absenceemp->status == 2 || $absenceemp->status == 3 || $absenceemp->status == 5)
                   <small>{{formatDateTime($absenceemp->release_date)}}</small>
                @endif
             </td>
             <td class="text-truncate">
-               @if ($absenceemp->status >= 2)
+               @if ($absenceemp->status == 2 || $absenceemp->status == 3 || $absenceemp->status == 5)
                   <small>{{formatDateTime($absenceemp->app_backup_date)}}</small>
                @endif
             </td>
             <td class="text-truncate">
-               @if ($absenceemp->status >= 3)
+               @if ($absenceemp->status == 3 || $absenceemp->status == 5)
                   <small>{{formatDateTime($absenceemp->app_leader_date)}}</small>
                @endif
             </td>

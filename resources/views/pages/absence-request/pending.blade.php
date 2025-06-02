@@ -81,11 +81,16 @@ Absence
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
-                        @if ($absence->type == 5)
+                        @if ($absence->type == 5 || $absence->type == 10)
                               @if (count($absence->details) > 0)
-                                    @foreach ($absence->details  as $item)
-                                       {{formatDate($item->date)}} -
-                                    @endforeach
+                                    @if (count($absence->details) > 1)
+                                          {{count($absence->details)}} Hari
+                                        @else
+                                          @foreach ($absence->details  as $item)
+                                          {{formatDate($item->date)}} 
+                                          @endforeach
+                                    @endif
+                                    
                                  @else
                                  Tanggal belum dipilih
                               @endif
@@ -96,9 +101,7 @@ Absence
                      </td>
                      {{-- <td>{{$absence->desc}}</td> --}}
                      <td>
-                        @if ($absence->status == 1 || $absence->status == 2)
-                            <span class="text-primary">Approval Atasan</span>
-                        @endif
+                        <x-status.form :form="$absence" />
                      </td>
                      <td class="text-truncate">
                       <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a>

@@ -45,6 +45,7 @@ History Formulir Pengajuan
             <table id="data" class="basic-datatables">
                <thead>
                   <tr>
+                     <th>ID</th>
                      <th>Type</th>
                      <th>NIK</th>
                       <th>Name</th>
@@ -95,6 +96,11 @@ History Formulir Pengajuan
                                     <tr>
                                        <td>
                                           <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
+                                             {{$absence->code}}
+                                          </a>
+                                       </td>
+                                       <td>
+                                          <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                                              <x-status.absence :absence="$absence" />
                                        </a>
                                           
@@ -131,10 +137,16 @@ History Formulir Pengajuan
 
 
 
+                      @foreach ($allReqForms as $absence)
                         @foreach ($myteams as $team)
-                           @foreach ($allReqForms as $absence)
+                           
                               @if ($absence->employee_id == $team->id)
                               <tr>
+                                 <td>
+                                    <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
+                                       {{$absence->code}}
+                                    </a>
+                                 </td>
                                  <td>
                                     <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                                        <x-status.absence :absence="$absence" />
@@ -150,9 +162,10 @@ History Formulir Pengajuan
                                     @if ($absence->type == 5 || $absence->type == 10)
                         
                                           @if (count($absence->details) > 0)
-                                                @foreach ($absence->details  as $item)
+                                             {{count($absence->details)}} Hari
+                                                {{-- @foreach ($absence->details  as $item)
                                                    {{formatDate($item->date)}} -
-                                                @endforeach
+                                                @endforeach --}}
                                              @else
                                              Tanggal belum dipilih
                                           @endif
@@ -162,7 +175,7 @@ History Formulir Pengajuan
                                        @endif
                                  </td>
                                  {{-- <td>{{$absence->desc}}</td> --}}
-                                 <td>
+                                 <td class="text-truncate">
                                     <x-status.form :form="$absence" />
                                     
                                  </td>

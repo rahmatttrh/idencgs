@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 class AbsenceEmployeeController extends Controller
 {
    public function index(){
-
+      
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $absences = Absence::where('employee_id', $employee->id)->orderBy('date', 'desc')->get();
       $activeTab = 'index';
@@ -51,11 +51,44 @@ class AbsenceEmployeeController extends Controller
       $activeTab = 'form';
       $employees = Employee::where('department_id', $employee->department_id)->get();
       $date = Carbon::make($absence->date);
+
+      $allManagers = Employee::where('role', 5)->get();
+      $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
+      // dd($employeeLeaders);
+      $leader = null;
+      foreach($employeeLeaders as $lead){
+         
+         if ($lead->leader->role == 7) {
+            $empLead = Employee::find($lead->leader_id);
+            $leader = $empLead;
+         }
+      }
+
+      if ($leader == null) {
+         $assmen = Employee::where('department_id', $employee->department_id)->where('role', 8)->first();
+         $leader = $assmen;
+      }
+
+      $managers = Employee::where('department_id', $employee->department_id)->where('role', 5)->get();
+      if (count($managers) == 0) {
+         foreach($allManagers as $man){
+            if (count($man->positions) > 0) {
+               foreach($man->positions as $pos){
+                  if ($pos->department_id == $employee->department_id) {
+                     $managers[] = $man;
+                  }
+               }
+            }
+         }
+      }
+      // dd('ok');
       return view('pages.absence-request.request', [
          'activeTab' => $activeTab,
          'absence' => $absence,
          'employeeLeaders' => $employeeLeaders,
          'employees' => $employees,
+         'leader' => $leader,
+         'managers' => $managers,
          'date' => $date,
          'from' => null,
          'to' => null
@@ -64,6 +97,7 @@ class AbsenceEmployeeController extends Controller
 
    public function pending(){
 
+      // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $absences = AbsenceEmployee::where('employee_id', $employee->id)->whereIn('status', [1,2,5,101,202])->orderBy('updated_at', 'desc')->get();
       // dd($absences);
@@ -183,6 +217,7 @@ class AbsenceEmployeeController extends Controller
       }
       
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
+      // dd($absenceEmployee);
       $absenceCurrent = Absence::where('employee_id', $absenceEmployee->employee->id)->where('date', $absenceEmployee->date)->first();
       if ($absenceCurrent) {
          $absenceCurrentId = $absenceCurrent->id;
@@ -858,6 +893,29 @@ class AbsenceEmployeeController extends Controller
 
       return redirect()->back()->with('success', 'Formulir ' . $form . ' ' . 'berhasil di setujui');
 
+   }
+
+   public function reject(Request $req){
+
+      $absEmp = AbsenceEmployee::find($req->absEmp);
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      if ($absEmp->status == 1) {
+         $status = 101;
+      } elseif($absEmp->status == 2){
+         $status = 202;
+      }
+
+      $absEmp->update([
+         'status' => $status,
+         'reject_by' => $employee->id,
+         'reject_date' => Carbon::now(),
+         'reject_desc' => $req->remark
+      ]);
+
+
+      return redirect()->back()->with('success', 'Form Absensi berhasil di Reject');
+      
    }
 
    public function approveBackup($id){
