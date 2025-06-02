@@ -43,4 +43,8 @@ class AbsenceEmployee extends Model
    public function details(){
       return $this->hasMany(AbsenceEmployeeDetail::class);
    }
+
+   public function rejectBy(){
+      return $this->belongsTo(Employee::class, 'reject_by');
+   }
 }

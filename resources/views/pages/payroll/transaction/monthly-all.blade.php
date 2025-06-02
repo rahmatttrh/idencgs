@@ -78,13 +78,17 @@ Payroll Transaction
          @if (auth()->user()->hasRole("HRD|HRD-Payroll") && $unitTransaction->status == 5)
          <a href="#" class="btn btn-success btn-block mb-2" data-target="#modal-publish-tu" data-toggle="modal">Publish</a>
          @endif
-         @if (auth()->user()->hasRole("HRD|HRD-Payroll") && $unitTransaction->status == 0)
-                  <a class="btn btn-primary  mb-2 btn-block" href="#" data-target="#modal-submit-tu" data-toggle="modal">Submit</a>
+         @if (auth()->user()->hasRole("HRD|HRD-Payroll") )
+            @if ($unitTransaction->status == 0 || $unitTransaction->status == 101 || $unitTransaction->status == 202 || $unitTransaction->status == 303 || $unitTransaction->status == 404)
+            <a class="btn btn-primary  mb-2 btn-block" href="#" data-target="#modal-submit-tu" data-toggle="modal">Submit</a>
+            @endif
                   
-               @endif
+                  
+         
+         @endif
          <div class="card shadow-none border ">
             <div class="card-header">
-               Status : <x-status.unit-transaction :unittrans="$unitTransaction" />
+               <x-status.unit-transaction :unittrans="$unitTransaction" />
             </div>
             <div class="card-body">
                   <h4 class="text-uppercase">{{$unit->name}}</h4>
@@ -160,7 +164,9 @@ Payroll Transaction
                      @if ($gm)
                         <div class="event-date bg-primary text-white">GENERAL MANAGER</div>
                         <h5 class="font-size-16">{{formatDateTime($gm->created_at)}}</h5>
-                        
+                        @elseif($unitTransaction->status == 303)
+                              <div class="event-date bg-danger border text-white">GENERAL MANAGER</div>
+                              <h5 class="font-size-16">Reject {{formatDateTime($unitTransaction->reject_date)}}</h5>
                         @else  
                         <div class="event-date bg-light border">GENERAL MANAGER</div>
                         <h5 class="font-size-16">Waiting</h5>

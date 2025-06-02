@@ -135,6 +135,7 @@ Form Absensi
             <table id="data" class="">
                <thead>
                   <tr>
+                     <th>ID</th>
                      <th>Type</th>
                      <th>NIK</th>
                      <th>Name</th>
@@ -153,7 +154,9 @@ Form Absensi
                   {{-- @foreach ($myteams as $team) --}}
                      @foreach ($allReqForms as $absence)
                         {{-- @if ($absence->employee_id == $team->id) --}}
+
                         <tr>
+                           <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">{{$absence->code}}</a></td>
                            <td>
                               <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                                  <x-status.absence :absence="$absence" />
@@ -169,9 +172,10 @@ Form Absensi
                               @if ($absence->type == 5 || $absence->type == 10)
                         
                                  @if (count($absence->details) > 0)
-                                       @foreach ($absence->details  as $item)
+                                    {{count($absence->details)}} Hari
+                                       {{-- @foreach ($absence->details  as $item)
                                           {{formatDate($item->date)}} -
-                                       @endforeach
+                                       @endforeach --}}
                                     @else
                                     Tanggal belum dipilih
                                  @endif

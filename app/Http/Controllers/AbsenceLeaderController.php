@@ -73,6 +73,7 @@ class AbsenceLeaderController extends Controller
    }
 
    public function history(){
+      
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->where('status', '>=', 3)->get();
       $allReqForms = AbsenceEmployee::where('status', '>=', 3)->get();

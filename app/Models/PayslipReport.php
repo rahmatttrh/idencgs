@@ -23,4 +23,8 @@ class PayslipReport extends Model
    public function projects(){
       return $this->hasMany(PayslipReportProject::class, 'payslip_report_id');
    }
+
+   public function rejectBy(){
+      return $this->belongsTo(Employee::class, 'reject_by');
+   }
 }

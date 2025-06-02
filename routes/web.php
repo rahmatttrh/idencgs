@@ -592,6 +592,7 @@ Route::middleware(["auth"])->group(function () {
 
          Route::get('general-manager', [PayrollApprovalController::class, 'gm'])->name('payroll.approval.gm');
          Route::post('approve/gm', [PayrollApprovalController::class, 'approveGm'])->name('payroll.approve.gm');
+         Route::post('reject/gm', [PayrollApprovalController::class, 'rejectGm'])->name('payroll.reject.gm');
 
          Route::get('bod', [PayrollApprovalController::class, 'bod'])->name('payroll.approval.bod');
          Route::post('approve/bod', [PayrollApprovalController::class, 'approveBod'])->name('payroll.approve.bod');
@@ -603,6 +604,7 @@ Route::middleware(["auth"])->group(function () {
 
 
          Route::post('approve/location', [PayrollApprovalController::class, 'approveLocation'])->name('payroll.approve.loc');
+         Route::post('reject/location', [PayrollApprovalController::class, 'rejectLocation'])->name('payroll.reject.loc');
       });
 
       Route::prefix('payslip/report')->group(function () {
@@ -937,6 +939,7 @@ Route::middleware(["auth"])->group(function () {
             Route::get('/request/{id}', [AbsenceEmployeeController::class, 'requestEmployee'])->name('employee.absence.request');
             Route::get('/release/{id}', [AbsenceEmployeeController::class, 'release'])->name('employee.absence.release');
             Route::get('/approve/{id}', [AbsenceEmployeeController::class, 'approve'])->name('employee.absence.approve');
+            Route::post('/reject', [AbsenceEmployeeController::class, 'reject'])->name('employee.absence.reject');
          });
 
          Route::prefix('spt')->group(function () {

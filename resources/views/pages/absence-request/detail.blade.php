@@ -52,7 +52,7 @@ Form Perubahan Absence
                      <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
                   @endif
                   
-                  <a href="#" class="btn mb-2 btn-danger">Reject</a>
+                  <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
                </span>
 
                @if ($absenceEmp->type == 5)
@@ -108,13 +108,30 @@ Form Perubahan Absence
          @endif
 
          <table class="">
+            @if ($absenceEmp->status == 101 || $absenceEmp->status == 202)
+                @php
+                    $bg = 'background-color: rgb(243, 36, 36)';
+                @endphp
+                @else
+                @php
+                    $bg = '';
+                @endphp
+            @endif
             <thead>
-               <tr>
+               <tr class="{{$bg}}">
                   <th colspan="3 " class="text-uppercase">{{$absenceEmp->code}} </th>
                </tr>
-               <tr>
-                  <th colspan="3 " class="text-uppercase"><x-status.absence-type :absence="$absenceEmp" /> : <x-status.form :form="$absenceEmp" /> </th>
+               <tr >
+                  <th style="{{$bg}}" colspan="3 " class="text-uppercase"><x-status.absence-type :absence="$absenceEmp" /> : <x-status.form :form="$absenceEmp" /> </th>
                </tr>
+               @if ($absenceEmp->status == 101 || $absenceEmp->status == 202)
+                   <tr>
+                     <th colspan="3">{{$absenceEmp->rejectBy->biodata->fullName()}} : {{$absenceEmp->reject_desc}}</th>
+                   </tr>
+                   <tr>
+                     <th colspan="3">{{formatDateTime($absenceEmp->reject_date)}}</th>
+                   </tr>
+               @endif
                @if ($absenceEmp->type == 10)
                    <tr>
                      <th colspan="3">{{$absenceEmp->permit->name}} ({{$absenceEmp->permit->qty}} Hari)</th>
@@ -165,13 +182,18 @@ Form Perubahan Absence
                         </div>
                         @endif
                      @endif
-                     |
-                     @if ($absenceEmp->type == 6)
+
+                     @if ($absenceEmp->status == 101 || $absenceEmp->status == 202)
+                         @else
+                         |
+                     @if ($absenceEmp->type == 6 )
                            <a href="{{route('export.spt', enkripRambo($absenceEmp->id))}}" target="_blank" class="">Export PDF</a>
                         @endif
                         @if ($absenceEmp->type == 5)
                         <a href="{{route('export.cuti', enkripRambo($absenceEmp->id))}}" target="_blank" class="">Export PDF</a>
                      @endif
+                     @endif
+                     
 
 
                      
@@ -560,6 +582,37 @@ Form Perubahan Absence
                <a class="text-light" href="{{route('employee.absence.approve.hrd', enkripRambo($absenceEmp->id))}}">Approve</a>
             </button>
          </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modal-reject-absence-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirm Reject<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('employee.absence.reject')}}" method="POST" >
+            <div class="modal-body">
+               @csrf
+               <input type="text" value="{{$absenceEmp->id}}" name="absEmp" id="absEmp" hidden>
+               <span>Reject this Form Absence ?</span>
+               <hr>
+               <div class="form-group form-group-default">
+                  <label>Remark</label>
+                  <input type="text" class="form-control"  name="remark" id="remark"  >
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger ">Reject</button>
+            </div>
+         </form>
       </div>
    </div>
 </div>

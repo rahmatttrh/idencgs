@@ -74,12 +74,6 @@ Form Perubahan Absence
             <div class="row">
                <div class="col-md-6">
                   <div class="form-group form-group-default">
-                     <label>Date</label>
-                     <input type="date" required class="form-control" id="date" name="date" value="{{$absence->date}}">
-                  </div>
-               </div>
-               <div class="col-md-6">
-                  <div class="form-group form-group-default">
                      <label>Type</label>
                      <select class="form-control type" required name="type" id="type">
                         <option value="" disabled selected>Select</option>
@@ -91,6 +85,21 @@ Form Perubahan Absence
                      </select>
                   </div>
                </div>
+               <div class="col-md-6">
+                  <div class="form-group date form-group-default">
+                     <label>Date</label>
+                     <input type="date" required class="form-control" id="date" name="date" value="{{$absence->date}}">
+                  </div>
+                  <span class="type_cuti">
+                     {{-- #Info <br> --}}
+                     Tanggal Cuti dapat dipilih setelah <br> anda klik 'Save to Draft'
+                  </span>
+                  <span class="type_izin_resmi">
+                     {{-- #Info <br> --}}
+                     Tanggal Izin Resmi dapat dipilih setelah <br> anda klik 'Save to Draft'
+                  </span>
+               </div>
+               
                
                
 
@@ -119,13 +128,29 @@ Form Perubahan Absence
             
             <span class="type_cuti">
                <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-6">
                      <div class="form-group form-group-default ">
-                        <label>Persetujuan</label>
+                        <label>Atasan</label>
                         <select class="form-control "  name="persetujuan" id="persetujuan">
                            <option value="" disabled selected>Select</option>
-                           @foreach ($employeeLeaders as $lead)
+                           <option selected value="{{$leader->id}}">{{$leader->biodata->fullName()}}</option>
+                           {{-- @foreach ($employeeLeaders as $lead)
                               <option  value="{{$lead->leader_id}}">{{$lead->leader->biodata->fullName()}}</option>
+                           @endforeach --}}
+                           {{-- <option  value="4">Izin</option>
+                           <option value="5">Cuti</option>
+                           <option  value="6">SPT</option>
+                           <option value="7">Sakit</option> --}}
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default ">
+                        <label>Manager</label>
+                        <select class="form-control "  name="manager" id="manager">
+                           <option value="" disabled selected>Select</option>
+                           @foreach ($managers as $man)
+                              <option selected value="{{$man->id}}">{{$man->biodata->fullName()}}</option>
                            @endforeach
                            {{-- <option  value="4">Izin</option>
                            <option value="5">Cuti</option>
@@ -140,7 +165,7 @@ Form Perubahan Absence
                         <input type="text" class="form-control" id="cuti_taken" name="cuti_taken">
                      </div>
                   </div> --}}
-                  <div class="col-md-4">
+                  {{-- <div class="col-md-4">
                      <div class="form-group form-group-default">
                         <label>Lama Cuti </label>
                         <input type="text" class="form-control" id="cuti_qty" name="cuti_qty">
@@ -157,14 +182,14 @@ Form Perubahan Absence
                         <label>Sampai dengan</label>
                         <input type="date" class="form-control" id="cuti_end" name="cuti_end">
                      </div>
-                  </div>
+                  </div> --}}
                   <div class="col-md-12">
                      <div class="form-group form-group-default">
                         <label>Keperluan</label>
                         <input type="text" class="form-control" id="keperluan" name="keperluan">
                      </div>
                   </div>
-                  <div class="col-md-12">
+                  {{-- <div class="col-md-12">
                      <div class="form-group form-group-default">
                         <label>Karyawan Pengganti</label>
                         <select class="form-control"  name="cuti_backup" id="cuti_backup">
@@ -176,7 +201,7 @@ Form Perubahan Absence
                           
                         </select>
                      </div>
-                  </div>
+                  </div> --}}
                </div>
             </span>
 
@@ -314,6 +339,7 @@ Form Perubahan Absence
          $('.type_izin').hide();
          $('.type_late').hide();
          $('.type_cuti').hide();
+         $('.type_izin_resmi').hide();
          // $('.spt').hide();
 
          $('.type').change(function() {
@@ -321,24 +347,39 @@ Form Perubahan Absence
             var type = $(this).val();
             if (type == 6) {
             //   $('#foto').show();
+               $('.date').show();
               $('.type_spt').show();
               $('.type_izin').hide();
               $('.type_late').hide();
               $('.type_cuti').hide();
             } else if(type == 5) {
                //   $('#foto').show();
+               $('.date').hide();
                $('.type_izin').hide();
                $('.type_spt').hide();
                $('.type_late').hide();
                $('.type_cuti').show();
             } else if(type == 4) {
                //   $('#foto').show();
+               $('.date').show();
                $('.type_izin').show();
                $('.type_spt').hide();
                $('.type_late').hide();
                $('.type_cuti').hide();
+
+            } else if(type == 10) {
+               //   $('#foto').show();
+               $('.date').hide();
+               $('.type_izin').hide();
+               $('.type_spt').hide();
+               $('.type_late').hide();
+               $('.type_cuti').hide();
+               $('.type_izin_resmi').show();
+               
+
             } else  {
                //   $('#foto').show();
+               $('.date').show();
                $('.type_izin').hide();
                $('.type_spt').hide();
                $('.type_late').hide();
