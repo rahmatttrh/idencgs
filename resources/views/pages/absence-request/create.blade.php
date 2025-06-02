@@ -74,7 +74,7 @@ Form Absence
                      <select class="form-control type" required name="type" id="type">
                         <option value="" disabled selected>Select</option>
                         <option value="5">Cuti</option>
-                        <option  value="6">SPT</option>
+                        <option  value="6">Surat Perintah Tugas</option>
                         <option  value="4">Izin</option>
                         <option value="10">Izin Resmi</option>
                         <option value="7">Sakit</option>
@@ -145,12 +145,13 @@ Form Absence
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group form-group-default ">
-                        <label>Atasan Langsung</label>
+                        <label>Atasan</label>
                         <select class="form-control "  name="persetujuan" id="persetujuan">
                            <option value="" disabled selected>Select</option>
-                           @foreach ($employeeLeaders as $lead)
+                           <option selected value="{{$leader->id}}">{{$leader->biodata->fullName()}}</option>
+                           {{-- @foreach ($employeeLeaders as $lead)
                               <option  value="{{$lead->leader_id}}">{{$lead->leader->biodata->fullName()}}</option>
-                           @endforeach
+                           @endforeach --}}
                            {{-- <option  value="4">Izin</option>
                            <option value="5">Cuti</option>
                            <option  value="6">SPT</option>
@@ -164,7 +165,7 @@ Form Absence
                         <select class="form-control "  name="manager" id="manager">
                            <option value="" disabled selected>Select</option>
                            @foreach ($managers as $man)
-                              <option  value="{{$man->id}}">{{$man->biodata->fullName()}}</option>
+                              <option selected value="{{$man->id}}">{{$man->biodata->fullName()}}</option>
                            @endforeach
                            {{-- <option  value="4">Izin</option>
                            <option value="5">Cuti</option>

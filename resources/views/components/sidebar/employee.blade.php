@@ -26,7 +26,7 @@
    <span class="sidebar-mini-icon">
       <i class="fa fa-ellipsis-h"></i>
    </span>
-   <h4 class="text-section">Employee</h4>
+   <h4 class="text-section">Personal</h4>
 </li>
 <li class="nav-item {{ (request()->is('qpe')) ? 'active' : '' }}">
    <a href="{{route('qpe')}}">

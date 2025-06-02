@@ -32,6 +32,13 @@
       <p>Report</p>
    </a>
 </li> --}}
+
+<li class="nav-section">
+   <span class="sidebar-mini-icon">
+      <i class="fa fa-ellipsis-h"></i>
+   </span>
+   <h4 class="text-section">HRD</h4>
+</li>
 <li class="nav-item">
    <a data-toggle="collapse" href="#vessel">
       <i class="fas fa-server"></i>
@@ -218,12 +225,7 @@
       <p>Perdin</p>
    </a>
 </li> --}}
-<li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
-   <a href="{{route('task')}}">
-      <i class="fas fa-calendar"></i>
-      <p>Task</p>
-   </a>
-</li>
+
 <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
       <i class="fas fa-file-code"></i>
@@ -292,15 +294,39 @@
    </div>
 </li> --}}
 <hr>
+<li class="nav-section">
+   <span class="sidebar-mini-icon">
+      <i class="fa fa-ellipsis-h"></i>
+   </span>
+   <h4 class="text-section">Personal</h4>
+</li>
 <li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
    <a href="{{route('employee.absence')}}">
       <i class="fas fa-calendar-check"></i>
-      <p>Absensi Saya</p>
+      <p>Absensi </p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.spkl')}}">
+      <i class="fas fa-clock"></i>
+      <p>SPKL & Piket</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
    <a href="{{route('employee.cuti')}}">
       <i class="fas fa-briefcase"></i>
-      <p>Cuti Saya</p>
+      <p>Info Cuti</p>
    </a>
 </li>
+<li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
+   <a href="{{route('task')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Task List</p>
+   </a>
+</li>
+{{-- <li class="nav-item {{ (request()->is('employee/sp/*')) ? 'active' : '' }}">
+   <a href="{{route('sp')}}">
+      <i class="fas fa-file"></i>
+      <p>SP</p>
+   </a>
+</li> --}}

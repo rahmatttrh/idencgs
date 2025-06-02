@@ -99,6 +99,21 @@ class AbsenceEmployeeController extends Controller
       // dd($employees);
       $allManagers = Employee::where('role', 5)->get();
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
+      // dd($employeeLeaders);
+      $leader = null;
+      foreach($employeeLeaders as $lead){
+         
+         if ($lead->leader->role == 7) {
+            $empLead = Employee::find($lead->leader_id);
+            $leader = $empLead;
+         }
+      }
+
+      if ($leader == null) {
+         $assmen = Employee::where('department_id', $employee->department_id)->where('role', 8)->first();
+         $leader = $assmen;
+      }
+
       $managers = Employee::where('department_id', $employee->department_id)->where('role', 5)->get();
       if (count($managers) == 0) {
          foreach($allManagers as $man){
@@ -154,7 +169,8 @@ class AbsenceEmployeeController extends Controller
          'to' => null,
          'date' => $date,
          'cutis' => $cutis,
-         'permits' => $permits
+         'permits' => $permits,
+         'leader' => $leader
       ]);
    }
 
