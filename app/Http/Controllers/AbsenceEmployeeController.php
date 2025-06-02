@@ -75,6 +75,7 @@ class AbsenceEmployeeController extends Controller
       }
 
       $managers = Employee::where('department_id', $employee->department_id)->where('role', 5)->get();
+      // dd($managers);
       if (count($managers) == 0) {
          foreach($allManagers as $man){
             if (count($man->positions) > 0) {
@@ -86,6 +87,9 @@ class AbsenceEmployeeController extends Controller
             }
          }
       }
+      // if ($leader == null) {
+      //    $leader = $managers;
+      // }
       // dd('ok');
       return view('pages.absence-request.request', [
          'activeTab' => $activeTab,
@@ -169,6 +173,7 @@ class AbsenceEmployeeController extends Controller
       }
 
       $managers = Employee::where('department_id', $employee->department_id)->where('role', 5)->get();
+      // dd($managers);
       if (count($managers) == 0) {
          foreach($allManagers as $man){
             if (count($man->positions) > 0) {
@@ -180,6 +185,10 @@ class AbsenceEmployeeController extends Controller
             }
          }
       }
+
+      // dd($leader);
+
+
       // @if (count($employee->positions) > 0)
       //                @foreach ($positions as $pos)
       //                 <b>{{$pos->department->unit->name ?? '-'}} {{$pos->department->name ?? '-'}} </b> <br>
