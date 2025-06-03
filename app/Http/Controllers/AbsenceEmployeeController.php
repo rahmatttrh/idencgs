@@ -186,9 +186,11 @@ class AbsenceEmployeeController extends Controller
          }
       }
 
-      // dd($leader);
-
-
+      
+      // if ($leader == null) {
+      //    // $assmen = Employee::where('department_id', $employee->department_id)->where('role', 5)->first();
+      //    $leader = $managers;
+      // }
       // @if (count($employee->positions) > 0)
       //                @foreach ($positions as $pos)
       //                 <b>{{$pos->department->unit->name ?? '-'}} {{$pos->department->name ?? '-'}} </b> <br>
@@ -222,6 +224,8 @@ class AbsenceEmployeeController extends Controller
       // dd($cutis);
 
       $permits = Permit::get();
+      
+      // dd($backDate);
       return view('pages.absence-request.create', [
          'activeTab' => $activeTab,
          'employeeLeaders' => $employeeLeaders,
@@ -233,7 +237,7 @@ class AbsenceEmployeeController extends Controller
          'date' => $date,
          'cutis' => $cutis,
          'permits' => $permits,
-         'leader' => $leader
+         'leader' => $leader,
       ]);
    }
 
@@ -296,7 +300,28 @@ class AbsenceEmployeeController extends Controller
       // ->orderBy('biodatas.first_name', 'asc')
       // ->get();
       if ($user) {
-         $myteams = EmployeeLeader::where('leader_id', $user->id)->get();
+         if ($user->designation_id > 4) {
+            $myteams = Employee::where('department_id', $user->department_id)->whereIn('designation_id', [3,4,5])->where('id', '!=', $absenceEmployee->employee_id)->get();
+            // dd(myteams);
+            // $myteams = EmployeeLeader::where('leader_id', $user->id)->where('employee_id', '!=', $user->id)->get();
+            foreach($myteams as $team){
+               // $emp = Employee::find($team->id);
+               $emps[] = $team;
+               
+            }
+
+            // dd($emps);
+         } else {
+            $myteams = EmployeeLeader::where('leader_id', $user->id)->get();
+
+            $emps = [];
+
+            foreach($myteams as $team){
+               $emp = Employee::find($team->employee_id);
+               $emps[] = $emp;
+            }
+         }
+         
       } else {
          $myteams = null;
       }
@@ -332,6 +357,7 @@ class AbsenceEmployeeController extends Controller
       // dd($employee->nik);
       // dd($absenceEmployee->employee->biodata->fullName());
       $user = Employee::where('nik', auth()->user()->username)->first();
+      $backDate = Carbon::now()->addDay(-7);
       return view('pages.absence-request.detail', [
          'myteams' => $myteams,
          'activeTab' => $activeTab,
@@ -344,7 +370,10 @@ class AbsenceEmployeeController extends Controller
          'cuti' => $cuti,
          'from' => null,
          'to' => null,
-         'user' => $user
+         'user' => $user,
+         'backDate' => $backDate,
+
+         'emps' => $emps
       ]);
    }
 

@@ -13,7 +13,7 @@ class AbsenceLeaderController extends Controller
       $employee = Employee::where('nik', auth()->user()->username)->first();
       if (auth()->user()->hasRole('Manager')) {
          // dd($employee->id);
-         $reqForms = AbsenceEmployee::where('manager_id', $employee->id)->whereIn('status', [1,2])->orderBy('updated_at', 'desc')->get();
+         $reqForms = AbsenceEmployee::where('manager_id', $employee->id)->whereIn('status', [1,2])->orderBy('release_date', 'asc')->get();
       } else {
          $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->orderBy('updated_at', 'desc')->get();
       }
@@ -123,7 +123,7 @@ class AbsenceLeaderController extends Controller
 
    public function indexHrd(){
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::where('status', '!=', 5)->get();
+      $reqForms = AbsenceEmployee::where('status', '!=', 5)->orderBy('release_date', 'desc')->get();
       $activeTab = 'index';
       return view('pages.absence-request.hrd.index', [
          'activeTab' => $activeTab,

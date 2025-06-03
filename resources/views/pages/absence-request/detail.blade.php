@@ -67,8 +67,13 @@ Form Perubahan Absence
                            <label>Karyawan Pengganti</label>
                            <select class="form-control"  name="cuti_backup" id="cuti_backup">
                               <option value="" disabled selected>Select</option>
-                              @foreach ($myteams as $team)
+                              
+                              {{-- @foreach ($myteams as $team)
                               <option {{$team->employee->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$team->employee->id}}">{{$team->employee->biodata->fullName()}} </option>
+                              @endforeach --}}
+
+                              @foreach ($emps as $emp)
+                              <option {{$emp->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$emp->id}}">{{$emp->biodata->fullName()}} </option>
                               @endforeach
                               
                            </select>
@@ -247,7 +252,7 @@ Form Perubahan Absence
                      <td colspan="2">
                         
                            <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
-                           <input type="date" class="form-control" style="width: 100%" required  id="date" name="date">
+                           <input type="date" max="9/4/2025" class="form-control" style="width: 100%" required  id="date" name="date">
                            
                         
                      </td>
