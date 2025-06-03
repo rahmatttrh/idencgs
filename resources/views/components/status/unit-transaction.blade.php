@@ -13,4 +13,7 @@
     <span class="">Complete</span>
     @elseif($unittrans->status == 6)
     <span class="">Published</span>
+
+    @elseif($unittrans->status == 101 || $unittrans->status == 202 || $unittrans->status == 303 || $unittrans->status == 404)
+    <span class="">Reject</span>
 @endif

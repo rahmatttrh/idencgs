@@ -8,8 +8,16 @@ Form Perubahan Absence
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
+         @if (auth()->user()->hasRole('Administrator'))
+             @else
+             @if ($user->id == $absenceEmp->leader_id || $user->id == $absenceEmp->manager_id)
+               <li class="breadcrumb-item " aria-current="page"><a href="{{route('leader.absence')}}">Form Absensi</a></li>
+                 @else
+                 <li class="breadcrumb-item " aria-current="page"><a href="{{route('employee.absence')}}">Absensi</a></li>
+             @endif
+         @endif
          
-         <li class="breadcrumb-item active" aria-current="page">Form Absensi</li>
+         <li class="breadcrumb-item active" aria-current="page">Detail Form Absensi</li>
       </ol>
    </nav>
 
@@ -20,21 +28,18 @@ Form Perubahan Absence
             @if ($absenceEmp->type == 5 || $absenceEmp->type == 10)
                @if ($absenceEmployeeDetails)
                   @if (count($absenceEmployeeDetails) > 0)
-                  <a href="" class="btn btn-primary btn-block" data-target="#modal-release-absence-employee" data-toggle="modal">Release</a>
+                  <a href="" class="btn mb-2 btn-primary btn-block" data-target="#modal-release-absence-employee" data-toggle="modal">Release</a>
                   @else
-                  <a href="#" class="btn btn-light border text-muted btn-block" data-toggle="tooltip" data-placement="top" title="Anda belum memilih tanggal" >Release</a>
+                  <a href="#" class="btn mb-2 btn-light border text-muted btn-block" data-toggle="tooltip" data-placement="top" title="Anda belum memilih tanggal" >Release</a>
                   @endif 
                   @else
-                  <a href="#" class="btn btn-light border text-muted btn-block" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Tanggal" >Release</a>
+                  <a href="#" class="btn mb-2 btn-light border text-muted btn-block" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Tanggal" >Release</a>
                @endif
                     
                @else
 
                <a href="" class="btn mb-2 btn-primary btn-block" data-target="#modal-release-absence-employee" data-toggle="modal">Release</a>
             @endif
-         
-        
-               
          @endif
 
          
@@ -52,33 +57,37 @@ Form Perubahan Absence
                      <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
                   @endif
                   
-                  <a href="#" class="btn mb-2 btn-danger">Reject</a>
+                  <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
                </span>
 
                @if ($absenceEmp->type == 5)
-               
-               <form action="{{route('employee.absence.update.pengganti')}}" method="POST">
-                  @csrf
-                  @method('put')
-                  <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
-                  <div class="row">
-                     <div class="col-md-12">
-                        <div class="form-group form-group-default">
-                           <label>Karyawan Pengganti</label>
-                           <select class="form-control"  name="cuti_backup" id="cuti_backup">
-                              <option value="" disabled selected>Select</option>
-                              @foreach ($myteams as $team)
-                              <option {{$team->employee->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$team->employee->id}}">{{$team->employee->biodata->fullName()}} </option>
-                              @endforeach
-                              
-                           </select>
+                  <form action="{{route('employee.absence.update.pengganti')}}" method="POST">
+                     @csrf
+                     @method('put')
+                     <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="form-group form-group-default">
+                              <label>Karyawan Pengganti</label>
+                              <select class="form-control"  name="cuti_backup" id="cuti_backup">
+                                 <option value="" disabled selected>Select</option>
+                                 
+                                 {{-- @foreach ($myteams as $team)
+                                 <option {{$team->employee->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$team->employee->id}}">{{$team->employee->biodata->fullName()}} </option>
+                                 @endforeach --}}
+
+                                 @foreach ($emps as $emp)
+                                 <option {{$emp->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$emp->id}}">{{$emp->biodata->fullName()}} </option>
+                                 @endforeach
+                                 
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-md-12">
+                           <button class="mb-2 btn btn-primary btn-block" type="submit">Update</button>
                         </div>
                      </div>
-                     <div class="col-md-12">
-                        <button class="mb-2 btn btn-primary btn-block" type="submit">Update</button>
-                     </div>
-                  </div>
-               </form>
+                  </form>
                @endif
                
                <hr>
@@ -108,13 +117,33 @@ Form Perubahan Absence
          @endif
 
          <table class="">
+            @if ($absenceEmp->status == 101 || $absenceEmp->status == 202)
+                @php
+                    $bg = 'background-color: rgb(243, 36, 36)';
+                @endphp
+                @else
+                @php
+                    $bg = '';
+                @endphp
+            @endif
             <thead>
-               <tr>
+               <tr class="{{$bg}}">
                   <th colspan="3 " class="text-uppercase">{{$absenceEmp->code}} </th>
                </tr>
-               <tr>
-                  <th colspan="3 " class="text-uppercase"><x-status.absence-type :absence="$absenceEmp" /> : <x-status.form :form="$absenceEmp" /> </th>
+               <tr >
+                  <th style="{{$bg}}" colspan="3 " class="text-uppercase"><x-status.absence-type :absence="$absenceEmp" /> : <x-status.form :form="$absenceEmp" /> </th>
                </tr>
+               @if ($absenceEmp->status == 101 || $absenceEmp->status == 202)
+                   <tr>
+                     <td colspan="3">{{$absenceEmp->rejectBy->biodata->fullName()}}</td>
+                   </tr>
+                   <tr>
+                     <td colspan="3">{{$absenceEmp->reject_desc}}</td>
+                   </tr>
+                   <tr>
+                     <td colspan="3">{{formatDateTime($absenceEmp->reject_date)}}</td>
+                   </tr>
+               @endif
                @if ($absenceEmp->type == 10)
                    <tr>
                      <th colspan="3">{{$absenceEmp->permit->name}} ({{$absenceEmp->permit->qty}} Hari)</th>
@@ -165,13 +194,18 @@ Form Perubahan Absence
                         </div>
                         @endif
                      @endif
-                     |
-                     @if ($absenceEmp->type == 6)
+
+                     @if ($absenceEmp->status == 101 || $absenceEmp->status == 202)
+                         @else
+                         |
+                     @if ($absenceEmp->type == 6 )
                            <a href="{{route('export.spt', enkripRambo($absenceEmp->id))}}" target="_blank" class="">Export PDF</a>
                         @endif
                         @if ($absenceEmp->type == 5)
                         <a href="{{route('export.cuti', enkripRambo($absenceEmp->id))}}" target="_blank" class="">Export PDF</a>
                      @endif
+                     @endif
+                     
 
 
                      
@@ -222,14 +256,17 @@ Form Perubahan Absence
                <form action="{{route('employee.absence.detail.store')}}" method="POST">
                   @csrf
                   <tr>
-                     <td colspan="2">
+                     <td colspan="3">
                         
                            <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
-                           <input type="date" class="form-control" style="width: 100%" required  id="date" name="date">
+                           <input type="date" max="9/4/2025" class="form-control" style="width: 100%" required  id="date" name="date">
                            
                         
                      </td>
-                     <td><button class="btn border text-info" type="submit"><i class="fa fa-plus"></i></button></td>
+                     
+                  </tr>
+                  <tr>
+                     <td colspan="3"><button class="btn border text-info" type="submit"><i class="fa fa-plus"></i> Tambah Tanggal</button></td>
                   </tr>
                </form>
                @endif
@@ -247,9 +284,9 @@ Form Perubahan Absence
                
                @if ($absenceEmp->type == 5)
                   
-               <tr>
+               {{-- <tr>
                   <td colspan="3">{{count($absenceEmployeeDetails)}} Hari</td>
-               </tr>
+               </tr> --}}
                   @foreach ($absenceEmployeeDetails as $detail)
                   <tr>
                      <td></td>
@@ -401,16 +438,19 @@ Form Perubahan Absence
          </small>
          @endif
 
-         @if ($user)
-            @if ($user->id == $absenceEmp->leader_id)
-               <hr>
-               <small>
-                  <b>#INFO</b> <br>
-                  Anda dapat merubah tanggal ataupun mengurangi tanggal cuti <br> <br>
-                  Perubahan yang anda lakukan akan terinfokan ke karyawan 
-               </small>
+         @if ($absenceEmp->type == 5)
+            @if ($user)
+               @if ($user->id == $absenceEmp->leader_id)
+                  <hr>
+                  <small>
+                     <b>#INFO</b> <br>
+                     Anda dapat merubah tanggal ataupun mengurangi tanggal cuti <br> <br>
+                     Perubahan yang anda lakukan akan terinfokan ke karyawan 
+                  </small>
+               @endif
             @endif
          @endif
+         
          
          
 
@@ -560,6 +600,37 @@ Form Perubahan Absence
                <a class="text-light" href="{{route('employee.absence.approve.hrd', enkripRambo($absenceEmp->id))}}">Approve</a>
             </button>
          </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modal-reject-absence-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirm Reject<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('employee.absence.reject')}}" method="POST" >
+            <div class="modal-body">
+               @csrf
+               <input type="text" value="{{$absenceEmp->id}}" name="absEmp" id="absEmp" hidden>
+               <span>Reject this Form Absence ?</span>
+               <hr>
+               <div class="form-group form-group-default">
+                  <label>Remark</label>
+                  <input type="text" class="form-control"  name="remark" id="remark"  >
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger ">Reject</button>
+            </div>
+         </form>
       </div>
    </div>
 </div>

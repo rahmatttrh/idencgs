@@ -336,7 +336,19 @@ class CutiController extends Controller
       // dd('ok');
       if ($cuti->start != null && $cuti->end != null) {
          $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
-         $countAbsence = count($absences);
+         if ($cuti->expired != null) {
+            $absencesExtend = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
+            $cuti->update([
+               'extend_left' => $cuti->extend - count($absencesExtend)
+            ]);
+         } else {
+            $absencesExtend = [];
+         }
+         
+         
+         $countAbsence = count($absences) - count($absencesExtend);
+         // dd($countAbsence);
+        
       } else {
          $countAbsence = 0;
       }

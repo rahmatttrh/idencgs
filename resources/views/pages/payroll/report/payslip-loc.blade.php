@@ -73,7 +73,7 @@ Payroll Transaction
          <li class="breadcrumb-item" aria-current="page">{{$unitTransaction->unit->name}}</li>
          <li class="breadcrumb-item" aria-current="page">{{$unitTransaction->month}}</li>
          <li class="breadcrumb-item" aria-current="page">Payslip Report </li>
-         <li class="breadcrumb-item active" aria-current="page">{{$location->name}}</li>
+         <li class="breadcrumb-item active" aria-current="page">{{$location->name}}/ </li>
       </ol>
    </nav>
    
@@ -90,10 +90,22 @@ Payroll Transaction
       @endif
 
       @if (auth()->user()->username == '11304')
-         @if ($payslipReport->status == null)
+         @if ($payslipReport->status == 1)
             <div class="btn-group ml-2 mb-2">
                <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
                <a href="" class="btn btn-danger">Reject</a>
+            </div>
+         @endif   
+      @endif
+
+      
+      @if (auth()->user()->username == 'EN-2-006')
+      
+         @if ($payslipReport->status == 2)
+         
+            <div class="btn-group ml-2 mb-2">
+               <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
+               <a href="#" class="btn btn-danger" data-target="#reject-payslip-loc" data-toggle="modal">Reject</a>
             </div>
          @endif   
       @endif
@@ -103,15 +115,51 @@ Payroll Transaction
    <div class="card  shadow-none border">
       <div class="card-header  d-flex justify-content-between ">
          <div class="">
-            <h2 class="text-uppercase"><b>PAYSLIP REPORT </b> <br><span>{{$payslipReport->location->name}}</span> {{$unitTransaction->unit->name}} {{$unitTransaction->month}} {{$unitTransaction->year}}  </h2>
+            <h4 class="text-uppercase"><b>PAYSLIP REPORT </b> 
+            </h4>
+            <h2 class="text-uppercase">
+                 {{$unitTransaction->unit->name}} <br> <span>{{$payslipReport->location->name}}</span> <br> {{$unitTransaction->month}} {{$unitTransaction->year}}
+            </h2>
             <small>{{count($transactions)}} Transaksi</small>
          </div>
          <span>
-            @if ($payslipReport->status == 1)
-                <span>Approved</span>
-                @else
-                <span>Waiting Validation</span>
+            @if (auth()->user()->username == 'EN-2-001')
+               @if ($payslipReport->status == 1)
+                  <span>Approved Man. HRD</span>
+                  @else
+                  <span>Waiting Validation</span>
+               @endif
             @endif
+
+            @if (auth()->user()->username == '11304')
+               @if ($payslipReport->status == 2)
+                  <span>Approved Man. Finance</span>
+                  @else
+                  <span>Waiting Validation</span>
+               @endif
+            @endif
+
+            @if (auth()->user()->username == 'EN-2-006' || auth()->user()->hasRole('Administrator|HRD-Payroll|HRD'))
+               @if ($payslipReport->status == 3)
+                  <span>Approved GM</span>
+                  @else
+                     @if ($payslipReport->status == 303)
+                        <div class="card card-danger">
+                           <div class="card-body">
+                              <span class=""><b>Reject GM</b></span><br>
+                        {{$payslipReport->rejectBy->nik}} {{$payslipReport->rejectBy->biodata->fullName()}} <br>
+                        {{formatDateTime($payslipReport->reject_date)}} <br>
+                        {{$payslipReport->reject_desc}}
+                           </div>
+                        </div>
+                        
+                        @else
+                        <span>Waiting Validation</span>
+                     @endif
+                  
+               @endif
+            @endif
+           
          </span>
          
          {{-- <div class="text-right">
@@ -131,7 +179,7 @@ Payroll Transaction
          </div>
       </div> --}}
       {{-- {{count(transactions)}} --}}
-      <div class="card-body pt-2 px-4">
+      <div class="card-body p-0">
          <div class="table-responsive p-0 pt-2" style="overflow-x: auto;">
             <table id="data" class="display  table-sm">
                <thead >
@@ -413,6 +461,37 @@ Payroll Transaction
             <div class="modal-footer">
                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
                <button type="submit" class="btn btn-primary ">Approve</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="reject-payslip-loc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirm Reject<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('payroll.reject.loc')}}" method="POST" >
+            <div class="modal-body">
+               @csrf
+               <input type="text" value="{{$payslipReport->id}}" name="payslipReport" id="payslipReport" hidden>
+               <span>Reject this Payslip Report {{$payslipReport->unit_transaction->unit->name}} {{$payslipReport->location_name}}?</span>
+               <hr>
+               <div class="form-group form-group-default">
+                  <label>Remark</label>
+                  <input type="text" class="form-control"  name="remark" id="remark"  >
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger ">Reject</button>
             </div>
          </form>
       </div>

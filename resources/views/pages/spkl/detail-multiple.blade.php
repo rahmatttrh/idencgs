@@ -15,43 +15,46 @@ Form Lembur/Piket
 
    <div class="row">
       <div class="col-md-3">
-         <h4><b>SPKL SAYA</b></h4>
-         <hr>
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               List SPKL
-            </a>
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.spkl.progress')}}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               Progress
-            </a>
-            
-            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.spkl.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
-               <i class="fas fa-user mr-1"></i>
-               Draft
-            </a>
-           
-
-            <a class="nav-link  text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create')}}" aria-controls="v-pills-document" aria-selected="false">
-               <i class="fas fa-file mr-1"></i>
-               Form SPKL A
-            </a>
-            <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create.multiple')}}" aria-controls="v-pills-document" aria-selected="false">
-               <i class="fas fa-file mr-1"></i>
-               Form SPKL B
-            </a>
-            
-         </div>
-         <hr>
-         
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
+         @if ($empSpkl->status == 0)
+         <a href="" class="btn mb-2 btn-primary m btn-block" data-target="#modal-release-spkl" data-toggle="modal">Release</a>
+         @endif
+         <table >
+            <thead>
+               <tr>
+                  <th>SPKL Multiple</th>
+               </tr>
+               
+               <tr>
+                  <th>{{$empSpkl->code}}</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                     @if ($empSpkl->status == 0)
+                     Draft
+                     @else
+                     Approval Atasan
+                     @endif
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     @if ($empSpkl->status == 0)
+                        
+                        <a href="" class="">Edit</a> |
+                        <a href="" class="">Delete</a> |
+                     @endif
+                     <a href="" class=""> Export PDF</a>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
       </div>
       <div class="col-md-9">
          {{-- <h4>Detail Lembur/Piket</h4>
          <hr> --}}
-         @if ($empSpkl->status == 0)
+         {{-- @if ($empSpkl->status == 0)
          <span class="btn btn-group btn-sm p-0 mb-2">
             <a href="" class="btn btn-primary btn-sm" data-target="#modal-release-spkl" data-toggle="modal">Release</a>
             <a href="" class="btn btn-light btn-sm border">Edit</a>
@@ -59,9 +62,9 @@ Form Lembur/Piket
          </span>
          @elseif($empSpkl->status == 1)
          <a href="" class="btn btn-light btn-sm border mb-2">Menunggu Approval Atasan</a>
-         @endif
+         @endif --}}
          
-         <a href="" class="btn btn-light border btn-sm mb-2"><i class="fa fa-file"></i> Export PDF</a>
+         {{-- <a href="" class="btn btn-light border btn-sm mb-2"><i class="fa fa-file"></i> Export PDF</a> --}}
          <table>
             <tbody>
                {{-- <tr>
@@ -80,6 +83,10 @@ Form Lembur/Piket
                   <td>Departemen</td>
                   <td>{{$empSpkl->employee->department->name}}</td>
                </tr> --}}
+               <tr>
+                  <td style="width: 150px">ID</td>
+                  <td>{{$empSpkl->code}}</td>
+               </tr>
                <tr>
                   <td>Tanggal</td>
                   <td>{{formatDate($empSpkl->date)}}</td>

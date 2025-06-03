@@ -21,7 +21,7 @@ Dashboard
       </h5>
    </div>
    <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
          {{-- <div class="card">
             <div class="card-body">
                @if (auth()->user()->hasRole('HRD-Recruitment'))
@@ -70,8 +70,28 @@ Dashboard
             </div>
          </div>
          
-         <a href="{{route('employee.absence.create')}}" class="btn btn-primary border btn-block mb-2"><i class="fa fa-file"></i> Form Pengajuan</a>
-
+         
+         <div class="card border card-stats card-round">
+            <div class="card-body ">
+               <div class="row align-items-center">
+                  <div class="col-icon">
+                     <div class="icon-big text-center icon-primary bubble-shadow-small">
+                        <i class="fas fa-users"></i>
+                     </div>
+                  </div>
+                  <div class="col col-stats ml-3 ml-sm-0">
+                     <a href="{{route('backup.cuti')}}">
+                     <div class="numbers">
+                        <p class="card-category">Cuti Pengganti </p>
+                        <h4 class="card-title">{{count($reqBackupForms)}}</h4>
+                     </div>
+                  </a>
+                  </div>
+                  
+               </div>
+            </div>
+         </div>
+         {{-- <a href="{{route('employee.absence.create')}}" class="btn btn-primary border btn-block mb-2"><i class="fa fa-file"></i> Form SPT/Cuti/Izin</a> --}}
          <div class="card">
             <div class="card-header bg-light border p-2">
                <small class="text-uppercase"> <b># Cuti department {{$employee->department->name}}</b> </small>
@@ -206,7 +226,7 @@ Dashboard
       </div>
 
 
-      <div class="col-md-8">
+      <div class="col-md-9">
          @if (count($broadcasts) > 0)
             @foreach ($broadcasts as $broad)
             <div class="d-none d-sm-block">
@@ -300,7 +320,7 @@ Dashboard
                </div>
             </div>
          @endif
-         <div class="card card-stats card-round">
+         {{-- <div class="card card-stats card-round">
             <div class="card-body ">
                <div class="row align-items-center">
                   <div class="col-icon">
@@ -321,7 +341,7 @@ Dashboard
                   </div>
                </div>
             </div>
-         </div>
+         </div> --}}
 
          
 
@@ -330,85 +350,134 @@ Dashboard
 
          {{-- <hr> --}}
 
-
-         <div class="card">
-            <div class="card-header bg-primary text-white p-2">
-               <small class="text-uppercase">Recent Absences </small>
-            </div>
-            <div class="card-body p-0">
-               <div class="table-responsive overflow-auto" style="height: 150px">
-                  <table class=" table-sm p-0 ">
-                     <thead>
-                        <tr>
-                           <th>Employee</th>
-                           <th>Type</th>
-                           <th>Date</th>
-                           <th></th>
-                        </tr>
-                     </thead>
-   
-                     <tbody>
-                        @foreach ($absences as $absence)
-                        @if ($absence->getRequest() == null)
-                        <tr>
-                           <td>{{$absence->employee->nik}} {{$absence->employee->biodata->fullName()}}</td>
-                           <td>
-
-                              <x-status.absence :absence="$absence" />
-                              {{-- {{$absence->type}}
-                              @if ($absence->type == 1)
-                              Alpha 
-                              @elseif($absence->type == 2)
-                              Terlambat ({{$absence->minute}} Menit)
-                              @elseif($absence->type == 3)
-                              ATL
-                              @elseif($absence->type == 4)
-                              Izin
+         <div class="row">
+            <div class="col-md-5">
+               <div class="card">
+                  <div class="card-header bg-primary text-white p-2">
+                     <small class="text-uppercase">Absensi dari HRD </small>
+                  </div>
+                  <div class="card-body p-0">
+                     <div class="table-responsive overflow-auto" style="height: 130px">
+                        <table class=" table-sm p-0 ">
+                           <thead>
+                              <tr>
+                                 {{-- <th>Employee</th> --}}
+                                 <th>Type</th>
+                                 <th>Date</th>
+                                 {{-- <th></th> --}}
+                              </tr>
+                           </thead>
+         
+                           <tbody>
+                              @foreach ($absences as $absence)
+                              @if ($absence->getRequest() == null)
+                              <tr>
+                                 {{-- <td>{{$absence->employee->nik}} {{$absence->employee->biodata->fullName()}}</td> --}}
+                                 <td>
+      
+                                    <x-status.absence :absence="$absence" />
+                                    {{-- {{$absence->type}}
+                                    @if ($absence->type == 1)
+                                    Alpha 
+                                    @elseif($absence->type == 2)
+                                    Terlambat ({{$absence->minute}} Menit)
+                                    @elseif($absence->type == 3)
+                                    ATL
+                                    @elseif($absence->type == 4)
+                                    Izin
+                                    @endif
+                                    
+                                    @if ($absence->status == 404)
+                                    (
+                                       Request <b>
+                                          @if ($absence->type_req == 1)
+                                             Alpha 
+                                             @elseif($absence->type_req == 2)
+                                             Terlambat ({{$absence->minute}} Menit)
+                                             @elseif($absence->type_req == 3)
+                                             ATL
+                                             @elseif($absence->type_req == 4)
+                                             Izin
+                                             @endif
+                                       </b>
+                                       )
+                                    @endif
+                                    @if ($absence->status == 505)
+                                    (
+                                       Request ditolak
+                                       )
+                                    @endif --}}
+                                 
+                                 </td>
+                                 <td>{{formatDate($absence->date)}}</td>
+                                 
+                                 {{-- <td>
+                                    
+                                    <a href="{{route('employee.absence.request', enkripRambo($absence->id))}}" class="">Update</a>
+                                 </td> --}}
+                              </tr>
                               @endif
                               
-                              @if ($absence->status == 404)
-                              (
-                                 Request <b>
-                                    @if ($absence->type_req == 1)
-                                       Alpha 
-                                       @elseif($absence->type_req == 2)
-                                       Terlambat ({{$absence->minute}} Menit)
-                                       @elseif($absence->type_req == 3)
-                                       ATL
-                                       @elseif($absence->type_req == 4)
-                                       Izin
-                                       @endif
-                                 </b>
-                                 )
-                              @endif
-                              @if ($absence->status == 505)
-                              (
-                                 Request ditolak
-                                 )
-                              @endif --}}
-                           
-                           </td>
-                           <td>{{formatDate($absence->date)}}</td>
-                           
-                           <td>
-                              
-                              <a href="{{route('employee.absence.request', enkripRambo($absence->id))}}" class="">Update</a>
-                           </td>
-                        </tr>
-                        @endif
-                        
-   
-                        @endforeach
-                     </tbody>
-   
-                  </table>
+         
+                              @endforeach
+                           </tbody>
+         
+                        </table>
+                     </div>
+                     
+                  </div>
+                  {{-- <div class="card-footer">
+                     <small class="text-muted">Jika data diatas tidak sesuai, lakukan perubahan data absensi dengan klik 'Update'</small>
+                  </div> --}}
                </div>
-               
             </div>
-            <div class="card-footer">
-               <small class="text-muted">Jika data diatas tidak sesuai, lakukan perubahan data absensi dengan klik 'Update'</small>
+            <div class="col-md-7">
+               <div class="card">
+                  <div class="card-header bg-primary text-white p-2">
+                     <small class="text-uppercase">Form Cuti/SPT/Izin </small>
+                  </div>
+                  <div class="card-body p-0">
+                     <div class="table-responsive overflow-auto" style="height: 130px">
+                        <table class=" table-sm p-0 ">
+                           <thead>
+                              <tr>
+                                 {{-- <th>Employee</th> --}}
+                                 <th>Type</th>
+                                 <th>Date</th>
+                                 <th>Status</th>
+                              </tr>
+                           </thead>
+         
+                           <tbody>
+                              @foreach ($myForms as $absence)
+                                  <tr>
+                                    <td> 
+                                       <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class=""><x-status.absence :absence="$absence" /></a>
+                                       
+                                    </td>
+                                    <td>
+                                       <x-absence.date :absence="$absence" />
+                                     </td>
+                                    <td>
+                                       <x-status.form :form="$absence" />
+                                    </td>
+                                  </tr>
+                              @endforeach
+                             
+                           </tbody>
+         
+                        </table>
+                     </div>
+                     
+                  </div>
+                  {{-- <div class="card-footer">
+                     <small class="text-muted">Jika data diatas tidak sesuai, lakukan perubahan data absensi dengan klik 'Update'</small>
+                  </div> --}}
+               </div>
             </div>
          </div>
+
+         
 
          <div class="card">
             <div class="card-header bg-primary text-white p-2">

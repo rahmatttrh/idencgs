@@ -15,8 +15,8 @@ Draft Request Absence
 
    <div class="row">
       <div class="col-md-3">
-         <h4><b>ABSENSI SAYA</b></h4>
-         <hr>
+         {{-- <h4><b>ABSENSI SAYA</b></h4>
+         <hr> --}}
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
@@ -36,7 +36,7 @@ Draft Request Absence
 
             <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.absence.create')}}" aria-controls="v-pills-document" aria-selected="false">
                <i class="fas fa-file mr-1"></i>
-               Form Absensi
+               Form Cuti/SPT/Izin
             </a>
             
          </div>
@@ -56,7 +56,7 @@ Draft Request Absence
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
-                     <th>Desc</th>
+                     {{-- <th>Desc</th> --}}
                      {{-- <th>Status</th> --}}
                      <th></th>
                   </tr>
@@ -68,36 +68,29 @@ Draft Request Absence
                      {{-- <td>{{$absence->employee->nik}}</td>
                       <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
-                      <td>{{$absence->code}}</td>
+                      <td>
+                        <a class="" href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class=""> {{$absence->code}}</a>
+                       
+                     </td>
                      <td>
                         @if ($absence->status == 404)
                            <span class="text-danger">Permintaan Perubahan</span>
                             @else
                             <x-status.absence :absence="$absence" /> 
                         @endif
+
+                        {{$absence->permit->name ?? ''}}
                         
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
                         
-                        @if ($absence->type == 5 || $absence->type == 10)
-                        
-                           @if (count($absence->details) > 0)
-                                 @foreach ($absence->details  as $item)
-                                    [{{formatDate($item->date)}}] 
-                                  @endforeach
-                               @else
-                               Tanggal belum dipilih
-                           @endif
-                              
-                              @else
-                              {{formatDate($absence->date)}}
-                        @endif
+                        <x-absence.date :absence="$absence" />
                      </td>
-                     <td>{{$absence->desc}} {{$absence->permit->name ?? ''}}</td>
+                     {{-- <td>{{$absence->desc}} {{$absence->permit->name ?? ''}}</td> --}}
                      
                      <td class="text-truncate">
-                      <a class="" href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> |
+                       
                         <a href="#" class="" data-target="#modal-delete-absence-employee-{{$absence->id}}" data-toggle="modal">Delete</a>
                      </td>
                   </tr>

@@ -289,7 +289,7 @@
 <li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
    <a href="{{route('task')}}">
       <i class="fas fa-calendar"></i>
-      <p>Task</p>
+      <p>Task List</p>
    </a>
 </li>
 

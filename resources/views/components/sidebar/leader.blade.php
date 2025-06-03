@@ -118,7 +118,12 @@
    </div>
 </li> --}}
 
-
+<li class="nav-section">
+   <span class="sidebar-mini-icon">
+      <i class="fa fa-ellipsis-h"></i>
+   </span>
+   <h4 class="text-section">Tim</h4>
+</li>
 <li class="nav-item">
    <a data-toggle="collapse" href="#qpe">
     {{-- <a  href="{{route('qpe')}}"> --}}
@@ -170,16 +175,22 @@
 <li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
    <a href="{{route('task')}}">
       <i class="fas fa-calendar"></i>
-      <p>Task</p>
+      <p>Task List</p>
    </a>
 </li>
 
 
 
-<li class="nav-item {{ (request()->is('overtime/team')) ? 'active' : '' }}">
+<li class="nav-item {{ (request()->is('summary/*')) ? 'active' : '' }}">
    <a href="{{route('overtime.team')}}">
       <i class="fas fa-file-code"></i>
-      <p>Summary Tim</p>
+      <p>Summary </p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('spkl/team/*')) ? 'active' : '' }}">
+   <a href="{{route('spkl.team')}}">
+      <i class="fas fa-file-code"></i>
+      <p>SPKL</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
@@ -189,29 +200,37 @@
    </a>
 </li>
 <hr>
-<li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
-   <a href="{{route('employee.cuti')}}">
-      <i class="fas fa-clock"></i>
-      <p>Cuti Saya</p>
-   </a>
+<li class="nav-section">
+   <span class="sidebar-mini-icon">
+      <i class="fa fa-ellipsis-h"></i>
+   </span>
+   <h4 class="text-section">Personal</h4>
 </li>
+
+
 
 <li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
    <a href="{{route('employee.absence')}}">
       <i class="fas fa-calendar-check"></i>
-      <p>Absensi Saya</p>
+      <p>Absensi</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
    <a href="{{route('employee.spkl')}}">
       <i class="fas fa-clock"></i>
-      <p>SPKL Saya</p>
+      <p>SPKL & Piket</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.cuti')}}">
+      <i class="fas fa-clock"></i>
+      <p>Info Cuti</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
    <a href="{{route('payroll.transaction.employee')}}">
       <i class="fas fa-money-bill"></i>
-      <p>Payslip Saya</p>
+      <p>Payslip </p>
    </a>
 </li>
 

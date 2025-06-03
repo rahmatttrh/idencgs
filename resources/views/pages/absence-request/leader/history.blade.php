@@ -20,7 +20,7 @@ History Formulir Pengajuan
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
-               Request Absensi/Cuti
+               Form Absensi Karyawan
             </a>
             <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('leader.absence.history') }}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
@@ -45,6 +45,7 @@ History Formulir Pengajuan
             <table id="data" class="basic-datatables">
                <thead>
                   <tr>
+                     <th>ID</th>
                      <th>Type</th>
                      <th>NIK</th>
                       <th>Name</th>
@@ -95,6 +96,11 @@ History Formulir Pengajuan
                                     <tr>
                                        <td>
                                           <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
+                                             {{$absence->code}}
+                                          </a>
+                                       </td>
+                                       <td>
+                                          <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                                              <x-status.absence :absence="$absence" />
                                        </a>
                                           
@@ -131,10 +137,16 @@ History Formulir Pengajuan
 
 
 
+                      @foreach ($allReqForms as $absence)
                         @foreach ($myteams as $team)
-                           @foreach ($allReqForms as $absence)
+                           
                               @if ($absence->employee_id == $team->id)
                               <tr>
+                                 <td>
+                                    <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
+                                       {{$absence->code}}
+                                    </a>
+                                 </td>
                                  <td>
                                     <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                                        <x-status.absence :absence="$absence" />
@@ -147,22 +159,10 @@ History Formulir Pengajuan
                                  
                                  {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                                  <td>
-                                    @if ($absence->type == 5 || $absence->type == 10)
-                        
-                                          @if (count($absence->details) > 0)
-                                                @foreach ($absence->details  as $item)
-                                                   {{formatDate($item->date)}} -
-                                                @endforeach
-                                             @else
-                                             Tanggal belum dipilih
-                                          @endif
-                                             
-                                             @else
-                                             {{formatDate($absence->date)}}
-                                       @endif
+                                    <x-absence.date :absence="$absence" />
                                  </td>
                                  {{-- <td>{{$absence->desc}}</td> --}}
-                                 <td>
+                                 <td class="text-truncate">
                                     <x-status.form :form="$absence" />
                                     
                                  </td>

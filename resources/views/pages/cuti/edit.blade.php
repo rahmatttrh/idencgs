@@ -184,9 +184,11 @@ Cuti Edit
                      </div>
                      <div class="col-md-6">
                         <div class="form-group form-group-default">
-                           <label>Cuti Extend</label>
+                           <label>Cuti Extend ( <b>Sisa  {{$cuti->extend_left}}</b> )</label>
                            <input type="number"  class="form-control" id="extend" name="extend" value="{{$cuti->extend}}" >
+                           
                         </div>
+                        
                      </div>
                      <div class="col-md-6">
                         <div class="form-group form-group-default">

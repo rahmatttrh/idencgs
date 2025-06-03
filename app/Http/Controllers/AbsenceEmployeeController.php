@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 class AbsenceEmployeeController extends Controller
 {
    public function index(){
-
+      
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $absences = Absence::where('employee_id', $employee->id)->orderBy('date', 'desc')->get();
       $activeTab = 'index';
@@ -51,11 +51,44 @@ class AbsenceEmployeeController extends Controller
       $activeTab = 'form';
       $employees = Employee::where('department_id', $employee->department_id)->get();
       $date = Carbon::make($absence->date);
+
+      $allManagers = Employee::where('role', 5)->get();
+      $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
+      // dd($employeeLeaders);
+      $leader = null;
+      foreach($employeeLeaders as $lead){
+         
+         if ($lead->leader->role == 7) {
+            $empLead = Employee::find($lead->leader_id);
+            $leader = $empLead;
+         }
+      }
+
+      if ($leader == null) {
+         $assmen = Employee::where('department_id', $employee->department_id)->where('role', 8)->first();
+         $leader = $assmen;
+      }
+
+      $managers = Employee::where('department_id', $employee->department_id)->where('role', 5)->get();
+      if (count($managers) == 0) {
+         foreach($allManagers as $man){
+            if (count($man->positions) > 0) {
+               foreach($man->positions as $pos){
+                  if ($pos->department_id == $employee->department_id) {
+                     $managers[] = $man;
+                  }
+               }
+            }
+         }
+      }
+      // dd('ok');
       return view('pages.absence-request.request', [
          'activeTab' => $activeTab,
          'absence' => $absence,
          'employeeLeaders' => $employeeLeaders,
          'employees' => $employees,
+         'leader' => $leader,
+         'managers' => $managers,
          'date' => $date,
          'from' => null,
          'to' => null
@@ -64,8 +97,9 @@ class AbsenceEmployeeController extends Controller
 
    public function pending(){
 
+      // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $absences = AbsenceEmployee::where('employee_id', $employee->id)->whereIn('status', [1,2])->orderBy('updated_at', 'desc')->get();
+      $absences = AbsenceEmployee::where('employee_id', $employee->id)->whereIn('status', [1,2,5,101,202])->orderBy('updated_at', 'desc')->get();
       // dd($absences);
       $activeTab = 'pending';
       return view('pages.absence-request.pending', [
@@ -99,7 +133,38 @@ class AbsenceEmployeeController extends Controller
       // dd($employees);
       $allManagers = Employee::where('role', 5)->get();
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
+      // dd($employeeLeaders);
+      $leader = null;
+      foreach($employeeLeaders as $lead){
+         
+         if ($lead->leader->role == 7) {
+            $empLead = Employee::find($lead->leader_id);
+            $leader = $empLead;
+         }
+      }
+
+      // if ($leader == null) {
+      //    foreach($employeeLeaders as $lead){
+         
+      //       if ($lead->leader->role == 5) {
+      //          $empLead = Employee::find($lead->leader_id);
+      //          $leader = $empLead;
+      //       }
+      //    }
+      // }
+
+      if ($leader == null) {
+         $assmen = Employee::where('department_id', $employee->department_id)->where('role', 8)->first();
+         $leader = $assmen;
+      }
+
+      if ($leader == null) {
+         $assmen = Employee::where('department_id', $employee->department_id)->where('role', 5)->first();
+         $leader = $assmen;
+      }
+
       $managers = Employee::where('department_id', $employee->department_id)->where('role', 5)->get();
+      // dd($managers);
       if (count($managers) == 0) {
          foreach($allManagers as $man){
             if (count($man->positions) > 0) {
@@ -111,6 +176,12 @@ class AbsenceEmployeeController extends Controller
             }
          }
       }
+
+      
+      // if ($leader == null) {
+      //    // $assmen = Employee::where('department_id', $employee->department_id)->where('role', 5)->first();
+      //    $leader = $managers;
+      // }
       // @if (count($employee->positions) > 0)
       //                @foreach ($positions as $pos)
       //                 <b>{{$pos->department->unit->name ?? '-'}} {{$pos->department->name ?? '-'}} </b> <br>
@@ -144,6 +215,8 @@ class AbsenceEmployeeController extends Controller
       // dd($cutis);
 
       $permits = Permit::get();
+      
+      // dd($backDate);
       return view('pages.absence-request.create', [
          'activeTab' => $activeTab,
          'employeeLeaders' => $employeeLeaders,
@@ -154,7 +227,8 @@ class AbsenceEmployeeController extends Controller
          'to' => null,
          'date' => $date,
          'cutis' => $cutis,
-         'permits' => $permits
+         'permits' => $permits,
+         'leader' => $leader,
       ]);
    }
 
@@ -165,8 +239,12 @@ class AbsenceEmployeeController extends Controller
       } else {
          $user = Employee::where('nik', auth()->user()->username)->first();
       }
+      // dd(dekripRambo($id));
+
+
       
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
+      // dd($absenceEmployee);
       $absenceCurrent = Absence::where('employee_id', $absenceEmployee->employee->id)->where('date', $absenceEmployee->date)->first();
       if ($absenceCurrent) {
          $absenceCurrentId = $absenceCurrent->id;
@@ -216,7 +294,28 @@ class AbsenceEmployeeController extends Controller
       // ->orderBy('biodatas.first_name', 'asc')
       // ->get();
       if ($user) {
-         $myteams = EmployeeLeader::where('leader_id', $user->id)->get();
+         if ($user->designation_id > 4) {
+            $myteams = Employee::where('department_id', $user->department_id)->whereIn('designation_id', [3,4,5])->where('id', '!=', $absenceEmployee->employee_id)->get();
+            // dd(myteams);
+            // $myteams = EmployeeLeader::where('leader_id', $user->id)->where('employee_id', '!=', $user->id)->get();
+            foreach($myteams as $team){
+               // $emp = Employee::find($team->id);
+               $emps[] = $team;
+               
+            }
+
+            // dd($emps);
+         } else {
+            $myteams = EmployeeLeader::where('leader_id', $user->id)->get();
+
+            $emps = [];
+
+            foreach($myteams as $team){
+               $emp = Employee::find($team->employee_id);
+               $emps[] = $emp;
+            }
+         }
+         
       } else {
          $myteams = null;
       }
@@ -252,6 +351,7 @@ class AbsenceEmployeeController extends Controller
       // dd($employee->nik);
       // dd($absenceEmployee->employee->biodata->fullName());
       $user = Employee::where('nik', auth()->user()->username)->first();
+      $backDate = Carbon::now()->addDay(-7);
       return view('pages.absence-request.detail', [
          'myteams' => $myteams,
          'activeTab' => $activeTab,
@@ -264,7 +364,10 @@ class AbsenceEmployeeController extends Controller
          'cuti' => $cuti,
          'from' => null,
          'to' => null,
-         'user' => $user
+         'user' => $user,
+         'backDate' => $backDate,
+
+         'emps' => $emps
       ]);
    }
 
@@ -381,15 +484,15 @@ class AbsenceEmployeeController extends Controller
 
       
       if($absence->type == 4 ){
-         $code =  'FHRD/FA/I/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code =  'FHRD/FA/I/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       } elseif($absence->type == 6 ){
-         $code =  'FHRD/FA/S/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code =  'FHRD/FA/S/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       } elseif($absence->type == 7 ){
-         $code = 'FHRD/FA/SK/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code = 'FHRD/FA/SK/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       }  elseif($absence->type == 5 ){
-         $code =  'FHRD/FA/C/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code =  'FHRD/FA/C/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       } elseif($absence->type == 10 ){
-         $code = 'FHRD/FA/IR/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code = 'FHRD/FA/IR/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       } else {
          $code = '';
       }
@@ -443,6 +546,10 @@ class AbsenceEmployeeController extends Controller
          'action' => 'Create',
          'desc' => 'Form Request ' . $type . ' ' 
       ]);
+
+      // dd($absence->id);
+
+
 
       return redirect()->route('employee.absence.detail', enkripRambo($absence->id))->with('success', 'Pengajuan berhasil dibuat');
    }
@@ -818,6 +925,11 @@ class AbsenceEmployeeController extends Controller
                   $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->where('start', '>=', $d->date)->where('end', '<=', $d->date)->first();
                   if ($cuti) {
                      $cutiCon->calculateCuti($cuti->id);
+                     if ($d->date >= $cuti->start && $d->date <= $cuti->expired) {
+                        $cuti->update([
+                           'extend' => $cuti->extend - 1
+                        ]);
+                     }
                   }
                   
                }
@@ -842,6 +954,29 @@ class AbsenceEmployeeController extends Controller
 
       return redirect()->back()->with('success', 'Formulir ' . $form . ' ' . 'berhasil di setujui');
 
+   }
+
+   public function reject(Request $req){
+
+      $absEmp = AbsenceEmployee::find($req->absEmp);
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      if ($absEmp->status == 1) {
+         $status = 101;
+      } elseif($absEmp->status == 2){
+         $status = 202;
+      }
+
+      $absEmp->update([
+         'status' => $status,
+         'reject_by' => $employee->id,
+         'reject_date' => Carbon::now(),
+         'reject_desc' => $req->remark
+      ]);
+
+
+      return redirect()->back()->with('success', 'Form Absensi berhasil di Reject');
+      
    }
 
    public function approveBackup($id){

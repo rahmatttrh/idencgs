@@ -78,13 +78,17 @@ Payroll Transaction
          @if (auth()->user()->hasRole("HRD|HRD-Payroll") && $unitTransaction->status == 5)
          <a href="#" class="btn btn-success btn-block mb-2" data-target="#modal-publish-tu" data-toggle="modal">Publish</a>
          @endif
-         @if (auth()->user()->hasRole("HRD|HRD-Payroll") && $unitTransaction->status == 0)
-                  <a class="btn btn-primary  mb-2 btn-block" href="#" data-target="#modal-submit-tu" data-toggle="modal">Submit</a>
+         @if (auth()->user()->hasRole("HRD|HRD-Payroll") )
+            @if ($unitTransaction->status == 0 || $unitTransaction->status == 101 || $unitTransaction->status == 202 || $unitTransaction->status == 303 || $unitTransaction->status == 404)
+            <a class="btn btn-primary  mb-2 btn-block" href="#" data-target="#modal-submit-tu" data-toggle="modal">Submit</a>
+            @endif
                   
-               @endif
-         <div class="card shadow-none border ">
-            <div class="card-header">
-               Status : <x-status.unit-transaction :unittrans="$unitTransaction" />
+                  
+         
+         @endif
+         <div class="card shadow-none border card-primary ">
+            <div class="card-header bg-light text-dark">
+               <x-status.unit-transaction :unittrans="$unitTransaction" />
             </div>
             <div class="card-body">
                   <h4 class="text-uppercase">{{$unit->name}}</h4>
@@ -94,17 +98,49 @@ Payroll Transaction
                   {{count($unitTransaction->transactions)}} Karyawan <br>
                   {{-- Total Salary <br> --}}
                   {{formatRupiahB($payslipReports->sum('gaji_bersih'))}}
+
+                  @if (count($payslipReports) == 0)
+                  <br>
+                      <small>Klik Generate Payslip Report untuk menampilkan total</small>
+                  @endif
+                  
             </div>
             
             
          </div>
          {{-- <a href="" class="btn btn-block btn-info">Submit</a> --}}
-         <a href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}" class="btn btn-light border btn-block text-left">Report Payslip</a>
+         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}" aria-controls="v-pills-basic" aria-selected="true">
+               <i class="fas fa-address-book mr-1"></i>
+               
+               @if (count($payslipReports) == 0)
+                   Generate Payslip Report
+                   @else
+                   Payslip Report
+               @endif
+            </a>
+            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('payroll.report.bpjsks', enkripRambo($unitTransaction->id))}}" aria-controls="v-pills-contract" aria-selected="false">
+               <i class="fas fa-file-contract mr-1"></i>
+               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+               BPJS Kesehatan
+            </a>
+            
+            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('payroll.report.bpjskt', enkripRambo($unitTransaction->id))}}" aria-controls="v-pills-personal" aria-selected="true">
+               <i class="fas fa-file-contract mr-1"></i>
+               BPJS Ketenagakerjaan
+            </a>
+           
+
+           
+            
+         </div>
+         {{-- <a href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}" class="btn btn-light border btn-block text-left">Report Payslip</a>
          <a href="{{route('payroll.report.bpjsks', enkripRambo($unitTransaction->id))}}" class="btn btn-light border btn-block text-left">BPJS Kesehatan</a>
          <a href="{{route('payroll.report.bpjskt', enkripRambo($unitTransaction->id))}}" class="btn btn-light border btn-block text-left">BPJS Ketenagakerjaan</a>
+         <hr> --}}
          <hr>
 
-         <a href="{{route('payroll.transaction.unit.refresh', enkripRambo($unitTransaction->id))}}" class="">Refresh Transaction</a> <br> <br>
+         <a href="{{route('payroll.transaction.unit.refresh', enkripRambo($unitTransaction->id))}}" class=""><i class="fa fa-get"></i> Refresh Data</a> <br> <br>
 
          @if (auth()->user()->hasRole('Administrator'))
          <a href="{{route('refresh.report.payslip', enkripRambo($unitTransaction->id))}}" >Refresh Payslip Report</a> <br>
@@ -160,7 +196,9 @@ Payroll Transaction
                      @if ($gm)
                         <div class="event-date bg-primary text-white">GENERAL MANAGER</div>
                         <h5 class="font-size-16">{{formatDateTime($gm->created_at)}}</h5>
-                        
+                        @elseif($unitTransaction->status == 303)
+                              <div class="event-date bg-danger border text-white">GENERAL MANAGER</div>
+                              <h5 class="font-size-16">Reject {{formatDateTime($unitTransaction->reject_date)}}</h5>
                         @else  
                         <div class="event-date bg-light border">GENERAL MANAGER</div>
                         <h5 class="font-size-16">Waiting</h5>
@@ -197,7 +235,7 @@ Payroll Transaction
                            <th>Type</th>
                            @endif
                            <th>Loc</th>
-                           <th>Project</th>
+                           {{-- <th>Project</th> --}}
                            <th class="text-right">Pendapatan</th>
                            <th class="text-right">Lembur</th>
                            <th class="text-right">Deduction</th>
@@ -224,8 +262,8 @@ Payroll Transaction
                                   {{$trans->remark}}
                                  </td>
                               @endif
-                           <td class="text-truncate">{{$trans->location->name}}</td>
-                           <td class="text-truncate">{{$trans->employee->project->name ?? ''}}</td>
+                           <td class="text-truncate">{{$trans->location->name}} {{$trans->employee->project->name ?? ''}}</td>
+                           {{-- <td class="text-truncate">{{$trans->employee->project->name ?? ''}}</td> --}}
                            <td class="text-right" >{{formatRupiahB($trans->employee->payroll->total)}}</td>
                            <td class="text-right" >{{formatRupiahB($trans->overtime)}}</td>
                            <td class="text-right" >{{formatRupiahB($trans->reduction+$trans->reduction_absence+$trans->reduction_late)}}</td>

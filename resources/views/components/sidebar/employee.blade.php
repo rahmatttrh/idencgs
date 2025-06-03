@@ -26,12 +26,32 @@
    <span class="sidebar-mini-icon">
       <i class="fa fa-ellipsis-h"></i>
    </span>
-   <h4 class="text-section">Employee</h4>
+   <h4 class="text-section">Personal</h4>
 </li>
 <li class="nav-item {{ (request()->is('qpe')) ? 'active' : '' }}">
    <a href="{{route('qpe')}}">
-      <i class="fas fa-file"></i>
-      <p>My PE</p>
+      <i class="fas fa-star"></i>
+      <p>PE</p>
+   </a>
+</li>
+
+
+<li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.absence')}}">
+      <i class="fas fa-calendar-check"></i>
+      <p>Absensi</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.spkl')}}">
+      <i class="fas fa-clock"></i>
+      <p>SPKL & Piket</p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.cuti')}}">
+      <i class="fas fa-briefcase"></i>
+      <p>Info Cuti</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
@@ -44,24 +64,6 @@
    <a href="{{route('payroll.transaction.employee')}}">
       <i class="fas fa-money-bill"></i>
       <p>Payslip</p>
-   </a>
-</li>
-<li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
-   <a href="{{route('employee.spkl')}}">
-      <i class="fas fa-clock"></i>
-      <p>SPKL & Piket</p>
-   </a>
-</li>
-<li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
-   <a href="{{route('employee.absence')}}">
-      <i class="fas fa-calendar-check"></i>
-      <p>Absensi</p>
-   </a>
-</li>
-<li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
-   <a href="{{route('employee.cuti')}}">
-      <i class="fas fa-briefcase"></i>
-      <p>Info Cuti</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/sp/*')) ? 'active' : '' }}">

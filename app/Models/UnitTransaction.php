@@ -21,4 +21,8 @@ class UnitTransaction extends Model
    public function payslipReports(){
       return $this->hasMany(PayslipReport::class);
    }
+
+   public function rejectBy(){
+      return $this->belongsTo(Employee::class, 'reject_by');
+   }
 }
