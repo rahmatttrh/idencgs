@@ -52,7 +52,7 @@
       </div>
       
       <hr>
-      <a href="{{route('kpa.summary')}}">Summary</a>
+      {{-- <a href="{{route('kpa.summary')}}">Summary</a> --}}
    </div>
 
    <div class="col-md-10">

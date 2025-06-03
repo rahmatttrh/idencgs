@@ -15,12 +15,12 @@ class AbsenceLeaderController extends Controller
          // dd($employee->id);
          $reqForms = AbsenceEmployee::where('manager_id', $employee->id)->whereIn('status', [1,2])->orderBy('release_date', 'asc')->get();
       } else {
-         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->orderBy('updated_at', 'desc')->get();
+         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->orderBy('release_date', 'asc')->get();
       }
 
       // dd($reqForms);
       
-      $allReqForms = AbsenceEmployee::whereIn('status', [1])->where('leader_id', $employee->id)->orderBy('updated_at', 'desc')->get();
+      $allReqForms = AbsenceEmployee::whereIn('status', [1])->where('leader_id', $employee->id)->orderBy('release_date', 'asc')->get();
       $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->whereIn('status', [1])->get();
       $activeTab = 'index';
 

@@ -10,6 +10,7 @@ use App\Models\Holiday;
 use App\Models\Location;
 use App\Models\Log;
 use App\Models\Overtime;
+use App\Models\OvertimeParent;
 use App\Models\Payroll;
 use App\Models\Transaction;
 use App\Models\TransactionReduction;
@@ -646,6 +647,14 @@ class OvertimeController extends Controller
       //    'year' => $now->format('Y'),
       //    // 'holidays' => $holidays
       // ])->with('i');
+   }
+
+   public function indexTeam(){
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $spklTeams = OvertimeParent::where('by_id', $employee->id)->get();
+      return view('pages.spkl.team.index', [
+         'spklTeams' => $spklTeams
+      ])->with('i');
    }
 
    public function indexRecent(){

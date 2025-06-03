@@ -75,10 +75,10 @@ Absence
             <table id="data" class="display basic-datatables table-sm p-0">
                <thead>
                   <tr>
-                     {{-- <th>NIK</th>
-                      {{-- <th>Name</th> --}}
-                      {{-- <th>Loc</th> --}}
                       <th>NIK</th>
+                       <th>Name</th>
+                      {{-- <th>Loc</th> --}}
+                      {{-- <th>NIK</th> --}}
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
@@ -93,8 +93,9 @@ Absence
                      {{-- <td>{{$absence->employee->nik}}</td>
                       <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
-                      {{-- <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       <td>{{$absence->employee->nik}}</td>
+                      <td> {{$absence->employee->biodata->fullName()}}</td>
+                      {{-- <td>{{$absence->employee->nik}}</td> --}}
                      <td >
                         <x-status.absence :absence="$absence" />
                         
@@ -103,7 +104,7 @@ Absence
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>{{formatDate($absence->date)}}</td>
                      <td>
-                        @if ($absence->getRequest() != null) 
+                        {{-- @if ($absence->getRequest() != null) 
                             <a href="{{route('employee.absence.detail', enkripRambo($absence->getRequest()->id))}}" class="badge badge-info">
                               @if ($absence->getRequest()->type == 1)
                                  Alpha
@@ -126,18 +127,14 @@ Absence
                               @endif 
                               :
                               <x-status.form :form="$absence->getRequest()" />
-                              {{-- @if ($absence->getRequest()->status == 0)
-                                  Draft
-                                  @elseif($absence->getRequest()->status == 1)
-                                  Approval Atasan
-                              @endif --}}
+                              
                             </a>
                             @else
                             @if ($absence->type == 1 || $absence->type == 3)
                             <a href="{{route('employee.absence.request', enkripRambo($absence->id))}}" class="badge badge-light">Request Perubahan</a>
                             @endif
                             
-                        @endif
+                        @endif --}}
 
                         @if ($absence->absence_employee_id != null)
                         <a href="{{route('employee.absence.detail', enkripRambo($absence->absence_employee_id))}}" >Lihat Form</a>
