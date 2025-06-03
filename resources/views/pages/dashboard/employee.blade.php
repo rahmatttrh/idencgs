@@ -351,13 +351,13 @@ Dashboard
          {{-- <hr> --}}
 
          <div class="row">
-            <div class="col">
+            <div class="col-md-5">
                <div class="card">
                   <div class="card-header bg-primary text-white p-2">
                      <small class="text-uppercase">Absensi dari HRD </small>
                   </div>
                   <div class="card-body p-0">
-                     <div class="table-responsive overflow-auto" style="height: 220px">
+                     <div class="table-responsive overflow-auto" style="height: 130px">
                         <table class=" table-sm p-0 ">
                            <thead>
                               <tr>
@@ -431,13 +431,13 @@ Dashboard
                   </div> --}}
                </div>
             </div>
-            <div class="col">
+            <div class="col-md-7">
                <div class="card">
                   <div class="card-header bg-primary text-white p-2">
                      <small class="text-uppercase">Form Cuti/SPT/Izin </small>
                   </div>
                   <div class="card-body p-0">
-                     <div class="table-responsive overflow-auto" style="height: 220px">
+                     <div class="table-responsive overflow-auto" style="height: 130px">
                         <table class=" table-sm p-0 ">
                            <thead>
                               <tr>
@@ -456,24 +456,8 @@ Dashboard
                                        
                                     </td>
                                     <td>
-                                       @if ($absence->type == 5 || $absence->type == 10)
-                                             @if (count($absence->details) > 0)
-                                                   @if (count($absence->details) > 1)
-                                                         {{count($absence->details)}} Hari
-                                                      @else
-                                                         @foreach ($absence->details  as $item)
-                                                         {{formatDate($item->date)}} 
-                                                         @endforeach
-                                                   @endif
-                                                   
-                                                @else
-                                                Tanggal belum dipilih
-                                             @endif
-                                          {{-- {{count($absence->details)}} Hari --}}
-                                             @else
-                                             {{formatDate($absence->date)}}
-                                       @endif
-                                    </td>
+                                       <x-absence.date :absence="$absence" />
+                                     </td>
                                     <td>
                                        <x-status.form :form="$absence" />
                                     </td>
@@ -493,84 +477,7 @@ Dashboard
             </div>
          </div>
 
-         <div class="card">
-            <div class="card-header bg-primary text-white p-2">
-               <small class="text-uppercase">Absensi dari HRD </small>
-            </div>
-            <div class="card-body p-0">
-               <div class="table-responsive overflow-auto" style="height: 150px">
-                  <table class=" table-sm p-0 ">
-                     <thead>
-                        <tr>
-                           <th>Employee</th>
-                           <th>Type</th>
-                           <th>Date</th>
-                           <th></th>
-                        </tr>
-                     </thead>
-   
-                     <tbody>
-                        @foreach ($absences as $absence)
-                        @if ($absence->getRequest() == null)
-                        <tr>
-                           <td>{{$absence->employee->nik}} {{$absence->employee->biodata->fullName()}}</td>
-                           <td>
-
-                              <x-status.absence :absence="$absence" />
-                              {{-- {{$absence->type}}
-                              @if ($absence->type == 1)
-                              Alpha 
-                              @elseif($absence->type == 2)
-                              Terlambat ({{$absence->minute}} Menit)
-                              @elseif($absence->type == 3)
-                              ATL
-                              @elseif($absence->type == 4)
-                              Izin
-                              @endif
-                              
-                              @if ($absence->status == 404)
-                              (
-                                 Request <b>
-                                    @if ($absence->type_req == 1)
-                                       Alpha 
-                                       @elseif($absence->type_req == 2)
-                                       Terlambat ({{$absence->minute}} Menit)
-                                       @elseif($absence->type_req == 3)
-                                       ATL
-                                       @elseif($absence->type_req == 4)
-                                       Izin
-                                       @endif
-                                 </b>
-                                 )
-                              @endif
-                              @if ($absence->status == 505)
-                              (
-                                 Request ditolak
-                                 )
-                              @endif --}}
-                           
-                           </td>
-                           <td>{{formatDate($absence->date)}}</td>
-                           
-                           <td>
-                              
-                              <a href="{{route('employee.absence.request', enkripRambo($absence->id))}}" class="">Update</a>
-                           </td>
-                        </tr>
-                        @endif
-                        
-   
-                        @endforeach
-                     </tbody>
-   
-                  </table>
-               </div>
-               
-            </div>
-            <div class="card-footer">
-               <small class="text-muted">Jika data diatas tidak sesuai, lakukan perubahan data absensi dengan klik 'Update'</small>
-            </div>
-         </div>
+         
 
          <div class="card">
             <div class="card-header bg-primary text-white p-2">

@@ -239,6 +239,9 @@ class AbsenceEmployeeController extends Controller
       } else {
          $user = Employee::where('nik', auth()->user()->username)->first();
       }
+      // dd(dekripRambo($id));
+
+
       
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
       // dd($absenceEmployee);
@@ -481,15 +484,15 @@ class AbsenceEmployeeController extends Controller
 
       
       if($absence->type == 4 ){
-         $code =  'FHRD/FA/I/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code =  'FHRD/FA/I/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       } elseif($absence->type == 6 ){
-         $code =  'FHRD/FA/S/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code =  'FHRD/FA/S/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       } elseif($absence->type == 7 ){
-         $code = 'FHRD/FA/SK/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code = 'FHRD/FA/SK/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       }  elseif($absence->type == 5 ){
-         $code =  'FHRD/FA/C/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code =  'FHRD/FA/C/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       } elseif($absence->type == 10 ){
-         $code = 'FHRD/FA/IR/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code = 'FHRD/FA/IR/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       } else {
          $code = '';
       }
@@ -543,6 +546,10 @@ class AbsenceEmployeeController extends Controller
          'action' => 'Create',
          'desc' => 'Form Request ' . $type . ' ' 
       ]);
+
+      // dd($absence->id);
+
+
 
       return redirect()->route('employee.absence.detail', enkripRambo($absence->id))->with('success', 'Pengajuan berhasil dibuat');
    }
@@ -918,6 +925,11 @@ class AbsenceEmployeeController extends Controller
                   $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->where('start', '>=', $d->date)->where('end', '<=', $d->date)->first();
                   if ($cuti) {
                      $cutiCon->calculateCuti($cuti->id);
+                     if ($d->date >= $cuti->start && $d->date <= $cuti->expired) {
+                        $cuti->update([
+                           'extend' => $cuti->extend - 1
+                        ]);
+                     }
                   }
                   
                }

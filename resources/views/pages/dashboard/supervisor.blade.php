@@ -315,7 +315,7 @@ Dashboard
                      <small class="text-uppercase">Absensi dari HRD </small>
                   </div>
                   <div class="card-body p-0">
-                     <div class="table-responsive overflow-auto" style="height: 160px">
+                     <div class="table-responsive overflow-auto" style="height: 130px">
                         <table class=" table-sm p-0 ">
                            <thead>
                               <tr>
@@ -395,7 +395,7 @@ Dashboard
                      <small class="text-uppercase">Form Cuti/SPT/Izin </small>
                   </div>
                   <div class="card-body p-0">
-                     <div class="table-responsive overflow-auto" style="height: 160px">
+                     <div class="table-responsive overflow-auto" style="height: 130px">
                         <table class=" table-sm p-0 ">
                            <thead>
                               <tr>
@@ -414,23 +414,7 @@ Dashboard
                                        
                                     </td>
                                     <td>
-                                       @if ($absence->type == 5 || $absence->type == 10)
-                                             @if (count($absence->details) > 0)
-                                                   @if (count($absence->details) > 1)
-                                                         {{count($absence->details)}} Hari
-                                                      @else
-                                                         @foreach ($absence->details  as $item)
-                                                         {{formatDate($item->date)}} 
-                                                         @endforeach
-                                                   @endif
-                                                   
-                                                @else
-                                                Tanggal belum dipilih
-                                             @endif
-                                          {{-- {{count($absence->details)}} Hari --}}
-                                             @else
-                                             {{formatDate($absence->date)}}
-                                       @endif
+                                       <x-absence.date :absence="$absence" />
                                     </td>
                                     <td>
                                        <x-status.form :form="$absence" />

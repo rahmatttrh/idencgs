@@ -21,7 +21,7 @@ Form Absensi
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
-               Request Absensi/Cuti
+               Form Absensi Karyawan
             </a>
             <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('leader.absence.history') }}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
@@ -41,96 +41,7 @@ Form Absensi
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
-         {{-- <div class="table-responsive ">
-            <table id="data" class="">
-               <thead>
-                  <tr>
-                     <th>Type</th>
-                     <th>NIK</th>
-                     <th>Name</th>
-                     <th>Date</th>
-                     <th>Desc</th>
-                     <th>Status</th>
-                  </tr>
-               </thead>
-
-               <tbody>
-                  @if (count($reqForms) + count($reqBackForms) > 0)
-                        @foreach ($reqForms as $absence)
-                        <tr>
-                           <td>
-                              <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
-                              @if ($absence->status == 404)
-                                 <span class="text-danger">Permintaan Perubahan</span>
-                                 @else
-                                 @if ($absence->type == 1)
-                                 Alpha
-                                 @elseif($absence->type == 2)
-                                 Terlambat ({{$absence->minute}} Menit)
-                                 @elseif($absence->type == 3)
-                                 ATL
-                                 @elseif($absence->type == 4)
-                                 Izin ({{$absence->type_izin}})
-                                 @elseif($absence->type == 5)
-                                 Cuti
-                                 @elseif($absence->type == 6)
-                                 SPT
-                                 @elseif($absence->type == 7)
-                                 Sakit 
-                                 @elseif($absence->type == 8)
-                                 Dinas Luar
-                                 @elseif($absence->type == 9)
-                                 Off Kontrak
-                                 @endif
-                              @endif
-                           </a>
-                              
-                           </td>
-                           <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
-                           <td> {{$absence->employee->biodata->fullName()}}</td>
-                           <td>{{formatDate($absence->date)}}</td>
-                           <td>{{$absence->desc}}</td>
-                           <td>
-                              <x-status.form :form="$absence" />
-                              
-                           </td>
-                          
-                        </tr>
-                        @endforeach
-                        @foreach ($reqBackForms as $absence)
-                           <tr>
-                              <td>
-                                 <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
-                                    <x-absence.type :absence="$absence" />
-                                 </a>
-                                 
-                              </td>
-                              <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
-                              <td> {{$absence->employee->biodata->fullName()}}</td>
-                              <td>{{formatDate($absence->date)}}</td>
-                              <td>{{$absence->desc}}</td>
-                              <td>
-                                 <x-status.form :form="$absence" />
-                                 
-                              </td>
-                           
-                           </tr>
-
-                           
-                           @endforeach
-                      @else
-                      <tr>
-                        <td colspan="7" class="text-center">Tidak ada Pengajuan</td>
-                      </tr>
-                  @endif
-                  
-
-                  
-               </tbody>
-
-            </table>
-         </div>
-         <hr> --}}
+        
          <div class="table-responsive ">
             <table id="data" class="">
                <thead>
@@ -145,7 +56,7 @@ Form Absensi
                      <th>Date</th>
                      {{-- <th>Desc</th> --}}
                      <th>Status</th>
-                     <th></th>
+                     {{-- <th></th> --}}
                   </tr>
                </thead>
 
@@ -174,32 +85,16 @@ Form Absensi
                      
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
-                        @if ($absence->type == 5 || $absence->type == 10)
-                           @if (count($absence->details) > 0)
-                                 @if (count($absence->details) > 1)
-                                       {{count($absence->details)}} Hari
-                                    @else
-                                       @foreach ($absence->details  as $item)
-                                       {{formatDate($item->date)}} 
-                                       @endforeach
-                                 @endif
-                                 
-                              @else
-                              Tanggal belum dipilih
-                           @endif
-                           {{-- {{count($absence->details)}} Hari --}}
-                           @else
-                           {{formatDate($absence->date)}}
-                        @endif
+                        <x-absence.date :absence="$absence" />
                      </td>
                      {{-- <td>{{$absence->desc}}</td> --}}
                      <td>
                         <x-status.form :form="$absence" />
                         
                      </td>
-                     <td>
+                     {{-- <td>
                         {{$absence->release_date}}
-                     </td>
+                     </td> --}}
                   
                   </tr>
                         

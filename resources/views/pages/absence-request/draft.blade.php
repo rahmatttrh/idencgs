@@ -68,7 +68,10 @@ Draft Request Absence
                      {{-- <td>{{$absence->employee->nik}}</td>
                       <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
-                      <td>{{$absence->code}}</td>
+                      <td>
+                        <a class="" href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class=""> {{$absence->code}}</a>
+                       
+                     </td>
                      <td>
                         @if ($absence->status == 404)
                            <span class="text-danger">Permintaan Perubahan</span>
@@ -82,28 +85,12 @@ Draft Request Absence
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
                         
-                        @if ($absence->type == 5 || $absence->type == 10)
-                              @if (count($absence->details) > 0)
-                                    @if (count($absence->details) > 1)
-                                          {{count($absence->details)}} Hari
-                                        @else
-                                          @foreach ($absence->details  as $item)
-                                          {{formatDate($item->date)}} 
-                                          @endforeach
-                                    @endif
-                                    
-                                 @else
-                                 Tanggal belum dipilih
-                              @endif
-                           {{-- {{count($absence->details)}} Hari --}}
-                              @else
-                              {{formatDate($absence->date)}}
-                        @endif
+                        <x-absence.date :absence="$absence" />
                      </td>
                      {{-- <td>{{$absence->desc}} {{$absence->permit->name ?? ''}}</td> --}}
                      
                      <td class="text-truncate">
-                      <a class="" href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> |
+                       
                         <a href="#" class="" data-target="#modal-delete-absence-employee-{{$absence->id}}" data-toggle="modal">Delete</a>
                      </td>
                   </tr>

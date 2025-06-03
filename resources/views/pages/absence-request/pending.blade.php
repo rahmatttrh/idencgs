@@ -69,7 +69,8 @@ Absence
                       <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
                       <td>
-                        {{$absence->code}}
+                        <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">{{$absence->code}}</a>
+                        
                       </td>
                      <td>
                         @if ($absence->status == 404)
@@ -81,32 +82,15 @@ Absence
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
-                        @if ($absence->type == 5 || $absence->type == 10)
-                              @if (count($absence->details) > 0)
-                                    @if (count($absence->details) > 1)
-                                          {{count($absence->details)}} Hari
-                                        @else
-                                          @foreach ($absence->details  as $item)
-                                          {{formatDate($item->date)}} 
-                                          @endforeach
-                                    @endif
-                                    
-                                 @else
-                                 Tanggal belum dipilih
-                              @endif
-                           {{-- {{count($absence->details)}} Hari --}}
-                              @else
-                              {{formatDate($absence->date)}}
-                        @endif
+                        <x-absence.date :absence="$absence" />
                      </td>
-                     {{-- <td>{{$absence->desc}}</td> --}}
                      <td>
                         <x-status.form :form="$absence" />
                      </td>
                      <td class="text-truncate">
-                      <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a>
+                      {{-- <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> --}}
                       @if ($absence->status != 5)
-                      |
+                      
                       <a href="#"  data-target="#modal-delete-absence-employee-{{$absence->id}}" data-toggle="modal">Delete</a>
                       @endif
                        

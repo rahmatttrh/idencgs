@@ -175,7 +175,7 @@
 <li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
    <a href="{{route('task')}}">
       <i class="fas fa-calendar"></i>
-      <p>Task</p>
+      <p>Task List</p>
    </a>
 </li>
 
@@ -184,7 +184,13 @@
 <li class="nav-item {{ (request()->is('summary/*')) ? 'active' : '' }}">
    <a href="{{route('overtime.team')}}">
       <i class="fas fa-file-code"></i>
-      <p>Summary Tim</p>
+      <p>Summary </p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('spkl/team/*')) ? 'active' : '' }}">
+   <a href="{{route('spkl.team')}}">
+      <i class="fas fa-file-code"></i>
+      <p>SPKL</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">

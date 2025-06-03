@@ -273,9 +273,9 @@ class OvertimeEmployeeController extends Controller
       $date = Carbon::make($req->date);
 
       if($req->type == 1 ){
-         $code =  'FHRD/FL/M/' . $date->format('m') . '/' . $date->format('y') . '/' . $id ;
+         $code =  'FHRD/FL/' . $date->format('m')  . $date->format('y') . '/' . $id ;
       } elseif($req->type == 2 ){
-         $code = 'FHRD/FP/M/' . $date->format('m') . '/' . $date->format('y')  . '/' . $id ;
+         $code = 'FHRD/FP/' . $date->format('m')  . $date->format('y')  . '/' . $id ;
       } 
       
       
