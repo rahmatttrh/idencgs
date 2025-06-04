@@ -8,8 +8,9 @@ Form Lembur/Piket
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
+         <li class="breadcrumb-item " aria-current="page"><a href="{{route('employee.spkl')}}">SPKL</a> </li>
          
-         <li class="breadcrumb-item active" aria-current="page">Form Lembur - Piket</li>
+         <li class="breadcrumb-item active" aria-current="page">Detail Form SPKL</li>
       </ol>
    </nav>
 
@@ -119,7 +120,7 @@ Form Lembur/Piket
             <tbody>
                <tr>
                   <td>Requested by <br> Atasan Langsung</td>
-                  <td>Approved by <br>GM/Manager </td>
+                  <td>Approved by <br>Manager </td>
                   <td>Employee</td>
                </tr>
                <tr>

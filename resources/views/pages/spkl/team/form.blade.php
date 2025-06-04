@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-Form Lembur/Piket
+SPKL
 @endsection
 @section('content')
 
@@ -9,7 +9,7 @@ Form Lembur/Piket
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
          
-         <li class="breadcrumb-item active" aria-current="page">Form Lembur - Piket</li>
+         <li class="breadcrumb-item active" aria-current="page">SPKL Team</li>
       </ol>
    </nav>
 
@@ -17,42 +17,37 @@ Form Lembur/Piket
       <div class="col-md-3">
          {{-- <h4><b>SPKL SAYA</b></h4>
          <hr> --}}
+         {{-- <div class="btn btn-light border btn-block text-left mb-3"><b>SPKL SAYA</b></div> --}}
+         {{-- <div class="card shadow-none border">
+            <div class="card-body">
+               <b>SPKL & PIKET</b>
+            </div>
+         </div> --}}
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
+            {{-- <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
                List SPKL
-            </a>
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.spkl.progress')}}" aria-controls="v-pills-contract" aria-selected="false">
+            </a> --}}
+            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('spkl.team')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               Progress
+               SPKL Team Progress
             </a>
             
             <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.spkl.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
-               <i class="fas fa-user mr-1"></i>
+               <i class="fas fa-file-contract mr-1"></i>
                Draft
             </a>
            
 
-            <a class="nav-link active text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create')}}" aria-controls="v-pills-document" aria-selected="false">
-               <i class="fas fa-file mr-1"></i>
-               Form SPKL 
+            
+            <a class="nav-link active text-left pl-3" id="v-pills-document-tab" href="{{route('spkl.team.create')}}" aria-controls="v-pills-document" aria-selected="false">
+               <i class="fas fa-edit mr-1"></i>
+               Form SPKL Team
             </a>
-            {{-- <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create.multiple')}}" aria-controls="v-pills-document" aria-selected="false">
-               <i class="fas fa-file mr-1"></i>
-               Form SPKL B
-            </a> --}}
             
          </div>
          <hr>
-         <b>#INFO</b> <br>
-         <small>Form SPKL A digunakan untuk pengajuan satu karyawan</small> <br> <br>
-         <small>"Jam Mulai" dan "Jam Selesai" wajib diisi untuk pengajuan Lembur</small>
-         {{-- <div class="card">
-            <div class="card-body">
-               
-            </div>
-         </div> --}}
          {{-- <form action="">
             <select name="" id="" class="form-control">
                <option value="">Januari</option>
@@ -60,12 +55,9 @@ Form Lembur/Piket
             </select>
          </form> --}}
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
-         
       </div>
       <div class="col-md-9">
-         {{-- <h4>Form SPKL</h4>
-         <hr> --}}
-         <form action="{{route('employee.spkl.store')}}" method="POST" enctype="multipart/form-data">
+         <form action="{{route('employee.spkl.store.multiple')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                <div class="col-12">
@@ -94,6 +86,26 @@ Form Lembur/Piket
                         
                         
                      </div>
+
+                     <div class="form-group form-group-default">
+                        <label>Karyawan</label>
+                        <select  id="employee" style="width: 100%" required  class="form-control js-example-basic-multiple" name="employees[]" multiple="multiple">
+                           <option value="all" >All</option>
+                           @foreach ($teams as $team)
+                                 @if ($team->employee->status == 1)
+                                 <option value="{{$team->employee->id}}">{{$team->employee->biodata->fullName()}}</option>
+                                 {{-- <tr>
+                                    <td>{{$team->employee->nik}} </td>
+                                    <td> {{$team->employee->biodata->fullName()}}</td>
+                                 </tr> --}}
+                                 @endif
+                           @endforeach 
+                           {{-- @foreach ($employees as $emp)
+                               
+                           @endforeach --}}
+                        </select>
+                     </div>
+                     
                      <div class="row">
                         <div class="col-md-6">
                            <div class="form-group form-group-default">

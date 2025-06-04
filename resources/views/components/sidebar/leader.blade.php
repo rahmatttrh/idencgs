@@ -122,12 +122,12 @@
    <span class="sidebar-mini-icon">
       <i class="fa fa-ellipsis-h"></i>
    </span>
-   <h4 class="text-section">Tim</h4>
+   <h4 class="text-section">Team</h4>
 </li>
 <li class="nav-item">
    <a data-toggle="collapse" href="#qpe">
     {{-- <a  href="{{route('qpe')}}"> --}}
-      <i class="fas fa-file"></i>
+      <i class="fas fa-star"></i>
       <p>Quick PE</p>
       <span class="caret"></span>
    </a>
@@ -154,21 +154,6 @@
    </div>
 </li>
 
-@if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Recruitment'))
-
-<hr>
-
-@else
-
-
-
-@endif
-{{-- <li class="nav-item {{ (request()->is('employee/absence/*')) ? 'active' : '' }}">
-   <a href="{{route('employee.absence')}}">
-      <i class="fas fa-clock"></i>
-      <p>Absensi</p>
-   </a>
-</li> --}}
 
 
 
@@ -189,13 +174,13 @@
 </li>
 <li class="nav-item {{ (request()->is('spkl/team/*')) ? 'active' : '' }}">
    <a href="{{route('spkl.team')}}">
-      <i class="fas fa-file-code"></i>
-      <p>SPKL</p>
+      <i class="fas fa-calendar-plus"></i>
+      <p>SPKL Team</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
-      <i class="fas fa-file-code"></i>
+      <i class="fas fa-bolt"></i>
       <p>Surat Peringatan</p>
    </a>
 </li>

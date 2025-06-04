@@ -50,7 +50,7 @@ SPKL Team
                      
                      
                      <div class="col-12">
-                        <button class="btn btn-primary btn-block" type="submit" >Filter Summary</button> <br>
+                        <button class="btn btn-light border btn-block" type="submit" >Filter Summary</button> <br>
                         
                      </div>
                      {{-- <div class="col text-right">

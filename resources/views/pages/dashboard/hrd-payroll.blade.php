@@ -53,7 +53,7 @@
                </div>
             </div> --}}
 
-            <a href="{{route('hrd.absence')}}" class="btn btn-block btn-primary">Monitoring Form Absensi</a>
+            <a href="{{route('hrd.absence')}}" class="btn btn-block btn-primary"><i class="fa fa-file"></i> Monitoring Form Absensi</a>
             <hr>
             <div class="card card-stats card-round border">
                <div class="card-body ">
@@ -77,30 +77,29 @@
                   <small>Daftar Cuti yang memiliki relasi terhadap anda sebagai Karyawan Pengganti</small>
                </div>
             </div>
-            {{-- <div class="card card-stats card-round">
-               <div class="card-body ">
-                  <div class="row align-items-center">
-                     
-                     <div class="col col-stats ml-3 ml-sm-0">
-                        <a href="{{route('hrd.absence')}}">
-                        <div class="numbers">
-                           <p class="card-category"> Monitoring Request Absensi </p>
-                           <h4 class="card-title">{{count($reqForms)}}</h4>
-                        </div>
-                     </a>
-                     </div>
+            {{-- <div class="card">
+               <div class="card-header p-2 bg-primary text-white">
+                  <small>Recent Form Absence</small>
+               </div>
+               <div class="card-body p-0">
+                  <div class="table-responsive overflow-auto" style="max-height: 160px">
+                     <table class="display  table-sm table-bordered   ">
+                        
+                        
+                        <tbody>
+                           @foreach ($formAbsences as $form)
+                               <tr>
+                                 
+                                 <td><a href="">{{$form->employee->biodata->fullName()}}</a></td>
+                                 <td><x-status.absence :absence="$form" /></td>
+                                 
+                               </tr>
+                           @endforeach
+                        </tbody>
+                     </table>
                   </div>
                </div>
             </div> --}}
-
-            
-           
-
-            {{-- <span>Hari Libur {{$month}}</span> 
-            <hr>
-            @foreach ($holidays as $holi)
-                <span class="badge badge-primary">{{formatDateDay($holi->date)}}</span>
-            @endforeach --}}
             
          </div>
          <div class="col-sm-6 col-md-9">
@@ -189,7 +188,7 @@
                   <small>Recent Transaction</small>
                </div>
                <div class="card-body p-0">
-                  <div class="table-responsive overflow-auto" style="max-height: 300px">
+                  <div class="table-responsive overflow-auto" style="max-height: 190px">
                      <table class="display  table-sm table-bordered   ">
                         <thead>
                            <tr>

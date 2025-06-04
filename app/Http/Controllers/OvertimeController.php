@@ -731,7 +731,7 @@ class OvertimeController extends Controller
             'to' => 0
          ])->with('i');
       } else {
-         return view('pages.payroll.overtime.summary-list', [
+         return view('pages.payroll.overtime.employee', [
             'unitAll' => 1,
             'locAll' => 1,
             'allUnits' => $units,
@@ -766,10 +766,12 @@ class OvertimeController extends Controller
       // ])->with('i');
    }
 
+
+
    public function indexTeam()
    {
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spklTeams = OvertimeParent::where('by_id', $employee->id)->get();
+      $spklTeams = OvertimeParent::where('by_id', $employee->id)->where('status', '>', 0)->get();
       return view('pages.spkl.team.index', [
          'spklTeams' => $spklTeams
       ])->with('i');
@@ -1348,6 +1350,16 @@ class OvertimeController extends Controller
          'from' => null,
          'to' => null
          // 'holidays' => $holidays
+      ])->with('i');
+   }
+   public function draftTeam()
+   {
+      $now = Carbon::now();
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      // $overtimes = Overtime::get();
+      $overtimeParents = OvertimeParent::where('status', 0)->where('by_id', $employee->id)->get();
+      return view('pages.spkl.team.draft', [
+         'overtimeParents' => $overtimeParents
       ])->with('i');
    }
 

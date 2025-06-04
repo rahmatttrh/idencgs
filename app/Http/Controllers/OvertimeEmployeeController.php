@@ -45,7 +45,7 @@ class OvertimeEmployeeController extends Controller
    public function progress(){
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spkls = OvertimeEmployee::where('by_id', $employee->id)->where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
+      $spkls = OvertimeEmployee::where('employee_id', $employee->id)->where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
       // dd($spkls);
       return view('pages.spkl.progress', [
          'spkls' => $spkls
@@ -55,7 +55,7 @@ class OvertimeEmployeeController extends Controller
    public function draft(){
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $empSpkls = OvertimeEmployee::where('by_id', $employee->id)->where('status', 0)->orderBy('updated_at', 'desc')->get();
+      $empSpkls = OvertimeEmployee::where('employee_id', $employee->id)->where('status', 0)->orderBy('updated_at', 'desc')->get();
       // dd($spkls);
       return view('pages.spkl.draft', [
          'spkls' => $empSpkls
@@ -80,6 +80,20 @@ class OvertimeEmployeeController extends Controller
       $teams = EmployeeLeader::where('leader_id', $employee->id)->get();
       // dd($spkls);
       return view('pages.spkl.form-multiple', [
+         'locations' => $locations,
+         'employees' => $employees,
+         'teams' => $teams
+      ]);
+   }
+
+   public function createTeam(){
+      // dd('ok');
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $employees = Employee::where('status', 1)->get();
+      $locations = Location::get();
+      $teams = EmployeeLeader::where('leader_id', $employee->id)->get();
+      // dd($spkls);
+      return view('pages.spkl.team.form', [
          'locations' => $locations,
          'employees' => $employees,
          'teams' => $teams

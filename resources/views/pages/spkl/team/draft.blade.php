@@ -28,14 +28,14 @@ SPKL
                <i class="fas fa-address-book mr-1"></i>
                List SPKL
             </a> --}}
-            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{route('spkl.team')}}" aria-controls="v-pills-contract" aria-selected="false">
+            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('spkl.team')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                SPKL Team Progress
             </a>
             
-            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('spkl.team.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
-               <i class="fas fa-user mr-1"></i>
+            <a class="nav-link active text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.spkl.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
+               <i class="fas fa-file-contract mr-1"></i>
                Draft
             </a>
            
@@ -61,20 +61,28 @@ SPKL
             <table id="data" class="display basic-datatables table-sm p-0">
                <thead>
                   <tr>
-                     <th>ID</th>
+                     {{-- <th>NIK</th>
+                      {{-- <th>Name</th> --}}
+                      {{-- <th>Loc</th> --}}
+                      <th>ID</th>
                      <th>Type</th>
+                     {{-- <th>Day</th> --}}
                      <th>Date</th>
-                     <th>karyawan</th>
-                     <th>Staus</th>
+                     <th class="text-center">Karyawan</th>
+                     <th>Status</th>
+                     {{-- <th></th> --}}
                   </tr>
                </thead>
 
                <tbody>
-                  @foreach ($spklTeams as $spkl)
+                  @foreach ($overtimeParents as $spkl)
                   <tr>
                      <td>
-                        <a href="{{route('employee.spkl.detail.multiple', enkripRambo($spkl->id))}}">{{$spkl->code}}</a>
+                       
+                         <a href="{{route('employee.spkl.detail.multiple', enkripRambo($spkl->id))}}">{{$spkl->code}}</a>
+                       
                      </td>
+                     
                      <td>
                         @if ($spkl->type == 1)
                             Lembur
@@ -82,33 +90,30 @@ SPKL
                             Piket
                         @endif
                      </td>
-                     {{-- <td>{{formatDate($spkl->date)}}</td> --}}
                      <td class=" text-truncate">
                         @if ($spkl->holiday_type == 1)
-                           <span  class="text-info ">
+                           <span  >
                            @elseif($spkl->holiday_type == 2)
-                           <span class="text-warning">
+                           <span >
                            @elseif($spkl->holiday_type == 3)
-                           <span class="text-danger">LN -
+                           <span >LN -
                            @elseif($spkl->holiday_type == 4)
-                           <span class="text-danger">LR -
+                           <span >LR -
                         @endif
-                        <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" class="text-white">{{formatDate($spkl->date)}}</a>
+                        <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" >{{formatDate($spkl->date)}}</a>
                         </span>
                      </td>
                      
                      
-                     {{-- <td class="text-center">
-                        
-                        
-                        
-                     </td> --}}
-                     <td>
+                     <td class="text-center">
+                       
                         {{count($spkl->overtimes)}} 
+                        
                      </td>
                      <td>
                         <x-status.spkl :spkl="$spkl" />
                      </td>
+                    
 
                   </tr>
                   @endforeach

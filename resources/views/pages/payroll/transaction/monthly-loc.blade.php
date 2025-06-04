@@ -350,7 +350,7 @@ Payroll Transaction
                               @endif
                            @endif
 
-                           @if (auth()->user()->hasRole('Administrator|HRD-Payroll'))
+                           @if (auth()->user()->hasRole('Administrator|HRD-Payroll|HRD'))
                                  @if ($report->status == 101 || $report->status == 202 || $report->status == 303 || $report->status == 404)
                                  <td class="text-truncate bg-danger text-white " colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
                                     @else

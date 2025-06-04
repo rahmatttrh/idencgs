@@ -1,56 +1,6 @@
 
 
-{{-- @if (auth()->user()->hasRole('Supervisor|Leader'))
 
-<div class="collapse" id="qpe">
-   <ul class="nav nav-collapse">
-      <li>
-         <a href="{{route('qpe')}}">
-            <span class="sub-item">Daftar PE</span>
-         </a>
-      </li>
-      <li>
-         <a href="{{route('qpe.report')}}">
-            <span class="sub-item">Monitoring</span>
-         </a>
-      </li>
-   </ul>
-</div>
-    
-@endif --}}
-
-
-
-{{-- <li class="nav-section">
-   <span class="sidebar-mini-icon">
-      <i class="fa fa-ellipsis-h"></i>
-   </span>
-   <h4 class="text-section">Employee</h4>
-</li>
-<li class="nav-item {{ (request()->is('employee/tab/*')) ? 'active' : '' }}">
-   <a href="{{route('employee', enkripRambo('active'))}}">
-      <i class="fas fa-users"></i>
-      <p>Active</p>
-   </a>
-</li>
-<li class="nav-item {{ (request()->is('employee/nonactive')) ? 'active' : '' }}">
-   <a href="{{route('employee.nonactive')}}">
-      <i class="fas fa-users"></i>
-      <p>Non Active</p>
-   </a>
-</li>
-<li class="nav-item {{ (request()->is('employee/draft')) ? 'active' : '' }}">
-   <a href="{{route('employee.draft')}}">
-      <i class="fas fa-users"></i>
-      <p>Draft</p>
-   </a>
-</li>
-<li class="nav-item {{ (request()->is('employee/import')) ? 'active' : '' }}">
-   <a href="{{route('employee.import')}}">
-      <i class="fas fa-download"></i>
-      <p>Import</p>
-   </a>
-</li> --}}
 <li class="nav-section">
    <span class="sidebar-mini-icon">
       <i class="fa fa-ellipsis-h"></i>
@@ -111,7 +61,7 @@
 <li class="nav-item">
    <a data-toggle="collapse" href="#qpe">
       <!-- <a  href="{{route('qpe')}}"> -->
-      <i class="fas fa-file"></i>
+      <i class="fas fa-star"></i>
       <p>Quick PE</p>
       <span class="caret"></span>
    </a>
@@ -187,29 +137,7 @@
       </ul>
    </div>
 </li>
-{{-- <li class="nav-item">
-   <a data-toggle="collapse" href="#summary">
-      <i class="fas fa-users"></i>
-      <p>Summary</p>
-      <span class="caret"></span>
-   </a>
-   <div class="collapse" id="summary">
-      <ul class="nav nav-collapse">
-         <li>
-            <a href="{{route('payroll.absence')}}">
-               <span class="sub-item">Absensi</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('payroll.overtime')}}">
-               <span class="sub-item">SPKL & Piket</span>
-            </a>
-         </li>
-         
 
-      </ul>
-   </div>
-</li> --}}
 <li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
    <a href="{{route('payroll.absence')}}">
       <i class="fas fa-calendar-minus"></i>
@@ -224,13 +152,13 @@
 </li>
 <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
-      <i class="fas fa-file-code"></i>
-      <p>SP Karyawan</p>
+      <i class="fas fa-bolt"></i>
+      <p>Surat Peringatan</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('announcement/*')) ? 'active' : '' }}">
    <a href="{{route('announcement')}}">
-      <i class="fas fa-money-bill"></i>
+      <i class="fas fa-bell"></i>
       <p>Anouncement</p>
    </a>
 </li> 
@@ -240,19 +168,25 @@
    <span class="sidebar-mini-icon">
       <i class="fa fa-ellipsis-h"></i>
    </span>
-   <h4 class="text-section">Tim</h4>
+   <h4 class="text-section">Team</h4>
 </li>
+{{-- <li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
+   <a href="{{route('task')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Task List</p>
+   </a>
+</li> --}}
 
 
 <li class="nav-item {{ (request()->is('overtime/team')) ? 'active' : '' }}">
    <a href="{{route('overtime.team')}}">
       <i class="fas fa-file-code"></i>
-      <p>Summary Tim</p>
+      <p>Summary Absensi SPKL</p>
    </a>
 </li>
 @endif
 
-<hr>
+
 <li class="nav-section">
    <span class="sidebar-mini-icon">
       <i class="fa fa-ellipsis-h"></i>
@@ -275,6 +209,12 @@
    <a href="{{route('employee.absence')}}">
       <i class="fas fa-calendar-check"></i>
       <p>Absensi </p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
+   <a href="{{route('employee.spkl')}}">
+      <i class="fas fa-clock"></i>
+      <p>SPKL & Piket</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('task/*')) ? 'active' : '' }}">
