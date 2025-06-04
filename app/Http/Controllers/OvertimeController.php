@@ -378,7 +378,7 @@ class OvertimeController extends Controller
             'to' => 0
          ])->with('i');
       } else {
-         return view('pages.payroll.overtime.employee', [
+         return view('pages.payroll.overtime.summary', [
             'unitAll' => 1,
             'locAll' => 1,
             'allUnits' => $units,

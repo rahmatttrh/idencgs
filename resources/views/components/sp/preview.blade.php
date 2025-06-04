@@ -134,7 +134,7 @@
                <tr>
                   <td>
                      @if ($user)
-                     {{formatDateTime($user->created_at)}}
+                     {{formatDateTime($sp->created_at)}}
                      @else
                      -
                      @endif

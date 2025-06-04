@@ -519,20 +519,23 @@ class SpController extends Controller
          $employees = [];
       }
 
-      $submittedBy = $user;
-//   dd($user);
-      if ($sp->note) {
-         $user = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Release')->first();
-         //  dd($user->id);
-      } else {
-         $user = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Submit')->first();
-         //  dd($user->id);
-      }
-      if (auth()->user()->hasRole('Administrator')) {
-         // dd($user);
-      } 
+//       $submittedBy = $user;
+// //   dd($user);
+//       if ($sp->note) {
+//          $user = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Release')->first();
+//          //  dd($user->id);
+//       } else {
+//          $user = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Submit')->first();
+//          //  dd($user->id);
+//       }
+//       if (auth()->user()->hasRole('Administrator')) {
+//          // dd($user);
+//       } 
 
-      $user = $submittedBy;
+//       $user = $submittedBy;
+
+         $submittedBy = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Release')->first();
+
 
       // dd($user->id);
       $hrd = SpApproval::where('sp_id', $sp->id)->where('status', 1)->where('type', 'Approve')->where('level', 'hrd')->first();
@@ -564,7 +567,7 @@ class SpController extends Controller
          'gen' => $gen,
          'employees' => $employees,
          'approvals' => $approvals,
-         'submittedBy' => $submittedBy,
+         // 'submittedBy' => $submittedBy,
          'user' => $user,
          'hrd' => $hrd,
          'manager' => $manager,
