@@ -8,13 +8,14 @@ Form Lembur/Piket
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
+         <li class="breadcrumb-item active" aria-current="page"><a href="{{route('spkl.team')}}">SPKL Team</a></li>
          
-         <li class="breadcrumb-item active" aria-current="page">Form Lembur - Piket</li>
+         <li class="breadcrumb-item active" aria-current="page">Detail Form SPKL</li>
       </ol>
    </nav>
 
    <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4">
          @if ($empSpkl->status == 0)
          <a href="" class="btn mb-2 btn-primary m btn-block" data-target="#modal-release-spkl" data-toggle="modal">Release</a>
          @endif
@@ -50,8 +51,23 @@ Form Lembur/Piket
                </tr>
             </tbody>
          </table>
+         <table>
+            <thead>
+               <tr>
+                  <th colspan="2">Daftar Karyawan</th>
+               </tr>
+            </thead>
+            <tbody>
+               @foreach ($empSpkl->overtimes as $over)
+                   <tr>
+                     <td>{{$over->employee->nik}}</td>
+                     <td>{{$over->employee->biodata->fullName()}}</td>
+                   </tr>
+               @endforeach
+            </tbody>
+         </table>
       </div>
-      <div class="col-md-9">
+      <div class="col-md-8">
          {{-- <h4>Detail Lembur/Piket</h4>
          <hr> --}}
          {{-- @if ($empSpkl->status == 0)
@@ -84,6 +100,9 @@ Form Lembur/Piket
                   <td>{{$empSpkl->employee->department->name}}</td>
                </tr> --}}
                <tr>
+                  <th colspan="2" class=" py-2">FORM SPKL</th>
+               </tr>
+               <tr>
                   <td style="width: 150px">ID</td>
                   <td>{{$empSpkl->code}}</td>
                </tr>
@@ -113,7 +132,7 @@ Form Lembur/Piket
             <tbody>
                <tr>
                   <td>Requested by <br> Atasan Langsung</td>
-                  <td>Approved by <br>GM/Manager </td>
+                  <td>Approved by <br>Manager </td>
                   <td>Employee</td>
                </tr>
                <tr>
@@ -143,21 +162,7 @@ Form Lembur/Piket
             </tbody>
          </table>
          <hr>
-         <table>
-            <thead>
-               <tr>
-                  <th colspan="2">Daftar Karyawan</th>
-               </tr>
-            </thead>
-            <tbody>
-               @foreach ($empSpkl->overtimes as $over)
-                   <tr>
-                     <td>{{$over->employee->nik}}</td>
-                     <td>{{$over->employee->biodata->fullName()}}</td>
-                   </tr>
-               @endforeach
-            </tbody>
-         </table>
+         
       </div>
    </div>
    

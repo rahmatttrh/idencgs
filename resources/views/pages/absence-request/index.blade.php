@@ -30,13 +30,13 @@ Absence
             </a>
             
             <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.absence.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
-               <i class="fas fa-user mr-1"></i>
+               <i class="fas fa-file-contract mr-1"></i>
                Draft
             </a>
            
 
             <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.absence.create')}}" aria-controls="v-pills-document" aria-selected="false">
-               <i class="fas fa-file mr-1"></i>
+               <i class="fas fa-edit mr-1"></i>
                Form Cuti/SPT/Izin
             </a>
             
@@ -64,7 +64,7 @@ Absence
                   </div>
                </div>
             </div>
-            <button type="submit" class="btn btn-block btn-primary">Filter</button>
+            <button type="submit" class="btn btn-block btn-light border">Filter</button>
             
             
          </form>
@@ -102,7 +102,7 @@ Absence
                         
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                     <td>{{formatDate($absence->date)}}</td>
+                     <td>{{formatDateB($absence->date)}}</td>
                      <td>
                         {{-- @if ($absence->getRequest() != null) 
                             <a href="{{route('employee.absence.detail', enkripRambo($absence->getRequest()->id))}}" class="badge badge-info">

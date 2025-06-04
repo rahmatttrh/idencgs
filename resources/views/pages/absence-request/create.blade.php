@@ -29,13 +29,13 @@ Form Absence
             </a>
             
             <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.absence.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
-               <i class="fas fa-user mr-1"></i>
+               <i class="fas fa-file-contract mr-1"></i>
                Draft
             </a>
            
 
             <a class="nav-link active text-left pl-3" id="v-pills-document-tab" href="{{route('employee.absence.create')}}" aria-controls="v-pills-document" aria-selected="false">
-               <i class="fas fa-file mr-1"></i>
+               <i class="fas fa-edit mr-1"></i>
                Form Cuti/SPT/Izin
             </a>
             

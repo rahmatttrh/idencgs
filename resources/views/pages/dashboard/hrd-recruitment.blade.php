@@ -60,9 +60,31 @@
                   </table>
                </div>
             </div>
-            <div class="d-flex">
+            {{-- <div class="d-flex">
                <a href="{{route('employee.create')}}" class="btn btn-primary btn-block mr-2">Create</a>
                <a href="{{route('employee.import')}}" class="btn btn-primary">Import</a>
+            </div> --}}
+            <div class="card card-stats card-round border">
+               <div class="card-body ">
+                  <div class="row align-items-center">
+                     <div class="col-icon">
+                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                           <i class="fas fa-users"></i>
+                        </div>
+                     </div>
+                     <div class="col col-stats ml-3 ml-sm-0">
+                        <a href="{{route('backup.cuti')}}">
+                        <div class="numbers">
+                           <p class="card-category"> Cuti Pengganti </p>
+                           <h4 class="card-title">{{count($reqBackForms)}}</h4>
+                        </div>
+                     </a>
+                     </div>
+                  </div>
+               </div>
+               <div class="card-body">
+                  <small>Daftar Cuti yang memiliki relasi terhadap anda sebagai Karyawan Pengganti</small>
+               </div>
             </div>
             
          </div>

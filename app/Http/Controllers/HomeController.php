@@ -530,6 +530,7 @@ class HomeController extends Controller
          // $reqForms = AbsenceEmployee::where('status', 3)->get();
          $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
          $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->get();
+         $formAbsences = AbsenceEmployee::where('status', '!=', 5)->orderBy('release_date', 'desc')->paginate(30);
          return view('pages.dashboard.hrd-payroll', [
             'units' => $units,
             'employee' => $user,
@@ -554,7 +555,8 @@ class HomeController extends Controller
             'personals' => $personals,
 
             'reqForms' => $reqForms,
-            'reqBackupForms' => $reqBackForms
+            'reqBackupForms' => $reqBackForms,
+            'formAbsences' => $formAbsences
          ])->with('i');
       } elseif (auth()->user()->hasRole('HRD-KJ12')) {
          $user = Employee::find(auth()->user()->getEmployeeId());

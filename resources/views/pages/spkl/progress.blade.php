@@ -36,12 +36,12 @@ SPKL Progress
 
             <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create')}}" aria-controls="v-pills-document" aria-selected="false">
                <i class="fas fa-file mr-1"></i>
-               Form SPKL A
+               Form SPKL 
             </a>
-            <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create.multiple')}}" aria-controls="v-pills-document" aria-selected="false">
+            {{-- <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create.multiple')}}" aria-controls="v-pills-document" aria-selected="false">
                <i class="fas fa-file mr-1"></i>
                Form SPKL B
-            </a>
+            </a> --}}
             
          </div>
          <hr>

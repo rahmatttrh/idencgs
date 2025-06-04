@@ -1,37 +1,4 @@
-{{-- 
-<li class="nav-item {{ (request()->is('payroll/transaction/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.transaction')}}">
-      <i class="fas fa-money-bill"></i>
-      <p>Transaction</p>
-   </a>
-</li>
-<li class="nav-item {{ (request()->is('payroll/overtime/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.overtime')}}">
-      <i class="fas fa-calendar-plus"></i>
-      <p>SPKL</p>
-   </a>
-</li>
 
-<li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.absence')}}">
-      <i class="fas fa-calendar-minus"></i>
-      <p>Absence</p>
-   </a>
-</li>
-
-<li class="nav-item {{ (request()->is('payroll/additional/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.additional')}}">
-      <i class="fas fa-calendar"></i>
-      <p>Lain-lain</p>
-   </a>
-</li> --}}
-
-{{-- <li class="nav-item {{ (request()->is('payroll/report/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.report')}}">
-      <i class="fas fa-search-plus"></i>
-      <p>Report</p>
-   </a>
-</li> --}}
 
 <li class="nav-section">
    <span class="sidebar-mini-icon">
@@ -136,7 +103,7 @@
 
 <li class="nav-item">
    <a data-toggle="collapse" href="#payroll">
-      <i class="fas fa-file"></i>
+      <i class="fas fa-money-bill"></i>
       <p>Payroll</p>
       <span class="caret"></span>
    </a>
@@ -228,7 +195,7 @@
 
 <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
-      <i class="fas fa-file-code"></i>
+      <i class="fas fa-bolt"></i>
       <p>Surat Peringatan</p>
    </a>
 </li>

@@ -47,13 +47,13 @@ Summary SPKL
                Draft 
             </a>
             <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('payroll.overtime.create')}}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-edit mr-1"></i>
+               <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                Form SPKL
             </a>
             
             <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('payroll.overtime.import')}}" aria-controls="v-pills-personal" aria-selected="true">
-               <i class="fas fa-file-excel mr-1"></i>
+               <i class="fas fa-user mr-1"></i>
                Import by Excel
             </a>
            

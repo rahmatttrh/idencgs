@@ -62,11 +62,11 @@ class TaskController extends Controller
 
          // dd($myTasks);
       } elseif (auth()->user()->hasRole('Karyawan')) {
-
+         // dd('ok');
          $employee = Employee::where('nik', auth()->user()->username)->first();
          // dd('karyawan');
-         $tasks = Task::where('status', '!=', 2)->orderBy('status', 'asc')->where('employee_id', $employee->id)->get();
-         $historyTasks = Task::where('status', 2)->where('employee_id', $employee->id)->orderBy('status', 'desc')->get();
+         $tasks = Task::where('status', '!=', 2)->orderBy('updated_at', 'asc')->where('employee_id', $employee->id)->get();
+         $historyTasks = Task::where('status', 2)->where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
          $myteams = [];
          $myTasks = [];
       } else {
