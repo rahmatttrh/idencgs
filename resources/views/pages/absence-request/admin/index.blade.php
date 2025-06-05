@@ -87,18 +87,7 @@ Absence
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td class="text-truncate">
-                        @if ($absence->type == 5)
-                              @if (count($absence->details) > 0)
-                                    @foreach ($absence->details  as $item)
-                                       {{formatDate($item->date)}} -
-                                    @endforeach
-                                 @else
-                                 Tanggal belum dipilih
-                              @endif
-                           {{-- {{count($absence->details)}} Hari --}}
-                              @else
-                              {{formatDate($absence->date)}}
-                        @endif
+                        <x-absence.date :absence="$absence" />
                      </td>
                      <td class="text-truncate">
                         <x-status.form :form="$absence" />

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-Payroll Transaction
+Report BPJS Kesehatan
 @endsection
 @section('content')
 
@@ -72,22 +72,22 @@ Payroll Transaction
          @endif
          <li class="breadcrumb-item" aria-current="page">{{$unitTransaction->unit->name}}</li>
          <li class="breadcrumb-item" aria-current="page">{{$unitTransaction->month}}</li>
-         <li class="breadcrumb-item" aria-current="page">Payslip Report </li>
+         <li class="breadcrumb-item" aria-current="page">BPJS Kesehatan </li>
          <li class="breadcrumb-item active" aria-current="page">{{$location->name}}/ </li>
       </ol>
    </nav>
    
-   <div class="d-flex">
-      {{-- <a href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a> --}}
+   {{-- <div class="d-flex">
+      <a href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a>
       
-      {{-- @if (auth()->user()->username == 'EN-2-001')
+      @if (auth()->user()->username == 'EN-2-001')
          @if ($payslipReport->status == null)
             <div class="btn-group ml-2 mb-2">
                <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
-               <a href="#" class="btn btn-danger" data-target="#reject-payslip-loc" data-toggle="modal">Reject</a>
+               <a href="" class="btn btn-danger">Reject</a>
             </div>
          @endif   
-      @endif --}}
+      @endif
 
       @if (auth()->user()->username == '11304')
          @if ($payslipReport->status == 1)
@@ -109,126 +109,63 @@ Payroll Transaction
             </div>
          @endif   
       @endif
-   </div>
-   
+   </div> --}}
 
-   <div class="card  shadow-none border">
-      <div class="card-header  d-flex justify-content-between ">
-         <div class="">
-            <a href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}">PAYSLIP REPORT</a>
-             / LOCATION
-            {{-- <h4 class="text-uppercase"><b>PAYSLIP REPORT </b>  --}}
-            
-            <h2 class="text-uppercase mt-2">
-                PT {{$unitTransaction->unit->name}}  <span>{{$payslipReport->location->name}} <br> <span>{{$unitTransaction->month}} {{$unitTransaction->year}}</span></span> 
-            </h2>
-             <hr>
-            <span>{{count($transactions)}} Transaksi</span>
-         </div>
-         <span>
-            @if ($payslipReport->status == 101)
-               <div class="card card-danger">
-                  <div class="card-body text-center">
-                     <span class=""><b>Reject Manager HRD</b></span><br>
-               {{$payslipReport->rejectBy->nik}} {{$payslipReport->rejectBy->biodata->fullName()}} <br>
-               {{formatDateTime($payslipReport->reject_date)}} <br>
-               {{$payslipReport->reject_desc}}
-                  </div>
-               </div>
-               
-               @else
-               {{-- <span>Waiting Validation</span> --}}
-            @endif
+   <div class="row">
+      <div class="col-md-4">
+         <table>
+            <thead>
+               <tr>
+                  <th colspan="2">REPORT </th>
+               </tr>
+               <tr>
+                  <th colspan="2"> BPJS KESEHATAN</th>
+               </tr>
 
-            <div class="card border shadow-none">
-               <div class="card-body"> 
-                  <x-status.unit-transaction-loc :unittrans="$payslipReport"/> 
-               </div>
-               <div class="card-footer">
-                  @if (auth()->user()->username == 'EN-2-001')
-         @if ($payslipReport->status == null)
-            <div class="btn-group btn-block">
-               <a href="#" class="btn btn-primary btn-sm btn-block" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
-               <a href="#" class="btn btn-danger btn-sm" data-target="#reject-payslip-loc" data-toggle="modal">Reject</a>
-            </div>
-         @endif   
-      @endif
-               </div>
-            </div>
-
-            {{-- @if (auth()->user()->username == 'EN-2-001')
-               @if ($payslipReport->status == 1)
-                  <span>Approved Man. HRD</span>
-                  @else
-                  <span>Waiting Validation</span>
-               @endif
-            @endif --}}
-
-            @if (auth()->user()->username == '11304')
-               @if ($payslipReport->status == 2)
-                  <span>Approved Man. Finance</span>
-                  @else
-                  <span>Waiting Validation</span>
-               @endif
-            @endif
-
-            @if (auth()->user()->username == 'EN-2-006' || auth()->user()->hasRole('Administrator|HRD-Payroll|HRD'))
-               @if ($payslipReport->status == 3)
-                  <span>Approved GM</span>
-                  @else
-                     @if ($payslipReport->status == 303)
-                        <div class="card card-danger">
-                           <div class="card-body">
-                              <span class=""><b>Reject GM</b></span><br>
-                        {{$payslipReport->rejectBy->nik}} {{$payslipReport->rejectBy->biodata->fullName()}} <br>
-                        {{formatDateTime($payslipReport->reject_date)}} <br>
-                        {{$payslipReport->reject_desc}}
-                           </div>
-                        </div>
-                        
-                        @else
-                        {{-- <span>Waiting Validation</span> --}}
-                     @endif
-                  
-               @endif
-            @endif
-           
-         </span>
-         
-         {{-- <div class="text-right">
-            <h2 class="mt-3"> <b>{{formatRupiahB($unitTransaction->unit->getUnitTransaction($unitTransaction)->sum('total'))}}</b> <br>Total Karyawan <span class="text-uppercase"> {{count($location->getUnitTransaction($unitTransaction->unit->id, $unitTransaction))}} </span> </h2>
-         </div> --}}
-         
+            </thead>
+            <tbody>
+               <tr>
+                  <td>Bisnis Unit</td>
+                  <td>{{$unitTransaction->unit->name}}</td>
+               </tr>
+               <tr>
+                  <td>Lokasi</td>
+                  <td>{{$payslipReport->location->name}}</td>
+               </tr>
+               <tr>
+                  <td>Bulan</td>
+                  <td>{{$unitTransaction->month}}</td>
+               </tr>
+               <tr>
+                  <td>Tahun</td>
+                  <td>{{$unitTransaction->year}}</td>
+               </tr>
+               <tr>
+                  <td colspan="2"></td>
+               </tr>
+               <tr>
+                  <td>Total Karyawan</td>
+                  <td>{{$bpjsKsReport->qty}}</td>
+               </tr>
+               <tr>
+                  <td>Total Iuran</td>
+                  <td>{{formatRupiahB($bpjsKsReport->total_iuran)}}</td>
+               </tr>
+            </tbody>
+         </table>
       </div>
-      {{-- <div class="card-header d-flex justify-content-between p-2 bg-primary text-white">
-         <small> <i class="fas fa-file-contract"></i> Latest QPE</small>
-         <a href="{{route('qpe')}}" class="text-white">More..</a>
-      </div> --}}
-     
-      <div class="card-body p-0">
-         <div class="table-responsive p-0" style="overflow-x: auto;">
-            <table id="data" class="display  table-sm">
+      <div class="col">
+         <div class="table-responsive" style="overflow-x: auto;">
+            <table id="data" class="display basic-datatables table-sm p-0">
                <thead >
                   
                   <tr>
                      <th class="text-white">NIK</th>
                      <th class="text-white">Name</th>
-                     <th class="text-center text-white">Gaji Pokok</th>
-                     <th class="text-center text-white">Tunj. Jabatan</th>
-                     <th class="text-center text-white">Tunj. OPS</th>
-                     <th class="text-center text-white">Tunj. Kinerja</th>
-                     <th class="text-center text-white">Tunj. Fungsional</th>
-                     <th class="text-center text-white">Total Gaji</th>
-                     <th class="text-center text-white">Lembur</th>
-                     <th class="text-center text-white">Lain-Lain</th>
-                     <th class="text-center text-white">Total Bruto</th>
-                     <th class="text-center text-white">BPJS TK</th>
+                     
                      <th class="text-center text-white">BPJS KS</th>
                      {{-- <th class="text-center text-white">BPJS Additional</th> --}}
-                     <th class="text-center text-white">JP</th>
-                     <th class="text-center text-white">Absen</th>
-                     <th class="text-center text-white">Terlambat</th>
-                     <th class="text-center text-white">Total</th>
+                     
                      
                   </tr>
                </thead>
@@ -284,31 +221,10 @@ Payroll Transaction
                      <tr>
                         <td class="text-truncate"><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->nik}} </a></td>
                         <td class="text-truncate" style="max-width: 150px" ><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->biodata->fullName()}}</a></td>
-                        <td class="text-right">{{formatRupiahB($nominalPokok)}}</td>
-                        <td class="text-right">{{formatRupiahB($nominalJabatan)}}</td>
-                        <td class="text-right">{{formatRupiahB($nominalOps)}}</td>
-                        <td class="text-right">{{formatRupiahB($nominalKinerja)}}</td>
-                        <td class="text-right">{{formatRupiahB($nominalFungsional)}}</td>
-                        <td class="text-right">{{formatRupiahB($nominalTotal)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->overtime)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->additional_penambahan)}}</td>
-                        <td class="text-right">{{formatRupiahB($nominalTotal + $transaction->overtime + $transaction->additional_penambahan)}}</td>
-                     
-                        <td class="text-right">
-                           {{-- @if ($transaction->getDeduction('JHT', 'employee') != null )
-                              {{formatRupiahB(2/100 * $transaction->employee->payroll->total)}}
-                              @else
-                              0
-                           @endif --}}
-                           {{formatRupiahB($transaction->getDeduction('JHT', 'employee'))}}
-                           {{-- {{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JHT'))}} --}}
-                        </td>
+                        
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee'))}}</td>
                         {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
-                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('JP', 'employee'))}} </td>
-                        <td class="text-right">{{formatRupiahB($transaction->reduction_absence)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->reduction_late)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->total)}}</td>
+                        
                      
                      </tr>
 
@@ -353,31 +269,10 @@ Payroll Transaction
                      <tr>
                         <td class="text-truncate"><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->nik}} </a></td>
                         <td class="text-truncate" style="max-width: 150px" ><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->biodata->fullName()}}</a></td>
-                        <td class="text-right">{{formatRupiahB($transaction->employee->payroll->pokok)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_jabatan)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_ops)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_kinerja)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_fungsional)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->employee->payroll->total)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->overtime)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->additional_penambahan)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->employee->payroll->total + $transaction->overtime + $transaction->additional_penambahan)}}</td>
-                     
-                        <td class="text-right">
-                           {{-- @if ($transaction->getDeduction('JHT', 'employee') != null )
-                              {{formatRupiahB(2/100 * $transaction->employee->payroll->total)}}
-                              @else
-                              0
-                           @endif --}}
-                           {{formatRupiahB($transaction->getDeduction('JHT', 'employee'))}}
-                           {{-- {{formatRupiahB($loc->getReduction($unit->id, $unitTransaction, 'JHT'))}} --}}
-                        </td>
+                        
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee'))}}</td>
                         {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
-                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('JP', 'employee'))}} </td>
-                        <td class="text-right">{{formatRupiahB($transaction->reduction_absence)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->reduction_late)}}</td>
-                        <td class="text-right">{{formatRupiahB($transaction->total)}}</td>
+                        
                      
                      </tr>
 
@@ -423,31 +318,86 @@ Payroll Transaction
                   @endforeach
                   
                   
-                  <tr>
-                     <td colspan="2" class="text-right"><b> Total</b></td>
-                     <td class="text-right text-truncate"><b> {{formatRupiahB($totalPokok)}}</b></b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalJabatan)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalOps)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalKinerja)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalFungsional)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalGaji)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalOvertime)}} </b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalAdditionalPenambahan)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalBruto)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalTk)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalKs + $totalKsAdd)}}</b></td>
-                     {{-- <td class="text-right text-truncate"><b>{{formatRupiahB($totalKsAdd)}}</b></td> --}}
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalJp)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalAbsence)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalLate)}}</b></td>
-                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalGrand)}}</b></td>
-                  </tr>
+                  
                   
                   
                   
                </tbody>
             </table>
          </div>
+      </div>
+   </div>
+   
+
+   <div class="card  shadow-none border">
+      <div class="card-header  d-flex justify-content-between ">
+         <div class="">
+            <h4 class="text-uppercase"><b>PAYSLIP REPORT </b> 
+            </h4>
+            <h2 class="text-uppercase">
+                 {{$unitTransaction->unit->name}} <br> <span>{{$payslipReport->location->name}}</span> <br> {{$unitTransaction->month}} {{$unitTransaction->year}}
+            </h2>
+            <small>{{count($transactions)}} Transaksi</small>
+         </div>
+         <span>
+            @if (auth()->user()->username == 'EN-2-001')
+               @if ($payslipReport->status == 1)
+                  <span>Approved Man. HRD</span>
+                  @else
+                  <span>Waiting Validation</span>
+               @endif
+            @endif
+
+            @if (auth()->user()->username == '11304')
+               @if ($payslipReport->status == 2)
+                  <span>Approved Man. Finance</span>
+                  @else
+                  <span>Waiting Validation</span>
+               @endif
+            @endif
+
+            @if (auth()->user()->username == 'EN-2-006' || auth()->user()->hasRole('Administrator|HRD-Payroll|HRD'))
+               @if ($payslipReport->status == 3)
+                  <span>Approved GM</span>
+                  @else
+                     @if ($payslipReport->status == 303)
+                        <div class="card card-danger">
+                           <div class="card-body">
+                              <span class=""><b>Reject GM</b></span><br>
+                        {{$payslipReport->rejectBy->nik}} {{$payslipReport->rejectBy->biodata->fullName()}} <br>
+                        {{formatDateTime($payslipReport->reject_date)}} <br>
+                        {{$payslipReport->reject_desc}}
+                           </div>
+                        </div>
+                        
+                        @else
+                        <span>Waiting Validation</span>
+                     @endif
+                  
+               @endif
+            @endif
+           
+         </span>
+         
+         {{-- <div class="text-right">
+            <h2 class="mt-3"> <b>{{formatRupiahB($unitTransaction->unit->getUnitTransaction($unitTransaction)->sum('total'))}}</b> <br>Total Karyawan <span class="text-uppercase"> {{count($location->getUnitTransaction($unitTransaction->unit->id, $unitTransaction))}} </span> </h2>
+         </div> --}}
+         
+      </div>
+      {{-- <div class="card-header">
+         <div class="row row-nav-line">
+            <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
+               <li class="nav-item"> <a class="nav-link show active" id="pills-payslip-tab-nobd" data-toggle="pill" href="#pills-payslip-nobd" role="tab" aria-controls="pills-payslip-nobd" aria-selected="true">Payslip Report</a> </li>
+               @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' )
+               <li class="nav-item"> <a class="nav-link " id="pills-ks-tab-nobd" data-toggle="pill" href="#pills-ks-nobd" role="tab" aria-controls="pills-ks-nobd" aria-selected="true">BPJS Kesehatan</a> </li>
+               <li class="nav-item"> <a class="nav-link " id="pills-kt-tab-nobd" data-toggle="pill" href="#pills-kt-nobd" role="tab" aria-controls="pills-kt-nobd" aria-selected="true">BPJS Ketenagakerjaan</a> </li>
+               @endif
+            </ul>
+         </div>
+      </div> --}}
+      {{-- {{count(transactions)}} --}}
+      <div class="card-body p-0">
+         
 
       </div>
    </div>

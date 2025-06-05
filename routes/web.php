@@ -415,6 +415,8 @@ Route::middleware(["auth"])->group(function () {
 
          Route::prefix('report')->group(function () {
             Route::get('bpjsks/{id}', [PayslipBpjsKsController::class, 'reportBpjsKs'])->name('payroll.report.bpjsks');
+            Route::get('bpjsks/loc/{unit}/{loc}/{id}', [PayslipBpjsKsController::class, 'reportBpjsKsLocation'])->name('payroll.report.bpjsks.loc');
+            
             Route::get('detail/bpjsks/{id}', [PayslipBpjsKsController::class, 'detail'])->name('report.bpjsks.detail');
             Route::get('refresh/payslip/{id}', [PayslipReportController::class, 'refresh'])->name('refresh.report.payslip');
             Route::get('refresh/bpjsks/{id}', [PayslipBpjsKsController::class, 'refresh'])->name('refresh.report.bpjsks');
@@ -599,9 +601,11 @@ Route::middleware(["auth"])->group(function () {
 
          Route::get('hrd', [PayrollApprovalController::class, 'hrd'])->name('payroll.approval.hrd');
          Route::post('approve/hrd', [PayrollApprovalController::class, 'approveHrd'])->name('payroll.approve.hrd');
+         Route::post('reject/hrd', [PayrollApprovalController::class, 'rejectHrd'])->name('payroll.reject.hrd');
 
          Route::get('manager-finance', [PayrollApprovalController::class, 'manfin'])->name('payroll.approval.manfin');
          Route::post('approve/manfin', [PayrollApprovalController::class, 'approveManfin'])->name('payroll.approve.manfin');
+         Route::post('reject/manfin', [PayrollApprovalController::class, 'rejectManFin'])->name('payroll.reject.manfin');
 
          Route::get('general-manager', [PayrollApprovalController::class, 'gm'])->name('payroll.approval.gm');
          Route::post('approve/gm', [PayrollApprovalController::class, 'approveGm'])->name('payroll.approve.gm');
@@ -609,6 +613,7 @@ Route::middleware(["auth"])->group(function () {
 
          Route::get('bod', [PayrollApprovalController::class, 'bod'])->name('payroll.approval.bod');
          Route::post('approve/bod', [PayrollApprovalController::class, 'approveBod'])->name('payroll.approve.bod');
+         Route::post('reject/bod', [PayrollApprovalController::class, 'rejectBod'])->name('payroll.reject.bod');
 
          Route::get('manhrd/history', [PayrollApprovalController::class, 'manhrdHistory'])->name('payroll.approval.manhrd.history');
          Route::get('manfin/history', [PayrollApprovalController::class, 'manfinHistory'])->name('payroll.approval.manfin.history');

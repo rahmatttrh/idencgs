@@ -89,6 +89,7 @@ Payroll Transaction
          <div class="card shadow-none border card-primary ">
             <div class="card-header bg-light text-dark">
                <x-status.unit-transaction :unittrans="$unitTransaction" />
+               
             </div>
             <div class="card-body">
                   <h4 class="text-uppercase">{{$unit->name}}</h4>
@@ -152,6 +153,16 @@ Payroll Transaction
          
       </div>
       <div class="col-md-9">
+         @if ($unitTransaction->status == 101 || $unitTransaction->status == 202 || $unitTransaction->status == 303 || $unitTransaction->status == 404)
+               <div class="card card-danger">
+                  <div class="card-body">
+                     <span class="text-uppercase"> <x-status.unit-transaction :unittrans="$unitTransaction"/> </span> <br>
+                     {{$unitTransaction->rejectBy->biodata->fullName()}} <br>
+                {{formatDateTime($unitTransaction->reject_date)}} <br>
+                {{$unitTransaction->reject_desc}}
+                  </div>
+               </div>
+               @endif
          <div class="hori-timeline mt-3" dir="ltr">
             <ul class="list-inline events">
                 

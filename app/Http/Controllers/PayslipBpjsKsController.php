@@ -7,10 +7,12 @@ use App\Models\Location;
 use App\Models\PayrollApproval;
 use App\Models\PayslipBpjsKs;
 use App\Models\PayslipReport;
+use App\Models\Transaction;
 use App\Models\Unit;
 use App\Models\UnitTransaction;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
+use PhpParser\Builder\Function_;
+use PhpParser\Node\Expr\FuncCall;
 
 class PayslipBpjsKsController extends Controller
 {
@@ -37,9 +39,6 @@ class PayslipBpjsKsController extends Controller
       $newTransactions = Transaction::where('unit_transaction_id', $unitTransaction->id)->where('remark', 'Karyawan Baru')->get();
       $outTransactions = Transaction::where('unit_transaction_id', $unitTransaction->id)->where('remark', 'Karyawan Out')->get();
 
-      if (auth()->user()->hasRole('Administrator')) {
-         // dd($newTransactions);
-      }
       // dd($reportBpjsKs); 
 
       // $unit = Unit::find($reportBpjsKs->unit_transaction->unit->id);
@@ -63,6 +62,33 @@ class PayslipBpjsKsController extends Controller
          'gm' => $gm,
          'bod' => $bod,
       ]);
+   }
+
+   public function reportBpjsKsLocation($unit, $loc, $id)
+   {
+      // dd('ok');
+      $unitTransaction = UnitTransaction::find(dekripRambo($unit));
+      $location = Location::find(dekripRambo($loc));
+      $bpjsKsReport = BpjsKsReport::find(dekripRambo($id));
+      $transactions = Transaction::where('month', $unitTransaction->month)->where('year', $unitTransaction->year)->where('unit_transaction_id', $unitTransaction->id)->where('location_id', $location->id)->orderBy('name', 'asc')->get();
+      // dd($unitTransaction->id);
+      // dd($transactions);
+
+      $payslipReport = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->where('location_id', $location->id)->first();
+
+      return view('pages.payroll.report.bpjsks-loc', [
+         'unitTransaction' => $unitTransaction,
+         'transactions' => $transactions,
+         'location' => $location,
+         'payslipReport' => $payslipReport,
+         'bpjsKsReport' => $bpjsKsReport
+      ])->with('i');
+   }
+
+
+   public function detail($id){
+      $bpjsKsReports = BpjsKsReport::find(dekripRambo($id));
+      
    }
 
 

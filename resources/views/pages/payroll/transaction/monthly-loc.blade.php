@@ -103,19 +103,27 @@ Payroll Transaction
          
          
          {{-- Action Approval --}}  
-         @if ($unitTransaction->status == 1)
-            @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093')
-            <div class="btn-group ">
-               <a href="#" class="btn btn-primary  mb-2 " data-target="#modal-approve-hrd-tu" data-toggle="modal">Final Approve</a>
-               <a href="" class="btn btn-danger  mb-2">Reject</a>
-            </div>
-            @endif
-         @endif
+         
       
          @if (auth()->user()->username == '11304' && $unitTransaction->status == 2)
          <div class="btn-group  mb-2">
-            <a href="#" class="btn btn-primary" data-target="#modal-approve-fin-tu" data-toggle="modal">Final Approve</a>
-            <a href="" class="btn btn-danger">Reject</a>
+            @php
+                $approve = 1;
+               @endphp
+               @foreach ($payslipReports as $rep)
+                  @if ($rep->status == 202)
+                     @php
+                           $approve = 0;
+                     @endphp
+                  @endif
+               @endforeach
+               @if ($approve == 1)
+               <a href="#" class="btn btn-primary " data-target="#modal-approve-fin-tu" data-toggle="modal">Final Approve</a>
+                  @else
+                  <a href="#" class="btn btn-light border " data-toggle="tooltip" title="Tidak dapat Approve karna ada lokasi yang di Reject">Final Approve</a>
+               @endif
+            
+               <a href="" class="btn btn-danger  " data-target="#modal-reject-manfin-tu" data-toggle="modal">Reject</a>
          </div>
          @endif
 
@@ -143,12 +151,27 @@ Payroll Transaction
 
          @if (auth()->user()->username == 'BOD-002' && $unitTransaction->status == 4)
          <div class="btn-group ml-2 mb-2">
-            <a href="#" class="btn btn-primary" data-target="#modal-approve-bod-tu" data-toggle="modal">Final Approve</a>
-            <a href="" class="btn btn-danger">Reject</a>
+            @php
+                $approve = 1;
+               @endphp
+               @foreach ($payslipReports as $rep)
+                  @if ($rep->status == 404)
+                     @php
+                           $approve = 0;
+                     @endphp
+                  @endif
+               @endforeach
+               @if ($approve == 1)
+               <a href="#" class="btn btn-primary" data-target="#modal-approve-bod-tu" data-toggle="modal">Final Approve</a>
+                  @else
+                  <a href="#" class="btn btn-light border mb-2" data-toggle="tooltip" title="Tidak dapat Approve karna ada lokasi yang di Reject">Final Approve</a>
+               @endif
+            
+               <a href="" class="btn btn-danger  mb-2" data-target="#modal-reject-bod-tu" data-toggle="modal">Reject</a>
          </div>
          @endif
 
-         <a class="btn  btn-light border mb-2" href="{{route('payroll.transaction.export', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to Excel</a>
+         {{-- <a class="btn  btn-light border mb-2" href="{{route('payroll.transaction.export', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to Excel</a> --}}
       {{-- </div> --}}
    </div>
 
@@ -219,9 +242,15 @@ Payroll Transaction
    <div class="card card-with-nav shadow-none border">
       <div class="card-header  d-flex justify-content-between ">
          <div class="mt-3">
-            <b>PAYSLIP REPORT </b>
-            <h1 class="text-uppercase"> PT {{$unit->name}}  {{$unitTransaction->month}} {{$unitTransaction->year}} </h1>
-            <h2 class=""> {{formatRupiahB($payslipReports->sum('gaji_bersih'))}}</h2>
+            <div class="o">PAYSLIP REPORT</div>
+         
+            <h2 class="text-uppercase mt-2"> PT {{$unit->name}}  {{$unitTransaction->month}} {{$unitTransaction->year}}</h2>
+            
+            {{-- <span>{{$unitTransaction->month}} {{$unitTransaction->year}}</span> --}}
+            {{-- <hr> --}}
+             <span>{{formatRupiahB($payslipReports->sum('gaji_bersih'))}}</span> <br>
+             <hr>
+             <a class="" href="{{route('payroll.transaction.export', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to Excel</a>
             
          </div>
          
@@ -239,11 +268,38 @@ Payroll Transaction
                </div>
                 
                 @else
-                <div class="card card-info">
-                  <div class="card-body">
-                     <span class="text-uppercase"> <x-status.unit-transaction :unittrans="$unitTransaction"/> </span>
+                <div class="card card-light border">
+                  <div class="card-body text-center">
+                     <span class=""> <x-status.unit-transaction :unittrans="$unitTransaction"/> </span>
+                     
+                  </div>
+                  <div class="card-footer">
+                     @if ($unitTransaction->status == 1)
+                  @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093')
+                  <div class="btn-group ">
+                     @php
+                     $approve = 1;
+                     @endphp
+                     @foreach ($payslipReports as $rep)
+                        @if ($rep->status == 101)
+                           @php
+                                 $approve = 0;
+                           @endphp
+                        @endif
+                     @endforeach
+                     @if ($approve == 1)
+                     <a href="#" class="btn btn-primary btn-sm  " data-target="#modal-approve-hrd-tu" data-toggle="modal"><i class="fa fa-check"></i> Final Approve</a>
+                        @else
+                        <a href="#" class="btn btn-light border btn-sm" data-toggle="tooltip" title="Tidak dapat Approve karna ada lokasi yang di Reject">Final Approve</a>
+                     @endif
+                     {{-- <a href="#" class="btn btn-primary   " data-target="#modal-approve-hrd-tu" data-toggle="modal">Final Approve</a> --}}
+                     <a href="" class="btn btn-light border btn-sm " data-target="#modal-reject-hrd-tu" data-toggle="modal"> Reject</a>
+                  </div>
+                  @endif
+               @endif
                   </div>
                </div>
+               
             @endif
             
          </div>
@@ -311,9 +367,16 @@ Payroll Transaction
                         @if ($report->qty > 0)
                         <tr>
                            @if (auth()->user()->username == 'EN-2-001')
-                              @if ($report->status >= 1)
+                              @if ($report->status == 1)
                               <td class="text-truncate bg-success" colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
-                                 @else
+                              @elseif ($report->status == 101)  
+                                 <td class="text-truncate bg-danger text-white" colspan="2">
+                                    <a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a> <br>
+                                    {{$report->status}} :
+                                    <small>{{$report->reject_desc}}</small>
+                                 </td>
+                                 
+                              @else
                                  <td class="text-truncate  " colspan="2"><a  href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
                               @endif
                            @endif
@@ -350,7 +413,7 @@ Payroll Transaction
                               @endif
                            @endif
 
-                           @if (auth()->user()->hasRole('Administrator|HRD-Payroll|HRD'))
+                           @if (auth()->user()->hasRole('Administrator|HRD-Payroll|HRD') &&  auth()->user()->username != 'EN-2-001')
                                  @if ($report->status == 101 || $report->status == 202 || $report->status == 303 || $report->status == 404)
                                  <td class="text-truncate bg-danger text-white " colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
                                     @else
@@ -1201,12 +1264,44 @@ Payroll Transaction
             <div class="modal-body">
                @csrf
                <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
-               <span>Approve this Report and send to Manager Finance?</span>
+               <span>Approve Payslip Report ?</span> 
+               <hr>
+               <small>Aksi ini akan otomatis menyetujui Payslip Report semua lokasi</small>
                   
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
                <button type="submit" class="btn btn-primary ">Approve</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="modal-reject-hrd-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirm Reject<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('payroll.reject.hrd')}}" method="POST" >
+            <div class="modal-body">
+               @csrf
+               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
+               <span>Reject this Report and send back to HRD?</span>
+               <hr>
+               <div class="form-group form-group-default">
+                  <label>Remark</label>
+                  <input type="text" class="form-control"  name="remark" id="remark"  >
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger ">Reject</button>
             </div>
          </form>
       </div>
@@ -1242,6 +1337,36 @@ Payroll Transaction
       </div>
    </div>
 </div>
+<div class="modal fade" id="modal-reject-manfin-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirm Reject<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('payroll.reject.manfin')}}" method="POST" >
+            <div class="modal-body">
+               @csrf
+               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
+               <span>Reject this Report and send back to HRD?</span>
+               <hr>
+               <div class="form-group form-group-default">
+                  <label>Remark</label>
+                  <input type="text" class="form-control"  name="remark" id="remark"  >
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger ">Reject</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
 
 <div class="modal fade" id="modal-approve-gm-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm" role="document">
@@ -1269,7 +1394,6 @@ Payroll Transaction
       </div>
    </div>
 </div>
-
 <div class="modal fade" id="modal-reject-gm-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
@@ -1326,6 +1450,36 @@ Payroll Transaction
             <div class="modal-footer">
                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
                <button type="submit" class="btn btn-primary ">Approve</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="modal-reject-hrd-tu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirm Reject<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('payroll.reject.bod')}}" method="POST" >
+            <div class="modal-body">
+               @csrf
+               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
+               <span>Reject this Report and send back to HRD?</span>
+               <hr>
+               <div class="form-group form-group-default">
+                  <label>Remark</label>
+                  <input type="text" class="form-control"  name="remark" id="remark"  >
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger ">Reject</button>
             </div>
          </form>
       </div>
