@@ -1278,8 +1278,8 @@ class EmployeeController extends Controller
 
    public function overviewSimple($id){
       $employee = Employee::find(dekripRambo($id));
-      $disciplines = Absence::where('employee_id', $employee->id)->get();
-      $overs = Overtime::where('employee_id', $employee->id)->get();
+      $disciplines = Absence::where('employee_id', $employee->id)->orderBy('date', 'desc')->get();
+      $overs = Overtime::where('employee_id', $employee->id)->orderBy('date', 'desc')->get();
 
       return view('pages.employee.overview-s', [
          'employee' => $employee,

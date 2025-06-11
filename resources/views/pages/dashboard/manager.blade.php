@@ -124,7 +124,9 @@ Dashboard
                                        <td></td>
                                        {{-- <td>{{$emp->sub_dept->name ?? ''}}</td> --}}
                                        {{-- <td></td> --}}
-                                       <td>{{$emp->nik}} {{$emp->biodata->fullName()}}</td>
+                                       <td>
+                                          <a href="{{route('employee.overview.simple', enkripRambo($emp->id))}}">{{$emp->biodata->fullName()}}</a>
+                                       </td>
                                        </tr>
                                     @endforeach
                               @endforeach
@@ -134,7 +136,10 @@ Dashboard
                                  <td></td>
                                  {{-- <td>{{$emp->sub_dept->name}}</td> --}}
                                  {{-- <td></td> --}}
-                                 <td>{{$emp->nik}} {{$emp->biodata->fullName()}}</td>
+                                 <td>
+                                    <a href="{{route('employee.overview.simple', enkripRambo($emp->id))}}">{{$emp->biodata->fullName()}}</a>
+                                    
+                                 </td>
                                  </tr>
                               @endforeach
                         @endif

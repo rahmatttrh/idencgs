@@ -358,8 +358,11 @@
                             @foreach ($teams as $team)
                                  @if ($team->employee->status == 1)
                                  <tr>
-                                    <td>{{$team->employee->nik}} </td>
-                                    <td> {{$team->employee->biodata->fullName()}}</td>
+                                    {{-- <td>{{$team->employee->nik}} </td> --}}
+                                    <td>
+                                       <a href="{{route('employee.overview.simple', enkripRambo($team->employee_id))}}">{{$team->employee->biodata->fullName()}}</a>
+                                       
+                                       </td>
                                  </tr>
                                  @endif
                                  

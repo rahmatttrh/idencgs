@@ -93,7 +93,10 @@
                                        <td></td>
                                        {{-- <td>{{$emp->sub_dept->name ?? ''}}</td> --}}
                                        {{-- <td></td> --}}
-                                       <td>{{$emp->nik}} {{$emp->id}}</td>
+                                       <td>
+                                          <a href="{{route('employee.overview.simple', enkripRambo($emp->eid))}}">{{$emp->biodata->fullName()}}</a>
+                                          
+                                       </td>
                                        </tr>
                                     @endforeach
                               @endforeach
