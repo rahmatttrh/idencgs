@@ -68,8 +68,8 @@
 </li>
 <li class="nav-item {{ (request()->is('employee/sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
-      <i class="fas fa-file"></i>
-      <p>SP</p>
+      <i class="fas fa-bolt"></i>
+      <p>Surat Peringatan</p>
    </a>
 </li>
 <hr>

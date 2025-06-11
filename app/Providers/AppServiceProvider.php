@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Announcement;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Pe;
 use App\Models\Sp;
+use App\Models\St;
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 
@@ -45,21 +47,28 @@ class AppServiceProvider extends ServiceProvider
                // $department = Department::find($employee->department_id);
                $peTotal = null;
                $peNotifs = [];
+               // dd($employee->positions);
                foreach($employee->positions as $pos){
                   foreach($pos->department->pes->where('status', 1) as $pe){
                      $peTotal = ++$peTotal;
                      $peNotifs[] = $pe;
+
+                     
+                  }
+
+                  $sps = Sp::where('status', 3)->where('department_id', $pos->department_id)->get();
+                  foreach($sps as $sp){
+                     $spNotifs[] = $sp;
                   }
                }
-               // dd($peNotifs);
-               // $peNotifNd = [];
-               // $peNotifs = $peNotif->concat($peNotifNd);
+               // dd($spNotifs);
+               
             } elseif(auth()->user()->hasRole('Supervisor|Leader')){
                // $id = auth()->user()->username;
                $employee = Employee::where('nik', auth()->user()->username)->first();
                $spNotifNd = Sp::where('status', 101)->where('nd_for', 1)->orWhere('nd_for', 3)->where('by_id', $employee->id)->orderBy('updated_at', 'desc')->get();
-               $spNotif = Sp::where('by_id', $employee->id)->where('department_id', $employee->department_id)->where('status', 2)->orWhere('status', 202)->orderBy('updated_at', 'desc')->get();
-               $spNotifs = $spNotif;
+               $spNotifs = Sp::where('by_id', $employee->id)->where('department_id', $employee->department_id)->where('status', 2)->orWhere('status', 202)->orderBy('updated_at', 'desc')->get();
+               // $spNotifs = $spNotif;
 
                // $peNotif = null;
                // $department
@@ -69,9 +78,9 @@ class AppServiceProvider extends ServiceProvider
             } elseif(auth()->user()->hasRole('Karyawan')){
                $id = auth()->user()->getEmployeeId();
                $employee = Employee::find($id);
-               $spNotifNd = Sp::where('status', 101)->where('nd_for', 2)->orWhere('nd_for', 3)->where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
-               $spNotif = Sp::where('status', 4)->where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
-               $spNotifs = $spNotifNd->concat($spNotif);
+               // $spNotifNd = Sp::where('status', 101)->where('nd_for', 2)->orWhere('nd_for', 3)->where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
+               $spNotifs = Sp::where('status', 4)->where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
+               // $spNotifs = $spNotifNd->concat($spNotif);
                $peNotifs = Pe::where('status', 202)->where('employe_id', $id)->get();
             }  else {
                $spNotifs = [];
@@ -85,11 +94,32 @@ class AppServiceProvider extends ServiceProvider
                $notif = false;
             }
 
+            if (auth()->user()->hasRole('Administrator')) {
+               $spRecomends = [];
+               $tegurans = [];
+            } else {
+               $employeeLogin = Employee::find(auth()->user()->getEmployeeId());
+               $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employeeLogin->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
+               $tegurans = St::where('status', 1)->where('employee_id', $employeeLogin->id)->get();
+   
+               // $tegurans = St::where('status', 1)->where('employee_id', $employeeLogin->id)->get();
+
+               
+            }
+
+            $broadcasts = Announcement::where('type', 1)->where('status', 1)->orderBy('updated_at', 'desc')->get();
+            
+
             $view->with([
                'employee' => $employee,
                'notifSp' => $spNotifs,
                'peNotifs' => $peNotifs,
                'notif' => $notif,
+
+               'spRecomends' => $spRecomends,
+
+               'broadcasts' => $broadcasts,
+               'tegurans' => $tegurans
 
             ]);
          }

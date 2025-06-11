@@ -30,19 +30,86 @@
                   </a>
                </li>
 
-
                <li class="nav-item dropdown hidden-caret">
                   <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="fa fa-bell"></i>
-                     <span class="notification">{{count($notifSp) + count($peNotifs)}}</span>
+                     <i class="fa fa-envelope"></i>
+                     <span class="notification">{{count($broadcasts) }}</span>
                   </a>
                   <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                      <li>
-                        <div class="dropdown-title">You have {{count($notifSp) + count($peNotifs)}} new notification</div>
+                        <div class="dropdown-title">You have {{count($broadcasts) }} new notification</div>
                      </li>
                      <li>
                         <div class="notif-scroll scrollbar-outer">
                            <div class="notif-center">
+                              @foreach ($broadcasts as $broad)
+                              <a href="{{route('announcement.detail', enkripRambo($broad->id))}}">
+                                 {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}
+                                 <div class="notif-content pl-4">
+                                    <span class="block">
+                                       
+                                       <b>{{$broad->title}}</b>   <br>
+                                      <small>Broadcast from HRD </small>
+                                    </span>
+                                    {{-- <span class="time">Rekomendasi HRD -</span>  --}}
+                                    <span class="time">{{$broad->updated_at->diffForHumans()}}</span> 
+                                 </div>
+                              </a>
+                              @endforeach
+                             
+                              
+                              
+                           </div>
+                        </div>
+                     </li>
+                     <li>
+                        <a class="see-all" href="javascript:void(0);">See all notifications<i class="fa fa-angle-right"></i> </a>
+                     </li>
+                  </ul>
+               </li>
+
+               
+
+               <li class="nav-item dropdown hidden-caret">
+                  <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="fa fa-bell"></i>
+                     <span class="notification">{{count($notifSp) + count($peNotifs) + count($spRecomends) + count($tegurans)}}</span>
+                  </a>
+                  <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                     <li>
+                        <div class="dropdown-title">You have {{count($notifSp) + count($peNotifs) + count($spRecomends) + count($tegurans)}} new notification</div>
+                     </li>
+                     <li>
+                        <div class="notif-scroll scrollbar-outer">
+                           <div class="notif-center">
+                              @foreach ($tegurans as $st)
+                              <a href="{{route('st.detail', enkripRambo($st->id))}}">
+                                 {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}
+                                 <div class="notif-content pl-4">
+                                    <span class="block">
+                                       
+                                      TEGURAN  {{$st->employee->nik}} {{$st->employee->biodata->fullName()}} <br>
+                                      {{-- <small><x-status.st :st="$st" /> </small> --}}
+                                    </span>
+                                    <span class="time">dari HRD -</span> 
+                                    <span class="time">{{$st->updated_at->diffForHumans()}}</span> 
+                                 </div>
+                              </a>
+                              @endforeach
+                              @foreach ($spRecomends as $spRec)
+                              <a href="{{route('sp.detail', enkripRambo($spRec->id))}}">
+                                 {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}
+                                 <div class="notif-content pl-4">
+                                    <span class="block">
+                                       
+                                      SP {{$spRec->level}}  {{$spRec->employee->nik}} {{$spRec->employee->biodata->fullName()}} <br>
+                                      <small><x-status.sp :sp="$spRec" /> </small>
+                                    </span>
+                                    <span class="time">Rekomendasi HRD -</span> 
+                                    <span class="time">{{$spRec->updated_at->diffForHumans()}}</span> 
+                                 </div>
+                              </a>
+                              @endforeach
                               @foreach ($notifSp as $sp)
                               <a href="{{route('sp.detail', enkripRambo($sp->id))}}">
                                  {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}

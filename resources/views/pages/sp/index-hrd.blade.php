@@ -13,28 +13,32 @@ SP
    </nav>
    <div class="row">
       <div class="col-md-3">
-         <h4><b>Surat Peringatan</b></h4>
-         <hr>
+         {{-- <h4><b>Surat Peringatan</b></h4>
+         <hr> --}}
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('sp') }}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
-               SP Karyawan
+               Surat Peringatan
             </a>
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('sp.export') }}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               Export
-            </a>
+           
+            
             @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-KJ45|HRD-KJ12'))
             <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('sp.hrd.create')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               Create SP
+               Form Surat Peringatan
             </a>
+          
                {{-- <li class="nav-item"> <a class="nav-link " href="{{route('sp.hrd.create')}}"  aria-controls="pills-doc-nobd" aria-selected="true">Create SP</a> </li> --}}
                            {{-- <a href="{{route('sp.hrd.create')}}" class="btn btn-primary btn-sm">Create SP</a>
                            <hr> --}}
                      @endif
+
+                     <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('sp.export') }}" aria-controls="v-pills-contract" aria-selected="false">
+                        <i class="fas fa-file-contract mr-1"></i>
+                        {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+                        Export
+                     </a>
            
             
          </div>
@@ -110,7 +114,7 @@ SP
                             @endif
                         @endforeach
                         
-                        @endforeach
+                     @endforeach
 
                   @else
                      @if (count($employee->positions) > 0)

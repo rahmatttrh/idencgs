@@ -248,12 +248,45 @@
       <p>Anouncement</p>
    </a>
 </li>
-<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
+<li class="nav-item">
+   <a data-toggle="collapse" href="#sp">
+      <i class="fas fa-bolt"></i>
+      <p>Surat Peringatan</p>
+      <span class="caret"></span>
+   </a>
+   <div class="collapse" id="sp">
+      <ul class="nav nav-collapse">
+         <li>
+            <a href="{{route('sp')}}">
+               <span class="sub-item">SP</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{route('st')}}">
+               <span class="sub-item">Teguran</span>
+            </a>
+         </li>
+
+         {{-- <li>
+            <a href="{{route('payroll.absence')}}">
+               <span class="sub-item">Absence</span>
+            </a>
+         </li>
+
+         <li>
+            <a href="{{route('payroll.additional')}}">
+               <span class="sub-item">Others</span>
+            </a>
+         </li> --}}
+      </ul>
+   </div>
+</li>
+{{-- <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
       <i class="fas fa-bolt"></i>
       <p>Surat Peringatan</p>
    </a>
-</li>
+</li> --}}
 
 
 

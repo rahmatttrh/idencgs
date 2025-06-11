@@ -139,6 +139,8 @@
             @endforeach
          @endif
          <div class="row">
+
+            @if (auth()->user()->hasRole('Leader'))
             <div class="col-md-12">
                <div class="card card-stats card-round border">
                   <div class="card-body ">
@@ -167,6 +169,8 @@
                </div>
                
             </div>
+            @endif
+            
          </div>
             <div class="card">
                <div class="card-header p-2 bg-primary text-white">

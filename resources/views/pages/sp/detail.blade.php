@@ -53,6 +53,7 @@ SP Detail
       </div>
    </div> --}}
    @endif
+   
    <div class="row justify-content-center">
       <div class="col-12 col-lg-10 col-xl-11">
          <div class="row hide align-items-center">
@@ -66,8 +67,20 @@ SP Detail
 
             </div>
             <div class="col-auto">
+               {{-- {{$sp->note}} --}}
+               
+                   @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Spv|HRD-Payroll'))
+                     @if ($sp->note == 'Recomendation')
+                        @if ($sp->status == 2)
+                        <a href="#" class="btn btn-danger " data-toggle="modal" data-target="#modal-sp-delete">
+                           <i class="fa fa-trash"></i> Delete
+                        </a>
+                        @endif
+                     @endif
+                   @endif
+               
 
-               @if (auth()->user()->hasRole('Leader|Supervisor|Manager|Asst. Manager'))
+               @if (auth()->user()->hasRole('Leader|Supervisor|Manager|Asst. Manager') && $sp->by_id == $userCurrent->id)
                   @if($sp->status == '0')
                      <!-- Start -->
                      <button class="btn btn btn-dark" data-toggle="modal" data-target="#modal-submit-{{$sp->id}}"><i class="fas fa-rocket"></i> Submit </button>
@@ -82,15 +95,10 @@ SP Detail
                      <x-sp.modal.submit :sp="$sp" />
                   @endif
                   @if($sp->status == '2')
-                     <!-- Start -->
                      <button class="btn btn btn-primary" data-toggle="modal" data-target="#modal-release-{{$sp->id}}"><i class="fas fa-rocket"></i> Send to Manager </button>
                      <x-sp.modal.release :sp="$sp" />
                      <button data-target="#modalRejectUser" data-toggle="modal" class="btn btn-md btn-danger "><i class="fa fa-reply"></i> Reject</button>
-                     {{-- <button class="btn btn-md btn-primary" data-toggle="modal" data-target="#modal-edit-{{$sp->id}}"><i class="fas fa-edit"></i> Edit </button>
-               
-                     <a href="#" class="btn btn-danger " data-toggle="modal" data-target="#modal-sp-delete">
-                        <i class="fa fa-trash"></i> Delete
-                     </a> --}}
+                    
                      
                   @endif
                   @if($sp->status == '202')
@@ -107,7 +115,7 @@ SP Detail
                   {{-- <x-sp.modal.hrd-reject :sp="$sp" /> --}}
                @endif
 
-               @if(auth()->user()->hasRole('HRD|HRD-Manager|HRD-Spv'))
+               {{-- @if(auth()->user()->hasRole('HRD|HRD-Manager|HRD-Spv'))
                <a href="#" class="btn btn-primary " data-toggle="modal" data-target="#modal-complete-hrd">
                    Complete
                </a>
@@ -117,7 +125,7 @@ SP Detail
                
 
                <x-sp.modal.delete :sp="$sp" />
-               @endif
+               @endif --}}
 
                @if (auth()->user()->hasRole('Manager'))
                   @if($sp->status == '3' ||  $sp->status == '101')
@@ -212,12 +220,6 @@ SP Detail
                <x-sp.preview :sp="$sp" :gen="$gen" :user="$user" :hrd="$hrd" :manager="$manager" :suspect="$suspect" />
                
                <hr>
-               @if ($sp->file)
-                  <iframe src="{{asset('storage/' . $sp->file)}}" width="100%" height="500px" scrolling="auto" frameborder="0"></iframe>
-                  @else
-                  <br>
-                  <small>Empty</small>
-                  @endif
                
                @endif
                

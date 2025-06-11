@@ -8,38 +8,28 @@ SP
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
-         <li class="breadcrumb-item " aria-current="page">Surat Peringatan</li>
+         <li class="breadcrumb-item " aria-current="page">Surat Teguran</li>
          <li class="breadcrumb-item active" aria-current="page">Create</li>
       </ol>
    </nav>
    <div class="row">
       <div class="col-md-3">
-         <h4><b>Surat Peringatan</b></h4>
-         <hr>
+        
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('sp') }}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               Surat Peringatan
-            </a>
-           
             
-            @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-KJ45|HRD-KJ12'))
-            <a class="nav-link  active text-left pl-3" id="v-pills-contract-tab" href="{{route('sp.hrd.create')}}" aria-controls="v-pills-contract" aria-selected="false">
+            <a class="nav-link text-left pl-3" id="v-pills-basic-tab" href="{{ route('st') }}" aria-controls="v-pills-basic" aria-selected="true">
+               <i class="fas fa-address-book mr-1"></i>
+               Surat Teguran
+            </a>
+            
+           
+            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{route('st.hrd.create')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               Form Surat Peringatan
+               Form Surat Teguran
             </a>
-          
-               {{-- <li class="nav-item"> <a class="nav-link " href="{{route('sp.hrd.create')}}"  aria-controls="pills-doc-nobd" aria-selected="true">Create SP</a> </li> --}}
-                           {{-- <a href="{{route('sp.hrd.create')}}" class="btn btn-primary btn-sm">Create SP</a>
-                           <hr> --}}
-                     @endif
 
-                     <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('sp.export') }}" aria-controls="v-pills-contract" aria-selected="false">
-                        <i class="fas fa-file-contract mr-1"></i>
-                        {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-                        Export
-                     </a>
+          
             
            
             
@@ -47,12 +37,13 @@ SP
          <hr>
          <small>
             <b>#INFO</b> <br>
-            Pilih 'Type' Existing untuk input data SP yang sudah final <br><br>
-            Surat Peringatan akan mempengaruhi nilai PE
+            Setelah anda klik 'Submit', Surat Teguran akan tampil pada Dashboard Karyawan <br><br>
+            Surat Teguran tidak mempengaruhi nilai PE
+
          </small>
       </div>
       <div class="col-md-9">
-         <form action="{{route('sp.hrd.store')}}" method="POST" enctype="multipart/form-data">
+         <form action="{{route('st.hrd.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
          
                <div class="row">
@@ -72,55 +63,13 @@ SP
                      
                   </div>
                </div>
-               <div class="row">
-                  <div class="col-md-7">
-                     <div class="form-group form-group-default">
-                        <label>Type*</label>
-                        <select class="form-control   required id="type" name="type">
-                           <option value="" selected disabled>Select Type</option>
-                           <option value="1">Existing</option>
-                           <option value="2">Recomendation</option>
-                        </select>
-                     </div>
-                  </div>
-                  <div class="col">
-                     <div class="form-group form-group-default">
-                        <label>Date</label>
-                        <input type="date"  class="form-control" name="date_from" id="date_from">
-                     </div>
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="col-md-4">
-                     <div class="form-group form-group-default">
-                        <label>Level*</label>
-                        <select class="form-control"  id="level" name="level">
-                           {{-- <option value="" selected disabled>Select level</option> --}}
-                           <option value="I">SP I</option>
-                           <option value="II">SP II</option>
-                           <option value="III">SP III</option>
-                        </select>
-      
-                     </div>
-                  </div>
-                  <div class="col">
-                     <div class="form-group form-group-default">
-                        <label>To Leader*</label>
-                        <select class="form-control to "  id="to" name="to">
-                           
-                           
-                        </select>
-                        
-         
-                     </div>
-                  </div>
-                  
-               </div>
+               
+               
       
                
                <div class="form-group form-group-default">
-                  <label>Alasan*</label>
-                  <textarea  class="form-control" name="reason" id="reason" rows="3"></textarea>
+                  <label>Deskripsi *</label>
+                  <textarea  class="form-control" name="desc" id="desc" rows="3"></textarea>
                </div>
                <div class="form-group form-group-default">
                   <label>Peraturan yang dilanggar*</label>
@@ -132,8 +81,7 @@ SP
                </div>
                <hr>
                <button type="submit" class="btn  btn-primary">Submit</button>
-               <hr>
-               <small>* SP akan otomatis aktif ketika klik Submit</small>
+
       
               
          </div>

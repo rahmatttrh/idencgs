@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AbsenceEmployee;
 use App\Models\Employee;
 use App\Models\EmployeeLeader;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AbsenceLeaderController extends Controller
@@ -59,8 +60,9 @@ class AbsenceLeaderController extends Controller
    }
 
    public function cutiBackup(){
+      $now = Carbon::now();
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->orderBy('updated_at', 'desc')->get();
+      $reqForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->where('date', '=>', $now)->orderBy('updated_at', 'desc')->get();
 
       return view('pages.absence-request.backup', [
          // 'activeTab' => $activeTab,

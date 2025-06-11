@@ -13,6 +13,7 @@ use App\Models\Position;
 use App\Models\Sp;
 use App\Models\SpApproval;
 use App\Models\Spkl;
+use App\Models\St;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -94,12 +95,14 @@ class SpController extends Controller
          $employee = auth()->user()->getEmployee();
          $allEmployees = [];
          $employees = [];
-         $sps = Sp::where('employee_id', $employee->id)->get();
+         $sps = Sp::where('employee_id', $employee->id)->whereIn('status', [1,2])->get();
+         $sts = St::where('employee_id', $employee->id)->whereIn('status', [1,2])->get();
          return view('pages.sp.index-employee', [
             'employee' => $employee,
             'allEmployees' => $allEmployees,
             'employees' => $employees,
-            'sps' => $sps
+            'sps' => $sps,
+            'sts' => $sts
          ])->with('i');
       }
       
@@ -120,6 +123,21 @@ class SpController extends Controller
          'employees' => $employees,
          'sps' => $sps
       ])->with('i');
+   }
+
+   public function indexEmployee(){
+         $employee = auth()->user()->getEmployee();
+         $allEmployees = [];
+         $employees = [];
+         $sps = Sp::where('employee_id', $employee->id)->whereIn('status', [1,2])->get();
+         $sts = St::where('employee_id', $employee->id)->whereIn('status', [1,2])->get();
+         return view('pages.sp.index-employee', [
+            'employee' => $employee,
+            'allEmployees' => $allEmployees,
+            'employees' => $employees,
+            'sps' => $sps,
+            'sts' => $sts
+         ])->with('i');
    }
 
    public function store(Request $req)
@@ -410,6 +428,7 @@ class SpController extends Controller
       }
       // $manager = Employee::find(1);
       $employee = Employee::find($sp->employee_id);
+      $userCurrent = Employee::where('nik', auth()->user()->username)->first();
 
       // dd($sp->id);
       // 21
@@ -559,7 +578,9 @@ class SpController extends Controller
          'user' => $user,
          'hrd' => $hrd,
          'manager' => $manager,
-         'suspect' => $suspect
+         'suspect' => $suspect,
+
+         'userCurrent' => $userCurrent
       ]);
    }
 

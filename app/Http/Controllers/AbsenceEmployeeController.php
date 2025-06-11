@@ -404,6 +404,18 @@ class AbsenceEmployeeController extends Controller
          $leader = $req->persetujuan;
          $date = Carbon::now();
          $permitId = null;
+         // dd($date);
+      } if ($req->type == 4) {
+         $req->validate([
+            // 'keperluan' => 'required',
+            // 'persetujuan' => 'required',
+            // 'cuti_backup' => 'required'
+         ]);
+         $manager = $req->manager;
+         $desc = $req->keperluan;
+         $leader = $req->persetujuan;
+         $date = $req->date;
+         $permitId = null;
       } elseif($req->type == 6){
          $req->validate([
             'leader' => 'required',
@@ -417,19 +429,30 @@ class AbsenceEmployeeController extends Controller
       } elseif($req->type == 10){
          
          $desc = $req->desc;
-         $leader = null;
-         $manager = null;
+         $leader = $req->persetujuan;
+         $manager = $req->manager;
          $date = Carbon::now();
          $permitId = $req->permit;
-      } else {
+      }  elseif($req->type == 7){
+         
          $desc = $req->desc;
-         $leader = null;
-         $manager = null;
+         $leader = $req->persetujuan;
+         $manager = $req->manager;
          $date = $req->date;
          $permitId = null;
-      }
+         // dd('7');
+      } 
+      // else {
+      //    $desc = $req->desc;
+      //    $leader = null;
+      //    $manager = null;
+      //    $date = $req->date;
+      //    $permitId = null;
+      //    dd('ok');
+      //  }
 
       
+      // dd($date);
 
       $absence = AbsenceEmployee::create([
          'status' => 0,
@@ -506,6 +529,8 @@ class AbsenceEmployeeController extends Controller
          'code' => $code
       ]);
 
+      $id = $absence->id;
+
       if ($absence->absence_id != null) {
          // dd('kosong');
          $absence = Absence::find($absence->absence_id);
@@ -554,7 +579,7 @@ class AbsenceEmployeeController extends Controller
 
 
 
-      return redirect()->route('employee.absence.detail', enkripRambo($absence->id))->with('success', 'Pengajuan berhasil dibuat');
+      return redirect()->route('employee.absence.detail', enkripRambo($id))->with('success', 'Pengajuan berhasil dibuat');
    }
 
    public function edit($id){
@@ -737,45 +762,51 @@ class AbsenceEmployeeController extends Controller
          $status = 1;
       } elseif($reqForm->type == 6 ){
          $status = 1;
-      }  elseif( $reqForm->type == 4 || $reqForm->type == 4 || $reqForm->type == 10){
+      } elseif($reqForm->type == 4 ){
+         $status = 1;
+      } elseif($reqForm->type == 10 ){
+         $status = 1;
+      }  elseif($reqForm->type == 7 ){
+         $status = 1;
+      } elseif(  $reqForm->type == 7 ){
          // dd('ok');
          $status = 5;
          $ddate = Carbon::make($reqForm->date);
 
-         if ($reqForm->type == 10) {
-            $dates = AbsenceEmployeeDetail::where('absence_employee_id', $reqForm->id)->get();
-               // dd($dates);
-               foreach($dates as $d){
-                  $ddate = Carbon::create($d->date);
-                  Absence::create([
-                     'employee_id' => $reqForm->employee_id,
-                     'type' => $reqForm->type,
-                     'type_izin' => $reqForm->type_desc,
-                     'type_spt' => $reqForm->type_desc,
-                     'desc' => $reqForm->desc,
-                     'month' => $ddate->format('F'),
-                     'year' => $ddate->format('Y'),
-                     'date' => $d->date,
-                     'absence_employee_id' => $reqForm->id
-                  ]);
+         // if ($reqForm->type == 10) {
+         //    $dates = AbsenceEmployeeDetail::where('absence_employee_id', $reqForm->id)->get();
+         //       // dd($dates);
+         //       foreach($dates as $d){
+         //          $ddate = Carbon::create($d->date);
+         //          Absence::create([
+         //             'employee_id' => $reqForm->employee_id,
+         //             'type' => $reqForm->type,
+         //             'type_izin' => $reqForm->type_desc,
+         //             'type_spt' => $reqForm->type_desc,
+         //             'desc' => $reqForm->desc,
+         //             'month' => $ddate->format('F'),
+         //             'year' => $ddate->format('Y'),
+         //             'date' => $d->date,
+         //             'absence_employee_id' => $reqForm->id
+         //          ]);
                   
                   
                   
-               }
-         } else {
-            Absence::create([
-               'employee_id' => $reqForm->employee_id,
-               'type' => $reqForm->type,
-               'type_izin' => $reqForm->type_desc,
-               'type_spt' => $reqForm->type_desc,
-               'desc' => $reqForm->desc,
-               'remark' => $reqForm->remark,
-               'month' => $ddate->format('F'),
-               'year' => $ddate->format('Y'),
-               'date' => $ddate,
-               // 'revisi' => $revisi
-            ]);
-         }
+         //       }
+         // } else {
+         //    Absence::create([
+         //       'employee_id' => $reqForm->employee_id,
+         //       'type' => $reqForm->type,
+         //       'type_izin' => $reqForm->type_desc,
+         //       'type_spt' => $reqForm->type_desc,
+         //       'desc' => $reqForm->desc,
+         //       'remark' => $reqForm->remark,
+         //       'month' => $ddate->format('F'),
+         //       'year' => $ddate->format('Y'),
+         //       'date' => $ddate,
+         //       // 'revisi' => $revisi
+         //    ]);
+         // }
          
          // dd($reqForm->absence_id);
 
@@ -850,14 +881,42 @@ class AbsenceEmployeeController extends Controller
          if ($reqForm->manager_id == $employee->id) {
             $status = 5;
          } else {
-            $status = 5;
+            $status = 2;
          }
         
         $form = 'Cuti';
       } elseif($reqForm->type == 6){
-         $status = 5;
+         if ($reqForm->manager_id == $employee->id) {
+            $status = 5;
+         } else {
+            $status = 2;
+         }
          $form = 'SPT';
+      } elseif($reqForm->type == 10){
+         if ($reqForm->manager_id == $employee->id) {
+            $status = 5;
+         } else {
+            $status = 2;
+         }
+         $form = 'IZIN RESMI';
+      } elseif($reqForm->type == 4){
+         if ($reqForm->manager_id == $employee->id) {
+            $status = 5;
+         } else {
+            $status = 2;
+         }
+         $form = 'IZIN';
+      } elseif($reqForm->type == 7){
+         if ($reqForm->manager_id == $employee->id) {
+            $status = 5;
+         } else {
+            $status = 2;
+         }
+         $form = 'SAKIT';
       }
+
+
+
       $now = Carbon::now();
       if ($reqForm->app_backup_date != null) {
          $backupDate = $reqForm->app_backup_date;

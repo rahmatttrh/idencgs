@@ -868,7 +868,7 @@ class HomeController extends Controller
             }
          }
 
-         $absences = Absence::whereIn('type', [1,2,3])->where('employee_id', $employee->id)->get();
+         $absences = Absence::where('employee_id', $employee->id)->get();
          // dd($absences);
          $myForms = AbsenceEmployee::where('employee_id', $employee->id)->where('status', '!=', 0)->where('status', '!=', 5)->orderBy('updated_at', 'desc')->get();
          
@@ -906,7 +906,7 @@ class HomeController extends Controller
          $employee = Employee::where('nik', auth()->user()->username)->first();
          $biodata = Biodata::where('email', auth()->user()->email)->first();
          $presences = Presence::where('employee_id', auth()->user()->getEmployeeId())->orderBy('created_at', 'desc')->get();
-         $absences = Absence::whereIn('type', [1,3])->where('employee_id', $employee->id)->paginate(10);
+         $absences = Absence::where('employee_id', $employee->id)->orderBy('date', 'desc')->get();
          $pending = Presence::where('employee_id', auth()->user()->getEmployeeId())->where('out_time', null)->first();
          // dd($biodata->employee->id);
 
@@ -932,7 +932,9 @@ class HomeController extends Controller
 
          $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->get();
          $myForms = AbsenceEmployee::where('employee_id', $employee->id)->where('status', '!=', 0)->where('status', '!=', 5)->orderBy('updated_at', 'desc')->get();
-         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->where('date', '=>', $now)->get();
+
+         // dd(count($absences ));
          return view('pages.dashboard.employee', [
             'now' => $now,
             'employee' => $employee,

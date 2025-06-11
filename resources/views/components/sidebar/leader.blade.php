@@ -128,7 +128,7 @@
    <a data-toggle="collapse" href="#qpe">
     {{-- <a  href="{{route('qpe')}}"> --}}
       <i class="fas fa-star"></i>
-      <p>Quick PE</p>
+      <p>PE</p>
       <span class="caret"></span>
    </a>
    <div class="collapse" id="qpe">
@@ -178,7 +178,7 @@
       <p>SPKL Team</p>
    </a>
 </li>
-<li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
+<li class="nav-item {{ (request()->is('sp/index')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
       <i class="fas fa-bolt"></i>
       <p>Surat Peringatan</p>
@@ -208,7 +208,7 @@
 </li>
 <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
    <a href="{{route('employee.cuti')}}">
-      <i class="fas fa-clock"></i>
+      <i class="fas fa-briefcase"></i>
       <p>Info Cuti</p>
    </a>
 </li>
@@ -216,6 +216,12 @@
    <a href="{{route('payroll.transaction.employee')}}">
       <i class="fas fa-money-bill"></i>
       <p>Payslip </p>
+   </a>
+</li>
+<li class="nav-item {{ (request()->is('sp/employee/*')) ? 'active' : '' }}">
+   <a href="{{route('sp.employee')}}">
+      <i class="fas fa-bolt"></i>
+      <p>Surat Peringatan</p>
    </a>
 </li>
 

@@ -308,6 +308,7 @@ Dashboard
                <a href="{{route('qpe')}}" class="text-white">more...</a>
             </div>
             <div class="card-body p-0">
+               <div class="table-responsive overflow-auto" style="height: 160px">
                <table class=" ">
                   <thead>
                      
@@ -379,6 +380,7 @@ Dashboard
                      
                   </tbody>
                </table>
+               </div>
             </div>
             <div class="card-footer">
                <small class="text-muted">*Ini adalah 8 data QPE terkini, klik <a href="{{route('qpe')}}">Disini</a> untuk melihat seluruh data QPE.</small>
@@ -391,6 +393,7 @@ Dashboard
                <small>Recent SP</small>
             </div>
             <div class="card-body p-0">
+               <div class="table-responsive overflow-auto" style="height: 160px">
                <table class=" ">
                   <thead>
                      
@@ -435,6 +438,7 @@ Dashboard
                      @endforeach --}}
                   </tbody>
                </table>
+               </div>
             </div>
          </div>
          

@@ -4,7 +4,7 @@
                   {{count($absence->details)}} Hari
                   @else
                   @foreach ($absence->details  as $item)
-                  {{formatDate($item->date)}} 
+                  {{formatDateB($item->date)}} 
                   @endforeach
             @endif
             
@@ -13,5 +13,5 @@
       @endif
    {{-- {{count($absence->details)}} Hari --}}
       @else
-      {{formatDate($absence->date)}}
+      {{formatDateB($absence->date)}}
 @endif

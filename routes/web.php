@@ -64,6 +64,7 @@ use App\Http\Controllers\PermitController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReductionAdditionalController;
 use App\Http\Controllers\ReductionEmployeeController;
+use App\Http\Controllers\StController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UnitTransactionController;
 use App\Models\AbsenceEmployeeDetail;
@@ -594,6 +595,15 @@ Route::middleware(["auth"])->group(function () {
 
       Route::get('employee/absence/approve/backup/{id}', [AbsenceEmployeeController::class, 'approveBackup'])->name('employee.absence.approve.pengganti');
       
+      Route::prefix('st')->group(function () {
+         Route::get('index', [StController::class, 'index'])->name('st');
+         Route::get('hrd/create', [StController::class, 'create'])->name('st.hrd.create');
+         Route::post('hrd/store', [StController::class, 'store'])->name('st.hrd.store');
+         Route::get('detail/{id}', [StController::class, 'detail'])->name('st.detail');
+         Route::get('delete/{id}', [StController::class, 'delete'])->name('st.delete');
+      });
+      
+      
       Route::prefix('payroll/approval')->group(function () {
          Route::post('submit/master', [PayrollApprovalController::class, 'submit'])->name('payroll.submit.master.transaction');
          Route::post('publish/master', [PayrollApprovalController::class, 'publish'])->name('payroll.publish');
@@ -693,6 +703,7 @@ Route::middleware(["auth"])->group(function () {
 
    Route::prefix('sp')->group(function () {
       Route::get('/index', [SpController::class, 'index'])->name('sp');
+      Route::get('/employee/index', [SpController::class, 'indexEmployee'])->name('sp.employee');
       Route::post('store', [SpController::class, 'store'])->name('sp.store');
       Route::get('detail/{id}', [SpController::class, 'detail'])->name('sp.detail');
       Route::put('update', [SpController::class, 'update'])->name('sp.update');
@@ -727,6 +738,8 @@ Route::middleware(["auth"])->group(function () {
          // Route::get('/approve/manager/{id}', [SpklController::class, 'approveManager'])->name('spkl.approve.manager');
       });
    });
+
+   
 
    // Role Campuran  
 
