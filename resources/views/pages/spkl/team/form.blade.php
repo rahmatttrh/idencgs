@@ -34,7 +34,7 @@ SPKL
                SPKL Team Progress
             </a>
             
-            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.spkl.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
+            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('spkl.team.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
                <i class="fas fa-file-contract mr-1"></i>
                Draft
             </a>
