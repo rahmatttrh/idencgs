@@ -30,6 +30,30 @@ class AbsenceEmployeeController extends Controller
       ]);
    }
 
+   public function indexTeam(){
+      
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $teams = EmployeeLeader::where('leader_id', $employee->id)->get();
+      $absences = Absence::where('employee_id', $employee->id)->orderBy('date', 'desc')->get();
+      $activeTab = 'index';
+
+      $formAbsences = [];
+      foreach($teams as $emp){
+         $empAbsences = AbsenceEmployee::where('employee_id', $emp->employee_id)->where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
+         foreach($empAbsences as $abs){
+            $formAbsences[] = $abs;
+         }
+      }
+
+
+      return view('pages.absence-request.leader.monitoring', [
+         'activeTab' => $activeTab,
+         'employee' => $employee,
+         'formAbsences' => $formAbsences,
+        
+      ]);
+   }
+
    public function indexAdmin(){
 
       // $employee = Employee::where('nik', auth()->user()->username)->first();
@@ -255,7 +279,7 @@ class AbsenceEmployeeController extends Controller
 
       
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
-      // dd($absenceEmployee);
+      // dd(dekripRambo($id));
       $absenceCurrent = Absence::where('employee_id', $absenceEmployee->employee->id)->where('date', $absenceEmployee->date)->first();
       if ($absenceCurrent) {
          $absenceCurrentId = $absenceCurrent->id;

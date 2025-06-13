@@ -55,7 +55,7 @@ class OvertimeEmployeeController extends Controller
    public function draft(){
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $empSpkls = OvertimeEmployee::where('employee_id', $employee->id)->where('status', 0)->orderBy('updated_at', 'desc')->get();
+      $empSpkls = OvertimeEmployee::where('parent_id', null )->where('employee_id', $employee->id)->where('status', 0)->orderBy('updated_at', 'desc')->get();
       // dd($spkls);
       return view('pages.spkl.draft', [
          'spkls' => $empSpkls
@@ -104,6 +104,8 @@ class OvertimeEmployeeController extends Controller
       $req->validate([
 
       ]);
+
+      
 
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $spkl_type = $employee->unit->spkl_type;
@@ -236,6 +238,8 @@ class OvertimeEmployeeController extends Controller
       } elseif($req->type == 2 ){
          $code = 'FHRD/FP/' . $date->format('m') . '/' . $date->format('y') . '/' .$id ;
       } 
+
+      // dd($req->type);
 
 
       $spkl = OvertimeEmployee::create([
@@ -468,7 +472,6 @@ class OvertimeEmployeeController extends Controller
       return view('pages.spkl.detail', [
          'empSpkl' => $empSpkl
       ]);
-
    }
 
    public function detailMultiple($id){
@@ -535,5 +538,13 @@ class OvertimeEmployeeController extends Controller
      
 
       return redirect()->back()->with('success', 'Form Pengajuan berhasil di Release');
+   }
+
+   public function delete($id){
+      $empSpkl = OvertimeEmployee::find(dekripRambo($id));
+
+      $empSpkl->delete();
+
+      return redirect()->route('employee.spkl')->with('success', 'Form Pengajuan berhasil dihapus');
    }
 }

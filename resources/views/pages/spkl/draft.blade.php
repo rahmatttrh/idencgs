@@ -73,7 +73,7 @@ SPKL Draft
                   <tr>
                      <td>
                         
-                        <a href="{{route('employee.spkl.detail', enkripRambo($spkl->id))}}">{{$spkl->code}}</a>
+                        <a href="{{route('employee.spkl.detail', enkripRambo($spkl->id))}}">{{$spkl->code}} </a>
                         @if ($spkl->parent_id != null)
                         | <a href="{{route('employee.spkl.detail.multiple', enkripRambo($spkl->parent_id))}}">Lihat Group</a>
                             

@@ -935,12 +935,13 @@ Route::middleware(["auth"])->group(function () {
             Route::get('detail/l/{id}', [OvertimeEmployeeController::class, 'detailLeader'])->name('employee.spkl.detail.leader');
             
             Route::get('release/{id}', [OvertimeEmployeeController::class, 'release'])->name('employee.spkl.release');
+            Route::get('employee/delete/{id}', [OvertimeEmployeeController::class, 'delete'])->name('employee.spkl.delete');
             Route::get('multiple/release/{id}', [OvertimeEmployeeController::class, 'releaseMultiple'])->name('employee.spkl.release.multiple');
             
 
             // Route::post('/store', [SpklController::class, 'store'])->name('employee.spkl.store');
             Route::get('/send/{id}', [SpklController::class, 'send'])->name('employee.spkl.send');
-            Route::get('/delete/{id}', [SpklController::class, 'delete'])->name('employee.spkl.delete');
+            // Route::get('/delete/{id}', [SpklController::class, 'delete'])->name('employee.spkl.delete');
          });
 
          Route::prefix('cuti')->group(function () {
@@ -953,6 +954,7 @@ Route::middleware(["auth"])->group(function () {
          Route::prefix('absence')->group(function () {
             Route::get('/admin/index', [AbsenceEmployeeController::class, 'indexAdmin'])->name('admin.employee.absence');
             Route::get('/index', [AbsenceEmployeeController::class, 'index'])->name('employee.absence');
+            Route::get('/team/index', [AbsenceEmployeeController::class, 'indexTeam'])->name('employee.absence.team');
             Route::get('/create', [AbsenceEmployeeController::class, 'create'])->name('employee.absence.create');
             Route::get('/pending', [AbsenceEmployeeController::class, 'pending'])->name('employee.absence.pending');
             Route::get('/draft', [AbsenceEmployeeController::class, 'draft'])->name('employee.absence.draft');

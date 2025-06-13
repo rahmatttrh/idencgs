@@ -46,25 +46,14 @@ Form Lembur/Piket
          </div>
          <hr>
          <b>#INFO</b> <br>
-         <small>Form SPKL A digunakan untuk pengajuan satu karyawan</small> <br> <br>
+         <small>Form SPKL digunakan untuk pengajuan lembur/piket satu karyawan</small> <br> <br>
          <small>"Jam Mulai" dan "Jam Selesai" wajib diisi untuk pengajuan Lembur</small>
-         {{-- <div class="card">
-            <div class="card-body">
-               
-            </div>
-         </div> --}}
-         {{-- <form action="">
-            <select name="" id="" class="form-control">
-               <option value="">Januari</option>
-               <option value="">Februari</option>
-            </select>
-         </form> --}}
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
-         
+        
+         <hr>
       </div>
       <div class="col-md-9">
-         {{-- <h4>Form SPKL</h4>
-         <hr> --}}
+         <h4>Form Pengajuan Lembur & Piket</h4>
+         <hr>
          <form action="{{route('employee.spkl.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
@@ -80,13 +69,13 @@ Form Lembur/Piket
                         </div>
                         <div class="col">
                            <div class="form-group form-group-default">
-                              <label>Masuk/Libur</label>
+                              <label>Type</label>
                               <select class="form-control " required name="holiday_type" id="holiday_type">
                                  <option value="" disabled selected>Select</option>
-                                 <option value="1">Masuk</option>
-                                 <option value="2">Libur Off</option>
-                                 <option value="3">Libur Nasional</option>
-                                 <option value="4">Idul Fitri</option>
+                                 <option value="1">Hari Kerja</option>
+                                 <option value="2">Hari Libur</option>
+                                 <option value="3">Hari Libur Nasional</option>
+                                 <option value="4">Hari Libur Idul Fitri</option>
                               </select>
                            </div>
                         </div>

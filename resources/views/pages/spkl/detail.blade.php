@@ -16,48 +16,47 @@ Form Lembur/Piket
 
    <div class="row">
       <div class="col-md-3">
-         {{-- <h4><b>SPKL SAYA</b></h4>
-         <hr> --}}
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('employee.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               List SPKL
-            </a>
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.spkl.progress')}}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               Progress
-            </a>
-            
-            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.spkl.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
-               <i class="fas fa-user mr-1"></i>
-               Draft
-            </a>
-           
-
-            <a class="nav-link  text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create')}}" aria-controls="v-pills-document" aria-selected="false">
-               <i class="fas fa-file mr-1"></i>
-               Form SPKL A
-            </a>
-            <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.spkl.create.multiple')}}" aria-controls="v-pills-document" aria-selected="false">
-               <i class="fas fa-file mr-1"></i>
-               Form SPKL B
-            </a>
-            
-         </div>
-         <hr>
-         {{-- <form action="">
-            <select name="" id="" class="form-control">
-               <option value="">Januari</option>
-               <option value="">Februari</option>
-            </select>
-         </form> --}}
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
+         @if ($empSpkl->status == 0)
+         <a href="" class="btn mb-2 btn-primary m btn-block" data-target="#modal-release-spkl" data-toggle="modal">Release</a>
+         @endif
+         <table >
+            <thead>
+               <tr>
+                  <th>DETAIL SPKL</th>
+               </tr>
+               
+               <tr>
+                  <th>{{$empSpkl->code}}</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                     @if ($empSpkl->status == 0)
+                     Draft
+                     @else
+                     Approval Atasan
+                     @endif
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     @if ($empSpkl->status == 0)
+                        
+                        <a href="#" class="" >Edit</a> |
+                        <a href="#" class="" data-target="#modal-delete-spkl" data-toggle="modal">Delete</a> |
+                     @endif
+                     <a href="" class=""> Export PDF</a>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         
       </div>
       <div class="col-md-9">
          {{-- <h4>Detail Lembur/Piket</h4>
          <hr> --}}
-         @if ($empSpkl->status == 0)
+         {{-- @if ($empSpkl->status == 0)
          <span class="btn btn-group btn-sm p-0 mb-2">
             <a href="" class="btn btn-primary btn-sm" data-target="#modal-release-spkl" data-toggle="modal">Release</a>
             <a href="" class="btn btn-light btn-sm border">Edit</a>
@@ -67,7 +66,7 @@ Form Lembur/Piket
          <a href="" class="btn btn-light btn-sm border mb-2">Approval Atasan</a>
          @endif
          
-         <a href="" class="btn btn-light border btn-sm mb-2"><i class="fa fa-file"></i> Export PDF</a>
+         <a href="" class="btn btn-light border btn-sm mb-2"><i class="fa fa-file"></i> Export PDF</a> --}}
          <table>
             <tbody>
                {{-- <tr>
@@ -75,44 +74,72 @@ Form Lembur/Piket
                   <td class="bg-secondary text-white">Draft</td>
                </tr> --}}
                <tr>
-                  <td style="width: 150px">ID</td>
-                  <td>{{$empSpkl->code}}</td>
+                  <td class="text-center" colspan="2" rowspan="2">
+                     <img src="{{asset('img/logo/enc1.png')}}" alt="" width="100">
+                  </td>
+                  <td class="text-center" colspan="4">
+                     <h4>FORMULIR</h4>
+                  </td>
+                  <td class="text-center" colspan="2" rowspan="2">
+                     <img src="{{asset('img/logo/ekanuri.png')}}" alt="" width="100"><br>
+                     <span>PT Ekanuri</span>
+                  </td>
+               </tr>
+               <tr class="text-center">
+                  <td colspan="4">
+                     <h4>PERMOHONAN 
+                        @if ($empSpkl->type == 1)
+                           SPKL
+                            @else
+                            PIKET
+                        @endif
+                     </h4>
+                  </td>
+               </tr>
+               <tr class="text-center">
+                  <td colspan="2">No. Dok : FM.PS.HRD.32</td>
+                  <td colspan="4">Rev: 00/22</td>
+                  <td colspan="2">Hal : 1 dari 1</td>
                </tr>
                <tr>
-                  <td style="width: 150px">Nama</td>
-                  <td>{{$empSpkl->employee->biodata->fullName()}}</td>
+                  <td  colspan="2">ID</td>
+                  <td colspan="6">{{$empSpkl->code}}</td>
                </tr>
                <tr>
-                  <td>NIK</td>
-                  <td>{{$empSpkl->employee->nik}}</td>
+                  <td  colspan="2">Nama</td>
+                  <td colspan="6">{{$empSpkl->employee->biodata->fullName()}}</td>
                </tr>
                <tr>
-                  <td>Jabatan</td>
-                  <td>{{$empSpkl->employee->position->name}}</td>
+                  <td colspan="2">NIK</td>
+                  <td colspan="6">{{$empSpkl->employee->nik}}</td>
                </tr>
                <tr>
-                  <td>Departemen</td>
-                  <td>{{$empSpkl->employee->department->name}}</td>
+                  <td colspan="2">Jabatan</td>
+                  <td colspan="6">{{$empSpkl->employee->position->name}}</td>
                </tr>
                <tr>
-                  <td>Tanggal</td>
-                  <td>{{formatDate($empSpkl->date)}}</td>
+                  <td colspan="2">Departemen</td>
+                  <td colspan="6">{{$empSpkl->employee->department->name}}</td>
                </tr>
                <tr>
-                  <td>Waktu</td>
-                  <td>{{$empSpkl->hours_start}}  sd  {{$empSpkl->hours_end}}</td>
+                  <td colspan="2">Tanggal</td>
+                  <td colspan="6">{{formatDate($empSpkl->date)}}</td>
                </tr>
                <tr>
-                  <td>Lama Lembur</td>
-                  <td>{{$empSpkl->hours}} Jam</td>
+                  <td colspan="2">Waktu</td>
+                  <td colspan="6">{{$empSpkl->hours_start}}  sd  {{$empSpkl->hours_end}}</td>
                </tr>
                <tr>
-                  <td>Pekerjaan</td>
-                  <td>{{$empSpkl->description}}</td>
+                  <td colspan="2">Lama</td>
+                  <td colspan="6">{{$empSpkl->hours}} Jam</td>
                </tr>
                <tr>
-                  <td>Lokasi Pekerjaan</td>
-                  <td>{{$empSpkl->location}}</td>
+                  <td colspan="2">Pekerjaan</td>
+                  <td colspan="6">{{$empSpkl->description}}</td>
+               </tr>
+               <tr>
+                  <td colspan="2">Lokasi Pekerjaan</td>
+                  <td colspan="6">{{$empSpkl->location}}</td>
                </tr>
             </tbody>
          </table>
@@ -174,6 +201,30 @@ Form Lembur/Piket
             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary ">
                <a class="text-light" href="{{route('employee.spkl.release', enkripRambo($empSpkl->id))}}">Release</a>
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modal-delete-spkl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content text-dark">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body ">
+            Delete Form Pengajuan ? 
+            <hr>
+            data akan terhapus permanen dari sistem
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger ">
+               <a class="text-light" href="{{route('employee.spkl.delete', enkripRambo($empSpkl->id))}}">Delete</a>
             </button>
          </div>
       </div>
