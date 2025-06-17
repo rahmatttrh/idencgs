@@ -16,14 +16,12 @@ class PayslipReportProject extends Model
    }
 
    public function report(){
-      return $this->belongsTo(PayslipReport::class, 'report_payslip_id');
+      return $this->belongsTo(PayslipReport::class, 'payslip_report_id');
    }
 
    public function project(){
       return $this->belongsTo(Project::class);
    }
-
-
 
    public function location(){
       return $this->belongsTo(Location::class);

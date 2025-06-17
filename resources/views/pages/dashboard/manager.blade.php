@@ -242,7 +242,7 @@ Dashboard
                                     @if (count($reqForms) > 0)
                                     <span class="badge badge-light">{{count($reqForms) }}</span> 
                                     @else
-                                    $reqForms
+                                    {{count($reqForms)}}
                                     @endif
                                     
                                  </h4>
@@ -379,7 +379,7 @@ Dashboard
                                  @if (count($reqForms) > 0)
                                     <span class="badge badge-danger">{{count($reqForms) }}</span> 
                                     @else
-                                    $reqForms
+                                    {{count($reqForms)}}
                                     @endif 
                               </h4>
                            </div>

@@ -71,7 +71,7 @@ Dashboard
          </div>
          
          
-         <div class="card border card-stats card-round">
+         <div class="card border card-stats card-round d-none d-md-block">
             <div class="card-body ">
                <div class="row align-items-center">
                   <div class="col-icon">
@@ -92,7 +92,7 @@ Dashboard
             </div>
          </div>
          {{-- <a href="{{route('employee.absence.create')}}" class="btn btn-primary border btn-block mb-2"><i class="fa fa-file"></i> Form SPT/Cuti/Izin</a> --}}
-         <div class="card">
+         <div class="card d-none d-md-block">
             {{-- <div class="card-header bg-light border p-2">
                <small class="text-uppercase"> <b># Cuti department {{$employee->department->name}}</b> </small>
             </div>
@@ -221,7 +221,7 @@ Dashboard
 
 
       <div class="col-md-9">
-         @if (count($broadcasts) > 0)
+         {{-- @if (count($broadcasts) > 0)
             @foreach ($broadcasts as $broad)
             <div class="d-none d-sm-block">
                <div class="alert alert-info shadow-sm">
@@ -240,9 +240,9 @@ Dashboard
                </div>
             </div>
             @endforeach
-         @endif
+         @endif --}}
 
-         @if (count($personals) > 0)
+         {{-- @if (count($personals) > 0)
             @foreach ($personals as $pers)
             <div class="d-none d-sm-block">
                <div class="alert alert-danger shadow-sm">
@@ -261,7 +261,7 @@ Dashboard
                </div>
             </div>
             @endforeach
-         @endif
+         @endif --}}
 
 
          @if (count($sps) > 0)
@@ -307,6 +307,123 @@ Dashboard
                </div>
             </div>
          @endif
+
+         <div class="row">
+            <div class="col-6 d-block d-sm-none">
+               <div class="card card-info card-stats card-round ">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                       
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('backup.cuti')}}">
+                           <div class="numbers">
+                              <p class="card-category">Cuti Pengganti </p>
+                              <h4 class="card-title">
+                                 @if (count($reqBackupForms) > 0)
+                                 {{count($reqBackupForms)}}
+                                 @else
+                                 {{count($reqBackupForms)}}
+                                 @endif
+                                 
+                              </h4>
+                           </div>
+                        </a>
+                        </div>
+                        
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-6 d-block d-sm-none">
+               <div class="card ">
+                  {{-- <div class="card-header bg-light border p-2">
+                     <small class="text-uppercase"> <b># Cuti department {{$employee->department->name}}</b> </small>
+                  </div>
+                  <div class="card-body p-0">
+                     <table class=" ">
+                       
+                        <tbody>
+                           @if (count($cutis) > 0)
+                           @foreach ($cutis as $cuti)
+                           <tr>
+                              <td>
+                                {{formatDate($cuti->date)}} 
+                              </td>
+                              <td>{{$cuti->employee->biodata->fullName()}}</td>
+                              
+                           </tr>
+                           @endforeach
+                           @else
+                           <tr>
+                              <td colspan="1" class="text-center">Empty</td>
+                           </tr>
+                           @endif
+      
+      
+                        </tbody>
+                     </table>
+                  </div> --}}
+                  <div class="card-header bg-light border p-2">
+                     <small class="text-uppercase"> <b># Recent PE</b> </small>
+                  </div>
+                  <div class="card-body p-0">
+                     <table class=" ">
+                        {{-- <thead >
+      
+                           <tr class="bg-primary text-white">
+                              <th scope="col">ID</th>
+                              
+                           </tr>
+                        </thead> --}}
+                        <tbody>
+                           @if (count($peHistories) > 0)
+                           @foreach ($peHistories as $peHis)
+                           <tr>
+                              <td>
+                                 <a href="/qpe/show/{{enkripRambo($peHis->kpa->id)}}">Semester {{$peHis->semester}} / {{$peHis->tahun}}</a>
+                              </td>
+                              
+                           </tr>
+                           @endforeach
+                           @else
+                           <tr>
+                              <td colspan="1" class="text-center">Empty</td>
+                           </tr>
+                           @endif
+      
+      
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="card-header bg-light border p-2">
+                     <b># RECENT SP</b>
+                  </div>
+                  <div class="card-body p-0">
+                     <table class=" ">
+                        
+                        <tbody>
+                           @if (count($spHistories) > 0)
+                           @foreach ($spHistories as $spHis)
+                           <tr>
+                              <td>
+                                 <a href="{{route('sp.detail', enkripRambo($spHis->id))}}">{{$spHis->code}} - SP {{$spHis->level}}</a>
+                              </td>
+                              
+                           </tr>
+                           @endforeach
+                           @else
+                           <tr>
+                              <td colspan="1" class="">Empty</td>
+                           </tr>
+                           @endif
+      
+      
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
         
 
          <div class="row">

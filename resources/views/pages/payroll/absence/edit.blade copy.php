@@ -14,120 +14,108 @@ Payroll Absence
       </ol>
    </nav>
 
-   <div class="row">
-      <div class="col-md-4">
-         
-         <table class=" table-sm p-0">
-            <thead>
-               <tr>
-                   <th colspan="2">Detail Absence</th>
-                  
-               </tr>
-            </thead>
-      
-            <tbody>
-               <tr>
-                  <td>NIK</td>
-                  <td>{{$absence->employee->nik}}</td>
-               </tr>
-               <tr>
-                  <td>Name</td>
-                  <td>{{$absence->employee->biodata->fullName()}}</td>
-               </tr>
-               <tr>
-                  <td>Date</td>
-                  <td>{{formatDate($absence->date)}}</td>
-               </tr>
-               <tr>
-                  <td>Type</td>
-                  <td>
-                     @if ($absence->type == 1)
-                     Alpha
-                     @elseif($absence->type == 2)
-                     Terlambat ({{$absence->minute}} Menit)
-                     @elseif($absence->type == 3)
-                     ATL
-                     @elseif($absence->type == 4)
-                     Izin
-                     @endif
-                  </td>
-               </tr>
-               @if ($absence->status == 505)
-               <tr>
-                  <td>Status</td>
-                  <td>Request Ditolak 
-                     ({{$absence->desc}})
-                  </td>
-               </tr>
-               @endif
-
-               @if ($absence->status == 404)
-               <tr>
-                  <td>Status</td>
-                  <td>Request perubahan ke 
-                     <b>
-                     @if ($absence->type_req == 1)
-                     Alpha
-                     @elseif($absence->type_req == 2)
-                     Terlambat ({{$absence->minute}} Menit)
-                     @elseif($absence->type_req == 3)
-                     ATL
-                     @elseif($absence->type_req == 4)
-                     Izin
-                     @endif
-                  </b>
-                  </td>
-               </tr>
-               <tr>
-                  <td></td>
-                  <td>
-                     @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
-                        @if ($absence->status == 404)
-                           <a href="" class="btn btn-primary btn-sm mb-2" data-target="#modal-approve-hrd-absence" data-toggle="modal">Approve</a>
-                           <a href="" class="btn btn-danger btn-sm mb-2" data-target="#modal-reject-hrd-absence" data-toggle="modal">Reject</a>
-                        @endif
-                           
-                        @endif
-                  </td>
-               </tr>
-               @endif
-               
-               
-            </tbody>
-      
-         </table>
-         <hr>
-         <span class="badge badge-info mb-2">Form Update</span>
-         <form action="{{route('payroll.absence.update')}}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-            <input type="number" name="absenceId" id="absenceId" value="{{$absence->id}}" hidden>
-            <div class="form-group form-group-default">
-               <label>Type</label>
-               <select class="form-control" required name="type" id="type">
-                  <option value="" disabled selected>Select</option>
-                  <option value="1">Alpha</option>
-                  <option value="2">Terlambat</option>
-                  <option value="3">ATL</option>
-                  <option value="4">Izin</option>
-               </select>
-            </div>
-            <div class="form-group form-group-default">
-               <label>Evidence</label>
-               <input type="file" required class="form-control" id="evidence" name="evidence">
-            </div>
-            <button type="submit" class="btn btn-ligh border">Update</button>
-
-            
-         </form>
+   <div class="card">
+      <div class="card-header">
+         <a class="btn btn-light btn-sm border" href="{{route('payroll.absence.employee.detail', [enkripRambo($absence->employee->id), 0, 0])}}"> <i class="fa fa-backward"></i> Kembali</a> |
+         <span>Form Edit Absensi</span>
       </div>
-      <div class="col-md-8">
+      <div class="card-body">
+         <div class="row">
+            <div class="col-md-6">
+               <form action="{{route('payroll.absence.update')}}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  @method('put')
+                  <input type="number" name="absenceId" id="absenceId" value="{{$absence->id}}" hidden>
+                  <div class="form-group form-group-default">
+                     <label>Employee</label>
+                     <select class="form-control js-example-basic-single" style="width: 100%" required name="employee" id="employee">
+                        <option value="" disabled selected>Select</option>
+                        @foreach ($employees as $emp)
+                        <option {{$absence->employee_id == $emp->id ? 'selected' : ''}} value="{{$emp->id}}">{{$emp->nik}} {{$emp->biodata->fullName()}}</option>
+                        @endforeach
+                     </select>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="form-group form-group-default">
+                           <label>Date</label>
+                           <input type="date" required class="form-control" id="date" value="{{$absence->date}}" name="date">
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="form-group form-group-default">
+                           <label>Type</label>
+                           <select class="form-control type" required name="type" id="type">
+                              <option value="" disabled selected>Select</option>
+                              <option {{$absence->type == 1 ? 'selected' : ''}} value="1">Alpha</option>
+                              <option {{$absence->type == 2 ? 'selected' : ''}} value="2">Terlambat</option>
+                              <option {{$absence->type == 3 ? 'selected' : ''}} value="3">ATL</option>
+                              <option {{$absence->type == 4 ? 'selected' : ''}} value="4">Izin</option>
+                              <option {{$absence->type == 5 ? 'selected' : ''}} value="5">Cuti</option>
+                              <option {{$absence->type == 6 ? 'selected' : ''}} value="6">SPT</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-md-6 type_spt">
+                        <div class="form-group form-group-default">
+                           <label>Jenis SPT</label>
+                           <select class="form-control"  name="type_spt" id="type_spt">
+                              <option value="" disabled selected>Select</option>
+                              <option {{$absence->type_spt == 'Tidak Absen Masuk' ? 'selected' : ''}} value="Tidak Absen Masuk">Tidak Absen Masuk</option>
+                              <option {{$absence->type_spt == 'Tidak Absen Pulang' ? 'selected' : ''}} value="Tidak Absen Pulang">Tidak Absen Pulang</option>
+                              <option {{$absence->type_spt == 'Tidak Absen Masuk & Pulang' ? 'selected' : ''}} value="Tidak Absen Masuk & Pulang">Tidak Absen Masuk & Pulang</option>
+                           </select>
+                        </div>
+                     </div>
 
-         
-         <iframe src="{{asset('storage/' . $absence->doc)}}" width="100%" height="500px" scrolling="auto" frameborder="0"></iframe>
+                     <div class="col-md-6 type_izin">
+                        <div class="form-group form-group-default">
+                           <label>Jenis Izin</label>
+                           <select class="form-control"  name="type_izin" id="type_izin">
+                              <option value="" disabled selected>Select</option>
+                              <option {{$absence->type_izin == 'Setengah Hari' ? 'selected' : ''}} value="Setengah Hari">Setengah Hari</option>
+                              <option {{$absence->type_izin == 'Satu Hari' ? 'selected' : ''}} value="Satu Hari">Satu Hari</option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+
+
+                  <div class="form-group form-group-default">
+                     <label>Desc</label>
+                     <input type="text" class="form-control" id="desc" value="{{$absence->desc}}" name="desc">
+                  </div>
+
+                  <div class="row">
+                     <div class="col-md-4">
+                        <div class="form-group form-group-default">
+                           <label>Menit</label>
+                           <select class="form-control"  name="minute" id="minute">
+                              <option value="" disabled selected>Select</option>
+                              <option  {{$absence->minute == '30' ? 'selected' : ''}} value="T1">T1</option>
+                              <option {{$absence->minute == '60' ? 'selected' : ''}} value="T2">T2</option>
+                              <option {{$absence->minute == '90' ? 'selected' : ''}} value="T3">T3</option>
+                              <option {{$absence->minute == '120' ? 'selected' : ''}} value="T4">T4</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col">
+                        <div class="form-group form-group-default">
+                           <label>Document</label>
+                           <input type="file" class="form-control" id="doc" name="doc">
+                        </div>
+                     </div>
+                  </div>
+
+
+
+                  <button class="btn  btn-primary" type="submit">Update</button>
+               </form>
+            </div>
+         </div>
       </div>
    </div>
-
+  
 
    
 

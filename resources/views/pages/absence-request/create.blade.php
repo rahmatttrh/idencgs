@@ -60,15 +60,17 @@ Form Absence
                
             </tbody>
          </table>
+         <hr>
       </div>
       <div class="col-md-9">
-         
+         <div class="badge badge-info">Form Pengajuan Cuti/SPT/Izin</div>
+         <hr>
          <form action="{{route('employee.absence.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             
             <div class="row">
                
-               <div class="col-md-6">
+               <div class="col-6">
                   <div class="form-group form-group-default">
                      <label>Jenis Form</label>
                      <select class="form-control type" required name="type" id="type">
@@ -81,7 +83,7 @@ Form Absence
                      </select>
                   </div>
                </div>
-               <div class="col-md-6">
+               <div class="col-6">
                   <div class="form-group date form-group-default">
                      <label>Date</label>
                      <input type="date"  class="form-control" id="date" name="date" value="">
@@ -139,7 +141,7 @@ Form Absence
 
             <span class="">
                <div class="row">
-                  <div class="col-md-6 atasan">
+                  <div class="col-6 atasan">
                      <div class="form-group form-group-default ">
                         <label>Atasan</label>
                         <select class="form-control "  name="persetujuan" id="persetujuan">
@@ -149,7 +151,7 @@ Form Absence
                         </select>
                      </div>
                   </div>
-                  <div class="col-md-6 manager">
+                  <div class="col-6 manager">
                      <div class="form-group form-group-default ">
                         <label>Manager</label>
                         <select class="form-control "  name="manager" id="manager">

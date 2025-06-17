@@ -75,8 +75,8 @@ Absence
             <table id="data" class="display basic-datatables table-sm p-0">
                <thead>
                   <tr>
-                      <th>NIK</th>
-                       <th>Name</th>
+                      <th class="d-none d-md-block">NIK</th>
+                       <th class="d-none d-md-block">Name</th>
                       {{-- <th>Loc</th> --}}
                       {{-- <th>NIK</th> --}}
                      <th>Type</th>
@@ -93,8 +93,8 @@ Absence
                      {{-- <td>{{$absence->employee->nik}}</td>
                       <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
-                      <td>{{$absence->employee->nik}}</td>
-                      <td> {{$absence->employee->biodata->fullName()}}</td>
+                      <td class="d-none d-md-block">{{$absence->employee->nik}}</td>
+                      <td class="d-none d-md-block"> {{$absence->employee->biodata->fullName()}}</td>
                       {{-- <td>{{$absence->employee->nik}}</td> --}}
                      <td >
                         <x-status.absence :absence="$absence" />
@@ -103,7 +103,7 @@ Absence
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>{{formatDateB($absence->date)}}</td>
-                     <td>
+                     <td class="text-truncate">
                         {{-- @if ($absence->getRequest() != null) 
                             <a href="{{route('employee.absence.detail', enkripRambo($absence->getRequest()->id))}}" class="badge badge-info">
                               @if ($absence->getRequest()->type == 1)

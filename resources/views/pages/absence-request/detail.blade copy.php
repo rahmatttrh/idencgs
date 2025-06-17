@@ -178,12 +178,12 @@ Form Absence
                            <option value="7">Sakit</option> --}}
                         </select>
                      </div>
-                     <div class="form-group form-group-default ">
+                     <div class="form-group form-group-default type_spt">
                         <label>Maksud Perintah Tugas</label>
                         <textarea  class="form-control" id="desc" name="desc" rows="2">{{$absenceEmp->desc}}</textarea>
                      </div>
 
-                     <div class="row ">
+                     <div class="row type_spt">
                         <div class="col-md-6 ">
                            <div class="form-group form-group-default">
                               <label>Jenis SPT</label>
@@ -321,6 +321,7 @@ Form Absence
                @if($absenceEmp->status == 1)
                <a href="" class="btn btn-primary btn-block" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
                @endif
+               
                
                @if ($absenceEmp->type == 6)
                   <a href="{{route('export.spt', enkripRambo($absenceEmp->id))}}" target="_blank" class="btn btn-light border btn-block">Export PDF</a>

@@ -242,4 +242,18 @@ class Employee extends Model
       
       return $spkl;
    }
+
+   public function getLembur($id, $from, $to)
+   {
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      $total = 0;
+      foreach ($employees as $emp) {
+         $lemburs =  $emp->getSpkl($from, $to)->where('type', 1);
+         foreach($lemburs as $lembur){
+            $total = $total + $lembur->hours;
+         }
+          
+       }
+      return $total;
+   }
 }
