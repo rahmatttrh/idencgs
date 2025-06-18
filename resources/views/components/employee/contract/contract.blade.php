@@ -38,7 +38,15 @@
                                  @if ($employee->contract->type == 'Kontrak')
                                     Periode {{formatDate($employee->contract->start)}} - {{formatDate($employee->contract->end)}} 
                                     @elseif($employee->contract->type == 'Tetap')
-                                   Penetapan {{formatDate($employee->contract->determination)}}
+                                   Penetapan 
+
+                                   @if ($employee->contract->determination != null)
+                                   {{formatDate($employee->contract->determination)}}
+                                   @else
+                                   -
+                                   @endif
+                                   
+                                   
                                     
                                  @endif
                               </h4>
