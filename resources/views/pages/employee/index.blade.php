@@ -115,7 +115,7 @@ Employee
                      {{-- @if (auth()->user()->hasRole('Administrator'))
                          
                      @endif --}}
-                     <td>{{$employee->position->name}}</td>
+                     <td>{{$employee->position->name ?? ''}}</td>
                      
                      {{-- <td class="text-truncate">
                         @if ($employee->kpi_id != null)
