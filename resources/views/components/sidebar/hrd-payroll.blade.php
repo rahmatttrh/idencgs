@@ -75,11 +75,7 @@
                <span class="sub-item">Non Active</span>
             </a>
          </li>
-         <li>
-            <a href="{{route('employee.draft')}}">
-               <span class="sub-item">Import</span>
-            </a>
-         </li>
+         
 
          <li>
             <a href="{{route('employee.draft')}}">
@@ -92,7 +88,7 @@
             </a>
          </li>
          <li>
-            <a href="{{route('employee.draft')}}">
+            <a href="{{route('employee.import')}}">
                <span class="sub-item">Import by Excel</span>
             </a>
          </li>
