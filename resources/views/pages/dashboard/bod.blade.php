@@ -6,9 +6,19 @@
 @section('content')
    <div class="page-inner mt--5">
       <div class="page-header">
-         <h5 class="page-title text-info">
+         <h5 class="page-title text-info d-flex">
             {{-- <i class="fa fa-home"></i> --}}
-            Welcome back, Mr. {{auth()->user()->name}}
+
+           
+               <div class="mr-2">
+                  <img src="{{asset('img/flaticon/hello.png')}}" alt="" width="45px">
+               </div>
+               <div >
+                  Welcome back, Mr. {{auth()->user()->name}}
+               </div>
+            
+            
+           
             
             
          </h5>
@@ -49,6 +59,38 @@
                   
                </div>
             </div>
+
+            <div class="row">
+               <div class="col-md-12">
+                  <a href="{{route('payroll.approval.bod')}}">
+                     <div class="card card-stats card-round border">
+                        <div class="card-body">
+                           <div class="row align-items-center">
+                              <div class="col-icon ">
+                                 <div class="icon-big text-center icon-info bubble-shadow-small">
+                                    <i class="far fa-newspaper"></i>
+                                 </div>
+                              </div>
+                              <div class="col col-stats ml-3 ml-sm-0">
+                                 <div class="numbers">
+                                    <p class="card-category">Payslip Approval</p>
+                                    <h4 class="card-title">
+                                       @if (count($payrollApprovals) > 0)
+                                           <div class="badge badge-danger">{{count($payrollApprovals)}}</div>
+                                           @else
+                                           {{count($payrollApprovals)}}
+                                       @endif
+                                      
+                                    </h4>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+            </div>
+            
             
             {{-- <a href="{{route('payroll.approval.hrd')}}">
                <div class="card card-stats card-primary card-round">
@@ -69,7 +111,7 @@
                   </div>
                </div>
             </a> --}}
-            <div class="row">
+            <div class="row d-none d-md-block">
                <div class="col">
                   <div class="card">
                      <div class="card-header d-flex justify-content-between p-2 bg-primary text-white">
@@ -193,13 +235,13 @@
          <div class="col-md-8">
 
             
-            <div class="row">
+            {{-- <div class="row">
                <div class="col-md-6">
                   <a href="{{route('payroll.approval.bod')}}">
                      <div class="card card-stats card-round border">
                         <div class="card-body">
                            <div class="row align-items-center">
-                              <div class="col-icon d-none d-md-block">
+                              <div class="col-icon ">
                                  <div class="icon-big text-center icon-info bubble-shadow-small">
                                     <i class="far fa-newspaper"></i>
                                  </div>
@@ -215,6 +257,88 @@
                      </div>
                   </a>
                </div>
+            </div> --}}
+
+            <div class="row d-block d-sm-none">
+               <div class="col">
+                  <div class="card">
+                     <div class="card-header d-flex justify-content-between p-2 bg-primary text-white">
+                        <small>Monitoring</small>
+                     </div>
+                     <div class="card-body p-0">
+                        <table class="display  table-sm table-bordered">
+                           <thead>
+                              <tr>
+                                 <th colspan="2">Employee</th>
+                                 <th colspan="2">QPE</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td>Kontrak</td>
+                                 <td class="text-center">{{$kontrak}}</td>
+                                 <td>Draft</td>
+                                 <td class="text-center">{{count($pes->where('status', 0))}}</td>
+                              </tr>
+                              <tr>
+                                 <td>Tetap</td>
+                                 <td class="text-center">{{$tetap}}</td>
+                                 <td>Progress</td>
+                                 <td class="text-center">{{count($pes->where('status', 1))}}</td>
+                              </tr>
+                              <tr>
+                                 <td class="text-muted">Nonactive</td>
+                                 <td class="text-center text-muted">{{count($employees->where('status', 3))}}</td>
+                                 <td>Done</td>
+                                 <td class="text-center">{{count($pes->where('status', 2))}}</td>
+                              </tr>
+                              <tr>
+                                 <td>Total Active</td>
+                                 <td class="text-center">{{count($employees->where('status', '!=', 3))}}</td>
+                                 <td>Total</td>
+                                 <td class="text-center">{{count($pes)}}</td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               {{-- <div class="col">
+                  <div class="card">
+                     <div class="card-header d-flex justify-content-between p-2 bg-primary text-white">
+                        <small>QPE</small>
+                     </div>
+                     <div class="card-body p-0">
+                        <table class="display  table-sm table-bordered  ">
+                           <thead>
+                              <tr>
+                                 <th colspan="2">Monitoring</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td>Draft</td>
+                                 <td>{{count($pes->where('status', 0))}}</td>
+                              </tr>
+                              <tr>
+                                 <td>Porgress</td>
+                                 <td>{{count($pes->where('status', 1))}}</td>
+                              </tr>
+                              <tr>
+                                 <td>Done</td>
+                                 <td>{{count($pes->where('status', 2))}}</td>
+                              </tr>
+                              <tr>
+                                 <td>Total</td>
+                                 <td>{{count($pes)}}</td>
+                              </tr>
+                              
+                              
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div> --}}
             </div>
             
             <div class="card shadow-none border">

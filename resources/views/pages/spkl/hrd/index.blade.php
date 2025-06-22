@@ -32,6 +32,11 @@ Form SPKL
          </div>
          <hr>
          <div class="card">
+
+            {{-- <div class="card-body p-0 d-none d-md-block">
+               <img class="w-100" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ3B1ZXZsYXhvb3N5dmcwNnp1czdteTZwa3B1bzZ0YjVhYXV3azlubCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6aT5uzlqJCOsf0zuCn/giphy.gif" alt="">
+               
+            </div> --}}
             <div class="card-body">
                <small>Daftar Pengajuan SPKL yang membutuhkan Approval anda.</small>
             </div>

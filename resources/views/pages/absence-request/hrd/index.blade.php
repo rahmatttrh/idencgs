@@ -32,6 +32,11 @@ Monitoring Form Absensi
          </div>
          <hr>
          <div class="card">
+            <div class="card-body d-none d-md-block">
+               {{-- <iframe src="{{asset('img/flaticon/promote.png')}}" frameborder="0"></iframe> --}}
+               {{-- <img class="" height="70px"  src="{{asset('img/flaticon/promote.png')}}" alt=""> --}}
+               
+            </div>
             <div class="card-body">
                <small>Daftar Form Request Absensi yang dibuat oleh Karyawan</small>
             </div>

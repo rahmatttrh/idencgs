@@ -6,10 +6,14 @@
 @section('content')
    <div class="page-inner mt--5">
       <div class="page-header">
-         <h5 class="page-title text-info">
+         <h5 class="page-title text-info d-flex">
             {{-- <i class="fa fa-home"></i> --}}
-            <img src="{{asset('img/flaticon/hello.png')}}" alt="" width="35px">
-            Welcome back, {{auth()->user()->getGender()}} {{auth()->user()->name}}
+            <div class="mr-2">
+               <img src="{{asset('img/flaticon/hello.png')}}" alt="" width="45px">
+            </div>
+            <div >
+               Welcome back, {{auth()->user()->getGender()}} {{auth()->user()->name}}
+            </div>
             
             
          </h5>
@@ -275,7 +279,7 @@
                               {{-- <a href="{{route('leader.absence')}}"> --}}
                                  <div class="numbers">
                                     <p class="card-category"> Approval Absensi </p>
-                                    <h4 class="card-title py-1">
+                                    <h4 class="card-title ">
                                        @if (count($reqForms)> 0)
                                           <div class="badge badge-light">{{count($reqForms)}}</div>
                                            @else
@@ -302,7 +306,7 @@
                               
                                  <div class="numbers">
                                     <p class="card-category"> Contract </p>
-                                    <h4 class="card-title py-1"> 
+                                    <h4 class="card-title"> 
                                        @if (count($notifContracts) > 0)
                                           <div class="badge badge-light">
                                              {{count($notifContracts)}}
@@ -330,7 +334,7 @@
                               
                                  <div class="numbers">
                                     <p class="card-category"> Approval SPKL </p>
-                                    <h4 class="card-title py-1"> 
+                                    <h4 class="card-title"> 
                                        @if (count($spklApprovals) > 0)
                                           <div class="badge badge-light">{{count($spklApprovals)}}</div>
                                           @else

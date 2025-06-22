@@ -5,14 +5,19 @@
 @endsection
 @section('content')
    <div class="page-inner mt--5">
-      {{-- <div class="page-header">
-         <h5 class="page-title text-info">
-            <i class="fa fa-home"></i>
-            Dashboard
+      <div class="page-header">
+         <h5 class="page-title text-info d-flex">
+            {{-- <i class="fa fa-home"></i> --}}
+            <div class="mr-2">
+               <img src="{{asset('img/flaticon/hello.png')}}" alt="" width="45px">
+            </div>
+            <div >
+               Welcome back, {{auth()->user()->getGender()}} {{auth()->user()->name}}
+            </div>
             
             
          </h5>
-      </div> --}}
+      </div>
       <div class="row">
          <div class="col-sm-6 col-md-4">
             <div class="card card-primary">

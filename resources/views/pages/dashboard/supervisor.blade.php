@@ -12,7 +12,7 @@ Dashboard
 </style>
 <div class="page-inner mt--5">
    <div class="page-header">
-      <h5 class="page-title text-info">
+      <h5 class="page-title text-info d-flex">
          {{-- <i class="fa fa-home"></i> --}}
          
          
@@ -21,9 +21,11 @@ Dashboard
             Welcome back,  {{auth()->user()->getGender()}} <br> {{auth()->user()->name}}
          </div>   --}}
 
-         <div class="">
-            <img src="{{asset('img/flaticon/hello.png')}}" alt="" width="35px">
-            Welcome back, {{auth()->user()->getGender()}} {{auth()->user()->name}} 
+         <div class="mr-2">
+            <img src="{{asset('img/flaticon/hello.png')}}" alt="" width="45px">
+         </div>
+         <div >
+            Welcome back, {{auth()->user()->getGender()}} {{auth()->user()->name}}
          </div>
          
       </h5>
