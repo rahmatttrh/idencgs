@@ -58,7 +58,7 @@
             
             <div class="card">
                <div class="card-header p-2 bg-primary text-white">
-                  <small>Payslip Report</b></small>
+                  <small>Payslip Report Status</b></small>
                </div>
                <div class="card-body p-0">
                   <div class="table-responsive overflow-auto" style="max-height: 190px">
@@ -75,15 +75,15 @@
                            
                            <tr>
                               <td>Progress</td>
-                              <td>2</td>
+                              <td>{{$payslipProgress}}</td>
                            </tr>
                            <tr>
                               <td>Reject</td>
-                              <td>1</td>
+                              <td>{{$payslipReject}}</td>
                            </tr>
                            <tr>
                               <td>Complete</td>
-                              <td>8</td>
+                              <td>{{$payslipComplete}}</td>
                            </tr>
                         </tbody>
                      </table>

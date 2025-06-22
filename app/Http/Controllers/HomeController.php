@@ -577,6 +577,11 @@ class HomeController extends Controller
 
          $spklApprovals = OvertimeEmployee::where('status', 3)->get();
 
+
+         $payslipProgress = UnitTransaction::where('status', '>', 0)->where('status', '<', 5)->get()->count();
+         $payslipComplete = UnitTransaction::whereIn('status', [5,6])->get()->count();
+         $payslipReject = UnitTransaction::whereIn('status', [101,202,303,404])->get()->count();
+
          return view('pages.dashboard.hrd-payroll', [
             'units' => $units,
             'employee' => $user,
@@ -604,7 +609,12 @@ class HomeController extends Controller
             'cutis' => $cutis, 
             'peHistories' => $peHistories,
             'spHistories' => $spHistories,
-            'spklApprovals' => $spklApprovals
+            'spklApprovals' => $spklApprovals,
+
+            'payslipProgress' => $payslipProgress, 
+            'payslipComplete' => $payslipComplete,
+            'payslipReject' => $payslipReject
+
          ])->with('i');
       } elseif (auth()->user()->hasRole('HRD-KJ12')) {
          $user = Employee::find(auth()->user()->getEmployeeId());
