@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-History Formulir Pengajuan SPKL
+Form SPKL
 @endsection
 @section('content')
 
@@ -9,18 +9,19 @@ History Formulir Pengajuan SPKL
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
          
-         <li class="breadcrumb-item active" aria-current="page">History Formulir Pengajuan SPKL</li>
+         <li class="breadcrumb-item active" aria-current="page">Pengajuan SPKL</li>
       </ol>
    </nav>
+
 
    <div class="row">
       <div class="col-md-3">
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.spkl') }}" aria-controls="v-pills-basic" aria-selected="true">
+            <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('hrd.spkl') }}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
                Pengajuan SPKL
             </a>
-            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('leader.spkl.history') }}" aria-controls="v-pills-contract" aria-selected="false">
+            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.spkl.history') }}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                History
@@ -30,11 +31,18 @@ History Formulir Pengajuan SPKL
             
          </div>
          <hr>
+         <div class="card">
+            <div class="card-body">
+               <small>Daftar Pengajuan SPKL yang membutuhkan Approval anda.</small>
+            </div>
+         </div>
          
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
-         <div class="table-responsive ">
+          {{-- <h4>Pengajuan SPKL</h4> --}}
+         
+         <div class="table-responsive p-0 ">
             <table id="data" class="display basic-datatables table-sm p-0">
                <thead>
                   <tr>
@@ -45,12 +53,13 @@ History Formulir Pengajuan SPKL
                      <th>Date</th>
                      <th class="text-center">Jam</th>
                      <th>Status</th>
+                     {{-- <th>Action</th> --}}
                   </tr>
                </thead>
 
                <tbody>
                   
-                      @foreach ($teamSpkls as $spkl)
+                      @foreach ($spklApprovals as $spkl)
                           
                            <tr>
                               <td>

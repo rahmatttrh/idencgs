@@ -1,11 +1,11 @@
 @if ($unittrans->status == 0)
     <span class="">Draft</span>
     @elseif($unittrans->status == 1)
-    <span class="">Approval HRD Manager</span> 
+    <span class="">Approval HRD Man.</span> 
     @elseif($unittrans->status == 2)
-    <span class="">Approval Finance Manager</span>
+    <span class="">Approval Finance Man.</span>
     @elseif($unittrans->status == 3)
-    <span class="">Approval General Manager</span>
+    <span class="">Approval GGM</span>
     @elseif($unittrans->status == 4)
     <span class="">Approval Direksi</span>
 

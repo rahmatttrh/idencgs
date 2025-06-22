@@ -28,10 +28,35 @@ class OvertimeEmployeeController extends Controller
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
 
+
+      $teamId = [];
       if (auth()->user()->hasRole('Leader|Supervisor')) {
-         $empSpkls = OvertimeEmployee::where('status', 1)->orderBy('updated_at', 'desc')->get();
+         // $teamSpkls = OvertimeEmployee::where('status', 1)->orderBy('updated_at', 'desc')->get();
+         $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+            foreach($myEmployees as $emp){
+               $teamId[] = $emp->id;
+            }
+
+         $teamSpkls = OvertimeEmployee::where('status', 1)->whereIn('employee_id', $teamId)->get();
       } elseif (auth()->user()->hasRole('Manager|Asst. Manager')) {
-         $empSpkls = OvertimeEmployee::where('status', 2)->orderBy('updated_at', 'desc')->get();
+         // $empSpkls = OvertimeEmployee::where('status', 2)->orderBy('updated_at', 'desc')->get();
+         if(count($employee->positions) > 0){
+            foreach($employee->positions as $pos){
+               foreach($pos->department->employees->where('status', 1) as $emp){
+                  $teamId[] = $emp->id;
+               }
+            }
+
+            
+         } else {
+            $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+            foreach($myEmployees as $emp){
+               $teamId[] = $emp->id;
+            }
+            
+         }
+
+         $teamSpkls = OvertimeEmployee::where('status', 2)->whereIn('employee_id', $teamId)->get();
       }
      
 
@@ -46,20 +71,46 @@ class OvertimeEmployeeController extends Controller
       
       return view('pages.spkl.leader.index', [
          'myteams' => $myteams,
-         'empSpkls' => $empSpkls
+         'teamSpkls' => $teamSpkls
       ]);
    }
+
+
+
 
    public function historyLeader(){
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
 
+      $teamId = [];
       if (auth()->user()->hasRole('Leader|Supervisor')) {
-         $empSpkls = OvertimeEmployee::where('status', '>', 1)->orderBy('updated_at', 'desc')->get();
+         // $teamSpkls = OvertimeEmployee::where('status', 1)->orderBy('updated_at', 'desc')->get();
+         $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+            foreach($myEmployees as $emp){
+               $teamId[] = $emp->id;
+            }
+
+         $teamSpkls = OvertimeEmployee::where('status','>', 1)->whereIn('employee_id', $teamId)->get();
       } elseif (auth()->user()->hasRole('Manager|Asst. Manager')) {
-         $empSpkls = OvertimeEmployee::where('status', '>', 2)->orderBy('updated_at', 'desc')->get();
+         // $empSpkls = OvertimeEmployee::where('status', 2)->orderBy('updated_at', 'desc')->get();
+         if(count($employee->positions) > 0){
+            foreach($employee->positions as $pos){
+               foreach($pos->department->employees->where('status', 1) as $emp){
+                  $teamId[] = $emp->id;
+               }
+            }
+
+            
+         } else {
+            $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+            foreach($myEmployees as $emp){
+               $teamId[] = $emp->id;
+            }
+            
+         }
+
+         $teamSpkls = OvertimeEmployee::where('status','>', 2)->whereIn('employee_id', $teamId)->get();
       }
-      
       
       $myteams = EmployeeLeader::join('employees', 'employee_leaders.employee_id', '=', 'employees.id')
          ->join('biodatas', 'employees.biodata_id', '=', 'biodatas.id')
@@ -71,7 +122,22 @@ class OvertimeEmployeeController extends Controller
       
       return view('pages.spkl.leader.history', [
          'myteams' => $myteams,
-         'empSpkls' => $empSpkls
+         'teamSpkls' => $teamSpkls
+      ]);
+   }
+
+
+   public function indexHrd(){
+      $spklApprovals = OvertimeEmployee::where('status', 3)->get();
+      return view('pages.spkl.hrd.index', [
+         'spklApprovals' => $spklApprovals
+      ]);
+   }
+
+   public function historyHrd(){
+      $spklHistories = OvertimeEmployee::where('status', '>', 3)->get();
+      return view('pages.spkl.hrd.history', [
+         'spklHistories' => $spklHistories
       ]);
    }
 
@@ -600,7 +666,7 @@ class OvertimeEmployeeController extends Controller
          ]);
       }
 
-      return redirect()->route('employee.spkl.detail', enkripRambo($spklEmp->id))->with('success', "SPKL Approved");
+      return redirect()->route('leader.spkl')->with('success', "SPKL Approved");
    }
 
    public function reject(Request $req){
@@ -624,6 +690,6 @@ class OvertimeEmployeeController extends Controller
          ]);
       }
 
-      return redirect()->route('employee.spkl.detail', enkripRambo($spklEmp->id))->with('success', "SPKL Approved");
+      return redirect()->route('leader.spkl.history')->with('success', "SPKL Approved");
    }
 }

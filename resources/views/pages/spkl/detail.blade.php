@@ -8,7 +8,7 @@ Form Lembur/Piket
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
-         <li class="breadcrumb-item " aria-current="page"><a href="{{route('employee.spkl')}}">SPKL</a> </li>
+         {{-- <li class="breadcrumb-item " aria-current="page"><a href="{{route('employee.spkl')}}">SPKL</a> </li> --}}
          
          <li class="breadcrumb-item active" aria-current="page">Detail Form SPKL</li>
       </ol>
@@ -75,6 +75,24 @@ Form Lembur/Piket
                      </td>
                    </tr>
                @endif
+
+               @if ($empSpkl->status == 301)
+                   <tr>
+                     
+                     <td class="bg-danger text-white">
+                         {{formatDateTime($empSpkl->reject_manager_date)}}
+                     </td>
+                   </tr>
+                   <tr>
+                     <td class="bg-danger text-white">{{$empSpkl->manager->biodata->fullName()}}</td>
+                   </tr>
+                   <tr>
+                     
+                     <td class="bg-danger text-white pl-4">
+                        : {{$empSpkl->reject_manager_desc}}
+                     </td>
+                   </tr>
+               @endif
                <tr>
                   <td>
                      @if ($empSpkl->status == 0)
@@ -87,6 +105,39 @@ Form Lembur/Piket
                </tr>
             </tbody>
          </table>
+
+
+         @if ($empSpkl->status == 3)
+         <table>
+            <tbody>
+               <tr>
+                  <td>Tipe</td>
+                  <td>
+                     <select class="form-control" required name="holiday_type" id="holiday_type">
+                        {{-- <option value="" disabled selected>Select</option> --}}
+                        <option {{$empSpkl->holiday_type == 1 ? 'selected' : ''}} value="1">Hari Kerja</option>
+                        <option {{$empSpkl->holiday_type == 2 ? 'selected' : ''}} value="2">Hari Libur</option>
+                        <option {{$empSpkl->holiday_type == 3 ? 'selected' : ''}} value="3">Hari Libur Nasional</option>
+                        <option {{$empSpkl->holiday_type == 4 ? 'selected' : ''}} value="4">Hari Libur Idul Fitri</option>
+                     </select>
+                     
+                  </td>
+               </tr>
+               <tr>
+                  <td>Jam</td>
+                  <td><input class="form-control" type="text" name="" id="" value="{{$empSpkl->hours}}"></td>
+               </tr>
+            </tbody>
+         </table>
+         <button class="btn btn-block btn-primary">Submit</button>
+         <hr>
+         <div class="card">
+            <div class="card-body">
+               <small>Klik Submit untuk validasi SPKL</small>
+            </div>
+         </div>
+         @endif
+         
          
       </div>
       <div class="col-md-9">
@@ -189,14 +240,14 @@ Form Lembur/Piket
                @if ($empSpkl->status == 201 || $empSpkl->status == 301)
                    @else
                    <tr>
-                     <td>
+                     <td class="text-center">
                         @if ($empSpkl->status > 1)
                         <span class="text-info">Approved</span>
                         @else
                         
                         @endif
                      </td>
-                     <td>
+                     <td class="text-center">
                         @if ($empSpkl->status > 2)
                         <span class="text-info">Approved</span>
                         @else
@@ -214,7 +265,7 @@ Form Lembur/Piket
                      </td>
                   </tr>
                   <tr>
-                     <td class="text-center py-3">
+                     <td class="">
                         @if ($empSpkl->status > 1)
                         {{$empSpkl->leader->biodata->fullName()}}
                         @else
@@ -231,9 +282,26 @@ Form Lembur/Piket
                      <td>{{$empSpkl->employee->biodata->fullName()}}</td>
                   </tr>
                   <tr>
-                     <td>{{$empSpkl->approve_leader_date ?? ''}}</td>
-                     <td>{{$empSpkl->approve_manager_date ?? ''}}</td>
-                     <td>{{$empSpkl->release_employee_date ?? ''}}</td>
+                     <td>
+                        @if ($empSpkl->approve_leader_date)
+                            {{formatDateTime($empSpkl->approve_leader_date)}}
+                        @endif
+                        {{-- {{$empSpkl->approve_leader_date ?? ''}} --}}
+                     </td>
+                     <td>
+                        @if ($empSpkl->approve_manager_date)
+                            {{formatDateTime($empSpkl->approve_manager_date)}}
+                        @endif
+                        {{-- {{$empSpkl->approve_manager_date ?? ''}} --}}
+                     </td>
+
+                     
+                     <td>
+                        @if ($empSpkl->release_employee_date)
+                            {{formatDateTime($empSpkl->release_employee_date)}}
+                     @endif
+                        {{-- {{$empSpkl->release_employee_date ?? ''}} --}}
+                     </td>
                   </tr>
                @endif
                

@@ -298,7 +298,7 @@ Dashboard
                      <div class="row align-items-center">
                         <div class="col-icon">
                            <div class="icon-big text-center icon-info bubble-shadow-small">
-                              <i class="fas fa-users"></i>
+                              <i class="fas fa-calendar-check"></i>
                            </div>
                         </div>
                         <div class="col col-stats ml-3 ml-sm-0">
@@ -327,7 +327,7 @@ Dashboard
                      <div class="row align-items-center">
                         <div class="col-icon">
                            <div class="icon-big text-center icon-primary bubble-shadow-small">
-                              <i class="fas fa-users"></i>
+                              <i class="fas fa-clock"></i>
                            </div>
                         </div>
                         <div class="col col-stats ml-3 ml-sm-0">
@@ -356,14 +356,23 @@ Dashboard
                      <div class="row align-items-center">
                         <div class="col-icon">
                            <div class="icon-big text-center icon-danger bubble-shadow-small">
-                              <i class="fas fa-users"></i>
+                              <i class="fas fa-bolt"></i>
                            </div>
                         </div>
                         <div class="col col-stats ml-3 ml-sm-0">
-                           <a href="{{route('backup.cuti')}}">
+                           <a href="{{route('sp.leader.approval')}}">
                            <div class="numbers">
-                              <p class="card-category">Cuti Pengganti </p>
-                              <h4 class="card-title">{{count($reqBackupForms)}}</h4>
+                              <p class="card-category">Approval SP </p>
+                              <h4 class="card-title">
+                                 @if (count($spRecomends) > 0)
+                                     <div class="badge badge-danger">
+                                       {{count($spRecomends)}}
+                                     </div>
+                                     @else
+                                     {{count($spRecomends)}}
+                                 @endif
+                                 
+                              </h4>
                            </div>
                         </a>
                         </div>

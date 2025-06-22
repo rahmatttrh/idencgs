@@ -142,6 +142,30 @@ class SpController extends Controller
          ])->with('i');
    }
 
+   public function create(){
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $teams = [];
+      if(count($employee->positions) > 0){
+         foreach($employee->positions as $pos){
+            foreach($pos->department->employees->where('status', 1) as $emp){
+               $teamId[] = $emp;
+            }
+         }
+
+         
+      } else {
+         $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+         foreach($myEmployees as $emp){
+            $teamId[] = $emp;
+         }
+         
+      }
+
+      return view('pages.sp.form', [
+         'teams' => $teams
+      ]);
+   }
+
    public function store(Request $req)
    {
 
@@ -676,6 +700,47 @@ class SpController extends Controller
       return Excel::download(new ExportsSpExport($req->from, $req->to), 'sp-list.xlsx');
 
       
+
+   }
+
+
+
+   public function leaderApproval(){
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
+
+      return view('pages.sp.leader.index', [
+         'spApprovals' => $spRecomends
+      ]);
+
+   }
+
+   public function managerApproval(){
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      // $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
+
+      $teamId = [];
+      if(count($employee->positions) > 0){
+         foreach($employee->positions as $pos){
+            foreach($pos->department->employees->where('status', 1) as $emp){
+               $teamId[] = $emp->id;
+            }
+         }
+
+         
+      } else {
+         $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+         foreach($myEmployees as $emp){
+            $teamId[] = $emp->id;
+         }
+         
+      }
+
+      $spApprovals = Sp::where('status', 3)->whereIn('employee_id', $teamId)->get();
+      // dd($spApprovals);
+      return view('pages.sp.manager.index', [
+         'spApprovals' => $spApprovals
+      ]);
 
    }
 

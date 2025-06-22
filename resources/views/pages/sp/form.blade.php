@@ -1,0 +1,172 @@
+@extends('layouts.app')
+@section('title')
+SP
+@endsection
+@section('content')
+
+<div class="page-inner">
+   <nav aria-label="breadcrumb ">
+      <ol class="breadcrumb  ">
+         <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
+         <li class="breadcrumb-item active" aria-current="page">Surat Peringatan</li>
+      </ol>
+   </nav>
+
+
+
+   <div class="row">
+      <div class="col-md-3">
+         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('sp') }}" aria-controls="v-pills-basic" aria-selected="true">
+               <i class="fas fa-address-book mr-1"></i>
+               Surat Peringatan
+            </a>
+            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('sp.create') }}" aria-controls="v-pills-contract" aria-selected="false">
+               <i class="fas fa-file-contract mr-1"></i>
+               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+               Form SP
+            </a>
+            
+           
+            
+         </div>
+         <hr>
+         <div class="card">
+            <div class="card-body">
+               {{-- <small>Daftar Surat Peringatan Karyawan.</small> --}}
+            </div>
+         </div>
+         
+         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
+      </div>
+      <div class="col-md-9">
+          {{-- <h4>Pengajuan SPKL</h4> --}}
+         
+          <div class="row">
+            <div class="col-md-12">
+               <h4>Form Pengajuan SP</h4>
+               <hr>
+               <form action="{{route('sp.store')}}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  
+                  <div class="row">
+                     <div class="col-md-8">
+                        <div class="form-group form-group-default">
+                           <label>Employee*</label>
+                           <select class="form-control employee js-example-basic-single" required id="employee" name="employee">
+                              <option value="" selected disabled>Select Employee</option>
+                              @foreach ($teams as $emp)
+                              <option value="{{$emp->id}}">{{$emp->nik}} {{$emp->biodata->fullName()}} </option>
+                              @endforeach
+                              
+                           </select>
+                           
+            
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="form-group form-group-default">
+                           <label>Level*</label>
+                           <select class="form-control" required id="level" name="level">
+                              <option value="" selected disabled>Select level</option>
+                              <option value="I">SP I</option>
+                              <option value="II">SP II</option>
+                              <option value="III">SP III</option>
+                           </select>
+   
+                        </div>
+                     </div>
+                     
+                  </div>
+   
+               
+                  <div class="form-group form-group-default">
+                     <label>Alasan*</label>
+                     <input type="text" required class="form-control" name="reason" id="reason">
+                  </div>
+   
+                  <div class="form-group form-group-default">
+                     <label>Kronologi*</label>
+                     <textarea class="form-control" required name="desc" id="desc" rows="4"></textarea>
+                  </div>
+                  <div class="form-group form-group-default">
+                     <label>File attachment</label>
+                     <input type="file" class="form-control" name="file" id="file">
+                  </div>
+                  <hr>
+                  <button type="submit" class="btn  btn-primary">Submit</button>
+               </form>
+            </div>
+      
+            <div class="col">
+               
+               
+               {{-- @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll'))
+                   <a href="{{route('sp.hrd.create')}}" class="btn btn-primary btn-sm">Create SP</a>
+                   <hr>
+               @endif --}}
+               
+            </div>
+         </div>
+      </div>
+   </div>
+   
+
+  
+
+   
+</div>
+
+@push('myjs')
+   <script>
+      console.log('get_aktif_sp');
+      $(".sp").hide();
+   
+
+      $(document).ready(function() {
+         $('.employee').change(function() {
+            
+            var employee = $('#employee').val();
+            var _token = $('meta[name="csrf-token"]').attr('content');
+            // console.log('okeee');
+            console.log('employeeId:' + employee);
+            
+            $.ajax({
+               url: "/fetch/sp/active/" + employee ,
+               method: "GET",
+               dataType: 'json',
+
+               success: function(result) {
+                  // console.log('near :' + result.near);
+                  // console.log('result :' + result.result);
+                  
+                  console.log('status :' + result.success);
+                  if (result.success == true) {
+                     $('.result').empty()
+                     console.log('adaaa');
+                     $(".sp").show();
+                  } else {
+                     $('.result').empty()
+                     console.log('kosong');
+                     $(".sp").hide();
+                  }
+                  
+
+                  $.each(result.result, function(i, index) {
+                     $('.result').html(result.result);
+
+                  });
+               },
+               error: function(error) {
+                  console.log(error)
+               }
+
+            })
+         })
+      })
+   </script>
+@endpush
+
+
+
+@endsection

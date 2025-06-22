@@ -15,11 +15,10 @@ Dashboard
       <h5 class="page-title text-info">
          {{-- <i class="fa fa-home"></i> --}}
         
-         <div class="d-block d-sm-none">
-            Welcome back,  {{auth()->user()->getGender()}} <br> {{auth()->user()->name}}
-         </div>  
+        
 
-         <div class="d-none d-md-block">
+         <div class="">
+            <img src="{{asset('img/flaticon/hello.png')}}" alt="" width="35px">
             Welcome back, {{auth()->user()->getGender()}} {{auth()->user()->name}}
          </div>
          
@@ -247,6 +246,7 @@ Dashboard
                                     <span class="badge badge-light">{{count($reqForms) }}</span> 
                                     @else
                                     {{count($reqForms)}}
+                                    
                                     @endif
                                     
                                  </h4>
@@ -264,17 +264,20 @@ Dashboard
                      <div class="row align-items-center">
                         
                         <div class="col col-stats ml-3 ml-sm-0">
-                           <a href="#">
-                           <div class="numbers">
-                              <p class="card-category"> Approval SPKL </p>
-                              <h4 class="card-title py-1">
-                                 <div class="badge-bdage-primary">
-                                    0
-                                 </div>
-                                 
-                              </h4>
-                           </div>
-                        </a>
+                           <a href="{{route('leader.spkl')}}">
+                              <div class="numbers">
+                                 <p class="card-category"> Approval SPKL </p>
+                                 <h4 class="card-title py-2"> 
+                                    @if (count($teamSpkls) > 0)
+                                    <span class="badge badge-light">{{count($teamSpkls) }}</span> 
+                                    @else
+                                    {{count($teamSpkls) }}
+                                    
+                                    @endif
+                                    
+                                 </h4>
+                              </div>
+                           </a>
                         </div>
                      </div>
                   </div>
@@ -297,6 +300,7 @@ Dashboard
                                      </div>
                                      @else
                                      {{$peTotal }}
+                                     
                                  @endif
                                  
                               </h4>
@@ -307,9 +311,36 @@ Dashboard
                   </div>
                </div>
             </div>
-            
 
             <div class="col-6 d-block d-sm-none">
+               <div class="card card-danger card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('sp.manager.approval')}}">
+                              <div class="numbers">
+                                 <p class="card-category"> Approval SP </p>
+                                 <h4 class="card-title py-1">
+                                    @if (count($spApprovals) > 0)
+                                        <div class="badge badge-danger">
+                                          {{count($spApprovals) }}
+                                        </div>
+                                        @else
+                                        
+                                        {{count($spApprovals) }}
+                                    @endif
+                                 </h4>
+                              </div>
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+
+            {{-- <div class="col-6 d-block d-sm-none">
                <div class="card ">
                   <div class="card-header bg-primary text-white p-2">
                      <small>Team</small>
@@ -317,26 +348,19 @@ Dashboard
                   <div class="card-body p-0">
                      <div class="table-responsive overflow-auto" style="height: 70px">
                         <table class=" ">
-                           {{-- <thead>
-                              <tr>
-                                 <th></th>
-                                 <th>NIK</th>
-                                 <th>Name</th>
-                              </tr>
-                           </thead> --}}
+                           
                            <tbody>
                               @if (count($employee->positions) > 0)
                                     @foreach ($positions as $pos)
                                           <tr>
-                                          {{-- <td></td> --}}
+                                          
                                           <td colspan="4">{{$pos->department->unit->name}} {{$pos->department->name}} ({{count($pos->department->employees)}}) </td>
-                                          {{-- <td>{{$employee->biodata->fullName()}}</td> --}}
+                                          
                                           </tr>
                                           @foreach ($pos->department->employees->where('status', 1) as $emp)
                                              <tr>
                                              <td></td>
-                                             {{-- <td>{{$emp->sub_dept->name ?? ''}}</td> --}}
-                                             {{-- <td></td> --}}
+                                            
                                              <td>
                                                 <a href="{{route('employee.overview.simple', enkripRambo($emp->id))}}">{{$emp->biodata->fullName()}}</a>
                                              </td>
@@ -347,8 +371,7 @@ Dashboard
                                   @foreach ($teams as $emp)
                                        <tr>
                                        <td></td>
-                                       {{-- <td>{{$emp->sub_dept->name}}</td> --}}
-                                       {{-- <td></td> --}}
+                                      
                                        <td>
                                           <a href="{{route('employee.overview.simple', enkripRambo($emp->id))}}">{{$emp->biodata->fullName()}}</a>
                                           
@@ -365,12 +388,12 @@ Dashboard
                      
                   </div>
                </div>
-            </div>
+            </div> --}}
          </div>
 
          
          <div class="row">
-            <div class="col-md-4 d-none d-md-block">
+            <div class="col-md-6 d-none d-md-block">
                <div class="card border card-stats card-round">
                   <div class="card-body ">
                      <div class="row align-items-center">
@@ -397,7 +420,7 @@ Dashboard
                   </div>
                </div>
             </div>
-            <div class="col-md-4 d-none d-md-block">
+            <div class="col-md-6 d-none d-md-block">
                <div class="card border card-stats card-round">
                   <div class="card-body ">
                      <div class="row align-items-center">
@@ -407,14 +430,14 @@ Dashboard
                            </div>
                         </div>
                         <div class="col col-stats ml-3 ml-sm-0">
-                           <a href="{{route('leader.absence')}}">
+                           <a href="{{route('leader.spkl')}}">
                            <div class="numbers">
                               <p class="card-category"> Approval SPKL </p>
                               <h4 class="card-title"> 
-                                 @if (count($reqForms) > 0)
-                                    <span class="badge badge-danger">{{count($reqForms) }}</span> 
+                                 @if (count($teamSpkls) > 0)
+                                    <span class="badge badge-danger">{{count($teamSpkls) }}</span> 
                                     @else
-                                    {{count($reqForms)}}
+                                    {{count($teamSpkls)}}
                                     @endif 
                               </h4>
                            </div>
@@ -424,12 +447,12 @@ Dashboard
                   </div>
                </div>
             </div>
-            <div class="col-md-4 d-none d-md-block">
+            <div class="col-md-6 d-none d-md-block">
                <div class="card border card-stats card-round">
                   <div class="card-body ">
                      <div class="row align-items-center">
                         <div class="col-icon">
-                           <div class="icon-big text-center icon-warning bubble-shadow-small">
+                           <div class="icon-big text-center icon-secondary bubble-shadow-small">
                               <i class="fas fa-star"></i>
                            </div>
                         </div>
@@ -444,6 +467,35 @@ Dashboard
                                      </div>
                                      @else
                                      {{$peTotal }}
+                                 @endif
+                              </h4>
+                           </div>
+                        </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6 d-none d-md-block">
+               <div class="card border card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        <div class="col-icon">
+                           <div class="icon-big text-center icon-danger bubble-shadow-small">
+                              <i class="fas fa-bolt"></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('sp.manager.approval')}}">
+                           <div class="numbers">
+                              <p class="card-category"> Approval SP </p>
+                              <h4 class="card-title">
+                                 @if (count($spApprovals) > 0)
+                                     <div class="badge badge-danger">
+                                       {{count($spApprovals) }}
+                                     </div>
+                                     @else
+                                     {{count($spApprovals) }}
                                  @endif
                               </h4>
                            </div>
@@ -554,30 +606,59 @@ Dashboard
                      <div class="table-responsive overflow-auto" style="height: 145px">
                      <table class=" ">
                         <thead>
-                           
-                           <tr class="">
-                             
-                              <th>Name</th>
+                           <tr>
+                              
+                               <th>Name</th>
                               <th>Type</th>
-                              <th scope="col">Date</th>
+                              {{-- <th>Day</th> --}}
+                              <th>Date</th>
+                             
+                              {{-- <th>Status</th> --}}
+                              {{-- <th></th> --}}
+                              {{-- <th></th> --}}
                            </tr>
                         </thead>
+         
                         <tbody>
-                           @foreach ($recentForms as $form)
-                               <tr>
-                                 <td>
-                                    <a href="{{route('employee.absence.detail', enkripRambo($form->id))}}">{{$form->employee->biodata->fullName()}}</a>
-                                    
-                                    
-                                 </td>
-                                 <td>
-                                    <x-status.absence :absence="$form" />
-                                 </td>
-                                 <td>
-                                    <x-absence.date :absence="$form" />
-                                 </td>
-
-                               </tr>
+                           @foreach ($recentTeamSpkls as $spkl)
+                           <tr>
+                              <td>
+                                 <a href="{{route('employee.spkl.detail', enkripRambo($spkl->id))}}">{{$spkl->employee->biodata->fullName()}} </a>
+                                 @if ($spkl->parent_id != null)
+                                 | <a href="{{route('employee.spkl.detail.multiple', enkripRambo($spkl->parent_id))}}">Lihat Group</a>
+                                     
+                                 @endif
+                              </td>
+                              
+                              
+                              <td>
+                                 @if ($spkl->type == 1)
+                                     Lembur
+                                     @else
+                                     Piket
+                                 @endif
+                              </td>
+                              <td class=" text-truncate">
+                                 @if ($spkl->holiday_type == 1)
+                                    <span  class="text-info ">
+                                    @elseif($spkl->holiday_type == 2)
+                                    <span class="text-warning">
+                                    @elseif($spkl->holiday_type == 3)
+                                    <span class="text-danger">LN -
+                                    @elseif($spkl->holiday_type == 4)
+                                    <span class="text-danger">LR -
+                                 @endif
+                                 <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" class="text-white">{{formatDate($spkl->date)}}</a>
+                                 </span>
+                              </td>
+                              
+                              
+                              
+                              {{-- <td>
+                                 <x-status.spkl-employee :empspkl="$spkl" />
+                              </td> --}}
+         
+                           </tr>
                            @endforeach
                         </tbody>
                      </table>
@@ -621,7 +702,7 @@ Dashboard
                                @foreach ($pos->department->pes()->where('status', 1)->orderBy('updated_at', 'desc')->get() as $pe)
                                  {{-- @if ($pe->status != 2) --}}
                                  <tr>
-                                    <td></td>
+                                    {{-- <td></td> --}}
                                     <td class="text-truncate">
                                        {{-- <a href="{{route('sp.detail', enkripRambo($pe->id))}}">{{$pe->code}}</a> --}}
                                        @if($pe->status == '0' || $pe->status == '101')
@@ -633,7 +714,7 @@ Dashboard
                                        @endif
                                     </td>
                                     <td>{{$pe->semester}} / {{$pe->tahun}}</td>
-                                    {{-- <td>{{$pe->achievement}}</td> --}}
+                                    <td>{{$pe->achievement}}</td>
                                     {{-- <td>
                                        <x-status.pe :pe="$pe" />
                                     </td> --}}
@@ -683,7 +764,7 @@ Dashboard
                      <small>Recent SP</small>
                   </div>
                   <div class="card-body p-0">
-                     <div class="table-responsive overflow-auto" style="height: 160px">
+                     <div class="table-responsive overflow-auto" style="height: 120px">
                      <table class=" ">
                         {{-- <thead>
                            
@@ -704,7 +785,7 @@ Dashboard
                                </tr> --}}
                                @foreach ($pos->department->sps()->paginate(3) as $sp)
                                <tr>
-                                 <th></th>
+                                 {{-- <th></th> --}}
                                  <td><a href="{{route('sp.detail', enkripRambo($sp->id))}}">{{$sp->employee->biodata->fullName()}}</a></td>
                                  {{-- <td>{{$sp->code}}</td> --}}
                                  {{-- <td>{{$sp->employee->biodata->first_name}} {{$sp->employee->biodata->last_name}}</td> --}}

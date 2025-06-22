@@ -8,6 +8,7 @@
       <div class="page-header">
          <h5 class="page-title text-info">
             {{-- <i class="fa fa-home"></i> --}}
+            <img src="{{asset('img/flaticon/hello.png')}}" alt="" width="35px">
             Welcome back, {{auth()->user()->getGender()}} {{auth()->user()->name}}
             
             
@@ -53,9 +54,130 @@
                </div>
             </div> --}}
 
-            <a href="{{route('hrd.absence')}}" class="btn btn-block btn-primary"><i class="fa fa-file"></i> Monitoring Form Absensi</a>
-            <hr>
-            <div class="card card-stats card-round border">
+            {{-- <a href="{{route('hrd.absence')}}" class="btn btn-block btn-primary"><i class="fa fa-file"></i> Monitoring Form Absensi</a> --}}
+            
+            <div class="card">
+               <div class="card-header p-2 bg-primary text-white">
+                  <small>Payslip Report</b></small>
+               </div>
+               <div class="card-body p-0">
+                  <div class="table-responsive overflow-auto" style="max-height: 190px">
+                     <table class="display  table-sm table-bordered   ">
+                        {{-- <thead>
+                           <tr>
+                              
+                              <th colspan="2">Payslip Report</th>
+                              
+                           </tr>
+                        </thead> --}}
+                        
+                        <tbody>
+                           
+                           <tr>
+                              <td>Progress</td>
+                              <td>2</td>
+                           </tr>
+                           <tr>
+                              <td>Reject</td>
+                              <td>1</td>
+                           </tr>
+                           <tr>
+                              <td>Complete</td>
+                              <td>8</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+            <div class="card d-none d-md-block">
+               <div class="card-header bg-light border p-2">
+                  <small class="text-uppercase"> <b># Cuti department {{$employee->department->name}}</b> </small>
+               </div>
+               <div class="card-body p-0">
+                  <table class=" ">
+                    
+                     <tbody>
+                        @if (count($cutis) > 0)
+                        @foreach ($cutis as $cuti)
+                        <tr>
+                           <td>
+                             {{formatDate($cuti->date)}} 
+                           </td>
+                           <td>{{$cuti->employee->biodata->fullName()}}</td>
+                           
+                        </tr>
+                        @endforeach
+                        @else
+                        <tr>
+                           <td colspan="1" class="text-center">Empty</td>
+                        </tr>
+                        @endif
+   
+   
+                     </tbody>
+                  </table>
+               </div>
+               <div class="card-header bg-light border p-2">
+                  <small class="text-uppercase"> <b># Recent PE</b> </small>
+               </div>
+               <div class="card-body p-0">
+                  <table class=" ">
+                     {{-- <thead >
+   
+                        <tr class="bg-primary text-white">
+                           <th scope="col">ID</th>
+                           
+                        </tr>
+                     </thead> --}}
+                     <tbody>
+                        @if (count($peHistories) > 0)
+                        @foreach ($peHistories as $peHis)
+                        <tr>
+                           <td>
+                              <a href="/qpe/show/{{enkripRambo($peHis->kpa->id)}}">Semester {{$peHis->semester}} / {{$peHis->tahun}}</a>
+                           </td>
+                           
+                        </tr>
+                        @endforeach
+                        @else
+                        <tr>
+                           <td colspan="1" class="text-center">Empty</td>
+                        </tr>
+                        @endif
+   
+   
+                     </tbody>
+                  </table>
+               </div>
+               <div class="card-header bg-light border p-2">
+                  <b># RECENT SP</b>
+               </div>
+               <div class="card-body p-0">
+                  <table class=" ">
+                     
+                     <tbody>
+                        @if (count($spHistories) > 0)
+                        @foreach ($spHistories as $spHis)
+                        <tr>
+                           <td>
+                              <a href="{{route('sp.detail', enkripRambo($spHis->id))}}">{{$spHis->code}} - SP {{$spHis->level}}</a>
+                           </td>
+                           
+                        </tr>
+                        @endforeach
+                        @else
+                        <tr>
+                           <td colspan="1" class="">Empty</td>
+                        </tr>
+                        @endif
+   
+   
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+            {{-- <div class="card card-stats card-round border">
                <div class="card-body ">
                   <div class="row align-items-center">
                      <div class="col-icon">
@@ -76,7 +198,7 @@
                <div class="card-body">
                   <small>Daftar Cuti yang memiliki relasi terhadap anda sebagai Karyawan Pengganti</small>
                </div>
-            </div>
+            </div> --}}
             {{-- <div class="card">
                <div class="card-header p-2 bg-primary text-white">
                   <small>Recent Form Absence</small>
@@ -134,7 +256,7 @@
                </div>
             </div> --}}
 
-            @if (count($broadcasts) > 0)
+            {{-- @if (count($broadcasts) > 0)
             @foreach ($broadcasts as $broad)
             <div class="d-none d-sm-block">
                <div class="alert alert-info shadow-sm">
@@ -145,32 +267,28 @@
                         <b>Broadcast dari HRD</b>
                      </h4>
                   </div>
-                  {{-- <hr> --}}
+                  
                   <div class="card-desc">
                      {{$broad->title}}.
-                     {{-- <div class="text-truncate" style="max-width: 200px">
-                        {{strip_tags($broad->body)}}
-                     </div> --}}
+                     
                      <a href="{{route('announcement.detail', enkripRambo($broad->id))}}">Klik Disini</a> untuk melihat lebih detail
                      
                   </div>
                </div>
             </div>
             @endforeach
-         @endif
+         @endif --}}
 
-         @if (count($personals) > 0)
+         {{-- @if (count($personals) > 0)
             @foreach ($personals as $pers)
             <div class="d-none d-sm-block">
                <div class="alert alert-danger shadow-sm">
    
                   <div class="card-opening">
-                     <h4>
-                        {{-- <img src="{{asset('img/flaticon/promote.png')}}" height="28" alt="" class="mr-1"> --}}
-                        <b>Personal Message</b>
+                     <h4><b>Personal Message</b>
                      </h4>
                   </div>
-                  {{-- <hr> --}}
+                  
                   <div class="card-desc">
                      
                      {{$pers->title}}.
@@ -181,51 +299,113 @@
                </div>
             </div>
             @endforeach
-         @endif
+         @endif --}}
 
-            <div class="card">
-               <div class="card-header p-2 bg-primary text-white">
-                  <small>Recent Transaction</small>
-               </div>
-               <div class="card-body p-0">
-                  <div class="table-responsive overflow-auto" style="max-height: 190px">
-                     <table class="display  table-sm table-bordered   ">
-                        <thead>
-                           <tr>
-                              {{-- <th class="text-center" style="width: 30px">No</th> --}}
-                              {{-- @if (auth()->user()->hasRole('Administrator'))
-                              <th>ID</th>
-                              @endif --}}
-                              <th class="text-center">#</th>
-                              <th>Unit</th>
-                              <th>Month</th>
-                              
-                              
-                              <th>Year</th>
-                              <th class="text-right">Total</th>
-                              
-                              <th class="text-center">Status</th>
-                           </tr>
-                        </thead>
-                        
-                        <tbody>
-                           @foreach ($unitTransactions as $trans)
-                               <tr>
-                                 <td class="text-center">{{++$i}}</td>
-                                 <td><a href="{{route('payroll.transaction.monthly.all', enkripRambo($trans->id))}}">{{$trans->unit->name}}</a></td>
-                                 <td>{{$trans->month}}</td>
-                                 <td>{{$trans->year}}</td>
-                                 <td class="text-right">{{formatRupiahB($trans->total_salary)}}</td>
-                                 <td class="text-center">
-                                    <x-status.unit-transaction :unittrans="$trans" />
-                                 </td>
-                               </tr>
-                           @endforeach
-                        </tbody>
-                     </table>
+         <div class="row">
+            <div class="col-md-6">
+               <div class="card border card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        <div class="col-icon">
+                           <div class="icon-big text-center icon-info bubble-shadow-small">
+                              <i class="fas fa-calendar-check"></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('hrd.spkl')}}">
+                           <div class="numbers">
+                              <p class="card-category"> Approval SPKL </p>
+                              <h4 class="card-title"> 
+                                 @if (count($spklApprovals) > 0)
+                                     <div class="badge badge-danger">{{count($spklApprovals)}}</div>
+                                     @else
+                                     {{count($spklApprovals)}}
+                                 @endif
+                              </h4>
+                           </div>
+                        </a>
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
+            <div class="col-md-6">
+               <div class="card border card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        <div class="col-icon">
+                           <div class="icon-big text-center icon-primary bubble-shadow-small">
+                              <i class="fas fa-users"></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('hrd.absence')}}">
+                           <div class="numbers">
+                              <p class="card-category"> Monitoring Absensi </p>
+                              <h4 class="card-title"> 
+                                 -
+                              </h4>
+                           </div>
+                        </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="row">
+            <div class="col-md-12">
+               <div class="card">
+                  <div class="card-header p-2 bg-primary text-white">
+                     <small>Monitoring Payslip Report</small>
+                  </div>
+                  <div class="card-body p-0">
+                     <div class="table-responsive overflow-auto" style="max-height: 190px">
+                        <table class="display  table-sm table-bordered   ">
+                           <thead>
+                              <tr>
+                                 {{-- <th class="text-center" style="width: 30px">No</th> --}}
+                                 {{-- @if (auth()->user()->hasRole('Administrator'))
+                                 <th>ID</th>
+                                 @endif --}}
+                                 {{-- <th class="text-center">#</th> --}}
+                                 <th>Unit</th>
+                                 <th>Month</th>
+                                 
+                                 
+                                 <th>Year</th>
+                                 {{-- <th class="text-right">Total</th> --}}
+                                 
+                                 <th class="text-center">Status</th>
+                              </tr>
+                           </thead>
+                           
+                           <tbody>
+                              @foreach ($unitTransactions as $trans)
+                                  <tr>
+                                    {{-- <td class="text-center">{{++$i}}</td> --}}
+                                    <td ><a href="{{route('payroll.transaction.monthly.all', enkripRambo($trans->id))}}">{{$trans->unit->name}}</a></td>
+                                    <td>{{$trans->month}}</td>
+                                    <td>{{$trans->year}}</td>
+                                    {{-- <td class="text-right">{{formatRupiahB($trans->total_salary)}}</td> --}}
+                                    <td class="text-center">
+                                       <x-status.unit-transaction :unittrans="$trans" />
+                                    </td>
+                                  </tr>
+                              @endforeach
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-8">
+               
+            </div>
+         </div>
+
+            
 
             <div class="card">
                <div class="card-header p-2 bg-primary text-white">

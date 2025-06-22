@@ -58,9 +58,9 @@ Form SPKL
                </thead>
 
                <tbody>
-                  @foreach ($myteams as $team)
-                      @foreach ($empSpkls as $spkl)
-                          @if ($spkl->employee_id == $team->id)
+                  
+                      @foreach ($teamSpkls as $spkl)
+                          
                            <tr>
                               <td>
                                  
@@ -116,9 +116,9 @@ Form SPKL
                               </td> --}}
          
                            </tr>
-                          @endif
+                          
                       @endforeach
-                  @endforeach
+                  
                   
                </tbody>
 

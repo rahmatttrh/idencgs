@@ -336,8 +336,10 @@ Dashboard
                </div>
             </div>
             <div class="col-6 d-block d-sm-none">
+               <div class="table-responsive overflow-auto" style="height: 110px">
                <div class="card ">
-                  {{-- <div class="card-header bg-light border p-2">
+
+                  <div class="card-header bg-light border p-2">
                      <small class="text-uppercase"> <b># Cuti department {{$employee->department->name}}</b> </small>
                   </div>
                   <div class="card-body p-0">
@@ -363,7 +365,7 @@ Dashboard
       
                         </tbody>
                      </table>
-                  </div> --}}
+                  </div>
                   <div class="card-header bg-light border p-2">
                      <small class="text-uppercase"> <b># Recent PE</b> </small>
                   </div>
@@ -422,6 +424,7 @@ Dashboard
                         </tbody>
                      </table>
                   </div>
+               </div>
                </div>
             </div>
          </div>

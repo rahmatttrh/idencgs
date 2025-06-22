@@ -564,6 +564,19 @@ class HomeController extends Controller
          $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
          $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->get();
          $formAbsences = AbsenceEmployee::where('status', '!=', 5)->orderBy('release_date', 'desc')->paginate(30);
+
+         $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
+            ->where('employees.department_id', $user->department_id)
+            ->where('absences.type', 5)
+            ->where('absences.date', '>=', $now->format('Y-m-d'))
+            ->select('absences.*')
+            ->get();
+
+         $peHistories = Pe::where('employe_id', $user->id)->where('status', '>', 1)->paginate(3);
+         $spHistories = Sp::where('employee_id', auth()->user()->getEmployeeId())->where('status', '>', 3)->get();
+
+         $spklApprovals = OvertimeEmployee::where('status', 3)->get();
+
          return view('pages.dashboard.hrd-payroll', [
             'units' => $units,
             'employee' => $user,
@@ -587,7 +600,11 @@ class HomeController extends Controller
 
             'reqForms' => $reqForms,
             'reqBackupForms' => $reqBackForms,
-            'formAbsences' => $formAbsences
+            'formAbsences' => $formAbsences,
+            'cutis' => $cutis, 
+            'peHistories' => $peHistories,
+            'spHistories' => $spHistories,
+            'spklApprovals' => $spklApprovals
          ])->with('i');
       } elseif (auth()->user()->hasRole('HRD-KJ12')) {
          $user = Employee::find(auth()->user()->getEmployeeId());
@@ -838,6 +855,28 @@ class HomeController extends Controller
          $nowAddTwo = $now->addMonth(2);
          $notifContracts = $contractEnds->where('end', '<', $nowAddTwo);
 
+
+         $teamId = [];
+         if(count($employee->positions) > 0){
+            foreach($employee->positions as $pos){
+               foreach($pos->department->employees->where('status', 1) as $emp){
+                  $teamId[] = $emp->id;
+               }
+            }
+
+            
+         } else {
+            $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+            foreach($myEmployees as $emp){
+               $teamId[] = $emp->id;
+            }
+            
+         }
+
+         $teamSpkls = OvertimeEmployee::where('status', 2)->whereIn('employee_id', $teamId)->get();
+         $recentTeamSpkls = OvertimeEmployee::where('status','>', 2)->whereNotIn('status',  [201,301])->whereIn('employee_id', $teamId)->get();
+         $spApprovals = Sp::where('status', 3)->whereIn('employee_id', $teamId)->get();
+
          return view('pages.dashboard.manager', [
             'employee' => $biodata->employee,
             'dates' => $dates,
@@ -859,7 +898,11 @@ class HomeController extends Controller
             'recentForms' => $recentForms,
 
             'peTotal' => $peTotal,
-            'peNotifs' => $peNotifs
+            'peNotifs' => $peNotifs,
+
+            'teamSpkls' => $teamSpkls,
+            'recentTeamSpkls' => $recentTeamSpkls,
+            'spApprovals' => $spApprovals
          ]);
       } elseif (auth()->user()->hasRole('Supervisor|Leader')) {
          // dd('ok');
@@ -905,7 +948,7 @@ class HomeController extends Controller
 
 
          // dd($teams);
-         $spRecents = Sp::where('by_id', auth()->user()->getEmployeeId())->orderBy('updated_at', 'desc')->paginate('5');
+         
          $spRecents = Sp::where('by_id', auth()->user()->getEmployeeId())->orderBy('updated_at', 'desc')->paginate('5');
          $peRecents = Pe::where('created_by', $employee->id)->where('status', '!=', 2)->orderBy('updated_at', 'desc')->get();
          if ($employee->designation->slug == 'supervisor') {
@@ -936,6 +979,9 @@ class HomeController extends Controller
             }
          }
 
+         $spNotifs = Sp::where('by_id', $employee->id)->where('department_id', $employee->department_id)->where('status', 2)->orWhere('status', 202)->orderBy('updated_at', 'desc')->get();
+         $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
+
          $absences = Absence::where('employee_id', $employee->id)->get();
          // dd($absences);
          $myForms = AbsenceEmployee::where('employee_id', $employee->id)->where('status', '!=', 0)->where('status', '!=', 5)->orderBy('updated_at', 'desc')->get();
@@ -965,7 +1011,8 @@ class HomeController extends Controller
             'reqBackupForms' => $reqBackForms,
 
             'spteams' => $spteams,
-
+            'spNotifs' => $spNotifs,
+            'spRecomends' => $spRecomends,
             'approvalEmployeeSpkl' => $approvalEmployeeSpkl
          ]);
       } else {
