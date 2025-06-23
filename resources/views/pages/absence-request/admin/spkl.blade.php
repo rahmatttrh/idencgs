@@ -74,7 +74,7 @@ SPKL
                <tbody>
                   @foreach ($spkls as $spkl)
                   <tr>
-                     <td>{{++$i}}</td>
+                     <td>{{$spkl->id}}</td>
                      <td>
                         <a href="{{route('employee.spkl.detail', enkripRambo($spkl->id))}}">{{$spkl->code}} </a>
                         @if ($spkl->parent_id != null)
