@@ -382,6 +382,9 @@
                   
                   <div class="card-body ">
                      {{formatDate($mutation->date)}}
+                     @if (auth()->user()->hasRole('Administrator'))
+                         ID : {{$mutation->id}}
+                     @endif
                      <hr>
                      <div class="row">
 
