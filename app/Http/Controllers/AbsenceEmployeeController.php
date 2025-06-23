@@ -379,6 +379,7 @@ class AbsenceEmployeeController extends Controller
       // dd($absenceEmployee->employee->biodata->fullName());
       $user = Employee::where('nik', auth()->user()->username)->first();
       $backDate = Carbon::now()->addDay(-7);
+      
       return view('pages.absence-request.detail', [
          'myteams' => $myteams,
          'activeTab' => $activeTab,

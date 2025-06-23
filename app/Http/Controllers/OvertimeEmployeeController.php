@@ -216,13 +216,24 @@ class OvertimeEmployeeController extends Controller
    public function create(){
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
+      // $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
+      // dd($employeeLeaders);
+      $leader = null;
+      foreach($employeeLeaders as $lead){
+         
+         if ($lead->leader->role == 7) {
+            $empLead = Employee::find($lead->leader_id);
+            $leader = $empLead;
+         }
+      }
       // dd($employeeLeaders);
       $locations = Location::get();
       // dd($spkls);
       return view('pages.spkl.form', [
          'locations' => $locations,
-         'employeeLeaders'=> $employeeLeaders
+         'employeeLeaders'=> $employeeLeaders,
+         'leader' => $leader
       ]);
    }
 

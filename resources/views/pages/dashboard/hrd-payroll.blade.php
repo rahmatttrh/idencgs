@@ -497,7 +497,7 @@
 
 
          <div class="row">
-            <div class="col-md-4 d-none d-md-block">
+            <div class="col-md-6 d-none d-md-block">
                <div class="card border card-stats card-round">
                   <div class="card-body ">
                      <div class="row align-items-center">

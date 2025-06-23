@@ -71,10 +71,11 @@ Form Lembur/Piket
                            <div class="form-group form-group-default ">
                               <label>Atasan</label>
                               <select class="form-control " required name="leader" id="leader">
-                                 <option value="" disabled selected>Select</option>
+                                 <option selected value="{{$leader->id}}">{{$leader->biodata->fullName()}}</option>
+                                 {{-- <option value="" disabled selected>Select</option>
                                  @foreach ($employeeLeaders as $lead)
                                     <option selected value="{{$lead->leader->id}}">{{$lead->leader->biodata->fullName()}}</option>
-                                 @endforeach
+                                 @endforeach --}}
                                 
                               </select>
                            </div>
