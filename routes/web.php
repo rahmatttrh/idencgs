@@ -917,6 +917,9 @@ Route::middleware(["auth"])->group(function () {
    Route::group(['middleware' => ['role:Administrator|Karyawan|Leader|Supervisor|Manager|Asst. Manager']], function () {
       // kpi
 
+      Route::get('/admin/monitoring/absence', [AbsenceEmployeeController::class, 'indexAdmin'])->name('admin.employee.absence');
+      Route::get('/admin/monitoring/spkl', [OvertimeEmployeeController::class, 'indexAdmin'])->name('admin.employee.spkl');
+
       Route::prefix('approval')->group(function () {
          Route::get('absence/index', [AbsenceLeaderController::class, 'index'])->name('leader.absence');
          Route::get('absence/history', [AbsenceLeaderController::class, 'history'])->name('leader.absence.history');
@@ -970,7 +973,7 @@ Route::middleware(["auth"])->group(function () {
          });
 
          Route::prefix('absence')->group(function () {
-            Route::get('/admin/index', [AbsenceEmployeeController::class, 'indexAdmin'])->name('admin.employee.absence');
+            
             Route::get('/index', [AbsenceEmployeeController::class, 'index'])->name('employee.absence');
             
             Route::get('/create', [AbsenceEmployeeController::class, 'create'])->name('employee.absence.create');
