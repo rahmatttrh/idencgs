@@ -33,6 +33,8 @@ Contract Alert
                <small>Kontrak Kerja Karyawan yang akan berakhir dalam waktu 2 bulan kedepan</small>
             </div>
          </div>
+
+
          {{-- <small>
             <b>#INFO</b> <br>
             Daftar Form Request Absensi yang dibuat oleh Karyawan
@@ -43,7 +45,7 @@ Contract Alert
       <div class="col-md-9">
          
          <div class="table-responsive ">
-            <table class="display basic-datatables table-sm table-bordered  table-striped ">
+            <table id="myTable" class="display basic-datatables table-sm table-bordered  table-striped ">
                <thead>
                   
                   <tr>
@@ -55,6 +57,15 @@ Contract Alert
                   </tr>
                   
                </thead>
+                <tfoot>
+                        <tr>
+                           <th class=""></th>
+                           <td @disabled(true) colspan=""></td>
+                           <th ></th>
+                           <th></th>
+                           <th></th>
+                        </tr>
+                     </tfoot>
                <tbody>
                   @foreach ($contractAlerts as $con)
                       <tr>
