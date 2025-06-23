@@ -1338,7 +1338,7 @@ class OvertimeController extends Controller
       } else {
          // dd('ok');
          $employees = Employee::get();
-         $overtimes = Overtime::where('type', 1)->where('status', 0)->orderBy('created_at', 'desc')->paginate();
+         $overtimes = Overtime::where('status', 0)->orderBy('created_at', 'desc')->paginate();
       }
       // dd('ok');
 

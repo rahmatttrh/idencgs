@@ -184,6 +184,14 @@ class EmployeeController extends Controller
    }
 
 
+   public function indexContract(){
+      $employees = Employee::where('status', 1)->get();
+      return view('pages.employee.contract', [
+         'employees' => $employees
+      ])->with('i');
+   }
+
+
    public function resetPassword($id)
    {
       $employee = Employee::find(dekripRambo($id));

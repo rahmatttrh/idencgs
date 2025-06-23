@@ -38,7 +38,7 @@ class LocationController extends Controller
       if ($currentEmployee) {
          return redirect()->back()->with('danger', 'Failed');
       } else {
-         // $location->delete();
+         $location->delete();
          return redirect()->back()->with('success', 'Location successfully deleted');
       }
    }
