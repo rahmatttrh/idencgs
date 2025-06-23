@@ -219,6 +219,7 @@ Route::middleware(["auth"])->group(function () {
 
       Route::prefix('employee')->group(function () {
          Route::get('tab/{tab}', [EmployeeController::class, 'index'])->name('employee');
+         Route::get('contract', [EmployeeController::class, 'indexContract'])->name('employee.contract');
          Route::get('nonactive', [EmployeeController::class, 'nonactive'])->name('employee.nonactive');
          Route::get('off', [EmployeeController::class, 'off'])->name('employee.off');
 

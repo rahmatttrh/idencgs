@@ -47,15 +47,17 @@ Employee
       <div class="card-body">
          <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
             <li class="nav-item">
-               <a class="nav-link active" id="pills-home-tab"  href="{{route('employee', enkripRambo('active'))}}" >Daftar Karyawan</a>
+               <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Daftar Karyawan</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" id="pills-profile-tab" href="{{route('employee.contract')}}">Riwayat Kontrak</a>
+               <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Riwayat Kontrak</a>
             </li>
-           
+            {{-- <li class="nav-item">
+               <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
+            </li> --}}
          </ul>
          <hr>
-         <div class="tab-content mt-2 mb-3 p-0" id="pills-tabContent">
+         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
             <div class="tab-pane fade show active px-0" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                <div class="table-responsive">
                   <table id="data" class="display basic-datatables table-sm">
@@ -238,7 +240,184 @@ Employee
       </div>
    </div>
 
-   
+   <div class="card shadow-none border">
+      <div class="card-header d-flex justify-content-between">
+         <h2>List Karyawan</h2>
+         <div>
+            <a href="{{route('employee.nonactive')}}" class="btn btn-light border btn-sm">Non Active</a>
+            {{-- <a href="{{route('task.create')}}" class="btn btn-primary btn-sm">Add New Task</a> --}}
+         </div>
+     </div>
+      <div class="card-body p-0 pt-3 pb-2">
+         <div class="table-responsive">
+            <table id="data" class="display basic-datatables table-sm">
+               <thead>
+                  <tr>
+                     <th class="text-center">No</th>
+                     {{-- @if (auth()->user()->hasRole('Administrator'))
+                     <th>ID</th>
+                     <th class="text-truncate">User ID</th>
+                     @endif --}}
+                     
+                     <th>NIK</th>
+                     <th>Name</th>
+                     <th>Level</th>
+                     {{-- <th>KPI</th>
+                     <th>Leader</th> --}}
+                     {{-- <th>Phone</th> --}}
+                     <th>Loc</th>
+                     <th class="text-truncate">Bisnis Unit</th>
+                     <th>Department</th>
+                     {{-- <th>Sub</th> --}}
+                     {{-- <th  >Posisi</th> --}}
+                     {{-- <th>Kontrak/Tetap</th> --}}
+                     {{-- <th class="text-right">Action</th> --}}
+                     <th>Join</th>
+                  </tr>
+               </thead>
+               {{-- <tfoot>
+                  <tr>
+                     <th class=""></th>
+                     <td @disabled(true) colspan=""></td>
+                     <th ></th>
+                     <th></th>
+                     <th></th>
+                     <th></th>
+                     <th></th>
+
+                     <th></th>
+                     <th></th>
+                     <th></th>
+                     <th class="text-right">Action</th>
+                  </tr>
+               </tfoot> --}}
+               <tbody>
+                  @foreach ($employees as $employee)
+                  <tr>
+                     <td class="text-center text-truncate">
+                        {{++$i}}
+                        @if (auth()->user()->hasRole('Administrator'))
+                        {{$employee->id}}
+                        {{-- {{$employee->user_id}} --}}
+                        {{-- Dept ID : {{$employee->department_id}} --}}
+                        @endif
+                     </td>
+                     
+                     <td class="text-truncate">{{$employee->nik}}</td>
+                     {{-- <td><a href="{{route('employee.detail', enkripRambo($employee->id))}}">{{$employee->name}}</a> </td> --}}
+                     <td class="text-truncate" style="max-width: 220px">
+                        <div>
+                           <a href="{{route('employee.detail', [enkripRambo($employee->id), enkripRambo('basic')])}}">{{$employee->biodata->first_name ?? ''}} {{$employee->biodata->last_name ?? ''}}</a> 
+                           {{-- <small class="text-muted">{{$employee->biodata->email}}</small> --}}
+                        </div>
+                       
+                     </td>
+                     {{-- @if (auth()->user()->hasRole('Administrator'))
+                         
+                     @endif --}}
+                     <td>{{$employee->position->name ?? ''}}</td>
+                     
+                     {{-- <td class="text-truncate">
+                        @if ($employee->kpi_id != null)
+                        {
+                            <i class="fa fa-check"></i>
+                            
+                            @else
+                            Empty
+                        @endif
+                        
+                     </td>
+                     <td>
+                        @if (count($employee->getLeaders()) > 0)
+                            <i class="fa fa-check"></i>
+                            @else
+                            Empty
+                        @endif
+                     </td> --}}
+                     {{-- <td>{{$employee->biodata->phone}}</td> --}}
+                     <td class="text-truncate"> 
+                        @if (auth()->user()->hasRole('Administrator'))
+                        {{$employee->location_id}}
+                           @if ($employee->contract->loc == null)
+                               Kosong
+                           @endif
+                        @endif
+                        {{$employee->location->code}}
+                     </td>
+                     <td class="text-truncate">
+                        
+                        {{$employee->unit->name ?? ''}}
+                        {{-- @if (count($employee->positions) > 0)
+                              Multiple
+                            @else
+                            @if (auth()->user()->hasRole('Administrator'))
+                            {{$employee->department->unit->id ?? ''}}
+                           @endif
+                            {{$employee->department->unit->name ?? ''}}
+                        @endif --}}
+                        
+                     </td>
+                     
+                     <td class="text-truncate">
+                        @if (auth()->user()->hasRole('Administrator'))
+                            {{$employee->department->id ?? ''}} -
+                           @endif
+                        {{$employee->department->name ?? ''}}
+                        {{-- @if (count($employee->positions) > 0)
+                              Multiple
+                            @else
+                            
+                            
+                        @endif --}}
+                     </td>
+                     {{-- <td class="text-truncate">
+                        @if (auth()->user()->hasRole('Administrator'))
+                            {{$employee->sub_dept->id ?? ''}} -
+                           @endif
+                        {{$employee->sub_dept->name ?? ''}}
+                        
+                        @if (count($employee->positions) > 0)
+                              @foreach ($employee->positions as $pos)
+                                  {{$pos->sub_dept->name ?? ''}}
+                              @endforeach
+                            @else
+                            {{$employee->sub_dept->name ?? ''}}
+                        @endif
+                     </td> --}}
+                     {{-- <td>{{$employee->contract->designation->name ?? ''}}</td> --}}
+                     <td class="text-truncate">
+                        {{formatDate($employee->join)}}
+                        {{-- @if (auth()->user()->hasRole('Administrator'))
+                            {{$employee->position->id ?? ''}} -
+                           @endif
+                        {{$employee->position->name ?? ''}} --}}
+                        {{-- @if (count($employee->positions) > 0)
+                              Multiple
+                            @else
+                            @if (auth()->user()->hasRole('Administrator'))
+                            {{$employee->position->id ?? ''}}
+                           @endif
+                            {{$employee->position->name ?? ''}}
+                        @endif --}}
+                     </td>
+                     {{-- <td>
+                        @if ($employee->contract->type == 'Kontrak')
+                        <span class="badge badge-info">Kontrak</span>
+                        @elseif($employee->contract->type == 'Tetap')
+                        <span class="badge badge-info">Tetap</span>
+                        @else
+                        <span class="badge badge-muted">Empty</span>
+                        @endif
+      
+                     </td> --}}
+                  </tr>
+                  @endforeach
+               </tbody>
+               
+            </table>
+         </div>
+      </div>
+   </div>
    
 </div>
 
