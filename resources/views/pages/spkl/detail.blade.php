@@ -107,76 +107,80 @@ Form Lembur/Piket
          </table>
 
 
-         @if ($empSpkl->status == 3 && auth()->user()->hasRole('HRD-Payroll'))
-         <form action="{{route('employee.spkl.hrd.approve')}}" method="POST">
-         <table>
-            
-               @csrf
-               <input type="text" name="empSpkl" id="empSpkl" value="{{$empSpkl->id}}" hidden>
-               <tbody>
-                  <tr><td colspan="2">Form Verifikasi</td></tr>
-                  <tr>
-                     <td>Tipe</td>
-                     <td>
-                        @if ($currentSpkl)
-                        <select class="form-control " required name="type" id="type">
-                           {{-- <option value="" disabled selected>Select</option> --}}
-                           <option {{$currentSpkl->type == 1 ? 'selected' : ''}} value="1">Lembur</option>
-                           <option {{$currentSpkl->type == 2 ? 'selected' : ''}}  value="2">Piket</option>
-                        </select>
-                        @else
-                        <select class="form-control " required name="type" id="type">
-                           {{-- <option value="" disabled selected>Select</option> --}}
-                           <option {{$empSpkl->type == 1 ? 'selected' : ''}} value="1">Lembur</option>
-                           <option {{$empSpkl->type == 2 ? 'selected' : ''}}  value="2">Piket</option>
-                        </select>
-                        @endif
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Hari</td>
-                     <td>
-                        @if ($currentSpkl)
-                        <select class="form-control" required name="holiday_type" id="holiday_type">
-                           {{-- <option value="" disabled selected>Select</option> --}}
-                           <option {{$currentSpkl->holiday_type == 1 ? 'selected' : ''}} value="1">Hari Kerja</option>
-                           <option {{$currentSpkl->holiday_type == 2 ? 'selected' : ''}} value="2">Hari Libur</option>
-                           <option {{$currentSpkl->holiday_type == 3 ? 'selected' : ''}} value="3">Hari Libur Nasional</option>
-                           <option {{$currentSpkl->holiday_type == 4 ? 'selected' : ''}} value="4">Hari Libur Idul Fitri</option>
-                        </select>
-                            @else
-                            <select class="form-control" required name="holiday_type" id="holiday_type">
-                              {{-- <option value="" disabled selected>Select</option> --}}
-                              <option {{$empSpkl->holiday_type == 1 ? 'selected' : ''}} value="1">Hari Kerja</option>
-                              <option {{$empSpkl->holiday_type == 2 ? 'selected' : ''}} value="2">Hari Libur</option>
-                              <option {{$empSpkl->holiday_type == 3 ? 'selected' : ''}} value="3">Hari Libur Nasional</option>
-                              <option {{$empSpkl->holiday_type == 4 ? 'selected' : ''}} value="4">Hari Libur Idul Fitri</option>
-                           </select>
-
-                        @endif
-                        
-                        
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Jam</td>
-                     <td>
-                        @if ($currentSpkl)
-                        <input class="form-control" type="number" name="hours" id="hours" value="{{$currentSpkl->hours}}">
-                        @else
-                        <input class="form-control" type="number" name="hours" id="hours" value="{{$empSpkl->hours}}">
-                        @endif
-                        
-                     </td>
-                  </tr>
+         @if (auth()->user()->hasRole('HRD-Payroll'))
+             
+         
+            @if ($empSpkl->status == 3 ||$empSpkl->status == 4 )
+            <form action="{{route('employee.spkl.hrd.approve')}}" method="POST">
+            <table>
                
-            </form>
-         </table>
-         @if ($currentSpkl)
-         <button class="btn btn-block btn-secondary" type="submit">Update</button>
-         @else
-         <button class="btn btn-block btn-primary" type="submit">Submit</button>
-         @endif
+                  @csrf
+                  <input type="text" name="empSpkl" id="empSpkl" value="{{$empSpkl->id}}" hidden>
+                  <tbody>
+                     <tr><td colspan="2">Form Verifikasi</td></tr>
+                     <tr>
+                        <td>Tipe</td>
+                        <td>
+                           @if ($currentSpkl)
+                           <select class="form-control " required name="type" id="type">
+                              {{-- <option value="" disabled selected>Select</option> --}}
+                              <option {{$currentSpkl->type == 1 ? 'selected' : ''}} value="1">Lembur</option>
+                              <option {{$currentSpkl->type == 2 ? 'selected' : ''}}  value="2">Piket</option>
+                           </select>
+                           @else
+                           <select class="form-control " required name="type" id="type">
+                              {{-- <option value="" disabled selected>Select</option> --}}
+                              <option {{$empSpkl->type == 1 ? 'selected' : ''}} value="1">Lembur</option>
+                              <option {{$empSpkl->type == 2 ? 'selected' : ''}}  value="2">Piket</option>
+                           </select>
+                           @endif
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>Hari</td>
+                        <td>
+                           @if ($currentSpkl)
+                           <select class="form-control" required name="holiday_type" id="holiday_type">
+                              {{-- <option value="" disabled selected>Select</option> --}}
+                              <option {{$currentSpkl->holiday_type == 1 ? 'selected' : ''}} value="1">Hari Kerja</option>
+                              <option {{$currentSpkl->holiday_type == 2 ? 'selected' : ''}} value="2">Hari Libur</option>
+                              <option {{$currentSpkl->holiday_type == 3 ? 'selected' : ''}} value="3">Hari Libur Nasional</option>
+                              <option {{$currentSpkl->holiday_type == 4 ? 'selected' : ''}} value="4">Hari Libur Idul Fitri</option>
+                           </select>
+                              @else
+                              <select class="form-control" required name="holiday_type" id="holiday_type">
+                                 {{-- <option value="" disabled selected>Select</option> --}}
+                                 <option {{$empSpkl->holiday_type == 1 ? 'selected' : ''}} value="1">Hari Kerja</option>
+                                 <option {{$empSpkl->holiday_type == 2 ? 'selected' : ''}} value="2">Hari Libur</option>
+                                 <option {{$empSpkl->holiday_type == 3 ? 'selected' : ''}} value="3">Hari Libur Nasional</option>
+                                 <option {{$empSpkl->holiday_type == 4 ? 'selected' : ''}} value="4">Hari Libur Idul Fitri</option>
+                              </select>
+
+                           @endif
+                           
+                           
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>Jam</td>
+                        <td>
+                           @if ($currentSpkl)
+                           <input class="form-control" type="text" name="hours" id="hours" value="{{$currentSpkl->hours}}">
+                           @else
+                           <input class="form-control" type="text" name="hours" id="hours" value="{{$empSpkl->hours}}">
+                           @endif
+                           
+                        </td>
+                     </tr>
+                  
+               </form>
+            </table>
+            @if ($currentSpkl)
+            <button class="btn btn-block btn-secondary" type="submit">Update</button>
+            @else
+            <button class="btn btn-block btn-primary" type="submit">Submit</button>
+            @endif
+            @endif
       </tbody>
          <hr>
          <div class="card">
