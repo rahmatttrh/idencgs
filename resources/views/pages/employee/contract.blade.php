@@ -25,7 +25,7 @@ Employee
                <a class="nav-link active" id="pills-profile-tab" href="{{route('employee.contract')}}">Riwayat Kontrak</a>
             </li>
          </ul>
-         <hr>
+         
          <div class="tab-content mt-2 mb-3" id="pills-tabContent">
             <div class="tab-pane fade show active px-0" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                <div class="table-responsive">
