@@ -25,6 +25,16 @@ class OvertimeEmployeeController extends Controller
       ]);
    }
 
+   public function indexAdmin(){
+      // dd('ok');
+      // $employee = Employee::where('nik', auth()->user()->username)->first();
+      $spkls = OvertimeEmployee::orderBy('updated_at', 'desc')->get();
+      // dd($spkls);
+      return view('pages.absence-request.admin.spkl', [
+         'spkls' => $spkls
+      ])->with('i');
+   }
+
    public function indexLeader(){
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
