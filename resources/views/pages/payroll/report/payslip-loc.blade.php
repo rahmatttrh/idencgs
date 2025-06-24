@@ -77,17 +77,16 @@ Payroll Transaction
       </ol>
    </nav>
    
-   <div class="d-flex">
-      {{-- <a href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a> --}}
-      
-      {{-- @if (auth()->user()->username == 'EN-2-001')
+   {{-- <div class="d-flex">
+     
+      @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093')
          @if ($payslipReport->status == null)
             <div class="btn-group ml-2 mb-2">
                <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
                <a href="#" class="btn btn-danger" data-target="#reject-payslip-loc" data-toggle="modal">Reject</a>
             </div>
          @endif   
-      @endif --}}
+      @endif
 
       @if (auth()->user()->username == '11304')
          @if ($payslipReport->status == 1)
@@ -109,7 +108,7 @@ Payroll Transaction
             </div>
          @endif   
       @endif
-   </div>
+   </div> --}}
    
 
    <div class="card  shadow-none border">
@@ -141,18 +140,52 @@ Payroll Transaction
             @endif
 
             <div class="card border shadow-none">
-               <div class="card-body"> 
+               <div class="card-body text-center"> 
                   <x-status.unit-transaction-loc :unittrans="$payslipReport"/> 
                </div>
                <div class="card-footer">
-                  @if (auth()->user()->username == 'EN-2-001')
-         @if ($payslipReport->status == null)
-            <div class="btn-group btn-block">
-               <a href="#" class="btn btn-primary btn-sm btn-block" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
-               <a href="#" class="btn btn-danger btn-sm" data-target="#reject-payslip-loc" data-toggle="modal">Reject</a>
-            </div>
-         @endif   
-      @endif
+
+
+                  @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093')
+                     @if ($payslipReport->status == null)
+                        <div class="btn-group btn-block">
+                           <a href="#" class="btn btn-primary btn-sm btn-block" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
+                           <a href="#" class="btn btn-danger btn-sm" data-target="#reject-payslip-loc" data-toggle="modal">Reject</a>
+                        </div>
+                     @endif   
+                  @endif
+
+                  {{-- Manager Finance --}}
+                  @if (auth()->user()->username == '11304')
+                     @if ($payslipReport->status == 1)
+                        <div class="btn-group ml-2 mb-2">
+                           <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
+                           <a href="" class="btn btn-danger">Reject</a>
+                        </div>
+                     @endif   
+                  @endif
+
+                  @if (auth()->user()->username == 'EN-2-006')
+      
+                     @if ($payslipReport->status == 2)
+                     
+                        <div class="btn-group ml-2 mb-2">
+                           <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
+                           <a href="#" class="btn btn-danger" data-target="#reject-payslip-loc" data-toggle="modal">Reject</a>
+                        </div>
+                     @endif   
+                  @endif
+
+                  @if (auth()->user()->username == 'BOD-002')
+      
+                     @if ($payslipReport->status == 3)
+                     
+                        <div class="btn-group ml-2 mb-2">
+                           <a href="#" class="btn btn-primary" data-target="#approve-payslip-loc" data-toggle="modal">Approve</a>
+                           <a href="#" class="btn btn-danger" data-target="#reject-payslip-loc" data-toggle="modal">Reject</a>
+                        </div>
+                     @endif   
+                  @endif
                </div>
             </div>
 
@@ -172,7 +205,7 @@ Payroll Transaction
                @endif
             @endif
 
-            @if (auth()->user()->username == 'EN-2-006' || auth()->user()->hasRole('Administrator|HRD-Payroll|HRD'))
+            @if (auth()->user()->username == 'EN-2-006' )
                @if ($payslipReport->status == 3)
                   <span>Approved GM</span>
                   @else
