@@ -781,57 +781,52 @@ class TransactionController extends Controller
       ]);
 
       // Karyawan off
-      if ($employee->off > $transaction->cut_from && $employee->off < $transaction->cut_to) {
-         # code...
-      } else {
-         // 03 Create transaction detail Gaji Pokok
-         TransactionDetail::create([
-            'transaction_id' => $transaction->id,
-            'type' => 'basic',
-            'desc' => 'Gaji Pokok',
-            'value' => $payroll->pokok,
-         ]);
+      TransactionDetail::create([
+         'transaction_id' => $transaction->id,
+         'type' => 'basic',
+         'desc' => 'Gaji Pokok',
+         'value' => $payroll->pokok,
+      ]);
 
-         // 04 Create transaction detail Tunj Jabatan
-         TransactionDetail::create([
-            'transaction_id' => $transaction->id,
-            'type' => 'basic',
-            'desc' => 'Tunj. Jabatan',
-            'value' => $payroll->tunj_jabatan,
-         ]);
+      // 04 Create transaction detail Tunj Jabatan
+      TransactionDetail::create([
+         'transaction_id' => $transaction->id,
+         'type' => 'basic',
+         'desc' => 'Tunj. Jabatan',
+         'value' => $payroll->tunj_jabatan,
+      ]);
 
-         // 05 Create transaction detail Tunj OPS
-         TransactionDetail::create([
-            'transaction_id' => $transaction->id,
-            'type' => 'basic',
-            'desc' => 'Tunj. OPS',
-            'value' => $payroll->tunj_ops,
-         ]);
+      // 05 Create transaction detail Tunj OPS
+      TransactionDetail::create([
+         'transaction_id' => $transaction->id,
+         'type' => 'basic',
+         'desc' => 'Tunj. OPS',
+         'value' => $payroll->tunj_ops,
+      ]);
 
-         // 06 Create transaction detail Tunj Kinerja
-         TransactionDetail::create([
-            'transaction_id' => $transaction->id,
-            'type' => 'basic',
-            'desc' => 'Tunj. Kinerja',
-            'value' => $payroll->tunj_kinerja,
-         ]);
+      // 06 Create transaction detail Tunj Kinerja
+      TransactionDetail::create([
+         'transaction_id' => $transaction->id,
+         'type' => 'basic',
+         'desc' => 'Tunj. Kinerja',
+         'value' => $payroll->tunj_kinerja,
+      ]);
 
-         // 07 Create transaction detail Tunj Fungsional
-         TransactionDetail::create([
-            'transaction_id' => $transaction->id,
-            'type' => 'basic',
-            'desc' => 'Tunj. Fungsional',
-            'value' => $payroll->tunj_fungsional,
-         ]);
+      // 07 Create transaction detail Tunj Fungsional
+      TransactionDetail::create([
+         'transaction_id' => $transaction->id,
+         'type' => 'basic',
+         'desc' => 'Tunj. Fungsional',
+         'value' => $payroll->tunj_fungsional,
+      ]);
 
-         // 08 Create transaction detail insentif
-         TransactionDetail::create([
-            'transaction_id' => $transaction->id,
-            'type' => 'basic',
-            'desc' => 'Insentif',
-            'value' => $payroll->insentif,
-         ]);
-      }
+      // 08 Create transaction detail insentif
+      TransactionDetail::create([
+         'transaction_id' => $transaction->id,
+         'type' => 'basic',
+         'desc' => 'Insentif',
+         'value' => $payroll->insentif,
+      ]);
 
 
       
