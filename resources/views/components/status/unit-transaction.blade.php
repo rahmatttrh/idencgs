@@ -5,7 +5,7 @@
     @elseif($unittrans->status == 2)
     <span class="">Approval Finance Man.</span>
     @elseif($unittrans->status == 3)
-    <span class="">Approval GGM</span>
+    <span class="">Approval GM</span>
     @elseif($unittrans->status == 4)
     <span class="">Approval Direksi</span>
 

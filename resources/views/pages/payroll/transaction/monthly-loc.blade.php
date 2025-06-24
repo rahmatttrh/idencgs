@@ -105,7 +105,7 @@ Payroll Transaction
          {{-- Action Approval --}}  
          
       
-         @if (auth()->user()->username == '11304' && $unitTransaction->status == 2)
+         {{-- @if (auth()->user()->username == '11304' && $unitTransaction->status == 2)
          <div class="btn-group  mb-2">
             @php
                 $approve = 1;
@@ -125,9 +125,9 @@ Payroll Transaction
             
                <a href="" class="btn btn-danger  " data-target="#modal-reject-manfin-tu" data-toggle="modal">Reject</a>
          </div>
-         @endif
+         @endif --}}
 
-         @if (auth()->user()->username == 'EN-2-006' && $unitTransaction->status == 3)
+         {{-- @if (auth()->user()->username == 'EN-2-006' && $unitTransaction->status == 3)
          <div class="btn-group  mb-2">
             @php
                 $approve = 1;
@@ -147,9 +147,9 @@ Payroll Transaction
             
             <a href="#" class="btn btn-danger" data-target="#modal-reject-gm-tu" data-toggle="modal">Reject</a>
          </div>
-         @endif
+         @endif --}}
 
-         @if (auth()->user()->username == 'BOD-002' && $unitTransaction->status == 4)
+         {{-- @if (auth()->user()->username == 'BOD-002' && $unitTransaction->status == 4)
          <div class="btn-group ml-2 mb-2">
             @php
                 $approve = 1;
@@ -169,7 +169,7 @@ Payroll Transaction
             
                <a href="" class="btn btn-danger  mb-2" data-target="#modal-reject-bod-tu" data-toggle="modal">Reject</a>
          </div>
-         @endif
+         @endif --}}
 
          {{-- <a class="btn  btn-light border mb-2" href="{{route('payroll.transaction.export', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to Excel</a> --}}
       {{-- </div> --}}
@@ -265,38 +265,106 @@ Payroll Transaction
                 {{formatDateTime($unitTransaction->reject_date)}} <br>
                 {{$unitTransaction->reject_desc}}
                   </div>
-               </div>
-                
+               </div>              
                 @else
                 <div class="card card-light border">
                   <div class="card-body text-center">
                      <span class=""> <x-status.unit-transaction :unittrans="$unitTransaction"/> </span>
-                     
                   </div>
                   <div class="card-footer">
                      @if ($unitTransaction->status == 1)
-                  @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093')
-                  <div class="btn-group ">
-                     @php
-                     $approve = 1;
-                     @endphp
-                     @foreach ($payslipReports as $rep)
-                        @if ($rep->status == 101)
-                           @php
-                                 $approve = 0;
-                           @endphp
+                        @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093')
+                           <div class="btn-group ">
+                              @php
+                              $approve = 1;
+                              @endphp
+                              @foreach ($payslipReports as $rep)
+                                 @if ($rep->status == 101)
+                                    @php
+                                          $approve = 0;
+                                    @endphp
+                                 @endif
+                              @endforeach
+                              @if ($approve == 1)
+                              <a href="#" class="btn btn-primary btn-sm  " data-target="#modal-approve-hrd-tu" data-toggle="modal"><i class="fa fa-check"></i> Final Approve</a>
+                                 @else
+                                 <a href="#" class="btn btn-light border btn-sm" data-toggle="tooltip" title="Tidak dapat Approve karna ada lokasi yang di Reject">Final Approve</a>
+                              @endif
+                              {{-- <a href="#" class="btn btn-primary   " data-target="#modal-approve-hrd-tu" data-toggle="modal">Final Approve</a> --}}
+                              <a href="" class="btn btn-light border btn-sm " data-target="#modal-reject-hrd-tu" data-toggle="modal"> Reject</a>
+                           </div>
                         @endif
-                     @endforeach
-                     @if ($approve == 1)
-                     <a href="#" class="btn btn-primary btn-sm  " data-target="#modal-approve-hrd-tu" data-toggle="modal"><i class="fa fa-check"></i> Final Approve</a>
-                        @else
-                        <a href="#" class="btn btn-light border btn-sm" data-toggle="tooltip" title="Tidak dapat Approve karna ada lokasi yang di Reject">Final Approve</a>
                      @endif
-                     {{-- <a href="#" class="btn btn-primary   " data-target="#modal-approve-hrd-tu" data-toggle="modal">Final Approve</a> --}}
-                     <a href="" class="btn btn-light border btn-sm " data-target="#modal-reject-hrd-tu" data-toggle="modal"> Reject</a>
-                  </div>
-                  @endif
-               @endif
+
+                     {{-- Manager Finance --}}
+                     @if (auth()->user()->username == '11304' && $unitTransaction->status == 2)
+                        <div class="btn-group  mb-2">
+                           @php
+                              $approve = 1;
+                              @endphp
+                              @foreach ($payslipReports as $rep)
+                                 @if ($rep->status == 202)
+                                    @php
+                                          $approve = 0;
+                                    @endphp
+                                 @endif
+                              @endforeach
+                              @if ($approve == 1)
+                              <a href="#" class="btn btn-primary " data-target="#modal-approve-fin-tu" data-toggle="modal">Final Approve</a>
+                                 @else
+                                 <a href="#" class="btn btn-light border " data-toggle="tooltip" title="Tidak dapat Approve karna ada lokasi yang di Reject">Final Approve</a>
+                              @endif
+                           
+                              <a href="" class="btn btn-danger  " data-target="#modal-reject-manfin-tu" data-toggle="modal">Reject</a>
+                        </div>
+                     @endif
+
+
+                     {{-- GM --}}
+                     @if (auth()->user()->username == 'EN-2-006' && $unitTransaction->status == 3)
+                     <div class="btn-group  mb-2">
+                        @php
+                           $approve = 1;
+                        @endphp
+                        @foreach ($payslipReports as $rep)
+                           @if ($rep->status == 303)
+                              @php
+                                    $approve = 0;
+                              @endphp
+                           @endif
+                        @endforeach
+                        @if ($approve == 1)
+                           <a href="#" class="btn btn-primary" data-target="#modal-approve-gm-tu" data-toggle="modal">Final Approve</a>
+                           @else
+                           <a href="#" class="btn btn-light border" data-toggle="tooltip" title="Tidak dapat Approve karna ada lokasi yang di Reject">Final Approve</a>
+                        @endif
+                        
+                        <a href="#" class="btn btn-danger" data-target="#modal-reject-gm-tu" data-toggle="modal">Reject</a>
+                     </div>
+                     @endif
+
+                     {{-- BOD --}}
+                     @if (auth()->user()->username == 'BOD-002' && $unitTransaction->status == 4)
+                        <div class="btn-group ml-2 mb-2">
+                           @php
+                              $approve = 1;
+                              @endphp
+                              @foreach ($payslipReports as $rep)
+                                 @if ($rep->status == 404)
+                                    @php
+                                          $approve = 0;
+                                    @endphp
+                                 @endif
+                              @endforeach
+                              @if ($approve == 1)
+                              <a href="#" class="btn btn-primary mb-2" data-target="#modal-approve-bod-tu" data-toggle="modal">Final Approve</a>
+                                 @else
+                                 <a href="#" class="btn btn-light border mb-2" data-toggle="tooltip" title="Tidak dapat Approve karna ada lokasi yang di Reject">Final Approve</a>
+                              @endif
+                           
+                              <a href="" class="btn btn-danger  mb-2" data-target="#modal-reject-bod-tu" data-toggle="modal">Reject</a>
+                        </div>
+                        @endif
                   </div>
                </div>
                
@@ -366,17 +434,17 @@ Payroll Transaction
 
                         @if ($report->qty > 0)
                         <tr>
-                           @if (auth()->user()->username == 'EN-2-001')
+                           @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093')
                               @if ($report->status == 1)
-                              <td class="text-truncate bg-success" colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
-                              @elseif ($report->status == 101)  
-                                 <td class="text-truncate bg-danger text-white" colspan="2">
-                                    <a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a> <br>
-                                    {{$report->status}} :
-                                    <small>{{$report->reject_desc}}</small>
-                                 </td>
-                                 
-                              @else
+                                 <td class="text-truncate bg-success" colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
+                                 @elseif ($report->status == 101)  
+                                    <td class="text-truncate bg-danger text-white" colspan="2">
+                                       <a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a> <br>
+                                       {{$report->status}} :
+                                       <small>{{$report->reject_desc}}</small>
+                                    </td>
+                                    
+                                 @else
                                  <td class="text-truncate  " colspan="2"><a  href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
                               @endif
                            @endif
@@ -413,7 +481,7 @@ Payroll Transaction
                               @endif
                            @endif
 
-                           @if (auth()->user()->hasRole('Administrator|HRD-Payroll|HRD') &&  auth()->user()->username != 'EN-2-001')
+                           @if (auth()->user()->hasRole('Administrator|HRD-Payroll|HRD') &&  auth()->user()->username != 'EN-2-001' && auth()->user()->username != 'EN-4-093')
                                  @if ($report->status == 101 || $report->status == 202 || $report->status == 303 || $report->status == 404)
                                  <td class="text-truncate bg-danger text-white " colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
                                     @else

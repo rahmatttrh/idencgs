@@ -57,7 +57,7 @@ Summary Absence
           <hr>
           <table>
             <thead>
-               <tr><th colspan="2">SPKL/Unit</th></tr>
+               <tr><th colspan="2" class="py-2">SPKL/Unt</th></tr>
             </thead>
             <tbody>
                <tr>

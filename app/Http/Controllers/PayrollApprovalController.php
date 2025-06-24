@@ -82,7 +82,7 @@ class PayrollApprovalController extends Controller
    public function approveLocation(Request $req){
       $payslipReport = PayslipReport::find($req->payslipReport);
 
-      if (auth()->user()->username == 'EN-2-001') {
+      if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == 'EN-4-093') {
          $status = 1;
       } else if(auth()->user()->username == '11304'){
          $status = 2;
