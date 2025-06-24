@@ -36,7 +36,7 @@
                                     <option {{$employee->contract->loc == 'kj1-2' ? 'selected' : ''}} value="kj1-2">KJ 1-2</option>
                                     <option {{$employee->contract->loc == 'kj4' ? 'selected' : ''}} value="kj4">KJ 4</option>
                                     <option {{$employee->contract->loc == 'kj5' ? 'selected' : ''}} value="kj5">KJ 5</option>
-                                    <option {{$employee->contract->loc == 'kj1-5' ? 'selected' : ''}} value="kj1-5">KJ 1-5</option>
+                                    {{-- <option {{$employee->contract->loc == 'kj1-5' ? 'selected' : ''}} value="kj1-5">KJ 1-5</option> --}}
                                     <option {{$employee->contract->loc == 'gs' ? 'selected' : ''}} value="gs">GS</option>
                                     <option {{$employee->contract->loc == 'enc' ? 'selected' : ''}} value="enc">ENC</option>
                                     <option {{$employee->contract->loc == 'plb' ? 'selected' : ''}} value="plb">PLB</option>

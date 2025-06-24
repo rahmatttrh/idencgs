@@ -76,7 +76,7 @@
                                  <option value="kj1-2">KJ 1-2</option>
                                  <option value="kj4">KJ 4</option>
                                  <option value="kj5">KJ 5</option>
-                                 <option value="kj1-5">KJ 1-5</option>
+                                 {{-- <option value="kj1-5">KJ 1-5</option> --}}
                                  <option value="gs">GS</option>
                                  <option value="enc">ENC</option>
                                  <option value="plb">PLB</option>
