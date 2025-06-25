@@ -400,7 +400,10 @@
                            
                            <th colspan="" class="text-right">
                               <a href="#" class="text-white" data-toggle="modal" data-target="#modal-doc-mutation-{{$mutation->id}}">Document</a> |
+                              @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
                               <a href="#" class="text-white" data-toggle="modal" data-target="#modal-edit-mutation-{{$mutation->id}}">Edit</a> 
+                              @endif
+                              
                               {{-- <a href="#" class="text-white">Delete</a> --}}
                            </th>
                         </tr>
