@@ -394,6 +394,7 @@ Route::middleware(["auth"])->group(function () {
 
       Route::prefix('mutation')->group(function () {
          Route::post('store', [MutationController::class, 'store'])->name('mutation.store');
+         Route::put('update', [MutationController::class, 'update'])->name('mutation.update');
       });
 
       Route::get('/log', [LogController::class, 'index'])->name('log');

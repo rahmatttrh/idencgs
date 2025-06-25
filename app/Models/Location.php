@@ -120,12 +120,16 @@ class Location extends Model
       $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('project_id', null)->get();
       $employeeId = [];
 
+      
+
       foreach($employees as $emp){
          $employeeId[] = $emp->id;
       }
 
+      
+
       $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
-      // dd(count($transactions));
+      // dd();
       return $transactions;
    }
 

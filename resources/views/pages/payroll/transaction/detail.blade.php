@@ -664,7 +664,7 @@ Detail Transaction Payroll Employee
                                  <table class="">
                                     <thead>
                                        <tr>
-                                          <th colspan="3">Pengurangan</th>
+                                          <th colspan="3">Pengurangan {{$transaction->additional_pengurangan}}</th>
                                           
                                        </tr>
                                     </thead>

@@ -7,7 +7,7 @@
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-         <form action="{{route('mutation.store')}}" method="POST" >
+         <form action="{{route('mutation.store')}}" method="POST"  enctype="multipart/form-data">
             <div class="modal-body">
                @csrf
                   <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden>
@@ -18,32 +18,22 @@
                         <div class="row">
                            <div class="col-md-6">
                               <div class="form-group form-group-default">
-                                 <label>Work Hour</label>
-                                 <select class="form-control" id="shift"  name="shift">
-                                    @foreach ($shifts as $shift)
-                                    <option {{$employee->contract->shift_id == $shift->id ? 'selected' : ''}} value="{{$shift->id}}">{{formatTime($shift->in)}} - {{formatTime($shift->out)}}</option>
-                                    @endforeach
+                                 <label>Type</label>
+                                 <select class="form-control" id="type"  name="type" required>
+                                    <option value="Promosi">Promosi</option>
+                                    <option value="Rotasi">Rotasi</option>
+                                    <option value="Demosi">Demosi</option>
                                  </select>
                               </div>
                            </div>
                            <div class="col-md-6">
                               <div class="form-group form-group-default">
-                                 <label>Lokasi</label>
-                                 <select class="form-control" id="loc"  name="loc">
-                                    <option value="">Select</option>
-                                    <option {{$employee->contract->loc == 'hw' ? 'selected' : ''}} value="hw">HW</option>
-                                    <option {{$employee->contract->loc == 'jgc' ? 'selected' : ''}} value="jgc">JGC</option>
-                                    <option {{$employee->contract->loc == 'kj1-2' ? 'selected' : ''}} value="kj1-2">KJ 1-2</option>
-                                    <option {{$employee->contract->loc == 'kj4' ? 'selected' : ''}} value="kj4">KJ 4</option>
-                                    <option {{$employee->contract->loc == 'kj5' ? 'selected' : ''}} value="kj5">KJ 5</option>
-                                    {{-- <option {{$employee->contract->loc == 'kj1-5' ? 'selected' : ''}} value="kj1-5">KJ 1-5</option> --}}
-                                    <option {{$employee->contract->loc == 'gs' ? 'selected' : ''}} value="gs">GS</option>
-                                    <option {{$employee->contract->loc == 'enc' ? 'selected' : ''}} value="enc">ENC</option>
-                                    <option {{$employee->contract->loc == 'plb' ? 'selected' : ''}} value="plb">PLB</option>
-                                    <option {{$employee->contract->loc == 'smg' ? 'selected' : ''}} value="smg">Semarang</option>
-                                 </select>
+                                 <label>Date</label>
+                                 <input type="date" required class="form-control" name="date" id="date"  >
+            
                               </div>
                            </div>
+                           
                            <div class="col-md-6">
                               <div class="form-group form-group-default">
                                  <label>Bisnis Unit</label>
@@ -106,7 +96,10 @@
                                  <select class="form-control position_mutation" id="position_mutation" name="position_mutation" >
                                     @foreach ($allpositions as $position)
                                     {{--<option {{$employee->contract->designation_id == $designation->id ? 'selected' : ''}} value="{{$designation->id}}">{{$designation->name}}</option>--}}
-                                    <option {{$employee->position_id == $position->id ? 'selected' : ''}} value="{{$position->id}}">{{$position->name}} </option>
+                                       @if ($employee->position_id == $position->id)
+                                       <option {{$employee->position_id == $position->id ? 'selected' : ''}} value="{{$position->id}}">{{$position->name}} </option>
+                                       @endif
+                                    
                                     @endforeach
                                  </select>
                                  @error('position_mutation')
@@ -114,31 +107,24 @@
                                  @enderror
                               </div>
                            </div>
-                           <div class="col-md-6">
+                           {{-- <div class="col-md-6">
                               <div class="form-group form-group-default">
                                  <label>Salary</label>
                                  <input type="text" class="form-control"  name="salary" id="salary" value="{{$employee->contract->salary}}">
                               </div>
-                           </div>
+                           </div> --}}
                            
                         </div>
-                        <div class="row">
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                        </div>
+                        
                         <div class="row">
                            
                            
                            <div class="col-md-12">
                               <div class="form-group form-group-default">
                                  <label>Job Description</label>
-                                 <input type="text" class="form-control" name="desc" id="desc" value="{{$employee->contract->desc}}" >
+                                 <textarea type="text" class="form-control" name="desc" id="desc"  >
+                                    {{$employee->contract->desc}}
+                                 </textarea>
       
                               </div>
                            </div>
@@ -179,18 +165,46 @@
                      </div>
                      <div class="col-md-5">
                         <div class="row">
-                           <div class="col-md-8">
+                           <div class="col-md-6">
                               <div class="form-group form-group-default">
-                                 <label>Date</label>
-                                 <input type="date" required class="form-control" name="date" id="date"  >
-            
+                                 <label>Work Hour</label>
+                                 <select class="form-control" id="shift"  name="shift">
+                                    @foreach ($shifts as $shift)
+                                    <option {{$employee->contract->shift_id == $shift->id ? 'selected' : ''}} value="{{$shift->id}}">{{formatTime($shift->in)}} - {{formatTime($shift->out)}}</option>
+                                    @endforeach
+                                 </select>
                               </div>
                            </div>
+                           <div class="col-md-6">
+                              <div class="form-group form-group-default">
+                                 <label>Lokasi</label>
+                                 <select class="form-control" id="loc"  name="loc">
+                                    <option value="">Select</option>
+                                    <option {{$employee->contract->loc == 'hw' ? 'selected' : ''}} value="hw">HW</option>
+                                    <option {{$employee->contract->loc == 'jgc' ? 'selected' : ''}} value="jgc">JGC</option>
+                                    <option {{$employee->contract->loc == 'kj1-2' ? 'selected' : ''}} value="kj1-2">KJ 1-2</option>
+                                    <option {{$employee->contract->loc == 'kj4' ? 'selected' : ''}} value="kj4">KJ 4</option>
+                                    <option {{$employee->contract->loc == 'kj5' ? 'selected' : ''}} value="kj5">KJ 5</option>
+                                    {{-- <option {{$employee->contract->loc == 'kj1-5' ? 'selected' : ''}} value="kj1-5">KJ 1-5</option> --}}
+                                    <option {{$employee->contract->loc == 'gs' ? 'selected' : ''}} value="gs">GS</option>
+                                    <option {{$employee->contract->loc == 'enc' ? 'selected' : ''}} value="enc">ENC</option>
+                                    <option {{$employee->contract->loc == 'plb' ? 'selected' : ''}} value="plb">PLB</option>
+                                    <option {{$employee->contract->loc == 'smg' ? 'selected' : ''}} value="smg">Semarang</option>
+                                 </select>
+                              </div>
+                           </div>
+                           
                            <div class="col-md-12">
                               <div class="form-group form-group-default">
                                  <label>Reason</label>
                                  <textarea class="form-control" name="reason" id="reason"  ></textarea>
             
+                              </div>
+                           </div>
+                           <div class="col-md-12">
+                              <div class="form-group form-group-default">
+                                 <label>SK</label>
+                                 <input type="file" class="form-control"  name="sk" id="sk" value="">
                               </div>
                            </div>
                         </div>

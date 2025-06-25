@@ -9,6 +9,7 @@ use App\Models\Log;
 use App\Models\Location;
 use App\Models\Mutation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MutationController extends Controller
 {
@@ -52,11 +53,14 @@ class MutationController extends Controller
       ]);
 
       Mutation::create([
+         'type' => $req->type,
          'date' => $req->date,
          'employee_id' => $employee->id,
          'before_id' => $oldAggreement->id,
          'become_id' => $newAggreement->id,
-         'desc' => $req->reason
+         'desc' => $req->reason,
+         'doc' => request()->file('sk') ?? request()->file('sk')->store('doc/employee/mutation') ,
+         
       ]);
 
       $contract->update([
@@ -94,14 +98,42 @@ class MutationController extends Controller
          'location_id' => $location
       ]);
 
-      $user = Employee::find(auth()->user()->getEmployeeId());
+      if (auth()->user()->hasRole('Administrator')) {
+         $deptId = 0;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $deptId = $user->department->id;
+      }
+      
       Log::create([
-         'department_id' => $user->department_id,
+         'department_id' => $deptId,
          'user_id' => auth()->user()->id,
          'action' => 'Add',
          'desc' => 'Mutation ' . $employee->nik . ' ' . $employee->biodata->fullname()
       ]);
 
       return redirect()->route('employee.detail', [enkripRambo($req->employee), enkripRambo('contract')])->with('success', 'Mutation successfully added');
+   }
+
+   public function update(Request $req){
+      $mutation = Mutation::find($req->mutation);
+
+      if (request('sk')) {
+         Storage::delete($mutation->doc);
+         $sk = request()->file('sk')->store('doc/employee/mutation');
+      } elseif ($mutation->doc) {
+         $sk = $mutation->doc;
+      } else {
+         $sk = null;
+      }
+
+      $mutation->update([
+         'type' => $req->type,
+         'date' => $req->date,
+         'doc' => $sk,
+         'desc' => $req->reason
+      ]);
+
+      return redirect()->route('employee.detail', [enkripRambo($mutation->employee_id), enkripRambo('contract')])->with('success', 'Mutation successfully updated');
    }
 }

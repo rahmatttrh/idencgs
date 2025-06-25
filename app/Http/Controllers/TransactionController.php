@@ -593,6 +593,7 @@ class TransactionController extends Controller
          foreach ($locations as $loc){
             if ($loc->totalEmployee($unitTransaction->unit->id) > 0){
                $bpjsKsReport = BpjsKsReport::where('unit_transaction_id', $unitTransaction->id)->where('location_id', $loc->id)->first();
+            //   dd($unitTransaction->unit->reductions);
                if ($bpjsKsReport == null) {
                   BpjsKsReport::create([
                      'unit_transaction_id' => $unitTransaction->id,
@@ -994,7 +995,7 @@ class TransactionController extends Controller
       // additoinal penambahan & pengurangan
       $addPenambahan = Additional::where('employee_id', $employee->id)->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 1)->get()->sum('value');
       $addPengurangan = Additional::where('employee_id', $employee->id)->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 2)->get()->sum('value');
-
+      // dd( $addPengurangan);
 
       // $reductionAlpha = null;
       // foreach ($alphas as $alpha) {
@@ -1028,6 +1029,8 @@ class TransactionController extends Controller
       ]);
 
       // dd($payroll->total);
+
+      // dd($transaction->additional_pengurangan);
 
       if ($employee->join > $transaction->cut_from && $employee->join < $transaction->cut_to) {
          $datetime0 = new DateTime($transaction->cut_to);

@@ -14,7 +14,7 @@
                <div class="row">
                   <div class="col-md-7">
                      <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Type</label>
                               <select class="form-control type_add"  id="type_add" name="type_add" >
@@ -27,19 +27,25 @@
                               @enderror
                            </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>ID Employee</label>
+                              <input type="text" class="form-control"  name="nik" id="nik" value="{{$employee->contract->id_no}}">
+                           </div>
+                        </div>
+                        <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Start</label>
                               <input type="date" class="form-control"  name="start" id="start" value="{{$employee->contract->start}}">
                            </div>
                         </div>
-                        <div class="col-md-4 end_add">
+                        <div class="col-md-6 end_add">
                            <div class="form-group form-group-default">
                               <label>End</label>
                               <input type="date" class="form-control"  name="end" id="end" value="{{$employee->contract->end}}" >
                            </div>
                         </div>
-                        <div class="col-md-4 determination_add">
+                        <div class="col-md-6 determination_add">
                            <div class="form-group form-group-default">
                               <label>Penetapan</label>
                               <input type="date" class="form-control"  name="determination" id="determination" value="{{$employee->contract->deterination}}" >
@@ -49,13 +55,8 @@
                      </div>
                      <div class="row">
    
-                        <div class="col-md-4">
-                           <div class="form-group form-group-default">
-                              <label>ID Employee</label>
-                              <input type="text" class="form-control"  name="nik" id="nik" value="{{$employee->contract->id_no}}">
-                           </div>
-                        </div>
-                        <div class="col-md-4">
+                        
+                        <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Work Hour</label>
                               <select class="form-control" id="shift"  name="shift">
@@ -66,7 +67,7 @@
                               </select>
                            </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Lokasi</label>
                               <select class="form-control" id="loc"  name="loc">
@@ -84,7 +85,7 @@
                               </select>
                            </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                            <div class="form-group form-group-default">
                               <label>Bisnis Unit</label>
                               <select class="form-control unit_add" id="unit_add" name="unit_add" >
@@ -98,7 +99,7 @@
                               @enderror
                            </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Level</label>
                               <select class="form-control" id="designation" name="designation"  >
@@ -156,32 +157,39 @@
                               @enderror
                            </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Salary</label>
                               <input type="text" class="form-control"  name="salary" id="salary" value="{{$employee->contract->salary}}">
                            </div>
-                        </div>
+                        </div> --}}
                      </div>
                   
                      <div class="row">
-                        <div class="col-md-8">
+                        {{-- <div class="col-md-8">
                            <div class="form-group form-group-default">
                               <label>Job Description</label>
                               <input type="text" class="form-control" name="desc" id="desc" value="{{$employee->contract->desc}}" >
    
                            </div>
-                        </div>
-                        <div class="col-md-4">
+                        </div> --}}
+                        {{-- <div class="col-md-4">
                            <div class="form-group form-group-default">
                               <label>Cuti</label>
                               <input type="text" class="form-control"  name="cuti" id="cuti" value="{{$employee->contract->cuti}}" >
                            </div>
-                        </div>
+                        </div> --}}
                         
                      </div>
                   </div>
                   <div class="col-md-5">
+                     
+                        <div class="form-group form-group-default">
+                           <label>Job Description</label>
+                           <input type="text" class="form-control" name="desc" id="desc" value="{{$employee->contract->desc}}" >
+
+                        </div>
+                     
                      <div class="form-group form-group-default">
                         <label>Notes</label>
                         <textarea class="form-control" name="note" id="note"  ></textarea>

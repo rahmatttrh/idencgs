@@ -101,9 +101,9 @@ Detail Employee
                         </div>
                      </div>
                   </div>
-                  <small class="badge badge-white text-uppercase">{{$employee->contract->type ?? 'Kontrak/Tetap'}}</small>
+                  {{-- <small class="badge badge-white text-uppercase">{{$employee->contract->type ?? 'Kontrak/Tetap'}}</small>
                   <small class="badge badge-white text-uppercase">{{$employee->contract->unit->name ?? '-'}}</small>
-                  <small class="badge badge-white text-uppercase">{{$employee->contract->loc ?? 'Lokasi'}}</small>
+                  <small class="badge badge-white text-uppercase">{{$employee->contract->loc ?? 'Lokasi'}}</small> --}}
                </div>
                <div class="card-body">
                   {{-- <div class="user-profile text-center mb--4">
@@ -179,7 +179,7 @@ Detail Employee
       @endif --}}
 
       <div class="tab-content" id="v-pills-tabContent">
-         <x-employee.contract.contract :employee="$employee" :projects="$projects" :departments="$departments" :designations="$designations" :positions="$positions" :roles="$roles" :shifts="$shifts" :panel="$panel" :i="0" :managers="$managers" :spvs="$spvs" :leaders="$leaders" :allmanagers="$allManagers" :allspvs="$allSpvs" :allleaders="$allLeaders" :subdepts="$subdepts" :units="$units" :allpositions="$allPositions" :contracts="$contracts" :empleaders="$employeeLeaders" :mymanagers="$myManagers" :locations="$locations" />
+         <x-employee.contract.contract :employee="$employee" :mutations="$mutations" :projects="$projects" :departments="$departments" :designations="$designations" :positions="$positions" :roles="$roles" :shifts="$shifts" :panel="$panel" :i="0" :managers="$managers" :spvs="$spvs" :leaders="$leaders" :allmanagers="$allManagers" :allspvs="$allSpvs" :allleaders="$allLeaders" :subdepts="$subdepts" :units="$units" :allpositions="$allPositions" :contracts="$contracts" :empleaders="$employeeLeaders" :mymanagers="$myManagers" :locations="$locations" />
          <x-employee.basic.basic :employee="$employee" :departments="$departments" :designations="$designations" :roles="$roles" :panel="$panel" />
          <x-employee.personal.personal :employee="$employee" :departments="$departments" :designations="$designations" :roles="$roles" :socials="$socials" :banks="$banks" :panel="$panel" />
          <x-employee.account.account :employee="$employee" :departments="$departments" :designations="$designations" :roles="$roles" :panel="$panel" />

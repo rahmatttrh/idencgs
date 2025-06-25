@@ -39,7 +39,7 @@ Employee
                            <th>Level</th>
                            <th>Type</th>
                            
-                           <th>Active Contract</th>
+                           <th>Active Contract / Penetapan</th>
                         </tr>
                      </thead>
                     

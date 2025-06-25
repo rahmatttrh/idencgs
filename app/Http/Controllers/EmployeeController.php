@@ -25,6 +25,7 @@ use App\Models\SubDept;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Location;
+use App\Models\Mutation;
 use App\Models\Overtime;
 use Exception;
 use Illuminate\Http\Request;
@@ -684,6 +685,8 @@ class EmployeeController extends Controller
       $projects = Project::get();
       // dd($roles);
 
+      $mutations = Mutation::where('employee_id', $employee->id)->orderBy('date', 'desc')->get();
+
 
       return view('pages.employee.detail', [
          'employee' => $employee,
@@ -712,7 +715,8 @@ class EmployeeController extends Controller
          'employeeLeaders' => $employeeLeaders,
          'myManagers' => $myManagers,
          'locations' => $locations,
-         'projects' => $projects
+         'projects' => $projects,
+         'mutations' => $mutations
       ]);
    }
 

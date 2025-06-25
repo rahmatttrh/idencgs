@@ -4,8 +4,8 @@
          <div class="row row-nav-line">
             <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
                <li class="nav-item"> <a class="nav-link show active" id="pills-contract-tab-nobd" data-toggle="pill" href="#pills-contract-nobd" role="tab" aria-controls="pills-contract-nobd" aria-selected="true">Active</a> </li>
-               <li class="nav-item"> <a class="nav-link " id="pills-history-tab-nobd" data-toggle="pill" href="#pills-history-nobd" role="tab" aria-controls="pills-history-nobd" aria-selected="true">History</a> </li>
-               <li class="nav-item"> <a class="nav-link " id="pills-mutation-tab-nobd" data-toggle="pill" href="#pills-mutation-nobd" role="tab" aria-controls="pills-mutation-nobd" aria-selected="true">Mutation</a> </li>
+               <li class="nav-item"> <a class="nav-link " id="pills-history-tab-nobd" data-toggle="pill" href="#pills-history-nobd" role="tab" aria-controls="pills-history-nobd" aria-selected="true">Riwayat Kontrak</a> </li>
+               <li class="nav-item"> <a class="nav-link " id="pills-mutation-tab-nobd" data-toggle="pill" href="#pills-mutation-nobd" role="tab" aria-controls="pills-mutation-nobd" aria-selected="true">Riwayat Mutasi</a> </li>
                {{--<li class="nav-item"> <a class="nav-link " id="pills-allowances-tab-nobd" data-toggle="pill" href="#pills-allowances-nobd" role="tab" aria-controls="pills-allowances-nobd" aria-selected="false">Allowances</a> </li>
                <li class="nav-item"> <a class="nav-link " id="pills-commissions-tab-nobd" data-toggle="pill" href="#pills-commissions-nobd" role="tab" aria-controls="pills-commissions-nobd" aria-selected="false">Commissions</a> </li>
                <li class="nav-item"> <a class="nav-link " id="pills-deductions-tab-nobd" data-toggle="pill" href="#pills-deductions-nobd" role="tab" aria-controls="pills-deductions-nobd" aria-selected="false">Deductions</a> </li>
@@ -62,16 +62,19 @@
                                  <div class="dropdown-menu">
                                     {{-- <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-add-position">Add Position</a>
                                     <hr> --}}
+                                    @if ($employee->contract->type == 'Kontrak')
+                                    <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-add-contract">Create New Contract</a>
+                                    <hr>
+                                    @endif
+                                    <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-edit-contract">Edit Contract</a>
+                                    <hr>
                                     <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-add-leader">Add Leader</a>
                                     <hr>
-                                    @if ($employee->contract->type == 'Kontrak')
-                                    <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-add-contract">Create New</a>
                                     
-                                    @endif
                                     
                                     <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-create-mutation">Add Mutation</a>
                                     <hr>
-                                    <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-edit-contract">Edit</a>
+                                    
                                     
                                     @if ($employee->contract->type == 'PKWT')
                                     <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-delete-bank-{{$employee->id}}">Delete</a>
@@ -295,11 +298,11 @@
                     
                     
                     
-                 </div>
-                 
-              {{-- @endif --}}
+                  </div>
+                  
+                  {{-- @endif --}}
 
-           </div>
+               </div>
 
                
                
@@ -377,47 +380,125 @@
 
             <div class="tab-pane fade s" id="pills-mutation-nobd" role="tabpanel" aria-labelledby="pills-mutation-tab-nobd">
                {{-- <h3>Histories</h3> --}}
-               @foreach ($employee->mutations as $mutation)
-               <div class="card  shadow-none border">
+               <div class="table-responsive overflow-auto" style="height: 460px">
+               @foreach ($mutations as $mutation)
+
+                  <table>
+                     <thead>
+                        <tr>
+                           @if ($mutation->type == 'Promosi')
+                           <th colspan="2" class="bg-primary">{{$mutation->type}}</th>
+                           @elseif($mutation->type == 'Rotasi')
+                           <th colspan="2" class="">{{$mutation->type}}</th>
+                           @elseif($mutation->type == 'Demosi')
+                           <th colspan="2" class="bg-danger">{{$mutation->type}}</th>
+                           @elseif($mutation->type == null)
+                           <th colspan="2" class="">
+                              Tipe Mutasi Kosong
+                           </th>
+                           @endif
+                           
+                           <th colspan="" class="text-right">
+                              <a href="#" class="text-white" data-toggle="modal" data-target="#modal-doc-mutation-{{$mutation->id}}">Open SK</a> |
+                              <a href="#" class="text-white" data-toggle="modal" data-target="#modal-edit-mutation-{{$mutation->id}}">Edit</a> 
+                              {{-- <a href="#" class="text-white">Delete</a> --}}
+                           </th>
+                        </tr>
+                        <tr>
+                           <th colspan="3">{{$mutation->desc}}</th>
+                        </tr>
+                        <tr>
+                           <th>{{formatDate($mutation->date)}}</th>
+                           <th colspan="">Before</th>
+                           <th colspan="">Become</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td>Unit</td>
+                           <td class="text-muted">{{$mutation->before->unit->name ?? ''}}</td>
+                           
+                           <td>{{$mutation->become->unit->name ?? ''}}</td>
+                        </tr>
+                        <tr>
+                           <td>Department</td>
+                           <td class="text-muted">{{$mutation->before->department->name ?? ''}}</td>
+                           
+                           <td>{{$mutation->become->department->name ?? ''}}</td>
+                        </tr>
+                        <tr>
+                           <td>Position</td>
+                           <td class="text-muted">{{$mutation->before->position->name ?? ''}}</td>
+                           
+                           <td>{{$mutation->become->position->name ?? ''}}</td>
+                        </tr>
+                        <tr>
+                           <td>Lokasi</td>
+                           <td class="text-muted">{{$mutation->before->loc ?? ''}}</td>
+                           
+                           <td>{{$mutation->become->loc ?? ''}}</td>
+                        </tr>
+                        <tr>
+                           <td>Jam Kerja</td>
+                           <td class="text-muted">{{$mutation->before->shift->in ?? ''}}</td>
+                           
+                           <td>{{$mutation->become->shift->out ?? ''}}</td>
+                        </tr>
+
+                        <tr>
+                           <td>Jobdesk</td>
+                           <td class="text-muted">{{$mutation->before->desc ?? ''}}</td>
+                           
+                           <td>{{$mutation->become->desc ?? ''}}</td>
+                        </tr>
+                        {{-- <tr>
+                           <td colspan="3"></td>
+                        </tr> --}}
+                     </tbody>
+                  </table>
+
+                  <x-employee.contract.modal.detail-mutation :mutation="$mutation"/>
+                  <x-employee.contract.modal.edit-mutation :mutation="$mutation"/>
+                  <x-employee.contract.modal.doc-mutation :mutation="$mutation"/>
+                  {{-- <div class="card  shadow-none border">
                   
-                  <div class="card-body ">
-                     {{formatDate($mutation->date)}}
-                     <hr>
-                     <div class="row">
+                     <div class="card-body ">
+                        {{formatDate($mutation->date)}}
+                        <hr>
+                        <div class="row">
 
-                        <div class="col-md-8">
-                           {{-- <img src="{{asset('img/visa.svg')}}" height="12.5" alt="Visa Logo"> --}}
-                           <span>
-                              {{-- {{$mutation->before->designation->name}}  --}}
-                              {{$mutation->before->position->name ?? ''}} <br> 
-                              Department {{$mutation->before->department->name ?? ''}} <br>
-                              {{$mutation->before->unit->name ?? ''}} <br>
-                              {{$mutation->before->loc ?? ''}} <br>
+                           <div class="col-md-8">
                               
-
-                           </span>
-                        </div>
-                        <div class="col text-right">
-                           <span>
-                              {{-- {{$mutation->before->designation->name}}  --}}
-                              {{$mutation->become->position->name ?? ''}} <br> 
-                              Department {{$mutation->become->department->name ?? ''}} <br>
-                              {{$mutation->become->unit->name ?? ''}} <br>
-                              {{$mutation->become->loc ?? ''}} <br>
+                              <span>
                               
+                                 {{$mutation->before->position->name ?? ''}} <br> 
+                                 Department {{$mutation->before->department->name ?? ''}} <br>
+                                 {{$mutation->before->unit->name ?? ''}} <br>
+                                 {{$mutation->before->loc ?? ''}} <br>
+                                 
 
-                           </span>
+                              </span>
+                           </div>
+                           <div class="col text-right">
+                              <span>
+                              
+                                 {{$mutation->become->position->name ?? ''}} <br> 
+                                 Department {{$mutation->become->department->name ?? ''}} <br>
+                                 {{$mutation->become->unit->name ?? ''}} <br>
+                                 {{$mutation->become->loc ?? ''}} <br>
+                                 
+
+                              </span>
+                           </div>
                         </div>
+                        <hr>
+                        <a href="#" data-toggle="modal" data-target="#modal-detail-mutation-{{$mutation->id}}">Detail</a>
+                     
                      </div>
-                     <hr>
-                     <a href="#" data-toggle="modal" data-target="#modal-detail-mutation-{{$mutation->id}}">Detail</a>
-                     
-                     {{-- <h2 class="py-3 mb-0">{{$acc->account_no}}</h2> --}}
-                     
                   </div>
-               </div>
-               <x-employee.contract.modal.detail-mutation :mutation="$mutation"/>
+                  <x-employee.contract.modal.detail-mutation :mutation="$mutation"/> --}}
                @endforeach
+               </div>
                
                
             </div>
@@ -975,6 +1056,8 @@
                   
                   $.each(result.result, function(i, index) {
                      $('.department_mutation').html(result.result);
+                     $('.subdept_mutation').html(null);
+                     $('.position_mutation').html(null);
 
                   });
                },
