@@ -24,7 +24,7 @@ Task List
         </div>
         
         
-        <div class="card-body p-0 pt-3">
+        <div class="card-body ">
             @if(auth()->user()->hasRole('Administrator|Manager|Asst. Manager'))
                 <div class="table-responsive">
                     <table id="" class="display basic-datatables   table-striped ">
