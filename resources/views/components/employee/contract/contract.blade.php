@@ -399,7 +399,7 @@
                            @endif
                            
                            <th colspan="" class="text-right">
-                              <a href="#" class="text-white" data-toggle="modal" data-target="#modal-doc-mutation-{{$mutation->id}}">Open SK</a> |
+                              <a href="#" class="text-white" data-toggle="modal" data-target="#modal-doc-mutation-{{$mutation->id}}">Document</a> |
                               <a href="#" class="text-white" data-toggle="modal" data-target="#modal-edit-mutation-{{$mutation->id}}">Edit</a> 
                               {{-- <a href="#" class="text-white">Delete</a> --}}
                            </th>

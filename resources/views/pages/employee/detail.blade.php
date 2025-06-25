@@ -65,19 +65,23 @@ Detail Employee
          @endif
          
          <div class="card card-light shadow-none border">
-            <div class="card-header">
-               NO DOC : {{$employee->biodata->no_doc ?? ' -'}}
+            <div class="card-header d-flex justify-content-between">
+               <div>NO DOC : {{$employee->biodata->no_doc ?? ' -'}}</div>
+               
+               <div>
+                  @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv|HRD-Payroll'))
+                  @if ($employee->status == 1)
+                     <small class="badge badge-info text-uppercase "><a href="#" class="text-white" data-toggle="modal" data-target="#modal-deactivate-employee">Aktif</a></small>
+                     @elseif($employee->status == 0)
+                     <small class="badge badge-muted ">Draft</small>
+                     @else
+                     <small class="badge badge-muted "><a href="#"  data-toggle="modal" data-target="#modal-activate-employee">Non Aktif</a></small>
+                  @endif
+                  @endif
+               </div>
             </div>
-            <div class="card-header">
-               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv|HRD-Payroll'))
-               @if ($employee->status == 1)
-                  <small class="badge badge-info text-uppercase "><a href="#" class="text-white" data-toggle="modal" data-target="#modal-deactivate-employee">Aktif</a></small>
-                   @elseif($employee->status == 0)
-                   <small class="badge badge-muted ">Draft</small>
-                   @else
-                   <small class="badge badge-muted "><a href="#"  data-toggle="modal" data-target="#modal-activate-employee">Non Aktif</a></small>
-               @endif
-               @endif
+            <div class="card-header py-0">
+               
                
                <div class="card-list">
                   <div class="item-list">
