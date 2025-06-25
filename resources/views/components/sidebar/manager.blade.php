@@ -349,7 +349,8 @@
    </a>
 </li>
 <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.transaction.employee')}}">
+   {{-- <a href="{{route('payroll.transaction.employee')}}"> --}}
+      <a href="#" data-placement="top" title="Fitur Payslip masih dalam tahap pengembangan">
       <i class="fas fa-coins"></i>
       <p>Payslip </p>
    </a>
