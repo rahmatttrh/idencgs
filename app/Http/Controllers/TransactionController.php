@@ -276,7 +276,7 @@ class TransactionController extends Controller
    {
       $unit = Unit::find($req->unit);
       $employees = Employee::where('unit_id', $unit->id)->where('status', 1)->get();
-      $resignEmployees = Employee::where('unit_id', $unit->id)->where('status', 3)->where('off', '>', $req->from)->where('off', '<', $req->to)->get();
+      $resignEmployees = Employee::where('unit_id', $unit->id)->where('status', 3)->where('off', '>=', $req->from)->where('off', '<', $req->to)->get();
      
       
       
@@ -544,6 +544,7 @@ class TransactionController extends Controller
                   'jp' => $loc->getReduction($unit->id, $unitTransaction, 'JP'),
                   'absen' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence'),
                   'terlambat' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late'),
+                  'additional_pengurangan' => $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_pengurangan'),
                   // 'gaji_bersih' => ($loc->getValueGaji($unit->id, $unitTransaction) + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('overtime') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('additional_penambahan') - ($loc->getReduction($unit->id, $unitTransaction, 'JHT') + $loc->getReduction($unit->id, $unitTransaction, 'BPJS KS') + $loc->getReductionAdditional($unit->id, $unitTransaction) + $loc->getReduction($unit->id, $unitTransaction, 'JP') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_absence') + $loc->getUnitTransaction($unit->id, $unitTransaction)->sum('reduction_late')))
                   'gaji_bersih' => $loc->getValueGajiBersih($unit->id, $unitTransaction)
                ]);
@@ -1075,7 +1076,7 @@ class TransactionController extends Controller
          ]);
          
       } 
-      elseif($employee->off > $transaction->cut_from && $employee->off < $transaction->cut_to){
+      elseif($employee->off >= $transaction->cut_from && $employee->off < $transaction->cut_to){
          $datetime1 = new DateTime($employee->off);
          $datetime2 = new DateTime($transaction->cut_to);
          $interval = $datetime1->diff($datetime2);
