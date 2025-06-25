@@ -689,7 +689,8 @@
          
          {{-- {{$absenceemp->doc}} --}}
          @if ($absenceemp->doc != null)
-            <iframe width="100%" src="/storage/{{$absenceemp->doc}}" style="width:100%; height:570px;" frameborder="0"></iframe>
+            <img width="100%" src="/storage/{{$absenceemp->doc}}" alt="">
+            {{-- <iframe  src="/storage/{{$absenceemp->doc}}" style="width:100%; height:570px;" frameborder="0"></iframe> --}}
          @endif
          
 
