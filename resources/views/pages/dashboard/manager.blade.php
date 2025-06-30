@@ -509,7 +509,7 @@ Dashboard
 
          
          <div class="row">
-            <div class="col-md-6 d-none d-md-block">
+            <div class="col-md-4 d-none d-md-block">
                <a href="{{route('leader.absence')}}" data-toggle="tooltip" data-placement="top" title="Daftar Form Absensi yang membutuhkan Approval anda">
                   <div class="card border card-stats card-round">
                      <div class="card-body ">
@@ -538,7 +538,7 @@ Dashboard
                   </div>
                </a>
             </div>
-            <div class="col-md-6 d-none d-md-block">
+            <div class="col-md-4 d-none d-md-block">
                <a href="{{route('leader.spkl')}}" data-toggle="tooltip" data-placement="top" title="Daftar Form SPKL yang membutuhkan Approval anda">
                   <div class="card border card-stats card-round">
                      <div class="card-body ">
@@ -567,7 +567,7 @@ Dashboard
                   </div>
                </a>
             </div>
-            <div class="col-md-6 d-none d-md-block">
+            <div class="col-md-4 d-none d-md-block">
                <a href="{{route('qpe.verification')}}" data-toggle="tooltip" data-placement="top" title="Daftar PE yang membutuhkan Approval anda">
                   <div class="card border card-stats card-round">
                      <div class="card-body ">
@@ -598,7 +598,7 @@ Dashboard
                   </div>
                </a>
             </div>
-            <div class="col-md-6 d-none d-md-block">
+            <div class="col-md-4 d-none d-md-block">
                <a href="{{route('sp.manager.approval')}}" data-toggle="tooltip" data-placement="top" title="Daftar Form SP yang membutuhkan Approval anda">
                   <div class="card border card-stats card-round">
                      <div class="card-body ">
@@ -629,8 +629,35 @@ Dashboard
                   </div>
                </a>
             </div>
+            <div class="col-md-4">
+               <div class="card card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        <div class="col-icon">
+                           <div class="icon-big text-center icon-primary bubble-shadow-small">
+                              <i class="fas fa-file"></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('contract.alert.leader')}}">
+                           <div class="numbers">
+                              <p class="card-category">Contract Alert </p>
+                              <h4 class="card-title">
+                                 @if (count($contractAlerts) > 0)
+                                    <div class="badge badge-primary">{{count($contractAlerts)}}</div>
+                                     @else
+                                     {{count($contractAlerts)}}
+                                 @endif
+                              </h4>
+                           </div>
+                        </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
             @if (auth()->user()->username == 11304 )
-               <div class="col-md-6">
+               <div class="col-md-4">
                   <a href="{{route('payroll.approval.manfin')}}" data-toggle="tooltip" data-placement="top" title="Daftar Payslip Report yang membutuhkan Approval anda">
                      <div class="card card-stats card-round border">
                         <div class="card-body">

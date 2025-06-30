@@ -97,7 +97,7 @@ Dashboard
                          <tr>
                            {{-- <td>{{$team->department->name}} </td> --}}
                            {{-- <td><a href="{{route('employee.detail', [enkripRambo($team->id), enkripRambo('basic')])}}">{{$team->nik}}</a> </td> --}}
-                           <td>{{$team->nik}}</td>
+                           {{-- <td>{{$team->nik}}</td> --}}
                            <td><a href="{{route('employee.overview.simple', enkripRambo($team->id))}}">{{$bio->first_name}} {{$bio->last_name}}</a> </td>
                          </tr>
                      @endforeach
@@ -294,7 +294,7 @@ Dashboard
 
          {{-- Desktop View --}}
          <div class="row ">
-            <div class="col-md-4 d-none d-md-block">
+            <div class="col-md-6 d-none d-md-block">
                <div class="card card-stats card-round">
                   <div class="card-body ">
                      <div class="row align-items-center">
@@ -323,7 +323,7 @@ Dashboard
                
             </div>
 
-            <div class="col-md-4 d-none d-md-block">
+            <div class="col-md-6 d-none d-md-block">
                <div class="card card-stats card-round">
                   <div class="card-body ">
                      <div class="row align-items-center">
@@ -352,7 +352,36 @@ Dashboard
                
             </div>
 
-            <div class="col-md-4 d-none d-md-block">
+            <div class="col-md-6 d-none d-md-block">
+               <div class="card card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        <div class="col-icon">
+                           <div class="icon-big text-center icon-primary bubble-shadow-small">
+                              <i class="fas fa-file"></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('contract.alert.leader')}}">
+                           <div class="numbers">
+                              <p class="card-category">Contract Alert </p>
+                              <h4 class="card-title">
+                                 @if (count($contractAlerts) > 0)
+                                    <div class="badge badge-primary">{{count($contractAlerts)}}</div>
+                                     @else
+                                     {{count($contractAlerts)}}
+                                 @endif
+                              </h4>
+                           </div>
+                        </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               
+            </div>
+
+            <div class="col-md-6 d-none d-md-block">
                <div class="card card-stats card-round">
                   <div class="card-body ">
                      <div class="row align-items-center">
@@ -383,6 +412,8 @@ Dashboard
                </div>
                
             </div>
+
+            
          </div>
 
 
@@ -479,6 +510,57 @@ Dashboard
             </div>
             <div class="col-md-7">
                <div class="card">
+                  <div class="card-header bg-primary text-white p-2">
+                     <small class="text-uppercase">Personal Pengajuan Absensi </small>
+                  </div>
+                  <div class="card-body p-0">
+                     @if (count($myForms) > 0)
+                     <div class="table-responsive overflow-auto" style="height: 130px">
+                        <table class=" table-sm p-0 ">
+                           <thead>
+                              <tr>
+                                 {{-- <th>Employee</th> --}}
+                                 <th>Type</th>
+                                 <th>Date</th>
+                                 <th>Status</th>
+                              </tr>
+                           </thead>
+         
+                           <tbody>
+                              @foreach ($myForms as $absence)
+                                  <tr>
+                                    <td> 
+                                       <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class=""><x-status.absence :absence="$absence" /></a>
+                                       
+                                    </td>
+                                    <td>
+                                       <x-absence.date :absence="$absence" />
+                                    </td>
+                                    <td>
+                                       <x-status.form :form="$absence" />
+                                    </td>
+                                  </tr>
+                              @endforeach
+                             
+                           </tbody>
+         
+                        </table>
+                     </div>
+                     @else
+                     <div class="text-center p-2">Empty</div>
+                     @endif
+                     
+                  </div>
+                  {{-- <div class="card-footer">
+                     <small class="text-muted">Jika data diatas tidak sesuai, lakukan perubahan data absensi dengan klik 'Update'</small>
+                  </div> --}}
+               </div>
+            </div>
+            
+         </div>
+         <div class="row">
+            <div class="col-md-7">
+               <div class="card">
                   <div class="card-header text-uppercase bg-primary text-white p-2">
                      <small>Team Recent PE</small>
                   </div>
@@ -559,56 +641,7 @@ Dashboard
                </div>
                
             </div>
-         </div>
-         <div class="row">
-            <div class="col-md-7">
-               <div class="card">
-                  <div class="card-header bg-primary text-white p-2">
-                     <small class="text-uppercase">Personal Pengajuan Absensi </small>
-                  </div>
-                  <div class="card-body p-0">
-                     @if (count($myForms) > 0)
-                     <div class="table-responsive overflow-auto" style="height: 130px">
-                        <table class=" table-sm p-0 ">
-                           <thead>
-                              <tr>
-                                 {{-- <th>Employee</th> --}}
-                                 <th>Type</th>
-                                 <th>Date</th>
-                                 <th>Status</th>
-                              </tr>
-                           </thead>
-         
-                           <tbody>
-                              @foreach ($myForms as $absence)
-                                  <tr>
-                                    <td> 
-                                       <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class=""><x-status.absence :absence="$absence" /></a>
-                                       
-                                    </td>
-                                    <td>
-                                       <x-absence.date :absence="$absence" />
-                                    </td>
-                                    <td>
-                                       <x-status.form :form="$absence" />
-                                    </td>
-                                  </tr>
-                              @endforeach
-                             
-                           </tbody>
-         
-                        </table>
-                     </div>
-                     @else
-                     <div class="text-center p-2">Empty</div>
-                     @endif
-                     
-                  </div>
-                  {{-- <div class="card-footer">
-                     <small class="text-muted">Jika data diatas tidak sesuai, lakukan perubahan data absensi dengan klik 'Update'</small>
-                  </div> --}}
-               </div>
-            </div>
+            
             <div class="col-md-5">
                <div class="card">
                   <div class="card-header bg-danger text-uppercase text-white p-2">

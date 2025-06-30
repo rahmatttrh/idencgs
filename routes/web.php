@@ -589,6 +589,11 @@ Route::middleware(["auth"])->group(function () {
 
    Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC|Karyawan|Manager|Asst. Manager|Supervisor|Leader']], function () {
       // Route::get('overtime/team', [OvertimeController::class, 'team'])->name('overtime.team');
+
+
+      Route::get('contract/alert/leader', [ContractController::class, 'alertLeader'])->name('contract.alert.leader');
+
+
       Route::get('summary/spkl/team', [OvertimeController::class, 'team'])->name('overtime.team');
       
       

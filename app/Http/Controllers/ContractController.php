@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contract;
 use App\Models\Employee;
+use App\Models\EmployeeLeader;
 use App\Models\Log;
 use App\Models\Position;
 use App\Models\User;
@@ -213,6 +214,51 @@ class ContractController extends Controller
       $now = Carbon::now();
       // dd($now);
       $contractEnds = Contract::where('status', 1)->where('employee_id', '!=', null)->whereDate('end', '>', $now)->get();
+      
+      $nowAddTwo = $now->addMonth(2);
+      $notifContracts = $contractEnds->where('end', '<', $nowAddTwo);
+      return view('pages.contract.alert', [
+         'contractAlerts' => $notifContracts
+      ]);
+
+   }
+
+   public function alertLeader(){
+      $now = Carbon::now();
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      // dd($now);
+      $myteams = EmployeeLeader::join('employees', 'employee_leaders.employee_id', '=', 'employees.id')
+            ->join('biodatas', 'employees.biodata_id', '=', 'biodatas.id')
+            ->where('leader_id', $employee->id)
+            ->select('employees.*')
+            ->orderBy('biodatas.first_name', 'asc')
+            ->get();
+
+      $teamId = [];
+      foreach($myteams as $t){
+         $teamId[] = $t->id;
+      }
+
+      if (count($employee->positions) > 0) {
+         $teamId = [];
+         if(count($employee->positions) > 0){
+            foreach($employee->positions as $pos){
+               foreach($pos->department->employees->where('status', 1) as $emp){
+                  $teamId[] = $emp->id;
+               }
+            }
+
+            
+         } else {
+            $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+            foreach($myEmployees as $emp){
+               $teamId[] = $emp->id;
+            }
+            
+         }
+      }
+
+      $contractEnds = Contract::where('status', 1)->whereIn('employee_id', $teamId)->whereDate('end', '>', $now)->get();
       
       $nowAddTwo = $now->addMonth(2);
       $notifContracts = $contractEnds->where('end', '<', $nowAddTwo);

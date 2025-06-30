@@ -146,36 +146,13 @@
                         </tr>
                      </thead> --}}
                      <tbody>
-                        @if (count($employee->positions) > 0)
-                              @foreach ($positions as $pos)
-                                    <tr>
-                                    {{-- <td></td> --}}
-                                    <td colspan="4">{{$pos->department->unit->name}} {{$pos->department->name}} ({{count($pos->department->employees)}}) </td>
-                                    {{-- <td>{{$employee->biodata->fullName()}}</td> --}}
-                                    </tr>
-                                    @foreach ($pos->department->employees->where('status', 1) as $emp)
-                                       <tr>
-                                       <td></td>
-                                       {{-- <td>{{$emp->sub_dept->name ?? ''}}</td> --}}
-                                       {{-- <td></td> --}}
-                                       <td>{{$emp->nik}} {{$emp->id}}</td>
-                                       </tr>
-                                    @endforeach
-                              @endforeach
-                            @else
-                            @foreach ($teams as $team)
-                                 @if ($team->employee->status == 1)
-                                 <tr>
-                                    {{-- <td>{{$team->employee->nik}} </td> --}}
-                                    <td>
-                                       <a href="{{route('employee.overview.simple', enkripRambo($team->employee_id))}}">{{$team->employee->biodata->fullName()}}</a>
-                                       
-                                       </td>
-                                 </tr>
-                                 @endif
-                                 
-                           @endforeach    
-                        @endif
+                        @foreach ($myEmployees as $emp)
+                        <tr>
+                           
+                           <td> {{$emp->biodata->fullName()}}</td>
+                        </tr>
+                            
+                        @endforeach
                         
                         
                         
@@ -839,7 +816,7 @@
                </div>
             </div>
 
-            <div class="card">
+            {{-- <div class="card">
                <div class="card-header p-2 bg-primary text-white">
                   <small>Kontrak Berakhir  ({{count($notifContracts)}})</small>
                </div>
@@ -877,7 +854,7 @@
                   </table>
                   </div>
                </div>
-            </div>
+            </div> --}}
             
             
          </div>
