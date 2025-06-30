@@ -96,17 +96,7 @@ SPKL
                         @endif
                      </td>
                      <td class=" text-truncate">
-                        @if ($spkl->holiday_type == 1)
-                           <span  class="text-info ">
-                           @elseif($spkl->holiday_type == 2)
-                           <span class="text-warning">
-                           @elseif($spkl->holiday_type == 3)
-                           <span class="text-danger">LN -
-                           @elseif($spkl->holiday_type == 4)
-                           <span class="text-danger">LR -
-                        @endif
-                        <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" class="text-white">{{formatDate($spkl->date)}}</a>
-                        </span>
+                        {{formatDate($spkl->date)}}
                      </td>
                      
                      

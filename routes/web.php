@@ -220,6 +220,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('tab/{tab}', [EmployeeController::class, 'index'])->name('employee');
          Route::get('contract', [EmployeeController::class, 'indexContract'])->name('employee.contract');
          Route::get('mutation', [EmployeeController::class, 'indexMutation'])->name('employee.mutation');
+         Route::post('mutation/filter', [EmployeeController::class, 'indexMutationFilter'])->name('employee.mutation.filter');
          Route::get('nonactive', [EmployeeController::class, 'nonactive'])->name('employee.nonactive');
          Route::get('off', [EmployeeController::class, 'off'])->name('employee.off');
 

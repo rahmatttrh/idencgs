@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\PeKpi;
 use App\Models\Project;
+use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
@@ -194,8 +195,35 @@ class EmployeeController extends Controller
 
    public function indexMutation(){
       $employees = Employee::where('status', 1)->get();
+      $filter = false;
       return view('pages.employee.mutation', [
-         'employees' => $employees
+         'employees' => $employees,
+         'filter' => $filter
+      ])->with('i');
+   }
+
+   public function indexMutationFilter(Request $req){
+      $employees = Employee::where('status', 1)->get();
+      $filter = false;
+      $date = Carbon::create($req->month . $req->year);
+      // dd($date);
+
+      $muts = Mutation::whereMonth('date', $req->month)
+      ->whereYear('date', $req->year)->get();
+      dd($muts);
+
+
+      $employees = Mutation::join('employees', 'mutations.employee_id', '=', 'employees.id')
+            ->whereMonth('mutations.date', $req->mont)
+            ->whereYear('mutations.date', $req->year)
+            ->select('employees.*')
+            ->get();
+
+            dd($employees);
+
+      return view('pages.employee.mutation', [
+         'employees' => $employees,
+         'filter' => $filter
       ])->with('i');
    }
 
