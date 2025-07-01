@@ -235,84 +235,8 @@ class PayrollController extends Controller
    {
       // dd('ok');
       $employees = Employee::where('status', 1)->get();
-      $transactionCon = new TransactionController;
-      // $transactions = Transaction::where('status', '!=', 3)->get();
-      // foreach ($transactions as $tran) {
-      //    $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-      // }
-
-      // $units = Unit::get();
-      // $payrolls = Payroll::get();
-      // foreach ($payrolls as $pay) {
-      //    $pay->update([
-      //       'payslip_status' => 'show'
-      //    ]);
-      // }
-
-      // foreach($employees as $emp){
-      //    $payroll = Payroll::find($emp->payroll_id);
-      //    if ($payroll) {
-      //       $reductions = Reduction::where('unit_id', $emp->unit_id)->get();
-      //       $locations = Location::get();
-
-      //       foreach ($locations as $loc) {
-      //          if ($loc->code == $emp->contract->loc) {
-      //             $location = $loc->id;
-      //          }
-      //       }
-
-      //       foreach ($reductions as $red) {
-      //          $currentRed = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $emp->id)->first();
-
-      //          if ($payroll->total <= $red->min_salary) {
-      //             $salary = $red->min_salary;
-      //             $realSalary = $payroll->total;
-
-      //             $bebanPerusahaan = ($red->company * $salary) / 100;
-      //             $bebanKaryawan = ($red->employee * $realSalary) / 100;
-      //             $bebanKaryawanReal = ($red->employee * $salary) / 100;
-      //             $selisih = $bebanKaryawanReal - $bebanKaryawan;
-      //             $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
-      //          } else {
-      //             $salary = $payroll->total;
-      //             $bebanPerusahaan = ($red->company * $salary) / 100;
-      //             $bebanKaryawan = ($red->employee * $salary) / 100;
-      //             $bebanKaryawanReal = 0;
-      //             $bebanPerusahaanReal = $bebanPerusahaan;
-      //          }
-
-      //          if (!$currentRed) {
-      //             ReductionEmployee::create([
-      //                'reduction_id' => $red->id,
-      //                'location_id' => $location,
-      //                'employee_id' => $emp->id,
-      //                'status' => 1,
-      //                   'type' => 'Default',
-      //                'employee_value' => $bebanKaryawan,
-      //                'employee_value_real' => $bebanKaryawanReal,
-      //                'company_value' => $bebanPerusahaan,
-      //                'company_value_real' => $bebanPerusahaanReal,
-
-      //             ]);
-      //          } else {
-      //             $currentRed->update([
-      //                'reduction_id' => $red->id,
-      //                'location_id' => $location,
-      //                'employee_id' => $emp->id,
-      //                'status' => 1,
-      //                   'type' => 'Default',
-      //                'employee_value' => $bebanKaryawan,
-      //                'employee_value_real' => $bebanKaryawanReal,
-      //                'company_value' => $bebanPerusahaan,
-      //                'company_value_real' => $bebanPerusahaanReal,
-      //             ]);
-      //          }
-      //       }
-      //    }
-
-
-
-      // }
+     
+     
 
       $units = Unit::get();
       $activeUnit = Unit::get()->first();

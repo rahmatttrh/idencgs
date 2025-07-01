@@ -270,7 +270,14 @@ Form Lembur/Piket
                </tr>
                <tr>
                   <td colspan="2">Lama</td>
-                  <td colspan="6">{{$empSpkl->hours}} Jam</td>
+                  <td colspan="6">
+                     @if ($currentSpkl)
+                     {{$currentSpkl->hours}}
+                        @else
+                        {{$empSpkl->hours}}
+                     @endif
+                     Jam
+                  </td>
                </tr>
                <tr>
                   <td colspan="2">Pekerjaan</td>
