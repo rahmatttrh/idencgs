@@ -58,6 +58,27 @@
    </div>
 </li>
 <li class="nav-item">
+   <a data-toggle="collapse" href="#qpe">
+      <!-- <a  href="{{route('qpe')}}"> -->
+      <i class="fas fa-star"></i>
+      <p>PE</p>
+      <span class="caret"></span>
+   </a>
+   <div class="collapse" id="qpe">
+      <ul class="nav nav-collapse">
+         
+         
+         <li>
+            <a href="{{route('discipline')}}">
+               <span class="sub-item">Discipline</span>
+            </a>
+         </li>
+         
+         
+      </ul>
+   </div>
+</li>
+<li class="nav-item">
    <a data-toggle="collapse" href="#employee">
       <i class="fas fa-users"></i>
       <p>Employee</p>

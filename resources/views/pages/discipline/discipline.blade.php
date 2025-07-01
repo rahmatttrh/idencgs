@@ -32,7 +32,7 @@ Discipline
                         </div>
                     </div>
                 </div> --}}
-                <div class="card-body px-0">
+                <div class="card-body ">
                     <div class="table-responsive">
                         <table id="basic-datatables" class="display basic-datatables table-sm  ">
                             <thead>
