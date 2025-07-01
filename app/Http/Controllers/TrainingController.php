@@ -19,6 +19,7 @@ class TrainingController extends Controller
       $req->validate([]);
 
       Training::create([
+         'code' => $req->code,
          'level' => $req->level,
          'title' => $req->title,
          'desc' => $req->desc

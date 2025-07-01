@@ -445,7 +445,7 @@
                            <td>Jam Kerja</td>
                            <td class="text-muted">{{$mutation->before->shift->in ?? ''}} - {{$mutation->become->shift->out ?? ''}}</td>
                            
-                           <td>{{$mutation->before->shift->in ?? ''}} - {{$mutation->become->shift->out ?? ''}}</td>
+                           <td>{{$mutation->before->shift->in ?? ''}} -{{$mutation->become->shift->out ?? ''}}</td>
                         </tr>
 
                         <tr>

@@ -36,18 +36,26 @@ Training
       <div class="card-body">
          <form action="{{route('training.store')}}" method="POST">
             @csrf
-            <div class="form-group form-group-default">
+            {{-- <div class="form-group form-group-default">
                <label>Level</label>
                <select name="level" id="level" class="form-control">
                   <option value="Mandatory">Mandatory</option>
                   <option value="Optional">Optional</option>
                </select>
-            </div>
+            </div> --}}
             
             <div class="row">
                <div class="col-md-12">
                   <div class="form-group form-group-default">
-                     <label>Title</label>
+                     <label>Code *</label>
+                     <input id="code" name="code" required required class="form-control" >
+
+                     
+                  </div>
+               </div>
+               <div class="col-md-12">
+                  <div class="form-group form-group-default">
+                     <label>Title *</label>
                      <textarea id="title" name="title"  required class="form-control" >
 
                      </textarea>

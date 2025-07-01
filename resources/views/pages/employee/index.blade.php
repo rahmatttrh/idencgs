@@ -72,7 +72,7 @@ Employee
                            
                            <th>NIK</th>
                            <th>Name</th>
-                           <th>Level</th>
+                           <th>Position</th>
                            {{-- <th>KPI</th>
                            <th>Leader</th> --}}
                            {{-- <th>Phone</th> --}}
