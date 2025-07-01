@@ -98,6 +98,7 @@ Training
                   <th>Title</th>
                   {{-- <th>Level</th> --}}
                   <th>Desc</th>
+                  <th></th>
                </tr>
             </thead>
             <tbody>
@@ -107,7 +108,31 @@ Training
                      <td>{{$train->title}}</td>
                      {{-- <td>{{$train->level}}</td> --}}
                      <td>{{$train->desc}}</td>
+                     <td><a href="#"  data-target="#modal-delete-training-{{$train->id}}" data-toggle="modal">Delete</a></td>
                    </tr>
+
+
+                   <div class="modal fade" id="modal-delete-training-{{$train->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                     <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content text-dark">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Delete Master Data Training?</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                              </button>
+                           </div>
+                           <div class="modal-body ">
+                              {{$train->title}}
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-danger ">
+                                 <a class="text-light" href="{{route('training.delete', enkripRambo($train->id))}}">Delete</a>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
                @endforeach
             </tbody>
          </table>

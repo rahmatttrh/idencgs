@@ -27,4 +27,12 @@ class TrainingController extends Controller
 
       return redirect()->back()->with('success', 'Training added');
    }
+
+
+   public function delete($id){
+      $training = Training::find(dekripRambo($id));
+      $training->delete();
+
+      return redirect()->back()->with('success', 'Training deleted');
+   }
 }

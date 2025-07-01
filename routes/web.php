@@ -211,8 +211,8 @@ Route::middleware(["auth"])->group(function () {
       Route::prefix('training')->group(function () {
          Route::get('/', [TrainingController::class, 'index'])->name('training');
          Route::post('store', [TrainingController::class, 'store'])->name('training.store');
-         // Route::get('delete/{id}', [LocationController::class, 'delete'])->name('location.delete');
-         // Route::get('create', [AnnouncementController::class, 'create'])->name('announcement.create');
+         Route::get('delete/{id}', [TrainingController::class, 'delete'])->name('training.delete');
+         
 
 
          Route::get('history', [TrainingHistoryController::class, 'index'])->name('training.history');

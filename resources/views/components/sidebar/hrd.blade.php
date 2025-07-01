@@ -288,7 +288,7 @@
 </li>
 <li class="nav-item {{ (request()->is('training/history/*')) ? 'active' : '' }}">
    <a href="{{route('training.history')}}">
-      <i class="fas fa-calendar"></i>
+      <i class="fas fa-school"></i>
       <p>Training History</p>
    </a>
 </li>
