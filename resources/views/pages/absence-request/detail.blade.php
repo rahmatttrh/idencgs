@@ -402,6 +402,9 @@ Form Perubahan Absence
          
          @endif
 
+
+         
+
          @if ($absenceEmp->status == 0)
          <hr>
          <small>
@@ -439,6 +442,32 @@ Form Perubahan Absence
 
 
          <x-absence.pdf :absenceemp="$absenceEmp" :absdetails="$absenceEmployeeDetails" :cuti="$cuti" :employee="$employee" />
+         @if ($absenceEmp->type == 5)
+            @if (count($sameDateForms) > 0)
+               <table>
+                  <thead>
+                     <tr>
+                        <th colspan="3">Cuti ditanggal yang sama</th>
+                        
+                     </tr>
+                  </thead>
+                  <tbody>
+                     @foreach ($sameDateForms->where('absence_employee_id', '!=', $absenceEmp->id) as $same)
+                     <tr>
+                        <td>{{formatDate($same->date)}}</td>
+                        <td>{{$same->absence_employee->employee->biodata->fullName()}}</td>
+                        <td>
+                           <x-status.form :form="$same->absence_employee" />
+
+                        </td>
+                     </tr>
+                     @endforeach
+                     
+                  </tbody>
+               </table>
+            @endif
+         @endif
+         
       </div>
    </div>
    

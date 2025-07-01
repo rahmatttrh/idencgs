@@ -66,6 +66,8 @@ use App\Http\Controllers\ReductionAdditionalController;
 use App\Http\Controllers\ReductionEmployeeController;
 use App\Http\Controllers\StController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\TrainingHistoryController;
 use App\Http\Controllers\UnitTransactionController;
 use App\Models\AbsenceEmployeeDetail;
 use App\Models\Emergency;
@@ -204,6 +206,19 @@ Route::middleware(["auth"])->group(function () {
          Route::post('store', [LocationController::class, 'store'])->name('location.store');
          Route::get('delete/{id}', [LocationController::class, 'delete'])->name('location.delete');
          // Route::get('create', [AnnouncementController::class, 'create'])->name('announcement.create');
+      });
+
+      Route::prefix('training')->group(function () {
+         Route::get('/', [TrainingController::class, 'index'])->name('training');
+         Route::post('store', [TrainingController::class, 'store'])->name('training.store');
+         // Route::get('delete/{id}', [LocationController::class, 'delete'])->name('location.delete');
+         // Route::get('create', [AnnouncementController::class, 'create'])->name('announcement.create');
+
+
+         Route::get('history', [TrainingHistoryController::class, 'index'])->name('training.history');
+         Route::get('history/create', [TrainingHistoryController::class, 'create'])->name('training.history.create');
+         Route::post('history/store', [TrainingHistoryController::class, 'store'])->name('training.history.store');
+         Route::get('history/delete/{id}', [TrainingHistoryController::class, 'delete'])->name('training.history.delete');
       });
 
       Route::prefix('announcement')->group(function () {

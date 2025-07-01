@@ -42,6 +42,11 @@
                <span class="sub-item">Izin Resmi</span>
             </a>
          </li>
+         <li>
+            <a href="{{route('training')}}">
+               <span class="sub-item">Training</span>
+            </a>
+         </li>
          {{-- <li>
             <a href="{{route('position')}}">
                <span class="sub-item">Jabatan</span>
@@ -252,6 +257,13 @@
    <a href="{{route('task')}}">
       <i class="fas fa-calendar"></i>
       <p>Task</p>
+   </a>
+</li>
+
+<li class="nav-item {{ (request()->is('training/history/*')) ? 'active' : '' }}">
+   <a href="{{route('training.history')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Training History</p>
    </a>
 </li>
 <li class="nav-item {{ (request()->is('admin/monitoring/*')) ? 'active' : '' }}">

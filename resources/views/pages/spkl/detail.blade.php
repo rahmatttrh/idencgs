@@ -262,7 +262,7 @@ Form Lembur/Piket
                </tr>
                <tr>
                   <td colspan="2">Tanggal</td>
-                  <td colspan="6">{{formatDate($empSpkl->date)}}</td>
+                  <td colspan="6">{{formatDateDayB($empSpkl->date)}}</td>
                </tr>
                <tr>
                   <td colspan="2">Waktu</td>
