@@ -49,14 +49,14 @@ History Training
                <tbody>
                   @foreach ($trainingHistories as $his)
                       <tr>
-                        <td>{{$his->employee->unit->name}}</td>
+                        <td class="text-truncate">{{$his->employee->unit->name}}</td>
                         <td class="text-truncate">{{$his->employee->nik}}</td>
                         <td class="text-truncate" style="max-width: 160px">{{$his->employee->biodata->fullName()}}</td>
                         <td class="text-truncate">{{$his->employee->department->name}}</td>
                         <td class="text-truncate">{{$his->employee->position->name}}</td>
-                        <td>{{$his->employee->location->name}}</td>
+                        <td class="text-truncate">{{$his->employee->location->name}}</td>
                         <td class="text-truncate">{{$his->training->title}}</td>
-                        <td>{{$his->periode}}</td>
+                        <td class="text-truncate">{{$his->periode}}</td>
                         
                         <td class="text-truncate">{{$his->vendor}}</td>
                         <td>{{formatDate($his->expired)}}</td>
