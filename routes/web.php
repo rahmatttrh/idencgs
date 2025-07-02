@@ -57,6 +57,7 @@ use App\Http\Controllers\FuncController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OvertimeEmployeeController;
 use App\Http\Controllers\PayrollApprovalController;
+use App\Http\Controllers\PayrollHistoryController;
 use App\Http\Controllers\PayslipBpjsKsController;
 use App\Http\Controllers\PayslipBpjsKtController;
 use App\Http\Controllers\PayslipReportController;
@@ -74,6 +75,7 @@ use App\Models\Emergency;
 use App\Models\EmployeeLeader;
 use App\Models\Overtime;
 use App\Models\OvertimeEmployee;
+use App\Models\PayrollHistory;
 use App\Models\Reduction;
 use App\Models\SpApproval;
 use App\Models\TransactionOvertime;
@@ -423,6 +425,7 @@ Route::middleware(["auth"])->group(function () {
       Route::prefix('payroll')->group(function () {
          Route::prefix('setup')->group(function () {
             Route::get('/index', [PayrollController::class, 'index'])->name('payroll');
+            Route::put('/update', [PayrollController::class, 'update'])->name('payroll.update');
             Route::get('/index/unit/{id}', [PayrollController::class, 'indexUnit'])->name('payroll.unit.list');
             Route::get('/import', [PayrollController::class, 'import'])->name('payroll.import');
             Route::get('/calibrate', [PayrollController::class, 'calibrate'])->name('payroll.calibrate');
@@ -438,6 +441,10 @@ Route::middleware(["auth"])->group(function () {
             Route::put('payslip/update', [PayrollController::class, 'payslipUpdate'])->name('payroll.payslip.update');
             Route::put('payslip/show', [PayrollController::class, 'payslipShow'])->name('payslip.show');
             Route::put('payslip/hide', [PayrollController::class, 'payslipHide'])->name('payslip.hide');
+         });
+
+         Route::prefix('history')->group(function () {
+            Route::post('store', [PayrollHistoryController::class, 'store'])->name('payroll.history.store');
          });
 
          Route::prefix('report')->group(function () {
@@ -456,7 +463,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('/report/index', [PayrollController::class, 'report'])->name('payroll.report');
          Route::post('/report/get', [PayrollController::class, 'getReport'])->name('payroll.report.get');
          Route::get('/detail/{id}', [PayrollController::class, 'detail'])->name('payroll.detail');
-         Route::put('/update', [PayrollController::class, 'update'])->name('payroll.update');
+         
          Route::prefix('transaction')->group(function () {
             Route::post('/add/master', [TransactionController::class, 'storeMaster'])->name('payroll.add.master.transaction');
             Route::get('/delete/master/{id}', [TransactionController::class, 'deleteMaster'])->name('payroll.delete.master.transaction');

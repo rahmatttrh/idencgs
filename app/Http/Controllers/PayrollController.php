@@ -659,7 +659,7 @@ class PayrollController extends Controller
       }
 
       $transactionCon = new TransactionController;
-      $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
+      $transactions = Transaction::where('status', 0)->where('employee_id', $employee->id)->get();
 
       foreach ($transactions as $tran) {
          $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);

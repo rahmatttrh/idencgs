@@ -30,7 +30,7 @@ Setup Payroll Employee
    <div class="row">
       <div class="col-md-4">
          
-         <div class="card card-light shadow-none border">
+         <div class="card card-light ">
             <div class="card-header">
                
                
@@ -44,7 +44,7 @@ Setup Payroll Employee
                         <img src="{{asset('img/user.png')}}" alt="..." class="avatar-img rounded-circle">
                         @endif
                      </div> --}}
-                     <div class="info-user ml-3">
+                     <div class="info-user ">
                         <div class="username">
                            <h3>{{$employee->biodata->first_name}} {{$employee->biodata->last_name}}</h3>
                         </div>
@@ -139,6 +139,12 @@ Setup Payroll Employee
                
                
             </div> 
+         </div>
+         <div class="card">
+            <div class="card-body">
+               Klik 'Update' untuk melakukan perbaikan nominal (Kesalahan input) <br><br>
+               Klik 'Perubahan Nominal' untuk melakukan perubahan nominal (Kenaikan/Pengurangan) dari nominal sebelumnya
+            </div>
          </div>
       </div>
       <div class="col-md-8">
@@ -249,6 +255,9 @@ Setup Payroll Employee
                               
             
                               <div class="text-right mt-3 mb-3">
+                                 
+                                 <a href="#" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Fitur ini masih dalam tahap finalisasi">Perubahan Nominal</a>
+                                 {{-- <a href="#" class="btn btn-primary" data-target="#modal-edit-nominal" data-toggle="modal">Perubahan Nominal</a> --}}
                                  {{-- <button type="submit" class="btn btn-dark" {{$employee->status == 0 ? 'disabled' : ''}}>Update</button> --}}
                                  <button type="submit" class="btn btn-dark" >Update</button>
                               </div>
@@ -422,6 +431,92 @@ Setup Payroll Employee
             </div>
          </div>
 
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modal-edit-nominal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog " role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Form Perubahan Nominal 
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('payroll.history.store')}}" method="POST" >
+            <div class="modal-body">
+               @csrf
+               @method('PUT')
+               <input type="text" value="{{$employee->id}}" name="employee" id="employee" hidden>
+               <input type="text" value="{{$employee->payroll->id}}" name="payroll" id="payroll" hidden>
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default">
+                        <label>Gaji Pokok</label>
+                        
+                      
+                        <input type="text" class="form-control" required id="pokok" name="pokok" value="{{formatRupiahB($employee->payroll->pokok) ?? 0}}">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default">
+                        <label>Tunj. Jabatan</label>
+                        <input type="text" class="form-control" required id="tunj_jabatan" name="tunj_jabatan" value="{{formatRupiahB($employee->payroll->tunj_jabatan) ?? 0}}">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default">
+                        <label>Insentif</label>
+                        <input type="text" class="form-control" required id="insentif" name="insentif" value="{{formatRupiahB($employee->payroll->insentif) ?? 0}}">
+                     </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default">
+                        <label>Tunj. Kinerja</label>
+                        <input type="text" class="form-control" required  id="tunj_kinerja" name="tunj_kinerja" value="{{formatRupiahB($employee->payroll->tunj_kinerja) ?? 0}}">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default">
+                        <label>Tunj. Ops</label>
+                        <input type="text" class="form-control" required id="tunj_ops" name="tunj_ops" value="{{formatRupiahB($employee->payroll->tunj_ops) ?? 0}}">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default">
+                        <label>Tunj. Fungsional</label>
+                        <input type="text" class="form-control" required id="tunj_fungsional" name="tunj_fungsional" value="{{formatRupiahB($employee->payroll->tunj_fungsional) ?? 0}}">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default">
+                        <label>Document</label>
+                        <input type="file" class="form-control" id="doc" name="doc" ">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default">
+                        <label>Tgl Berlaku</label>
+                        <input type="date" class="form-control" id="berlaku" name="berlaku" ">
+                     </div>
+                  </div>
+                  
+               </div>
+               <hr>
+               <small>
+                  Tanggal Berlaku digunakan untuk merubah Nominal Rate SPKL mulai dari tanggal tersebut <br>
+                  Nominal Payroll yang sebelumnya akan tersimpan di Payroll History
+               </small>
+                  
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-dark ">Update</button>
+            </div>
+         </form>
       </div>
    </div>
 </div>
