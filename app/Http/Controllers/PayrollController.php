@@ -234,8 +234,10 @@ class PayrollController extends Controller
    public function index()
    {
       // dd('ok');
-      $employees = Employee::where('status', 1)->get();
+      
      
+      $firstUnit = Unit::first();
+      $employees = Employee::where('status', 1)->where('unit_id', $firstUnit->id)->get();
      
 
       $units = Unit::get();
@@ -245,6 +247,7 @@ class PayrollController extends Controller
          'units' => $units,
          'activeUnit' => $activeUnit
       ])->with('i');
+
    }
 
    public function indexUnit($id)
@@ -255,11 +258,11 @@ class PayrollController extends Controller
       // $units = Unit::get();
 
       $units = Unit::get();
-      $transactionCon = new TransactionController;
-      $transactions = Transaction::where('status', '!=', 3)->get();
-      foreach ($transactions as $tran) {
-         $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-      }
+      // $transactionCon = new TransactionController;
+      // $transactions = Transaction::where('status', '!=', 3)->get();
+      // foreach ($transactions as $tran) {
+      //    $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+      // }
 
       return view('pages.payroll.setup.gaji', [
          'employees' => $employees,

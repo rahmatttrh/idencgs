@@ -46,6 +46,7 @@ Payroll
                      
                      <th>NIK</th>
                      <th>Name</th>
+                     {{-- <th>Unit</th> --}}
                      <th>Department</th>
                      {{-- <th class="text-truncate">Bisnis Unit</th> --}}
                      <th>Position</th>
@@ -72,7 +73,9 @@ Payroll
                      
                      
                      {{-- <td>{{$employee->biodata->phone}}</td> --}}
-                     
+                     {{-- <td class="text-truncate">
+                        {{$employee->unit->name ?? ''}}
+                     </td> --}}
                      <td>
                         {{$employee->department->name ?? ''}}
                      </td>
