@@ -38,6 +38,7 @@ Discipline
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Tahun</th>
                                     <th>Bulan</th>
                                     <th>Employe</th>
                                     <th>Alpa</th>
@@ -52,6 +53,7 @@ Discipline
                                 @foreach ($datas as $data)
                                 <tr>
                                     <td>{{++$i}}</td>
+                                    <td>{{$data->tahun}}</td>
                                     <td>{{getMonthNameIndonesian($data->bulan)}}</td>
                                     <td>{{$data->pd->employe->nik}} {{$data->pd->employe->biodata->fullName()}}</td>
                                     <td>{{$data->alpa}}</td>
