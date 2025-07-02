@@ -168,6 +168,8 @@ class AbsenceEmployeeController extends Controller
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
       // dd($employeeLeaders);
       $leader = null;
+
+      // dd($employeeLeaders);
       foreach($employeeLeaders as $lead){
          
          if ($lead->leader->role == 7) {
@@ -176,15 +178,15 @@ class AbsenceEmployeeController extends Controller
          }
       }
 
-      // if ($leader == null) {
-      //    foreach($employeeLeaders as $lead){
+      if ($leader == null) {
+         foreach($employeeLeaders as $lead){
          
-      //       if ($lead->leader->role == 5) {
-      //          $empLead = Employee::find($lead->leader_id);
-      //          $leader = $empLead;
-      //       }
-      //    }
-      // }
+            if ($lead->leader->role == 5) {
+               $empLead = Employee::find($lead->leader_id);
+               $leader = $empLead;
+            }
+         }
+      }
 
       if ($leader == null) {
          $assmen = Employee::where('department_id', $employee->department_id)->where('role', 8)->first();

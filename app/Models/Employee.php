@@ -12,7 +12,7 @@ class Employee extends Model
 
    public function tasks()
    {
-      return $this->belongsToMany(Task::class);
+      return $this->belongsToMany(Task::class)->orderBy('created_at', 'desc');
    }
 
    public function project(){

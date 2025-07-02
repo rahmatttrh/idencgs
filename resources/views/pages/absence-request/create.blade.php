@@ -146,8 +146,11 @@ Form Absence
                         <label>Atasan</label>
                         <select class="form-control "  name="persetujuan" id="persetujuan">
                            <option value="" disabled selected>Select</option>
-                           <option selected value="{{$leader->id}}">{{$leader->biodata->fullName()}}</option>
-                          
+                           {{-- <option selected value="{{$leader->id}}">{{$leader->biodata->fullName()}}</option> --}}
+                           <option value="" disabled selected>Select</option>
+                           @foreach ($employeeLeaders as $lead)
+                              <option  value="{{$lead->leader->id}}">{{$lead->leader->biodata->fullName()}}</option>
+                           @endforeach
                         </select>
                      </div>
                   </div>

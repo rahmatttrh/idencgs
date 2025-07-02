@@ -83,7 +83,7 @@ Task List
                 @elseif (auth()->user()->hasRole('Karyawan'))
                 
                     <div class="table-responsive">
-                        <table id="" class="display basic-datatables   table-striped ">
+                        <table id="" class="display    table-striped ">
                             <thead>
                                 <tr>
                                     <th>Kategori</th>
@@ -95,7 +95,7 @@ Task List
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($employee->tasks()->get() as $task)
+                                @foreach ($employee->tasks as $task)
                                     <tr>
                                         <td>{{$task->category}}
 
