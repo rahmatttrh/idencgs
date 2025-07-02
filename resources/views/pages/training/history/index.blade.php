@@ -39,7 +39,7 @@ History Training
                     <th>Lokasi</th>
                     <th>Pelatihan</th>
                     <th>Periode</th>
-                    {{-- <th>Sertifikat</th> --}}
+                    <th>Sertifikat</th>
                     <th>Vendor</th>
                     <th>Berlaku</th>
                     <th></th>
@@ -57,12 +57,12 @@ History Training
                         <td class="text-truncate">{{$his->employee->location->name}}</td>
                         <td class="text-truncate">{{$his->training->title}}</td>
                         <td class="text-truncate">{{$his->periode}}</td>
-                        
+                        <td class="text-truncate">{{$his->type_sertificate}}</td>
                         <td class="text-truncate">{{$his->vendor}}</td>
                         <td>{{formatDate($his->expired)}}</td>
                         <td class="text-truncate">
                            <a href="#" data-target="#modal-sertifikat-training-history-{{$his->id}}" data-toggle="modal">Sertifikat</a> |
-                           <a href="">Edit</a> | 
+                           <a href="{{route('training.history.edit', enkripRambo($his->id))}}">Edit</a> | 
                            <a href="#" data-target="#modal-delete-training-history-{{$his->id}}" data-toggle="modal">Delete</a>
                         </td>
                       </tr>

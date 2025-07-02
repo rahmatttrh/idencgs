@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-Create History Training
+Edit History Training
 @endsection
 @section('content')
 
@@ -9,7 +9,7 @@ Create History Training
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
          
-         <li class="breadcrumb-item active" aria-current="page">Create History Training</li>
+         <li class="breadcrumb-item active" aria-current="page">Edit History Training</li>
       </ol>
    </nav>
    <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
@@ -17,7 +17,7 @@ Create History Training
          <a class="nav-link " id="pills-home-tab"  href="{{route('training.history')}}">Training History</a>
       </li>
       <li class="nav-item">
-         <a class="nav-link active" id="pills-profile-tab" href="{{route('training.history.create')}}">Input Training History</a>
+         <a class="nav-link " id="pills-profile-tab" href="{{route('training.history.create')}}">Input Training History</a>
       </li>
      
      
@@ -25,16 +25,18 @@ Create History Training
    <div class="table-responsive p-0 mt-2">
       <div class="row">
          <div class="col-md-8">
-            <form action="{{route('training.history.store')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('training.history.update')}}" method="POST" enctype="multipart/form-data">
                @csrf
+               @method('PUT')
+               <input type="text" name="history" id="history" value="{{$trainingHistory->id}}" hidden>
             <div class="row">
                <div class="col-md-6">
                   <div class="form-group form-group-default">
-                     <label>Karyawan</label>
+                     <label>Karyawan </label>
                      <select class="form-control select2b" required name="employee" id="employee">
                         <option value="" disabled selected>Select</option>
                         @foreach ($employees as $emp)
-                            <option value="{{$emp->id}}">{{$emp->nik}} {{$emp->biodata->fullName()}}</option>
+                            <option {{$trainingHistory->employee_id == $emp->id ? 'selected' : ''}} value="{{$emp->id}}">{{$emp->nik}} {{$emp->biodata->fullName()}}</option>
                         @endforeach
                      </select>
                   </div>
@@ -45,7 +47,7 @@ Create History Training
                      <select class="form-control select2" required name="training" id="training">
                         <option value="" disabled selected>Select</option>
                         @foreach ($trainings as $train)
-                            <option value="{{$train->id}}">{{$train->title}} </option>
+                            <option {{$trainingHistory->training_id == $train->id ? 'selected' : ''}} value="{{$train->id}}">{{$train->title}} </option>
                         @endforeach
                      </select>
                   </div>
@@ -56,8 +58,8 @@ Create History Training
                      <label>Tipe Pelatihan</label>
                      <select class="form-control " required name="type" id="type">
                         <option value="" disabled selected>Select</option>
-                        <option value="Internal">Internal</option>
-                        <option value="External">External</option>
+                        <option {{$trainingHistory->type == 'Internal' ? 'selected' : ''}} value="Internal">Internal</option>
+                        <option {{$trainingHistory->type == 'External' ? 'selected' : ''}} value="External">External</option>
                      </select>
                   </div>
                </div>
@@ -66,31 +68,31 @@ Create History Training
                      <label>Jenis Sertifikat</label>
                      <select class="form-control " required name="type_sertificate" id="type_sertificate">
                         <option value="" disabled selected>Select</option>
-                        <option value="Attendence">Attendence</option>
-                        <option value="Migas">Migas</option>
-                        <option value="Kemnaker">Kemnaker</option>
-                        <option value="Perhubla">Perhubla</option>
-                        <option value="BNSP">BNSP</option>
-                        <option value="ENC Academy">ENC Academy</option>
+                        <option {{$trainingHistory->type_sertificate == 'Attendence' ? 'selected' : ''}} value="Attendence">Attendence</option>
+                        <option {{$trainingHistory->type_sertificate == 'Migas' ? 'selected' : ''}} value="Migas">Migas</option>
+                        <option {{$trainingHistory->type_sertificate == 'Kemnaker' ? 'selected' : ''}} value="Kemnaker">Kemnaker</option>
+                        <option {{$trainingHistory->type_sertificate == 'Perhubla' ? 'selected' : ''}} value="Perhubla">Perhubla</option>
+                        <option {{$trainingHistory->type_sertificate == 'BNSP' ? 'selected' : ''}} value="BNSP">BNSP</option>
+                        <option {{$trainingHistory->type_sertificate == 'ENC Academy' ? 'selected' : ''}} value="ENC Academy">ENC Academy</option>
                      </select>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="form-group form-group-default">
                      <label>Periode</label>
-                     <input type="text" class="form-control" id="periode" name="periode">
+                     <input type="text" class="form-control" id="periode" name="periode" value="{{$trainingHistory->periode}}">
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="form-group form-group-default">
                      <label>Tanggal Berlaku</label>
-                     <input type="date" class="form-control" id="expired" name="expired">
+                     <input type="date" class="form-control" id="expired" name="expired" value="{{$trainingHistory->expired}}">
                   </div>
                </div>
                <div class="col-md-12">
                   <div class="form-group form-group-default">
                      <label>Vendor</label>
-                     <input type="text" class="form-control" id="vendor" name="vendor">
+                     <input type="text" class="form-control" id="vendor" name="vendor" value="{{$trainingHistory->vendor}}">
                   </div>
                </div>
             </div>
@@ -99,7 +101,7 @@ Create History Training
                <input type="file" class="form-control" id="doc" name="doc">
             </div>
             <hr>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Update</button>
          </form>
          </div>
       </div>

@@ -218,6 +218,8 @@ Route::middleware(["auth"])->group(function () {
 
          Route::get('history', [TrainingHistoryController::class, 'index'])->name('training.history');
          Route::get('history/create', [TrainingHistoryController::class, 'create'])->name('training.history.create');
+         Route::get('history/edit/{id}', [TrainingHistoryController::class, 'edit'])->name('training.history.edit');
+         Route::put('history/update', [TrainingHistoryController::class, 'update'])->name('training.history.update');
          Route::post('history/store', [TrainingHistoryController::class, 'store'])->name('training.history.store');
          Route::get('history/delete/{id}', [TrainingHistoryController::class, 'delete'])->name('training.history.delete');
       });

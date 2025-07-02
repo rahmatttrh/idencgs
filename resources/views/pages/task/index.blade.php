@@ -83,7 +83,7 @@ Task List
                 @elseif (auth()->user()->hasRole('Karyawan'))
                 
                     <div class="table-responsive">
-                        <table id="" class="display    table-striped ">
+                        <table id="" class="display  basic-datatables-b  table-striped ">
                             <thead>
                                 <tr>
                                     <th>Kategori</th>

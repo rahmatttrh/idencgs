@@ -40,6 +40,8 @@ class TrainingHistoryController extends Controller
 
       TrainingHistory::create([
          'status' => 1,
+         'type' => $req->type,
+         'type_sertificate' => $req->type_sertificate,
          'employee_id' => $req->employee,
          'training_id' => $req->training,
          'periode' => $req->periode,
@@ -51,6 +53,54 @@ class TrainingHistoryController extends Controller
 
       return redirect()->route('training.history')->with('success', 'Training History added');
    }
+
+
+   public function edit($id){
+      $trainingHistory = TrainingHistory::find(dekripRambo($id));
+      $employees = Employee::where('status', 1)->get();
+      $trainings = Training::get();
+      return view('pages.training.history.edit', [
+         'trainingHistory' => $trainingHistory,
+         'employees' => $employees,
+         'trainings' => $trainings
+      ]);
+
+
+   }
+
+
+   public function update(Request $req){
+      $req->validate([
+         
+      ]);
+      $trainingHistory = TrainingHistory::find($req->history);
+
+      if (request('doc')) {
+         Storage::delete($trainingHistory->doc);
+         $doc = request()->file('doc')->store('images/employee/training');
+      } elseif ($trainingHistory->doc) {
+         $doc = $trainingHistory->doc;
+      } else {
+         $doc = null;
+      }
+
+      
+      $trainingHistory->update([
+         'type' => $req->type,
+         'type_sertificate' => $req->type_sertificate,
+         'employee_id' => $req->employee,
+         'training_id' => $req->training,
+         'periode' => $req->periode,
+         'doc' => $req->sertifikat,
+         'vendor' => $req->vendor,
+         'expired' => $req->expired,
+         'doc' => $doc ,
+      ]);
+
+      return redirect()->back()->with('success', 'Training History updated');
+
+   }
+
 
    public function delete($id){
       $trainingHistory = TrainingHistory::find(dekripRambo($id));
