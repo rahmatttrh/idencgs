@@ -31,11 +31,12 @@ History Training
                <thead>
                   <tr>
                     {{-- <th>No</th> --}}
+                    <th>Perusahaan</th>
                     <th>NIK</th>
-                    <th>Name</th>
+                    <th>Nama</th>
                     <th>Dept</th>
-                    {{-- <th>Jabatan</th>
-                    <th>Lokasi</th> --}}
+                    <th>Jabatan</th>
+                    <th>Lokasi</th>
                     <th>Pelatihan</th>
                     <th>Periode</th>
                     {{-- <th>Sertifikat</th> --}}
@@ -48,17 +49,18 @@ History Training
                <tbody>
                   @foreach ($trainingHistories as $his)
                       <tr>
-                        <td>{{$his->employee->nik}}</td>
-                        <td>{{$his->employee->biodata->fullName()}}</td>
-                        <td>{{$his->employee->department->name}}</td>
-                        {{-- <td>{{$his->employee->position->name}}</td>
-                        <td>{{$his->employee->location->name}}</td> --}}
-                        <td>{{$his->training->title}}</td>
+                        <td>{{$his->employee->unit->name}}</td>
+                        <td class="text-truncate">{{$his->employee->nik}}</td>
+                        <td class="text-truncate" style="max-width: 160px">{{$his->employee->biodata->fullName()}}</td>
+                        <td class="text-truncate">{{$his->employee->department->name}}</td>
+                        <td class="text-truncate">{{$his->employee->position->name}}</td>
+                        <td>{{$his->employee->location->name}}</td>
+                        <td class="text-truncate">{{$his->training->title}}</td>
                         <td>{{$his->periode}}</td>
                         
-                        <td>{{$his->vendor}}</td>
+                        <td class="text-truncate">{{$his->vendor}}</td>
                         <td>{{formatDate($his->expired)}}</td>
-                        <td>
+                        <td class="text-truncate">
                            <a href="#" data-target="#modal-sertifikat-training-history-{{$his->id}}" data-toggle="modal">Sertifikat</a> |
                            <a href="">Edit</a> | 
                            <a href="#" data-target="#modal-delete-training-history-{{$his->id}}" data-toggle="modal">Delete</a>
@@ -94,7 +96,7 @@ History Training
                         <div class="modal-dialog modal-lg" role="document">
                            <div class="modal-content">
                               <div class="modal-header">
-                                 <h5 class="modal-title" id="exampleModalLabel">SK Mutasi</h5>
+                                 <h5 class="modal-title" id="exampleModalLabel">Sertifikat Pelatihan</h5>
                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                  <span aria-hidden="true">&times;</span>
                                  </button>
