@@ -638,11 +638,11 @@ Dashboard
                            <div class="col col-stats ml-3 ml-sm-0">
                               
                               <div class="numbers">
-                                 <p class="card-category"> Approval SP </p>
+                                 <p class="card-category">SP & Teguran </p>
                                  <h4 class="card-title">
-                                    @if (count($spApprovals) > 0)
+                                    @if (count($spApprovals) + count($stAlerts) > 0)
                                        <div class="badge badge-danger">
-                                          {{count($spApprovals) }}
+                                          {{count($spApprovals)+ count($stAlerts) }}
                                        </div>
                                        @else
                                        {{count($spApprovals) }}

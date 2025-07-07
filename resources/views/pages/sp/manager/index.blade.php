@@ -43,8 +43,9 @@ Rekomendasi SP
                <thead>
                   <tr>
                      {{-- <th class="text-center" style="width: 10px">No</th> --}}
+                     <th>Jenis</th>
                      <th>ID</th>
-                     <th>NIK</th>
+                     {{-- <th>NIK</th> --}}
                      <th>Name</th>
                      
                      
@@ -58,8 +59,9 @@ Rekomendasi SP
                   @foreach ($spApprovals as $sp)
                   <tr>
                      {{-- <td class="text-center">{{++$i}}</td> --}}
+                     <td>Peringatan</td>
                      <td><a href="{{route('sp.detail', enkripRambo($sp->id))}}">{{$sp->code}}</a> </td>
-                     <td>{{$sp->employee->nik}}</td>
+                     {{-- <td>{{$sp->employee->nik}}</td> --}}
                      <td> {{$sp->employee->biodata->fullName()}}</td>
                      {{-- <td>{{$sp->employee->nik}}</td> --}}
                      {{-- <td>{{formatDate($sp->date)}}</td> --}}
@@ -68,6 +70,25 @@ Rekomendasi SP
                         <x-status.sp :sp="$sp" />
                      </td>
                      <td>{{formatDate($sp->date_from)}}</td>
+                     {{-- <td class="text-truncate" style="max-width: 240px">{{$sp->desc}}</td> --}}
+
+                  </tr>
+                  @endforeach
+
+                  @foreach ($stApprovals as $st)
+                  <tr>
+                     {{-- <td class="text-center">{{++$i}}</td> --}}
+                     <td>Teguran</td>
+                     <td><a href="{{route('st.detail', enkripRambo($st->id))}}">{{$st->code}}</a> </td>
+                     {{-- <td>{{$st->employee->nik}}</td> --}}
+                     <td> {{$st->employee->biodata->fullName()}}</td>
+                     {{-- <td>{{$sp->employee->nik}}</td> --}}
+                     {{-- <td>{{formatDate($sp->date)}}</td> --}}
+                     <td>{{$st->desc}}</td>
+                     <td>
+                        <x-status.st :st="$st" />
+                     </td>
+                     <td>{{formatDate($st->date)}}</td>
                      {{-- <td class="text-truncate" style="max-width: 240px">{{$sp->desc}}</td> --}}
 
                   </tr>

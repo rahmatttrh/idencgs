@@ -16,6 +16,21 @@ class St extends Model
       return $this->belongsTo(Employee::class, 'employee_id');
    }
 
+   public function leader()
+   {
+      return $this->belongsTo(Employee::class, 'leader_id');
+   }
+
+   public function manager()
+   {
+      return $this->belongsTo(Employee::class, 'manager_id');
+   }
+
+   public function hrd()
+   {
+      return $this->belongsTo(Employee::class, 'hrd_id');
+   }
+
    public function by()
    {
       return $this->belongsTo(Employee::class, 'by_id');

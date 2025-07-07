@@ -21,6 +21,7 @@ use App\Models\Position;
 use App\Models\Presence;
 use App\Models\Sp;
 use App\Models\Spkl;
+use App\Models\St;
 use App\Models\SubDept;
 use App\Models\Task;
 use App\Models\Transaction;
@@ -988,6 +989,8 @@ class HomeController extends Controller
          $nowAddTwo = $now->addMonth(2);
          $contractAlerts = $contractEnds->where('end', '<', $nowAddTwo);
 
+         $stAlerts = St::where('status', 3)->whereIn('employee_id', $teamId)->get();
+
 
          return view('pages.dashboard.manager', [
             'employee' => $biodata->employee,
@@ -1015,7 +1018,8 @@ class HomeController extends Controller
             'teamSpkls' => $teamSpkls,
             'recentTeamSpkls' => $recentTeamSpkls,
             'spApprovals' => $spApprovals,
-            'contractAlerts' => $contractAlerts
+            'contractAlerts' => $contractAlerts,
+            'stAlerts' => $stAlerts
          ]);
       } elseif (auth()->user()->hasRole('Supervisor|Leader')) {
          // dd('ok');
@@ -1095,6 +1099,7 @@ class HomeController extends Controller
 
          $spNotifs = Sp::where('by_id', $employee->id)->where('department_id', $employee->department_id)->where('status', 2)->orWhere('status', 202)->orderBy('updated_at', 'desc')->get();
          $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
+         $stAlerts = St::where('leader_id', $employee->id)->where('status', 2)->orderBy('date', 'desc')->get();
 
          $absences = Absence::where('employee_id', $employee->id)->get();
          // dd($absences);
@@ -1141,6 +1146,7 @@ class HomeController extends Controller
             'spteams' => $spteams,
             'spNotifs' => $spNotifs,
             'spRecomends' => $spRecomends,
+            'stAlerts' => $stAlerts,
             'approvalEmployeeSpkl' => $approvalEmployeeSpkl,
             'contractAlerts' => $contractAlerts
          ]);
@@ -1180,6 +1186,7 @@ class HomeController extends Controller
 
          $spklEmps = OvertimeEmployee::where('employee_id', $employee->id)->where('status', '>', 0)->where('status', '!=', 4)->get();
          // dd(count($absences ));
+         $stAlerts = St::where('employee_id', $employee->id)->where('status', 4)->get();
          return view('pages.dashboard.employee', [
             'now' => $now,
             'employee' => $employee,
@@ -1200,7 +1207,8 @@ class HomeController extends Controller
             'myForms' => $myForms,
             'reqForms' => $reqForms,
             'reqBackupForms' => $reqBackForms,
-            'spklEmps' => $spklEmps
+            'spklEmps' => $spklEmps,
+            'stAlerts' => $stAlerts
          ])->with('i');
       }
    }
