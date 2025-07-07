@@ -175,7 +175,7 @@ SP Detail
             </tr>
             <tr>
                <td style="height: 80px" class="">
-                  @if ($st->leader_id != null)
+                  @if ($st->leader_app_date != null)
                   
                      {{$st->leader->biodata->fullName()}} <br>
                      <small class="text-muted">{{$st->leader->position->name}}</small>
@@ -184,7 +184,7 @@ SP Detail
                   @endif
                </td>
                <td>
-                  @if ($st->manager_id != null)
+                  @if ($st->manager_app_date != null)
                   
                      {{$st->manager->biodata->fullName()}} <br>
                      <small class="text-muted">{{$st->manager->position->name}}</small>
@@ -205,7 +205,7 @@ SP Detail
 
                </td>
                <td>
-                  @if ($st->employee_id != null)
+                  @if ($st->employee_app_date != null)
                   
                      {{$st->employee->biodata->fullName()}} <br>
                      <small class="text-muted">{{$st->employee->position->name}}</small>
