@@ -43,13 +43,14 @@ Discipline
                                         <th>No</th>
                                         <th>Bulan</th>
                                         <th>Tahun</th>
+                                        <th>NIK</th>
                                         <th>Employe</th>
                                         <th>Alpa</th>
                                         <th>Ijin</th>
                                         <th>Terlambat</th>
                                         <th>Achievement</th>
                                         <th>Keterangan</th>
-                                        <th class="text-right">Delete</th>
+                                        {{-- <th class="text-right">Delete</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,7 +67,8 @@ Discipline
                                         <td class="text-center">{{++$i}}</td>
                                         <td>{{getMonthNameIndonesian($data->bulan)}} </td>
                                         <td>{{$data->tahun}}</td>
-                                        <td>{{$data->first_name}} {{$data->last_name}}</td>
+                                        <td class="text-truncate">{{$data->nik}} </td>
+                                        <td class="text-truncate">{{$data->first_name}} {{$data->last_name}}</td>
                                         <td>{{$data->alpa}}</td>
                                         <td>{{$data->ijin}}</td>
                                         <td>{{$data->terlambat}}</td>
@@ -89,9 +91,9 @@ Discipline
                                             <span class='badge badge-warning'> Duplikasi Sebanyak {{$data->employe_count}}</span>
                                             @endif
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-delete-{{$data->id}}"><i class="fas fa-trash"></i></button>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                     <x-modal.delete :id="$data->id" :body="'Disipllin  ' . $data->first_name . ' bulan '. date('F Y', strtotime($data->date))   " url="{{route('discipline.delete', enkripRambo($data->id))}}" />
                                     @endforeach
