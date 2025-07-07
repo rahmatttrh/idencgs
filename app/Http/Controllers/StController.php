@@ -47,15 +47,32 @@ class StController extends Controller
          $file = null;
       }
 
+      if ($req->type == 1) {
+         $status = 4;
+         
+         $note = 'Existing';
+      } else {
+         $status = 2;
+         $note = 'Recomendation';
+
+        
+      }
+
       // Store to database
       $st = St::create([
+         'type' => $req->type,
+         'date' => $req->date,
          'code' => $code,
          'employee_id' => $req->employee,
-         'by_id' => $by->id,
-         'status' => 1,
+         'by_id' => auth()->user()->getEmployee()->id,
+         'leader_id' => $req->to,
+         'hrd_id' => auth()->user()->getEmployee()->id,
+         'hrd_app_date' => $date,
+         'status' => $status,
          'rule' => $req->rule,
          'desc' => $req->desc,
-         'file' => $file
+         'file' => $file,
+         'note' => $note
       ]);
 
       return redirect()->route('st.detail', enkripRambo($st->id))->with('success', 'Surat Teguran berhasil dibuat');
@@ -107,4 +124,53 @@ class StController extends Controller
       return redirect()->route('st')->with('success', 'Surat Teguran berhasil dihapus');
 
    }
+
+
+
+   public function approve($id){
+      $st = St::find(dekripRambo($id));
+      $user = Employee::find(auth()->user()->getEmployeeId());
+      $now = Carbon::now();
+
+      
+
+      if ($user->id == $st->leader_id) {
+         $st->update([
+            'status' => 3,
+            'leader_app_date' => $now
+         ]);
+      } elseif(auth()->user()->hasRole('Manager|Asst. Manager')){
+         $st->update([
+            'status' => 4,
+            'manager_app_date' => $now,
+            'manager_id' => $user->id
+         ]);
+      } elseif($user->id == $st->employee_id){
+         $st->update([
+            'status' => 5,
+            'employee_app_date' => $now
+         ]);
+      }
+
+      return redirect()->back()->with('success', 'Surat Teguran approved');
+      
+   }
+
+   public function approveHrd($id){
+      $st = St::find(dekripRambo($id));
+      $user = Employee::find(auth()->user()->getEmployeeId());
+      $now = Carbon::now();
+
+      $st->update([
+         'status' => 2,
+         'hrd_app_date' => $now,
+         'hrd_id' => $user->id
+      ]);
+
+      return redirect()->back()->with('success', 'Surat Teguran approved');
+      
+   }
+
+
+
 }

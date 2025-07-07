@@ -724,9 +724,10 @@ class SpController extends Controller
    public function leaderApproval(){
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
-
+      $stAlerts = St::where('leader_id', $employee->id)->where('status', 2)->orderBy('date', 'desc')->get();
       return view('pages.sp.leader.index', [
-         'spApprovals' => $spRecomends
+         'spApprovals' => $spRecomends,
+         'stAlerts' => $stAlerts
       ]);
 
    }
@@ -753,9 +754,11 @@ class SpController extends Controller
       }
 
       $spApprovals = Sp::where('status', 3)->whereIn('employee_id', $teamId)->get();
+      $stApprovals = St::where('status', 3)->whereIn('employee_id', $teamId)->get();
       // dd($spApprovals);
       return view('pages.sp.manager.index', [
-         'spApprovals' => $spApprovals
+         'spApprovals' => $spApprovals,
+         'stApprovals' => $stApprovals
       ]);
 
    }

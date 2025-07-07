@@ -47,7 +47,23 @@ SP
             @csrf
          
                <div class="row">
-                  <div class="col">
+                  <div class="col-md-4">
+                     <div class="form-group form-group-default">
+                        <label>Type*</label>
+                        <select class="form-control   required id="type" name="type">
+                           <option value="" selected disabled>Select Type</option>
+                           <option value="1">Existing</option>
+                           <option value="2">Recomendation</option>
+                        </select>
+                     </div>
+                     <div class="form-group form-group-default">
+                        <label>Date*</label>
+                        <input type="date" class="form-control name="date" id="date" required>
+                     </div>
+                     
+                     
+                  </div>
+                  <div class="col-md-8">
                      <div class="form-group form-group-default">
                         <label>Employee*</label>
                         <select class="form-control employee js-example-basic-single" required id="employee" name="employee">
@@ -60,9 +76,21 @@ SP
                         
          
                      </div>
-                     
+                     <div class="form-group form-group-default">
+                        <label>To Leader*</label>
+                        <select class="form-control to "  id="to" name="to">
+                           
+                           
+                        </select>
+                        
+         
+                     </div>
                   </div>
                </div>
+
+               <div class="row"></div>
+
+               
                
                
       

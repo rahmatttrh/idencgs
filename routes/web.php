@@ -641,6 +641,8 @@ Route::middleware(["auth"])->group(function () {
          Route::post('hrd/store', [StController::class, 'store'])->name('st.hrd.store');
          Route::get('detail/{id}', [StController::class, 'detail'])->name('st.detail');
          Route::get('delete/{id}', [StController::class, 'delete'])->name('st.delete');
+
+         Route::get('approve/{id}', [StController::class, 'approve'])->name('st.approve');
       });
       
       

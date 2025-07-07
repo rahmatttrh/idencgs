@@ -421,11 +421,11 @@ Dashboard
                         <div class="col col-stats ml-3 ml-sm-0">
                            <a href="{{route('sp.leader.approval')}}">
                            <div class="numbers">
-                              <p class="card-category">Approval SP </p>
+                              <p class="card-category">Approval SP & ST </p>
                               <h4 class="card-title">
-                                 @if (count($spRecomends) > 0)
+                                 @if (count($spRecomends) + count($stAlerts) > 0)
                                      <div class="badge badge-danger">
-                                       {{count($spRecomends)}}
+                                       {{count($spRecomends) + count($stAlerts)}}
                                      </div>
                                      @else
                                      {{count($spRecomends)}}

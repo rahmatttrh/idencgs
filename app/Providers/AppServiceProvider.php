@@ -39,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
                $spNotifs = Sp::where('status', 1)->orderBy('updated_at', 'desc')->get();
                $peNotifs = [];
                $employee = null;
+               $stNotifs = [];
             } elseif(auth()->user()->hasRole('Manager|Asst. Manager')){
                $id = auth()->user()->getEmployeeId();
                $employee = Employee::find($id);
@@ -47,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
                // $department = Department::find($employee->department_id);
                $peTotal = null;
                $peNotifs = [];
+               $stNotifs = [];
                // dd($employee->positions);
                foreach($employee->positions as $pos){
                   foreach($pos->department->pes->where('status', 1) as $pe){
@@ -67,7 +69,7 @@ class AppServiceProvider extends ServiceProvider
                $spNotifNd = Sp::where('status', 101)->where('nd_for', 1)->orWhere('nd_for', 3)->where('by_id', $employee->id)->orderBy('updated_at', 'desc')->get();
                $spNotifs = Sp::where('by_id', $employee->id)->where('department_id', $employee->department_id)->where('status', 2)->orWhere('status', 202)->orderBy('updated_at', 'desc')->get();
                // $spNotifs = $spNotif;
-
+               $stNotifs = [];
                // $peNotif = null;
                // $department
                $peNotifs = Pe::where('status', 202)->where('created_by', $employee->id )->get();
@@ -78,15 +80,17 @@ class AppServiceProvider extends ServiceProvider
                $employee = Employee::find($id);
                // $spNotifNd = Sp::where('status', 101)->where('nd_for', 2)->orWhere('nd_for', 3)->where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
                $spNotifs = Sp::where('status', 4)->where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
+               $stNotifs = St::where('status', 4)->where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
                // $spNotifs = $spNotifNd->concat($spNotif);
                $peNotifs = Pe::where('status', 202)->where('employe_id', $id)->get();
             }  else {
                $spNotifs = [];
+               $stNotifs = [];
                $peNotifs = [];
                $employee = null;
             }
             // dd($notif);
-            if (count($spNotifs) > 0) {
+            if (count($spNotifs) + count($stNotifs) > 0) {
                $notif = true;
             } else {
                $notif = false;
@@ -101,7 +105,7 @@ class AppServiceProvider extends ServiceProvider
             } else {
                $employeeLogin = Employee::find(auth()->user()->getEmployeeId());
                $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employeeLogin->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
-               $tegurans = St::where('status', 1)->where('employee_id', $employeeLogin->id)->get();
+               $tegurans = St::where('status', 4)->where('employee_id', $employeeLogin->id)->get();
                
               
                
@@ -129,6 +133,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                'employee' => $employee,
                'notifSp' => $spNotifs,
+               'stNotifs' => $stNotifs,
                'peNotifs' => $peNotifs,
                'notif' => $notif,
 
