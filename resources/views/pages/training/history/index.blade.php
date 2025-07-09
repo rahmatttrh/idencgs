@@ -59,7 +59,14 @@ History Training
                         <td class="text-truncate">{{$his->periode}}</td>
                         <td class="text-truncate">{{$his->type_sertificate}}</td>
                         <td class="text-truncate">{{$his->vendor}}</td>
-                        <td>{{formatDate($his->expired)}}</td>
+                        <td>
+                           @if ($his->expired != null)
+                           {{formatDate($his->expired)}}
+                           @else
+                           -
+                           @endif
+                           
+                        </td>
                         <td class="text-truncate">
                            <a href="#" data-target="#modal-sertifikat-training-history-{{$his->id}}" data-toggle="modal">Sertifikat</a> |
                            <a href="{{route('training.history.edit', enkripRambo($his->id))}}">Edit</a> | 
