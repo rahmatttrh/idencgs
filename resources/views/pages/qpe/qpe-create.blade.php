@@ -395,20 +395,21 @@ Create PE
                             "class": "form-control",
                             "name": `qty[${rowData.id}]`, // Menggunakan ID sebagai bagian dari array name
                             "value": 1,
-                            "min": 1,
+                            "min": 0,
                             "max": 4,
                             "step": "0.01" // Step untuk 2 digit desimal
                         }).on('keyup', function() {
                             var inputValue = $(this).val();
 
                             // Menghapus angka nol di depan input jika ada
-                            inputValue = inputValue.replace(/^0+/, '');
+                           //  inputValue = inputValue.replace(/^0+/, '');
 
                             if (inputValue > 4) {
                                 inputValue = 4;
-                            } else if (inputValue < 1 && inputValue != '') {
-                                inputValue = 1;
-                            }
+                            } 
+                           //  else if (inputValue < 1 && inputValue != '') {
+                           //      inputValue = 1;
+                           //  }
 
                             $(this).val(inputValue);
 

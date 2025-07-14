@@ -113,10 +113,69 @@ Edit History Training
             <button type="submit" class="btn btn-primary">Update</button>
          </form>
          </div>
+
+         <div class="col-md-4">
+            <a href="#" class="btn btn-light border btn-block mb-2" data-target="#modal-sertifikat-training-history-{{$trainingHistory->id}}" data-toggle="modal">Sertifikat</a> 
+                     <hr>
+            <a href="#" class="" data-target="#modal-delete-training-history-{{$trainingHistory->id}}" data-toggle="modal"><i class="fa fa-trash"></i> Delete</a>
+
+         </div>
       </div>
    
 
 
+</div>
+
+<div class="modal fade" id="modal-delete-training-history-{{$trainingHistory->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content text-dark">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete Training History?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body ">
+           
+           {{$trainingHistory->employee->nik}} {{$trainingHistory->employee->biodata->fullName()}} : 
+         
+           {{$trainingHistory->training->title ?? 'Empty'}}
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger ">
+               <a class="text-light" href="{{route('training.history.delete', enkripRambo($trainingHistory->id))}}">Delete</a>
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modal-sertifikat-training-history-{{$trainingHistory->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sertifikat Pelatihan</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+               
+
+                  <iframe height="550px" width="100%" src="{{asset('storage/' . $trainingHistory->doc)}}" frameborder="0"></iframe>
+                  
+                  
+
+                  
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               {{-- <button type="submit" class="btn btn-dark ">Update</button> --}}
+            </div>
+         {{-- </form> --}}
+      </div>
+   </div>
 </div>
 
 

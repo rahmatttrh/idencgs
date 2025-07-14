@@ -50,8 +50,8 @@ History Training
                   @foreach ($trainingHistories as $his)
                       <tr>
                         <td class="text-truncate">{{$his->employee->unit->name}}</td>
-                        <td class="text-truncate">{{$his->employee->nik}}</td>
-                        <td class="text-truncate" style="max-width: 160px">{{$his->employee->biodata->fullName()}}</td>
+                        <td class="text-truncate"><a href="{{route('training.history.edit', enkripRambo($his->id))}}">{{$his->employee->nik}}</a></td>
+                        <td class="text-truncate" style="max-width: 160px"><a href="{{route('training.history.edit', enkripRambo($his->id))}}">{{$his->employee->biodata->fullName()}}</a></td>
                         <td class="text-truncate">{{$his->employee->department->name}}</td>
                         <td class="text-truncate">{{$his->employee->position->name}}</td>
                         <td class="text-truncate">{{$his->employee->location->name}}</td>
