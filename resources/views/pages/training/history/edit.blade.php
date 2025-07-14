@@ -162,7 +162,7 @@ Edit History Training
          </div>
          <div class="modal-body">
                
-
+                  {{-- <h1>{{$trainingHistory->doc}}</h1> --}}
                   <iframe height="550px" width="100%" src="{{asset('storage/' . $trainingHistory->doc)}}" frameborder="0"></iframe>
                   
                   
