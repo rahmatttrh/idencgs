@@ -43,6 +43,9 @@ Cuti
                      
                      <tbody>
                         @foreach ($cutis as $cuti)
+                        @if ($cuti->employee->status == 1)
+                            
+                        
                         <tr>
                            <td class="text-truncate">{{$cuti->employee->nik}}</td>
                            <td class="text-truncate" style="max-width: 200px">
@@ -63,6 +66,7 @@ Cuti
                            </td>
                            {{-- <td><a class="btn btn-sm btn-primary" href="{{route('cuti.edit', enkripRambo($cuti->id))}}">Edit</a></td> --}}
                         </tr>
+                        @endif
                             
                         @endforeach
                      </tbody>

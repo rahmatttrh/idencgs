@@ -186,10 +186,10 @@ class CutiController extends Controller
       $cuti = Cuti::find(dekripRambo($id));
       // dd('ok');
       $this->calculateCuti($cuti->id);
-      // dd('ok');
+      // dd($cut);
       if ($cuti->start) {
          $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
-
+         // dd($cuti->start);
          // $used = count($absences);
          // $cuti->update([
          //    'used' => $used,
@@ -200,7 +200,7 @@ class CutiController extends Controller
       }
        
       
-
+// dd('oke');
 
       // dd($cuti->employee->contract->type);
       return view('pages.cuti.edit', [

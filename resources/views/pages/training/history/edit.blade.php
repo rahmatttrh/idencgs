@@ -79,6 +79,7 @@ Edit History Training
                         <option {{$trainingHistory->type_sertificate == 'Attendence' ? 'selected' : ''}} value="Attendence">Attendence</option>
                         <option {{$trainingHistory->type_sertificate == 'Migas' ? 'selected' : ''}} value="Migas">Migas</option>
                         <option {{$trainingHistory->type_sertificate == 'Kemnaker' ? 'selected' : ''}} value="Kemnaker">Kemnaker</option>
+                        <option {{$trainingHistory->type_sertificate == 'Disnaker' ? 'selected' : ''}} value="Disnaker">Disnaker</option>
                         <option {{$trainingHistory->type_sertificate == 'Perhubla' ? 'selected' : ''}} value="Perhubla">Perhubla</option>
                         <option {{$trainingHistory->type_sertificate == 'BNSP' ? 'selected' : ''}} value="BNSP">BNSP</option>
                         <option {{$trainingHistory->type_sertificate == 'ENC Academy' ? 'selected' : ''}} value="ENC Academy">ENC Academy</option>

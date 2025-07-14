@@ -32,7 +32,8 @@ class PayrollController extends Controller
       //       'payslip_status' => 'show'
       //    ]);
       // }
-      $employees = Employee::where('status', 1)->get();
+      $employees = Employee::where('status', 1)->where('unit_id', 9)->get();
+      // dd($employees);
       // $transactionCon = new TransactionController;
       // $transactions = Transaction::where('status', '!=', 3)->get();
       // foreach ($transactions as $tran) {
@@ -42,9 +43,9 @@ class PayrollController extends Controller
       foreach($employees as $employee){
 
          $redEmpExists = ReductionEmployee::where('employee_id', $employee->id)->get();
-         // foreach($redEmpExists as $red){
-         //    $red->delete();
-         // }
+         foreach($redEmpExists as $red){
+            $red->delete();
+         }
          
          
          $payroll = Payroll::find($employee->payroll_id);
@@ -75,9 +76,11 @@ class PayrollController extends Controller
                   // dd('kurang dari minimum gaji');
                   $salary = $red->min_salary;
                   $realSalary = $payTotal;
+                  // dd($employee->nik);
    
                   $bebanPerusahaan = ($red->company * $salary) / 100;
                   $bebanKaryawan = ($red->employee * $realSalary) / 100;
+                  // dd($bebanKaryawan);
                   $bebanKaryawanReal = ($red->employee * $salary) / 100;
                   $selisih = $bebanKaryawanReal - $bebanKaryawan;
                   $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
@@ -196,7 +199,7 @@ class PayrollController extends Controller
                      'type' => 'Default',
                      'location_id' => $location,
                      'employee_id' => $employee->id,
-                     // 'status' => 1,
+                     'status' => 1,
                      'employee_value' => $bebanKaryawan,
                      'employee_value_real' => $bebanKaryawanReal,
                      'company_value' => $bebanPerusahaan,
@@ -436,36 +439,36 @@ class PayrollController extends Controller
 
 
 
-            if (!$currentRed) {
-               // dd('ok');
-               ReductionEmployee::create([
-                  'reduction_id' => $red->id,
-                  'type' => 'Default',
-                  'location_id' => $location,
-                  'employee_id' => $employee->id,
-                  'status' => 1,
-                  'employee_value' => $bebanKaryawan,
-                  'employee_value_real' => $bebanKaryawanReal,
-                  'company_value' => $bebanPerusahaan,
-                  'company_value_real' => $bebanPerusahaanReal,
+            // if (!$currentRed) {
+            //    // dd('ok');
+            //    ReductionEmployee::create([
+            //       'reduction_id' => $red->id,
+            //       'type' => 'Default',
+            //       'location_id' => $location,
+            //       'employee_id' => $employee->id,
+            //       'status' => 1,
+            //       'employee_value' => $bebanKaryawan,
+            //       'employee_value_real' => $bebanKaryawanReal,
+            //       'company_value' => $bebanPerusahaan,
+            //       'company_value_real' => $bebanPerusahaanReal,
 
-               ]);
-            } else {
-               // dd($bebanKaryawan);
-               // dd('ok');
+            //    ]);
+            // } else {
+            //    // dd($bebanKaryawan);
+            //    // dd('ok');
 
-               $currentRed->update([
-                  'reduction_id' => $red->id,
-                  'type' => 'Default',
-                  'location_id' => $location,
-                  'employee_id' => $employee->id,
-                  // 'status' => 1,
-                  'employee_value' => $bebanKaryawan,
-                  'employee_value_real' => $bebanKaryawanReal,
-                  'company_value' => $bebanPerusahaan,
-                  'company_value_real' => $bebanPerusahaanReal,
-               ]);
-            }
+            //    $currentRed->update([
+            //       'reduction_id' => $red->id,
+            //       'type' => 'Default',
+            //       'location_id' => $location,
+            //       'employee_id' => $employee->id,
+            //       // 'status' => 1,
+            //       'employee_value' => $bebanKaryawan,
+            //       'employee_value_real' => $bebanKaryawanReal,
+            //       'company_value' => $bebanPerusahaan,
+            //       'company_value_real' => $bebanPerusahaanReal,
+            //    ]);
+            // }
          }
          $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->where('type', 'Default')->get();
          // dd('ok');
