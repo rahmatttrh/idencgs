@@ -46,57 +46,67 @@ Form Perubahan Absence
          @if ($absenceEmp->leader != null)
             @if ($absenceEmp->leader->nik == auth()->user()->username)
                @if($absenceEmp->status == 1)
-               <span class="btn btn-group btn-block p-0" >
-                  @if ($absenceEmp->type == 5)
-                     @if ($absenceEmp->cuti_backup_id != null)
-                     <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
-                     @else
-                     <a href="#" class="btn btn-block  mb-2 btn-light border" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Karyawan Pengganti">Approve</a>
+                  <span class="btn btn-group btn-block p-0" >
+                     @if ($absenceEmp->type == 5)
+                        @if ($absenceEmp->cuti_backup_id != null)
+                        <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
+                        @else
+                        <a href="#" class="btn btn-block  mb-2 btn-light border" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Karyawan Pengganti">Approve</a>
+                        @endif
+                        @else
+                        <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
                      @endif
-                     @else
-                     <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
-                  @endif
-                  
-                  <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
-               </span>
+                     
+                     <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
+                  </span>
 
-               @if ($absenceEmp->type == 5)
-                  <form action="{{route('employee.absence.update.pengganti')}}" method="POST">
-                     @csrf
-                     @method('put')
-                     <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
-                     <div class="row">
-                        <div class="col-md-12">
-                           <div class="form-group form-group-default">
-                              <label>Karyawan Pengganti</label>
-                              <select class="form-control"  name="cuti_backup" id="cuti_backup">
-                                 <option value="" disabled selected>Select</option>
-                                 
-                                 {{-- @foreach ($myteams as $team)
-                                 <option {{$team->employee->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$team->employee->id}}">{{$team->employee->biodata->fullName()}} </option>
-                                 @endforeach --}}
+                  @if ($absenceEmp->type == 5)
+                     <form action="{{route('employee.absence.update.pengganti')}}" method="POST">
+                        @csrf
+                        @method('put')
+                        <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="form-group form-group-default">
+                                 <label>Karyawan Pengganti</label>
+                                 <select class="form-control"  name="cuti_backup" id="cuti_backup">
+                                    <option value="" disabled selected>Select</option>
+                                    
+                                    {{-- @foreach ($myteams as $team)
+                                    <option {{$team->employee->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$team->employee->id}}">{{$team->employee->biodata->fullName()}} </option>
+                                    @endforeach --}}
 
-                                 @foreach ($emps as $emp)
-                                 <option {{$emp->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$emp->id}}">{{$emp->biodata->fullName()}} </option>
-                                 @endforeach
-                                 
-                              </select>
+                                    @foreach ($emps as $emp)
+                                    <option {{$emp->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$emp->id}}">{{$emp->biodata->fullName()}} </option>
+                                    @endforeach
+                                    
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="col-md-12">
+                              <button class="mb-2 btn btn-primary btn-block" type="submit">Update</button>
                            </div>
                         </div>
-                        <div class="col-md-12">
-                           <button class="mb-2 btn btn-primary btn-block" type="submit">Update</button>
-                        </div>
-                     </div>
-                  </form>
-               @endif
-               
-               <hr>
+                     </form>
+                  @endif
+                  
+                  <hr>
                
                
                
                @endif
+
+               
                
             @endif
+         @endif
+
+         @if ( $absenceEmp->type == 5 && $absenceEmp->status == 2 && auth()->user()->hasRole('Asst. Manager'))
+            
+         <span class="btn btn-group btn-block p-0" >
+            <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee-man" data-toggle="modal">Approve as Manager</a>
+            <a href=#"" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
+         </span>
          @endif
 
          @if ($user)
@@ -104,8 +114,8 @@ Form Perubahan Absence
                @if ($absenceEmp->manager_id == $user->id)
                   @if($absenceEmp->status == 2)
                   <span class="btn btn-group btn-block p-0" >
-                     <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
-                  <a href="" class="btn mb-2 btn-danger">Reject</a>
+                     <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve as Manager</a>
+                     <a href="" class="btn mb-2 btn-danger">Reject</a>
                   </span>
                   
                   
@@ -575,6 +585,35 @@ Form Perubahan Absence
             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary ">
                <a class="text-light" href="{{route('employee.absence.approve', enkripRambo($absenceEmp->id))}}">Approve</a>
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modal-approve-absence-employee-man" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content text-dark">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body ">
+            Approve Pengajuan 
+            @if ($absenceEmp->type == 5)
+                CUTI
+                @elseif($absenceEmp->type == 6)
+                SPT
+                
+            @endif
+            ?
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary ">
+               <a class="text-light" href="{{route('employee.absence.approve.man', enkripRambo($absenceEmp->id))}}">Approve as Manager</a>
             </button>
          </div>
       </div>

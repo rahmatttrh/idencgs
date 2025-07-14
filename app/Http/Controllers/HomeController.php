@@ -421,6 +421,7 @@ class HomeController extends Controller
          $absenceApprovals = Absence::where('status', 404)->get();
          $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
 
+         // dd($reqForms);
          if(auth()->user()->nik == 'EN-2-001'){
             $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [2])->get();
          } else {
@@ -472,7 +473,7 @@ class HomeController extends Controller
                }
 
                $myEmployees = Employee::whereIn('id', $teamId)->whereNotIn('role', [5,6,8] )->get();
-   
+               
                
             } else {
                $myEmployees = Employee::where('status', 1)->where('department_id', $user->department->id)->whereNotIn('role', [5,6,8] )->get();
@@ -481,6 +482,8 @@ class HomeController extends Controller
                }
                
             }
+
+            $reqForms[] = AbsenceEmployee::wherein('employee_id', $teamId)->whereIn('status', [2])->get();
    
             $teamSpkls = OvertimeEmployee::where('status', 1)->where('leader_id', $user->id)->whereIn('employee_id', $teamId)->orderBy('date', 'desc')->get();
          } elseif (auth()->user()->hasRole('Manager')) {
@@ -508,6 +511,8 @@ class HomeController extends Controller
 
 
          // dd($myEmployees);
+
+         // dd($reqForms); 
 
 
 

@@ -1034,6 +1034,8 @@ Route::middleware(["auth"])->group(function () {
             Route::get('/request/{id}', [AbsenceEmployeeController::class, 'requestEmployee'])->name('employee.absence.request');
             Route::get('/release/{id}', [AbsenceEmployeeController::class, 'release'])->name('employee.absence.release');
             Route::get('/approve/{id}', [AbsenceEmployeeController::class, 'approve'])->name('employee.absence.approve');
+
+            Route::get('/man/approve/{id}', [AbsenceEmployeeController::class, 'approveManager'])->name('employee.absence.approve.man');
             Route::post('/reject', [AbsenceEmployeeController::class, 'reject'])->name('employee.absence.reject');
          });
 
