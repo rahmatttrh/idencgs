@@ -30,7 +30,7 @@ class SpController extends Controller
       if (auth()->user()->hasRole('Administrator')) {
          $employee = null;
          $employees = Employee::get();
-         $sps = Sp::orderBy('created_at', 'desc')->get();
+         $sps = Sp::orderBy('date', 'desc')->get();
          $allEmployees = [];
          return view('pages.sp.index-hrd', [
             'employee' => $employee,

@@ -151,7 +151,7 @@ SP Detail
 
 
                {{-- @if ($sp->status > 1 && $sp->status != 6) --}}
-               <button type="button" class="btn btn-light border" onclick="javascript:window.print();">
+               <button type="button" class="btn shadow-lg btn-light border" onclick="javascript:window.print();">
                   <!-- Download SVG icon from http://tabler-icons.io/i/printer -->
                   <i class="fa fa-print"></i>
                   Print
