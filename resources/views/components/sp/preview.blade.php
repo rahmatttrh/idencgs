@@ -71,13 +71,14 @@
       <table>
          <tbody>
             <tr>
-               <th>Diajukan oleh</th>
+               <th>Diajukan oleh </th>
                <th>Disetujui oleh</th>
                <th>Diketahui oleh</th>
                <th>Diterima</th>
             </tr>
             {{-- Test : {{$sp->by->biodata->fullName()}} --}}
             @if ($sp->note)
+               @if ($sp->note == 'Recomendation')
                <tr>
                   <td style="height: 80px" class="">
                      {{-- {{$sp->id}} --}}
@@ -162,6 +163,8 @@
                   </td>
                   
                </tr>
+               @endif
+               
                @else
                <tr>
                   <td style="height: 80px" class="">
@@ -265,11 +268,20 @@
             @if ($sp->note)
             {{-- {{$sp->note}} --}}
             <tr>
-               <td colspan="4">
+               <td colspan="4" class="text-center">
                   @if ($sp->note == 'Recomendation')
                       <small style="font-size: 12px">Rekomendasi HRD</small>
                       @else
                       <small style="font-size: 12px">Existing SP</small>
+                  @endif
+               </td>
+            </tr>
+            <tr>
+               <td colspan="4" class="text-center">
+                  @if ($sp->note == 'Recomendation')
+                      
+                      @else
+                      <small style="font-size: 12px">Created by HRD at {{$sp->created_at}}</small>
                   @endif
                </td>
             </tr>
