@@ -83,8 +83,8 @@ SP
                         {{-- <td>{{formatDate($sp->date)}}</td> --}}
                         <td>SP {{$sp->level}}</td>
                         
-                        <td>{{formatDate($sp->date_from)}}</td>
-                        <td>
+                        <td class="text-truncate">{{$sp->date_from}}</td>
+                        <td class="text-truncate">
                            <x-status.sp :sp="$sp" />
                         </td>
                         {{-- <td class="text-truncate" style="max-width: 240px">{{$sp->desc}}</td> --}}
