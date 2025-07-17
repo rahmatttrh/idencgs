@@ -334,7 +334,7 @@ class SpController extends Controller
 
       if ($req->type == 1) {
          $status = 4;
-         $by = auth()->user()->getEmployee()->id;
+         $by = auth()->user()->getEmployeeId();
          $note = 'Existing';
       } else {
          $status = 2;

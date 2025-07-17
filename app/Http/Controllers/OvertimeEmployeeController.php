@@ -569,9 +569,20 @@ class OvertimeEmployeeController extends Controller
       // dd('ok');
       
       $empSpkl = OvertimeEmployee::find(dekripRambo($id));
-      if (auth()->user()->hasRole('Administrator')) {
-        dd($empSpkl);
-      }
+      // if (auth()->user()->hasRole('Administrator')) {
+      
+      //   $start = Carbon::CreateFromFormat('H:i', $empSpkl->hours_start);
+      //    $end = Carbon::CreateFromFormat('H:i', $empSpkl->hours_end);
+      //    $diffTime = $end->diffInMinutes($start);
+      //    $h = $diffTime / 60 ;
+      //    $hm = floor($h) * 60;
+      //    $msisa = $diffTime - $hm;
+
+      //    $intH = floatval(floor($h) . '.' .  $msisa);
+      //    $empSpkl->update([
+      //       'hours' => $intH
+      //    ]);
+      // }
       $currentSpkl = Overtime::where('overtime_employee_id', $empSpkl->id)->first();
 
       return view('pages.spkl.detail', [
