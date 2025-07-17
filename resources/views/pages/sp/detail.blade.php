@@ -223,6 +223,14 @@ SP Detail
                
                @endif
                
+                  <b class="mb-3">Attachment</b>
+                  @if ($sp->file)
+                  <iframe src="{{asset('storage/' . $sp->file)}}" width="100%" height="500px" scrolling="auto" frameborder="0"></iframe>
+                  @else
+                  <br>
+                  <small>Empty</small>
+                  @endif
+               
             </div>
          </div>
       </div>
@@ -378,19 +386,13 @@ SP Detail
                   
                   
                </div> --}}
-               <div class="card-footer">
-                  <b class="mb-3">Attachment</b>
-                  @if ($sp->file)
-                  <iframe src="{{asset('storage/' . $sp->file)}}" width="100%" height="500px" scrolling="auto" frameborder="0"></iframe>
-                  @else
-                  <br>
-                  <small>Empty</small>
-                  @endif
-                  
-               </div>
+               
             </div>
          </div>
       @endif
+
+      
+     
 
       
       

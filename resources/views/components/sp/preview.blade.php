@@ -269,7 +269,7 @@
                   @if ($sp->note == 'Recomendation')
                       <small style="font-size: 12px">Rekomendasi HRD</small>
                       @else
-                      <small style="font-size: 12px">Excisting SP</small>
+                      <small style="font-size: 12px">Existing SP</small>
                   @endif
                </td>
             </tr>

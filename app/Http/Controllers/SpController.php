@@ -413,9 +413,9 @@ class SpController extends Controller
       //    'employee_id' => auth()->user()->getEmployeeId(),
       // ]);
 
-      $posMan = Position::where('department_id', $sp->department->id)->where('designation_id', 6)->first();
-      $empPos = EmployeePosition::where('position_id', $posMan->id)->first();
-      // $manager = Employee::find($empPos->employee_id);
+      // $posMan = Position::where('department_id', $sp->department->id)->where('designation_id', 6)->first();
+      // $empPos = EmployeePosition::where('position_id', $posMan->id)->first();
+      // // $manager = Employee::find($empPos->employee_id);
       
       // SpApproval::create([
       //    'status' => 1,
