@@ -14,65 +14,116 @@ Create PE
     </nav>
     <div class="row" id="boxCreate">
         <div class="col-md-3">
-            <div class="card shadow-none border">
+            <small class="badge badge-info">Form Performance Evaluation</small>
+            <hr>
+            <form>
+               @csrf
+               <div class="form-group form-group-default">
+                   <label>Employee</label>
+                   <select class="form-control js-example-basic-single" name="employe_id" id="employe_id">
+                       <option value="">--- Choose Employe ---</option>
+                       <option value="{{$employee->id}}">{{$employee->biodata->fullName()}}</option>
+                       @if (auth()->user()->hasRole('Manager|Asst. Manager'))
+                           @foreach ($employes as $employe)
+                           <option value="{{$employe->id}}">{{$employe->biodata->fullName()}} </option>
+                           @endforeach
+                           @else
+                           @foreach ($employes as $employe)
+                              <option value="{{$employe->employee->id}}">{{$employe->employee->biodata->fullName()}} </option>
+                           @endforeach
+                       @endif
+                       
+                   </select>
+               </div>
+               <div class="form-group form-group-default">
+                   <label>Period</label>
+                   <select class="form-control" name="priode" id="priode" readonly>
+                       <option value="semester" selected>Semester</option>
+                   </select>
+               </div>
+               <div class="form-group form-group-default">
+                   <label>Semester</label>
+                   <div class="row">
+                       <div class="col">
+                           <select class="form-control form-select date" id="semester" name="semester">
+                               <option value="1">I</option>
+                               <option value="2">II</option>
+                           </select>
+                       </div>
+                       <div class="col">
+                           <select class="form-control form-select date" id="tahun" name="tahun">
+                               <option value="{{ date('Y') }}">{{ date('Y') }}</option>
+                               <option value="{{ date('Y') -1 }}">{{ date('Y') -1 }}</option>
+                               <!-- Tambahkan opsi tahun sesuai kebutuhan -->
+                           </select>
+                       </div>
+                   </div>
+               </div>
+           </form>
+
+            {{-- <div class="card shadow-none border">
                 <div class="card-header d-flex">
                     <div class="d-flex  align-items-center">
-                        <small class="">Give Performance Evaluation</small>
+                        
                     </div>
 
                 </div>
                 <div class="card-body">
-                    <form>
-                        @csrf
-                        <div class="form-group form-group-default">
-                            <label>Employee</label>
-                            <select class="form-control js-example-basic-single" name="employe_id" id="employe_id">
-                                <option value="">--- Choose Employe ---</option>
-                                <option value="{{$employee->id}}">{{$employee->biodata->fullName()}}</option>
-                                @if (auth()->user()->hasRole('Manager|Asst. Manager'))
-                                    @foreach ($employes as $employe)
-                                    <option value="{{$employe->id}}">{{$employe->biodata->fullName()}} </option>
-                                    @endforeach
-                                    @else
-                                    @foreach ($employes as $employe)
-                                       <option value="{{$employe->employee->id}}">{{$employe->employee->biodata->fullName()}} </option>
-                                    @endforeach
-                                @endif
-                                
-                            </select>
-                        </div>
-                        <div class="form-group form-group-default">
-                            <label>Period</label>
-                            <select class="form-control" name="priode" id="priode" readonly>
-                                <option value="semester" selected>Semester</option>
-                            </select>
-                        </div>
-                        <div class="form-group form-group-default">
-                            <label>Semester</label>
-                            <div class="row">
-                                <div class="col">
-                                    <select class="form-control form-select date" id="semester" name="semester">
-                                        <option value="1">I</option>
-                                        <option value="2">II</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <select class="form-control form-select date" id="tahun" name="tahun">
-                                        <option value="{{ date('Y') }}">{{ date('Y') }}</option>
-                                        <option value="{{ date('Y') -1 }}">{{ date('Y') -1 }}</option>
-                                        <!-- Tambahkan opsi tahun sesuai kebutuhan -->
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    
 
                 </div>
                 <div class="card-footer">
-                    <!-- <a href="{{route('export.kpi')}}" target="_blank">Preview</a> -->
+                    
                 </div>
+            </div> --}}
+
+            <div class="card">
+               <div class="card-header d-flex justify-content-between p-2 bg-light border">
+                  <small> <i class="fas fa-file-contract"></i> Discipline</small>
+                  {{-- <a href="{{route('qpe')}}" class="text-white">More..</a> --}}
+               </div>
+               <div class="card-body p-0">
+                  <div class="table-responsive " >
+                     <table class="display  table-sm table-bordered  ">
+                        
+                        <tbody>
+                           <tr >
+                              <td colspan="2">Data Absensi akan muncul ketika klik 'Save' di form KPI</td>
+                              
+                          </tr>
+                           <tr >
+                              <td>Alpa</td>
+                              <td for="" class="text-center">0</td>
+                          </tr>
+                          <tr class="">
+                              <td>Ijin</td>
+                              <td for="" class="text-center">0</td>
+                          </tr>
+                          <tr class="">
+                              <td>Terlambat</td>
+                              <td for="" class="text-center">0</td>
+                          </tr>
+                          <tr class=" ">
+                              <td>Value</td>
+                              <td for="" class="text-center">0</td>
+                          </tr>
+                          <tr class=" ">
+                              <td>Bobot</td>
+                              <td for="" class="text-center">0</td>
+                          </tr>
+                          <tr class="bg-dark text-white ">
+                              <td> <b>Achievement</b></td>
+                              <td for="" class="text-center">
+                                  0
+                              </td>
+                          </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               
             </div>
-            <div class="card shadow-none border">
+            {{-- <div class="card shadow-none border">
                <div class="card-header d-flex bg-primary">
                    <div class="d-flex  align-items-center">
                        <small class=" text-white">Discipline</small>
@@ -94,7 +145,7 @@ Create PE
                            <label>Terlambat</label>
                            <label for="" class="float-right">0</label>
                        </div>
-                       <div class="form-group form-group-default bg-success">
+                       <div class="form-group form-group-default bg-info">
                            <label>Value</label>
                            <label for="" class="float-right">4</label>
                        </div>
@@ -102,7 +153,7 @@ Create PE
                            <label>Bobot</label>
                            <label for="" class="float-right">15</label>
                        </div>
-                       <div class="form-group form-group-default bg-success">
+                       <div class="form-group form-group-default bg-info">
                            <label> <b>Achievement</b></label>
                            <label for="" class="float-right">
                                <h3>15</h3>
@@ -110,7 +161,7 @@ Create PE
                        </div>
                    </form>
                </div>
-           </div>
+           </div> --}}
         </div>
         <div class="col-md-9" id="boxKpi">
 

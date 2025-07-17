@@ -31,6 +31,7 @@ class SpController extends Controller
          $employee = null;
          $employees = Employee::get();
          $sps = Sp::orderBy('date_from', 'desc')->get();
+         // dd($sps);
          $allEmployees = [];
          return view('pages.sp.index-hrd', [
             'employee' => $employee,
@@ -43,6 +44,7 @@ class SpController extends Controller
          $allEmployees = Employee::get();
          $employees = [];
          $sps = Sp::orderBy('date_from', 'desc')->get();
+         // dd($sps);
          return view('pages.sp.index-hrd', [
             'employee' => $employee,
             'allEmployees' => $allEmployees,
