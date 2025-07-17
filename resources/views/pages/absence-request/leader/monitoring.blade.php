@@ -8,8 +8,8 @@ Form Absensi
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
-         
-         <li class="breadcrumb-item active" aria-current="page">Form Absensi</li>
+         <li class="breadcrumb-item " aria-current="page">Sumamry</li>
+         <li class="breadcrumb-item active" aria-current="page">Absensi Tim</li>
       </ol>
    </nav>
 
@@ -19,9 +19,18 @@ Form Absensi
          {{-- <h4>|  <b>Monitoring Absensi</b></h4>
          <hr> --}}
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
+            {{-- <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
                Form Absensi Tim
+            </a> --}}
+            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('overtime.team')}}" aria-controls="v-pills-basic" aria-selected="true">
+               <i class="fas fa-address-book mr-1"></i>
+               SPKL Tim
+            </a>
+            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{route('absence.team')}}" aria-controls="v-pills-contract" aria-selected="false">
+               <i class="fas fa-file-contract mr-1"></i>
+               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+               Absensi Tim
             </a>
             
             
@@ -82,8 +91,8 @@ Form Absensi
                            {{-- <td>{{$absence->employee->location->name}}</td> --}}
                            
                            {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                           <td>
-                              <x-absence.date :absence="$absence" />
+                           <td class="truncate">
+                             - <x-absence.date :absence="$absence" />  
                            </td>
                            {{-- <td>{{$absence->desc}}</td> --}}
                            <td>
