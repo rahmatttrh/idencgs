@@ -77,7 +77,7 @@ SP
                      <tr>
                         {{-- <td class="text-center">{{++$i}}</td> --}}
                         <td><a href="{{route('sp.detail', enkripRambo($sp->id))}}">{{$sp->code}}</a> </td>
-                        <td>{{$sp->employee->nik}}</td>
+                        <td class="text-truncate">{{$sp->employee->nik}}</td>
                         <td> {{$sp->employee->biodata->fullName()}}</td>
                         {{-- <td>{{$sp->employee->nik}}</td> --}}
                         {{-- <td>{{formatDate($sp->date)}}</td> --}}
