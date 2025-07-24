@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AbsenceEmployee;
 use App\Models\Employee;
 use App\Models\EmployeeLeader;
+use App\Models\OvertimeEmployee;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -190,6 +191,17 @@ class AbsenceLeaderController extends Controller
       return view('pages.absence-request.hrd.index', [
          'activeTab' => $activeTab,
          'reqForms' => $reqForms
+      ]);
+   }
+
+   public function monitoringSpklHrd(){
+      // $employee = Employee::where('nik', auth()->user()->username)->first();
+      // $reqForms = AbsenceEmployee::where('status', '!=', 0)->where('status', '!=', 5)->orderBy('release_date', 'desc')->get();
+      // $activeTab = 'index';
+      $overtimeEmps = OvertimeEmployee::where('status', '>', 0)->orderBy('date', 'desc')->get();
+      return view('pages.absence-request.hrd.spkl', [
+         // 'activeTab' => $activeTab,
+         'spkls' => $overtimeEmps
       ]);
    }
 

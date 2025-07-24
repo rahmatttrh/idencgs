@@ -39,44 +39,70 @@ SP Detail
   
    <div class="row justify-content-center">
       <div class="col-12 col-lg-10 col-xl-11">
-         <a href="{{route('st')}}" class="btn btn-sm btn-light border mb-2"><< Back</a>
-         @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
-            @if ($st->status == 2 || $st->status == 1)
-            <div class="btn-group mb-2">
-               <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-delete-st"><i class="fa fa-trash"></i> Delete</a>
-               <a href="#" class="btn btn-sm btn-dark " ><i class="fa fa-edit"></i>Edit</a>
-            </div>
-            @endif
-         @endif
+         <div class="row hide align-items-center">
+            <div class="col">
 
-         @if (auth()->user()->getEmployeeId() == $st->leader_id)
-            @if ($st->status == 2)
-            <div class="btn-group mb-2">
-               <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-approve-st"><i class="fa fa-check"></i> Approve</a>
-               <a href="#" class="btn btn-sm btn-danger " ><i class="fa fa-xmark"></i> Reject</a>
-            </div>
-            @endif
-         @endif
+               <x-status.st :st="$st" />
+               
 
-         @if (auth()->user()->hasRole('Manager|Asst.Manager'))
-            @if ($st->status == 3)
-            <div class="btn-group mb-2">
-               <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-approve-st"><i class="fa fa-check"></i> Approve</a>
-               <a href="#" class="btn btn-sm btn-danger " ><i class="fa fa-xmark"></i> Reject</a>
-            </div>
-            @endif
-         @endif
 
-         @if (auth()->user()->getEmployeeId() == $st->employee_id)
-            @if ($st->status == 4)
-            <div class="btn-group mb-2">
-               <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-approve-st"><i class="fa fa-check"></i> Confirmasi</a>
-               {{-- <a href="#" class="btn btn-sm btn-danger " ><i class="fa fa-xmark"></i> Reject</a> --}}
+               <h5 class="page-title">{{$st->code}}</h5>
+
             </div>
-            @endif
-         @endif
+            <div class="col-auto">
+               <a href="{{route('st')}}" class="btn  btn-light border "><< Back</a>
+                  @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
+                     @if ($st->status == 2 || $st->status == 1)
+                     <div class="btn-group ">
+                        <a href="#" class="btn  btn-danger" data-toggle="modal" data-target="#modal-delete-st"><i class="fa fa-trash"></i> Delete</a>
+                        <a href="#" class="btn  btn-dark " ><i class="fa fa-edit"></i>Edit</a>
+                     </div>
+                     @endif
+                  @endif
+
+                  @if (auth()->user()->getEmployeeId() == $st->leader_id)
+                     @if ($st->status == 2)
+                     <div class="btn-group ">
+                        <a href="#" class="btn  btn-primary" data-toggle="modal" data-target="#modal-approve-st"><i class="fa fa-check"></i> Approve</a>
+                        <a href="#" class="btn  btn-danger " ><i class="fa fa-xmark"></i> Reject</a>
+                     </div>
+                     @endif
+                  @endif
+
+                  @if (auth()->user()->hasRole('Manager|Asst.Manager'))
+                     @if ($st->status == 3)
+                     <div class="btn-group ">
+                        <a href="#" class="btn  btn-primary" data-toggle="modal" data-target="#modal-approve-st"><i class="fa fa-check"></i> Approve</a>
+                        <a href="#" class="btn  btn-danger " ><i class="fa fa-xmark"></i> Reject</a>
+                     </div>
+                     @endif
+                  @endif
+
+                  @if (auth()->user()->getEmployeeId() == $st->employee_id)
+                     @if ($st->status == 4)
+                     <div class="btn-group ">
+                        <a href="#" class="btn  btn-primary" data-toggle="modal" data-target="#modal-approve-st"><i class="fa fa-check"></i> Confirmasi</a>
+                        {{-- <a href="#" class="btn  btn-danger " ><i class="fa fa-xmark"></i> Reject</a> --}}
+                     </div>
+                     @endif
+                  @endif
+                  
+                  <div class="btn btn-light border  ">Status : <x-status.st :st="$st" /></div>
+
+
+               {{-- @if ($sp->status > 1 && $sp->status != 6) --}}
+               <button type="button" class="btn shadow-lg btn-light border" onclick="javascript:window.print();">
+                  <!-- Download SVG icon from http://tabler-icons.io/i/printer -->
+                  <i class="fa fa-print"></i>
+                  Print
+               </button>
+               {{-- @endif --}}
+               
+
+            </div>
+         </div>
+
          
-         <div class="btn btn-light border mb-2 btn-sm">Status : <x-status.st :st="$st" /></div>
          
          
          {{-- <div class="row hide align-items-center">
@@ -164,105 +190,107 @@ SP Detail
                      
                
                      <br><br>
-      <div class="page-divider"></div>
-      <table>
-         <tbody>
-            <tr>
-               <th>Diajukan oleh</th>
-               <th>Disetujui oleh</th>
-               <th>Diketahui oleh</th>
-               <th>Diterima</th>
-            </tr>
-            <tr>
-               <td style="height: 80px" class="">
-                  @if ($st->leader_app_date != null)
-                  
-                     {{$st->leader->biodata->fullName()}} <br>
-                     <small class="text-muted">{{$st->leader->position->name}}</small>
-                     @else
-                     -
-                  @endif
-               </td>
-               <td>
-                  @if ($st->manager_app_date != null)
-                  
-                     {{$st->manager->biodata->fullName()}} <br>
-                     <small class="text-muted">{{$st->manager->position->name}}</small>
-                     @else
-                     -
-                  @endif
+                     <div class="page-divider">
 
-               </td>
-               <td>
-                  @if ($st->hrd_id != null)
-                  
-                     {{$st->hrd->biodata->fullName()}} <br>
-                     <small class="text-muted">{{$st->hrd->position->name}}</small>
-                     @else
-                     -
-                  @endif
-                  
+                  </div>
+                  <table>
+                     <tbody>
+                        <tr>
+                           <th>Diajukan oleh</th>
+                           <th>Disetujui oleh</th>
+                           <th>Diketahui oleh</th>
+                           <th>Diterima</th>
+                        </tr>
+                        <tr>
+                           <td style="height: 80px" class="">
+                              @if ($st->leader_app_date != null)
+                              
+                                 {{$st->leader->biodata->fullName()}} <br>
+                                 <small class="text-muted">{{$st->leader->position->name}}</small>
+                                 @else
+                                 -
+                              @endif
+                           </td>
+                           <td>
+                              @if ($st->manager_app_date != null)
+                              
+                                 {{$st->manager->biodata->fullName()}} <br>
+                                 <small class="text-muted">{{$st->manager->position->name}}</small>
+                                 @else
+                                 -
+                              @endif
 
-               </td>
-               <td>
-                  @if ($st->employee_app_date != null)
-                  
-                     {{$st->employee->biodata->fullName()}} <br>
-                     <small class="text-muted">{{$st->employee->position->name}}</small>
-                     @else
-                     -
-                  @endif
-               </td>
-            </tr>
-            <tr>
-               <td>
-                  @if ($st->leader_app_date != null)
-                  {{formatDateTime($st->leader_app_date)}}
-                  @else
-                  -
-                  @endif
-               </td>
-               <td>
-                  @if ($st->manager_app_date != null)
-                  {{formatDateTime($st->manager_app_date)}}
-                  @else
-                  -
-                  @endif
-               </td>
-               <td>
-                  @if ($st->hrd_app_date != null)
-                  {{formatDateTime($st->hrd_app_date)}}
-                  @else
-                  -
-                  @endif
-               </td>
-               <td>
-                  @if ($st->employee_app_date != null)
-                  {{formatDateTime($st->employee_app_date)}}
-                  @else
-                  -
-                  @endif
-               </td>
-               
-            </tr>
-            {{-- Test : {{$sp->by->biodata->fullName()}} --}}
-            
+                           </td>
+                           <td>
+                              @if ($st->hrd_id != null)
+                              
+                                 {{$st->hrd->biodata->fullName()}} <br>
+                                 <small class="text-muted">{{$st->hrd->position->name}}</small>
+                                 @else
+                                 -
+                              @endif
+                              
 
-            @if ($st->note)
-            {{-- {{$sp->note}} --}}
-            <tr>
-               <td colspan="4">
-                  @if ($st->note == 'Recomendation')
-                      <small style="font-size: 12px">Rekomendasi HRD</small>
-                      @else
-                      <small style="font-size: 12px">Excisting SP</small>
-                  @endif
-               </td>
-            </tr>
-            @endif
+                           </td>
+                           <td>
+                              @if ($st->employee_app_date != null)
+                              
+                                 {{$st->employee->biodata->fullName()}} <br>
+                                 <small class="text-muted">{{$st->employee->position->name}}</small>
+                                 @else
+                                 -
+                              @endif
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              @if ($st->leader_app_date != null)
+                              {{formatDateTime($st->leader_app_date)}}
+                              @else
+                              -
+                              @endif
+                           </td>
+                           <td>
+                              @if ($st->manager_app_date != null)
+                              {{formatDateTime($st->manager_app_date)}}
+                              @else
+                              -
+                              @endif
+                           </td>
+                           <td>
+                              @if ($st->hrd_app_date != null)
+                              {{formatDateTime($st->hrd_app_date)}}
+                              @else
+                              -
+                              @endif
+                           </td>
+                           <td>
+                              @if ($st->employee_app_date != null)
+                              {{formatDateTime($st->employee_app_date)}}
+                              @else
+                              -
+                              @endif
+                           </td>
+                           
+                        </tr>
+                        {{-- Test : {{$sp->by->biodata->fullName()}} --}}
+                        
 
-         </tbody>
-      </table>
+                        @if ($st->note)
+                        {{-- {{$sp->note}} --}}
+                        <tr>
+                           <td colspan="4">
+                              @if ($st->note == 'Recomendation')
+                                 <small style="font-size: 12px">Rekomendasi HRD</small>
+                                 @else
+                                 <small style="font-size: 12px">Excisting SP</small>
+                              @endif
+                           </td>
+                        </tr>
+                        @endif
+
+                     </tbody>
+                  </table>
                      
                   </div>
                   <br><br>

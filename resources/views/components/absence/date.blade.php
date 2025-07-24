@@ -12,7 +12,7 @@
             @endif
             
          @else
-         Tanggal belum dipilih
+         {{-- Tanggal belum dipilih --}}
       @endif
    {{-- {{count($absence->details)}} Hari --}}
       @else

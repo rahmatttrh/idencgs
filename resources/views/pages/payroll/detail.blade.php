@@ -90,7 +90,10 @@ Setup Payroll Employee
                </div>
             </div> --}}
             <div class="card-body">
-               <b>{{formatRupiah($employee->payroll->total ?? 0)}}</b>
+               <b><h2>{{formatRupiah($employee->payroll->total ?? 0)}}</h2></b>
+
+              <br>
+               Book 2 : {{formatRupiah($book2 ?? 0)}}
             </div>
             <div class="card-footer d-flex justify-content-between">
                <div>
@@ -270,6 +273,25 @@ Setup Payroll Employee
                         </div>
             
                         <div class="tab-pane fade" id="pills-doc-nobd" role="tabpanel" aria-labelledby="pills-doc-tab-nobd">
+                           <form action="{{route('payroll.update.book2')}}" method="POST">
+                              @csrf
+                              @method('PUT')
+                              <input type="text" name="employee" id="employee"  value="{{$employee->id}}" hidden>
+                              <div class="row">
+                                 <div class="col">
+                                    <div class="form-group form-group-default">
+                                       <label>Book 2 </label>
+                                       <input type="text" name="book2" id="book2" class="form-control" value="{{formatRupiahB($employee->payroll->book2) ?? 0}}">
+                                    </div>
+                                 </div>
+                                 <div class="col"> 
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                 </div>
+                              </div>
+                              
+
+                           </form>
+                           
                            @if (count($redEmployees) > 0)
                            <div class="row">
                               <div class="col-md-8">
