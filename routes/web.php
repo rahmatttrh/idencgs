@@ -188,6 +188,7 @@ Route::middleware(["auth"])->group(function () {
    Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC']], function () {
       Route::prefix('hrd')->group(function () {
          Route::get('absence/index', [AbsenceLeaderController::class, 'indexHrd'])->name('hrd.absence');
+         Route::get('monitoring/spkl/index', [AbsenceLeaderController::class, 'monitoringSpklHrd'])->name('hrd.monitoring.spkl');
          Route::get('absence/history', [AbsenceLeaderController::class, 'historyHrd'])->name('hrd.absence.history');
 
          Route::get('absence/approve/{id}', [AbsenceEmployeeController::class, 'approveHrd'])->name('employee.absence.approve.hrd');
@@ -427,6 +428,7 @@ Route::middleware(["auth"])->group(function () {
          Route::prefix('setup')->group(function () {
             Route::get('/index', [PayrollController::class, 'index'])->name('payroll');
             Route::put('/update', [PayrollController::class, 'update'])->name('payroll.update');
+            Route::put('/update/book2', [PayrollController::class, 'updateBook2'])->name('payroll.update.book2');
             Route::get('/index/unit/{id}', [PayrollController::class, 'indexUnit'])->name('payroll.unit.list');
             Route::get('/import', [PayrollController::class, 'import'])->name('payroll.import');
             Route::get('/calibrate', [PayrollController::class, 'calibrate'])->name('payroll.calibrate');

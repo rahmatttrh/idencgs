@@ -480,8 +480,20 @@ class PayrollController extends Controller
       }
 
       // dd($redEmployees);
+      $bpjs = Reduction::where('unit_id', $employee->unit->id)->where('name', 'BPJS KS')->first();
+      if ($payTotal <= $bpjs->min_salary ) {
+         $book2 = $bpjs->min_salary;
+      } elseif($payTotal >= $bpjs->min_salary){
+         if ($payTotal > $bpjs->max_salary){
+            $book2 = $bpjs->max_salary;
+         } else {
+            $book2 =$payTotal;
+         }
+      }
 
-      
+      // $payroll->update([
+      //    'book2' => $book2
+      // ]);
 
 
 
@@ -497,6 +509,7 @@ class PayrollController extends Controller
          'redEmployees' => $redEmployees,
          'redAddEmployees' => $redAddEmployees,
          'redAdditionals' => $redAdditionals,
+         'book2' => $book2,
 
          'payrollHistories' => $payrollHistories
       ]);
@@ -559,6 +572,186 @@ class PayrollController extends Controller
             'total' => $total,
             'doc' => $doc,
             // 'berlaku' => $req->berlaku
+         ]);
+      } else {
+
+         if (request('doc')) {
+
+
+            $doc = request()->file('doc')->store('doc/payroll');
+         } else {
+            $doc = null;
+         }
+
+         $total = $req->pokok + $req->tunj_jabatan + $req->tunj_ops + $req->tunj_kinerja + $req->tunj_fungsional + $req->insentif;
+
+
+         $payroll = Payroll::create([
+            'location_id' => $locId,
+            'pokok' => $req->pokok,
+            'tunj_jabatan' => $req->tunj_jabatan,
+            'tunj_ops' => $req->tunj_ops,
+            'tunj_kinerja' => $req->tunj_kinerja,
+            'tunj_fungsional' => $req->tunj_fungsional,
+            'insentif' => $req->insentif,
+            'total' => $total,
+            'doc' => $doc
+         ]);
+
+         $employee->update([
+            'payroll_id' => $payroll->id
+         ]);
+      }
+
+      $reductions = Reduction::where('unit_id', $employee->unit_id)->get();
+      $locations = Location::get();
+
+      foreach ($locations as $loc) {
+         if ($loc->code == $employee->contract->loc) {
+            $location = $loc->id;
+         }
+      }
+
+      foreach ($reductions as $red) {
+         $currentRed = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $employee->id)->first();
+
+         if ($payroll->total <= $red->min_salary) {
+            $salary = $red->min_salary;
+            $realSalary = $payroll->total;
+
+            $bebanPerusahaan = ($red->company * $salary) / 100;
+            $bebanKaryawan = ($red->employee * $realSalary) / 100;
+            $bebanKaryawanReal = ($red->employee * $salary) / 100;
+            $selisih = $bebanKaryawanReal - $bebanKaryawan;
+            $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+         } else if ($payroll->total >= $red->min_salary) {
+            if ($payroll->total > $red->max_salary) {
+               // dd('ok');
+               if ($red->max_salary != 0) {
+                  $salary = $payroll->total;
+                  $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
+                  $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
+                  $bebanKaryawanReal = 0;
+                  $bebanPerusahaanReal = $bebanPerusahaan;
+               } else {
+                  $salary = $payroll->total;
+                  $bebanPerusahaan = ($red->company * $salary) / 100;
+                  $bebanKaryawan = ($red->employee * $salary) / 100;
+                  $bebanKaryawanReal = 0;
+                  $bebanPerusahaanReal = $bebanPerusahaan;
+               }
+            } else {
+               $salary = $payroll->total;
+               $bebanPerusahaan = ($red->company * $salary) / 100;
+               $bebanKaryawan = ($red->employee * $salary) / 100;
+               $bebanKaryawanReal = 0;
+               $bebanPerusahaanReal = $bebanPerusahaan;
+            }
+         }
+
+         if (!$currentRed) {
+            ReductionEmployee::create([
+               'reduction_id' => $red->id,
+               'location_id' => $location,
+               'employee_id' => $employee->id,
+               // 'status' => 1,
+               'type' => 'Default',
+               'employee_value' => $bebanKaryawan,
+               'employee_value_real' => $bebanKaryawanReal,
+               'company_value' => $bebanPerusahaan,
+               'company_value_real' => $bebanPerusahaanReal,
+
+            ]);
+         } else {
+            $currentRed->update([
+               'reduction_id' => $red->id,
+               'location_id' => $location,
+               'employee_id' => $employee->id,
+               // 'status' => 1,
+               'type' => 'Default',
+               'employee_value' => $bebanKaryawan,
+               'employee_value_real' => $bebanKaryawanReal,
+               'company_value' => $bebanPerusahaan,
+               'company_value_real' => $bebanPerusahaanReal,
+            ]);
+         }
+      }
+
+      $transactionCon = new TransactionController;
+      $transactions = Transaction::where('status', 0)->where('employee_id', $employee->id)->get();
+
+      foreach ($transactions as $tran) {
+         $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+      }
+
+
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Update',
+         'desc' => 'Payroll ' . $employee->nik . ' ' . $employee->biodata->fullname()
+      ]);
+
+      return redirect()->back()->with('success', 'Payroll successfully updated');
+   }
+
+   public function updateBook2(Request $req)
+   {
+      $employee = Employee::find($req->employee);
+
+      $payroll = Payroll::find($employee->payroll_id);
+      $payroll->update([
+         'book2' => $req->book2
+      ]);
+
+      $locations = Location::get();
+      $locId = null;
+      foreach ($locations as $loc) {
+         if ($employee->contract->loc == $loc->code) {
+            $locId = $loc->id;
+         }
+      }
+
+      
+
+      // dd($locId);
+
+      if ($payroll) {
+
+         if (request('doc')) {
+            if ($payroll->doc) {
+               Storage::delete($payroll->doc);
+            }
+
+
+            $doc = request()->file('doc')->store('doc/payroll');
+         } elseif ($payroll->doc) {
+            $doc = $payroll->doc;
+         } else {
+            $doc = null;
+         }
+
+         $total = preg_replace('/[Rp. ]/', '', $req->pokok) + preg_replace('/[Rp. ]/', '', $req->tunj_jabatan) + preg_replace('/[Rp. ]/', '', $req->tunj_ops) + preg_replace('/[Rp. ]/', '', $req->tunj_kinerja) + preg_replace('/[Rp. ]/', '', $req->tunj_fungsional) + preg_replace('/[Rp. ]/', '', $req->insentif);
+
+
+         $payroll->update([
+            'location_id' => $locId,
+            'pokok' => preg_replace('/[Rp. ]/', '', $req->pokok),
+            'tunj_jabatan' => preg_replace('/[Rp. ]/', '', $req->tunj_jabatan),
+            'tunj_ops' => preg_replace('/[Rp. ]/', '', $req->tunj_ops),
+            'tunj_kinerja' => preg_replace('/[Rp. ]/', '', $req->tunj_kinerja),
+            'tunj_fungsional' => preg_replace('/[Rp. ]/', '', $req->tunj_fungsional),
+            'insentif' => preg_replace('/[Rp. ]/', '', $req->insentif),
+            'total' => $total,
+            'doc' => $doc,
+            'berlaku' => $req->berlaku
          ]);
       } else {
 

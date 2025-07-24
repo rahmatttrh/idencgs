@@ -19,12 +19,12 @@ Monitoring Form Absensi
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('hrd.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
-               Monitoring Form Karyawan
+               Absensi
             </a>
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.absence.history') }}" aria-controls="v-pills-contract" aria-selected="false">
+            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.monitoring.spkl') }}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               History
+               SPKL
             </a>
             
            
@@ -83,7 +83,7 @@ Monitoring Form Absensi
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
                      
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                     <td>
+                     <td class="text-truncate" >
                        <x-absence.date :absence="$absence" />
                      </td>
                      {{-- <td>{{$absence->desc}}</td> --}}
