@@ -50,7 +50,7 @@ SP
       </div>
       <div class="col-md-9">
          <div class="table-responsive">
-            <table id="" class="display basic-datatables table-sm table-bordered  table-striped ">
+            <table id="" class="display datatables-4 table-sm table-bordered  table-striped ">
                <thead>
                   <tr>
                      {{-- <th class="text-center" style="width: 10px">No</th> --}}
