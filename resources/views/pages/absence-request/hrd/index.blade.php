@@ -47,7 +47,7 @@ Monitoring Form Absensi
       <div class="col-md-9">
          
          <div class="table-responsive ">
-            <table id="data" class="basic-datatables">
+            <table id="data" class="datatables-abs">
                <thead>
                   <tr>
                      <th>ID</th>
@@ -75,7 +75,10 @@ Monitoring Form Absensi
                      <td class="text-truncate">
                         <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                            <x-status.absence :absence="$absence" />
-                     </a>
+                           @if (count($absence->details) > 1)
+                               ({{count($absence->details)}} hari)
+                           @endif
+                        </a>
                         
                      </td>
                      <td class="text-truncate"><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>

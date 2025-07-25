@@ -391,13 +391,14 @@
                            <div class="col col-stats ml-3 ml-sm-0">
                               
                                  <div class="numbers">
-                                    <p class="card-category"> Monitoring Absensi </p>
+                                    <p class="card-category"> Monitoring Absensi & SPKL </p>
                                     <h4 class="card-title py-1"> 
-                                       @if (count($absenceProgress) > 0)
+                                       {{-- @if (count($absenceProgress) > 0)
                                           <div class="badge badge-light">{{count($absenceProgress)}}</div>
                                           @else
                                           {{count($absenceProgress)}}
-                                       @endif
+                                       @endif --}}
+                                       -
                                     </h4>
                                  </div>
                               
@@ -585,13 +586,16 @@
                         <div class="col col-stats ml-3 ml-sm-0">
                            <a href="{{route('hrd.absence')}}">
                            <div class="numbers">
-                              <p class="card-category "> Monitoring Absensi </p>
+                              <p class="card-category "> Monitoring </p>
                               <h4 class="card-title"> 
-                              @if (count($absenceProgress) > 0)
+                                 <div class="badge badge-light">
+                                    Absensi & SPKL
+                                 </div>
+                              {{-- @if (count($absenceProgress) > 0)
                                           <div class="badge badge-danger">{{count($absenceProgress)}}</div>
                                           @else
                                           {{count($absenceProgress)}}
-                                       @endif
+                                       @endif --}}
                               </h4>
                            </div>
                         </a>

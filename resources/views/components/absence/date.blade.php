@@ -2,12 +2,14 @@
       @if (count($absence->details) > 0)
             @if (count($absence->details) > 1)
                   {{-- {{count($absence->details)}} Hari --}}
-                  @foreach ($absence->details  as $item)
+                  {{-- @foreach ($absence->details->first()->date  as $item)
                   {{$item->date}} ,
-                  @endforeach
+                  @endforeach --}}
+                  {{$absence->details->first()->date}}
                   @else
                   @foreach ($absence->details  as $item)
-                  {{$item->date}} 
+                  {{-- {{$item->date}}  --}}
+                  {{$absence->details->first()->date}}
                   @endforeach
             @endif
             
