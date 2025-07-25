@@ -785,6 +785,8 @@ Route::middleware(["auth"])->group(function () {
       Route::prefix('approval')->group(function () {
          // Route::post('/store', [SpController::class, 'hrdStore'])->name('sp.hrd.store');
          Route::get('leader', [SpController::class, 'leaderApproval'])->name('sp.leader.approval');
+         Route::get('leader/history', [SpController::class, 'leaderHistory'])->name('sp.leader.history');
+
          Route::get('manager', [SpController::class, 'managerApproval'])->name('sp.manager.approval');
          // Route::get('/approve/supervisor/{id}', [SpklController::class, 'approveSupervisor'])->name('spkl.approve.supervisor');
          // Route::get('/approve/manager/{id}', [SpklController::class, 'approveManager'])->name('spkl.approve.manager');

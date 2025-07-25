@@ -718,6 +718,17 @@ class SpController extends Controller
 
    }
 
+   public function leaderHistory(){
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', '>', 2)->orderBy('updated_at', 'desc')->get();
+      $stAlerts = St::where('leader_id', $employee->id)->where('status', '>', 2)->orderBy('date', 'desc')->get();
+      return view('pages.sp.leader.history', [
+         'spApprovals' => $spRecomends,
+         'stAlerts' => $stAlerts
+      ]);
+
+   }
+
    public function managerApproval(){
       $employee = Employee::where('nik', auth()->user()->username)->first();
       // $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();

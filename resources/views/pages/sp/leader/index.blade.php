@@ -21,6 +21,11 @@ Rekomendasi SP
                <i class="fas fa-address-book mr-1"></i>
                Surat Peringatan & Teguran
             </a>
+            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('sp.leader.history') }}" aria-controls="v-pills-contract" aria-selected="false">
+               <i class="fas fa-file-contract mr-1"></i>
+               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+               History
+            </a>
            
             
            

@@ -54,11 +54,11 @@ Absence
       </div>
       <div class="col-md-9">
          <div class="table-responsive p-0 ">
-            <table id="data" class="display basic-datatables table-sm p-0">
+            <table id="data" class="datatables-abs">
                <thead>
                   <tr>
                   
-                     {{-- <th>ID</th> --}}
+                     <th>ID</th>
                      {{-- <th>NIK</th>
                       {{-- <th>Name</th> --}}
                       {{-- <th>Loc</th> --}}
@@ -80,6 +80,9 @@ Absence
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
                       {{-- <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       {{-- <td>{{$absence->id}}</td> --}}
+                      <td>
+                        <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">{{$absence->code}} </a>
+                      </td>
                       <td class="text-truncate">
                         @if (auth()->user()->hasRole('Administrator'))
                             ID{{$absence->id}} -
