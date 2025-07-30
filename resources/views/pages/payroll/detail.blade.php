@@ -93,7 +93,7 @@ Setup Payroll Employee
                <b><h2>{{formatRupiah($employee->payroll->total ?? 0)}}</h2></b>
 
               <br>
-               Book 2 : {{formatRupiah($book2 ?? 0)}}
+               {{-- Book 2 : {{formatRupiah($book2 ?? 0)}} --}}
             </div>
             <div class="card-footer d-flex justify-content-between">
                <div>
@@ -279,10 +279,12 @@ Setup Payroll Employee
                               <input type="text" name="employee" id="employee"  value="{{$employee->id}}" hidden>
                               <div class="row">
                                  <div class="col">
+                                    @if ($employee->payroll_id != null)
                                     <div class="form-group form-group-default">
                                        <label>Book 2 </label>
                                        <input type="text" name="book2" id="book2" class="form-control" value="{{formatRupiahB($employee->payroll->book2) ?? 0}}">
                                     </div>
+                                    @endif
                                  </div>
                                  <div class="col"> 
                                     <button type="submit" class="btn btn-primary">Update</button>

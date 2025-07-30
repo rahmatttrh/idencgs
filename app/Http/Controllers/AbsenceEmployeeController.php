@@ -381,7 +381,7 @@ class AbsenceEmployeeController extends Controller
          $absenceEmployeeDetails = AbsenceEmployeeDetail::where('absence_employee_id', $absenceEmployee->id)->get();
          
        } else {
-         $absenceEmployeeDetails = null;
+         $absenceEmployeeDetails = collect();
       }
 
       

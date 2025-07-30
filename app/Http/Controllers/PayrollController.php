@@ -476,6 +476,8 @@ class PayrollController extends Controller
          // dd('ok');
       } else {
          // dd('empty');
+        
+         $payTotal = 0;
          $redEmployees = [];
       }
 
