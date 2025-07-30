@@ -79,12 +79,15 @@
 													<i class="far fa-eye-slash"></i>
 												</div>
 											</div>
+                                 
 											@error('password')
 											<span class="invalid-feedback bg-danger p-2 rounded mb-2 text-light" role="alert">
 												<small>{{ $message }}</small>
 											</span>
 											@enderror
+                                 <small class="mt-2 text-muted">default password 'enc#ddmmyy' (birth date)</small>
 										</div>
+                              
 										
 										<button type="submit" class="btn btn-primary btn-block">Login</button>
 									
@@ -93,7 +96,7 @@
 									</form>
 									<hr>
 									<div class="login-account">
-                              <small>Sistem KPI & Penerbitan SP</small>
+                              <small>Ekanuri Human Resource System</small>
                               <hr>
 										<span class="msg">Copyright &copy; 2024 ENC IT</span>
 									</div>
