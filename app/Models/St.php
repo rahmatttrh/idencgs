@@ -31,10 +31,10 @@ class St extends Model
       return $this->belongsTo(Employee::class, 'hrd_id');
    }
 
-   public function by()
-   {
-      return $this->belongsTo(Employee::class, 'by_id');
-   }
+   public function byId()
+  {
+    return $this->belongsTo(Employee::class, 'by_id');
+  }
 
    public function department()
    {

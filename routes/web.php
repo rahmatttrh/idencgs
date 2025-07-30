@@ -639,11 +639,16 @@ Route::middleware(["auth"])->group(function () {
       
       Route::prefix('st')->group(function () {
          Route::get('index', [StController::class, 'index'])->name('st');
-         Route::get('hrd/create', [StController::class, 'create'])->name('st.hrd.create');
+         Route::get('hrd/create', [StController::class, 'createHrd'])->name('st.hrd.create');
          Route::post('hrd/store', [StController::class, 'store'])->name('st.hrd.store');
          Route::get('detail/{id}', [StController::class, 'detail'])->name('st.detail');
          Route::get('delete/{id}', [StController::class, 'delete'])->name('st.delete');
 
+         Route::get('create', [StController::class, 'create'])->name('st.create');
+         Route::post('leader/store', [StController::class, 'storeLeader'])->name('st.leader.store');
+
+
+         Route::put('hrd/approve', [StController::class, 'approveHrd'])->name('st.hrd.approve');
          Route::get('approve/{id}', [StController::class, 'approve'])->name('st.approve');
       });
       
@@ -785,6 +790,7 @@ Route::middleware(["auth"])->group(function () {
 
       Route::prefix('approval')->group(function () {
          // Route::post('/store', [SpController::class, 'hrdStore'])->name('sp.hrd.store');
+         Route::get('hrd', [SpController::class, 'hrdApproval'])->name('sp.approval.hrd');
          Route::get('leader', [SpController::class, 'leaderApproval'])->name('sp.leader.approval');
          Route::get('leader/history', [SpController::class, 'leaderHistory'])->name('sp.leader.history');
 

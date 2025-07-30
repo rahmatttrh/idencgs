@@ -68,6 +68,20 @@ SP Detail
             </div>
             <div class="col-auto">
                {{-- {{$sp->note}} --}}
+               @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+               <a href="{{route('sp')}}" class="btn  btn-light border "> Back</a>
+                   @else
+
+                   
+                   <a href="{{route('sp')}}" class="btn  btn-light border "> SP & Teguran List</a>
+                   @if (auth()->user()->hasRole('Leader|Supervisor'))
+                   
+                     <a href="{{route('sp.leader.approval')}}" class="btn  btn-light border ">Approval List</a>
+                       @elseif(auth()->user()->hasRole('Asst. Manager|Manager'))
+                       
+                       <a href="{{route('sp.manager.approval')}}" class="btn  btn-light border ">Approval List</a>
+                   @endif
+               @endif
                
                    @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Spv|HRD-Payroll'))
                      @if ($sp->note == 'Recomendation')
@@ -223,13 +237,16 @@ SP Detail
                
                @endif
                
-                  <b class="mb-3">Attachment</b>
-                  @if ($sp->file)
-                  <iframe src="{{asset('storage/' . $sp->file)}}" width="100%" height="500px" scrolling="auto" frameborder="0"></iframe>
-                  @else
-                  <br>
-                  <small>Empty</small>
-                  @endif
+               @if ($sp->status > 1)
+               <b class="mb-3">Attachment</b>
+               @if ($sp->file)
+               <iframe src="{{asset('storage/' . $sp->file)}}" width="100%" height="500px" scrolling="auto" frameborder="0"></iframe>
+               @else
+               <br>
+               <small>Empty</small>
+               @endif
+               @endif
+                  
                
             </div>
          </div>
@@ -237,10 +254,13 @@ SP Detail
       
       @if (auth()->user()->hasRole('Leader|Supervisor|Asst. Manager|Manager'))
           {{-- @else --}}
+          @if ($sp->status < 2)
+              
+         
           <div class=" col-12 col-lg-10 col-xl-11 master">
             <div class="card card-invoice">
                <div class="card-header">
-                  <b>Form SP {{$sp->level}}</b>
+                  <b>Draft SP {{$sp->level}}</b>
                </div>
                <div class="card-body">
                   @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Spv'))
@@ -272,7 +292,7 @@ SP Detail
                                        <div class="col-md-5">
                                           <div class="form-group form-group-default">
                                              <label>Tanggal </label>
-                                             <input type="date" class="form-control" name="date_from" required id="date_from" value="{{$sp->created_at}}">
+                                             <input type="date" class="form-control" name="date_from" required id="date_from" value="{{$sp->date}}">
                                           </div>
                                        </div>
                                        {{-- <div class="col-md-7">
@@ -305,6 +325,10 @@ SP Detail
                                     <label>Kronologi</label>
                                     <textarea class="form-control" rows="6" name="desc" id="desc" >{{$sp->desc}}</textarea>
                                  </div>
+
+                                 dibuat oleh : <br>
+                                  {{$sp->byId->nik}} {{$sp->byId->biodata->fullName()}} <br>
+                                  {{$sp->created_at}}
                               </div>
                            </div>
                         </form>
@@ -341,14 +365,16 @@ SP Detail
                                  <span>NIK</span><br>
                                  <span>Name</span><br>
                                  <span>Date</span><br>
-                                 <span>Reason</span><br>
-                                 <span>Desc</span>
+                                 <span>Alasan</span><br>
+                                 <hr>
+                                 <span>Kronologi</span>
                               </div>
                               <div class="col-md-10">
                                  <span>{{$sp->employee->nik}}</span> <br>
                                  <span>{{$sp->employee->biodata->fullname()}}</span> <br>
-                                 <span>{{formatDate($sp->created_at)}}</span><br>
+                                 <span>{{formatDate($sp->date)}}</span><br>
                                  <span>{{$sp->reason}}</span><br>
+                                 <hr>
                                  <span>{{$sp->desc}}</span>
                               </div>
                            </div>
@@ -389,6 +415,7 @@ SP Detail
                
             </div>
          </div>
+         @endif
       @endif
 
       

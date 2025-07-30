@@ -56,6 +56,12 @@ class Department extends Model
       return $this->hasMany(Sp::class);
    }
 
+   public function sts()
+   {
+      // dd()
+      return $this->hasMany(St::class);
+   }
+
    
    public function pes()
    {
@@ -74,7 +80,7 @@ class Department extends Model
          $end = Carbon::create('30-12-' . $year);
       }
       // $employees = $this->employees->where('status', 1);
-      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['EN-4-113','kj-5-167', 'kj-5-176','kj-5-175', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177'])->where('status', 1)->where('join', '<=', $end)->get();
+      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['kj-5-167', 'kj-5-176','kj-5-175','EN-4-113', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177'])->where('status', 1)->where('join', '<=', $end)->get();
 
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
 
@@ -131,7 +137,7 @@ class Department extends Model
          $end = Carbon::create('30-12-' . $year);
       }
       $employees = $this->employees->where('status', 1);
-      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['EN-4-113','kj-5-167', 'kj-5-176','kj-5-175', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177'])->where('status', 1)->where('join', '<=', $end)->get();
+      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['kj-5-167', 'kj-5-176','kj-5-175', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177','EN-4-113'])->where('status', 1)->where('join', '<=', $end)->get();
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
       $pendings = [];
       // $employeeQpe = 0;

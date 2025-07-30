@@ -54,6 +54,7 @@ class HomeController extends Controller
    {
 
       $cuties = Cuti::get();
+      
       // $allUsers = User::gett();
       // $transactions = Transaction::get();
       // foreach($transactions as $tran){
@@ -442,6 +443,7 @@ class HomeController extends Controller
 
          $spklApprovals = OvertimeEmployee::where('status', 3)->get();
          $spApprovals = Sp::where('status', 1)->get();
+         $stApprovals = St::where('status', 1)->get();
 
          $teamId = [];
          if(count($user->positions) > 0){
@@ -527,6 +529,7 @@ class HomeController extends Controller
             'female' => $female,
             'spkls' => $spkls,
             'sps' => $sps,
+            
             'kontrak' => $kontrak,
             'tetap' => $tetap,
             'empty' => $empty,
@@ -543,6 +546,7 @@ class HomeController extends Controller
             'notifContracts' => $notifContracts,
             'spklApprovals' => $teamSpkls,
             'spApprovals' => $spApprovals,
+            'stApprovals' => $stApprovals,
             'peApprovals' => $peApprovals,
             'myEmployees' => $myEmployees->where('id', '!=', $user->id)
          ]);
@@ -1106,7 +1110,8 @@ class HomeController extends Controller
          }
 
          $spNotifs = Sp::where('by_id', $employee->id)->where('department_id', $employee->department_id)->where('status', 2)->orWhere('status', 202)->orderBy('updated_at', 'desc')->get();
-         $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
+         // dd($spNotifs);
+         // $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
          $stAlerts = St::where('leader_id', $employee->id)->where('status', 2)->orderBy('date', 'desc')->get();
 
          $absences = Absence::where('employee_id', $employee->id)->get();
@@ -1127,6 +1132,8 @@ class HomeController extends Controller
          $nowAddTwo = $now->addMonth(2);
          $contractAlerts = $contractEnds->where('end', '<', $nowAddTwo);
          // dd($notifContracts);
+
+         // dd($spNotifs);
          
          return view('pages.dashboard.supervisor', [
             'employee' => $biodata->employee,
@@ -1153,7 +1160,7 @@ class HomeController extends Controller
 
             'spteams' => $spteams,
             'spNotifs' => $spNotifs,
-            'spRecomends' => $spRecomends,
+            // 'spRecomends' => $spRecomends,
             'stAlerts' => $stAlerts,
             'approvalEmployeeSpkl' => $approvalEmployeeSpkl,
             'contractAlerts' => $contractAlerts

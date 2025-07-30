@@ -261,7 +261,7 @@ Dashboard
                </div>
             </div> --}}
             <div class="col-6 d-block d-sm-none">
-               <div class="card card-danger card-stats card-round" >
+               <div class="card card-primary card-stats card-round" >
                   <div class="card-body ">
                      <div class="row align-items-center">
                         
@@ -287,13 +287,39 @@ Dashboard
                </div>
             </div>
             <div class="col-6 d-block d-sm-none">
+               <div class="card card-danger card-stats card-round" >
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('sp.leader.approval')}}">
+                           <div class="numbers">
+                              <p class="card-category">SP & Teguran </p>
+                              <h4 class="card-title py-1">
+                                 @if (count($spNotifs) + count($stAlerts) > 0)
+                                     <div class="badge badge-danger">
+                                       {{count($spNotifs) + count($stAlerts)}}
+                                     </div>
+                                     @else
+                                     {{count($spNotifs)}}
+                                 @endif
+                                 
+                              </h4>
+                           </div>
+                        </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-12 d-block d-sm-none">
                <div class="card ">
                  
                   <div class="card-header text-uppercase bg-light border p-2">
                      <b># Team List ({{count($myteams)}})</b>
                   </div>
                   <div class="card-body p-0">
-                     <div class="table-responsive overflow-auto" style="height: 60px">
+                     <div class="table-responsive overflow-auto" style="height: 90px">
                      <table class=" ">
                         
                         <tbody>
@@ -318,6 +344,7 @@ Dashboard
                </div>
             </div>
          </div>
+         {{-- End Mobile View --}}
 
 
          {{-- Desktop View --}}
@@ -423,12 +450,12 @@ Dashboard
                            <div class="numbers">
                               <p class="card-category">Approval SP & ST </p>
                               <h4 class="card-title">
-                                 @if (count($spRecomends) + count($stAlerts) > 0)
+                                 @if ( + count($stAlerts) + count($spNotifs) > 0)
                                      <div class="badge badge-danger">
-                                       {{count($spRecomends) + count($stAlerts)}}
+                                       {{ + count($stAlerts) + count($spNotifs)}}
                                      </div>
                                      @else
-                                     {{count($spRecomends)}}
+                                     0
                                  @endif
                                  
                               </h4>
@@ -443,6 +470,8 @@ Dashboard
 
             
          </div>
+
+         {{-- End Desktop View --}}
 
 
          <div class="row">

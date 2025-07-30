@@ -270,7 +270,7 @@ class OvertimeEmployeeController extends Controller
       $employees = Employee::where('status', 1)->get();
       $locations = Location::get();
       $teams = EmployeeLeader::where('leader_id', $employee->id)->get();
-      // dd($spkls);
+      // dd($teams);
       return view('pages.spkl.team.form', [
          'locations' => $locations,
          'employees' => $employees,

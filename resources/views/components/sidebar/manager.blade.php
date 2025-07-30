@@ -317,7 +317,7 @@
 <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
       <i class="fas fa-bolt"></i>
-      <p>Surat Peringatan</p>
+      <p>SP & Teguran</p>
    </a>
 </li>
 

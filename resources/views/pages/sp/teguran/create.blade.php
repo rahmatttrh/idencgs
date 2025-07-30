@@ -58,7 +58,7 @@ SP
                      </div>
                      <div class="form-group form-group-default">
                         <label>Date*</label>
-                        <input type="date" class="form-control name="date" id="date" required>
+                        <input type="date" class="form-control" name="date" id="date" required>
                      </div>
                      
                      
@@ -78,7 +78,7 @@ SP
                      </div>
                      <div class="form-group form-group-default">
                         <label>To Leader*</label>
-                        <select class="form-control to "  id="to" name="to">
+                        <select class="form-control to " required id="to" name="to">
                            
                            
                         </select>

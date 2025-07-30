@@ -237,7 +237,7 @@
                                        <p class="card-category"> SP </p>
                                        <h4 class="card-title py-1">
                                           @if (count($spApprovals) > 0)
-                                           <div class="badge badge-light">{{count(spApprovals)}}</div>
+                                           <div class="badge badge-light">{{count($spApprovals)}}</div>
                                            @else
                                            {{count($spApprovals)}}
                                        @endif
@@ -547,7 +547,7 @@
                   
                </div>
                <div class="col-6 col-md-4  d-none d-sm-block">
-                  <a href="{{route('payroll.approval.hrd')}}" data-toggle="tooltip" data-placement="top" title="Daftar SP dari User yang membutuhkan Approval anda">
+                  <a href="{{route('sp.approval.hrd')}}" data-toggle="tooltip" data-placement="top" title="Daftar SP dari User yang membutuhkan Approval anda">
                      <div class="card card-stats card-round border">
                         <div class="card-body">
                            <div class="row align-items-center">
@@ -558,10 +558,10 @@
                               </div>
                               <div class="col col-stats ml-3 ml-sm-0">
                                  <div class="numbers">
-                                    <p class="card-category">SP</p>
+                                    <p class="card-category">SP & Teguran</p>
                                     <h4 class="card-title">
-                                       @if (count($spApprovals) > 0)
-                                           <div class="badge badge-danger">{{count(spApprovals)}}</div>
+                                       @if (count($spApprovals) + count($stApprovals) > 0)
+                                           <div class="badge badge-danger">{{count($spApprovals) + count($stApprovals)}}</div>
                                            @else
                                            {{count($spApprovals)}}
                                        @endif

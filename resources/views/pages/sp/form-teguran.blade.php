@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-SP
+Form Teguran
 @endsection
 @section('content')
 
@@ -8,7 +8,7 @@ SP
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
-         <li class="breadcrumb-item active" aria-current="page">Surat Peringatan</li>
+         <li class="breadcrumb-item active" aria-current="page">Form Teguran</li>
       </ol>
    </nav>
 
@@ -21,12 +21,12 @@ SP
                <i class="fas fa-address-book mr-1"></i>
                SP & Teguran
             </a>
-            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('sp.create') }}" aria-controls="v-pills-contract" aria-selected="false">
+            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('sp.create') }}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                Form SP
             </a>
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('st.create') }}" aria-controls="v-pills-contract" aria-selected="false">
+            <a class="nav-link  active text-left pl-3" id="v-pills-contract-tab" href="{{ route('st.create') }}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                Form Teguran
@@ -38,7 +38,7 @@ SP
          <hr>
          <div class="card">
             <div class="card-body">
-               <small>Klik Submit untuk mengirim Form SP ke HRD (Proses Drafting)</small>
+               <small>Klik Submit untuk mengirim Form Teguran ke HRD (Proses Drafting)</small>
             </div>
          </div>
          
@@ -49,9 +49,9 @@ SP
          
           <div class="row">
             <div class="col-md-12">
-               <h4>Form Pengajuan SP</h4>
+               <h4>Form Pengajuan Teguran</h4>
                <hr>
-               <form action="{{route('sp.store')}}" method="POST" enctype="multipart/form-data">
+               <form action="{{route('st.leader.store')}}" method="POST" enctype="multipart/form-data">
                   @csrf
                   
                   <div class="row">
@@ -71,37 +71,19 @@ SP
                      </div>
                      <div class="col-md-4">
                         <div class="form-group form-group-default">
-                           <label>Date*</label>
+                           <label>Date</label>
                            <input type="date" required class="form-control" name="date" id="date">
-                        </div>
-                        
-                     </div>
-
-                     <div class="col-md-3">
-                        <div class="form-group form-group-default">
-                           <label>Level*</label>
-                           <select class="form-control" required id="level" name="level">
-                              <option value="" selected disabled>Select level</option>
-                              <option value="I">SP I</option>
-                              <option value="II">SP II</option>
-                              <option value="III">SP III</option>
-                           </select>
-   
-                        </div>
-                     </div>
-                     <div class="col-md-9">
-                        <div class="form-group form-group-default">
-                           <label>Alasan*</label>
-                           <input type="text" required class="form-control" name="reason" id="reason">
                         </div>
                      </div>
                      
+                     
                   </div>
-
-                  
    
                
-                  
+                  <div class="form-group form-group-default">
+                     <label>Alasan*</label>
+                     <input type="text" required class="form-control" name="reason" id="reason">
+                  </div>
    
                   <div class="form-group form-group-default">
                      <label>Kronologi*</label>

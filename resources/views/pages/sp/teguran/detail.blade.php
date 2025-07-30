@@ -47,23 +47,49 @@ SP Detail
 
 
                <h5 class="page-title">{{$st->code}}</h5>
-
+               
             </div>
             <div class="col-auto">
-               <a href="{{route('st')}}" class="btn  btn-light border "><< Back</a>
+               @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+               <a href="{{route('st')}}" class="btn  btn-light border "> Back</a>
+                   @else
+
+                   
+                   <a href="{{route('sp')}}" class="btn  btn-light border "> SP & Teguran List</a>
+                   @if (auth()->user()->hasRole('Leader|Supervisor'))
+                   
+                     <a href="{{route('sp.leader.approval')}}" class="btn  btn-light border ">Approval List</a>
+                       @elseif(auth()->user()->hasRole('Asst. Manager|Manager'))
+                       
+                       <a href="{{route('sp.manager.approval')}}" class="btn  btn-light border ">Approval List</a>
+                   @endif
+               @endif
+               
                   @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
-                     @if ($st->status == 2 || $st->status == 1)
+                     @if ($st->status == 2 )
                      <div class="btn-group ">
                         <a href="#" class="btn  btn-danger" data-toggle="modal" data-target="#modal-delete-st"><i class="fa fa-trash"></i> Delete</a>
                         <a href="#" class="btn  btn-dark " ><i class="fa fa-edit"></i>Edit</a>
                      </div>
                      @endif
+
+                     @if ( $st->status == 1)
+                     <div class="btn-group ">
+                        <a href="#" class="btn  btn-danger" data-toggle="modal" data-target="#modal-delete-st"><i class="fa fa-trash"></i> Reject</a>
+                        {{-- <a href="#" class="btn  btn-dark " ><i class="fa fa-edit"></i>Reject</a> --}}
+                     </div>
+                     @endif
                   @endif
 
                   @if (auth()->user()->getEmployeeId() == $st->leader_id)
+                     @if ($st->status == 1)
+                        <div class="btn-group ">
+                           <a href="#" class="btn  btn-danger" data-toggle="modal" data-target="#modal-delete-st"><i class="fa fa-trash"></i> Delete</a>
+                        </div>
+                     @endif
                      @if ($st->status == 2)
                      <div class="btn-group ">
-                        <a href="#" class="btn  btn-primary" data-toggle="modal" data-target="#modal-approve-st"><i class="fa fa-check"></i> Approve</a>
+                        <a href="#" class="btn  btn-primary" data-toggle="modal" data-target="#modal-approve-st"><i class="fa fa-check"></i> Send to Manager</a>
                         <a href="#" class="btn  btn-danger " ><i class="fa fa-xmark"></i> Reject</a>
                      </div>
                      @endif
@@ -87,20 +113,31 @@ SP Detail
                      @endif
                   @endif
                   
-                  <div class="btn btn-light border  ">Status : <x-status.st :st="$st" /></div>
+                  {{-- <div class="btn btn-light border  ">Status : <x-status.st :st="$st" /></div> --}}
 
 
-               {{-- @if ($sp->status > 1 && $sp->status != 6) --}}
+               @if ($st->status > 1 )
                <button type="button" class="btn shadow-lg btn-light border" onclick="javascript:window.print();">
                   <!-- Download SVG icon from http://tabler-icons.io/i/printer -->
                   <i class="fa fa-print"></i>
                   Print
                </button>
-               {{-- @endif --}}
+               @endif
                
 
             </div>
+            @if ($st->status != 1)
+            <div class="col-md-12">
+               <div class="card">
+                  <div class="card-body">
+                     Kronologi : {{$st->desc}}
+                  </div>
+               </div>
+            </div>
+            @endif
+            
          </div>
+         
 
          
          
@@ -124,10 +161,77 @@ SP Detail
             
          </div> --}}
 
-         
+         @if ($st->status == 1)
+             @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
+             <div class="card">
+               <div class="card-header">
+                  <b>Draft Teguran </b>
+               </div>
+               <div class="card-body">
+                  <form action="{{route('st.hrd.approve')}}" method="POST" enctype="multipart/form-data">
+                     @csrf
+                     @method('PUT')
+                     <div class="row">
+                        <div class="col">
+                           
+                              <input type="hidden" name="st" id="st" value="{{$st->id}}">
+                              <div class="form-group form-group-default">
+                                 <label>Employee</label>
+                                 <input type="text" readonly class="form-control" name="date_from" required id="date_from" value="{{$st->employee->biodata->fullName()}}">
+                              </div>
+                              <div class="row">
+                                 
+                                 <div class="col-md-5">
+                                    <div class="form-group form-group-default">
+                                       <label>Tanggal </label>
+                                       <input type="date" class="form-control" name="date" required id="date" value="{{$st->date}}">
+                                    </div>
+                                 </div>
+                                 {{-- <div class="col-md-7">
+                                    
+                                 </div> --}}
+                              </div>
+                              
+                              <div class="form-group form-group-default">
+                                 <label>Alasan</label>
+                                 <input type="text" required class="form-control" name="desc" id="desc" value="{{$st->reason  }}">
+                              </div>
+                              <div class="form-group form-group-default">
+                                 <label>Peraturan yang dilanggar</label>
+                                 <input type="text" required class="form-control" name="rule" id="rule" value="{{old('rule')}}">
+                              </div>
+                              {{-- <div class="form-group form-group-default">
+                                 <label>File attachment</label>
+                                 <input type="file" class="form-control" name="date_from" required id="date_from" value="{{$sp->date_from}}">
+                              </div> --}}
+                              <hr>
+                              <button type="submit" class="btn btn-primary">Approve</button>
+                        
+                        </div>
+                        <div class="col">
+                           <div class="form-group form-group-default">
+                              <label>File attachment</label>
+                              <input type="file" class="form-control" name="file"  id="file" >
+                           </div>
+                           <div class="form-group form-group-default">
+                              <label>Kronologi</label>
+                              <textarea class="form-control" rows="6" name="desc" id="desc" >{{$st->desc}}</textarea>
+                           </div>
+     
+                           dibuat oleh : <br>
+                            {{$st->byId->nik}} {{$st->byId->biodata->fullName()}} <br>
+                            {{$st->created_at}}
+                        </div>
+                     </div>
+                  </form>
+               </div>
+             </div>
+             
+             @endif
+         @endif
          
              
-         
+         {{-- @if ($st->status > 1) --}}
          <div class="row">
             <div class="col-md-12">
                
@@ -137,7 +241,7 @@ SP Detail
                      <h2><b>SURAT TEGURAN</b></h2>
                            <b>{{$st->code}}</b>
                   </div>
-                  <div class="card-body pt-4 px-4">
+                  <div class="card-body pt-4 px-4" style="font-size: 16px">
                      {{-- <div class="d-flex justify-content-between">
                         <div>
                            <img src="{{asset('img/logo/enc2.jpg')}}" alt="company logo"><br>
@@ -176,16 +280,18 @@ SP Detail
                            <br>
                            <div class="row mb-1 mt-1">
                               <div class="col">
-                                 <b>{{$st->desc}}</b>
+                                 <b>{{$st->reason}}</b>
                               </div>
                            </div>
                         </div>
                      </div>
                
                      <br>
-                     <p>Maka sesuai dengan peraturan yang berlaku ( <b>Peraturan Perusahaan {{$st->rule}}</b> ) kepada {{$gen}} diberikan sanksi berupa <b>SURAT TEGURAN</b>.</p>
-               
-                     <p>Setelah {{$gen}} menerima SURAT TEGURAN ini, diharapkan {{$gen}} dapat merubah sikap {{$gen}} dan kembali bekerja dengan baik. <br>Semoga dapat dimengerti dan dimaklumi. </p>
+                     Maka sesuai dengan peraturan yang berlaku ( <b>Peraturan Perusahaan {{$st->rule ?? '-'}}</b> ) kepada {{$gen}} diberikan sanksi berupa <b>SURAT TEGURAN</b>.
+                     <br><br>
+                     Setelah {{$gen}} menerima SURAT TEGURAN ini, diharapkan {{$gen}} dapat merubah sikap {{$gen}} dan kembali bekerja dengan baik. 
+                     
+                     <br><br> Semoga dapat dimengerti dan dimaklumi. 
                
                      
                
@@ -300,6 +406,10 @@ SP Detail
                </div>
             </div>
          </div>
+
+        
+         {{-- @endif --}}
+         
       </div>
       
       

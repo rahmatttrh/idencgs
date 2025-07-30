@@ -94,7 +94,7 @@ SP
                   <div class="col-md-4">
                      <div class="form-group form-group-default">
                         <label>Level*</label>
-                        <select class="form-control"  id="level" name="level">
+                        <select class="form-control" required id="level" name="level">
                            {{-- <option value="" selected disabled>Select level</option> --}}
                            <option value="I">SP I</option>
                            <option value="II">SP II</option>
@@ -106,7 +106,7 @@ SP
                   <div class="col">
                      <div class="form-group form-group-default">
                         <label>To Leader*</label>
-                        <select class="form-control to "  id="to" name="to">
+                        <select class="form-control to " required  id="to" name="to">
                            
                            
                         </select>

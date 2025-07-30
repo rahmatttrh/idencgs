@@ -154,9 +154,15 @@
    </div>
 </li>
 
-<li class="nav-item">
+<li class="nav-item {{ (request()->is('spkl/team/*')) ? 'active' : '' }}">
+   <a href="{{route('spkl.team')}}">
+      <i class="fas fa-users"></i>
+      <p>SPKL</p>
+   </a>
+</li>
+
+{{-- <li class="nav-item">
    <a data-toggle="collapse" href="#monitoring">
-    {{-- <a  href="{{route('qpe')}}"> --}}
       <i class="fas fa-users"></i>
       <p>Absensi & SPKL</p>
       <span class="caret"></span>
@@ -176,7 +182,7 @@
          
       </ul>
    </div>
-</li>
+</li> --}}
 
 
 
@@ -206,8 +212,9 @@
 <li class="nav-item {{ (request()->is('sp/index')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
       <i class="fas fa-bolt"></i>
-      <p>Surat Peringatan</p>
+      <p>SP & Teguran</p>
    </a>
+   
 </li>
 <hr>
 <li class="nav-section">
@@ -247,7 +254,7 @@
 <li class="nav-item {{ (request()->is('sp/employee/*')) ? 'active' : '' }}">
    <a href="{{route('sp.employee')}}">
       <i class="fas fa-bolt"></i>
-      <p>Surat Peringatan</p>
+      <p>SP & Teguran</p>
    </a>
 </li>
 

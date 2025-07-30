@@ -84,6 +84,7 @@ class SpController extends Controller
          $employees = Employee::where('department_id', auth()->user()->getEmployee()->department_id)->where('designation_id', '<', 6)->get();
          $allEmployees = [];
          $sps = Sp::where('department_id', auth()->user()->getEmployee()->department_id)->orderBy('created_at', 'desc')->get();
+         $sts = St::where('department_id', auth()->user()->getEmployee()->department_id)->orderBy('created_at', 'desc')->get();
       } elseif (auth()->user()->hasRole('Leader') || auth()->user()->hasRole('Supervisor')) {
          $employee = auth()->user()->getEmployee();
          // dd(auth()->user()->getEmployeeId());
@@ -91,7 +92,8 @@ class SpController extends Controller
          // $employees = Employee::where('direct_leader_id', auth()->user()->getEmployeeId())->get();
          $employees = EmployeeLeader::where('leader_id', auth()->user()->getEmployee()->id)->get();
          $sps = Sp::where('by_id', auth()->user()->getEmployee()->id)->orderBy('created_at', 'desc')->get();
-         // dd($sps);
+         $sts = St::where('leader_id', auth()->user()->getEmployee()->id)->orderBy('created_at', 'desc')->get();
+         // dd($sts);
          $allEmployees = [];
       } else {
          $employee = auth()->user()->getEmployee();
@@ -123,7 +125,8 @@ class SpController extends Controller
          'employee' => $employee,
          'allEmployees' => $allEmployees,
          'employees' => $employees,
-         'sps' => $sps
+         'sps' => $sps,
+         'sts' => $sts
       ])->with('i');
    }
 
@@ -162,6 +165,8 @@ class SpController extends Controller
          }
          
       }
+
+      $teams = EmployeeLeader::where('leader_id', $employee->id)->get();
 
       return view('pages.sp.form', [
          'teams' => $teams
@@ -223,7 +228,7 @@ class SpController extends Controller
          return redirect()->back()->with('danger', 'SP Create Fail, Administrator cannot create SP');
       }
 
-      Sp::create([
+      $sp = Sp::create([
          'department_id' => $employee->department_id,
          'employee_id' => $req->employee,
          'by_id' => auth()->user()->getEmployee()->id,
@@ -232,6 +237,7 @@ class SpController extends Controller
          'status' => '0',
          'code' => $code,
          'level' => $req->level,
+         'date' => $req->date,
          // 'date_from' => $req->date_from,
          // 'date_to' => $from->addMonths(6),
          'reason' => $req->reason,
@@ -250,7 +256,7 @@ class SpController extends Controller
 
       
 
-      return redirect()->back()->with('success', 'SP Created');
+      return redirect()->route('sp.detail', enkripRambo($sp->id))->with('success', 'SP Created');
    }
 
    public function hrdCreate()
@@ -365,6 +371,7 @@ class SpController extends Controller
          'semester' => $semester,
          'rule' => $req->rule,
          'date_from' => $req->date_from,
+         'date' => $req->date_from,
          'date_to' => $to->addDays(-1),
          'reason' => $req->reason,
          'desc' => $req->desc,
@@ -636,6 +643,7 @@ class SpController extends Controller
 
       $sp->update([
          // 'employee_id' => $req->employee,
+         'date' => $req->date,
          'level' => $req->level,
          'reason' => $req->reason,
          'desc' => $req->desc
@@ -722,10 +730,24 @@ class SpController extends Controller
    }
 
 
+   public function hrdApproval(){
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $spRecomends = Sp::where('status', 1)->orderBy('updated_at', 'desc')->get();
+      $stRecomends = St::where('status', 1)->orderBy('updated_at', 'desc')->get();
+      
+      // $stAlerts = St::where('leader_id', $employee->id)->where('status', 2)->orderBy('date', 'desc')->get();
+      return view('pages.sp.hrd.index', [
+         'spApprovals' => $spRecomends,
+         'stApprovals' => $stRecomends
+         
+      ]);
+
+   }
+
 
    public function leaderApproval(){
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spRecomends = Sp::where('note', 'Recomendation')->where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
+      $spRecomends = Sp::where('by_id', $employee->id)->where('status', 2)->orderBy('updated_at', 'desc')->get();
       $stAlerts = St::where('leader_id', $employee->id)->where('status', 2)->orderBy('date', 'desc')->get();
       return view('pages.sp.leader.index', [
          'spApprovals' => $spRecomends,

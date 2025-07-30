@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\EmployeeLeader;
 use App\Models\St;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,11 +17,39 @@ class StController extends Controller
          'sts' => $sts
       ]);
    }
-   public function create(){
+   public function createHrd(){
       $allEmployees = Employee::where('status', 1)->get();
 
       return view('pages.sp.teguran.create', [
          'allEmployees' => $allEmployees
+      ]);
+   }
+
+   public function create(){
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $teams = [];
+      if(count($employee->positions) > 0){
+         foreach($employee->positions as $pos){
+            foreach($pos->department->employees->where('status', 1) as $emp){
+               $teamId[] = $emp;
+            }
+         }
+
+         
+      } else {
+         $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+         foreach($myEmployees as $emp){
+            $teamId[] = $emp;
+         }
+         
+      }
+
+      $teams = EmployeeLeader::where('leader_id', $employee->id)->get();
+
+            // dd($myteams);
+
+      return view('pages.sp.form-teguran', [
+         'teams' => $teams
       ]);
    }
 
@@ -57,6 +86,7 @@ class StController extends Controller
 
         
       }
+      $employee = Employee::find($req->employee);
 
       // Store to database
       $st = St::create([
@@ -64,18 +94,71 @@ class StController extends Controller
          'date' => $req->date,
          'code' => $code,
          'employee_id' => $req->employee,
+         'department_id' => $employee->department_id,
          'by_id' => auth()->user()->getEmployee()->id,
          'leader_id' => $req->to,
          'hrd_id' => auth()->user()->getEmployee()->id,
          'hrd_app_date' => $date,
          'status' => $status,
          'rule' => $req->rule,
-         'desc' => $req->desc,
+         'reason' => $req->desc,
          'file' => $file,
          'note' => $note
       ]);
 
       return redirect()->route('st.detail', enkripRambo($st->id))->with('success', 'Surat Teguran berhasil dibuat');
+
+
+
+
+
+
+   }
+
+   public function storeLeader(Request $req){
+      $req->validate([
+         'file' => request('file') ? 'mimes:pdf,jpg,jpeg,png|max:5120' : '',
+      ]);
+
+      $date = Carbon::now();
+      $by = Employee::where('nik', auth()->user()->username)->first();
+      $employee = Employee::find($req->employee);
+      $st = St::orderBy("created_at", "desc")->first();
+
+      if (isset($st)) {
+         $code = "ST/" . $employee->department->id . '/' . $date->format('dmy') . '/' . ($st->id + 1);
+      } else {
+         $code = "ST/"  . $employee->department->id . '/' . $date->format('dmy') . '/' . 1;
+      }
+
+      if (request('file')) {
+         
+         $file = request()->file('file')->store('st/file');
+      }  else {
+         $file = null;
+      }
+
+      $employee = Employee::find($req->employee);
+      // Store to database
+      $st = St::create([
+         'type' => $req->type,
+         'date' => $req->date,
+         'code' => $code,
+         'employee_id' => $req->employee,
+         'department_id' => $employee->department_id,
+         'by_id' => auth()->user()->getEmployee()->id,
+         'leader_id' => auth()->user()->getEmployee()->id,
+         'leader_app_date' => Carbon::now(),
+         'date' => $req->date,
+         'status' => 1,
+         'reason' => $req->reason,
+         'desc' => $req->desc,
+         'file' => $file,
+      ]);
+
+      
+
+      return redirect()->route('st.detail', enkripRambo($st->id))->with('success', 'Surat Teguran berhasil dibuat dan dikirim ke HRD');
 
 
 
@@ -121,7 +204,12 @@ class StController extends Controller
       $st = St::find(dekripRambo($id));
       $st->delete();
 
-      return redirect()->route('st')->with('success', 'Surat Teguran berhasil dihapus');
+      if (auth()->user()->hasRole('HRD|HRD-Payroll')) {
+         return redirect()->route('st')->with('success', 'Surat Teguran berhasil dihapus');
+      } else {
+         return redirect()->route('sp')->with('success', 'Surat Teguran berhasil dihapus');
+      }
+      
 
    }
 
@@ -156,15 +244,27 @@ class StController extends Controller
       
    }
 
-   public function approveHrd($id){
-      $st = St::find(dekripRambo($id));
+   public function approveHrd(Request $req){
+      $st = St::find($req->st);
       $user = Employee::find(auth()->user()->getEmployeeId());
       $now = Carbon::now();
 
+      if (request('file')) {
+         
+         $file = request()->file('file')->store('st/file');
+      }  else {
+         $file = null;
+      }
+
       $st->update([
+         // 'date' => $req->date,
+         'date' => $req->date,
          'status' => 2,
-         'hrd_app_date' => $now,
-         'hrd_id' => $user->id
+         'rule' => $req->rule,
+         'desc' => $req->desc,
+         'file' => $file,
+         'hrd_id' => auth()->user()->getEmployee()->id,
+         'hrd_app_date' => Carbon::now(),
       ]);
 
       return redirect()->back()->with('success', 'Surat Teguran approved');

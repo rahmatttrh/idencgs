@@ -14,7 +14,7 @@
             <div class="modal-body">
             
                <div class="row">
-                  <div class="col-md-8">
+                  <div class="col-md-12">
                      <div class="form-group form-group-default">
                         <label>Employee</label>
                         <input type="text" class="form-control" value="{{$sp->employee->nik}} {{$sp->employee->biodata->fullName()}}" readonly  name="date_to" id="date_to">
@@ -28,7 +28,7 @@
 
                      </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                      <div class="form-group form-group-default">
                         <label>Level</label>
                         <select class="form-control" required id="level" name="level">
@@ -38,6 +38,12 @@
                            <option {{$sp->level == 'III' ? 'selected' : ''}} value="III">SP III</option>
                         </select>
 
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group form-group-default">
+                        <label>Date</label>
+                        <input type="date" class="form-control" name="date" id="date" value="{{$sp->date}}">
                      </div>
                   </div>
                   

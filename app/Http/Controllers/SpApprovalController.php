@@ -116,6 +116,7 @@ class SpApprovalController extends Controller
          'semester' => $semester,
          'status' => '2',
          'rule' => $req->rule,
+         'date' => $req->date_from,
          'date_from' => $req->date_from,
          'date_to' => $from->addMonths(6),
          'reason' => $req->reason,

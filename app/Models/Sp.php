@@ -25,7 +25,7 @@ class Sp extends Model
     return $this->belongsTo(Department::class);
   }
 
-  public function by()
+  public function byId()
   {
     return $this->belongsTo(Employee::class, 'by_id');
   }
