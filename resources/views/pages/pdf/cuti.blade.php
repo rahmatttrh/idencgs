@@ -173,7 +173,7 @@ Cuti
                            {{$absenceEmp->leader->biodata->fullName() ?? ''}}
                         @endif
                      </td>
-                     <td>
+                     <td class="text-truncate">
                         {{-- {{$absenceEmp->leader->biodata->fullName()}} --}}
                         @if ($absenceEmp->manager_id != null)
                         {{$absenceEmp->manager->biodata->fullName() ?? ''}}
