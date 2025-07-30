@@ -151,7 +151,7 @@ Cuti
                         @endif
                      </td>
                      <td class="text-center">
-                        @if ($absenceemp->status == 3 || $absenceemp->status == 5)
+                        @if ($absenceEmp->status == 3 || $absenceEmp->status == 5)
                      <span class="text-success"><i>APPROVED</i></span><br>
                      {{-- <small>{{formatDateTime($absenceemp->app_leader_date)}}</small> --}}
                   @endif
@@ -169,14 +169,14 @@ Cuti
                         {{-- @if ($absenceEmp->cuti_backup_id != null)
                         {{$absenceEmp->cuti_backup->biodata->fullName()}}
                         @endif --}}
-                        @if ($absenceemp->leader_id != null)
-                           {{$absenceemp->leader->biodata->fullName() ?? ''}}
+                        @if ($absenceEmp->leader_id != null)
+                           {{$absenceEmp->leader->biodata->fullName() ?? ''}}
                         @endif
                      </td>
                      <td>
                         {{-- {{$absenceEmp->leader->biodata->fullName()}} --}}
-                        @if ($absenceemp->manager_id != null)
-                        {{$absenceemp->manager->biodata->fullName() ?? ''}}
+                        @if ($absenceEmp->manager_id != null)
+                        {{$absenceEmp->manager->biodata->fullName() ?? ''}}
                         @endif
                      </td>
                      <td>HRD</td>
@@ -192,16 +192,16 @@ Cuti
                         {{-- @if ($absenceEmp->status >= 2)
                            <small>{{formatDateTime($absenceEmp->app_backup_date)}}</small>
                         @endif --}}
-                        @if ($absenceemp->status == 2 || $absenceemp->status == 3 || $absenceemp->status == 5)
-                           <small>{{formatDateTime($absenceemp->app_backup_date)}}</small>
+                        @if ($absenceEmp->status == 2 || $absenceEmp->status == 3 || $absenceEmp->status == 5)
+                           <small>{{formatDateTime($absenceEmp->app_backup_date)}}</small>
                         @endif
                      </td>
                      <td>
                         {{-- @if ($absenceEmp->status >= 3)
                            <small>{{formatDateTime($absenceEmp->app_leader_date)}}</small>
                         @endif --}}
-                        @if ($absenceemp->status == 3 || $absenceemp->status == 5)
-                           <small>{{formatDateTime($absenceemp->app_leader_date)}}</small>
+                        @if ($absenceEmp->status == 3 || $absenceEmp->status == 5)
+                           <small>{{formatDateTime($absenceEmp->app_leader_date)}}</small>
                         @endif
                      </td>
                      <td>
