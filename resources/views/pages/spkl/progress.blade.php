@@ -62,7 +62,7 @@ SPKL Progress
                       {{-- <th>Name</th> --}}
                       {{-- <th>Loc</th> --}}
                       <th>ID</th>
-                      <th>NIK</th>
+                      {{-- <th>NIK</th> --}}
                       <th>Name</th>
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
@@ -84,16 +84,9 @@ SPKL Progress
                             
                         @endif
                      </td>
-                     <td>{{$spkl->employee->nik}}</td>
+                     {{-- <td>{{$spkl->employee->nik}}</td> --}}
                      <td>{{$spkl->employee->biodata->fullName()}}</td>
                      <td>
-                        @if ($spkl->type == 1)
-                            Lembur
-                            @else
-                            Piket
-                        @endif
-                     </td>
-                     <td class=" text-truncate">
                         @if ($spkl->holiday_type == 1)
                            <span  class="text-info ">
                            @elseif($spkl->holiday_type == 2)
@@ -103,8 +96,17 @@ SPKL Progress
                            @elseif($spkl->holiday_type == 4)
                            <span class="text-danger">LR -
                         @endif
-                        <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" class="text-white">{{formatDate($spkl->date)}}</a>
-                        </span>
+                           </span>
+                        @if ($spkl->type == 1)
+                            Lembur
+                            @else
+                            Piket
+                        @endif
+                     </td>
+                     <td class=" text-truncate">
+                        
+                        {{-- <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" class="text-white">{{formatDate($spkl->date)}}</a> --}}
+                        {{$spkl->date}}
                      </td>
                      
                      

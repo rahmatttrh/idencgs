@@ -28,7 +28,7 @@ SPKL Draft
                Progress
             </a>
             
-            <a class="nav-link active text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.absence.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
+            <a class="nav-link active text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.spkl.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
                <i class="fas fa-user mr-1"></i>
                Draft
             </a>
@@ -57,7 +57,7 @@ SPKL Draft
                       {{-- <th>Name</th> --}}
                       {{-- <th>Loc</th> --}}
                       <th>ID</th>
-                      <th>NIK</th>
+                      {{-- <th>NIK</th> --}}
                       <th>Name</th>
                      <th>Type</th>
                      {{-- <th>Day</th> --}}
@@ -79,16 +79,9 @@ SPKL Draft
                             
                         @endif
                      </td>
-                     <td>{{$spkl->employee->nik}}</td>
+                     {{-- <td>{{$spkl->employee->nik}}</td> --}}
                      <td>{{$spkl->employee->biodata->fullName()}}</td>
                      <td>
-                        @if ($spkl->type == 1)
-                            Lembur
-                            @else
-                            Piket
-                        @endif
-                     </td>
-                     <td class=" text-truncate">
                         @if ($spkl->holiday_type == 1)
                            <span  >
                            @elseif($spkl->holiday_type == 2)
@@ -98,8 +91,18 @@ SPKL Draft
                            @elseif($spkl->holiday_type == 4)
                            <span >LR -
                         @endif
-                        <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" >{{formatDate($spkl->date)}}</a>
-                        </span>
+                     </span>
+
+                        @if ($spkl->type == 1)
+                            Lembur
+                            @else
+                            Piket
+                        @endif
+                     </td>
+                     <td class=" text-truncate">
+                        
+                        {{-- <a href="#" data-target="#modal-overtime-doc-{{$spkl->id}}" data-toggle="modal" >{{formatDate($spkl->date)}}</a> --}}
+                        {{$spkl->date}}
                      </td>
                      
                      

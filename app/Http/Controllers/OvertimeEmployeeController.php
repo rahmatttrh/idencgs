@@ -291,8 +291,8 @@ class OvertimeEmployeeController extends Controller
       $payroll = Payroll::find($employee->payroll_id);
 
       // dd($intH_end);
-      $start = Carbon::CreateFromFormat('H:i', $req->hours_start);
-      $end = Carbon::CreateFromFormat('H:i', $req->hours_end);
+      $start = Carbon::Create( $req->hours_start);
+      $end = Carbon::Create( $req->hours_end);
       $diffTime = $end->diffInMinutes($start);
       $h = $diffTime / 60 ;
       $hm = floor($h) * 60;
@@ -569,6 +569,17 @@ class OvertimeEmployeeController extends Controller
       // dd('ok');
       $empSpkl = OvertimeEmployee::find(dekripRambo($id));
       $currentSpkl = Overtime::where('overtime_employee_id', $empSpkl->id)->first();
+
+      // $start = Carbon::CreateFromFormat('H:i', $empSpkl->hours_start);
+      // $end = Carbon::CreateFromFormat('H:i', $empSpkl->hours_end);
+      // $diffTime = $end->diffInMinutes($start);
+      // $h = $diffTime / 60 ;
+      // $hm = floor($h) * 60;
+      // $msisa = $diffTime - $hm;
+
+      // $intH = floatval(floor($h) . '.' .  $msisa);
+
+      // dd($start);
 
       return view('pages.spkl.detail', [
          'empSpkl' => $empSpkl,

@@ -61,13 +61,13 @@ Form Lembur/Piket
                   
                      
                      <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                            <div class="form-group form-group-default">
                               <label>Date</label>
                               <input type="date" required class="form-control" id="date" name="date" >
                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                            <div class="form-group form-group-default ">
                               <label>Atasan</label>
                               <select class="form-control " required name="leader" id="leader">
@@ -97,7 +97,7 @@ Form Lembur/Piket
                         
                      </div>
                      <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                            <div class="form-group form-group-default">
                               <label>Piket/Lembur</label>
                               <select class="form-control " required name="type" id="type">
@@ -107,18 +107,30 @@ Form Lembur/Piket
                               </select>
                            </div>
                         </div>
-                        <div class="col">
+                        <div class="col-md-4">
                            <div class="form-group form-group-default">
                               <label>Jam Mulai</label>
                               <input type="time" class="form-control" id="hours_start" name="hours_start" >
                            </div>
                         </div>
-                        <div class="col">
+                        <div class="col-md-4">
                            <div class="form-group form-group-default">
                               <label>Jam Selesai</label>
                               <input type="time" class="form-control" id="hours_end" name="hours_end" >
                            </div>
                         </div>
+                        {{-- <div class="col-md-4">
+                           <div class="form-group form-group-default">
+                              <label>Jam Mulai</label>
+                              <input type="datetime-local" class="form-control" id="hours_start" name="hours_start" >
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="form-group form-group-default">
+                              <label>Jam Selesai</label>
+                              <input type="datetime-local" class="form-control" id="hours_end" name="hours_end" >
+                           </div>
+                        </div> --}}
          
                      </div>
                      <div class="form-group form-group-default">
