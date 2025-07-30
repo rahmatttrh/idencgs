@@ -116,31 +116,35 @@ Detail Employee
                <small>{{$employee->contract->designation->name ?? ''}} {{$employee->contract->department->name ?? ''}}</small>
             </div> --}}
             <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv|HRD-Payroll'))
                <a class="nav-link {{$panel == 'basic' ? 'active' : ''}} text-left pl-3" id="v-pills-basic-tab" data-toggle="pill" href="#v-pills-basic" role="tab" aria-controls="v-pills-basic" aria-selected="true">
                   <i class="fas fa-address-book mr-1"></i>
                   Basic Information
                </a>
+               @endif
                <a class="nav-link {{$panel == 'contract' ? 'active' : ''}}  text-left pl-3" id="v-pills-contract-tab" data-toggle="pill" href="#v-pills-contract" role="tab" aria-controls="v-pills-contract" aria-selected="false">
                   <i class="fas fa-file-contract mr-1"></i>
 
                   Contract Agreement
                </a>
                
+               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv|HRD-Payroll'))
                <a class="nav-link {{$panel == 'personal' ? 'active' : ''}} text-left pl-3" id="v-pills-personal-tab" data-toggle="pill" href="#v-pills-personal" role="tab" aria-controls="v-pills-personal" aria-selected="true">
                   <i class="fas fa-user mr-1"></i>
                   Personal Data
                </a>
-               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv'))
+               
                <a class="nav-link {{$panel == 'account' ? 'active' : ''}} text-left pl-3" id="v-pills-account-tab"  data-toggle="pill" href="#v-pills-account" role="tab" aria-controls="v-pills-account" aria-selected="false">
                   <i class="fas fa-credit-card mr-1"></i>
                   System Account
                </a>
-               @endif
+               
 
                <a class="nav-link {{$panel == 'document' ? 'active' : ''}} text-left pl-3" id="v-pills-document-tab" data-toggle="pill" href="#v-pills-document" role="tab" aria-controls="v-pills-document" aria-selected="false">
                   <i class="fas fa-file mr-1"></i>
                   Document
                </a>
+               @endif
                {{-- <a class="nav-link {{$panel == 'basic' ? 'active' : ''}} text-left pl-3" id="v-pills-basic-tab" data-toggle="pill" href="#v-pills-basic" role="tab" aria-controls="v-pills-basic" aria-selected="true">
                   <i class="fas fa-address-book mr-1"></i>
                   Work

@@ -130,7 +130,7 @@ Cuti
 
                   <tr>
                      <td class="bg-dark text-light text-truncate">Diajukan Oleh :</td>
-                     <td class="bg-dark text-light text-truncate">Pengganti :</td>
+                     <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
                      <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
                      <td class="bg-dark text-light text-truncate">Diketahui Oleh :</td>
                      <td colspan="4" >Masuk Kembali
@@ -145,16 +145,16 @@ Cuti
                         @endif
                      </td>
                      <td class="text-center">
-                        @if ($absenceEmp->status >= 2)
-                           <span class="text-success"><i>APPROVED</i></span> <br>
-                           {{-- <small>{{formatDateTime($absenceEmp->app_backup_date)}}</small> --}}
-                        @endif
-                     </td>
-                     <td class="text-center">
                         @if ($absenceEmp->status >= 3)
                            <span class="text-success"><i>APPROVED</i></span><br>
                            {{-- <small>{{formatDateTime($absenceEmp->app_leader_date)}}</small> --}}
                         @endif
+                     </td>
+                     <td class="text-center">
+                        @if ($absenceemp->status == 3 || $absenceemp->status == 5)
+                     <span class="text-success"><i>APPROVED</i></span><br>
+                     {{-- <small>{{formatDateTime($absenceemp->app_leader_date)}}</small> --}}
+                  @endif
                      </td>
                      <td class="text-center">
                         @if ($absenceEmp->status == 5)
@@ -166,11 +166,19 @@ Cuti
                   <tr>
                      <td>{{$absenceEmp->employee->biodata->fullName()}}</td>
                      <td>
-                        @if ($absenceEmp->cuti_backup_id != null)
+                        {{-- @if ($absenceEmp->cuti_backup_id != null)
                         {{$absenceEmp->cuti_backup->biodata->fullName()}}
+                        @endif --}}
+                        @if ($absenceemp->leader_id != null)
+                           {{$absenceemp->leader->biodata->fullName() ?? ''}}
                         @endif
                      </td>
-                     <td>{{$absenceEmp->leader->biodata->fullName()}}</td>
+                     <td>
+                        {{-- {{$absenceEmp->leader->biodata->fullName()}} --}}
+                        @if ($absenceemp->manager_id != null)
+                        {{$absenceemp->manager->biodata->fullName() ?? ''}}
+                        @endif
+                     </td>
                      <td>HRD</td>
                      {{-- <td colspan="4"></td> --}}
                   </tr>
@@ -181,13 +189,19 @@ Cuti
                         @endif
                      </td>
                      <td>
-                        @if ($absenceEmp->status >= 2)
+                        {{-- @if ($absenceEmp->status >= 2)
                            <small>{{formatDateTime($absenceEmp->app_backup_date)}}</small>
+                        @endif --}}
+                        @if ($absenceemp->status == 2 || $absenceemp->status == 3 || $absenceemp->status == 5)
+                           <small>{{formatDateTime($absenceemp->app_backup_date)}}</small>
                         @endif
                      </td>
                      <td>
-                        @if ($absenceEmp->status >= 3)
+                        {{-- @if ($absenceEmp->status >= 3)
                            <small>{{formatDateTime($absenceEmp->app_leader_date)}}</small>
+                        @endif --}}
+                        @if ($absenceemp->status == 3 || $absenceemp->status == 5)
+                           <small>{{formatDateTime($absenceemp->app_leader_date)}}</small>
                         @endif
                      </td>
                      <td>
