@@ -358,6 +358,7 @@ class OvertimeEmployeeController extends Controller
          
          'description' => $req->desc,
          'location' => $req->location,
+         'location_id' => $locId,
          'doc' => $doc,
          'by_id' => $employee->id,
          'leader_id' => $req->leader
