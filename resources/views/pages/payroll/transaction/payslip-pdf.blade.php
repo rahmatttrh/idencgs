@@ -208,8 +208,9 @@ Payslip PDF
                            <td style="padding: 0px !important;">Tunj. Jabatan</td>
                            <td style="padding: 0px !important;">{{formatRupiahB($transaction->employee->payroll->tunj_jabatan)}}</td>
                            <td style="padding: 0px !important;">Iuran BPJSKesehatan</td>
-                           <td style="padding: 0px !important;">{{formatRupiahB($transaction->reductions->where('name', 'BPJS KS')->where('type', 'employee')->first()->value)}}</td>
+                           <td style="padding: 0px !important;">{{formatRupiahB($transaction->reductions->where('name', 'BPJS KS')->where('type', 'employee')->first()->value + $transaction->reductions->where('class', 'Additional')->where('type', 'employee')->sum('value'))}}</td>
                         </tr>
+                        {{-- @foreach ($transaction->reductions->where('class', 'Additional')->where('type', 'employee') as $red) --}}
                         <tr>
                            <td style="padding: 0px !important;">Tunj. Operasional</td>
                            <td style="padding: 0px !important;">{{formatRupiahB($transaction->employee->payroll->tunj_ops)}}</td>

@@ -13,6 +13,9 @@ KPI
     </nav>
 
     <div class="row">
+      @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
+          
+     
         <div class="col-md-4">
             <div class="card shadow-none border">
                 <div class="card-header d-flex">
@@ -63,7 +66,8 @@ KPI
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        @endif
+        <div class="col">
             <div class="card shadow-none border">
                 {{-- <div class="card-header d-flex">
                     <div class="d-flex  align-items-center">

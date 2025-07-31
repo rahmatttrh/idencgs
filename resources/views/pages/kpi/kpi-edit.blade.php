@@ -43,11 +43,14 @@ KPI Detail
                            <label>Used on QPE </label>
                            <i class="fa fa-user"></i> {{count($kpi->kpas)}}
                        </div>
+                       @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
                        <button class="btn btn-primary btn block">Update</button>
+                       @endif
                     </form>
                 </div>
             </div>
 
+            @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
             @if ($datas->sum('weight') < 100)
                <div class="card shadow-none border">
                   <div class="card-header d-flex">
@@ -89,6 +92,7 @@ KPI Detail
                      <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni at neque inventore vel.</small>
                   </div> --}}
                </div>
+            @endif
             @endif
             
         </div>
@@ -208,7 +212,9 @@ KPI Detail
                                                                         </div>
                                                                         
                                                                      {{-- </label> --}}
+                                                                     @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
                                                                      <a href="{{route('kpi.point.delete', enkripRambo($point->id))}}" class="btn btn-danger btn-xs"> <i class="fas fa-trash"></i> </a>
+                                                                     @endif
                                                                </div>
                                                                
                                                             </div>
@@ -225,12 +231,14 @@ KPI Detail
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
+                                                   @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
                                                       <button type="submit" class="btn btn-primary">Update</button>
+                                                      @endif
                                                     <button type="button" class="btn light" data-dismiss="modal">Close</button>
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div>   
                                 </div>
 
                                 <!-- Modal -->
@@ -315,8 +323,10 @@ KPI Detail
                                             <td>{{$no++}}</td>
                                             <td>{{$user->biodata->fullName()}}</td>
                                             <td class="text-right">
+                                             @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
                                                 <a href="" data-toggle="modal" class="text-danger" data-target="#modal-revoke-{{$user->id}}">Revoke</a>
-                                            </td>
+                                             @endif
+                                             </td>
                                         </tr>
 
                                         <!-- Modal -->
@@ -357,6 +367,7 @@ KPI Detail
                     <!-- End Table -->
                 </div>
                 <!-- Form Assign KPI -->
+                @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
                 <div class="col-md-6">
                     <div class="card shadow-none border">
                         <div class="card-header d-flex">
@@ -387,6 +398,7 @@ KPI Detail
                     </div>
 
                 </div>
+                @endif
             </div>
 
         </div>
