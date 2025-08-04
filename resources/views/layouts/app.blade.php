@@ -237,6 +237,16 @@
             
             });
 
+            $('.datatables-10').DataTable( {
+               "lengthMenu": [[5,8, 10, 15, 25, 50, 100 , -1], [5,8, 10, 15, 25, 50, 100, "All"]],
+               "pageLength": 10,
+               "ordering": true,
+               "order": [
+                  [10, 'desc']
+               ],
+            
+            });
+
 
             $('.datatables-4').DataTable( {
                "lengthMenu": [[5,8, 10, 15, 25, 50, 100 , -1], [5,8, 10, 15, 25, 50, 100, "All"]],

@@ -24,7 +24,7 @@ Cuti
             <div class="col-md-12">
               
                <div class="table-responsive">
-                  <table id="data" class="display basic-datatables table-sm">
+                  <table id="data" class="display datatables-10 table-sm">
                      <thead>
                         <tr>
                            <th>NIK</th>
@@ -36,7 +36,8 @@ Cuti
                            <th class="text-center">Total</th>
                            <th class="text-center">Dipakai</th>
                            <th class="text-center">Sisa</th>
-                           <th>Periode</th>
+                           <th>Mulai</th>
+                           <th>Berakhir</th>
                            {{-- <th></th> --}}
                         </tr>
                      </thead>
@@ -58,8 +59,13 @@ Cuti
                            <th class="text-center">{{$cuti->sisa}}</th>
                            <td class="text-truncate">
                               @if ($cuti->start)
-                                 <span>{{formatDate($cuti->start)}} - {{formatDate($cuti->end)}}</span>
+                                 <span>{{$cuti->start}}</span>
                                  @endif
+                           </td>
+                           <td class="text-truncate">
+                              @if ($cuti->end)
+                              {{$cuti->end}}
+                              @endif
                            </td>
                            {{-- <td><a class="btn btn-sm btn-primary" href="{{route('cuti.edit', enkripRambo($cuti->id))}}">Edit</a></td> --}}
                         </tr>
