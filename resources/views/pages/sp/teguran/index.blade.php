@@ -22,11 +22,13 @@ Surat Teguran
                Surat Teguran
             </a>
             
+            @if (auth()->user()->hasRole('HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll'))
             <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('st.hrd.create')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
                {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
                Form Surat Teguran
             </a>
+            @endif
              
            
             
@@ -52,22 +54,46 @@ Surat Teguran
                </thead>
                <tbody>
 
-                  @foreach ($sts as $st)
-                  <tr>
-                     {{-- <td class="text-center">{{++$i}}</td> --}}
-                     <td><a href="{{route('st.detail', enkripRambo($st->id))}}">{{$st->code}}</a> </td>
-                     <td>{{$st->employee->nik}}</td>
-                     <td> {{$st->employee->biodata->fullName()}}</td>
-                     {{-- <td>{{$sp->employee->nik}}</td> --}}
-                     {{-- <td>{{formatDate($sp->date)}}</td> --}}
-                     <td>{{$st->date}}</td>
-                     <td>
-                        <x-status.st :st="$st" />
-                     </td>
-                     
+                  @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Payroll'))
+                     @foreach ($sts as $st)
+                     <tr>
+                        {{-- <td class="text-center">{{++$i}}</td> --}}
+                        <td><a href="{{route('st.detail', enkripRambo($st->id))}}">{{$st->code}}</a> </td>
+                        <td>{{$st->employee->nik}}</td>
+                        <td> {{$st->employee->biodata->fullName()}}</td>
+                        {{-- <td>{{$sp->employee->nik}}</td> --}}
+                        {{-- <td>{{formatDate($sp->date)}}</td> --}}
+                        <td>{{$st->date}}</td>
+                        <td>
+                           <x-status.st :st="$st" />
+                        </td>
+                        
 
-                  </tr>
-                  @endforeach
+                     </tr>
+                     @endforeach
+                  @elseif(auth()->user()->hasRole('HRD-KJ45|HRD-KJ12'))
+                     @foreach ($sts as $st)
+                     @foreach ($allEmployees as $emp)
+                           @if ($st->employee_id == $emp->id)
+                           <tr>
+                              {{-- <td class="text-center">{{++$i}}</td> --}}
+                              <td><a href="{{route('st.detail', enkripRambo($st->id))}}">{{$st->code}}</a> </td>
+                              <td>{{$st->employee->nik}}</td>
+                              <td> {{$st->employee->biodata->fullName()}}</td>
+                              {{-- <td>{{$sp->employee->nik}}</td> --}}
+                              {{-- <td>{{formatDate($sp->date)}}</td> --}}
+                              <td>{{$st->date}}</td>
+                              <td>
+                                 <x-status.st :st="$st" />
+                              </td>
+                              
+
+                           </tr>
+                           @endif
+                        @endforeach
+                     @endforeach
+                  @endif
+                  
                </tbody>
             </table>
          </div>

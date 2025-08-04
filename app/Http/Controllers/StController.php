@@ -13,8 +13,16 @@ class StController extends Controller
 
    public function index(){
       $sts = St::get();
+      $allEmployees = collect();
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
+      } elseif (auth()->user()->hasRole('HRD-KJ45')){
+         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [4])->get();
+      }  
       return view('pages.sp.teguran.index', [
-         'sts' => $sts
+         'sts' => $sts,
+         'allEmployees' => $allEmployees
       ]);
    }
    public function createHrd(){
