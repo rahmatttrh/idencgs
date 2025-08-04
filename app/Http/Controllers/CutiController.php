@@ -21,13 +21,16 @@ class CutiController extends Controller
       // $contracts = Contract::where('type', 'Kontrak')->get();
       // foreach($contracts as $con){
       //    $cutiEmp = Cuti::where('employee_id', $con->employee_id)->first();
-      //    $cutiEmp->update([
+      //    if ($cutiEmp) {
+      //       $cutiEmp->update([
       //       'start' => $con->start,
       //       'end' => $con->end,
       //       'tahunan' => 12,
       //    ]);
 
       //    $this->calculateCuti($cutiEmp->id);
+      //    }
+         
 
       // }
 
