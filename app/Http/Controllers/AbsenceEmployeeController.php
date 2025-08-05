@@ -245,6 +245,7 @@ class AbsenceEmployeeController extends Controller
       // dd($backDate);
       return view('pages.absence-request.create', [
          'activeTab' => $activeTab,
+         'employee' => $employee,
          'employeeLeaders' => $employeeLeaders,
          'managers' => $managers,
          'employees' => $employees,
@@ -260,6 +261,7 @@ class AbsenceEmployeeController extends Controller
 
    public function detail($id){
       $activeTab = 'form';
+      $emps = collect();
       if (auth()->user()->hasRole('Administrator')) {
         $user = null;
         $emps = [];
@@ -304,6 +306,7 @@ class AbsenceEmployeeController extends Controller
 
       $cuti = Cuti::where('employee_id', $employee->id)->first();
       $employees = Employee::where('department_id', $employee->department_id)->get();
+      // dd($employees);
 
 
       if ($user) {
@@ -323,14 +326,30 @@ class AbsenceEmployeeController extends Controller
       if ($user) {
          // dd($user->designation_id);
          if ($employee->designation_id > 4) {
-            $myteams = Employee::where('department_id', $user->department_id)->whereIn('designation_id', [3,4,5])->where('id', '!=', $absenceEmployee->employee_id)->get();
-            // dd(myteams);
-            // $myteams = EmployeeLeader::where('leader_id', $user->id)->where('employee_id', '!=', $user->id)->get();
-            foreach($myteams as $team){
-               // $emp = Employee::find($team->id);
-               $emps[] = $team;
+            if (count($employee->positions) > 1) {
+              foreach($employee->positions as $pos){
+               $myteams = Employee::where('department_id', $pos->department_id)->whereIn('designation_id', [3,4,5])->where('id', '!=', $absenceEmployee->employee_id)->get();
+               // dd(myteams);
+               // $myteams = EmployeeLeader::where('leader_id', $user->id)->where('employee_id', '!=', $user->id)->get();
+               foreach($myteams as $team){
+                  // $emp = Employee::find($team->id);
+                  $emps[] = $team;
 
+               }
+              }
+
+            //   dd($emps);
+            } else {
+               $myteams = Employee::where('department_id', $user->department_id)->whereIn('designation_id', [3,4,5])->where('id', '!=', $absenceEmployee->employee_id)->get();
+               // dd(myteams);
+               // $myteams = EmployeeLeader::where('leader_id', $user->id)->where('employee_id', '!=', $user->id)->get();
+               foreach($myteams as $team){
+                  // $emp = Employee::find($team->id);
+                  $emps[] = $team;
+
+               }
             }
+            
             // dd('ok');
 
             // dd($emps);
@@ -926,10 +945,15 @@ class AbsenceEmployeeController extends Controller
 
 
       if ($reqForm->type == 5) {
+         // if (auth()->user()->hasRole('BOD')) {
+         //    $status = 5;
+         // }
+
          if ($reqForm->manager_id == $employee->id) {
             $status = 5;
-
-         }else {
+         } elseif(auth()->user()->hasRole('BOD')){
+            $status = 5;
+         } else {
             $status = 2;
          }
 

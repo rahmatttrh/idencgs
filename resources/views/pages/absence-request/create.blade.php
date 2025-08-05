@@ -154,21 +154,25 @@ Form Absence
                         </select>
                      </div>
                   </div>
-                  <div class="col-6 manager">
-                     <div class="form-group form-group-default ">
-                        <label>Manager</label>
-                        <select class="form-control "  name="manager" id="manager">
-                           <option value="" disabled selected>Select</option>
-                           @foreach ($managers as $man)
-                              <option selected value="{{$man->id}}">{{$man->biodata->fullName()}}</option>
-                           @endforeach
-                           {{-- <option  value="4">Izin</option>
-                           <option value="5">Cuti</option>
-                           <option  value="6">SPT</option>
-                           <option value="7">Sakit</option> --}}
-                        </select>
+                  @if ($employee->designation_id == 6)
+                      @else
+                      <div class="col-6 manager">
+                        <div class="form-group form-group-default ">
+                           <label>Manager</label>
+                           <select class="form-control "  name="manager" id="manager">
+                              <option value="" disabled selected>Select</option>
+                              @foreach ($managers as $man)
+                                 <option selected value="{{$man->id}}">{{$man->biodata->fullName()}}</option>
+                              @endforeach
+                              {{-- <option  value="4">Izin</option>
+                              <option value="5">Cuti</option>
+                              <option  value="6">SPT</option>
+                              <option value="7">Sakit</option> --}}
+                           </select>
+                        </div>
                      </div>
-                  </div>
+                  @endif
+                  
                   
                   <div class="col-md-12 type_cuti">
                      <div class="form-group form-group-default">

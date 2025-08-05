@@ -107,7 +107,11 @@
             <tr>
                <td class="bg-dark text-light text-truncate">Diajukan Oleh :</td>
                <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
-               <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
+               @if ($absenceemp->employee->designation_id ==6)
+                   @else
+                   <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
+               @endif
+               
                <td class="bg-dark text-light text-truncate">Diketahui Oleh :</td>
                <td colspan="4" >Masuk Kembali
                   
@@ -126,12 +130,15 @@
                      {{-- <small>{{formatDateTime($absenceemp->app_backup_date)}}</small> --}}
                   @endif
                </td>
+               @if ($absenceemp->employee->designation_id ==6)
+                   @else
                <td class="text-center">
                   @if ($absenceemp->status == 3 || $absenceemp->status == 5)
                      <span class="text-success"><i>APPROVED</i></span><br>
                      {{-- <small>{{formatDateTime($absenceemp->app_leader_date)}}</small> --}}
                   @endif
                </td>
+               @endif
                <td class="text-center">
                   @if ($absenceemp->status == 5)
                      <span class="text-success"><i>VALIDATED</i></span>
@@ -151,11 +158,14 @@
                   {{$absenceemp->leader->biodata->fullName() ?? ''}}
                   @endif
                </td>
+               @if ($absenceemp->employee->designation_id ==6)
+                   @else
                <td>
                   @if ($absenceemp->manager_id != null)
                   {{$absenceemp->manager->biodata->fullName() ?? ''}}
                   @endif
                </td>
+               @endif
                <td>HRD</td>
                {{-- <td colspan="4"></td> --}}
             </tr>

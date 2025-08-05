@@ -962,7 +962,7 @@ Route::middleware(["auth"])->group(function () {
       Route::get('/detail/{id}', [SpklController::class, 'detail'])->name('spkl.detail');
    });
    // Role Karyawan
-   Route::group(['middleware' => ['role:Administrator|Karyawan|Leader|Supervisor|Manager|Asst. Manager']], function () {
+   Route::group(['middleware' => ['role:Administrator|BOD|Karyawan|Leader|Supervisor|Manager|Asst. Manager']], function () {
       // kpi
 
       Route::get('/admin/monitoring/absence', [AbsenceEmployeeController::class, 'indexAdmin'])->name('admin.employee.absence');

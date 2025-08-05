@@ -77,6 +77,9 @@ Form Absensi
                            <td>
                               <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                                  <x-status.absence :absence="$absence" />
+                                 @if (count($absence->details) > 1)
+                                 ({{count($absence->details)}} hari)
+                              @endif
                            </a>
                               
                            </td>
