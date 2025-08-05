@@ -60,7 +60,7 @@ Absence
                      <th>Date</th>
                      {{-- <th>Desc</th> --}}
                      <th>Status</th>
-                     <th></th>
+                     {{-- <th></th> --}}
                   </tr>
                </thead>
 
@@ -82,7 +82,7 @@ Absence
                         @endif
                         
                      </td>
-                     <td>{{$absence->employee->nik}}</td>
+                     <td class="text-truncate">{{$absence->employee->nik}}</td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
                         <x-absence.date :absence="$absence" />
@@ -90,14 +90,14 @@ Absence
                      <td>
                         <x-status.form :form="$absence" />
                      </td>
-                     <td class="text-truncate">
-                      {{-- <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a> --}}
+                     {{-- <td class="text-truncate">
+                      <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class="">Detail</a>
                       @if ($absence->status != 5)
                       
                       <a href="#"  data-target="#modal-delete-absence-employee-{{$absence->id}}" data-toggle="modal">Delete</a>
                       @endif
                        
-                     </td>
+                     </td> --}}
                   </tr>
 
                   <div class="modal fade" id="modal-delete-absence-employee-{{$absence->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
