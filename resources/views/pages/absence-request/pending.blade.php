@@ -53,7 +53,9 @@ Absence
                      {{-- <th>NIK</th>
                       <th>Name</th> --}}
                       <th>ID</th>
+
                      <th>Type</th>
+                     <th>NIK</th>
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
                      {{-- <th>Desc</th> --}}
@@ -80,6 +82,7 @@ Absence
                         @endif
                         
                      </td>
+                     <td>{{$abence->employee->nik}}</td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
                         <x-absence.date :absence="$absence" />
