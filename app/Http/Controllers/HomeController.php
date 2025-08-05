@@ -380,9 +380,12 @@ class HomeController extends Controller
             } else {
                $semester = 2;
             }
-            
+
+         $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->get();
+         
 
          return view('pages.dashboard.bod', [
+            'reqForms' => $reqForms,
             'user' => $user,
             'employee' => $user,
             'employees' => $employees,

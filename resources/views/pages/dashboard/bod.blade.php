@@ -60,7 +60,7 @@
                </div>
             </div>
 
-            <div class="row">
+            {{-- <div class="row">
                <div class="col-md-12">
                   <a href="{{route('payroll.approval.bod')}}">
                      <div class="card card-stats card-round border">
@@ -89,7 +89,7 @@
                      </div>
                   </a>
                </div>
-            </div>
+            </div> --}}
             
             
             {{-- <a href="{{route('payroll.approval.hrd')}}">
@@ -233,7 +233,65 @@
             </div> --}}
          </div>
          <div class="col-md-8">
-
+            <div class="row">
+               <div class="col-md-6 ">
+                  <a href="{{route('leader.absence')}}" data-toggle="tooltip" data-placement="top" title="Daftar Form Absensi yang membutuhkan Approval anda">
+                     <div class="card border card-stats card-round">
+                        <div class="card-body ">
+                           <div class="row align-items-center">
+                              <div class="col-icon">
+                                 <div class="icon-big text-center icon-info bubble-shadow-small">
+                                    <i class="fas fa-calendar-check"></i>
+                                 </div>
+                              </div>
+                              <div class="col col-stats ml-3 ml-sm-0">
+                                 
+                                 <div class="numbers">
+                                    <p class="card-category"> Approval Absensi </p>
+                                    <h4 class="card-title"> 
+                                       @if (count($reqForms) > 0)
+                                          <span class="badge badge-danger">{{count($reqForms) }}</span> 
+                                          @else
+                                          {{count($reqForms)}}
+                                          @endif 
+                                    </h4>
+                                 </div>
+                              
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <div class="col-md-6 ">
+                  <a href="{{route('payroll.approval.bod')}}">
+                     <div class="card card-stats card-round border">
+                        <div class="card-body">
+                           <div class="row align-items-center">
+                              <div class="col-icon ">
+                                 <div class="icon-big text-center icon-info bubble-shadow-small">
+                                    <i class="far fa-newspaper"></i>
+                                 </div>
+                              </div>
+                              <div class="col col-stats ml-3 ml-sm-0">
+                                 <div class="numbers">
+                                    <p class="card-category">Payslip Approval</p>
+                                    <h4 class="card-title">
+                                       @if (count($payrollApprovals) > 0)
+                                           <div class="badge badge-danger">{{count($payrollApprovals)}}</div>
+                                           @else
+                                           {{count($payrollApprovals)}}
+                                       @endif
+                                      
+                                    </h4>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+            </div>
             
             {{-- <div class="row">
                <div class="col-md-6">

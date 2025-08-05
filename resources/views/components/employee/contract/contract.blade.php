@@ -255,6 +255,40 @@
                   <div class="card-body bubble-shadow ">
                     
                        @if ($employee->designation->name == 'Manager')
+                       <div class="row">
+                        <div class="col-6 pr-0 ">
+                           <div class="text-small text-uppercase fw-bold op-8">Direct Leader</div>
+                           <small class="fw-bold mt-1">
+                              
+                              @foreach ($empleaders as $empleader)
+                              @if (auth()->user()->hasRole('Administrator|HRD|HRD-Staff|HRD-Recruitment|HRD-Payroll'))
+                              <a href="#"   data-toggle="modal" data-target="#modal-revoke-leader-{{$empleader->id}}">{{$empleader->leader->nik}} {{$empleader->leader->biodata->fullName()}}</a>
+         
+
+          
+          
+                              @endif
+                             
+                                 <br>
+
+                                 <x-employee.contract.modal.revoke-leader :employee="$employee" :leader="$empleader" />
+                              @endforeach
+                           </small>
+                           
+                        
+                           
+                        </div>
+
+                        {{-- <div class="col-6 prl-0 text-right ">
+                           <div class="text-small text-uppercase fw-bold op-8">Manager / Asst. Manager</div>
+                           <small class="fw-bold mt-1">
+                              @foreach ($mymanagers as $man)
+                              {{$man->biodata->fullName()}} <br>
+                              @endforeach
+                           </small>
+                        </div> --}}
+                        
+                      </div>
                            @else
                            {{-- <hr class="bg-white"> --}}
                            <div class="text-small text-uppercase fw-bold op-8"> {{$employee->contract->desc ?? 'Jobdesk Empty'}} </div>
@@ -292,7 +326,7 @@
                                 </small>
                              </div>
                              
-                          </div>
+                           </div>
                        @endif
                        
                        
