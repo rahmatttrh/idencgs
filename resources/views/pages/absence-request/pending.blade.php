@@ -82,7 +82,7 @@ Absence
                         @endif
                         
                      </td>
-                     <td>{{$abence->employee->nik}}</td>
+                     <td>{{$absence->employee->nik}}</td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td>
                         <x-absence.date :absence="$absence" />
