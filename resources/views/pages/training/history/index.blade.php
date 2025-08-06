@@ -27,7 +27,7 @@ History Training
            
          </ul>
          <div class="table-responsive p-0 mt-2">
-            <table id="data" class="display basic-datatables table-sm p-0">
+            <table id="data" class="display datatables-11 table-sm p-0">
                <thead>
                   <tr>
                     {{-- <th>No</th> --}}
@@ -42,7 +42,7 @@ History Training
                     <th>Sertifikat</th>
                     <th>Vendor</th>
                     <th>Berlaku</th>
-                    {{-- <th></th> --}}
+                    <th style="">Last Update</th>
                   </tr>
                </thead>
       
@@ -67,6 +67,7 @@ History Training
                            @endif
                            
                         </td>
+                        <td style="" class="text-truncate">{{$his->updated_at}}</td>
                         {{-- <td class="text-truncate">
                            <a href="#" data-target="#modal-sertifikat-training-history-{{$his->id}}" data-toggle="modal">Sertifikat</a> |
                            <a href="{{route('training.history.edit', enkripRambo($his->id))}}">Edit</a> | 

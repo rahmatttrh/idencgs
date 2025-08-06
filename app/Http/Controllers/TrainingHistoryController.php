@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Storage;
 class TrainingHistoryController extends Controller
 {
    public function index(){
-      $trainingHistories = TrainingHistory::get();
+      $trainingHistories = TrainingHistory::orderBy('updated_at', 'desc')->get();
 
       if (auth()->user()->hasRole('Administrator')) {
          $qtyDup = 0;
-         $trainingHistories = TrainingHistory::get();
+         $trainingHistories = TrainingHistory::orderBy('updated_at', 'desc')->get();
          $testHistories = [];
 
          // $testHistories = TrainingHistory::where('expired', '9999-01-01')->get();
