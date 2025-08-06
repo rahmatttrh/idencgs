@@ -186,7 +186,7 @@ class AbsenceLeaderController extends Controller
 
    public function indexHrd(){
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::where('status', '!=', 0)->where('status', '!=', 5)->orderBy('release_date', 'desc')->get();
+      $reqForms = AbsenceEmployee::where('status', '!=', 0)->orderBy('release_date', 'desc')->get();
       $activeTab = 'index';
       return view('pages.absence-request.hrd.index', [
          'activeTab' => $activeTab,
