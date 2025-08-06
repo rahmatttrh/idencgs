@@ -48,11 +48,11 @@ Form Perubahan Absence
                @if($absenceEmp->status == 1)
                   <span class="btn btn-group btn-block p-0" >
                      @if ($absenceEmp->type == 5)
-                        @if ($absenceEmp->cuti_backup_id != null)
-                        <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
-                        @else
-                        <a href="#" class="btn btn-block  mb-2 btn-light border" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Karyawan Pengganti">Approve</a>
-                        @endif
+                           @if ($absenceEmp->cuti_backup_id != null)
+                           <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
+                           @else
+                           <a href="#" class="btn btn-block  mb-2 btn-light border" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Karyawan Pengganti">Approve</a>
+                           @endif
                         @else
                         <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
                      @endif
@@ -105,7 +105,7 @@ Form Perubahan Absence
             
          <span class="btn btn-group btn-block p-0" >
             <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee-man" data-toggle="modal">Approve as Manager</a>
-            <a href=#"" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
+            <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
          </span>
          @endif
 
@@ -265,7 +265,7 @@ Form Perubahan Absence
             </thead>
             <tbody>
                
-               @if ($user)
+               @if ($user || auth()->user()->hasRole('Administrator'))
                    
                
                   @if ($absenceEmp->type == 5)
@@ -282,90 +282,95 @@ Form Perubahan Absence
                         {{-- {{$employee->n}} --}}
                            
                         </td>
-                        <td>
-                           @if ($absenceEmp->status == 0)
-                           <a href="{{route('employee.absence.detail.delete', enkripRambo($detail->id))}}">Remove</a>
-                           @endif
-                           @if ($user->id == $absenceEmp->leader_id && $absenceEmp->status == 1)
-                              <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="">Reject</a>
-                              
-                              <div class="modal fade" id="modal-edit-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                 <div class="modal-dialog modal-sm" role="document">
-                                    <div class="modal-content">
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalLabel">Form Edit Tanggal</h5>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                          </button>
+                        @if (auth()->user()->hasRole('Administrator'))
+                        <td>-</td>
+                            @else
+                            <td>
+                              @if ($absenceEmp->status == 0)
+                              <a href="{{route('employee.absence.detail.delete', enkripRambo($detail->id))}}">Remove</a>
+                              @endif
+                              @if ($user->id == $absenceEmp->leader_id && $absenceEmp->status == 1)
+                                 <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="">Reject</a>
+                                 
+                                 <div class="modal fade" id="modal-edit-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                       <div class="modal-content">
+                                          <div class="modal-header">
+                                             <h5 class="modal-title" id="exampleModalLabel">Form Edit Tanggal</h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                             </button>
+                                          </div>
+                                          <form action="{{route('employee.absence.detail.update')}}" method="POST" >
+                                             <div class="modal-body">
+                                                @csrf
+                                                @method('PUT')
+                                                   {{-- <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden> --}}
+                                                   <input type="number" name="detail" id="detail" value="{{$detail->id}}" hidden>
+                                                   <div class="form-group form-group-default">
+                                                      <label>Date</label>
+                                                      <input type="date" class="form-control"  name="date" id="date" value="{{$detail->date}}"  >
+                                                   </div>
+                                                   <div class="form-group form-group-default">
+                                                      <label>Remark</label>
+                                                      <input type="text" class="form-control"  name="remark" id="remark" value="{{$detail->remark}}"  >
+                                                   </div>
+                                                   
+                                             </div>
+                                             <div class="modal-footer">
+                                                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary ">Update</button>
+                                             </div>
+                                          </form>
                                        </div>
-                                       <form action="{{route('employee.absence.detail.update')}}" method="POST" >
-                                          <div class="modal-body">
-                                             @csrf
-                                             @method('PUT')
-                                                {{-- <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden> --}}
-                                                <input type="number" name="detail" id="detail" value="{{$detail->id}}" hidden>
-                                                <div class="form-group form-group-default">
-                                                   <label>Date</label>
-                                                   <input type="date" class="form-control"  name="date" id="date" value="{{$detail->date}}"  >
-                                                </div>
-                                                <div class="form-group form-group-default">
-                                                   <label>Remark</label>
-                                                   <input type="text" class="form-control"  name="remark" id="remark" value="{{$detail->remark}}"  >
-                                                </div>
-                                                
-                                          </div>
-                                          <div class="modal-footer">
-                                             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                                             <button type="submit" class="btn btn-primary ">Update</button>
-                                          </div>
-                                       </form>
                                     </div>
                                  </div>
-                              </div>
-                              
-                              
-                           @endif
-
-                           @if ($user->id == $absenceEmp->manager_id && $absenceEmp->status == 2)
-                              <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="">Reject</a>
-                              
-                              <div class="modal fade" id="modal-edit-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                 <div class="modal-dialog modal-sm" role="document">
-                                    <div class="modal-content">
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalLabel">Form Edit Tanggal</h5>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                          </button>
+                                 
+                                 
+                              @endif
+   
+                              @if ($user->id == $absenceEmp->manager_id && $absenceEmp->status == 2)
+                                 <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="">Reject</a>
+                                 
+                                 <div class="modal fade" id="modal-edit-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                       <div class="modal-content">
+                                          <div class="modal-header">
+                                             <h5 class="modal-title" id="exampleModalLabel">Form Edit Tanggal</h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                             </button>
+                                          </div>
+                                          <form action="{{route('employee.absence.detail.update')}}" method="POST" >
+                                             <div class="modal-body">
+                                                @csrf
+                                                @method('PUT')
+                                                   {{-- <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden> --}}
+                                                   <input type="number" name="detail" id="detail" value="{{$detail->id}}" hidden>
+                                                   <div class="form-group form-group-default">
+                                                      <label>Date</label>
+                                                      <input type="date" class="form-control"  name="date" id="date" value="{{$detail->date}}"  >
+                                                   </div>
+                                                   <div class="form-group form-group-default">
+                                                      <label>Remark</label>
+                                                      <input type="text" class="form-control"  name="remark" id="remark" value="{{$detail->remark}}"  >
+                                                   </div>
+                                                   
+                                             </div>
+                                             <div class="modal-footer">
+                                                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary ">Update</button>
+                                             </div>
+                                          </form>
                                        </div>
-                                       <form action="{{route('employee.absence.detail.update')}}" method="POST" >
-                                          <div class="modal-body">
-                                             @csrf
-                                             @method('PUT')
-                                                {{-- <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden> --}}
-                                                <input type="number" name="detail" id="detail" value="{{$detail->id}}" hidden>
-                                                <div class="form-group form-group-default">
-                                                   <label>Date</label>
-                                                   <input type="date" class="form-control"  name="date" id="date" value="{{$detail->date}}"  >
-                                                </div>
-                                                <div class="form-group form-group-default">
-                                                   <label>Remark</label>
-                                                   <input type="text" class="form-control"  name="remark" id="remark" value="{{$detail->remark}}"  >
-                                                </div>
-                                                
-                                          </div>
-                                          <div class="modal-footer">
-                                             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                                             <button type="submit" class="btn btn-primary ">Update</button>
-                                          </div>
-                                       </form>
                                     </div>
                                  </div>
-                              </div>
-                              
-                              
-                           @endif
-                        </td>
+                                 
+                                 
+                              @endif
+                           </td>
+                        @endif
+                       
                      </tr>
                         @if ($detail->remark != null)
                            <tr>
