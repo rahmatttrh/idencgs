@@ -264,6 +264,19 @@ class HomeController extends Controller
          // }
          // End Reset Password
 
+         // $ia = User::where('username', 'bod-002')->first();
+         // // dd($ia);
+         // $iaEmp = Employee::where('nik', 'bod-002')->first();
+         // $birth = Carbon::create($iaEmp->biodata->birth_date);
+         // dd($birth->format('dmy'));
+         // $ia->update([
+         //    // 'password' => Hash::make('12345678')
+         //    'password' => Hash::make('enc#' . $birth->format('dmy'))
+         // ]);
+
+
+         
+
 
          // clearAllCookies();
          $employees = Employee::get();

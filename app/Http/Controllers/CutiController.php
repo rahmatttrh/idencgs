@@ -20,76 +20,76 @@ class CutiController extends Controller
 
 
       // GENERATE PERIODE CUTI KARYAWAN TETEP DARI JOIN DATE
-      $tetapContrats = Contract::where('type', 'Tetap')->get();
-      foreach($tetapContrats as $tcon){
-         $employee = Employee::find($tcon->employee_id);
+      // $tetapContrats = Contract::where('type', 'Tetap')->get();
+      // foreach($tetapContrats as $tcon){
+      //    $employee = Employee::find($tcon->employee_id);
       
-         if ($employee) {
-            $joinDate = Carbon::create($employee->join);
-            $nexYearJoin = Carbon::create($employee->join)->addYear();
-            // $nextYear = $joinDate->addYear();
+      //    if ($employee) {
+      //       $joinDate = Carbon::create($employee->join);
+      //       $nexYearJoin = Carbon::create($employee->join)->addYear();
+      //       // $nextYear = $joinDate->addYear();
 
-            $cutiEmp = Cuti::where('employee_id', $tcon->employee_id)->first();
-            if ($cutiEmp ) {
-               // dd($joinDate->addYear());
-               $cutiEmp->update([
-                  'start' => $joinDate,
-                  'end' => $nexYearJoin
-               ]);
+      //       $cutiEmp = Cuti::where('employee_id', $tcon->employee_id)->first();
+      //       if ($cutiEmp ) {
+      //          // dd($joinDate->addYear());
+      //          $cutiEmp->update([
+      //             'start' => $joinDate,
+      //             'end' => $nexYearJoin
+      //          ]);
 
 
-               $now = Carbon::now();
-               if ($cutiEmp->start < $now) {
-                  // dd($cutiEmp->employee->nik);
-                  $cutiStart = Carbon::create($cutiEmp->start);
-                  $cutiEnd = Carbon::create($cutiEmp->end);
-                  $nowStart = Carbon::create($now->format('Y') . '-' . $cutiStart->format('m') . '-' . $cutiStart->format('d'));
+      //          $now = Carbon::now();
+      //          if ($cutiEmp->start < $now) {
+      //             // dd($cutiEmp->employee->nik);
+      //             $cutiStart = Carbon::create($cutiEmp->start);
+      //             $cutiEnd = Carbon::create($cutiEmp->end);
+      //             $nowStart = Carbon::create($now->format('Y') . '-' . $cutiStart->format('m') . '-' . $cutiStart->format('d'));
                   
-                  if ($nowStart > $now) {
-                     // dd($nowStart);
-                     $finalStartDate = $nowStart->addYear(-1);
-                     // dd($finalStartDate);
-                     $cutiEmp->update([
-                        'start' => $finalStartDate,
-                        // 'end' => $finalEndDate
-                     ]);
+      //             if ($nowStart > $now) {
+      //                // dd($nowStart);
+      //                $finalStartDate = $nowStart->addYear(-1);
+      //                // dd($finalStartDate);
+      //                $cutiEmp->update([
+      //                   'start' => $finalStartDate,
+      //                   // 'end' => $finalEndDate
+      //                ]);
                      
-                     $end = $nowStart->addYear(1);
-                     $finalEndDate = $end;
-                     $cutiEmp->update([
-                        // 'start' => $finalStartDate,
-                        'end' => $finalEndDate
-                     ]);
+      //                $end = $nowStart->addYear(1);
+      //                $finalEndDate = $end;
+      //                $cutiEmp->update([
+      //                   // 'start' => $finalStartDate,
+      //                   'end' => $finalEndDate
+      //                ]);
 
-                     // dd($finalStartDate);
-                     // dd('start:' . $finalStartDate . ' end:'. $finalEndDate);
-                     // dd($nowStart->addYear(-1));
+      //                // dd($finalStartDate);
+      //                // dd('start:' . $finalStartDate . ' end:'. $finalEndDate);
+      //                // dd($nowStart->addYear(-1));
 
-                  } else {
-                     $finalStartDate = $nowStart;
-                     $cutiEmp->update([
-                        'start' => $finalStartDate,
-                        // 'end' => $finalEndDate
-                     ]);
-                     $finalEndDate = $nowStart->addYear(1);
-                     $cutiEmp->update([
-                        // 'start' => $finalStartDate,
-                        'end' => $finalEndDate
-                     ]);
-                  }
+      //             } else {
+      //                $finalStartDate = $nowStart;
+      //                $cutiEmp->update([
+      //                   'start' => $finalStartDate,
+      //                   // 'end' => $finalEndDate
+      //                ]);
+      //                $finalEndDate = $nowStart->addYear(1);
+      //                $cutiEmp->update([
+      //                   // 'start' => $finalStartDate,
+      //                   'end' => $finalEndDate
+      //                ]);
+      //             }
 
                   
 
-                  $this->calculateCuti($cutiEmp->id);
+      //             $this->calculateCuti($cutiEmp->id);
                   
 
-               }
+      //          }
 
-            }
-         }
+      //       }
+      //    }
          
          
-      }
+      // }
       // END GENERATE PERIODE CUTI KARYAWAN TETEP DARI JOIN DATE
 
       // $contracts = Contract::where('type', 'Kontrak')->get();
