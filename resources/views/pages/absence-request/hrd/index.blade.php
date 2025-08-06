@@ -21,17 +21,21 @@ Monitoring Form Absensi
                <i class="fas fa-address-book mr-1"></i>
                Form Absensi
             </a>
+            {{-- <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('hrd.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
+               <i class="fas fa-address-book mr-1"></i>
+               SPKL
+            </a> --}}
             {{-- <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.monitoring.spkl') }}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
               
                SPKL
             </a> --}}
 
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.absence.history') }}" aria-controls="v-pills-contract" aria-selected="false">
+            {{-- <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.absence.history') }}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+              
                History
-            </a>
+            </a> --}}
 
             
             
@@ -42,7 +46,7 @@ Monitoring Form Absensi
          <div class="card">
             
             <div class="card-body">
-               <small>Daftar Form Request Absensi yang dibuat oleh Karyawan</small>
+               <small>Daftar Form Request Absensi (Cuti/SPT/Izin/Sakit) yang dibuat oleh Karyawan</small>
             </div>
          </div>
          {{-- <small>

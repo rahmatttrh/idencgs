@@ -229,7 +229,7 @@
             
          </div>
          <div class="col-sm-6 col-md-9">
-            <x-running-text />
+            {{-- <x-running-text /> --}}
             {{-- <div class="row">
                <div class="col-md-4">
                   <a href="{{route('payroll.approval.gm')}}">
@@ -343,7 +343,7 @@
                            <div class="col col-stats ml-3 ml-sm-0">
                               
                                  <div class="numbers">
-                                    <p class="card-category"> Monitoring Absensi & SPKL </p>
+                                    <p class="card-category"> Monitoring Absensi  </p>
                                     <h4 class="card-title py-1"> 
                                        {{-- @if (count($absenceProgress) > 0)
                                           <div class="badge badge-light">{{count($absenceProgress)}}</div>
@@ -538,10 +538,10 @@
                         <div class="col col-stats ml-3 ml-sm-0">
                            <a href="{{route('hrd.absence')}}">
                            <div class="numbers">
-                              <p class="card-category "> Monitoring </p>
+                              <p class="card-category "> Monitoring Absensi </p>
                               <h4 class="card-title"> 
                                  <div class="badge badge-light">
-                                    Absensi & SPKL
+                                    -
                                  </div>
                               {{-- @if (count($absenceProgress) > 0)
                                           <div class="badge badge-danger">{{count($absenceProgress)}}</div>
