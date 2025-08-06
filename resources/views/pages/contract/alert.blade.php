@@ -17,7 +17,7 @@ Contract Alert
          {{-- <h4><b>Monitoring Form Absensi</b></h4>
          <hr> --}}
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('hrd.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
+            <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('contract.alert') }}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
                Contract Alert
             </a>

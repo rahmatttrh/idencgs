@@ -242,7 +242,7 @@ Payroll Transaction
                         <tr>
                            <th>NIK</th>
                            <th>Name</th>
-                           @if (auth()->user()->hasRole('Administrator'))
+                           @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Spv'))
                            <th>Type</th>
                            @endif
                            <th>Loc</th>
@@ -268,7 +268,7 @@ Payroll Transaction
                               {{$trans->employee->biodata->fullName()}}
                               
                            </td>
-                           @if (auth()->user()->hasRole('Administrator'))
+                           @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Spv'))
                            <td>
                                   {{$trans->remark}} 
                                  </td>
