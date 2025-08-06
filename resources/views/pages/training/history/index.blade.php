@@ -27,7 +27,7 @@ History Training
            
          </ul>
          <div class="table-responsive p-0 mt-2">
-            <table id="data" class="display basic-datatables table-sm p-0">
+            <table id="data" class="display datatables-11 table-sm p-0">
                <thead>
                   <tr>
                     {{-- <th>No</th> --}}
@@ -42,7 +42,7 @@ History Training
                     <th>Sertifikat</th>
                     <th>Vendor</th>
                     <th>Berlaku</th>
-                    {{-- <th></th> --}}
+                    <th style="display: none">Last Update</th>
                   </tr>
                </thead>
       
@@ -67,6 +67,7 @@ History Training
                            @endif
                            
                         </td>
+                        <td style="display: none" class="text-truncate">{{$his->updated_at}}</td>
                         {{-- <td class="text-truncate">
                            <a href="#" data-target="#modal-sertifikat-training-history-{{$his->id}}" data-toggle="modal">Sertifikat</a> |
                            <a href="{{route('training.history.edit', enkripRambo($his->id))}}">Edit</a> | 
@@ -74,57 +75,7 @@ History Training
                         </td> --}}
                       </tr>
 
-                     <div class="modal fade" id="modal-delete-training-history-{{$his->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-sm" role="document">
-                           <div class="modal-content text-dark">
-                              <div class="modal-header">
-                                 <h5 class="modal-title" id="exampleModalLabel">Delete Training History?</h5>
-                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                 </button>
-                              </div>
-                              <div class="modal-body ">
-                                
-                                {{$his->employee->nik}} {{$his->employee->biodata->fullName()}} : 
-                              
-                                {{$his->training->title ?? 'Empty'}}
-                              </div>
-                              <div class="modal-footer">
-                                 <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                                 <button type="button" class="btn btn-danger ">
-                                    <a class="text-light" href="{{route('training.history.delete', enkripRambo($his->id))}}">Delete</a>
-                                 </button>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div class="modal fade" id="modal-sertifikat-training-history-{{$his->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                           <div class="modal-content">
-                              <div class="modal-header">
-                                 <h5 class="modal-title" id="exampleModalLabel">Sertifikat Pelatihan</h5>
-                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                 <span aria-hidden="true">&times;</span>
-                                 </button>
-                              </div>
-                              <div class="modal-body">
-                                    
                      
-                                       <iframe height="550px" width="100%" src="{{asset('storage/' . $his->doc)}}" frameborder="0"></iframe>
-                                       
-                                       
-                     
-                                       
-                                 </div>
-                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                                    {{-- <button type="submit" class="btn btn-dark ">Update</button> --}}
-                                 </div>
-                              {{-- </form> --}}
-                           </div>
-                        </div>
-                     </div>
                      
                      
                   @endforeach

@@ -435,9 +435,13 @@ class AbsenceEmployeeController extends Controller
    }
 
    public function store(Request $req){
-      $req->validate([
+      
 
-      ]);
+      if ($req->type == 7) {
+         $req->validate([
+            'doc' => 'required'
+         ]);
+      }
 
       $employee = Employee::where('nik', auth()->user()->username)->first();
       if (request('doc')) {

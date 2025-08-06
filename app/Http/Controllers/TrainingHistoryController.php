@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Storage;
 class TrainingHistoryController extends Controller
 {
    public function index(){
-      $trainingHistories = TrainingHistory::get();
+      // dd('ok')
+      $trainingHistories = TrainingHistory::orderBy('updated_at', 'desc')->get();
       return view('pages.training.history.index', [
          'trainingHistories' => $trainingHistories
       ]);
