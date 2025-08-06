@@ -292,12 +292,16 @@ class CutiController extends Controller
          $absences = [];
       }
 
+      
 
 
       // FUNC CUTI BERJALAN
 
-      $now = Carbon::now();
+      // $now = Carbon::now();
       // if ($cuti->end < $now) {
+      //    // dd('lewat');
+         
+
       //   $start = Carbon::create($cuti->start)->addYear(1);
       //   $cuti->update([
       //    'start' => $start
@@ -310,10 +314,23 @@ class CutiController extends Controller
 
 
       //   $extend = Carbon::create($cuti->start)->addMonth(3);
+      //    // dd($extend);
       //   $cuti->update([
       //    'extend' => $cuti->sisa,
       //    'expired' => $extend
       //   ]);
+
+      //    $startDate = Carbon::parse($cuti->employee->contract->determination); // Or Carbon::createFromFormat('Y-m-d', '2019-05-07');
+      //    $endDate = Carbon::now();
+
+      //    $yearsDifference = $startDate->diffInYears($endDate);
+      //    $year = $yearsDifference / 5;
+
+      //    $cuti->update([
+      //       'masa_kerja' => $year * 2,
+      //       // 'expired' => $extend
+      //      ]);
+         
 
       //   $this->calculateCuti($cuti->id);
       // }
@@ -432,6 +449,7 @@ class CutiController extends Controller
       $today = Carbon::now();
       $cuti = Cuti::find($cuti);
       // dd($cuti->end);
+      
       $contract = Contract::find($cuti->employee->contract_id);
       
       if ($cuti->expired != null) {
@@ -462,28 +480,32 @@ class CutiController extends Controller
       if ($cuti->start != null && $cuti->end != null) {
          $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
          // dd(count($absences));
-         if ($cuti->expired != null) {
-            $absencesExtend = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->expired)->where('type', 5)->get();
+         // if ($cuti->expired != null) {
+         //    $absencesExtend = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->expired)->where('type', 5)->get();
             
-            if(count($absencesExtend) > $cuti->extend ){
-               $extendSisa = count($absencesExtend) - $cuti->extend;
-               $cuti->update([
-                  'extend_left' => 0
-               ]);
-            } else {
-               $cuti->update([
-                  'extend_left' => $cuti->extend - count($absencesExtend)
-               ]);
-               $extendSisa = 0;
-            }
+         //    if(count($absencesExtend) > $cuti->extend ){
+         //       $extendSisa = count($absencesExtend) - $cuti->extend;
+         //       $cuti->update([
+         //          'extend_left' => 0
+         //       ]);
+         //    } else {
+         //       $cuti->update([
+         //          'extend_left' => $cuti->extend - count($absencesExtend)
+         //       ]);
+         //       $extendSisa = 0;
+         //    }
+
+         
             
-         } else {
-            $absencesExtend = [];
-            $extendSisa = 0;
-         }
+         // } else {
+         //    $absencesExtend = [];
+         //    $extendSisa = 0;
+         // }
+
+         // dd(count($absences))
          
          
-         $countAbsence = count($absences) - count($absencesExtend) + $extendSisa;
+         $countAbsence = count($absences) ;
          // dd($countAbsence);
         
       } else {
@@ -491,13 +513,26 @@ class CutiController extends Controller
       }
       // dd($countAbsence);
 
+      if ($cuti->expired != null) {
+         $now = Carbon::now();
+         if ($cuti->expired < $now) {
+            $cuti->update([
+               'extend' => 0
+            ]);
+         }
+         
+      }
+
       $total = $cuti->tahunan + $cuti->masa_kerja + $extend;
+      // dd($countAbsence);
       // dd($total - $countAbsence);
       $cuti->update([
          'used' => $countAbsence,
          'total' => $total,
          'sisa' => $total - $countAbsence
       ]);
+
+      // dd($total - $countAbsence);
 
       return $cuti->sisa;
 

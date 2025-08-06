@@ -73,7 +73,7 @@ Form Absensi
                         </a>
                         
                      </td>
-                     <td>
+                     <td class="text-truncate">
                         <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                            <x-status.absence :absence="$absence" />
                      </a>

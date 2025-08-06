@@ -275,7 +275,7 @@ Form Perubahan Absence
                   </tr> --}}
                      @foreach ($absenceEmployeeDetails as $detail)
                      <tr>
-                        <td></td>
+                        <td>{{formatDayName($detail->date)}}</td>
                         <td> {{formatDate($detail->date)}} 
                            
 

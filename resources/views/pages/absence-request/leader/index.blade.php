@@ -74,7 +74,7 @@ Form Absensi
 
                         <tr>
                            <td><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">{{$absence->code}}</a></td>
-                           <td>
+                           <td class="text-truncate">
                               <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
                                  <x-status.absence :absence="$absence" />
                                  @if (count($absence->details) > 1)
@@ -83,16 +83,16 @@ Form Absensi
                            </a>
                               
                            </td>
-                           <td>{{$absence->employee->nik}}</td>
-                           <td> {{$absence->employee->biodata->fullName()}}</td>
+                           <td class="text-truncate">{{$absence->employee->nik}}</td>
+                           <td class="text-truncate"> {{$absence->employee->biodata->fullName()}}</td>
                            {{-- <td>{{$absence->employee->location->name}}</td> --}}
                            
                            {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                           <td>
+                           <td class="text-truncate">
                               <x-absence.date :absence="$absence" />
                            </td>
                            {{-- <td>{{$absence->desc}}</td> --}}
-                           <td>
+                           <td class="text-truncate">
                               <x-status.form :form="$absence" />
                               
                            </td>
