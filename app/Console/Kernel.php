@@ -21,45 +21,51 @@ class Kernel extends ConsoleKernel
     {
          // $schedule->command('inspire')->hourly();
          $schedule->call(function(){
-
+            LogSystem::create([
+               'type' => 'TEST',
+               'modul' => 'Cuti',
+               
+               'desc' => 'Sistem otomatis memperbarui Periode Cuti ' 
+            ]);
+            
             $cutis = Cuti::get();
             foreach($cutis as $cuti){
                $now = Carbon::now();
                if ($cuti->end < $now) {
                   
 
-                  $start = Carbon::create($cuti->start)->addYear(1);
-                  $cuti->update([
-                     'start' => $start
-                  ]);
+                  // $start = Carbon::create($cuti->start)->addYear(1);
+                  // $cuti->update([
+                  //    'start' => $start
+                  // ]);
 
-                  $end = $start->addYear(1);
-                  $cuti->update([
-                     'end' => $end,
-                     'tahunan' => 12
-                  ]);
+                  // $end = $start->addYear(1);
+                  // $cuti->update([
+                  //    'end' => $end,
+                  //    'tahunan' => 12
+                  // ]);
 
-                  if ($cuti->employee->contract->type == 'Tetap') {
-                     $extend = Carbon::create($cuti->start)->addMonth(3);
-                     $cuti->update([
-                        'extend' => $cuti->sisa,
-                        'expired' => $extend
-                     ]);
+                  // if ($cuti->employee->contract->type == 'Tetap') {
+                  //    $extend = Carbon::create($cuti->start)->addMonth(3);
+                  //    $cuti->update([
+                  //       'extend' => $cuti->sisa,
+                  //       'expired' => $extend
+                  //    ]);
 
-                     $startDate = Carbon::parse($cuti->employee->contract->determination); // Or Carbon::createFromFormat('Y-m-d', '2019-05-07');
-                     $endDate = Carbon::now();
+                  //    $startDate = Carbon::parse($cuti->employee->contract->determination); // Or Carbon::createFromFormat('Y-m-d', '2019-05-07');
+                  //    $endDate = Carbon::now();
 
-                     $yearsDifference = $startDate->diffInYears($endDate);
-                     $year = $yearsDifference / 5;
+                  //    $yearsDifference = $startDate->diffInYears($endDate);
+                  //    $year = $yearsDifference / 5;
 
-                     $cuti->update([
-                        'masa_kerja' => $year * 2,
-                        // 'expired' => $extend
-                     ]);
-                  }
+                  //    $cuti->update([
+                  //       'masa_kerja' => $year * 2,
+                  //       // 'expired' => $extend
+                  //    ]);
+                  // }
 
-                  $cutiController = new CutiController();
-                  $cutiController->calculateCuti($cuti->id);
+                  // $cutiController = new CutiController();
+                  // $cutiController->calculateCuti($cuti->id);
 
                   LogSystem::create([
                      'type' => 'System',
