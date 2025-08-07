@@ -605,7 +605,10 @@
          <tr>
             <td colspan="2" class="bg-dark text-light text-truncate">Diajukan Oleh :</td>
             <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
+            @if ($absenceemp->employee->designation_id ==6)
+                   @else
             <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
+            @endif
             
             
          </tr>
