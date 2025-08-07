@@ -302,37 +302,36 @@ class CutiController extends Controller
       //    // dd('lewat');
          
 
-      //   $start = Carbon::create($cuti->start)->addYear(1);
-      //   $cuti->update([
-      //    'start' => $start
-      //   ]);
-
-      //   $end = $start->addYear(1);
-      //   $cuti->update([
-      //    'end' => $end,
-      //   ]);
-
-
-      //   $extend = Carbon::create($cuti->start)->addMonth(3);
-      //    // dd($extend);
-      //   $cuti->update([
-      //    'extend' => $cuti->sisa,
-      //    'expired' => $extend
-      //   ]);
-
-      //    $startDate = Carbon::parse($cuti->employee->contract->determination); // Or Carbon::createFromFormat('Y-m-d', '2019-05-07');
-      //    $endDate = Carbon::now();
-
-      //    $yearsDifference = $startDate->diffInYears($endDate);
-      //    $year = $yearsDifference / 5;
-
+      //    $start = Carbon::create($cuti->start)->addYear(1);
       //    $cuti->update([
-      //       'masa_kerja' => $year * 2,
-      //       // 'expired' => $extend
-      //      ]);
-         
+      //       'start' => $start
+      //    ]);
 
-      //   $this->calculateCuti($cuti->id);
+      //    $end = $start->addYear(1);
+      //    $cuti->update([
+      //       'end' => $end,
+      //    ]);
+
+      //    if ($cuti->employee->contract->type == 'Tetap') {
+      //       $extend = Carbon::create($cuti->start)->addMonth(3);
+      //       $cuti->update([
+      //          'extend' => $cuti->sisa,
+      //          'expired' => $extend
+      //       ]);
+
+      //       $startDate = Carbon::parse($cuti->employee->contract->determination); // Or Carbon::createFromFormat('Y-m-d', '2019-05-07');
+      //       $endDate = Carbon::now();
+
+      //       $yearsDifference = $startDate->diffInYears($endDate);
+      //       $year = $yearsDifference / 5;
+
+      //       $cuti->update([
+      //          'masa_kerja' => $year * 2,
+      //          // 'expired' => $extend
+      //       ]);
+      //    }
+
+      //    $this->calculateCuti($cuti->id);
       // }
 
       // END FUNC CUTI BERJALAN

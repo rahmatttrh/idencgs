@@ -13,6 +13,7 @@ use App\Models\EmployeeLeader;
 use App\Models\Location;
 use App\Models\Log;
 use App\Models\Payroll;
+use App\Models\Permit;
 use App\Models\Transaction;
 use App\Models\Unit;
 use Carbon\Carbon;
@@ -422,11 +423,13 @@ class AbsenceController extends Controller
       $absence = Absence::find(dekripRambo($id));
       // $absences = Absence::get();
       $employees = Employee::where('status', 1)->get();
+      $permits = Permit::get();
 
       return view('pages.payroll.absence.edit', [
          // 'absences' => $absences,
          'absence' => $absence,
-         'employees' => $employees
+         'employees' => $employees,
+         'permits' => $permits
       ]);
    }
 
@@ -464,6 +467,13 @@ class AbsenceController extends Controller
       } else {
          $min = null;
       }
+
+
+      // if ($absence->type == 5) {
+         // dd('cuti');
+      //    $absenceEmpployees = AbsenceEmployee::where('employee_id', $absence->employee_id)->where('type', 5)->get();
+
+      // }
 
       if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-KJ45|HRD-KJ12')) {
          $absence->update([

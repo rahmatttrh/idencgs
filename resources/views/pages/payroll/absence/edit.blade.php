@@ -138,11 +138,33 @@ Edit Absence
                         <option {{$absence->type == 2 ? 'selected' : ''}} value="2">Terlambat</option>
                         <option {{$absence->type == 3 ? 'selected' : ''}} value="3">ATL</option>
                         <option {{$absence->type == 4 ? 'selected' : ''}} value="4">Izin</option>
+                        <option {{$absence->type == 10 ? 'selected' : ''}} value="10">Izin Resmi</option>
                         <option {{$absence->type == 5 ? 'selected' : ''}} value="5">Cuti</option>
                         <option {{$absence->type == 6 ? 'selected' : ''}} value="6">SPT</option>
+                        <option {{$absence->type == 7 ? 'selected' : ''}} value="7">Sakit</option>
+                        <option {{$absence->type == 8 ? 'selected' : ''}} value="8">Dinas Luar</option>
+                        <option {{$absence->type == 9 ? 'selected' : ''}} value="9">Off Kontrak</option>
+                        
+                        
                      </select>
                   </div>
                </div>
+               
+               <div class="col-md-6">
+                  {{-- <span class="type_izin_resmi"> --}}
+                     <div class="form-group form-group-default">
+                        <label>Jenis Izin Resmi</label>
+                        <select class="form-control"  name="permit" id="permit">
+                           <option value="" disabled selected>Select</option>
+                           @foreach ($permits as $permit)
+                           <option value="{{$permit->id}}">{{$permit->name}} {{$permit->desc}} - {{$permit->qty}} Hari</option>
+                           @endforeach
+                           
+                        </select>
+                     </div>
+                  {{-- </span> --}}
+               </div>
+
                @if ($absence->type == 6)
                <div class="col-md-6 type_spt">
                   <div class="form-group form-group-default">
