@@ -423,7 +423,7 @@ class AbsenceEmployeeController extends Controller
 
 
 
-
+      // dd('ok');
       return view('pages.absence-request.detail', [
          'myteams' => $myteams,
          'activeTab' => $activeTab,
