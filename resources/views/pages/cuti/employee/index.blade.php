@@ -141,13 +141,13 @@ Cuti Info
                                           </td>
                                           <td class="text-center">{{$cuti->extend}}</td>
                                        </tr>
-                                       {{-- <tr>
+                                       <tr>
                                           <td>
-                                             Sisa 
+                                             Digunakan 
                                              
                                           </td>
                                           <td class="text-center">{{$cuti->extend_left}}</td>
-                                       </tr> --}}
+                                       </tr>
                                       
                                        {{-- <tr>
                                           <td>Total</td>

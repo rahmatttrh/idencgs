@@ -454,20 +454,14 @@ class CutiController extends Controller
       if ($cuti->expired != null) {
          
          $expired = Carbon::create($cuti->expired);
-         // if(auth()->user()->hasRole('Administrator')){
-            
-         //    dd($today->format('Y-m-d'));
-         // }
          
-         if ($cuti->expired > $today->format('Y-m-d')) {
+         
+         if ($cuti->expired > $today) {
             $extend = $cuti->extend;
-            // if(auth()->user()->hasRole('Administrator')){
-            
-            //    dd($extend);
-            // }
+            // dd('ada');
             
          } else {
-           
+         //   dd('o');
             $extend = 0;
          }
       } else {
@@ -479,27 +473,29 @@ class CutiController extends Controller
       if ($cuti->start != null && $cuti->end != null) {
          $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
          // dd(count($absences));
-         // if ($cuti->expired != null) {
-         //    $absencesExtend = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->expired)->where('type', 5)->get();
-            
-         //    if(count($absencesExtend) > $cuti->extend ){
-         //       $extendSisa = count($absencesExtend) - $cuti->extend;
-         //       $cuti->update([
-         //          'extend_left' => 0
-         //       ]);
-         //    } else {
-         //       $cuti->update([
-         //          'extend_left' => $cuti->extend - count($absencesExtend)
-         //       ]);
-         //       $extendSisa = 0;
-         //    }
+         
+         if ($cuti->expired != null) {
+            $absencesExtend = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->expired)->where('type', 5)->get();
+            $extendUsed = count($absencesExtend);
+
+            if(count($absencesExtend) > $cuti->extend ){
+               $extendSisa = count($absencesExtend) - $cuti->extend;
+               $cuti->update([
+                  'extend_left' => $cuti->extend
+               ]);
+            } else {
+               $cuti->update([
+                  'extend_left' => $cuti->extend - count($absencesExtend)
+               ]);
+               $extendSisa = 0;
+            }
 
          
             
-         // } else {
-         //    $absencesExtend = [];
-         //    $extendSisa = 0;
-         // }
+         } else {
+            $absencesExtend = [];
+            $extendSisa = 0;
+         }
 
          // dd(count($absences))
          
@@ -512,26 +508,27 @@ class CutiController extends Controller
       }
       // dd($countAbsence);
 
-      if ($cuti->expired != null) {
-         $now = Carbon::now();
-         if ($cuti->expired < $now) {
-            $cuti->update([
-               'extend' => 0
-            ]);
-         }
+      // if ($cuti->expired != null) {
+      //    $now = Carbon::now();
+      //    if ($cuti->expired < $now) {
+      //       $cuti->update([
+      //          'extend' => 0
+      //       ]);
+      //    }
          
-      }
+      // }
 
       $total = $cuti->tahunan + $cuti->masa_kerja + $extend;
       // dd($countAbsence);
+      // dd($total);
       // dd($total - $countAbsence);
       $cuti->update([
          'used' => $countAbsence,
          'total' => $total,
-         'sisa' => $total - $countAbsence
+         'sisa' => $total - $countAbsence + $extendUsed
       ]);
 
-      // dd($total - $countAbsence);
+      // dd($countAbsence);
 
       return $cuti->sisa;
 
