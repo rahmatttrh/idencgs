@@ -492,6 +492,7 @@ class CutiController extends Controller
          } else {
             $absencesExtend = [];
             $extendSisa = 0;
+            $extendUsed = 0;
          }
 
          // dd(count($absences))
@@ -502,6 +503,7 @@ class CutiController extends Controller
         
       } else {
          $countAbsence = 0;
+         $extendUsed = 0;
       }
       // dd($countAbsence);
 
