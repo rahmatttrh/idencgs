@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Http\Controllers\CutiController;
 use App\Models\Cuti;
+use App\Models\Employee;
 use App\Models\LogSystem;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
@@ -21,63 +22,76 @@ class Kernel extends ConsoleKernel
     {
          // $schedule->command('inspire')->hourly();
          $schedule->call(function(){
-            LogSystem::create([
-               'type' => 'TEST',
-               'modul' => 'Cuti',
+            // LogSystem::create([
+            //    'type' => 'TEST',
+            //    'modul' => 'Cuti',
                
-               'desc' => 'Sistem otomatis memperbarui Periode Cuti ' 
-            ]);
+            //    'desc' => 'Sistem otomatis memperbarui Periode Cuti ' 
+            // ]);
             
             $cutis = Cuti::get();
+
+
             foreach($cutis as $cuti){
                $now = Carbon::now();
-               if ($cuti->end < $now) {
-                  
 
-                  // $start = Carbon::create($cuti->start)->addYear(1);
-                  // $cuti->update([
-                  //    'start' => $start
-                  // ]);
+               $employee = Employee::find($cuti->employee_id);
 
-                  // $end = $start->addYear(1);
-                  // $cuti->update([
-                  //    'end' => $end,
-                  //    'tahunan' => 12
-                  // ]);
+               if ($employee) {
+                  if ($cuti->end < $now) {
 
-                  // if ($cuti->employee->contract->type == 'Tetap') {
-                  //    $extend = Carbon::create($cuti->start)->addMonth(3);
-                  //    $cuti->update([
-                  //       'extend' => $cuti->sisa,
-                  //       'expired' => $extend
-                  //    ]);
+                     LogSystem::create([
+                        'type' => 'TEST',
+                        'modul' => 'Cuti',
+                        'desc' => 'Sistem otomatis memperbarui Periode Cuti ' 
+                     ]);
+                     
 
-                  //    $startDate = Carbon::parse($cuti->employee->contract->determination); // Or Carbon::createFromFormat('Y-m-d', '2019-05-07');
-                  //    $endDate = Carbon::now();
+                     $start = Carbon::create($cuti->start)->addYear(1);
+                     $cuti->update([
+                        'start' => $start
+                     ]);
 
-                  //    $yearsDifference = $startDate->diffInYears($endDate);
-                  //    $year = $yearsDifference / 5;
+                     $end = $start->addYear(1);
+                     $cuti->update([
+                        'end' => $end,
+                        'tahunan' => 12
+                     ]);
 
-                  //    $cuti->update([
-                  //       'masa_kerja' => $year * 2,
-                  //       // 'expired' => $extend
-                  //    ]);
-                  // }
+                     if ($cuti->employee->contract->type == 'Tetap') {
+                        $extend = Carbon::create($cuti->start)->addMonth(3);
+                        $cuti->update([
+                           'extend' => $cuti->sisa,
+                           'expired' => $extend
+                        ]);
 
-                  // $cutiController = new CutiController();
-                  // $cutiController->calculateCuti($cuti->id);
+                        $startDate = Carbon::parse($cuti->employee->contract->determination); // Or Carbon::createFromFormat('Y-m-d', '2019-05-07');
+                        $endDate = Carbon::now();
 
-                  LogSystem::create([
-                     'type' => 'System',
-                     'modul' => 'Cuti',
-                     'employee_id' => $cuti->employee_id,
-                     'target_id' => $cuti->id,
-                     'desc' => 'Sistem otomatis memperbarui Periode Cuti ' . $cuti->emoloyee->nik . ' ' . $cuti->employee->biodata->fullName()
-                  ]);
+                        $yearsDifference = $startDate->diffInYears($endDate);
+                        $year = $yearsDifference / 5;
+
+                        $cuti->update([
+                           'masa_kerja' => $year * 2,
+                           // 'expired' => $extend
+                        ]);
+                     }
+
+                     $cutiController = new CutiController();
+                     $cutiController->calculateCuti($cuti->id);
+
+                     LogSystem::create([
+                        'type' => 'System',
+                        'modul' => 'Cuti',
+                        'employee_id' => $cuti->employee_id,
+                        'target_id' => $cuti->id,
+                        'desc' => 'Sistem otomatis memperbarui Periode Cuti ' . $cuti->emoloyee->nik . ' ' . $cuti->employee->biodata->fullName()
+                     ]);
+                  }
                }
             }
 
-         })->everyFiveMinutes();
+         })->everyMinute();
     }
 
     /**

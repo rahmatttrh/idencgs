@@ -32,9 +32,9 @@ Discipline
                         </div>
                     </div>
                 </div> --}}
-                <div class="card-body ">
+                <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table id="basic-datatables" class="display basic-datatables-b table-sm  ">
+                        <table id="basic-datatables" class="display basic-datatables table-sm  ">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -73,7 +73,7 @@ Discipline
 
                                         {{$data->achievement}}</span>
                                     </td>
-                                    <td></td>
+                                    <td>-</td>
                                 </tr>
                                 @endforeach
                                 {{--
