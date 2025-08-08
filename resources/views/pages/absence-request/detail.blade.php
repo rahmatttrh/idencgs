@@ -101,7 +101,7 @@ Form Perubahan Absence
             @endif
          @endif
 
-         @if ( $absenceEmp->type == 5 && $absenceEmp->status == 2 && auth()->user()->hasRole('Asst. Manager'))
+         @if (  $absenceEmp->status == 2 && auth()->user()->hasRole('Asst. Manager'))
             
          <span class="btn btn-group btn-block p-0" >
             <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee-man" data-toggle="modal">Approve as Manager</a>

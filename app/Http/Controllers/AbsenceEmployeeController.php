@@ -1128,7 +1128,7 @@ class AbsenceEmployeeController extends Controller
       }
 
 
-      if ($reqForm->type == 5) {
+      // if ($reqForm->type == 5) {
          if ($reqForm->manager_id == $employee->id) {
             $status = 5;
          } elseif (auth()->user()->hasRole('Asst. Manager')) {
@@ -1137,8 +1137,8 @@ class AbsenceEmployeeController extends Controller
             $status = 2;
          }
 
-         $form = 'Cuti';
-      }
+         $form = 'Absensi';
+      // }
 
 
       $now = Carbon::now();
@@ -1246,7 +1246,7 @@ class AbsenceEmployeeController extends Controller
          $cuti = Cuti::where('employee_id',  $reqForm->employee_id)->first();
          $cutiCon->calculateCuti($cuti->id);
 
-        dd($cuti->sisa);
+      //   dd($cuti->sisa);
       }
 
 
