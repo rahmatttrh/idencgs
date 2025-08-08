@@ -8,6 +8,7 @@ use App\Models\Contract;
 use App\Models\Cuti;
 use App\Models\Employee;
 use App\Models\Log;
+use App\Models\LogSystem;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,6 +18,64 @@ class CutiController extends Controller
 {
    public function index(){
       $cutis = Cuti::get();
+
+      // TEST SCHEDULE
+      // $cutis = Cuti::where('end', '!=', null)->get();
+      // foreach($cutis as $cuti){
+      //    $now = Carbon::now();
+
+      //    $employee = Employee::find($cuti->employee_id);
+
+      //    if ($employee) {
+      //       if ($cuti->end < $now) {
+      //          // dd($cuti->end);
+   
+      //          $start = Carbon::create($cuti->start)->addYear(1);
+      //          $cuti->update([
+      //             'start' => $start
+      //          ]);
+   
+      //          $end = $start->addYear(1);
+      //          $cuti->update([
+      //             'end' => $end,
+      //             'tahunan' => 12
+      //          ]);
+   
+      //          if ($cuti->employee->contract->type == 'Tetap') {
+      //             $extend = Carbon::create($cuti->start)->addMonth(3);
+      //             $cuti->update([
+      //                'extend' => $cuti->sisa,
+      //                'expired' => $extend
+      //             ]);
+   
+      //             $startDate = Carbon::parse($cuti->employee->contract->determination); // Or Carbon::createFromFormat('Y-m-d', '2019-05-07');
+      //             $endDate = Carbon::now();
+   
+      //             $yearsDifference = $startDate->diffInYears($endDate);
+      //             $year = $yearsDifference / 5;
+   
+      //             $cuti->update([
+      //                'masa_kerja' => $year * 2,
+      //                // 'expired' => $extend
+      //             ]);
+      //          }
+   
+      //          $cutiController = new CutiController();
+      //          $cutiController->calculateCuti($cuti->id);
+   
+      //          LogSystem::create([
+      //             'type' => 'System',
+      //             'modul' => 'Cuti',
+      //             'employee_id' => $cuti->employee_id,
+      //             'target_id' => $cuti->id,
+      //             'desc' => 'Sistem otomatis memperbarui Periode Cuti ' . $cuti->employee->nik ?? '-' . ' ' . $cuti->employee->biodata->fullName()
+      //          ]);
+      //       }
+      //    }
+
+         
+      // }
+      // END TEST
 
 
       // GENERATE PERIODE CUTI KARYAWAN TETEP DARI JOIN DATE
@@ -97,12 +156,12 @@ class CutiController extends Controller
       //    $cutiEmp = Cuti::where('employee_id', $con->employee_id)->first();
       //    if ($cutiEmp) {
       //       $cutiEmp->update([
-      //       'start' => $con->start,
-      //       'end' => $con->end,
-      //       'tahunan' => 12,
-      //    ]);
-
-      //    $this->calculateCuti($cutiEmp->id);
+      //          'start' => $con->start,
+      //          'end' => $con->end,
+      //          'tahunan' => 12,
+      //       ]);
+   
+      //       $this->calculateCuti($cutiEmp->id);
       //    }
          
 
@@ -251,7 +310,7 @@ class CutiController extends Controller
 
       // dd($cutis);
 
-
+      // dd('ok');
 
       return view('pages.cuti.index', [
          'cutis' => $cutis
@@ -398,6 +457,8 @@ class CutiController extends Controller
          'sisa' => $total - $req->used
       ]);
 
+      $this->calculateCuti($cuti->id);
+
       return redirect()->back()->with('success', 'Data Cuti updated');
    }
 
@@ -477,18 +538,23 @@ class CutiController extends Controller
          if ($cuti->expired != null) {
             $absencesExtend = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->expired)->where('type', 5)->get();
             $extendUsed = count($absencesExtend);
-            // dd($extendUsed);
-
+            // dd( $cuti->extend);
             if(count($absencesExtend) > $cuti->extend ){
+               // dd('ok');
+               // if (auth()->user()->hasRole('Administrator')) {
+               //    dd('ok');
+               // }
                $extendSisa = count($absencesExtend) - $cuti->extend;
                $cuti->update([
                   'extend_left' => $cuti->extend
                ]);
+               $countAbsence = $extendSisa ;
             } else {
                $cuti->update([
                   'extend_left' => $extendUsed
                ]);
                $extendSisa = 0;
+               $countAbsence = count($absences) ;
             }
 
          
@@ -501,8 +567,8 @@ class CutiController extends Controller
 
          // dd(count($absences))
          
+         $countAbsence = count($absences);
          
-         $countAbsence = count($absences) ;
          // dd($countAbsence);
         
       } else {
@@ -512,21 +578,23 @@ class CutiController extends Controller
       // dd($countAbsence);
 
       $total = $cuti->tahunan + $cuti->masa_kerja + $extend;
-      $finalTotal = $total - $countAbsence + $extendUsed;
+      $finalTotal = $total - $countAbsence ;
       if ($cuti->expired != null) {
          $now = Carbon::now();
          if ($cuti->expired < $now) {
-            
-            $finalTotal = $total - $countAbsence + $extendUsed;
-
+            $finalTotal = $total - $countAbsence ;
             // dd($finalTotal);
          } else {
             $finalTotal = $total - $countAbsence ;
-            // dd()
-            
+
+            // dd($finalTotal);
          }
          
       }
+
+      // if (auth()->user()->hasRole('Administrator')) {
+      //    dd($extendUsed);
+      // }
 
       
       // dd($countAbsence);
