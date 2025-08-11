@@ -99,7 +99,7 @@ Form Perubahan Absence
             @endif
          @endif
 
-         @if ( $absenceEmp->type == 5 && $absenceEmp->status == 2 && auth()->user()->hasRole('Asst. Manager'))
+         @if (  $absenceEmp->status == 2 && auth()->user()->hasRole('Asst. Manager'))
             
          <span class="btn btn-group btn-block p-0" >
             <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee-man" data-toggle="modal">Approve as Manager</a>
@@ -284,7 +284,7 @@ Form Perubahan Absence
                         @if ($absenceEmp->status == 0)
                         <a href="{{route('employee.absence.detail.delete', enkripRambo($detail->id))}}">Remove</a>
                         @endif
-                        @if ($user->id == $absenceEmp->leader_id && $absenceEmp->status == 1)
+                        @if ($user != null && $user->id == $absenceEmp->leader_id && $absenceEmp->status == 1)
                            <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="">Reject</a>
                            
                            <div class="modal fade" id="modal-edit-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -324,7 +324,7 @@ Form Perubahan Absence
                            
                         @endif
 
-                        @if ($user->id == $absenceEmp->manager_id && $absenceEmp->status == 2)
+                        @if ($user != null && $user->id == $absenceEmp->manager_id && $absenceEmp->status == 2)
                            <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="">Reject</a>
                            
                            <div class="modal fade" id="modal-edit-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

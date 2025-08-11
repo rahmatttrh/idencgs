@@ -279,7 +279,7 @@ class AbsenceEmployeeController extends Controller
          $user = Employee::where('nik', auth()->user()->username)->first();
       }
       // dd(dekripRambo($id));
-
+      // dd('ok');
 
 
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
@@ -377,7 +377,7 @@ class AbsenceEmployeeController extends Controller
       } else {
          $myteams = null;
       }
-
+      // dd('ok');
       // dd($absenceEmployee->type);
 
 
@@ -1137,7 +1137,7 @@ class AbsenceEmployeeController extends Controller
       }
 
 
-      if ($reqForm->type == 5) {
+      // if ($reqForm->type == 5) {
          if ($reqForm->manager_id == $employee->id) {
             $status = 5;
          } elseif (auth()->user()->hasRole('Asst. Manager')) {
@@ -1147,7 +1147,7 @@ class AbsenceEmployeeController extends Controller
          }
 
          $form = 'Cuti';
-      }
+      // }
 
 
       $now = Carbon::now();
