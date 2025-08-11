@@ -80,12 +80,12 @@ Monitoring Form Absensi
                   @foreach ($reqForms as $absence)
                   <tr>
                      <td class="text-truncate">
-                        <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
+                        <a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('monitoring')])}}">
                            {{$absence->code}}
                         </a>
                      </td>
                      <td class="text-truncate">
-                        <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">
+                        <a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('monitoring')])}}">
                            <x-status.absence :absence="$absence" />
                            @if (count($absence->details) > 1)
                                ({{count($absence->details)}} hari)
@@ -93,7 +93,7 @@ Monitoring Form Absensi
                         </a>
                         
                      </td>
-                     <td class="text-truncate"><a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->nik}}</a></td>
+                     <td class="text-truncate"><a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('monitoring')])}}"> {{$absence->employee->nik}}</a></td>
                       <td class="text-truncate"> {{$absence->employee->biodata->fullName()}}</td>
                       {{-- <td>{{$absence->employee->location->name}}</td> --}}
                      
