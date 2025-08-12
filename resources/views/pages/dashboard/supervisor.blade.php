@@ -586,7 +586,7 @@ Dashboard
                               @foreach ($myForms as $absence)
                                   <tr>
                                     <td> 
-                                       <a  href="{{route('employee.absence.detail', enkripRambo($absence->id))}}" class=""><x-status.absence :absence="$absence" /></a>
+                                       <a  href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('dashboard')])}}" class=""><x-status.absence :absence="$absence" /></a>
                                        
                                     </td>
                                     <td>
