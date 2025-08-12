@@ -190,8 +190,8 @@
                                        @else
                                        <img src="{{asset('storage/' . auth()->user()->getEmployee()->picture)}}" alt="..." class="avatar-img bg-muted  ">
                                        @endif
-                                       @else
-                                       <img src="{{asset('img/businessman.png')}}" alt="..." class="avatar-img bg-muted  ">
+                                       {{-- @else
+                                       <img src="{{asset('img/businessman.png')}}" alt="..." class="avatar-img bg-muted  "> --}}
                                  @endif
                                  
                               </div>
