@@ -316,7 +316,13 @@ class CutiController extends Controller
       $hrdonsite = 0;
       $employees = Employee::where('status', 1)->get();
       if (auth()->user()->hasRole('HRD-KJ12')) {
-
+         $hrdonsite = 1;
+         $cutis = [];
+         $employees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
+         foreach($employees as $emp){
+            $cuti = Cuti::where('employee_id', $emp->id)->first();
+            $cutis[] = $cuti;
+         }
       } elseif(auth()->user()->hasRole('HRD-KJ45')){
          $hrdonsite = 1;
          $cutis = [];
@@ -327,7 +333,13 @@ class CutiController extends Controller
          }
 
       } elseif(auth()->user()->hasRole('HRD-JGC')){
-
+         $hrdonsite = 1;
+         $cutis = [];
+         $employees = Employee::where('status', 1)->whereIn('location_id', [2])->get();
+         foreach($employees as $emp){
+            $cuti = Cuti::where('employee_id', $emp->id)->first();
+            $cutis[] = $cuti;
+         }
       }
 
       // dd('ok');
