@@ -66,6 +66,15 @@
       <p>Payslip</p>
    </a>
 </li>
+
+<li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+   <a href="#" data-target="#modal-pin-payslip" data-toggle="modal">
+      <i class="fas fa-coins"></i>
+      <p>Payslip</p>
+   </a>
+</li>
+
+
 <li class="nav-item {{ (request()->is('employee/sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp.employee')}}">
       <i class="fas fa-bolt"></i>

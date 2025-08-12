@@ -129,6 +129,39 @@
 
 
 
+      <div class="modal fade" id="modal-pin-payslip" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">PAYSLIP PIN<br>
+                     
+                  </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <form action="{{route('employee.absence.reject')}}" method="POST" >
+                  <div class="modal-body">
+                     @csrf
+                     <input type="text" value="" name="absEmp" id="absEmp" hidden>
+                     <span>Anda belum memiliki Payslip PIN <br> <br>Buat Payslip PIN anda terlebih dahulu untuk mengakses halaman Payslip</span>
+                     <hr>
+                     <div class="form-group form-group-default">
+                        <label>Input PIN</label>
+                        <input type="text" class="form-control"  name="remark" id="remark"  >
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                     <button type="submit" class="btn btn-primary ">Submit</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+
+
+
       <!--   Core JS Files   -->
       <script src="{{asset('js/core/jquery.3.2.1.min.js')}}"></script>
       <script src="{{asset('js/core/popper.min.js')}}"></script>
