@@ -775,7 +775,7 @@ class AbsenceEmployeeController extends Controller
 
       // dd($absenceEmp->desc);
 
-      return redirect()->route('employee.absence.detail', enkripRambo($absenceEmp->id))->with('success', 'Request Absensi updated');
+      return redirect()->route('employee.absence.detail', [enkripRambo($absenceEmp->id), enkripRambo('draft')])->with('success', 'Request Absensi updated');
    }
 
    public function updatePengganti(Request $req){
