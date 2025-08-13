@@ -491,7 +491,12 @@ Form Perubahan Absence
                      @foreach ($sameDateForms->where('absence_employee_id', '!=', $absenceEmp->id) as $same)
                      <tr>
                         <td>{{formatDate($same->date)}}</td>
-                        <td>{{$same->absence_employee->employee->biodata->fullName()}}</td>
+                        <td>
+                           @if ($same->absence_employee != null)
+                           {{$same->absence_employee->employee->biodata->fullName()}}
+                           @endif
+                           
+                        </td>
                         <td>
                            <x-status.form :form="$same->absence_employee" />
 
