@@ -10,6 +10,18 @@ class Employee extends Model
    use HasFactory;
    protected $guarded = [];
 
+   public function getProject(){
+      $contract = Contract::find($this->contract_id);
+      $project = Project::find($contract->project_id);
+
+      if ($project) {
+         return $project->name;
+      } else {
+         return '';
+      }
+      
+   }
+
    public function tasks()
    {
       return $this->belongsToMany(Task::class)->orderBy('created_at', 'desc');
