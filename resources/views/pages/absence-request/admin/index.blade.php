@@ -85,7 +85,7 @@ Absence
                         <x-status.form :form="$absence" />
                      </td>
                      <td class="text-truncate">
-                        {{$absence->created_at}}
+                        {{$absence->updated_at}}
                      </td>
                      
                   </tr>
@@ -105,49 +105,7 @@ Absence
 
    </div>
 
-   <div class="row">
-      
-      <div class="col-md-3">
-        
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{route('admin.employee.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               Form Absensi
-            </a>
-            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('admin.employee.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               Form SPKL
-            </a>
-            {{-- <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('employee.absence.pending')}}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-               Progress
-            </a>
-            
-            <a class="nav-link  text-left pl-3" id="v-pills-personal-tab" href="{{route('employee.absence.draft')}}" aria-controls="v-pills-personal" aria-selected="true">
-               <i class="fas fa-user mr-1"></i>
-               Draft
-            </a>
-           
-
-            <a class="nav-link text-left pl-3" id="v-pills-document-tab" href="{{route('employee.absence.create')}}" aria-controls="v-pills-document" aria-selected="false">
-               <i class="fas fa-file mr-1"></i>
-               Form Absensi
-            </a> --}}
-            
-         </div>
-         <hr>
-         {{-- <form action="">
-            <select name="" id="" class="form-control">
-               <option value="">Januari</option>
-               <option value="">Februari</option>
-            </select>
-         </form> --}}
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
-      </div>
-      <div class="col-md-12">
-         
-      </div>
-   </div>
+   
    
    <!-- End Row -->
 
