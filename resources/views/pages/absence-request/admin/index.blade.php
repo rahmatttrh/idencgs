@@ -81,16 +81,16 @@ Absence
                       {{-- <td> {{$absence->employee->biodata->fullName()}}</td> --}}
                       {{-- <td>{{$absence->id}}</td> --}}
                       <td>
-                        <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">{{$absence->code}} </a>
+                        <a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('monitoring')])}}">{{$absence->code}} </a>
                       </td>
                       <td class="text-truncate">
                         @if (auth()->user()->hasRole('Administrator'))
                             ID{{$absence->id}} -
                         @endif
-                        <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}">{{$absence->employee->nik}} </a>
+                        <a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('monitoring')])}}">{{$absence->employee->nik}} </a>
                         
                      </td>
-                      <td class="text-truncate"> <a href="{{route('employee.absence.detail', enkripRambo($absence->id))}}"> {{$absence->employee->biodata->fullName()}}</a></td>
+                      <td class="text-truncate"> <a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('monitoring')])}}"> {{$absence->employee->biodata->fullName()}}</a></td>
                      <td >
                         <x-status.absence :absence="$absence" />
                         
