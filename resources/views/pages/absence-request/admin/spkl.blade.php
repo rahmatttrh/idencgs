@@ -16,7 +16,7 @@ SPKL
 
    <div class="card">
       <div class="card-body px-0">
-         <ul class="nav nav-tabs ">
+         <ul class="nav nav-tabs px-3">
             <li class="nav-item">
               <a class="nav-link " href="{{route('admin.employee.absence')}}">Absence</a>
             </li>
