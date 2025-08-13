@@ -992,7 +992,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('/absence/monitoring', [AbsenceEmployeeController::class, 'indexTeam'])->name('absence.team');
       });
 
-      Route::prefix('employee')->group(function () {
+      Route::prefix('employee-form')->group(function () {
 
          Route::prefix('spkl')->group(function () {
             Route::get('/index', [OvertimeEmployeeController::class, 'index'])->name('employee.spkl');
