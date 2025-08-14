@@ -161,7 +161,7 @@ Form Perubahan Absence
                <tr class="{{$bg}}">
                   <th colspan="3 " class="text-uppercase">{{$absenceEmp->code}} </th>
                </tr>
-               <tr >
+               <tr>
                   <th style="{{$bg}}" colspan="3 " class="text-uppercase"><x-status.absence-type :absence="$absenceEmp" /> : <x-status.form :form="$absenceEmp" /> </th>
                </tr>
                @if ($absenceEmp->status == 101 || $absenceEmp->status == 202)
@@ -259,7 +259,7 @@ Form Perubahan Absence
          
          <table class="">
             <thead>
-               @if ($absenceEmp->type == 5 && $absenceEmp->status == 0 || $absenceEmp->type == 10 && $absenceEmp->status == 0 || $absenceEmp->type == 7 && $absenceEmp->status == 0)
+               @if ($absenceEmp->type == 5 && $absenceEmp->status == 0 || $absenceEmp->type == 10 && $absenceEmp->status == 0 || $absenceEmp->type == 7 && $absenceEmp->status == 0 || auth()->user()->hasRole('Administrator'))
                <form action="{{route('employee.absence.detail.store')}}" method="POST">
                   @csrf
                   <tr>
