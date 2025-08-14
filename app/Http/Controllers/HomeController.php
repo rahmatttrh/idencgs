@@ -303,25 +303,25 @@ class HomeController extends Controller
 
 
          // Reset Password
-         $allUsers = User::where('email', '!=', 'admin@ekanuri.com')->get();
-         foreach($allUsers as $user){
-            $employee = Employee::where('nik', $user->username)->first();
+         // $allUsers = User::where('email', '!=', 'admin@ekanuri.com')->get();
+         // foreach($allUsers as $user){
+         //    $employee = Employee::where('nik', $user->username)->first();
 
-            if ($employee) {
-               if ($employee->contract->position_id != null) {
-                  if ($employee->contract->position->designation_id == 1 || $employee->contract->position->designation_id == 2) {
-                     $user->roles()->detach();
-                     $user->assignRole('Karyawan');
-                  }
-               }
+         //    if ($employee) {
+         //       if ($employee->contract->position_id != null) {
+         //          if ($employee->contract->position->designation_id == 1 || $employee->contract->position->designation_id == 2) {
+         //             $user->roles()->detach();
+         //             $user->assignRole('Karyawan');
+         //          }
+         //       }
                
 
-               // $user->update([
-               //    'password' => Hash::make('12345678')
-               //    // 'password' => Hash::make('enc#' . $birth->format('dmy'))
-               // ]);
-            }
-         }
+         //       // $user->update([
+         //       //    'password' => Hash::make('12345678')
+         //       //    // 'password' => Hash::make('enc#' . $birth->format('dmy'))
+         //       // ]);
+         //    }
+         // }
          // End Reset Password
 
          

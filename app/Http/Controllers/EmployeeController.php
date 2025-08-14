@@ -417,15 +417,15 @@ class EmployeeController extends Controller
 
 
          $user = User::where('username', $employee->nik)->first();
-         if ($employee->contract->designation_id == 1) {
-            $user->assignRole('Manager');
-         } elseif ($employee->contract->designation_id == 2) {
-            $user->assignRole('Asst. Manager');
-         } elseif ($employee->contract->designation_id == 3) {
-            $user->assignRole('Supervisor');
-         } else {
-            $user->assignRole('Karyawan');
-         }
+         // if ($employee->contract->designation_id == 1) {
+         //    $user->assignRole('Karyawan');
+         // } elseif ($employee->contract->designation_id == 2) {
+         //    $user->assignRole('Asst. Manager');
+         // } elseif ($employee->contract->designation_id == 3) {
+         //    $user->assignRole('Supervisor');
+         // } else {
+         //    $user->assignRole('Karyawan');
+         // }
          // $user->assignRole('Karyawan');
 
          // Cek email apakah ada atau belum 
