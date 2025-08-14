@@ -4,7 +4,7 @@
          <div class="row row-nav-line">
             <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
                <li class="nav-item"> <a class="nav-link show active" id="pills-contract-tab-nobd" data-toggle="pill" href="#pills-contract-nobd" role="tab" aria-controls="pills-contract-nobd" aria-selected="true">Active</a> </li>
-               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv|HRD-Payroll'))
+               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
                <li class="nav-item"> <a class="nav-link " id="pills-history-tab-nobd" data-toggle="pill" href="#pills-history-nobd" role="tab" aria-controls="pills-history-nobd" aria-selected="true">Riwayat Kontrak</a> </li>
                <li class="nav-item"> <a class="nav-link " id="pills-mutation-tab-nobd" data-toggle="pill" href="#pills-mutation-nobd" role="tab" aria-controls="pills-mutation-nobd" aria-selected="true">Riwayat Mutasi</a> </li>
                @endif
@@ -361,6 +361,7 @@
                               </span>
                            </div>
                            <div class="col text-right">
+                              @if (auth()->user()->hasRole('Administrator|HRD|HRD-Spv|HRD-Recruitment|HRD-Payroll'))
                               <div class=" ml-auto">
                                  <a href="#" type="button" class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                        <i class="fa fa-ellipsis-h"></i>
@@ -372,6 +373,7 @@
                                     <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-delete-contract-{{$contract->id}}">Delete</a>
                                  </div>
                               </div>
+                              @endif
                            </div>
                         </div>
                         
@@ -435,6 +437,8 @@
                            @endif
                            
                            <th colspan="" class="text-right">
+
+                              
                               <a href="#" class="text-white" data-toggle="modal" data-target="#modal-doc-mutation-{{$mutation->id}}">Document</a> |
                               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
                               <a href="#" class="text-white" data-toggle="modal" data-target="#modal-edit-mutation-{{$mutation->id}}">Edit</a> 

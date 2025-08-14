@@ -176,6 +176,23 @@ class EmployeeController extends Controller
       //       $user->assignRole('Karyawan');
       //    }
       // }
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         
+         $employees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
+         
+      } elseif(auth()->user()->hasRole('HRD-KJ45')){
+         
+         $employees = Employee::where('status', 1)->whereIn('location_id', [4,5])->get();
+         
+
+      } elseif(auth()->user()->hasRole('HRD-JGC')){
+         
+         $employees = Employee::where('status', 1)->whereIn('location_id', [2])->get();
+         
+      }
+
+
+
       $draftEmployees = Employee::where('status', 0)->get();
       return view('pages.employee.index', [
          'employees' => $employees,

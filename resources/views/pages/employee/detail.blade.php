@@ -128,7 +128,7 @@ Detail Employee
                   Contract Agreement
                </a>
                
-               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv|HRD-Payroll'))
+               @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Spv|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
                <a class="nav-link {{$panel == 'personal' ? 'active' : ''}} text-left pl-3" id="v-pills-personal-tab" data-toggle="pill" href="#v-pills-personal" role="tab" aria-controls="v-pills-personal" aria-selected="true">
                   <i class="fas fa-user mr-1"></i>
                   Personal Data

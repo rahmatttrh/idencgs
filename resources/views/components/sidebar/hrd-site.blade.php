@@ -16,6 +16,13 @@
    </li>
 @endif
 
+<li class="nav-item {{ (request()->is('employee/tab/*')) ? 'active' : '' }}">
+   <a href="{{route('employee', enkripRambo('active'))}}">
+      <i class="fas fa-users"></i>
+      <p>Data Karyawan</p>
+   </a>
+</li>
+
 <li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
    <a href="{{route('payroll.absence')}}">
       <i class="fas fa-calendar-plus"></i>
