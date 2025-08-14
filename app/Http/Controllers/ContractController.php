@@ -188,8 +188,25 @@ class ContractController extends Controller
       ]);
       // });
 
+      // $user = User::where('username', $employee->nik)->first();
+      // $user = User::where('username', $employee->nik)->first();
       $user = User::where('username', $employee->nik)->first();
-      $user = User::where('username', $employee->nik)->first();
+      if ($employee->contract->designation_id == 1) {
+         $user->assignRole('Karyawan');
+      } elseif ($employee->contract->designation_id == 2) {
+         $user->assignRole('Karyawan');
+      } elseif ($employee->contract->designation_id == 3 ) {
+         $user->assignRole('Leader');
+      } elseif ( $employee->contract->designation_id == 4) {
+         $user->assignRole('Supervisor');
+      } elseif ($employee->contract->designation_id == 5 ) {
+         $user->assignRole('Asst. Manager');
+      } elseif ( $employee->contract->designation_id == 6) {
+         $user->assignRole('Manager');
+      } else {
+         $user->assignRole('Karyawan');
+      }
+      
       // $user->roles()->detach();
       // if ($req->designation == 3) {
       //    $user->assignRole('Leader');

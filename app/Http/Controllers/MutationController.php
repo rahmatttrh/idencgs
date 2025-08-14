@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\Log;
 use App\Models\Location;
 use App\Models\Mutation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -104,6 +105,23 @@ class MutationController extends Controller
          'direct_leader_id' => $req->leader_mutation,
          'location_id' => $location
       ]);
+
+      $user = User::where('username', $employee->nik)->first();
+      if ($employee->contract->designation_id == 1) {
+         $user->assignRole('Karyawan');
+      } elseif ($employee->contract->designation_id == 2) {
+         $user->assignRole('Karyawan');
+      } elseif ($employee->contract->designation_id == 3 ) {
+         $user->assignRole('Leader');
+      } elseif ( $employee->contract->designation_id == 4) {
+         $user->assignRole('Supervisor');
+      } elseif ($employee->contract->designation_id == 5 ) {
+         $user->assignRole('Asst. Manager');
+      } elseif ( $employee->contract->designation_id == 6) {
+         $user->assignRole('Manager');
+      } else {
+         $user->assignRole('Karyawan');
+      }
 
       if (auth()->user()->hasRole('Administrator')) {
          $deptId = 0;
