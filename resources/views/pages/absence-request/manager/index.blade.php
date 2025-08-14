@@ -43,7 +43,7 @@ Form Absensi
       <div class="col-md-9">
         
          <div class="table-responsive ">
-            <table id="data" class="datatables-3">
+            <table id="data" class="datatables-4">
                <thead>
                   <tr>
                      <th>ID</th>

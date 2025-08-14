@@ -292,7 +292,7 @@ Form Absence
                <textarea type="text" class="form-control" id="desc" name="desc" rows="3"></textarea>
             </div> --}}
             <hr>
-            <button class="btn  btn-primary" type="submit">Save</button>
+            <button class="btn  btn-primary" type="submit">Save to Draft</button>
 
             
 
@@ -371,6 +371,16 @@ $(document).ready(function() {
                $('.type_cuti').hide();
                $('.atasan').show();
                $('.manager').show();
+            } else if(type == 7) {
+               //   $('#foto').show();
+               $('.date').hide();
+               $('.type_izin_resmi').hide();
+               $('.type_izin').hide();
+               $('.type_spt').hide();
+               $('.type_late').hide();
+               $('.type_cuti').hide();
+               $('.atasan').show();
+               $('.manager').hide();
             } else  {
                //   $('#foto').show();
                $('.type_izin_resmi').hide();

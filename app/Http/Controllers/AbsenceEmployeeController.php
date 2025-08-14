@@ -524,7 +524,7 @@ class AbsenceEmployeeController extends Controller
          $desc = $req->desc;
          $leader = $req->persetujuan;
          $manager = $req->manager;
-         $date = $req->date;
+         $date = Carbon::now();
          $permitId = null;
          // dd('7');
       }
@@ -1033,7 +1033,7 @@ class AbsenceEmployeeController extends Controller
       // dd($reqForm->status);
 
       $date = Carbon::create($reqForm->date);
-      if($reqForm->status == 5){
+      if($reqForm->status == 5 || $reqForm->type == 10 || $reqForm->type == 7){
          if ($reqForm->absence_id != null) {
             $absence = Absence::find($reqForm->absence_id);
 
@@ -1069,7 +1069,7 @@ class AbsenceEmployeeController extends Controller
             ]);
          } else {
             // dd($reqForm->type);
-            if ($reqForm->type == 5 || $reqForm->type == 10) {
+            if ($reqForm->type == 5 || $reqForm->type == 10 || $reqForm->type == 7) {
                $cutiCon = new CutiController;
                $dates = AbsenceEmployeeDetail::where('absence_employee_id', $reqForm->id)->get();
                // dd($dates);
