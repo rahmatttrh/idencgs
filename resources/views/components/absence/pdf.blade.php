@@ -832,7 +832,7 @@
                {{$absenceemp->leader->biodata->fullName() ?? ''}}
                @endif
             </td>
-            @if ($absenceemp->employee->designation_id ==6)
+            @if ($absenceemp->employee->designation_id == 6)
                    @else
             <td>
                @if ($absenceemp->manager_id != null)
@@ -850,14 +850,14 @@
             </td>
             <td class="text-truncate">
                @if ($absenceemp->status == 2 || $absenceemp->status == 3 || $absenceemp->status == 5)
-                  <small>{{formatDateTime($absenceemp->app_backup_date)}}</small>
+                  <small>{{formatDateTime($absenceemp->app_leader_date)}}</small>
                @endif
             </td>
             @if ($absenceemp->employee->designation_id ==6)
                    @else
             <td class="text-truncate">
                @if ($absenceemp->status == 3 || $absenceemp->status == 5)
-                  <small>{{formatDateTime($absenceemp->app_leader_date)}}</small>
+                  <small>{{formatDateTime($absenceemp->app_manager_date)}}</small>
                @endif
             </td>
             @endif
@@ -903,7 +903,7 @@
          
          {{-- {{$absenceemp->doc}} --}}
          @if ($absenceemp->doc != null)
-            {{-- <img width="100%" src="/storage/{{$absenceemp->doc}}" alt=""> --}}
+            <img width="100%" src="/storage/{{$absenceemp->doc}}" alt="">
             <iframe  src="/storage/{{$absenceemp->doc}}" style="width:100%; height:570px;" frameborder="0"></iframe>
          @endif
          
