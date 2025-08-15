@@ -324,13 +324,21 @@ Form Lembur/Piket
          <table>
             <tbody>
                <tr>
-                  <td>Requested by <br> Atasan Langsung</td>
+                  <td>Requested by <br> User</td>
+                  <td>Approved by <br>Leader </td>
                   <td>Approved by <br>Manager </td>
-                  <td>Employee</td>
                </tr>
                @if ($empSpkl->status == 201 || $empSpkl->status == 301)
                    @else
                    <tr>
+                    
+                     <td class="text-center py-3">
+                        @if ($empSpkl->status > 0)
+                        <span class="text-info">Released</span>
+                        @else
+                        
+                        @endif
+                     </td>
                      <td class="text-center">
                         @if ($empSpkl->status > 1)
                         <span class="text-info">Approved</span>
@@ -345,7 +353,7 @@ Form Lembur/Piket
                         
                         @endif
                      </td>
-                     <td class="text-center py-3">
+                     {{-- <td class="text-center py-3">
                         @if ($empSpkl->status > 0)
                         <span class="text-info">Released</span>
                         @else
@@ -353,9 +361,12 @@ Form Lembur/Piket
                         @endif
                         
                         
-                     </td>
+                     </td> --}}
                   </tr>
                   <tr>
+                     <td>
+                         {{$empSpkl->by->biodata->fullName()}}
+                     </td>
                      <td class="">
                         @if ($empSpkl->leader_id != null)
                         {{$empSpkl->leader->biodata->fullName()}}
@@ -370,9 +381,14 @@ Form Lembur/Piket
                         
                         @endif
                      </td>
-                     <td>{{$empSpkl->employee->biodata->fullName()}}</td>
+                     {{-- <td>{{$empSpkl->employee->biodata->fullName()}}</td> --}}
                   </tr>
                   <tr>
+                     <td>
+                        @if ($empSpkl->release_employee_date)
+                            {{formatDateTime($empSpkl->release_employee_date)}}
+                     @endif
+                     </td>
                      <td>
                         @if ($empSpkl->approve_leader_date)
                             {{formatDateTime($empSpkl->approve_leader_date)}}
@@ -387,12 +403,11 @@ Form Lembur/Piket
                      </td>
 
                      
-                     <td>
+                     {{-- <td>
                         @if ($empSpkl->release_employee_date)
                             {{formatDateTime($empSpkl->release_employee_date)}}
                      @endif
-                        {{-- {{$empSpkl->release_employee_date ?? ''}} --}}
-                     </td>
+                     </td> --}}
                   </tr>
                @endif
                

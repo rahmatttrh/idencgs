@@ -80,7 +80,7 @@ Form Lembur/Piket
                               </select>
                            </div>
                         </div>
-                        {{-- <div class="col">
+                        <div class="col">
                            <div class="form-group form-group-default">
                               <label>Type</label>
                               <select class="form-control " required name="holiday_type" id="holiday_type">
@@ -91,7 +91,7 @@ Form Lembur/Piket
                                  <option value="4">Hari Libur Idul Fitri</option>
                               </select>
                            </div>
-                        </div> --}}
+                        </div>
                         
                         
                         
