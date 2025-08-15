@@ -127,9 +127,37 @@
             @else
             
             @endif
+            {{-- reqBackForms --}}
             <div class="card d-none d-md-block">
                <div class="card-header bg-light border p-2">
-                  <small class="text-uppercase"> <b># Cuti department {{$employee->department->name}}</b> </small>
+                  <small class="text-uppercase"> <b># Cuti Pengganti</b> </small>
+               </div>
+               <div class="card-body p-0">
+                  <table class=" ">
+                    
+                     <tbody>
+                        @if (count($backupDetails) > 0)
+                           @foreach ($backupDetails as $backup)
+                           <tr>
+                              <td>
+                              {{formatDate($backup->date)}} 
+                              </td>
+                              <td>{{$backup->absence_employee->employee->biodata->fullName()}}</td>
+                              
+                           </tr>
+                           @endforeach
+                        @else
+                        <tr>
+                           <td colspan="1" class="text-center">Empty</td>
+                        </tr>
+                        @endif
+   
+   
+                     </tbody>
+                  </table>
+               </div>
+               <div class="card-header bg-light border p-2">
+                  <small class="text-uppercase"> <b># Cuti Department {{$employee->department->name}}</b> </small>
                </div>
                <div class="card-body p-0">
                   <table class=" ">

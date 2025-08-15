@@ -682,7 +682,21 @@ class HomeController extends Controller
 
          $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
          $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->whereIn('status', [1])->get();
+         $now = Carbon::now();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->get();
 
+         $backupDetails = [];
+
+         foreach($reqBackForms as $backup){
+            foreach($backup->details as $detail){
+               if ($detail->date >= $now) {
+                  $backupDetails[] = $detail;
+               }
+            }
+         }
+
+         // dd($backupDetails);
+         // dd($reqBackForms);
          $teams = EmployeeLeader::where('leader_id', $user->id)->get();
 
          $now = Carbon::now();
@@ -710,6 +724,13 @@ class HomeController extends Controller
          // dd($reqForms);
 
          $spklApprovals = OvertimeEmployee::where('status', 1)->where('leader_id', $user->id)->get();
+
+         $now = Carbon::now();
+         $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
+         ->where('absences.type', 5)->where('employees.department_id', $user->department_id)->whereDate('absences.date', '>=', $now)->select('absences.*')->get();
+
+         // dd($cutis);
+
          return view('pages.dashboard.hrd-recruitment', [
             'units' => $units,
             'employee' => $user,
@@ -732,7 +753,9 @@ class HomeController extends Controller
             'peHistories' => $peHistories,
             'spHistories' => $spHistories,
             'spklApprovals' => $spklApprovals,
-            'absenceProgress' => $absenceProgress
+            'absenceProgress' => $absenceProgress,
+
+            'backupDetails' => $backupDetails
          ])->with('i');
       } elseif (auth()->user()->hasRole('HRD-Payroll')) {
          $user = Employee::find(auth()->user()->getEmployeeId());
