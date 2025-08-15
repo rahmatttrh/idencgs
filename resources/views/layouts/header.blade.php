@@ -71,11 +71,11 @@
                <li class="nav-item dropdown hidden-caret">
                   <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <i class="fa fa-bell"></i>
-                     <span class="notification">{{count($notifSp) + count($peNotifs) + count($spRecomends) + count($tegurans)}}</span>
+                     <span class="notification">{{count($notifSp) + count($peNotifs) + count($spRecomends) + count($tegurans) + count($backupDetails)}} </span>
                   </a>
                   <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                      <li>
-                        <div class="dropdown-title">You have {{count($notifSp) + count($peNotifs) + count($spRecomends) + count($tegurans)}} new notification</div>
+                        <div class="dropdown-title">You have {{count($notifSp) + count($peNotifs) + count($spRecomends) + count($tegurans) + count($backupDetails)}} new notification</div>
                      </li>
                      <li>
                         <div class="notif-scroll scrollbar-outer">
@@ -142,6 +142,25 @@
                                       @endif
                                     </span>
                                     <span class="time">{{$pe->updated_at->diffForHumans()}}</span> 
+                                 </div>
+                              </a>
+                              @endforeach
+
+                              
+                              @foreach ($backupDetails as $backup)
+                              <a href="#">
+                                 {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}
+                                 <div class="notif-content pl-4">
+                                    <span class="block">
+                                       
+                                      KARYAWAN PENGGANTI FORM CUTI  <br>
+                                      <small>  {{formatDate($backup->date)}} {{$backup->absence_employee->employee->biodata->fullName()}}</small>
+                                      {{-- <small><x-status.sp :sp="$sp" /> </small> --}}
+                                    </span>
+
+                                    <span class="time">Anda sebagai karyawan pengganti untuk cuti karyawan diatas</span>
+
+                                    {{-- <span class="time">{{$sp->updated_at->diffForHumans()}}</span>  --}}
                                  </div>
                               </a>
                               @endforeach
