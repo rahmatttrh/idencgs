@@ -524,7 +524,7 @@ class AbsenceEmployeeController extends Controller
          $desc = $req->desc;
          $leader = $req->persetujuan;
          $manager = $req->manager;
-         $date = Carbon::now();
+         $date = $req->date;
          $permitId = null;
          // dd('7');
       }
@@ -619,9 +619,18 @@ class AbsenceEmployeeController extends Controller
 
       if ($absence->absence_id != null) {
          // dd('kosong');
-         $absence = Absence::find($absence->absence_id);
-         $absence->update([
+         $absenceHrd = Absence::find($absence->absence_id);
+         $absenceHrd->update([
             'code' => $code
+         ]);
+      }
+
+      
+
+      if($absence->type == 7){
+         AbsenceEmployeeDetail::create([
+            'absence_employee_id' => $absence->id,
+            'date' => $absence->date
          ]);
       }
 

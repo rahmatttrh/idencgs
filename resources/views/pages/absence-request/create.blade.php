@@ -373,7 +373,7 @@ $(document).ready(function() {
                $('.manager').show();
             } else if(type == 7) {
                //   $('#foto').show();
-               $('.date').hide();
+               $('.date').show();
                $('.type_izin_resmi').hide();
                $('.type_izin').hide();
                $('.type_spt').hide();
