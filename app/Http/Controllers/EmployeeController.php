@@ -985,6 +985,17 @@ class EmployeeController extends Controller
       ]);
 
       $user = User::where('username', $employee->nik)->first();
+
+      // if (auth()->user()->hasRole('Administrator')) {
+      //    $birth = Carbon::create($employee->biodata->birth_date);
+      //    $user->update([
+      //             // 'password' => Hash::make('12345678')
+      //             'password' => Hash::make('enc#' . $birth->format('dmy'))
+      //          ]);
+
+      //          dd('success');
+      //    # code...
+      // }
       $user->update([
          'email' => $req->email
       ]);

@@ -63,7 +63,11 @@ Form Lembur/Piket
          <table >
             <thead>
                <tr>
-                  <th>DETAIL SPKL</th>
+                  <th>DETAIL SPKL
+                     @if (auth()->user()->hasRole('Administrator'))
+                         [ID:{{$empSpkl->id}}]
+                     @endif
+                  </th>
                </tr>
                
                <tr>
