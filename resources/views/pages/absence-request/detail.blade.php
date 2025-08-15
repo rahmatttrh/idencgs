@@ -23,6 +23,20 @@ Form Perubahan Absence
 
    <div class="row">
       <div class="col-md-3">
+
+         @if (  $absenceEmp->status == 2 && auth()->user()->hasRole('Asst. Manager'))
+            
+         <div class="btn-group btn-block" >
+            <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee-man" data-toggle="modal">Approve as Man. </a>
+            <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
+         </div>
+
+         {{-- <div class=" btn-group btn-block" >
+                     
+            <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
+            <a href="#" class="btn mb-2 btn-danger">Reject</a>
+         </div> --}}
+         @endif
          
          @if($absenceEmp->status == 0)
             @if ($absenceEmp->type == 5 || $absenceEmp->type == 10)
@@ -101,13 +115,7 @@ Form Perubahan Absence
             @endif
          @endif
 
-         @if (  $absenceEmp->status == 2 && auth()->user()->hasRole('Asst. Manager'))
-            
-         <span class="btn btn-group btn-block" >
-            <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee-man" data-toggle="modal">Approve as Manager</a>
-            <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
-         </span>
-         @endif
+        
 
          @if ($user)
             @if ($absenceEmp->manager != null)
