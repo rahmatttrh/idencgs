@@ -1024,11 +1024,26 @@ class AbsenceEmployeeController extends Controller
       } else {
          $backupDate = $now;
       }
+
+
       $reqForm->update([
          'status' => $status,
          'app_backup_date' => $backupDate,
-         'app_leader_date' => $now
       ]);
+
+      if ($reqForm->status == 5) {
+         $reqForm->update([
+           
+            'app_manager_date' => $now
+         ]);
+      }
+
+      if ($reqForm->status == 2) {
+         $reqForm->update([
+            
+            'app_leader_date' => $now
+         ]);
+      }
 
       // dd($reqForm->status);
 
