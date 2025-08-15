@@ -107,6 +107,7 @@ class MutationController extends Controller
       ]);
 
       $user = User::where('username', $employee->nik)->first();
+      $user->roles()->detach();
       if ($employee->contract->designation_id == 1) {
          $user->assignRole('Karyawan');
       } elseif ($employee->contract->designation_id == 2) {

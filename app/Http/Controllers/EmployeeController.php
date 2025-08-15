@@ -366,6 +366,7 @@ class EmployeeController extends Controller
       //    $user->assignRole('Karyawan');
       // }
       $user = User::where('username', $employee->nik)->first();
+      $user->roles()->detach();
       if ($employee->contract->designation_id == 1) {
          $user->assignRole('Karyawan');
       } elseif ($employee->contract->designation_id == 2) {
@@ -454,6 +455,7 @@ class EmployeeController extends Controller
 
 
          $user = User::where('username', $employee->nik)->first();
+         $user->roles()->detach();
             if ($employee->contract->designation_id == 1) {
                $user->assignRole('Karyawan');
             } elseif ($employee->contract->designation_id == 2) {
