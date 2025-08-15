@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\AbsenceEmployee;
 use App\Models\Announcement;
 use App\Models\Department;
 use App\Models\Employee;
@@ -9,6 +10,7 @@ use App\Models\Pe;
 use App\Models\Sp;
 use App\Models\St;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +35,26 @@ class AppServiceProvider extends ServiceProvider
       view()->composer(
          'layouts.header',
          function ($view) {
+
+            if (auth()->user()->hasRole('Administrator')){
+               $backupDetails = [];
+            } else { 
+
+               $id = auth()->user()->getEmployeeId();
+               $employee = Employee::find($id);
+               $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->get();
+               $now = Carbon::now();
+               $backupDetails = [];
+
+               foreach($reqBackForms as $backup){
+                  foreach($backup->details as $detail){
+                     if ($detail->date >= $now) {
+                        $backupDetails[] = $detail;
+                     }
+                  }
+               }
+            }
+            
             
 
             if (auth()->user()->hasRole('HRD|HRD-Spv')) {
@@ -130,6 +152,9 @@ class AppServiceProvider extends ServiceProvider
             }
             // dd($announcements);
 
+
+            
+
             $view->with([
                'employee' => $employee,
                'notifSp' => $spNotifs,
@@ -143,7 +168,9 @@ class AppServiceProvider extends ServiceProvider
                'tegurans' => $tegurans,
                'announcePersonals' => $announcePersonals,
                'announceUnits' => $announceUnits,
-               'announcements' => $announcements
+               'announcements' => $announcements,
+
+               'backupDetails' => $backupDetails
 
             ]);
          }
