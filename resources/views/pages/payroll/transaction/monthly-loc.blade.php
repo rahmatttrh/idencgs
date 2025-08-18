@@ -386,7 +386,7 @@ Payroll Transaction
          </div>
       </div>
       <div class="card-body p-0">
-         <div class="tab-content " id="pills-without-border-tabContent">
+         <div class="tab-content p-0" id="pills-without-border-tabContent">
 
             {{-- Tab Payslip Report --}}
             <div class="tab-pane  fade show active p-0" id="pills-payslip-nobd" role="tabpanel" aria-labelledby="pills-payslip-tab-nobd">
@@ -394,7 +394,7 @@ Payroll Transaction
                   
                </div> --}}
                {{-- <h1>{{count($transactions)}}</h1> --}}
-               <div class="table-responsive" style="overflow-x: auto;">
+               <div class="table-responsive p-0" style="overflow-x: auto;">
                   <table id="data" class=" table table-sm">
                      <thead >
                         <tr class="text-white">

@@ -806,11 +806,57 @@ class OvertimeEmployeeController extends Controller
          $spklEmp->update([
             'status' => 301,
             'manager_id' => $empLogin->id,
+            'reject_manager_date' => Carbon::now(),
             'reject_manager_desc' => $req->desc,
          ]);
       }
 
-      return redirect()->route('leader.spkl.history')->with('success', "SPKL Approved");
+      return redirect()->route('leader.spkl.history')->with('success', "SPKL Rejected");
+   }
+
+
+   public function rejectMultiple(Request $req){
+
+      // dd('ok');
+      $spklGroup = OvertimeParent::find($req->spklEmp);
+      // $spklEmp = OvertimeEmployee::find($req->spklEmp);
+      $empLogin = Employee::where('nik', auth()->user()->username)->first();
+
+      if (auth()->user()->hasRole('Leader|Supervisor')) {
+         $status = 201;
+        
+      } elseif(auth()->user()->hasRole('Manager|Asst. Manager')) {
+         $status = 301;
+      }
+
+      $spklGroup->update([
+         'status' => $status,
+         'reject_by' => $empLogin->id,
+         'reject_date' => Carbon::now(),
+         'reject_desc' => $req->desc,
+      ]);
+
+      $spklEmps = OvertimeEmployee::where('parent_id', $spklGroup->id)->get();
+      foreach($spklEmps as $spklEmp){
+         if (auth()->user()->hasRole('Leader|Supervisor')) {
+            $spklEmp->update([
+               'status' => 201,
+               'leader_id' => $empLogin->id,
+               'reject_leader_date' => Carbon::now(),
+               'reject_leader_desc' => $req->desc,
+   
+            ]);
+         } elseif(auth()->user()->hasRole('Manager|Asst. Manager')) {
+            $spklEmp->update([
+               'status' => 301,
+               'manager_id' => $empLogin->id,
+               'reject_manager_date' => Carbon::now(),
+               'reject_manager_desc' => $req->desc,
+            ]);
+         }
+      }
+
+      return redirect()->back()->with('success', "SPKL Rejected");
    }
 
    public function approveHrd(Request $req){

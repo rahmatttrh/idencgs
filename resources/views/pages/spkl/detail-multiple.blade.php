@@ -82,6 +82,25 @@ Form Lembur/Piket
                      @endif --}}
                   </td>
                </tr>
+               
+
+               @if ($empSpkl->status == 301 || $empSpkl->status == 201)
+                   <tr>
+                     
+                     <td class="bg-danger text-white">
+                         {{formatDateTime($empSpkl->reject_date)}}
+                     </td>
+                   </tr>
+                   <tr>
+                     <td class="bg-danger text-white">{{$empSpkl->rejectBy->biodata->fullName()}}</td>
+                   </tr>
+                   <tr>
+                     
+                     <td class="bg-danger text-white pl-4">
+                        : {{$empSpkl->reject_desc}}
+                     </td>
+                   </tr>
+               @endif
                <tr>
                   <td>
                      @if ($empSpkl->status == 0)
@@ -190,21 +209,21 @@ Form Lembur/Piket
                </tr>
                <tr>
                   <td>
-                     @if ($empSpkl->status > 1)
+                     @if ($empSpkl->status > 1 && $empSpkl->status < 10 )
                         <span class="text-info">Approved</span>
                         @else
                         
                         @endif
                   </td>
                   <td>
-                     @if ($empSpkl->status > 2)
+                     @if ($empSpkl->status > 2 && $empSpkl->status < 10)
                      <span class="text-info">Approved</span>
                      @else
                      
                      @endif
                   </td>
                   <td class="text-center py-3">
-                     @if ($empSpkl->status > 0)
+                     @if ($empSpkl->status > 0 && $empSpkl->status < 10)
                      <span class="text-info">Released</span>
                      @else
                      
@@ -221,7 +240,7 @@ Form Lembur/Piket
                      @endif
                   </td>
                   <td>
-                     @if ($empSpkl->status > 2)
+                     @if ($empSpkl->status > 2 && $empSpkl->status < 10)
                         {{$empSpkl->manager->biodata->fullName()}}
                         @else
                         
@@ -372,7 +391,7 @@ Form Lembur/Piket
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-         <form action="{{route('leader.spkl.reject')}}" method="POST" >
+         <form action="{{route('leader.spkl.multiple.reject')}}" method="POST" >
             <div class="modal-body">
                @csrf
                <input type="text" value="{{$empSpkl->id}}" name="spklEmp" id="spklEmp" hidden>

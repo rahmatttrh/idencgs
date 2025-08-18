@@ -980,6 +980,8 @@ Route::middleware(["auth"])->group(function () {
          Route::get('approve/spkl/leader/group/{id}', [OvertimeParentController::class, 'approveLeader'])->name('leader.spkl.group.approve');
          Route::get('approve/spkl/manager/group/{id}', [OvertimeParentController::class, 'approveManager'])->name('manager.spkl.group.approve');
          Route::post('reject/spkl', [OvertimeEmployeeController::class, 'reject'])->name('leader.spkl.reject');
+
+         Route::post('reject/spkl/multiple', [OvertimeEmployeeController::class, 'rejectMultiple'])->name('leader.spkl.multiple.reject');
          Route::get('spkl/history', [OvertimeEmployeeController::class, 'historyLeader'])->name('leader.spkl.history');
 
          Route::get('spkl/hrd/index', [OvertimeEmployeeController::class, 'indexHrd'])->name('hrd.spkl');
@@ -989,7 +991,7 @@ Route::middleware(["auth"])->group(function () {
       Route::get('cuti/pengganti', [AbsenceLeaderController::class, 'cutiBackup'])->name('backup.cuti');
 
       Route::prefix('leader')->group(function () {
-         Route::get('/absence/monitoring', [AbsenceEmployeeController::class, 'indexTeam'])->name('absence.team');
+         Route::get('/absence/monitoring', [AbsenceController::class, 'team'])->name('absence.team');
       });
 
       Route::prefix('employee-form')->group(function () {

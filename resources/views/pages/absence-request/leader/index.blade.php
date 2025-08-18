@@ -52,7 +52,7 @@ Form Absensi
             <table id="data" class="datatables-4">
                <thead>
                   <tr>
-                     <th>ID</th>
+                     <th>IDDD</th>
                      <th>Type</th>
                      <th>NIK</th>
                      <th>Name</th>

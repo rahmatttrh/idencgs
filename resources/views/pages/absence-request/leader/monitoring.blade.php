@@ -51,6 +51,144 @@ Form Absensi
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
+         <table id="data" class="display basic-datatables table-sm p-0">
+            <thead>
+               <tr>
+                  <th>NIK</th>
+                  <th>Name</th>
+                  {{-- <th>Location</th> --}}
+                  {{-- <th>Unit</th> --}}
+                  <th class="text-center">Alpha</th>
+                  <th class="text-center">Terlambat</th>
+                  <th class="text-center">ATL</th>
+                  <th class="text-center">Izin</th>
+                  <th class="text-center">Cuti</th>
+                  <th class="text-center">Sakit</th>
+                  {{-- <th class="text-right">Rate</th> --}}
+               </tr>
+            </thead>
+
+            <tbody>
+
+               @if (count($employee->positions) > 0)
+                     @foreach ($employee->positions as $pos)
+                           
+                           @foreach ($pos->department->employees->where('status', 1) as $emp)
+                           <tr>
+                              <td class="text-truncate">{{$emp->nik}}</td>
+                              <td class="text-truncate" style="max-width: 140px"> 
+                                 <a href="{{route('payroll.absence.employee.detail', [enkripRambo($emp->id), $from, $to])}}">{{$emp->biodata->fullName()}}</a>
+                              </td>
+                              {{-- <td>{{$emp->location->name ?? '-'}}</td> --}}
+                              {{-- <td class="text-truncate" style="max-width: 100px">{{$emp->unit->name}}</td> --}}
+                              {{-- <td>{{$emp->department->name}}</td> --}}
+                              <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 1))}}</td>
+                              <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 2))}}</td>
+                              <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 3))}}</td>
+                              <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 4))}}</td>
+                              <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 5))}}</td>
+                              <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 7))}}</td>
+                              {{-- <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td> --}}
+                            </tr>
+                           @endforeach
+                     @endforeach
+                   @else
+                   @foreach ($employees as $emp)
+                        @php
+                              $bio = DB::table('biodatas')->where('id', $emp->biodata_id)->first();
+                        @endphp
+                        <tr>
+                           <td class="text-truncate">{{$emp->nik}}</td>
+                           <td class="text-truncate" style="max-width: 140px"> 
+                              <a href="{{route('payroll.absence.employee.detail', [enkripRambo($emp->id), $from, $to])}}">{{$emp->biodata->fullName()}}</a>
+                           </td>
+                           {{-- <td>{{$emp->location->name ?? '-'}}</td> --}}
+                           {{-- <td class="text-truncate" style="max-width: 100px">{{$emp->unit->name}}</td> --}}
+                           {{-- <td>{{$emp->department->name}}</td> --}}
+                           <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 1))}}</td>
+                           <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 2))}}</td>
+                           <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 3))}}</td>
+                           <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 4))}}</td>
+                           <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 5))}}</td>
+                           <td class="text-center">{{count($emp->getAbsences($from, $to)->where('type', 7))}}</td>
+                           {{-- <td class="text-right">{{formatRupiahB($emp->getOvertimes($from, $to)->sum('rate'))}}</td> --}}
+                         </tr>
+                     @endforeach
+               @endif
+
+
+               {{-- @foreach ($absences as $absence)
+               <tr>
+                  <td>{{$absence->employee->nik}}</td>
+                   <td> {{$absence->employee->biodata->fullName()}}</td>
+                   <td>{{$absence->employee->location->name}}</td>
+                  <td>
+                     @if ($absence->status == 404)
+                        <span class="text-danger">Permintaan Perubahan</span>
+                         @else
+                         @if ($absence->type == 1)
+                        Alpha
+                        @elseif($absence->type == 2)
+                        Terlambat ({{$absence->minute}} Menit)
+                        @elseif($absence->type == 3)
+                        ATL
+                        @elseif($absence->type == 4)
+                        Izin ({{$absence->type_izin}})
+                        @elseif($absence->type == 5)
+                        Cuti
+                        @elseif($absence->type == 6)
+                        SPT ({{$absence->type_spt}})
+                        @elseif($absence->type == 7)
+                        Sakit 
+                        @elseif($absence->type == 8)
+                        Dinas Luar
+                        @elseif($absence->type == 9)
+                        Off Kontrak
+                        @endif
+                     @endif
+                     
+                  </td>
+                  <td>{{formatDayName($absence->date)}}</td>
+                  <td>{{formatDate($absence->date)}}</td>
+                  <td>{{$absence->desc}}</td>
+                 
+               </tr>
+
+               <div class="modal fade" id="modal-delete-absence-{{$absence->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-sm" role="document">
+                     <div class="modal-content text-dark">
+                        <div class="modal-header">
+                           <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                           </button>
+                        </div>
+                        <div class="modal-body ">
+                           Delete data
+                           @if ($absence->type == 1)
+                           Alpha
+                           @elseif($absence->type == 2)
+                           Terlambat ({{$absence->minute}})
+                           @elseif($absence->type == 3)
+                           ATL
+                           @endif
+                           {{$absence->employee->nik}} {{$absence->employee->biodata->fullName()}}
+                           tanggal {{formatDate($absence->date)}}
+                           ?
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                           <button type="button" class="btn btn-danger ">
+                              <a class="text-light" href="{{route('payroll.absence.delete', enkripRambo($absence->id))}}">Delete</a>
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               @endforeach --}}
+            </tbody>
+
+         </table>
         
          <div class="table-responsive p-0 mt-2">
             <table id="data" class="display datatables-3 table-sm p-0">

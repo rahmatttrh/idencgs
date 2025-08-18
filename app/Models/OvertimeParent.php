@@ -25,4 +25,8 @@ class OvertimeParent extends Model
     public function manager(){
       return $this->belongsTo(Employee::class);
     }
+
+    public function rejectBy(){
+      return $this->belongsTo(Employee::class, 'reject_by');
+    }
 }

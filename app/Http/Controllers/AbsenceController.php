@@ -258,7 +258,7 @@ class AbsenceController extends Controller
             ->select('employees.*')
             ->get();
 
-
+      // dd('ok');
       
 
 

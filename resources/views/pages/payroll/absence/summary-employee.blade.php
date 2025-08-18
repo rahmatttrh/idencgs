@@ -152,12 +152,12 @@ Summary Absence
       </div>
       <div class="col-md-9">
          <div class="table-responsive px-0">
-            <table id="data" class="display basic-datatables table-sm">
+            <table id="data" class="display datatables-2 table-sm">
                <thead>
                   <tr>
                      <th>ID</th>
                      <th>Type</th>
-                     <th>Change</th>
+                     {{-- <th>Change</th> --}}
                      <th>Day</th>
                      <th>Date</th>
                      {{-- <th>Desc</th> --}}
@@ -178,24 +178,35 @@ Summary Absence
                         @if ($absence->status == 404)
                            <span class="text-danger">Permintaan Perubahan</span>
                             @else
+
+                            @if ($absence->getRequest() != null )
+                            <a href="{{route('employee.absence.detail', [enkripRambo($absence->getRequest()->id), enkripRambo('monitoring')])}}" class="badge badge-info">
+                              <x-absence.type :absence="$absence->getRequest()" />
+                              :
+                              <x-status.form :form="$absence->getRequest()" />
+                             
+                            </a>
+                            @else
                             <x-status.absence :absence="$absence" />
+                            @endif
+                            
                         @endif
 
                         
                         
                      </td>
-                     <td>
+                     {{-- <td>
                         @if ($absence->getRequest() != null )
-                        <a href="{{route('employee.absence.detail', enkripRambo($absence->getRequest()->id))}}" class="badge badge-info">
+                        <a href="{{route('employee.absence.detail', [enkripRambo($absence->getRequest()->id), enkripRambo('monitoring')])}}" class="badge badge-info">
                            <x-absence.type :absence="$absence->getRequest()" />
                            :
                            <x-status.form :form="$absence->getRequest()" />
                           
                          </a>
                          @endif
-                     </td>
+                     </td> --}}
                      <td>{{formatDayName($absence->date)}}</td>
-                     <td>{{formatDate($absence->date)}}</td>
+                     <td>{{$absence->date}}</td>
                      {{-- <td>{{$absence->desc}}</td> --}}
                      <td class="text-truncate">
                         @if (auth()->user()->hasRole('HRD|HRD-Payroll|HRD-Spv|HRD-KJ12|HRD-KJ45|Administrator|HRD-JGC|HRD-Staff|HRD-Recruitment'))
