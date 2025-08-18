@@ -39,7 +39,7 @@ SPKL
                      <th>Date</th>
                      {{-- <th class="text-center">Qty</th> --}}
                      <th>Status</th>
-                     <th>Created</th>
+                     <th>Last Updated</th>
                      {{-- <th></th> --}}
                   </tr>
                </thead>

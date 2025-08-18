@@ -118,14 +118,14 @@
          <div class="modal-body">
             Reset Password {{$employee->nik}} {{$employee->biodata->fullName()}} ? 
             <hr>
-            Password default : 12345678
+            Password default : enc#ddmmyy(Tanggal Lahir)
             {{-- <hr>
             Harap langsung mengganti password anda setelah login menggunakan password default --}}
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-danger ">
-                  <a class="text-light" href="{{route('employee.reset.password', enkripRambo($employee->id))}}">Delete</a>
+                  <a class="text-light" href="{{route('employee.reset.password', enkripRambo($employee->id))}}">Reset</a>
             </button>
          </div>
       </div>

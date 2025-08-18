@@ -42,7 +42,7 @@ Monitoring Form Absensi
                      <th>Date</th>
                      {{-- <th>Desc</th> --}}
                      <th>Status</th>
-                     <th>Created at</th>
+                     <th>Last Updated</th>
                   </tr>
                </thead>
 
@@ -60,6 +60,7 @@ Monitoring Form Absensi
                            @if (count($absence->details) > 1)
                                ({{count($absence->details)}} hari)
                            @endif
+                        
                         </a>
                         
                      </td>

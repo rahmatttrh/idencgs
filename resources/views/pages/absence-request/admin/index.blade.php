@@ -49,7 +49,7 @@ Absence
                      {{-- <th>Day</th> --}}
                      <th>Date</th>
                      <th>Status</th>
-                     <th>Created</th>
+                     <th>Last Update</th>
                   </tr>
                </thead>
 
@@ -75,6 +75,9 @@ Absence
                       <td class="text-truncate"> <a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('monitoring')])}}">{{$absence->employee->nik}} {{$absence->employee->biodata->fullName()}}</a></td>
                      <td class="text-truncate">
                         <x-status.absence :absence="$absence" />
+                        @if (count($absence->details) > 1)
+                               ({{count($absence->details)}} hari)
+                           @endif
                         
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}

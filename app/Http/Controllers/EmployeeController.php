@@ -250,8 +250,11 @@ class EmployeeController extends Controller
       $employee = Employee::find(dekripRambo($id));
       $user = User::where('username', $employee->nik)->first();
 
+      $birth = Carbon::create($employee->biodata->birth_date);
+      
+
       $user->update([
-         'password' => Hash::make('12345678')
+         'password' => Hash::make('enc#' . $birth->format('dmy'))
       ]);
 
       return redirect()->back()->with('success', 'Password User successfully updated');

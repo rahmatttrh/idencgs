@@ -187,7 +187,7 @@
                </td>
                <td class="text-truncate">
                   @if ($absenceemp->status == 5)
-                  <small>{{formatDateTime($absenceemp->app_hrd_date)}}</small>
+                  <small>{{formatDateTime($absenceemp->app_manager_date)}}</small>
                   @endif
                </td>
                <td colspan="4" class="text-end"></td>
@@ -514,7 +514,7 @@
             </td>
             <td class="text-truncate">
                @if ($absenceemp->status == 3 || $absenceemp->status == 5)
-                  <small>{{formatDateTime($absenceemp->app_manager_date)}}</small>
+                  <small>{{formatDateTime($absenceemp->app_manager_date)}} </small>
                @endif
             </td>
             

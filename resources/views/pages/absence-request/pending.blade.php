@@ -80,6 +80,9 @@ Absence
                             @else
                             <x-status.absence :absence="$absence" />
                         @endif
+                        @if (count($absence->details) > 1)
+                                 ({{count($absence->details)}} hari)
+                              @endif
                         
                      </td>
                      <td class="text-truncate">{{$absence->employee->nik}}</td>

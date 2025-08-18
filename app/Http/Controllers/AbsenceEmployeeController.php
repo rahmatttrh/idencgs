@@ -251,7 +251,7 @@ class AbsenceEmployeeController extends Controller
       // dd($employeeLeaders);
       // dd($cutis);
 
-      dd($cutis);
+      // dd($cutis);
 
       $permits = Permit::get();
 
