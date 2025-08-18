@@ -152,6 +152,12 @@
                <span class="sub-item">Monitoring</span>
             </a>
          </li>
+         @else
+         <li>
+            <a href="{{route('qpe.manager.report')}}">
+               <span class="sub-item">Monitoring</span>
+            </a>
+         </li>
          @endif
          <hr>
          <li>

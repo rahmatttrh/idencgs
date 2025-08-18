@@ -58,9 +58,7 @@ QPE Report
       </div>
       <div class="col-md-6">
          <div class="card shadow-none border">
-            {{-- <div class="card-header">
-               <h2>{{$unit->name}}</h2>
-            </div> --}}
+           
             <div class="card-body p-0">
                <div class="table-responsive">
                   <table>
@@ -98,8 +96,8 @@ QPE Report
                   <table>
                      <thead>
                         <tr>
-                           <th colspan="2"> QPE Draft</th>
-                           {{-- <th>{{$department->getQpe($semester, $year, 0)}}</th> --}}
+                           <th colspan=""> QPE Draft</th>
+                           <th class="text-center">{{$department->getQpe($semester, $year, 0)}}</th>
                         </tr>
                         
                        
@@ -112,7 +110,7 @@ QPE Report
                         
                                <tr>
                                   {{-- <td>{{$pen->nik}}</td> --}}
-                                  <td><a href="/qpe/edit/{{enkripRambo($pen->getQpe($semester, $year)->kpa->id)}}">{{$pen->nik}} {{$pen->biodata->fullName()}}</a> </td>
+                                  <td colspan="2"><a href="/qpe/edit/{{enkripRambo($pen->getQpe($semester, $year)->kpa->id)}}">{{$pen->nik}} {{$pen->biodata->fullName()}}</a> </td>
                                   {{-- <td>
                                      @if($pen->getQpe($semester, $year)->status == '0' || $pen->getQpe($semester, $year)->status == '101')
                                      <a href="/qpe/edit/{{enkripRambo($pen->getQpe($semester, $year)->kpa->id)}}"><x-status.qpe-plain :pe="$pen->getQpe($semester, $year)" />  </a>
@@ -141,8 +139,8 @@ QPE Report
                   <table>
                      <thead>
                         <tr>
-                           <th colspan="2"> QPE Verifikasi</th>
-                           {{-- <th>{{$department->getQpe($semester, $year, 0)}}</th> --}}
+                           <th colspan=""> QPE Verifikasi</th>
+                           <th class="text-center">{{$department->getQpe($semester, $year, 1)}}</th>
                         </tr>
                         
                         
@@ -154,7 +152,7 @@ QPE Report
                             
                         
                                <tr>
-                                  <td><a href="/qpe/approval/{{enkripRambo($pen->getQpe($semester, $year)->kpa->id)}}">{{$pen->nik}} {{$pen->biodata->fullName()}}</a> </td>
+                                  <td colspan="2"><a href="/qpe/approval/{{enkripRambo($pen->getQpe($semester, $year)->kpa->id)}}">{{$pen->nik}} {{$pen->biodata->fullName()}}</a> </td>
                                   {{-- <td>{{$pen->biodata->fullName()}}</td>
                                   <td>
                                      @if($pen->getQpe($semester, $year)->status == '0' || $pen->getQpe($semester, $year)->status == '101')
@@ -185,7 +183,7 @@ QPE Report
                      <thead>
                         <tr>
                            <th colspan=""> QPE Done</th>
-                           {{-- <th>{{$department->getQpe($semester, $year, 2)}}</th> --}}
+                           <th class="text-center">{{$department->getQpe($semester, $year, 2)}}</th>
                         </tr>
                         
                         
@@ -197,7 +195,7 @@ QPE Report
                             
                         
                                <tr>
-                                  <td><a href="/qpe/show/{{enkripRambo($pen->getQpe($semester, $year)->kpa->id)}}">{{$pen->nik}} {{$pen->biodata->fullName()}}</a> </td>
+                                  <td colspan="2"><a href="/qpe/show/{{enkripRambo($pen->getQpe($semester, $year)->kpa->id)}}">{{$pen->nik}} {{$pen->biodata->fullName()}}</a> </td>
                                   {{-- <td></td>
                                   <td>
                                      @if($pen->getQpe($semester, $year)->status == '0' || $pen->getQpe($semester, $year)->status == '101')
@@ -228,7 +226,7 @@ QPE Report
                      <thead>
                         <tr>
                            <th colspan="" class="bg-danger" >QPE Empty</th>
-                           {{-- <th class="bg-danger">{{$department->getEmptyQpe($semester, $year)}}</th> --}}
+                           <th class="bg-danger text-center">{{$department->getEmptyQpe($semester, $year)}}</th>
                         </tr>
                         
                         {{-- <tr>
@@ -242,7 +240,7 @@ QPE Report
                         </tr> --}}
                         @foreach ($department->getPendingQpe($semester, $year) as $pen)
                            <tr>
-                              <td>{{$pen->nik}} {{$pen->biodata->fullName()}}</td>
+                              <td colspan="2">{{$pen->nik}} {{$pen->biodata->fullName()}}</td>
                               {{-- <td></td> --}}
                            </tr>
                         @endforeach

@@ -2699,6 +2699,56 @@ class QuickPEController extends Controller
       ]);
    }
 
+   public function reportManager(){
+      $manager = Employee::where('nik', auth()->user()->username)->first();
+      // dd(count($manager->positions));
+      $departments = [];
+      if (count($manager->positions) > 1) {
+         // dd('banyak');
+         foreach ($manager->positions as $pos) {
+            $department = Department::find($pos->department_id);
+            $departments[] = $department;
+         }
+      } else {
+         // dd('satu');
+         $department = Department::find($employee->department_id);
+         $departments[] = $department;
+      }
+
+      $now = Carbon::now();
+
+      return view('pages.qpe.monitoring.index', [
+         'departments' => $departments,
+         'semester' => 1,
+         'year' => $now->format('Y')
+      ]);
+   }
+
+   public function reportManagerFilter(Request $req){
+      $manager = Employee::where('nik', auth()->user()->username)->first();
+      // dd(count($manager->positions));
+      $departments = [];
+      if (count($manager->positions) > 1) {
+         // dd('banyak');
+         foreach ($manager->positions as $pos) {
+            $department = Department::find($pos->department_id);
+            $departments[] = $department;
+         }
+      } else {
+         // dd('satu');
+         $department = Department::find($employee->department_id);
+         $departments[] = $department;
+      }
+
+      $now = Carbon::now();
+
+      return view('pages.qpe.monitoring.index', [
+         'departments' => $departments,
+         'semester' => $req->semester,
+         'year' => $req->year
+      ]);
+   }
+
    public function reportFilter(Request $req)
    {
       $units = Unit::get();
