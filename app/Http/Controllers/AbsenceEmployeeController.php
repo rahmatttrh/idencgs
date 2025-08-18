@@ -242,7 +242,7 @@ class AbsenceEmployeeController extends Controller
       // dd($employeeLeaders);
       // dd($cutis);
 
-      dd($cutis);
+      // dd($cutis);
 
       $permits = Permit::get();
 
@@ -375,6 +375,8 @@ class AbsenceEmployeeController extends Controller
          $myteams = null;
       }
 
+      $backs = Employee::where('department_id', $employee->department_id)->where('designation_id', '<=', $employee->designation_id)->get();
+
       // dd($absenceEmployee->type);
 
 
@@ -438,7 +440,7 @@ class AbsenceEmployeeController extends Controller
          'user' => $user,
          'backDate' => $backDate,
          'sameDateForms' => $sameDateForms,
-         'emps' => $emps
+         'emps' => $backs
       ]);
    }
 
