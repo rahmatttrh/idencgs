@@ -778,7 +778,8 @@ class OvertimeEmployeeController extends Controller
             'leader_id' => $empLogin->id,
             'approve_leader_date' => Carbon::now()
          ]);
-      } elseif(auth()->user()->hasRole('Manager|Asst. Manager')) {
+      } elseif(auth()->user()->hasRole('Manager') || auth()->user()->hasRole('Asst. Manager')) {
+         dd('ok');
          $spklEmp->update([
             'status' => 3,
             'manager_id' => $empLogin->id,
@@ -786,7 +787,23 @@ class OvertimeEmployeeController extends Controller
          ]);
       }
 
-      return redirect()->route('leader.spkl')->with('success', "SPKL Approved");
+      return redirect()->back()->with('success', "SPKL Approved");
+   }
+
+   public function approveManager($id){
+      $spklEmp = OvertimeEmployee::find(dekripRambo($id));
+      $empLogin = Employee::where('nik', auth()->user()->username)->first();
+      // dd('ok');
+     if(auth()->user()->hasRole('Manager') || auth()->user()->hasRole('Asst. Manager')) {
+         
+         $spklEmp->update([
+            'status' => 3,
+            'asmen_id' => $empLogin->id,
+            'approve_asmen_date' => Carbon::now()
+         ]);
+      }
+
+      return redirect()->back()->with('success', "SPKL Approved");
    }
 
    public function reject(Request $req){

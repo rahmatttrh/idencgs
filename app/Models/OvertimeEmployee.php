@@ -23,6 +23,10 @@ class OvertimeEmployee extends Model
       return $this->belongsTo(Employee::class);
     }
 
+    public function asmen(){
+      return $this->belongsTo(Employee::class);
+    }
+
     public function by(){
       return $this->belongsTo(Employee::class, 'by_id');
     }

@@ -32,9 +32,16 @@ Form Lembur/Piket
          @endif
 
          @if ($empSpkl->status == 2)
-            @if (auth()->user()->hasRole('Manager'))
+            @if (auth()->user()->hasRole('Manager') )
             <span class="btn btn-group btn-block p-0" >
-               <a href="" class="btn mb-2 btn-primary  btn-block" data-target="#modal-approve-spkl" data-toggle="modal">Approve</a>
+               <a href="" class="btn mb-2 btn-primary  btn-block" data-target="#modal-approve-spkl" data-toggle="modal">Approve </a>
+               <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-spkl" data-toggle="modal">Reject</a>
+               
+            </span>
+            @endif
+            @if ( auth()->user()->hasRole('Asst. Manager'))
+            <span class="btn btn-group btn-block p-0" >
+               <a href="" class="btn mb-2 btn-primary  btn-block" data-target="#modal-approve-manager-spkl" data-toggle="modal">Approve as Man.</a>
                <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-spkl" data-toggle="modal">Reject</a>
                
             </span>
@@ -352,7 +359,12 @@ Form Lembur/Piket
                      </td>
                      <td class="text-center">
                         @if ($empSpkl->status > 2)
-                        <span class="text-info">Approved</span>
+                           @if ($empSpkl->asmen_id != null)
+                           <span class="text-info">Approved as Manager</span>
+                              @else
+                              <span class="text-info">Approved</span>
+                           @endif
+                        
                         @else
                         
                         @endif
@@ -380,7 +392,12 @@ Form Lembur/Piket
                      </td>
                      <td>
                         @if ($empSpkl->status > 2)
-                        {{$empSpkl->manager->biodata->fullName()}}
+                           @if ($empSpkl->asmen_id != null)
+                           {{$empSpkl->asmen->biodata->fullName()}}
+                               @else
+                               {{$empSpkl->manager->biodata->fullName()}}
+                           @endif
+                        
                         @else
                         
                         @endif
@@ -401,7 +418,12 @@ Form Lembur/Piket
                      </td>
                      <td>
                         @if ($empSpkl->approve_manager_date)
+
                             {{formatDateTime($empSpkl->approve_manager_date)}}
+                        @endif
+                        @if ($empSpkl->approve_asmen_date)
+                           
+                            {{formatDateTime($empSpkl->approve_asmen_date)}}
                         @endif
                         {{-- {{$empSpkl->approve_manager_date ?? ''}} --}}
                      </td>
@@ -467,6 +489,30 @@ Form Lembur/Piket
             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary ">
                <a class="text-light" href="{{route('leader.spkl.approve', enkripRambo($empSpkl->id))}}">Approve</a>
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modal-approve-manager-spkl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content text-dark">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body ">
+            Approve Form Pengajuan SPKL ? 
+            <hr>
+            Data SPKL akan otomatis terkirim ke HRD untuk validasi
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary ">
+               <a class="text-light" href="{{route('leader.spkl.manager.approve', enkripRambo($empSpkl->id))}}">Approve as Manager</a>
             </button>
          </div>
       </div>

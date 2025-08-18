@@ -134,7 +134,12 @@
                    @else
                <td class="text-center">
                   @if ($absenceemp->status == 3 || $absenceemp->status == 5)
-                     <span class="text-success"><i>APPROVED</i></span><br>
+                     
+                     @if ($absenceemp->asmen_id != null)
+                     <span class="text-success"><i>APPROVED AS Manager</i></span><br>
+                         @else
+                         <span class="text-success"><i>APPROVED</i></span><br>
+                     @endif
                      {{-- <small>{{formatDateTime($absenceemp->app_leader_date)}}</small> --}}
                   @endif
                </td>
@@ -162,7 +167,12 @@
                    @else
                <td>
                   @if ($absenceemp->manager_id != null)
-                  {{$absenceemp->manager->biodata->fullName() ?? ''}}
+                     @if ($absenceemp->asmen_id != null)
+                     {{$absenceemp->asmen->biodata->fullName() ?? ''}}
+                         @else
+                         {{$absenceemp->manager->biodata->fullName() ?? ''}}
+                     @endif
+                  
                   @endif
                </td>
                @endif
@@ -182,7 +192,13 @@
                </td>
                <td class="text-truncate">
                   @if ($absenceemp->status == 3 || $absenceemp->status == 5)
-                     <small>{{formatDateTime($absenceemp->app_manager_date)}}</small>
+                     {{-- <small>{{formatDateTime($absenceemp->app_manager_date)}}</small> --}}
+                     @if ($absenceemp->asmen_id != null)
+                        {{-- {{$absenceemp->asmen->biodata->fullName() ?? ''}} --}}
+                        <small>{{formatDateTime($absenceemp->app_asmen_date)}}</small>
+                        @else
+                        <small>{{formatDateTime($absenceemp->app_manager_date)}}</small>
+                     @endif
                   @endif
                </td>
                <td class="text-truncate">

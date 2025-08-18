@@ -977,6 +977,7 @@ Route::middleware(["auth"])->group(function () {
 
          Route::get('spkl/index', [OvertimeEmployeeController::class, 'indexLeader'])->name('leader.spkl');
          Route::get('approve/spkl/{id}', [OvertimeEmployeeController::class, 'approve'])->name('leader.spkl.approve');
+         Route::get('approve/manager/spkl/{id}', [OvertimeEmployeeController::class, 'approveManager'])->name('leader.spkl.manager.approve');
          Route::get('approve/spkl/leader/group/{id}', [OvertimeParentController::class, 'approveLeader'])->name('leader.spkl.group.approve');
          Route::get('approve/spkl/manager/group/{id}', [OvertimeParentController::class, 'approveManager'])->name('manager.spkl.group.approve');
          Route::post('reject/spkl', [OvertimeEmployeeController::class, 'reject'])->name('leader.spkl.reject');

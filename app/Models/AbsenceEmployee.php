@@ -35,6 +35,11 @@ class AbsenceEmployee extends Model
       return $this->belongsTo(Employee::class);
    }
 
+   public function asmen()
+   {
+      return $this->belongsTo(Employee::class);
+   }
+
    public function cuti_backup()
    {
       return $this->belongsTo(Employee::class);
