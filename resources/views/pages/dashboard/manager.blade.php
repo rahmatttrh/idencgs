@@ -300,7 +300,7 @@ Dashboard
                                  <p class="card-category">Absensi </p>
                                  <h4 class="card-title"> 
                                     @if (count($reqForms) > 0)
-                                    <span class="badge badge-light">{{count($reqForms) }}</span> 
+                                    <span class="badge badge-light">{{count($reqForms) + count($reqFormLeaderApprovals) }}</span> 
                                     @else
                                     {{count($reqForms)}}
                                     
@@ -551,8 +551,8 @@ Dashboard
                               <div class="numbers">
                                  <p class="card-category"> Approval Absensi </p>
                                  <h4 class="card-title"> 
-                                    @if (count($reqForms) > 0)
-                                       <span class="badge badge-danger">{{count($reqForms) }}</span> 
+                                    @if (count($reqForms) + count($reqFormLeaderApprovals) > 0)
+                                       <span class="badge badge-danger">{{count($reqForms) + count($reqFormLeaderApprovals) }}</span> 
                                        @else
                                        {{count($reqForms)}}
                                        @endif 

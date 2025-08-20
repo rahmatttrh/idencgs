@@ -17,6 +17,11 @@ class AbsenceLeaderController extends Controller
       if (auth()->user()->hasRole('Manager|Asst. Manager')) {
          // dd($employee->id);
          $reqForms = AbsenceEmployee::where('manager_id', $employee->id)->whereIn('status', [2])->orderBy('release_date', 'asc')->get();
+         $reqFormLeaderApproval = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->orderBy('release_date', 'asc')->get();
+
+         foreach($reqFormLeaderApproval as $lead){
+            $reqForms[] = $lead;
+         }
       } else {
          $reqForms = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->orderBy('release_date', 'asc')->get();
       }

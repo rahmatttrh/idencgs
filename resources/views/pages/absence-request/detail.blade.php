@@ -441,20 +441,21 @@ Form Perubahan Absence
                                              </button>
                                           </div>
                                           
-                                             <div class="modal-body">
+                                          <div class="modal-body">
                                                 
-                                                   {{-- <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden> --}}
-                                                   {{formatDayName($detail->date)}} <br>
-                                                   {{formatDate($detail->date)}}
-                                                   <hr>
-                                                   
-                                             </div>
-                                             <div class="modal-footer">
-                                                
-                                                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                                                {{-- <button type="submit" class="btn btn-primary ">Update</button> --}}
-                                                <a class="btn btn-primary " href="{{route('employee.absence.detail.reject', enkripRambo($detail->id))}}">Reject</a>
-                                             </div>
+                                             {{-- <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden> --}}
+                                             {{formatDayName($detail->date)}} <br>
+                                             {{formatDate($detail->date)}}
+                                             <hr>
+                                             <span class="text-muted">Tanggal diatas akan dihapus dari rencana cuti karyawan</span>
+                                             
+                                       </div>
+                                       <div class="modal-footer">
+                                          
+                                          <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                                          {{-- <button type="submit" class="btn btn-primary ">Update</button> --}}
+                                          <a class="btn btn-primary " href="{{route('employee.absence.detail.reject', enkripRambo($detail->id))}}">Reject</a>
+                                       </div>
                                           
                                        </div>
                                     </div>

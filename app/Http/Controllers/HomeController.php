@@ -1081,6 +1081,9 @@ class HomeController extends Controller
         
 
          $reqForms = AbsenceEmployee::where('manager_id', $employee->id)->whereIn('status', [2])->get();
+         $reqFormLeaderApprovals = AbsenceEmployee::where('leader_id', $employee->id)->whereIn('status', [1])->get();
+         // dd(count($reqForms) + count($reqFormLeaderApprovals));
+
          $recentForms = AbsenceEmployee::where('manager_id', $employee->id)->whereIn('status', [5])->orderBy('date', 'desc')->get();
          // dd($teams);
         
@@ -1157,6 +1160,7 @@ class HomeController extends Controller
             'personals' => $personals,
             'reqForms' => $reqForms,
             'recentForms' => $recentForms,
+            'reqFormLeaderApprovals' => $reqFormLeaderApprovals,
 
             'peTotal' => $peTotal,
             'peNotifs' => $peNotifs,
