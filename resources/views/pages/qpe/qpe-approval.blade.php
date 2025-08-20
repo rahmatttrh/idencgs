@@ -424,6 +424,242 @@ PE
                                </tfoot>
                            </table>
                        </div>
+                        @if ($pe->employe->contract->designation_id == 1 || $pe->employe->contract->designation_id == 2)
+                           <a href="#" data-target="#modalPanduan" data-toggle="modal" class="text-danger ml-2 "><span class="fa fa-info"></span> Panduan Pengisian Nilai Behavior</a>
+                           @else
+                           <a href="#" data-target="#modalPanduanLeader" data-toggle="modal" class="text-danger ml-2 "><span class="fa fa-info"></span> Panduan Pengisian Nilai Behavior</a>
+                        @endif
+
+                        <div class="modal fade" id="modalPanduan" data-bs-backdrop="static">
+                           <div class="modal-dialog" style="max-width: 90%;">
+                               <div class="modal-content">
+      
+                                   <!-- Bagian header modal -->
+                                   <div class="modal-header">
+                                       <h3 class="modal-title">Panduan Pengisian Nilai Behavior</h3>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                   </div>
+      
+                                   <!-- Konten modal -->
+                                   <div class="modal-body">
+                                       <!-- Isi konten modal disini -->
+                                       <table style="font-size: 11px;">
+                                           <thead>
+                                               <tr>
+                                                   <th class="text-center">Obyektif</th>
+                                                   <th class="text-center">Deskripsi</th>
+                                                   <th class="text-center">Bobot</th>
+                                                   <th class="text-center">Periode Target</th>
+                                                   <th class="text-center">1</th>
+                                                   <th class="text-center">2</th>
+                                                   <th class="text-center">3</th>
+                                                   <th class="text-center">4</th>
+                                               </tr>
+                                           </thead>
+                                           <tbody>
+                                               <tr>
+                                                   <td class="text-center text-bold">Kreatifitas dan Inovasi</td>
+                                                   <td class="text-center">Memberikan ide, inovasi terkait lingkup pekerjaan dalam departemen</td>
+                                                   <td class="text-center">5</td>
+                                                   <td class="text-center">Semester</td>
+                                                   <td class="text-center">Tidak pernah memberikan masukan dan inovasi terkait pekerjaan</td>
+                                                   <td class="text-center">Bersama-sama dengan rekan yang lain berkontribusi dalam memberikan ide maupun inovasi baru</td>
+                                                   <td class="text-center">Memberikan Ide atau inovasi minimal 1 dalam 1 semester</td>
+                                                   <td class="text-center">Memberikan Ide atau inovasi minimal 1 dalam 1 semester dan dapat diaplikasikan dalam pekerjaan</td>
+                                               </tr>
+                                               <tr>
+                                                   <td class="">Kerjasama</td>
+                                                   <td class="">kemampuan untuk melakukan koordinasi dan komunikasi dengan berbagai pihak yang terkait; merumuskan tujuan bersama dan berbagi tugas untuk mencapai sasaran kerja yang telah ditetapkan; serta saling menghargai pendapat dan masukan guna peningkatan kinerja tim</td>
+                                                   <td class="">5</td>
+                                                   <td class="">Semester</td>
+                                                   <td class="">
+                                                       <br>- Memiliki kemampuan yang sangat rendah untuk melakukan koordinasi dan komunikasi dengan berbagai pihak yang terkait;
+                                                       <br>- Tidak mampu merumuskan tujuan bersama dan berbagi tugas untuk mencapai sasaran kerja yang telah ditetapkan; serta
+                                                       <br>- Tidak bisa menghargai pendapat dan masukan guna peningkatan kinerja tim.
+                                                   </td>
+                                                   <td class="">
+                                                       <br>- Memiliki kemampuan yang terbatas untuk melakukan koordinasi dan komunikasi dengan berbagai pihak yang terkait;
+                                                       <br>- Kurang mampu merumuskan tujuan bersama dan berbagi tugas untuk mencapai sasaran kerja yang telah ditetapkan;
+                                                       <br>- Kurang bisa menghargai pendapat dan masukan guna peningkatan kinerja tim.
+                                                   </td>
+                                                   <td class="">
+                                                       <br>- Memiliki kemampuan yang memadai untuk melakukan koordinasi dan komunikasi dengan berbagai pihak yang terkait;
+                                                       <br>- Mampu merumuskan tujuan bersama dan berbagi tugas untuk mencapai sasaran kerja yang telah ditetapkan; serta
+                                                       <br>- Saling menghargai pendapat dan masukan guna peningkatan kinerja tim
+                                                   </td>
+                                                   <td class="">
+                                                       <br>- Memiliki kemampuan untuk merencanakan dan mengendalikan proses koordinasi dan komunikasi dengan berbagai pihak yang terkait;
+                                                       <br>- Memiliki kemampuan yang sangat baik dalam merumuskan tujuan bersama dan berbagi tugas untuk mencapai sasaran kerja yang telah ditetapkan; serta
+                                                       <br>- Saling menghargai pendapat dan masukan guna peningkatan kinerja tim
+                                                   </td>
+                                               </tr>
+                                               <tr>
+                                                   <td class="">Inisiatif</td>
+                                                   <td class="">kemampuan untuk menjalankan inisiatif perbaikan mutu kerja tanpa harus diperintah; bersikap proaktif dan memiliki self-motivation yang tinggi untuk menuntaskan pekerjaan; serta mampu dalam mengajukan usulan/masukan untuk peningkatan mutu kerja</td>
+                                                   <td class="">5</td>
+                                                   <td class="">Semester</td>
+                                                   <td class="">
+                                                       <br>- Memiliki kemampuan yang sangat rendah untuk menjalankan inisiatif perbaikan mutu kerja tanpa harus diperintah;
+                                                       <br>- Bersikap pasif dan tidak memiliki self-motivation untuk menuntaskan pekerjaan;
+                                                       <br>- Tidak pernah mengutarakan usulan/masukan untuk peningkatan mutu kerja
+                                                   </td>
+                                                   <td class="">
+                                                       <br>- Memiliki kemampuan yang terbatas untuk menjalankan inisiatif perbaikan mutu kerja tanpa harus diperintah;
+                                                       <br>- Kadang-kadang bersikap pasif dan kurang memiliki self-motivation untuk menuntaskan pekerjaan;
+                                                       <br>- Terbatas dalam mengutarakan usulan/masukan untuk peningkatan mutu kerja
+                                                   </td>
+                                                   <td class="">
+                                                       <br>- Memiliki kemampuan yang memadai untuk menjalankan inisiatif perbaikan mutu kerja tanpa harus diperintah;
+                                                       <br>- Bersikap proaktif dan memiliki self-motivation untuk menuntaskan pekerjaan;
+                                                       <br>- Mampu dalam mengutarakan usulan/masukan untuk peningkatan mutu kerja
+                                                   </td>
+                                                   <td class="">
+                                                       <br>- Memiliki kemampuan untuk merencanakan, dan mengimplementasikan inisiatif perbaikan mutu kerja;
+                                                       <br>- Selalu bersikap proaktif dan memiliki self-motivation yang tinggi dan konsisten untuk menuntaskan pekerjaan;
+                                                       <br>- Mampu dalam mengutarakan usulan/masukan untuk peningkatan mutu kerja
+                                                   </td>
+                                               </tr>
+                                           </tbody>
+                                       </table>
+                                   </div>
+      
+                                   <!-- Bagian footer modal -->
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                   </div>
+      
+                               </div>
+                           </div>
+                       </div>
+      
+                      <div class="modal fade" id="modalPanduanLeader" data-bs-backdrop="static">
+                          <div class="modal-dialog" style="max-width: 90%;">
+                              <div class="modal-content">
+      
+                                  <!-- Bagian header modal -->
+                                  <div class="modal-header">
+                                      <h3 class="modal-title">Panduan Pengisian Nilai Behavior</h3>
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  </div>
+      
+                                  <!-- Konten modal -->
+                                  <div class="modal-body">
+                                      <!-- Isi konten modal disini -->
+                                      <table style="font-size: 11px;">
+                                          <thead>
+                                              <tr>
+                                                  <th class="text-center">Obyektif</th>
+                                                  <th class="text-center">Deskripsi</th>
+                                                  <th class="text-center">Bobot</th>
+                                                  <th class="text-center">Periode Target</th>
+                                                  <th class="text-center">1</th>
+                                                  <th class="text-center">2</th>
+                                                  <th class="text-center">3</th>
+                                                  <th class="text-center">4</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <tr>
+                                                  <td class="text-center text-bold">Leadership</td>
+                                                  <td class="text-center">Kemampuan untuk menetapkan dan mengkomunikasikan sasaran kerja tim, mengelola dan membagi sumber daya tim secara efektif; serta melakukan monitoring dan mengarahkan agar sasaran kinerja tim dapat tercapai secara optimal</td>
+                                                  <td class="text-center">5</td>
+                                                  <td class="text-center">Semester</td>
+                                                  <td class="text-center">
+                                                     <br>- Memiliki kemampuan yang sangat rendah untuk menetapkan dan mengkomunikasikan sasaran kerja tim, mengelola dan membagi sumber daya tim secara efektif
+                                                      <br>-  Tidak mampu melakukan monitoring dan mengarahkan agar sasaran kinerja tim dapat tercapai secara optimal
+                                                  </td>
+                                                  <td class="text-center">
+                                                    <br>-  Memiliki kemampuan yang terbatas untuk menetapkan dan mengkomunikasikan sasaran kerja tim, mengelola dan membagi sumber daya tim secara efektif; 
+                                                      <br>- Kurang mampu melakukan monitoring dan mengarahkan agar sasaran kinerja tim dapat tercapai secara optimal
+                                                  </td>
+                                                  <td class="text-center">
+                                                      <br>- Memiliki kemampuan yang memadai untuk menetapkan dan mengkomunikasikan sasaran kerja tim, mengelola dan membagi sumber daya tim secara efektif
+                                                      <br>- Memiliki kemampuan yang baik dalam melakukan monitoring dan mengarahkan agar sasaran kinerja tim dapat tercapai secara optimal
+                                                  </td>
+                                                  <td class="text-center">
+                                                      <br>- Memiliki kemampuan untuk merencanakan, mengawasi dan mengendalikan proses penetapan sasaran kerja tim dan pembagian sumber daya tim secara efektif
+                                                      <br>- Memiliki kemampuan yang sangat baik dalam melakukan monitoring dan mengarahkan agar sasaran kinerja tim dapat tercapai secara optimal
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td class="">Perencanaan Kerja</td>
+                                                  <td class="">Kemampuan untuk menyusun rencana kerja secara sistematis dan terjadwal dengan baik; melakukan alokasi sumber daya berdasarkan hasil perencanaan; serta melakukan monitoring untuk memastikan rencana kerja dapat berjalan dengan efektif</td>
+                                                  <td class="">5</td>
+                                                  <td class="">Semester</td>
+                                                  <td class="">
+                                                      <br>- Memiliki kemampuan yang sangat rendah untuk menyusun rencana kerja secara sistematis dan terjadwal dengan baik;
+                                                      <br>- Tidak mampu dalam mengelola sumber daya; 
+                                                      <br>- Tidak mampu melakukan monitoring untuk memastikan rencana kerja dapat berjalan dengan efektif..
+                                                  </td>
+                                                  <td class="">
+                                                      <br>- Memiliki kemampuan yang terbatas untuk menyusun rencana kerja secara sistematis dan terjadwal dengan baik; 
+                                                      <br>- Kurang mampu dalam mengelola sumber daya ; 
+                                                      <br>- Kurang dapat melakukan monitoring untuk memastikan rencana kerja dapat berjalan dengan efektif.
+                                                  </td>
+                                                  <td class="">
+                                                      <br>- Memiliki kemampuan yang memadai untuk menyusun rencana kerja secara sistematis dan terjadwal dengan baik; 
+                                                      <br>- Mampu mengelola sumber daya 
+                                                      <br>- Mampu melakukan monitoring untuk memastikan rencana kerja dapat berjalan dengan efektif
+                                                  </td>
+                                                  <td class="">
+                                                      <br>- Memiliki kemampuan untuk merencanakan, mengawasi dan mengendalikan proses penyusunan rencana kerja secara sistematis dan terjadwal dengan baik; 
+                                                      <br>- Mampu dalam melakukan proses monitoring untuk memastikan rencana kerja dapat berjalan dengan efektif
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td class="">Komunikasi</td>
+                                                  <td class="">Memiliki kemampuan yang sangat rendah untuk mengutarakan pikirannya (baik secara lisan ataupun tertulis) dalam bahasa yang sistematis, jelas dan mudah dipahami oleh lawan bicara</td>
+                                                  <td class="">5</td>
+                                                  <td class="">Semester</td>
+                                                  <td class="">
+                                                       Memiliki kemampuan yang sangat rendah untuk mengutarakan pikirannya (baik secara lisan ataupun tertulis) dalam bahasa yang sistematis, jelas dan mudah dipahami oleh lawan bicara
+                                                  </td>
+                                                  <td class="">
+                                                       Memiliki kemampuan yang terbatas untuk mengutarakan pikirannya (baik secara lisan ataupun tertulis) dalam bahasa yang sistematis, jelas dan mudah dipahami oleh lawan bicara
+                                                  </td>
+                                                  <td class="">
+                                                      <br>- Memiliki kemampuan yang memadai untuk mengutarakan pikirannya (baik secara lisan ataupun tertulis) dalam bahasa yang sistematis, jelas dan mudah dipahami oleh lawan bicara. 
+                                                      <br>- Mampu menerima dan merespon pembicaraan dari pihak lain dengan baik
+                                                  </td>
+                                                  <td class="">
+                                                      <br>- Memiliki kemampuan yang sangat baik dalam mengutarakan pikirannya (baik secara lisan ataupu tertulis) dalam bahasa yang sistematis, jelas dan mudah dipahami oleh lawan bicara.
+                                                      <br>- Memiliki kemampuan yang sangat bagus dalam merespon pembicaraan dari pihak lain
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td class="">Kemampuan memecahkan masalah</td>
+                                                  <td class="">Kemampuan untuk menganalisa masalah, mengidentifikasi sumber penyebab masalah dan merumuskan alternatif solusi yang relevan dan aplicable</td>
+                                                  <td class="">5</td>
+                                                  <td class="">Semester</td>
+                                                  <td class="">
+                                                       <br>- Memiliki kemampuan yang rendah untuk dapat menganalisa masalah dan mengidentifikasi sumber penyebab masalah ; 
+                                                       <br>- Tidak memiliki kemampuan untuk merumuskan solusi penyelesaian masalah.
+                                                  </td>
+                                                  <td class="">
+                                                       <br>- Memiliki kemampuan yang terbatas untuk menganalisa masalah dan mengidentifikasi sumber penyebab masalah;
+                                                      <br>- Memiliki kemampuan yang kurang memadai dalam hal merumuskan alternatif solusi yang relevan dan aplicable. 
+                                                  </td>
+                                                  <td class="">
+                                                      <br>-  Memiliki kemampuan yang memadai untuk menganalisa masalah dan  mengidentifikasi sumber penyebab masalah ;
+                                                      <br>- Mampu merumuskan alternatif solusi yang relevan dan aplicable
+                                                  </td>
+                                                  <td class="">
+                                                      <br>- Memiliki kemampuan untuk merencanakan, mengorganisir dan mengendalikan proses analisa masalah  dan mengidentifikasi sumber penyebab masalah ; 
+                                                      <br>- Mampu dalam mengelola proses perumusan alternatif solusi yang relevan dan aplicable.
+                                                  </td>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+      
+                                  <!-- Bagian footer modal -->
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                  </div>
+      
+                              </div>
+                          </div>
+                      </div>
                    </div>
                    <div class="card-footer">
                        <div class="col-md-3 float-right mb-3">
