@@ -213,6 +213,13 @@ class OvertimeEmployeeController extends Controller
 
    public function indexHrd(){
       $spklApprovals = OvertimeEmployee::where('status', 3)->orderBy('date', 'desc')->get();
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [3])->orderBy('date', 'desc')->get();
+      } elseif(auth()->user()->hasRole('HRD-KJ45')) {
+         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [4,5])->orderBy('date', 'desc')->get();
+      }
+
       return view('pages.spkl.hrd.index', [
          'spklApprovals' => $spklApprovals
       ]);

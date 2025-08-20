@@ -915,12 +915,25 @@
 
 
 
+@php
 
+$ekstensi = strtolower(pathinfo($absenceemp->doc, PATHINFO_EXTENSION));
+
+
+@endphp  
          
          {{-- {{$absenceemp->doc}} --}}
          @if ($absenceemp->doc != null)
-            <img width="100%" src="/storage/{{$absenceemp->doc}}" alt="">
+
+               
+
+            @if ($ekstensi == 'pdf')
             <iframe  src="/storage/{{$absenceemp->doc}}" style="width:100%; height:570px;" frameborder="0"></iframe>
+            @else
+            <img width="100%" src="/storage/{{$absenceemp->doc}}" alt="">
+            @endif
+            
+            
          @endif
          
 

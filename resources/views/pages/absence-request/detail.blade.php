@@ -309,8 +309,10 @@ Form Perubahan Absence
                   </tr> --}}
                      @foreach ($absenceEmployeeDetails as $detail)
                      <tr>
-                        <td>{{formatDayName($detail->date)}}</td>
-                        <td> {{formatDate($detail->date)}} 
+                        {{-- <td></td> --}}
+                        <td>
+                           {{formatDayName($detail->date)}} <br>
+                            {{formatDate($detail->date)}} 
                            
 
                         {{-- {{$employee->n}} --}}
@@ -324,7 +326,7 @@ Form Perubahan Absence
                               <a href="{{route('employee.absence.detail.delete', enkripRambo($detail->id))}}">Remove</a>
                               @endif
                               @if ($user->id == $absenceEmp->leader_id && $absenceEmp->status == 1)
-                                 <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="">Reject</a>
+                                 <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a data-toggle="modal" data-target="#modal-reject-tanggal-{{$detail->id}}" href="#">Reject</a>
                                  
                                  <div class="modal fade" id="modal-edit-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-sm" role="document">
@@ -359,12 +361,42 @@ Form Perubahan Absence
                                        </div>
                                     </div>
                                  </div>
+
+                                 <div class="modal fade" id="modal-reject-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                       <div class="modal-content">
+                                          <div class="modal-header">
+                                             <h5 class="modal-title" id="exampleModalLabel">Form Reject Tanggal Cuti</h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                             </button>
+                                          </div>
+                                          
+                                             <div class="modal-body">
+                                                
+                                                   {{-- <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden> --}}
+                                                   {{formatDayName($detail->date)}} <br>
+                                                   {{formatDate($detail->date)}}
+                                                   <hr>
+                                                   <span class="text-muted">Tanggal diatas akan dihapus dari rencana cuti karyawan</span>
+                                                   
+                                             </div>
+                                             <div class="modal-footer">
+                                                
+                                                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                                                {{-- <button type="submit" class="btn btn-primary ">Update</button> --}}
+                                                <a class="btn btn-primary " href="{{route('employee.absence.detail.reject', enkripRambo($detail->id))}}">Reject</a>
+                                             </div>
+                                          
+                                       </div>
+                                    </div>
+                                 </div>
                                  
                                  
                               @endif
    
                               @if ($user->id == $absenceEmp->manager_id && $absenceEmp->status == 2)
-                                 <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="">Reject</a>
+                                 <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="#modal-reject-tanggal-{{$detail->id}}">Reject</a>
                                  
                                  <div class="modal fade" id="modal-edit-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-sm" role="document">
@@ -396,6 +428,34 @@ Form Perubahan Absence
                                                 <button type="submit" class="btn btn-primary ">Update</button>
                                              </div>
                                           </form>
+                                       </div>
+                                    </div>
+                                 </div>
+
+
+                                 <div class="modal fade" id="modal-reject-tanggal-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                       <div class="modal-content">
+                                          <div class="modal-header">
+                                             <h5 class="modal-title" id="exampleModalLabel">Form Reject Tanggal Cuti</h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                             </button>
+                                          </div>
+                                          
+                                             <div class="modal-body">
+                                                
+                                                   {{-- <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden> --}}
+                                                   {{$detail->date}}
+                                                   
+                                             </div>
+                                             <div class="modal-footer">
+                                                
+                                                <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                                                {{-- <button type="submit" class="btn btn-primary ">Update</button> --}}
+                                                <a class="btn btn-primary " href="{{route('employee.absence.detail.delete')}}">Reject</a>
+                                             </div>
+                                          
                                        </div>
                                     </div>
                                  </div>

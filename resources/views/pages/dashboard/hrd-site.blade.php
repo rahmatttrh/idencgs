@@ -105,15 +105,45 @@
             </small>
          </div>
          <div class="col-sm-6 col-md-8">
-            <h2>Recent SPKL</h2>
-            <hr>
+
+            <div class="row">
+               <div class="col-md-6 d-none d-md-block">
+                  <div class="card border card-stats card-round">
+                     <div class="card-body ">
+                        <div class="row align-items-center">
+                           <div class="col-icon">
+                              <div class="icon-big text-center icon-info bubble-shadow-small">
+                                 <i class="fas fa-calendar-check"></i>
+                              </div>
+                           </div>
+                           <div class="col col-stats ml-3 ml-sm-0">
+                              <a href="{{route('hrd.spkl')}}">
+                              <div class="numbers">
+                                 <p class="card-category"> Approval SPKL </p>
+                                 <h4 class="card-title"> 
+                                    @if (count($spklApprovals) > 0)
+                                        <div class="badge badge-danger">{{count($spklApprovals)}}</div>
+                                        @else
+                                        {{count($spklApprovals)}}
+                                    @endif
+                                 </h4>
+                              </div>
+                           </a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {{-- <h2>Recent SPKLL</h2>
+            <hr> --}}
             <div class="table-responsive">
                <table id="data" class="display basic-datatables table-sm">
                   <thead>
                      <tr>
                         <th>Type</th>
                         <th>Employee</th>
-                        <th>Location</th>
+                        {{-- <th>Location</th> --}}
                         <th class="text-right">Date</th>
                         
                         <th class="text-center">Hours</th>
@@ -134,7 +164,7 @@
                               @endif
                            </td>
                            <td class="text-truncate" style="max-width: 210px">{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</td>
-                           <td>{{$over->employee->location->name ?? ''}}</td>
+                           {{-- <td>{{$over->employee->location->name ?? ''}}</td> --}}
                            <td class="text-right text-truncate">
                               @if ($over->holiday_type == 1)
                                  <span  class="badge badge-info ">

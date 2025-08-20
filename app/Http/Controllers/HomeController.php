@@ -839,10 +839,14 @@ class HomeController extends Controller
             ->get();
          // dd($overtimes);
 
+
+         $spklApprovals = OvertimeEmployee::where('status', 3)->where('location_id', 3)->get();
+
          return view('pages.dashboard.hrd-site', [
             // 'units' => $units,
             'employee' => $user,
             'employees' => $employees,
+            'spklApprovals' => $spklApprovals,
             // 'male' => $male,
             // 'female' => $female,
             // 'spkls' => $spkls,
@@ -893,11 +897,14 @@ class HomeController extends Controller
                ->orWhere('contracts.loc', 'kj5-housekeeping')
                ->select('employees.*')
                ->get();
+
+               $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [4,5])->get();
          }
 
          return view('pages.dashboard.hrd-site', [
             'units' => $units,
             'employee' => $user,
+            'spklApprovals' => $spklApprovals,
             'employees' => $employees,
             'male' => $male,
             'female' => $female,
@@ -939,6 +946,8 @@ class HomeController extends Controller
          $employees = Employee::whereIn('unit_id', [10,13,14])
                ->where('status', 1)
                ->get();
+
+         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [2])->get();
          // if (auth()->user()->hasRole('HRD-KJ12')) {
             
          // } elseif (auth()->user()->hasRole('HRD-KJ45')) {
@@ -951,6 +960,7 @@ class HomeController extends Controller
          return view('pages.dashboard.hrd-site', [
             'units' => $units,
             'employee' => $user,
+            'spklApprovals' => $spklApprovals,
             'employees' => $employees,
             'male' => $male,
             'female' => $female,

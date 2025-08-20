@@ -135,7 +135,7 @@ Form Lembur/Piket
 
 
 
-         @if (auth()->user()->hasRole('HRD-Payroll'))
+         @if (auth()->user()->hasRole('HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
              
          
             @if ($empSpkl->status == 3 ||$empSpkl->status == 4 )
