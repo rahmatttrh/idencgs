@@ -66,11 +66,12 @@ class SummeryOvertimeExport implements FromQuery, WithMapping, ShouldAutoSize, W
             
          ],
          [
+            'UNIT',
             $unit->name,
             
          ],
          [
-            'Periode',
+            'PERIODE',
             formatDate($this->from) . ' - ' . formatDate($this->to),
             
             
