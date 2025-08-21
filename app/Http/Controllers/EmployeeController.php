@@ -178,11 +178,11 @@ class EmployeeController extends Controller
       // }
       if (auth()->user()->hasRole('HRD-KJ12')) {
          
-         $employees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
+         $employees = Employee::where('status', 1)->whereIn('location_id', [3,20])->get();
          
       } elseif(auth()->user()->hasRole('HRD-KJ45')){
          
-         $employees = Employee::where('status', 1)->whereIn('location_id', [4,5])->get();
+         $employees = Employee::where('status', 1)->whereIn('location_id', [4,5,21,22])->get();
          
 
       } elseif(auth()->user()->hasRole('HRD-JGC')){

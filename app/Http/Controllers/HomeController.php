@@ -840,7 +840,7 @@ class HomeController extends Controller
          // dd($overtimes);
 
 
-         $spklApprovals = OvertimeEmployee::where('status', 3)->where('location_id', 3)->get();
+         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [3,20])->get();
 
          return view('pages.dashboard.hrd-site', [
             // 'units' => $units,
@@ -898,7 +898,7 @@ class HomeController extends Controller
                ->select('employees.*')
                ->get();
 
-               $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [4,5])->get();
+               $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [4,5,21,22])->get();
          }
 
          return view('pages.dashboard.hrd-site', [

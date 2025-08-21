@@ -215,9 +215,9 @@ class OvertimeEmployeeController extends Controller
       $spklApprovals = OvertimeEmployee::where('status', 3)->orderBy('date', 'desc')->get();
 
       if (auth()->user()->hasRole('HRD-KJ12')) {
-         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [3])->orderBy('date', 'desc')->get();
+         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [3,20])->orderBy('date', 'desc')->get();
       } elseif(auth()->user()->hasRole('HRD-KJ45')) {
-         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [4,5])->orderBy('date', 'desc')->get();
+         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [4,5,21,22])->orderBy('date', 'desc')->get();
       } elseif(auth()->user()->hasRole('HRD-JGC')) {
          $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [2])->orderBy('date', 'desc')->get();
       }
