@@ -42,14 +42,15 @@ class SummeryOvertimeExport implements FromQuery, WithMapping, ShouldAutoSize, W
       // $overs = Overtime::whereBetween('date', [$this->from, $this->to])->where('location_id', 4)->orWhere('location_id', 5)->get(); 
 
       // dd($overs);
-      $employees = Employee::where('unit_id', $this->unit)->where('status', 1)->get();
-      $empArray = [];
-      foreach($employees as $emp){
-         $empArray[] = $emp->id;
-      }
+      // $employees = Employee::where('unit_id', $this->unit)->where('status', 1)->get();
+      // $empArray = [];
+      // foreach($employees as $emp){
+      //    $empArray[] = $emp->id;
+      // }
 
       // dd(Overtime::query()->whereBetween('date', [$this->from, $this->to])->whereIn('employee_id', $empArray));
-      return Overtime::query()->whereBetween('date', [$this->from, $this->to])->whereIn('employee_id', $empArray); 
+      // return Overtime::query()->whereBetween('date', [$this->from, $this->to])->whereIn('employee_id', $empArray); 
+      return Employee::query()->where('unit_id', $this->unit)->where('status', 1)->get();
 
          // dd($overtime);
     }
@@ -68,18 +69,18 @@ class SummeryOvertimeExport implements FromQuery, WithMapping, ShouldAutoSize, W
         ];
     }
 
-    public function map($overtime): array
+    public function map($employee): array
     {
         
 
          // dd($overtime);
         
         return [
-            $overtime->employee->nik,
-            $overtime->employee->biodata->first_name . ' ' . $overtime->employee->biodata->last_name,
-            $overtime->location->name,
-            count($overtime->employee->getSpkl($this->from, $this->to)->where('type', 1)),
-            count($overtime->employee->getSpkl($this->from, $this->to)->where('type', 2)),
+            $employee->nik,
+            $employee->biodata->first_name . ' ' . $employee->biodata->last_name,
+            $employee->location->name,
+            count($employee->getSpkl($this->from, $this->to)->where('type', 1)),
+            count($employee->getSpkl($this->from, $this->to)->where('type', 2)),
             
             
         ];
