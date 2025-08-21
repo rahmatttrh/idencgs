@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Employee;
 use App\Models\Overtime;
+use App\Models\Unit;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -50,14 +51,30 @@ class SummeryOvertimeExport implements FromQuery, WithMapping, ShouldAutoSize, W
 
       // dd(Overtime::query()->whereBetween('date', [$this->from, $this->to])->whereIn('employee_id', $empArray));
       // return Overtime::query()->whereBetween('date', [$this->from, $this->to])->whereIn('employee_id', $empArray); 
-      return Employee::query()->where('unit_id', $this->unit)->where('status', 1)->get();
+      return Employee::query()->where('unit_id', $this->unit)->where('status', 1);
 
          // dd($overtime);
     }
 
     public function headings(): array
     {
+
+      $unit = Unit::find($this->unit);
         return [
+         [
+            'SUMMARY SPKL',
+            
+         ],
+         [
+            $unit->name,
+            
+         ],
+         [
+            'Periode',
+            formatDate($this->from) . ' - ' . formatDate($this->to),
+            
+            
+         ],
             
             [
                 'NIK',
