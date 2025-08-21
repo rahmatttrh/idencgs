@@ -318,7 +318,7 @@ class CutiController extends Controller
       if (auth()->user()->hasRole('HRD-KJ12')) {
          $hrdonsite = 1;
          $cutis = [];
-         $employees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
+         $employees = Employee::where('status', 1)->whereIn('location_id', [3, 20])->get();
          foreach($employees as $emp){
             $cuti = Cuti::where('employee_id', $emp->id)->first();
             if ($cuti) {
@@ -328,7 +328,7 @@ class CutiController extends Controller
       } elseif(auth()->user()->hasRole('HRD-KJ45')){
          $hrdonsite = 1;
          $cutis = [];
-         $employees = Employee::where('status', 1)->whereIn('location_id', [4,5])->get();
+         $employees = Employee::where('status', 1)->whereIn('location_id', [4,5, 21, 22])->get();
          foreach($employees as $emp){
             $cuti = Cuti::where('employee_id', $emp->id)->first();
             if ($cuti) {
