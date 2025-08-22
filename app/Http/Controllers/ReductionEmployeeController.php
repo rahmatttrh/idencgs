@@ -14,6 +14,7 @@ class ReductionEmployeeController extends Controller
       $reductionEmployee = ReductionEmployee::find($req->redEmp);
       // dd($req->status);
       $reductionEmployee->update([
+         'employee_value' => preg_replace('/[Rp. ]/', '', $req->value) ,
          'status' => $req->status
       ]);
 

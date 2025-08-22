@@ -303,8 +303,8 @@ Setup Payroll Employee
                                     <div class="row">
                                        <div class="col">
                                           <div class="form-group form-group-default">
-                                             <label>{{$red->reduction->name}} </label>
-                                             <input type="text" name="" id="" class="form-control" value="{{formatRupiah($red->employee_value)}}">
+                                             <label>{{$red->reduction->name}}  {{$red->id}}</label>
+                                             <input type="text" name="value" id="value" class="form-control" value="{{formatRupiah($red->employee_value)}}">
                                           </div>
                                        </div>
                                        <div class="col">

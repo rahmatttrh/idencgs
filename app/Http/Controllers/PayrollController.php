@@ -382,44 +382,56 @@ class PayrollController extends Controller
 
       // dd('ok');
       // dd($reductions);
-      if ($payroll != null) {
-         // dd('ada');
-         if ($employee->unit_id == 9) {
-            $payTotal = $payroll->pokok;
-         } else {
-            $payTotal = $payroll->total;
-         }
-         foreach ($reductions as $red) {
-            $currentRed = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $employee->id)->first();
-            // dd($red->max_salary);
-            
-            
-            
-               // dd($red->min_salary);
-               if ($payTotal <= $red->min_salary) {
-                  // dd('kurang dari minimum gaji');
-                  $salary = $red->min_salary;
-                  $realSalary = $payroll->total;
-   
-                  $bebanPerusahaan = ($red->company * $salary) / 100;
-                  $bebanKaryawan = ($red->employee * $realSalary) / 100;
-                  $bebanKaryawanReal = ($red->employee * $salary) / 100;
-                  $selisih = $bebanKaryawanReal - $bebanKaryawan;
-                  $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
-                  // $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
-                  // $selisih = $bebanKaryawanReal - $bebanKaryawan;
-                  // $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
-   
-               } else if ($payTotal >= $red->min_salary) {
-                  if ($payTotal > $red->max_salary) {
-                     // dd('ok');
-                     if ($red->max_salary != 0) {
-                        
-                        $salary = $payTotal;
-                        $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
-                        $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
-                        $bebanKaryawanReal = 0;
-                        $bebanPerusahaanReal = $bebanPerusahaan;
+
+     
+         if ($payroll != null) {
+            // dd('ada');
+            if ($employee->unit_id == 9) {
+               $payTotal = $payroll->pokok;
+            } else {
+               $payTotal = $payroll->total;
+            }
+            if ($employee->id == 145) {
+               # code...
+            } else {
+            foreach ($reductions as $red) {
+               $currentRed = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $employee->id)->first();
+               // dd($red->max_salary);
+               
+               
+               
+                  // dd($red->min_salary);
+                  if ($payTotal <= $red->min_salary) {
+                     // dd('kurang dari minimum gaji');
+                     $salary = $red->min_salary;
+                     $realSalary = $payroll->total;
+      
+                     $bebanPerusahaan = ($red->company * $salary) / 100;
+                     $bebanKaryawan = ($red->employee * $realSalary) / 100;
+                     $bebanKaryawanReal = ($red->employee * $salary) / 100;
+                     $selisih = $bebanKaryawanReal - $bebanKaryawan;
+                     $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+                     // $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
+                     // $selisih = $bebanKaryawanReal - $bebanKaryawan;
+                     // $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
+      
+                  } else if ($payTotal >= $red->min_salary) {
+                     if ($payTotal > $red->max_salary) {
+                        // dd('ok');
+                        if ($red->max_salary != 0) {
+                           
+                           $salary = $payTotal;
+                           $bebanPerusahaan = ($red->company * $red->max_salary) / 100;
+                           $bebanKaryawan = ($red->employee * $red->max_salary) / 100;
+                           $bebanKaryawanReal = 0;
+                           $bebanPerusahaanReal = $bebanPerusahaan;
+                        } else {
+                           $salary = $payTotal;
+                           $bebanPerusahaan = ($red->company * $salary) / 100;
+                           $bebanKaryawan = ($red->employee * $salary) / 100;
+                           $bebanKaryawanReal = 0;
+                           $bebanPerusahaanReal = $bebanPerusahaan;
+                        }
                      } else {
                         $salary = $payTotal;
                         $bebanPerusahaan = ($red->company * $salary) / 100;
@@ -427,61 +439,57 @@ class PayrollController extends Controller
                         $bebanKaryawanReal = 0;
                         $bebanPerusahaanReal = $bebanPerusahaan;
                      }
-                  } else {
-                     $salary = $payTotal;
-                     $bebanPerusahaan = ($red->company * $salary) / 100;
-                     $bebanKaryawan = ($red->employee * $salary) / 100;
-                     $bebanKaryawanReal = 0;
-                     $bebanPerusahaanReal = $bebanPerusahaan;
                   }
+               
+               
+   
+   
+   
+               if (!$currentRed) {
+                  // dd('ok');
+                  ReductionEmployee::create([
+                     'reduction_id' => $red->id,
+                     'type' => 'Default',
+                     'location_id' => $location,
+                     'employee_id' => $employee->id,
+                     'status' => 1,
+                     'employee_value' => $bebanKaryawan,
+                     'employee_value_real' => $bebanKaryawanReal,
+                     'company_value' => $bebanPerusahaan,
+                     'company_value_real' => $bebanPerusahaanReal,
+   
+                  ]);
+               } else {
+                  // dd($bebanKaryawan);
+                  // dd('ok');
+   
+                  $currentRed->update([
+                     'reduction_id' => $red->id,
+                     'type' => 'Default',
+                     'location_id' => $location,
+                     'employee_id' => $employee->id,
+                     // 'status' => 1,
+                     'employee_value' => $bebanKaryawan,
+                     'employee_value_real' => $bebanKaryawanReal,
+                     'company_value' => $bebanPerusahaan,
+                     'company_value_real' => $bebanPerusahaanReal,
+                  ]);
                }
-            
-            
-
-
-
-            if (!$currentRed) {
-               // dd('ok');
-               ReductionEmployee::create([
-                  'reduction_id' => $red->id,
-                  'type' => 'Default',
-                  'location_id' => $location,
-                  'employee_id' => $employee->id,
-                  'status' => 1,
-                  'employee_value' => $bebanKaryawan,
-                  'employee_value_real' => $bebanKaryawanReal,
-                  'company_value' => $bebanPerusahaan,
-                  'company_value_real' => $bebanPerusahaanReal,
-
-               ]);
-            } else {
-               // dd($bebanKaryawan);
-               // dd('ok');
-
-               $currentRed->update([
-                  'reduction_id' => $red->id,
-                  'type' => 'Default',
-                  'location_id' => $location,
-                  'employee_id' => $employee->id,
-                  // 'status' => 1,
-                  'employee_value' => $bebanKaryawan,
-                  'employee_value_real' => $bebanKaryawanReal,
-                  'company_value' => $bebanPerusahaan,
-                  'company_value_real' => $bebanPerusahaanReal,
-               ]);
             }
          }
-         $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->where('type', 'Default')->get();
-         // dd('ok');
-      } else {
-         // dd('empty');
-         if ($employee->unit_id == 9) {
-            $payTotal = $payroll->pokok;
+            $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->where('type', 'Default')->get();
+            // dd('ok');
          } else {
-            $payTotal = $payroll->total;
+            // dd('empty');
+            if ($employee->unit_id == 9) {
+               $payTotal = $payroll->pokok;
+            } else {
+               $payTotal = $payroll->total;
+            }
+            $redEmployees = [];
          }
-         $redEmployees = [];
-      }
+      
+      
 
       // dd($redEmployees);
       $bpjs = Reduction::where('unit_id', $employee->unit->id)->where('name', 'BPJS KS')->first();
