@@ -678,7 +678,7 @@ class PayrollController extends Controller
 
          $total = preg_replace('/[Rp. ]/', '', $req->pokok) + preg_replace('/[Rp. ]/', '', $req->tunj_jabatan) + preg_replace('/[Rp. ]/', '', $req->tunj_ops) + preg_replace('/[Rp. ]/', '', $req->tunj_kinerja) + preg_replace('/[Rp. ]/', '', $req->tunj_fungsional) + preg_replace('/[Rp. ]/', '', $req->insentif);
 
-
+         // dd($okee);
          $payroll->update([
             'location_id' => $locId,
             'pokok' => preg_replace('/[Rp. ]/', '', $req->pokok),

@@ -232,6 +232,28 @@ Detail Transaction Payroll Employee
 
                                  </table>
                                  @endif
+                                 @if ($transaction->remark == 'Karyawan Out')
+                                     
+                                 
+                                 <table>
+                                    <thead>
+                                       <tr>
+                                          <th colspan="2">Karyawan Out</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>Off</td>
+                                          <td class="text-right">{{$transaction->off}} Hari</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Pengurangan Off</td>
+                                          <td class="text-right">{{formatRupiah($transaction->reduction_off)}}</td>
+                                       </tr>
+                                    </tbody>
+
+                                 </table>
+                                 @endif
                                  <table>
                                     <thead>
                                        <tr>

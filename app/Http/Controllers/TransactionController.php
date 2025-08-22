@@ -1162,6 +1162,7 @@ class TransactionController extends Controller
          
       } 
       elseif($employee->off >= $transaction->cut_from && $employee->off < $transaction->cut_to){
+         // dd('debugging');
          $datetime1 = new DateTime($employee->off);
          $datetime2 = new DateTime($transaction->cut_to);
          $interval = $datetime1->diff($datetime2);
@@ -1183,11 +1184,15 @@ class TransactionController extends Controller
          // dd($interval);
          $reductionOff = $rate * $offQty;
          // dd($transaction->payroll->total - $reductionOff);
+         if (auth()->user()->hasRole('Administrator')) {
+            // dd($transaction->payroll->total);
+         }
+         
          $transaction->update([
             'remark' => 'Karyawan Out',
             'off' => $offQty,
             'reduction_off' => $reductionOff,
-            'total' => $transaction->payroll->total - $reductionOff
+            'total' => ($transaction->payroll->total + $transaction->overtime + $transaction->additional_penambahan) - ($reductionOff + $totalReduction + $transaction->reduction_absence + $transaction->reduction_late)
          ]);
       } 
       else {
