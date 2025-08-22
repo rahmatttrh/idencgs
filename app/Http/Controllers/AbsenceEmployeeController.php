@@ -375,7 +375,15 @@ class AbsenceEmployeeController extends Controller
          $myteams = null;
       }
 
-      $backs = Employee::where('department_id', $employee->department_id)->where('designation_id', '<=', $employee->designation_id)->get();
+      if ($employee->designation_id == 1) {
+         $backs = Employee::where('department_id', $employee->department_id)->whereIn('designation_id', [1,2])->get();
+      } else {
+         $backs = Employee::where('department_id', $employee->department_id)->where('designation_id', '<=', $employee->designation_id)->get();
+      }
+
+      
+
+      // dd($employee->designation_id);
 
       // dd($absenceEmployee->type);
 
