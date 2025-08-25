@@ -91,6 +91,9 @@ SPKL
                   </tr>
                   @endforeach
                   @foreach ($spkls as $spkl)
+                  @if ($spkl->parent_id == null)
+                      
+      
                   <tr>
                      {{-- <td>{{$spkl->id}}</td> --}}
                      <td  class="text-truncate">
@@ -138,6 +141,7 @@ SPKL
                      </td>
 
                   </tr>
+                  @endif
                   @endforeach
 
 
