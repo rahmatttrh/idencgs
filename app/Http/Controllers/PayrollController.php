@@ -63,11 +63,13 @@ class PayrollController extends Controller
          }
          if ($payroll != null) {
             // dd('ada');
-            if ($employee->unit_id == 9) {
-               $payTotal = $payroll->pokok;
-            } else {
-               $payTotal = $payroll->total;
-            }
+            // if ($employee->unit_id == 9) {
+            //    $payTotal = $payroll->pokok;
+            // } else {
+            //    $payTotal = $payroll->total;
+            // }
+
+            $payTotal = $payroll->total;
             foreach ($reductions as $red) {
                $currentRed = ReductionEmployee::where('reduction_id', $red->id)->where('employee_id', $employee->id)->first();
                // dd($red->max_salary);
@@ -208,17 +210,23 @@ class PayrollController extends Controller
    
                   ]);
                } else {
-                  $currentRed->update([
-                     'reduction_id' => $red->id,
-                     'type' => 'Default',
-                     'location_id' => $location,
-                     'employee_id' => $employee->id,
-                     // 'status' => 1,
-                     'employee_value' => $bebanKaryawan,
-                     'employee_value_real' => $bebanKaryawanReal,
-                     'company_value' => $bebanPerusahaan,
-                     'company_value_real' => $bebanPerusahaanReal,
-                  ]);
+
+                  if ($employee->id == 145) {
+                     # code...
+                  } else {
+                     $currentRed->update([
+                        'reduction_id' => $red->id,
+                        'type' => 'Default',
+                        'location_id' => $location,
+                        'employee_id' => $employee->id,
+                        // 'status' => 1,
+                        'employee_value' => $bebanKaryawan,
+                        'employee_value_real' => $bebanKaryawanReal,
+                        'company_value' => $bebanPerusahaan,
+                        'company_value_real' => $bebanPerusahaanReal,
+                     ]);
+                  }
+                  
                }
             }
             $redEmployees = ReductionEmployee::where('employee_id', $employee->id)->get();
@@ -387,11 +395,12 @@ class PayrollController extends Controller
      
          if ($payroll != null) {
             // dd('ada');
-            if ($employee->unit_id == 9) {
-               $payTotal = $payroll->pokok;
-            } else {
-               $payTotal = $payroll->total;
-            }
+            // if ($employee->unit_id == 9) {
+            //    $payTotal = $payroll->pokok;
+            // } else {
+            //    $payTotal = $payroll->total;
+            // }
+            $payTotal = $payroll->total;
             if ($employee->id == 145) {
                # code...
             } else {

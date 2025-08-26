@@ -15,31 +15,16 @@ SPKL
 
    <div class="row">
       <div class="col-md-3">
-         <div class="btn btl-light btn-block text-left mb-3 border">
+         {{-- <div class="btn btl-light btn-block text-left mb-3 border">
             <b><i>SPKL KARYAWAN</i></b>
-         </div>
+         </div> --}}
          {{-- <div class="btn btn-light border btn-block text-left mb-3">SPKL KARYAWAN</div>
           --}}
          <table>
             <thead>
-               <tr><th colspan="2">SPKL/Employee</th></tr>
+               <tr><th colspan="2">SPKL Karyawan</th></tr>
             </thead>
             <tbody>
-               
-               <tr>
-                  <td colspan="2">Periode</td>
-                  
-               </tr>
-               <tr>
-                  <td></td>
-                  <td>
-                     @if ($from != 0)
-                     {{formatDate($from)}} - {{formatDate($to)}}
-                     @else
-                     All
-                     @endif
-                  </td>
-               </tr>
                <tr>
                   <td colspan="2">Employee</td>
                </tr>
@@ -58,12 +43,27 @@ SPKL
                   </td>
                </tr>
                <tr>
+                  <td colspan="2">Periode</td>
+                  
+               </tr>
+               <tr>
+                  <td></td>
+                  <td>
+                     @if ($from != 0)
+                     {{formatDate($from)}} - {{formatDate($to)}}
+                     @else
+                     All
+                     @endif
+                  </td>
+               </tr>
+               
+               <tr>
                   <td colspan="2">Detail</td>
                </tr>
                <tr>
                   <td></td>
                   <td>
-                     {{formatRupiahB($employee->getOvertimes($from, $to)->sum('rate'))}}
+                     Rp. {{formatRupiahB($employee->getOvertimes($from, $to)->sum('rate'))}}
                   </td>
 
                </tr>
@@ -83,7 +83,7 @@ SPKL
                   <td></td>
                   <td>
                      Piket : 
-                     {{$employee->getOvertimes($from, $to)->where('type', 2)->sum('hours_final')}} Jam
+                     {{$employee->getOvertimes($from, $to)->where('type', 2)->sum('hours_final')}} Kali
                   </td>
                </tr>
                
@@ -111,7 +111,7 @@ SPKL
                      <th>Day</th>
                      <th class="text-right">Date</th>
                      
-                     <th class="text-center">Qty (Jam)</th>
+                     <th class="text-center text-truncate">Qty (Jam)</th>
                      {{-- <td></td> --}}
                      @if (auth()->user()->hasRole('HRD-Payroll|Administrator'))
                      <th class="text-right">Rate</th>
@@ -181,7 +181,7 @@ SPKL
                         @if (auth()->user()->hasRole('HRD-Payroll|Administrator'))
                         <td class="text-right text-truncate">{{formatRupiah($over->rate)}}</td>
                         @endif
-                        <td class="text-truncate" style="max-width: 150px">
+                        <td class="text-truncate" style="max-width: 150px" data-toggle="tooltip" data-placement="top" title="{{$over->description}}">
                            {{$over->description}}
                         </td>
                         @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))

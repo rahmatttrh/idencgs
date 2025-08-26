@@ -261,7 +261,18 @@
       <tr>
          <td style="width: 20px"></td>
          <td colspan="1">Jabatan</td>
-         <td colspan="4" class="">{{$absenceemp->leader->position->name}}</td>
+         <td colspan="4" class="">
+            @if (count($absenceemp->leader->positions) > 0)
+               {{$absenceemp->leader->positions->first()->name}}
+                  {{-- @foreach ($absenceemp->leader->positions as $pos)
+                      {{$pos->name}}
+                  @endforeach --}}
+                @else
+                {{$absenceemp->leader->position->name}}
+            @endif
+            
+         </td>
+
       </tr>
       
 

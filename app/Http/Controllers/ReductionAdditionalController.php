@@ -34,11 +34,13 @@ class ReductionAdditionalController extends Controller
 
 
 
-      if ($employee->unit_id == 9) {
-         $payTotal = $payroll->pokok;
-      } else {
-         $payTotal = $payroll->total;
-      }
+      // if ($employee->unit_id == 9) {
+      //    $payTotal = $payroll->pokok;
+      // } else {
+      //    $payTotal = $payroll->total;
+      // }
+
+      $payTotal = $payroll->total;
 
 
       if ($payTotal <= $red->min_salary) {

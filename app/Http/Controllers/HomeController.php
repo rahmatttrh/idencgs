@@ -17,6 +17,7 @@ use App\Models\Log;
 use App\Models\Overtime;
 use App\Models\OvertimeEmployee;
 use App\Models\OvertimeParent;
+use App\Models\Payroll;
 use App\Models\Pe;
 use App\Models\Position;
 use App\Models\Presence;
@@ -248,6 +249,27 @@ class HomeController extends Controller
 
 
       if (auth()->user()->hasRole('Administrator')) {
+
+
+         $employee = Employee::find(409);
+         // dd($employee->nik);
+         $spkl_type = $employee->unit->spkl_type;
+         $hour_type = $employee->unit->hour_type;
+         $payroll = Payroll::find($employee->payroll_id);
+
+
+         // $overtimes = Overtime::where('employee_id', $employee->id)->whereBetween('date', ['2025-07-21', '2025-08-20'])->get();
+         // // dd($overtimes);
+
+         // $overtimeController = new OvertimeController;
+         
+         // foreach($overtimes as $over){
+         //    $rate = $overtimeController->calculateRate($payroll, $over->type, $spkl_type, $hour_type, $over->hours, $over->holiday_type);
+         //    // dd($rate);
+         //    $over->update([
+         //       'rate' => $rate
+         //    ]);
+         // }
          
          // Reset Password
          // $allUsers = User::where('email', '!=', 'admin@ekanuri.com')->get();
