@@ -171,9 +171,17 @@ Form Lembur/Piket
                   
                </div>
             </div>
+            <div class="form-check">
+               <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" value="" name="rest">
+                  <span class="form-check-sign">Kurangi jam istirahat</span>
+               </label>
+            </div>
+             
             <div class="row">
               
             </div>
+            <hr>
             <button class="btn btn-light border" type="submit"><i class="fa fa-save"></i> Save to Draft</button>
          </form>
       </div>

@@ -90,7 +90,7 @@ Summary SPKL
                       <tr>
                         <td>
                            @if ($over->overtime_employee_id == null)
-                              <a href="{{route('payroll.overtime.edit', enkripRambo($over->id))}}">
+                              <a href="{{route('payroll.overtime.edit', [enkripRambo($over->id), enkripRambo('summary')])}}">
                                  @if ($over->type == 1)
                                     Lembur
                                     @else
@@ -98,7 +98,7 @@ Summary SPKL
                                  @endif
                               </a>
                               @else
-                              <a href="{{route('employee.spkl.detail', enkripRambo($over->overtime_employee_id))}}">
+                              <a href="{{route('employee.spkl.detail', [enkripRambo($over->overtime_employee_id), enkripRambo('summary')])}}">
                                  @if ($over->type == 1)
                                     Lembur
                                     @else

@@ -47,7 +47,7 @@ Form SPKL
             @csrf
             @method('POST')
 
-            @if (auth()->user()->hasRole('Manager'))
+            @if (auth()->user()->hasRole('Manager|Asst. Manager|Supervisor'))
                 
             
             <button  class="btn btn-primary mb-2" data-toggle="tooltip" data-placement="top" title="Click to approve multiple SPKL"  type="submit"><i class="fas fa-check"></i> Approve Multiple SPKL</button>
@@ -74,7 +74,7 @@ Form SPKL
                      @foreach ($spklGroupApprovalLeaders as $spkl)
                      <tr>
                         <td>
-                           <input  type="checkbox" name="checkSpkl[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}">
+                           <input  type="checkbox" name="checkSpklGroup[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}">
                            {{-- <input {{$editable == 0 ? 'readonly' : ''}} class="idSpkl" type="checkbox" name="idSpkl" id="idSpkl"> --}}
                         </td>
                         <td>
@@ -120,7 +120,7 @@ Form SPKL
                      @foreach ($spklGroupApprovalManagers as $spkl)
                      <tr>
                         <td>
-                           <input  type="checkbox" name="checkSpkl[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}">
+                           <input  type="checkbox" name="checkSpklGroup[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}">
                            {{-- <input {{$editable == 0 ? 'readonly' : ''}} class="idSpkl" type="checkbox" name="idSpkl" id="idSpkl"> --}}
                         </td>
                         <td>
