@@ -156,27 +156,29 @@ class OvertimeEmployeeController extends Controller
             }
 
          $teamSpkls = OvertimeEmployee::where('status','>', 1)->whereIn('employee_id', $teamId)->orderBy('date', 'desc')->get();
-      } elseif (auth()->user()->hasRole('Asst. Manager')) {
-         // $empSpkls = OvertimeEmployee::where('status', 2)->orderBy('updated_at', 'desc')->get();
-         if(count($employee->positions) > 0){
-            foreach($employee->positions as $pos){
-               foreach($pos->department->employees->where('status', 1) as $emp){
-                  $teamId[] = $emp->id;
-               }
-            }
+      } 
+      // elseif (auth()->user()->hasRole('Asst. Manager')) {
+      //    // $empSpkls = OvertimeEmployee::where('status', 2)->orderBy('updated_at', 'desc')->get();
+      //    if(count($employee->positions) > 0){
+      //       foreach($employee->positions as $pos){
+      //          foreach($pos->department->employees->where('status', 1) as $emp){
+      //             $teamId[] = $emp->id;
+      //          }
+      //       }
 
             
-         } else {
-            $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
-            foreach($myEmployees as $emp){
-               $teamId[] = $emp->id;
-            }
+      //    } else {
+      //       $myEmployees = Employee::where('status', 1)->where('department_id', $employee->department->id)->get();
+      //       foreach($myEmployees as $emp){
+      //          $teamId[] = $emp->id;
+      //       }
             
-         }
+      //    }
 
-         $teamSpkls = OvertimeEmployee::where('status','>', 1)->where('leader_id', $employee->id)->orderBy('date', 'desc')->get();
-         // dd($teamSpkls);
-      } elseif (auth()->user()->hasRole('Manager')) {
+      //    $teamSpkls = OvertimeEmployee::where('status','>', 1)->where('leader_id', $employee->id)->orderBy('date', 'desc')->get();
+      //    // dd($teamSpkls);
+      // } 
+      elseif (auth()->user()->hasRole('Manager|Asst. Manager')) {
          // dd('ok');
          // $empSpkls = OvertimeEmployee::where('status', 2)->orderBy('updated_at', 'desc')->get();
          if(count($employee->positions) > 0){
@@ -1149,11 +1151,13 @@ class OvertimeEmployeeController extends Controller
             }
    
             if ($spklGroup->status == 2){
-               if (auth()->user()->getEmployeeId() == $spklGroup->leader_id){
+               if (auth()->user()->hasRole('Manager|Asst. Manager')){
                   $overtimeParentController = new OvertimeParentController();
-                  $overtimeParentController->approveLeader(enkripRambo($spklGroup->id));
+                  $overtimeParentController->approveManager(enkripRambo($spklGroup->id));
                }
             }
+
+            $qty += 1;
          }
       }
       

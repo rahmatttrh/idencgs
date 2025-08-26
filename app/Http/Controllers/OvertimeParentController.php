@@ -32,19 +32,40 @@ class OvertimeParentController extends Controller
       $spklGroup = OvertimeParent::find(dekripRambo($id));
       $userLogin = Employee::where('nik', auth()->user()->username)->first();
 
-      $spklGroup->update([
-         'status' => 3,
-         'manager_id' => $userLogin->id,
-         'approve_manager_date' => Carbon::now()
-      ]);
+      
 
-      foreach($spklGroup->overtimes as $spkl){
-         $spkl->update([
-            'status' => 3,
-            'manager_id' => $userLogin->id,
-            'approve_manager_date' => Carbon::now()
-         ]);
-      }
+            if (auth()->user()->hasRole('Manager')) {
+               $spklGroup->update([
+                  'status' => 3,
+                  'manager_id' => $userLogin->id,
+                  'approve_manager_date' => Carbon::now()
+               ]);
+
+               foreach($spklGroup->overtimes as $spkl){
+                  $spkl->update([
+                     'status' => 3,
+                     'manager_id' => $userLogin->id,
+                     'approve_manager_date' => Carbon::now()
+                  ]);
+               }
+            } elseif(auth()->user()->hasRole('Asst. Manager')){
+               $spklGroup->update([
+                  'status' => 3,
+                  'asmen_id' => $userLogin->id,
+                  'approve_asmen_date' => Carbon::now()
+               ]);
+
+               foreach($spklGroup->overtimes as $spkl){
+                  $spkl->update([
+                     'status' => 3,
+                     'asmen_id' => $userLogin->id,
+                     'approve_asmen_date' => Carbon::now()
+                  ]);
+               }
+            }
+      
+
+      
 
       return redirect()->back()->with('success', 'SPKL Group berhasil disetujui');
    }

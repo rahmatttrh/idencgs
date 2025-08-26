@@ -33,7 +33,7 @@ Form Lembur/Piket
          @endif
          
          @if ($empSpkl->status == 2)
-             @if ( auth()->user()->hasRole('Manager'))
+             @if ( auth()->user()->hasRole('Manager|Asst. Manager'))
              <span class="btn btn-group btn-block p-0" >
                
                
@@ -226,7 +226,11 @@ Form Lembur/Piket
                   </td>
                   <td>
                      @if ($empSpkl->status > 2 && $empSpkl->status < 10)
-                     <span class="text-info">Approved</span>
+                     @if ($empSpkl->asmen_id != null)
+                           <span class="text-info">Approved as Manager</span>
+                              @else
+                              <span class="text-info">Approved</span>
+                           @endif
                      @else
                      
                      @endif
@@ -246,10 +250,15 @@ Form Lembur/Piket
                   </td>
                   <td>
                      @if ($empSpkl->status > 2 && $empSpkl->status < 10)
-                        {{$empSpkl->manager->biodata->fullName()}}
+                        @if ($empSpkl->asmen_id != null)
+                        {{$empSpkl->asmen->biodata->fullName()}}
+                           @else
+                           {{$empSpkl->manager->biodata->fullName()}}
+                        @endif
+                        {{-- {{$empSpkl->manager->biodata->fullName()}} --}}
                         @else
                         
-                        @endif
+                     @endif
                   </td>
                   
                </tr>
@@ -261,9 +270,16 @@ Form Lembur/Piket
                         @endif
                   </td>
                   <td>
-                     @if ($empSpkl->approve_manager_date)
-                        {{formatDateTime($empSpkl->approve_manager_date)}}
-                  @endif
+                     
+
+                  @if ($empSpkl->approve_manager_date)
+
+                            {{formatDateTime($empSpkl->approve_manager_date)}}
+                        @endif
+                        @if ($empSpkl->approve_asmen_date)
+                           
+                            {{formatDateTime($empSpkl->approve_asmen_date)}}
+                        @endif
                   </td>
                   
                </tr>
