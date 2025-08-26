@@ -477,6 +477,13 @@ class OvertimeEmployeeController extends Controller
       $msisa = $diffTime - $hm;
 
       $intH = floatval(floor($h) . '.' .  $msisa);
+
+      // dd($intH);
+      if($req->has('rest')){
+         $finalHour = $intH - 1;
+      }else{
+         $finalHour = $intH;
+      }
       
       
       $parent = OvertimeParent::create([
@@ -490,7 +497,7 @@ class OvertimeEmployeeController extends Controller
          'holiday_type' => $req->holiday_type,
          'hours_start' => $req->hours_start,
          'hours_end' => $req->hours_end,
-         'hours' => $intH,
+         'hours' => $finalHour,
          'description' => $req->desc,
          'location' => $req->location,
          'location_id' => $locId,
@@ -1088,7 +1095,12 @@ class OvertimeEmployeeController extends Controller
 
    public function approveMultiple(Request $req){
       if ($req->checkSpkl == null) {
-         return redirect()->back()->with('danger', 'Failed, Klik pada checkbox table SPKL yang ingin di approve');
+         if ($req->checkSpklGroup != null) {
+            
+         } else {
+            return redirect()->back()->with('danger', 'Failed, Klik pada checkbox table SPKL yang ingin di approve');
+         }
+         
       }
 
       if (auth()->user()->hasRole('Manager')) {
@@ -1097,47 +1109,54 @@ class OvertimeEmployeeController extends Controller
 
 
       $qty = 0;
-      foreach ($req->checkSpkl as $key => $id) {
-         $spklEmp = OvertimeEmployee::find($id);
 
-         if ($spklEmp->status == 2) {
-            if (auth()->user()->hasRole('Manager')) {
-               $this->approve(enkripRambo($spklEmp->id));
+      if ($req->checkSpkl != null) {
+         foreach ($req->checkSpkl as $key => $id) {
+            $spklEmp = OvertimeEmployee::find($id);
+   
+            if ($spklEmp->status == 2) {
+               if (auth()->user()->hasRole('Manager')) {
+                  $this->approve(enkripRambo($spklEmp->id));
+               }
+   
+               if (auth()->user()->hasRole('Asst. Manager')) {
+                  $this->approveManager(enkripRambo($spklEmp->id));
+               }
             }
-
-            if (auth()->user()->hasRole('Asst. Manager')) {
-               $this->approveManager(enkripRambo($spklEmp->id));
+   
+            if ($spklEmp->status == 1) {
+               if (auth()->user()->getEmployeeId() == $spklEmp->leader_id){
+                  $this->approve(enkripRambo($spklEmp->id));
+               }
             }
-         }
-
-         if ($spklEmp->status == 1) {
-            if (auth()->user()->getEmployeeId() == $spklEmp->leader_id){
-               $this->approve(enkripRambo($spklEmp->id));
-            }
-         }
-        
-         // dd($spklEmp);
-
-         $qty += 1;
-
-      }
-
-      foreach ($req->checkSpklGroup as $key => $id){
-         $spklGroup = OvertimeParent::find($id);
-         if ($spklGroup->status == 1){
-            if (auth()->user()->getEmployeeId() == $spklGroup->leader_id){
-               $overtimeParentController = new OvertimeParent();
-               $overtimeParentController->approveLeader(enkripRambo($spklGroup->id));
-            }
-         }
-
-         if ($spklGroup->status == 2){
-            if (auth()->user()->getEmployeeId() == $spklGroup->leader_id){
-               $overtimeParentController = new OvertimeParent();
-               $overtimeParentController->approveLeader(enkripRambo($spklGroup->id));
-            }
+           
+            // dd($spklEmp);
+   
+            $qty += 1;
+   
          }
       }
+      
+
+      if ($req->checkSpklGroup != null) {
+         foreach ($req->checkSpklGroup as $key => $id){
+            $spklGroup = OvertimeParent::find($id);
+            if ($spklGroup->status == 1){
+               if (auth()->user()->getEmployeeId() == $spklGroup->leader_id){
+                  $overtimeParentController = new OvertimeParentController();
+                  $overtimeParentController->approveLeader(enkripRambo($spklGroup->id));
+               }
+            }
+   
+            if ($spklGroup->status == 2){
+               if (auth()->user()->getEmployeeId() == $spklGroup->leader_id){
+                  $overtimeParentController = new OvertimeParentController();
+                  $overtimeParentController->approveLeader(enkripRambo($spklGroup->id));
+               }
+            }
+         }
+      }
+      
 
       return redirect()->back()->with('success', 'Success, ' . $qty . ' SPKL berhasil di approve');
    }

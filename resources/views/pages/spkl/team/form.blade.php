@@ -48,6 +48,9 @@ SPKL
             
          </div>
          <hr>
+         <small>
+            Form ini digunakan Leader/Atasan jika anda ingin membuat Form SPKL beberapa karyawan (tim anda) dalam satu form
+         </small>
          {{-- <form action="">
             <select name="" id="" class="form-control">
                <option value="">Januari</option>
@@ -178,6 +181,13 @@ SPKL
                   
                </div>
             </div>
+            <div class="form-check">
+               <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" value="" name="rest">
+                  <span class="form-check-sign">Kurangi jam istirahat</span>
+               </label>
+            </div>
+            <hr>
             <button class="btn btn-light border" type="submit"><i class="fa fa-save"></i> Save to Draft</button>
          </form>
       </div>

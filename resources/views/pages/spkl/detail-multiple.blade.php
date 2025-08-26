@@ -203,11 +203,20 @@ Form Lembur/Piket
          <table>
             <tbody>
                <tr>
-                  <td>Requested by <br> Atasan Langsung</td>
+                  <td>Requested by <br> Employee</td>
+                  <td>Approved by <br>Atasan Langsung </td>
                   <td>Approved by <br>Manager </td>
-                  <td>Employee</td>
+                  {{-- <td>Employee</td> --}}
                </tr>
                <tr>
+                  <td class="text-center py-3">
+                     @if ($empSpkl->status > 0 && $empSpkl->status < 10)
+                     <span class="text-info">Released</span>
+                     @else
+                     
+                     @endif
+                     
+                  </td>
                   <td>
                      @if ($empSpkl->status > 1 && $empSpkl->status < 10 )
                         <span class="text-info">Approved</span>
@@ -222,16 +231,12 @@ Form Lembur/Piket
                      
                      @endif
                   </td>
-                  <td class="text-center py-3">
-                     @if ($empSpkl->status > 0 && $empSpkl->status < 10)
-                     <span class="text-info">Released</span>
-                     @else
-                     
-                     @endif
-                     
-                  </td>
+                  
                </tr>
                <tr>
+                  <td>
+                     {{$empSpkl->by->biodata->fullName()}}
+                  </td>
                   <td>
                      @if ($empSpkl->leader_id != null)
                      {{$empSpkl->leader->biodata->fullName()}}
@@ -246,11 +251,10 @@ Form Lembur/Piket
                         
                         @endif
                   </td>
-                  <td>
-                     {{$empSpkl->by->biodata->fullName()}}
-                  </td>
+                  
                </tr>
                <tr>
+                  <td>{{$empSpkl->release_employee_date ?? ''}}</td>
                   <td>
                      @if ($empSpkl->approve_leader_date)
                             {{formatDateTime($empSpkl->approve_leader_date)}}
@@ -261,7 +265,7 @@ Form Lembur/Piket
                         {{formatDateTime($empSpkl->approve_manager_date)}}
                   @endif
                   </td>
-                  <td>{{$empSpkl->release_employee_date ?? ''}}</td>
+                  
                </tr>
             </tbody>
          </table>
