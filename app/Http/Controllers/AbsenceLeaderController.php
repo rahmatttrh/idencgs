@@ -199,6 +199,16 @@ class AbsenceLeaderController extends Controller
       ]);
    }
 
+   public function indexHrdApproval(){
+      // $employee = Employee::where('nik', auth()->user()->username)->first();
+      $reqForms = AbsenceEmployee::where('status', 3)->orderBy('release_date', 'desc')->get();
+      $activeTab = 'approval';
+      return view('pages.absence-request.hrd.index', [
+         'activeTab' => $activeTab,
+         'reqForms' => $reqForms
+      ]);
+   }
+
    public function monitoringSpklHrd(){
       // $employee = Employee::where('nik', auth()->user()->username)->first();
       // $reqForms = AbsenceEmployee::where('status', '!=', 0)->where('status', '!=', 5)->orderBy('release_date', 'desc')->get();

@@ -278,12 +278,12 @@ Setup Payroll Employee
                               @method('PUT')
                               <input type="text" name="employee" id="employee"  value="{{$employee->id}}" hidden>
                               <div class="row">
-                                 <div class="col">
+                                 {{-- <div class="col">
                                     <div class="form-group form-group-default">
                                        <label>Book 2 </label>
                                        <input type="text" name="book2" id="book2" class="form-control" value="{{formatRupiahB($employee->payroll->book2) ?? 0}}">
                                     </div>
-                                 </div>
+                                 </div> --}}
                                  <div class="col"> 
                                     <button type="submit" class="btn btn-primary">Update</button>
                                  </div>

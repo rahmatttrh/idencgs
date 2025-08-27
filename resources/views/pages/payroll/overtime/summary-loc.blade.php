@@ -175,7 +175,7 @@ Summary SPKL
                         {{-- <td>{{$emp->location->name ?? '-'}}</td> --}}
                         {{-- <td class="text-truncate" style="max-width: 100px">{{$emp->location->code ?? ''}} </td> --}}
                         {{-- <td>{{$emp->department->name}}</td> --}}
-                        <td class="text-center">{{count($emp->getSpkl($from, $to)->where('type', 1))}}</td>
+                        <td class="text-center">{{$emp->getOvertimes($from, $to)->where('type', 1)->sum('hours')}} Jam</td>
                         <td class="text-center">{{count($emp->getSpkl($from, $to)->where('type', 2))}}</td>
                       </tr>
                   @endforeach

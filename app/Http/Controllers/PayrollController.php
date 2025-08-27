@@ -501,13 +501,17 @@ class PayrollController extends Controller
 
       // dd($redEmployees);
       $bpjs = Reduction::where('unit_id', $employee->unit->id)->where('name', 'BPJS KS')->first();
-      if ($payTotal <= $bpjs->min_salary ) {
-         $book2 = $bpjs->min_salary;
-      } elseif($payTotal >= $bpjs->min_salary){
-         if ($payTotal > $bpjs->max_salary){
-            $book2 = $bpjs->max_salary;
-         } else {
-            $book2 =$payTotal;
+      
+
+      if ($payroll != null)
+         if ($payTotal <= $bpjs->min_salary ) {
+            $book2 = $bpjs->min_salary;
+         } elseif($payTotal >= $bpjs->min_salary){
+            if ($payTotal > $bpjs->max_salary){
+               $book2 = $bpjs->max_salary;
+            } else {
+               $book2 =$payTotal;
+            }
          }
       }
 

@@ -531,6 +531,33 @@
                   <div class="card-body ">
                      <div class="row align-items-center">
                         <div class="col-icon">
+                           <div class="icon-big text-center icon-info bubble-shadow-small">
+                              <i class="fas fa-calendar-check"></i>
+                           </div>
+                        </div>
+                        <div class="col col-stats ml-3 ml-sm-0">
+                           <a href="{{route('hrd.absence.approval')}}">
+                           <div class="numbers">
+                              <p class="card-category"> Approval Form Cuti/SPT/Izin </p>
+                              <h4 class="card-title"> 
+                                 @if (count($absenceApprovals) > 0)
+                                     <div class="badge badge-danger">{{count($absenceApprovals)}}</div>
+                                     @else
+                                     {{count($absenceApprovals)}}
+                                 @endif
+                              </h4>
+                           </div>
+                        </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6 d-none d-md-block">
+               <div class="card border card-stats card-round">
+                  <div class="card-body ">
+                     <div class="row align-items-center">
+                        <div class="col-icon">
                            <div class="icon-big text-center icon-primary bubble-shadow-small">
                               <i class="fas fa-users"></i>
                            </div>

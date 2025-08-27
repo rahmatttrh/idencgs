@@ -20,8 +20,11 @@ Monitoring Form Absensi
 
          <ul class="nav nav-tabs px-3">
             <li class="nav-item">
-              <a class="nav-link active" href="{{route('hrd.absence')}}">Monitoring  Form Absence</a>
+              <a class="nav-link {{$activeTab == 'approval' ? 'active' : ''}}" href="{{route('hrd.absence.approval')}}">Approval Absence</a>
             </li>
+            <li class="nav-item">
+               <a class="nav-link {{$activeTab == 'index' ? 'active' : ''}}"" href="{{route('hrd.absence')}}">Monitoring  Form Absence</a>
+             </li>
             {{-- <li class="nav-item">
               <a class="nav-link" href="{{route('admin.employee.spkl')}}">SPKL</a>
             </li> --}}

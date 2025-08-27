@@ -168,7 +168,7 @@ PE
             {{formatDateTime($pe->created_at)}}
         </div>
         <div class="col-md-9">
-            @if (auth()->user()->hasRole('Manager') && ($kpa->pe->status == '1' || $kpa->pe->status == '202') )
+            @if (auth()->user()->hasRole('Manager|Asst. Manager') && ($kpa->pe->status == '1' || $kpa->pe->status == '202') )
             <div class="text-right mb-2">
                <div class="btn-group mr-auto">
                   @if($kpa->pe->status == '1')

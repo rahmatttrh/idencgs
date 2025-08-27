@@ -991,6 +991,369 @@ class AbsenceEmployeeController extends Controller
          // }
 
          if ($reqForm->manager_id == $employee->id) {
+            $status = 3;
+         } elseif(auth()->user()->hasRole('BOD')){
+            $status = 3;
+         } else {
+            $status = 2;
+         }
+
+        $form = 'Cuti';
+      } elseif($reqForm->type == 6){
+         if ($reqForm->manager_id == $employee->id) {
+            $status = 3;
+         } else {
+            $status = 3;
+         }
+         $form = 'SPT';
+      } elseif($reqForm->type == 10){
+         if ($reqForm->manager_id == $employee->id) {
+            $status = 3;
+         } else {
+            $status = 2;
+         }
+         $form = 'IZIN RESMI';
+      } elseif($reqForm->type == 4){
+         if ($reqForm->manager_id == $employee->id) {
+            $status = 3;
+         } else {
+            $status = 2;
+         }
+         $form = 'IZIN';
+      } elseif($reqForm->type == 7){
+         if ($reqForm->manager_id == $employee->id) {
+            $status = 3;
+         } else {
+            $status = 2;
+         }
+         $form = 'SAKIT';
+      }
+
+
+
+      $now = Carbon::now();
+      if ($reqForm->app_backup_date != null) {
+         $backupDate = $reqForm->app_backup_date;
+      } else {
+         $backupDate = $now;
+      }
+
+
+      $reqForm->update([
+         'status' => $status,
+         'app_backup_date' => $backupDate,
+      ]);
+
+
+      if($reqForm->type == 6){
+         // if ($reqForm->manager_id == $employee->id) {
+         //    $status = 5;
+         // } else {
+         //    $status = 5;
+         // }
+         // $form = 'SPT';
+
+         $reqForm->update([
+            
+            'app_leader_date' => $now
+         ]);
+
+      } else {
+         if ($reqForm->status == 5) {
+            $reqForm->update([
+              
+               'app_manager_date' => $now
+            ]);
+         }
+   
+         if ($reqForm->status == 2) {
+            $reqForm->update([
+               
+               'app_leader_date' => $now
+            ]);
+         }
+      }
+
+      
+
+      // dd($reqForm->status);
+
+      // $date = Carbon::create($reqForm->date);
+      // if($reqForm->status == 5 || $reqForm->type == 10 || $reqForm->type == 7){
+      //    if ($reqForm->absence_id != null) {
+      //       $absence = Absence::find($reqForm->absence_id);
+
+      //       if ($absence->type == 1){
+      //          $type = 'Alpha';
+      //       } elseif($absence->type == 2){
+      //          $type = 'Terlambat';
+      //       } elseif($absence->type == 3) {
+      //          $type = 'ATL';
+      //       } elseif($absence->type == 4){
+      //          $type = 'Izin';
+      //       } elseif($absence->type == 5){
+      //          $type = 'Cuti';
+      //       } elseif($absence->type == 6){
+      //          $type = 'SPT';
+      //       } elseif($absence->type == 7){
+      //          $type = 'Sakit';
+      //       } elseif($absence->type == 8){
+      //          $type = 'Dinas Luar';
+      //       } elseif($absence->type == 9){
+      //          $type = 'Off Contract';
+      //       } elseif($absence->type == 9){
+      //          $type = 'Izin Resmi';
+      //       }
+
+      //       $revisi = $type;
+      //       $absence->update([
+      //          'type' => $reqForm->type,
+      //          'type_izin' => $reqForm->type_desc,
+      //          'type_spt' => $reqForm->type_desc,
+      //          'desc' => $reqForm->desc,
+      //          'revisi' => $revisi
+      //       ]);
+      //    } else {
+      //       // dd($reqForm->type);
+      //       if ($reqForm->type == 5 || $reqForm->type == 10 || $reqForm->type == 7) {
+      //          $cutiCon = new CutiController;
+      //          $dates = AbsenceEmployeeDetail::where('absence_employee_id', $reqForm->id)->get();
+      //          // dd($dates);
+      //          foreach($dates as $d){
+      //             $ddate = Carbon::create($d->date);
+      //             Absence::create([
+      //                'employee_id' => $reqForm->employee_id,
+      //                'type' => $reqForm->type,
+      //                'type_izin' => $reqForm->type_desc,
+      //                'type_spt' => $reqForm->type_desc,
+      //                'desc' => $reqForm->desc,
+      //                'month' => $ddate->format('F'),
+      //                'year' => $ddate->format('Y'),
+      //                'date' => $d->date,
+      //                'absence_employee_id' => $reqForm->id
+      //             ]);
+
+      //             $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->where('start', '>=', $d->date)->where('end', '<=', $d->date)->first();
+      //             if ($cuti) {
+      //                $cutiCon->calculateCuti($cuti->id);
+      //                if ($d->date >= $cuti->start && $d->date <= $cuti->expired) {
+      //                   $cuti->update([
+      //                      'extend' => $cuti->extend - 1
+      //                   ]);
+      //                }
+      //             }
+
+      //          }
+
+      //       } else {
+      //          Absence::create([
+      //             'employee_id' => $reqForm->employee_id,
+      //             'type' => $reqForm->type,
+      //             'type_izin' => $reqForm->type_desc,
+      //             'type_spt' => $reqForm->type_desc,
+      //             'desc' => $reqForm->desc,
+      //             'month' => $date->format('F'),
+      //             'year' => $date->format('Y'),
+      //             'date' => $reqForm->date,
+      //             // 'revisi' => $revisi
+      //          ]);
+      //       }
+
+      //    }
+      // }
+
+
+      // if($reqForm->status == 5){
+      //    if ($reqForm->type == 5){
+      //       $cutiCon = new CutiController();
+      //       $cuti = Cuti::where('employee_id',  $reqForm->employee_id)->first();
+      //       $cutiCon->calculateCuti($cuti->id);
+
+      //       // dd($cuti->sisa);
+      //    }
+      // }
+
+
+
+      return redirect()->back()->with('success', 'Formulir ' . $form . ' ' . 'berhasil di setujui');
+
+   }
+
+   public function approveManager($id){
+
+      // dd('ok');
+      $reqForm = AbsenceEmployee::find(dekripRambo($id));
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      // dd('manager');
+      if ($reqForm->type == 5) {
+         $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->first();
+         // $cuti->update([
+         //    'start' => $employee->contract->start,
+         //    'end' => $employee->contract->end,
+         // ]);
+         $dates = AbsenceEmployeeDetail::where('absence_employee_id', $reqForm->id)->get();
+            // dd($dates);
+            foreach($dates as $d){
+               $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->first();
+               // dd($cuti->start);
+            }
+      }
+
+
+      // if ($reqForm->type == 5) {
+         if ($reqForm->manager_id == $employee->id) {
+            $status = 5;
+         } elseif (auth()->user()->hasRole('Asst. Manager')) {
+            $status = 5;
+         } else {
+            $status = 2;
+         }
+
+         $form = 'Absensi';
+      // }
+
+
+      $now = Carbon::now();
+      if ($reqForm->app_backup_date != null) {
+         $backupDate = $reqForm->app_backup_date;
+      } else {
+         $backupDate = $now;
+      }
+      $reqForm->update([
+         'status' => $status,
+         // 'app_backup_date' => $backupDate,
+         'app_manager_date' => $now,
+         'app_asmen_date' => $now,
+         'asmen_id' => $employee->id
+      ]);
+
+      // dd($reqForm->status);
+
+      $date = Carbon::create($reqForm->date);
+      if($reqForm->status == 5){
+         if ($reqForm->absence_id != null) {
+            $absence = Absence::find($reqForm->absence_id);
+
+            if ($absence->type == 1){
+               $type = 'Alpha';
+            } elseif($absence->type == 2){
+               $type = 'Terlambat';
+            } elseif($absence->type == 3) {
+               $type = 'ATL';
+            } elseif($absence->type == 4){
+               $type = 'Izin';
+            } elseif($absence->type == 5){
+               $type = 'Cuti';
+            } elseif($absence->type == 6){
+               $type = 'SPT';
+            } elseif($absence->type == 7){
+               $type = 'Sakit';
+            } elseif($absence->type == 8){
+               $type = 'Dinas Luar';
+            } elseif($absence->type == 9){
+               $type = 'Off Contract';
+            } elseif($absence->type == 9){
+               $type = 'Izin Resmi';
+            }
+
+            $revisi = $type;
+            $absence->update([
+               'type' => $reqForm->type,
+               'type_izin' => $reqForm->type_desc,
+               'type_spt' => $reqForm->type_desc,
+               'desc' => $reqForm->desc,
+               'revisi' => $revisi
+            ]);
+         } else {
+            // dd($reqForm->type);
+            if ($reqForm->type == 5 || $reqForm->type == 10) {
+               $cutiCon = new CutiController;
+               $dates = AbsenceEmployeeDetail::where('absence_employee_id', $reqForm->id)->get();
+               // dd($dates);
+               foreach($dates as $d){
+                  $ddate = Carbon::create($d->date);
+                  Absence::create([
+                     'employee_id' => $reqForm->employee_id,
+                     'type' => $reqForm->type,
+                     'type_izin' => $reqForm->type_desc,
+                     'type_spt' => $reqForm->type_desc,
+                     'desc' => $reqForm->desc,
+                     'month' => $ddate->format('F'),
+                     'year' => $ddate->format('Y'),
+                     'date' => $d->date,
+                     'absence_employee_id' => $reqForm->id
+                  ]);
+
+                  $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->where('start', '>=', $d->date)->where('end', '<=', $d->date)->first();
+                  if ($cuti) {
+                     $cutiCon->calculateCuti($cuti->id);
+                     if ($d->date >= $cuti->start && $d->date <= $cuti->expired) {
+                        $cuti->update([
+                           'extend' => $cuti->extend - 1
+                        ]);
+                     }
+                  }
+
+               }
+
+            } else {
+               Absence::create([
+                  'employee_id' => $reqForm->employee_id,
+                  'type' => $reqForm->type,
+                  'type_izin' => $reqForm->type_desc,
+                  'type_spt' => $reqForm->type_desc,
+                  'desc' => $reqForm->desc,
+                  'month' => $date->format('F'),
+                  'year' => $date->format('Y'),
+                  'date' => $reqForm->date,
+                  // 'revisi' => $revisi
+               ]);
+            }
+
+         }
+      }
+
+
+
+      if($reqForm->type == 5){
+         $cutiCon = new CutiController();
+         $cuti = Cuti::where('employee_id',  $reqForm->employee_id)->first();
+         $cutiCon->calculateCuti($cuti->id);
+
+      //   dd($cuti->sisa);
+      }
+
+
+      return redirect()->back()->with('success', 'Formulir ' . $form . ' ' . 'berhasil di setujui');
+
+   }
+
+   public function approveOld($id){
+      // dd('manager real');
+      $reqForm = AbsenceEmployee::find(dekripRambo($id));
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      if ($reqForm->type == 5) {
+         $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->first();
+         // $cuti->update([
+         //    'start' => $employee->contract->start,
+         //    'end' => $employee->contract->end,
+         // ]);
+         $dates = AbsenceEmployeeDetail::where('absence_employee_id', $reqForm->id)->get();
+            // dd($dates);
+            foreach($dates as $d){
+               $cuti = Cuti::where('employee_id',  $reqForm->employee->id)->first();
+               // dd($cuti->start);
+            }
+      }
+
+
+      if ($reqForm->type == 5) {
+         // if (auth()->user()->hasRole('BOD')) {
+         //    $status = 5;
+         // }
+
+         if ($reqForm->manager_id == $employee->id) {
             $status = 5;
          } elseif(auth()->user()->hasRole('BOD')){
             $status = 5;
@@ -1179,7 +1542,7 @@ class AbsenceEmployeeController extends Controller
 
    }
 
-   public function approveManager($id){
+   public function approveManagerOld($id){
 
       // dd('ok');
       $reqForm = AbsenceEmployee::find(dekripRambo($id));
@@ -1374,6 +1737,67 @@ class AbsenceEmployeeController extends Controller
 
 
    public function approveHrd($id){
+      $reqForm = AbsenceEmployee::find(dekripRambo($id));
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      if ($reqForm->type == 5) {
+        $form = 'Cuti';
+
+      } elseif($reqForm->type == 6){
+         $form = 'SPT';
+      }
+
+      $reqForm->update([
+         'status' => 5
+      ]);
+
+      if ($reqForm->absence_id != null) {
+         $absence = Absence::find($reqForm->absence_id);
+
+         if ($absence->type == 1){
+            $type = 'Alpha';
+         } elseif($absence->type == 2){
+            $type = 'Terlambat';
+         } elseif($absence->type == 3) {
+            $type = 'ATL';
+         } elseif($absence->type == 4){
+            $type = 'Izin';
+         } elseif($absence->type == 5){
+            $type = 'Cuti';
+         } elseif($absence->type == 6){
+            $type = 'SPT';
+         } elseif($absence->type == 7){
+            $type = 'Sakit';
+         } elseif($absence->type == 8){
+            $type = 'Dinas Luar';
+         } elseif($absence->type == 9){
+            $type = 'Off Contract';
+         }
+
+         $revisi = $type;
+         $absence->update([
+            'type' => $reqForm->type,
+            'type_izin' => $reqForm->type_desc,
+            'type_spt' => $reqForm->type_desc,
+            'desc' => $reqForm->desc,
+            'revisi' => $revisi
+         ]);
+      } else {
+         Absence::create([
+            'type' => $reqForm->type,
+            'type_izin' => $reqForm->type_desc,
+            'type_spt' => $reqForm->type_desc,
+            'desc' => $reqForm->desc,
+            // 'revisi' => $revisi
+         ]);
+      }
+
+
+      return redirect()->back()->with('success', 'Formulir ' . $form . ' ' . 'berhasil di setujui');
+
+   }
+
+   public function approveHrdOld($id){
       $reqForm = AbsenceEmployee::find(dekripRambo($id));
       $employee = Employee::where('nik', auth()->user()->username)->first();
 
