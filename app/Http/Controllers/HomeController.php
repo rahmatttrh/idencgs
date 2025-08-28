@@ -813,6 +813,7 @@ class HomeController extends Controller
          $spHistories = Sp::where('employee_id', auth()->user()->getEmployeeId())->where('status', '>', 3)->get();
 
          $spklApprovals = OvertimeEmployee::where('status', 3)->get();
+         $absenceApprovals = AbsenceEmployee::where('status', 3)->get();
 
 
          $payslipProgress = UnitTransaction::where('status', '>', 0)->where('status', '<', 5)->get()->count();
@@ -850,6 +851,7 @@ class HomeController extends Controller
             'peHistories' => $peHistories,
             'spHistories' => $spHistories,
             'spklApprovals' => $spklApprovals,
+            'absenceApprovals' => $absenceApprovals,
 
             'payslipProgress' => $payslipProgress, 
             'payslipComplete' => $payslipComplete,

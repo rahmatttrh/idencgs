@@ -74,6 +74,7 @@ class AbsenceEmployeeDetailController extends Controller
    }
 
    public function delete($id){
+      // dd('ok');
       $absenceEmployeeDetail = AbsenceEmployeeDetail::find(dekripRambo($id));
       $absenceEmployeeDetail->delete();
 

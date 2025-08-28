@@ -190,6 +190,7 @@ Route::middleware(["auth"])->group(function () {
    Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC']], function () {
       Route::prefix('hrd')->group(function () {
          Route::get('absence/index', [AbsenceLeaderController::class, 'indexHrd'])->name('hrd.absence');
+         Route::get('absence/approval', [AbsenceLeaderController::class, 'indexHrdApproval'])->name('hrd.absence.approval');
          Route::get('monitoring/spkl/index', [AbsenceLeaderController::class, 'monitoringSpklHrd'])->name('hrd.monitoring.spkl');
          Route::get('absence/history', [AbsenceLeaderController::class, 'historyHrd'])->name('hrd.absence.history');
 

@@ -69,22 +69,22 @@ History Formulir Pengajuan
                            </a>
                            
                         </td>
-                        <td>
+                        <td class="text-truncate">
                            <a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('history')])}}">
                               <x-status.absence :absence="$absence" />
                            </a>
                            
                         </td>
-                        <td><a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('history')])}}"> {{$absence->employee->nik}}</a></td>
-                        <td> {{$absence->employee->biodata->fullName()}}</td>
+                        <td class="text-truncate"><a href="{{route('employee.absence.detail', [enkripRambo($absence->id), enkripRambo('history')])}}"> {{$absence->employee->nik}}</a></td>
+                        <td class="text-truncate"> {{$absence->employee->biodata->fullName()}}</td>
                         {{-- <td>{{$absence->employee->location->name}}</td> --}}
                         
                         {{-- <td>{{formatDayName($absence->date)}}</td> --}}
-                        <td>
+                        <td class="text-truncate">
                            <x-absence.date :absence="$absence" />
                         </td>
                         {{-- <td>{{$absence->desc}}</td> --}}
-                        <td>
+                        <td class="text-truncate">
                            <x-status.form :form="$absence" />
                            
                         </td>
