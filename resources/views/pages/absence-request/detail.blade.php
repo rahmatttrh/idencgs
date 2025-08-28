@@ -776,7 +776,7 @@ Form Perubahan Absence
                <hr>
                <div class="form-group form-group-default">
                   <label>Remark</label>
-                  <input type="text" class="form-control"  name="remark" id="remark"  >
+                  <input type="text" class="form-control" required  name="remark" id="remark"  >
                </div>
             </div>
             <div class="modal-footer">
