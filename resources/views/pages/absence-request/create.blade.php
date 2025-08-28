@@ -124,6 +124,21 @@ Form Absence
                </div>
                
             </div>
+
+            <div class="row type_izin">
+               <div class="col-6 ">
+                  <div class="form-group form-group-default">
+                     <label>Dari</label>
+                     <input type="time" class="form-control" id="permit_from" name="permit_from">
+                  </div>
+               </div>
+               <div class="col-6 ">
+                  <div class="form-group form-group-default">
+                     <label>Sampai</label>
+                     <input type="time" class="form-control" id="permit_to" name="permit_to">
+                  </div>
+               </div>
+            </div>
             <span class="type_izin_resmi">
                <div class="form-group form-group-default">
                   <label>Jenis Izin Resmi</label>

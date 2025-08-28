@@ -476,6 +476,11 @@
          </tr>
          <tr>
             <td style="width: 20px"></td>
+            <td colspan="1"></td>
+            <td colspan="4" class="">{{formatTime($absenceemp->departure)}} - {{formatTime($absenceemp->return)}}</td>
+         </tr>
+         <tr>
+            <td style="width: 20px"></td>
             <td colspan="1">Deskripsi</td>
             <td colspan="4" class="">{{$absenceemp->desc}} </td>
          </tr>

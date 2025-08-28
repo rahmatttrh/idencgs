@@ -512,6 +512,8 @@ class AbsenceEmployeeController extends Controller
          $date = $req->date;
          $permitId = null;
          $typeDesc = $req->type_izin;
+         
+
       } elseif($req->type == 6){
          $req->validate([
             'leader' => 'required',
@@ -552,6 +554,14 @@ class AbsenceEmployeeController extends Controller
 
       // dd($desc);
 
+      if ($req->type == 4) {
+         $departure = $req->date . ' ' . $req->permit_from;
+         $return = $req->date . ' ' . $req->permit_to;
+      } else {
+         $departure = $req->departure;
+         $return = $req->return;
+      }
+
       $absence = AbsenceEmployee::create([
          'status' => 0,
          'employee_id' => $employee->id,
@@ -566,8 +576,8 @@ class AbsenceEmployeeController extends Controller
          'from' => $req->from,
          'transit' => $req->transit,
          'duration' => $req->duration,
-         'departure' => $req->departure,
-         'return' => $req->return,
+         'departure' => $departure,
+         'return' => $return,
 
          'cuti_taken' => $req->cuti_taken,
          'cuti_qty' => $req->cuti_qty,
