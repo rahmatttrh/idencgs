@@ -14,35 +14,21 @@ Form SPKL
    </nav>
 
 
-   <div class="row">
-      <div class="col-md-3">
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.spkl') }}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               Pengajuan SPKL
-            </a>
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('leader.spkl.history') }}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               History
-            </a>
-            
-           
-            
-         </div>
-         <hr>
-         <div class="card">
-            <div class="card-body">
-               <small>Daftar Pengajuan SPKL yang membutuhkan Approval anda.</small> <br><br>
+   
 
-               <small>Untuk melakukan Approval Multiple SPKL, klik Checkbox pada table SPKL dan klik tombol 'Approve Multiple SPKL'</small>
-            </div>
-         </div>
-         
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
-      </div>
-      <div class="col-md-9">
-          {{-- <h4>Pengajuan SPKL</h4> --}}
+
+   <div class="card">
+      <div class="card-body px-0">
+         <ul class="nav nav-tabs px-3">
+            <li class="nav-item">
+              <a class="nav-link active" href="{{ route('leader.spkl') }}">Approval SPKL</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="{{ route('leader.spkl.history') }}">Riwayat</a>
+            </li>
+           
+          </ul>
+
           <form action="{{route('spkl.approve.multiple')}}" method="post" >
             @csrf
             @method('POST')
@@ -50,9 +36,9 @@ Form SPKL
             @if (auth()->user()->hasRole('Manager|Asst. Manager|Supervisor'))
                 
             
-            <button  class="btn btn-primary mb-2" data-toggle="tooltip" data-placement="top" title="Click to approve multiple SPKL"  type="submit"><i class="fas fa-check"></i> Approve Multiple SPKL</button>
+            <button  class="btn btn-primary m-3" data-toggle="tooltip" data-placement="top" title="Click to approve multiple SPKL"  type="submit"><i class="fas fa-check"></i> Approve Multiple SPKL</button>
             @endif
-            <div class="table-responsive p-0 ">
+            <div class="table-responsive mt-2 p-0 ">
                <table id="data" class="display datatables-3  table-sm p-0">
                   <thead>
                      
@@ -63,7 +49,7 @@ Form SPKL
                         <th>Name</th>
                         <th>Type</th>
                         <th>Date</th>
-                        {{-- <th class="text-center">Jam</th> --}}
+                        <th class="text-center">Jam</th>
                         <th>Status</th>
                         {{-- <th>Action</th> --}}
                      </tr>
@@ -108,6 +94,13 @@ Form SPKL
                            {{$spkl->date}}
                            
                         </td>
+
+                        <td class="text-center text-truncate">
+                        
+                           {{$spkl->hours}}
+                           
+                        </td>
+
                         
                         <td>
                            <x-status.spkl-employee :empspkl="$spkl" />
@@ -152,6 +145,11 @@ Form SPKL
                         <td class=" text-truncate">
                            
                            {{$spkl->date}}
+                           
+                        </td>
+                        <td class="text-center text-truncate">
+                        
+                           {{$spkl->hours}}
                            
                         </td>
                         
@@ -203,6 +201,11 @@ Form SPKL
                            <td class=" text-truncate">
                               
                               {{$spkl->date}}
+                              
+                           </td>
+                           <td class="text-center text-truncate">
+                        
+                              {{$spkl->hours}}
                               
                            </td>
                            
@@ -270,6 +273,11 @@ Form SPKL
                               {{$spkl->date}}
                               
                            </td>
+                           <td class=" text-center text-truncate">
+                        
+                              {{$spkl->hours}}
+                              
+                           </td>
                            
                            <td>
                               <x-status.spkl-employee :empspkl="$spkl" />
@@ -285,79 +293,11 @@ Form SPKL
 
                </table>
             </div>
+            
           </form>
-         <hr>
-
-         @if (count($teamAllSpkls) >0)
-         {{-- <div class="table-responsive p-0 ">
-            <table id="data" class="display  table-sm p-0">
-               <thead>
-                  <tr>
-                     <th colspan="6">Monitoring SPKL Team</th>
-                  </tr>
-                  <tr>
-                     <th>ID</th>
-                     <th>Name</th>
-                     <th>Type</th>
-                     <th>Date</th>
-                     <th>Status</th>
-                  </tr>
-               </thead>
-
-               <tbody>
-                  
-                      @foreach ($teamAllSpkls as $spkl)
-                          
-                           <tr>
-                              <td>
-                                 
-                                 
-                              @if ($spkl->parent_id != null)
-                               <a href="{{route('employee.spkl.detail.multiple', [enkripRambo($spkl->parent_id), enkripRambo('approval')])}}">{{$spkl->parent->code}}</a>
-                                 @else
-                                 <a href="{{route('employee.spkl.detail', [enkripRambo($spkl->id), enkripRambo('approval')])}}">{{$spkl->code}}</a>
-                              @endif
-                              </td>
-                              <td>{{$spkl->employee->biodata->fullName()}}</td>
-                              <td>
-                                 @if ($spkl->type == 1)
-                                    Lembur
-                                    @else
-                                    Piket
-                                 @endif
-                              </td>
-                              <td class=" text-truncate">
-                                 @if ($spkl->holiday_type == 1)
-                                    <span  class=" ">
-                                    @elseif($spkl->holiday_type == 2)
-                                    <span class="text-warning">
-                                    @elseif($spkl->holiday_type == 3)
-                                    <span class="text-danger">LN -
-                                    @elseif($spkl->holiday_type == 4)
-                                    <span class="text-danger">LR -
-                                 @endif
-                                 {{formatDate($spkl->date)}}
-                                 </span>
-                              </td>
-                              
-                              
-                             
-                              <td>
-                                 <x-status.spkl-employee :empspkl="$spkl" />
-                              </td>
-                              
-         
-                           </tr>
-                          
-                      @endforeach
-                  
-                  
-               </tbody>
-
-            </table>
-         </div> --}}
-         @endif
-         
+      </div>
+      <div class="card-footer">
+         <small>Daftar SPKL yang membutuhkan persetujuan anda</small>
       </div>
    </div>
 

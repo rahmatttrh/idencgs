@@ -13,28 +13,22 @@ History Formulir Pengajuan SPKL
       </ol>
    </nav>
 
-   <div class="row">
-      <div class="col-md-3">
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.spkl') }}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               Pengajuan SPKL
-            </a>
-            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('leader.spkl.history') }}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               History
-            </a>
-            
+   
+
+
+   <div class="card">
+      <div class="card-body px-0">
+         <ul class="nav nav-tabs px-3">
+            <li class="nav-item">
+              <a class="nav-link " href="{{ route('leader.spkl') }}">Approval SPKL</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{{ route('leader.spkl.history') }}">Riwayat</a>
+            </li>
            
-            
-         </div>
-         <hr>
-         
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
-      </div>
-      <div class="col-md-9">
-         <div class="table-responsive ">
+          </ul>
+
+          <div class="table-responsive p-0 mt-2">
             <table id="data" class="display datatables-3 table-sm p-0">
                <thead>
                   <tr>
@@ -43,7 +37,7 @@ History Formulir Pengajuan SPKL
                      <th>Name</th>
                      <th>Type</th>
                      <th>Date</th>
-                     {{-- <th class="text-center">Jam</th> --}}
+                     <th class="text-center">Jam</th>
                      <th>Status</th>
                   </tr>
                </thead>
@@ -100,6 +94,9 @@ History Formulir Pengajuan SPKL
                                  
                                  
                               </td> --}}
+                              <td class="text-center">
+                                 {{$spkl->hours}}
+                              </td>
                               <td class=" text-truncate">
                                  <x-status.spkl-employee :empspkl="$spkl" />
                               </td>
@@ -116,6 +113,9 @@ History Formulir Pengajuan SPKL
 
             </table>
          </div>
+      </div>
+      <div class="card-footer">
+         <small>Daftar SPKL yang telah melewati persetujuan anda</small>
       </div>
    </div>
 
