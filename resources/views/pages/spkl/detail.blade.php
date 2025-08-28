@@ -541,7 +541,7 @@ Form Lembur/Piket
                <hr>
                <div class="form-group form-group-default">
                   <label>Remark</label>
-                  <input type="text" class="form-control"  name="desc" id="desc"  >
+                  <input type="text" class="form-control"  name="desc" required id="desc"  >
                </div>
             </div>
             <div class="modal-footer">
