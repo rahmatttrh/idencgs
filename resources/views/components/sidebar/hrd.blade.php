@@ -292,6 +292,12 @@
       <p>Training History</p>
    </a>
 </li>
+<li class="nav-item {{ (request()->is('admin/monitoring/*')) ? 'active' : '' }}">
+   <a href="{{route('admin.employee.absence')}}">
+      <i class="fas fa-calendar"></i>
+      <p>Monitoring Form</p>
+   </a>
+</li>
 {{-- <li class="nav-item {{ (request()->is('sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp')}}">
       <i class="fas fa-bolt"></i>

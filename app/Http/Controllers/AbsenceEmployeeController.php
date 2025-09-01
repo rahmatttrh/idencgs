@@ -800,6 +800,24 @@ class AbsenceEmployeeController extends Controller
       return redirect()->route('employee.absence.detail', [enkripRambo($absenceEmp->id), enkripRambo('draft')])->with('success', 'Request Absensi updated');
    }
 
+   public function updateFile(Request $req){
+      $req->validate([
+
+      ]);
+
+      if (request('doc')) {
+         $doc = request()->file('doc')->store('doc/absence');
+      } else {
+         $doc = null;
+      }
+
+      $absenceEmp = AbsenceEmployee::find($req->id);
+      $absenceEmp->update([
+         'doc' => $doc
+      ]);
+      return redirect()->back()->with('success', 'Dokumen berhasil diupdate');
+   }
+
    public function updatePengganti(Request $req){
       $absenceEmp = AbsenceEmployee::find($req->absence_employee);
 

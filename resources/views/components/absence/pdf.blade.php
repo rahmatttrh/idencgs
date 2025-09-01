@@ -456,11 +456,15 @@
             <td colspan="1">Izin</td>
             <td colspan="4" class="">{{$absenceemp->type_desc}} ({{$absenceemp->remark}})</td>
          </tr>
+
+         @if ($absenceemp->departure != null)
          <tr>
             <td style="width: 20px"></td>
             <td colspan="1"></td>
             <td colspan="4" class="">{{formatTime($absenceemp->departure)}} - {{formatTime($absenceemp->return)}}</td>
          </tr>
+         @endif
+         
          <tr>
             <td style="width: 20px"></td>
             <td colspan="1">Deskripsi</td>
