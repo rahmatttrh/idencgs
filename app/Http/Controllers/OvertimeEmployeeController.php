@@ -28,9 +28,9 @@ class OvertimeEmployeeController extends Controller
    public function indexAdmin(){
       // dd('ok');
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spkls = OvertimeEmployee::orderBy('updated_at', 'desc')->get();
+      $spkls = OvertimeEmployee::where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
       // dd($spkls);
-      $spklGroups = OvertimeParent::orderBy('updated_at', 'desc')->get();
+      $spklGroups = OvertimeParent::where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
       return view('pages.absence-request.admin.spkl', [
          'spkls' => $spkls,
          'spklGroups' => $spklGroups

@@ -125,7 +125,8 @@ PE
     <div class="col-md-9">
         @if (auth()->user()->hasRole('Administrator'))
         Join : {{$pd->pdds->count()}} <br>
-        {{$pd->id}}
+        PD ID : {{$pd->id}} <br>
+        PE ID : {{$pe->id}}
             created by : {{$pe->created_by}}
         @endif
         <div class="card shadow-none border">

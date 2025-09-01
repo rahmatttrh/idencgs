@@ -59,7 +59,7 @@ class AbsenceEmployeeController extends Controller
    public function indexAdmin(){
 
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $absences = AbsenceEmployee::orderBy('created_at', 'desc')->get();
+      $absences = AbsenceEmployee::where('status', '>', 0)->orderBy('created_at', 'desc')->get();
       $activeTab = 'index';
       return view('pages.absence-request.admin.index', [
          'activeTab' => $activeTab,
