@@ -482,6 +482,8 @@
          </tr>
          @endif
          
+         
+         
          <tr>
             <td style="width: 20px"></td>
             <td colspan="1">Deskripsi</td>

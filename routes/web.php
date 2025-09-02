@@ -1052,6 +1052,7 @@ Route::middleware(["auth"])->group(function () {
 
             Route::get('/edit/{id}', [AbsenceEmployeeController::class, 'edit'])->name('employee.absence.edit');
             Route::put('/update', [AbsenceEmployeeController::class, 'update'])->name('employee.absence.update');
+            Route::put('/file/update', [AbsenceEmployeeController::class, 'updateFile'])->name('employee.absence.update.file');
             Route::put('/update/pengganti', [AbsenceEmployeeController::class, 'updatePengganti'])->name('employee.absence.update.pengganti');
             Route::get('/delete/{id}', [AbsenceEmployeeController::class, 'delete'])->name('employee.absence.delete');
 

@@ -513,6 +513,21 @@ Form Perubahan Absence
          @endif
 
 
+         @if (auth()->user()->hasRole('Administrator'))
+         <hr>
+             <form action="{{route('employee.absence.update.file')}}" method="POST" enctype="multipart/form-data">
+               @csrf
+               @method('PUT')
+               <input type="text" name="id" id="id" value="{{$absenceEmp->id}}" hidden>
+                  <div class="form-group form-group-default">
+                     <label>File</label>
+                     <input type="file" required class="form-control" id="doc" name="doc">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Update</button>
+             </form>
+         @endif
+
+
          
 
          @if ($absenceEmp->status == 0)
