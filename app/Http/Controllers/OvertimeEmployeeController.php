@@ -1042,29 +1042,40 @@ class OvertimeEmployeeController extends Controller
          // return redirect()->back()->with('danger', 'Data SPKL sudah ada.');
       }
 
+      $duplicate = Overtime::where('employee_id', $employee->id)->where('type', $empSpkl->type)->where('date', $empSpkl->date)->first();
+      
+      
+      // dd($duplicate);
+
+      if ($duplicate == null) {
+         $date = Carbon::create($empSpkl->date);
+
+         $overtime = Overtime::create([
+            'status' => 1,
+            'location_id' => $locId,
+            'employee_id' => $employee->id,
+            'month' => $empSpkl->month,
+            'year' => $empSpkl->year,
+            'date' => $empSpkl->date,
+            'type' => $req->type,
+            'hour_type' => $hour_type,
+            'holiday_type' => $req->holiday_type,
+            'hours' => $hours,
+            'hours_final' => $finalHour,
+            'rate' => round($rate),
+            'description' => $empSpkl->description,
+            'doc' => $doc,
+            'overtime_employee_id' => $empSpkl->id
+         ]);
+      } else {
+         $overtime = $duplicate;
+      }
+
 
       
 
 
-      $date = Carbon::create($empSpkl->date);
-
-      $overtime = Overtime::create([
-         'status' => 1,
-         'location_id' => $locId,
-         'employee_id' => $employee->id,
-         'month' => $empSpkl->month,
-         'year' => $empSpkl->year,
-         'date' => $empSpkl->date,
-         'type' => $req->type,
-         'hour_type' => $hour_type,
-         'holiday_type' => $req->holiday_type,
-         'hours' => $hours,
-         'hours_final' => $finalHour,
-         'rate' => round($rate),
-         'description' => $empSpkl->description,
-         'doc' => $doc,
-         'overtime_employee_id' => $empSpkl->id
-      ]);
+      
 
       // $overtimes = Overtime::where('month', $transaction->month)->get();
       // $totalOvertime = $overtimes->sum('rate');
