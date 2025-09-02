@@ -14,7 +14,7 @@
                <div class="row">
                   <div class="col-md-7">
                      <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                            <div class="form-group form-group-default">
                               <label>Type</label>
                               <select class="form-control type_add" required  id="type_add" name="type_add" >
@@ -27,12 +27,7 @@
                               @enderror
                            </div>
                         </div>
-                        <div class="col-md-6">
-                           <div class="form-group form-group-default">
-                              <label>ID Employee</label>
-                              <input type="text" class="form-control"  name="nik" id="nik" value="{{$employee->contract->id_no}}">
-                           </div>
-                        </div>
+                        
                         <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Start</label>
@@ -55,7 +50,12 @@
                      </div>
                      <div class="row">
    
-                        
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>ID Employee</label>
+                              <input type="text" class="form-control"  name="nik" id="nik" value="{{$employee->contract->id_no}}">
+                           </div>
+                        </div>
                         <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Work Hour</label>
@@ -67,7 +67,7 @@
                               </select>
                            </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Lokasi</label>
                               <select class="form-control" id="loc"  name="loc">
@@ -77,14 +77,13 @@
                                  <option value="kj1-2">KJ 1-2</option>
                                  <option value="kj4">KJ 4</option>
                                  <option value="kj5">KJ 5</option>
-                                 {{-- <option value="kj1-5">KJ 1-5</option> --}}
                                  <option value="gs">GS</option>
                                  <option value="enc">ENC</option>
                                  <option value="plb">PLB</option>
                                  <option value="smg">Semarang</option>
                               </select>
                            </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-12">
                            <div class="form-group form-group-default">
                               <label>Bisnis Unit</label>
@@ -183,16 +182,52 @@
                      </div>
                   </div>
                   <div class="col-md-5">
+
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Lokasi </label>
+                              <select class="form-control" required id="loc" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?> name="loc">
+                                 <option value="" selected disabled >Select</option>
+                                 @foreach ($locations as $loc)
+                                    <option {{$employee->contract->loc == $loc->code ? 'selected' : ''}} value="{{$loc->code}}">{{$loc->name}}</option>
+                                 @endforeach
+                                 {{-- <option {{$employee->contract->loc == 'hw' ? 'selected' : ''}} value="hw">HW</option>
+                                 <option {{$employee->contract->loc == 'jgc' ? 'selected' : ''}} value="jgc">JGC</option>
+                                 <option {{$employee->contract->loc == 'kj1-2' ? 'selected' : ''}} value="kj1-2">KJ 1-2</option>
+                                 <option {{$employee->contract->loc == 'kj4' ? 'selected' : ''}} value="kj4">KJ 4</option>
+                                 <option {{$employee->contract->loc == 'kj5' ? 'selected' : ''}} value="kj5">KJ 5</option>
+                                 <option {{$employee->contract->loc == 'kj1-5' ? 'selected' : ''}} value="kj1-5">KJ 1-5</option>
+                                 <option {{$employee->contract->loc == 'gs' ? 'selected' : ''}} value="gs">GS</option>
+                                 <option {{$employee->contract->loc == 'enc' ? 'selected' : ''}} value="enc">ENC</option>
+                                 <option {{$employee->contract->loc == 'plb' ? 'selected' : ''}} value="plb">PLB</option>
+                                 <option {{$employee->contract->loc == 'smg' ? 'selected' : ''}} value="smg">Semarang</option> --}}
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group form-group-default">
+                              <label>Project </label>
+                              <select class="form-control" id="project" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?> name="project">
+                                 <option value="" selected disabled >Select</option>
+                                 @foreach ($projects as $pro)
+                                    <option {{$employee->contract->project_id == $pro->id ? 'selected' : ''}} value="{{$pro->id}}">{{$pro->name}}</option>
+                                 @endforeach
+                                
+                              </select>
+                           </div>
+                        </div>
+                     </div>
                      
-                        <div class="form-group form-group-default">
+                        {{-- <div class="form-group form-group-default">
                            <label>Job Description</label>
                            <input type="text" class="form-control" name="desc" id="desc" value="{{$employee->contract->desc}}" >
 
-                        </div>
+                        </div> --}}
                      
                      <div class="form-group form-group-default">
-                        <label>Notes</label>
-                        <textarea class="form-control" name="note" id="note"  ></textarea>
+                        <label>Job Description</label>
+                        <textarea class="form-control" name="desc" id="desc"  ></textarea>
 
                      </div>
                      <div class="form-group form-group-default">

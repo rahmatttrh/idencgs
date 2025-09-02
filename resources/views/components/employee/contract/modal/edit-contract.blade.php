@@ -7,7 +7,7 @@
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-         <form action="{{route('contract.update')}}" method="POST" >
+         <form action="{{route('contract.update')}}" method="POST" enctype="multipart/form-data">
             <div class="modal-body">
                @csrf
                @method('PUT')
@@ -68,39 +68,88 @@
                                  </select>
                               </div>
                            </div>
+                           <div class="col-md-12">
+                              <div class="form-group form-group-default">
+                                 <label>Bisnis Unit</label>
+                                 <select class="form-control unit" id="unit" name="unit" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?>>
+                                    <option value="" disabled {{$employee->contract->unit_id == null ? 'selected' : ''}}>Select</option>
+                                    @foreach ($units as $unit)
+                                    <option {{$employee->contract->unit_id == $unit->id ? 'selected' : ''}} value="{{$unit->id}}">{{$unit->name}}</option>
+                                    @endforeach
+                                 </select>
+                                 @error('unit')
+                                 <small class="text-danger"><i>{{ $message }}</i></small>
+                                 @enderror
+                              </div>
+                           </div>
+
                            <div class="col-md-6">
                               <div class="form-group form-group-default">
-                                 <label>Lokasi </label>
-                                 <select class="form-control" required id="loc" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?> name="loc">
-                                    <option value="" selected disabled >Select</option>
-                                    @foreach ($locations as $loc)
-                                       <option {{$employee->contract->loc == $loc->code ? 'selected' : ''}} value="{{$loc->code}}">{{$loc->name}}</option>
+                                 <label>Department</label>
+                                 <select class="form-control department" required id="department" name="department" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?>>
+                                    <option value="" disabled {{$employee->contract->department_id == null ? 'selected' : ''}}>Select</option>
+                                    @foreach ($departments as $department)
+                                    <option {{$employee->contract->department_id == $department->id ? 'selected' : ''}} value="{{$department->id}}">{{$department->name}}</option>
                                     @endforeach
-                                    {{-- <option {{$employee->contract->loc == 'hw' ? 'selected' : ''}} value="hw">HW</option>
-                                    <option {{$employee->contract->loc == 'jgc' ? 'selected' : ''}} value="jgc">JGC</option>
-                                    <option {{$employee->contract->loc == 'kj1-2' ? 'selected' : ''}} value="kj1-2">KJ 1-2</option>
-                                    <option {{$employee->contract->loc == 'kj4' ? 'selected' : ''}} value="kj4">KJ 4</option>
-                                    <option {{$employee->contract->loc == 'kj5' ? 'selected' : ''}} value="kj5">KJ 5</option>
-                                    <option {{$employee->contract->loc == 'kj1-5' ? 'selected' : ''}} value="kj1-5">KJ 1-5</option>
-                                    <option {{$employee->contract->loc == 'gs' ? 'selected' : ''}} value="gs">GS</option>
-                                    <option {{$employee->contract->loc == 'enc' ? 'selected' : ''}} value="enc">ENC</option>
-                                    <option {{$employee->contract->loc == 'plb' ? 'selected' : ''}} value="plb">PLB</option>
-                                    <option {{$employee->contract->loc == 'smg' ? 'selected' : ''}} value="smg">Semarang</option> --}}
                                  </select>
+                                 @error('department')
+                                 <small class="text-danger"><i>{{ $message }}</i></small>
+                                 @enderror
                               </div>
+                           
+      
+                           
+                              
                            </div>
                            <div class="col-md-6">
                               <div class="form-group form-group-default">
-                                 <label>Project </label>
-                                 <select class="form-control" id="project" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?> name="project">
-                                    <option value="" selected disabled >Select</option>
-                                    @foreach ($projects as $pro)
-                                       <option {{$employee->contract->project_id == $pro->id ? 'selected' : ''}} value="{{$pro->id}}">{{$pro->name}}</option>
+                                 <label>Sub Department</label>
+                                 <select class="form-control subdept"  id="subdept" name="subdept" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?>>
+                                    <option value="" disabled {{$employee->contract->sub_dept_id == null ? 'selected' : ''}}>Select</option>
+                                    @foreach ($subdepts as $sub)
+                                    <option {{$employee->sub_dept_id == $sub->id ? 'selected' : ''}} value="{{$sub->id}}">{{$sub->name}}</option>
                                     @endforeach
-                                   
                                  </select>
+                                 @error('subdept')
+                                 <small class="text-danger"><i>{{ $message }}</i></small>
+                                 @enderror
                               </div>
                            </div>
+
+                           <div class="col-md-6">
+                              <div class="form-group form-group-default">
+                                 <label>Level</label>
+                                 <select class="form-control" id="designation" name="designation"  >
+                                    <option value="" selected disabled>Select</option>
+                                    @foreach ($designations as $designation)
+                                    <option {{$employee->contract->designation_id == $designation->id ? 'selected' : ''}} value="{{$designation->id}}">{{$designation->name}}</option>
+                                    @endforeach
+                                 </select>
+                                 @error('designation')
+                                 <small class="text-danger"><i>{{ $message }}</i></small>
+                                 @enderror
+                              </div>
+                           </div>
+
+                           <div class="col-md-6">
+                              <div class="form-group form-group-default">
+                                 <label>Posisi</label>
+                                 <select class="form-control position" id="position" required name="position" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?>>
+                                    <option value="" disabled {{$employee->contract->position_id == null ? 'selected' : ''}}>Select</option>
+                                    @foreach ($allpositions as $position)
+                                    {{--<option {{$employee->contract->designation_id == $designation->id ? 'selected' : ''}} value="{{$designation->id}}">{{$designation->name}}</option>--}}
+                                    <option {{$employee->position_id == $position->id ? 'selected' : ''}} value="{{$position->id}}">{{$position->name}} </option>
+                                    @endforeach
+                                 </select>
+                                 @error('position')
+                                 <small class="text-danger"><i>{{ $message }}</i></small>
+                                 @enderror
+                              </div>
+                           </div>
+
+
+
+                          
                            
       
                            {{-- <div class="col-md-4">
@@ -152,7 +201,46 @@
                            
                            
                         </div>
+                       
+      
+                        
+                     </div>
+                     <div class="col-md-6">
+
                         <div class="row">
+                           <div class="col-md-6">
+                              <div class="form-group form-group-default">
+                                 <label>Lokasi </label>
+                                 <select class="form-control" required id="loc" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?> name="loc">
+                                    <option value="" selected disabled >Select</option>
+                                    @foreach ($locations as $loc)
+                                       <option {{$employee->contract->loc == $loc->code ? 'selected' : ''}} value="{{$loc->code}}">{{$loc->name}}</option>
+                                    @endforeach
+                                    {{-- <option {{$employee->contract->loc == 'hw' ? 'selected' : ''}} value="hw">HW</option>
+                                    <option {{$employee->contract->loc == 'jgc' ? 'selected' : ''}} value="jgc">JGC</option>
+                                    <option {{$employee->contract->loc == 'kj1-2' ? 'selected' : ''}} value="kj1-2">KJ 1-2</option>
+                                    <option {{$employee->contract->loc == 'kj4' ? 'selected' : ''}} value="kj4">KJ 4</option>
+                                    <option {{$employee->contract->loc == 'kj5' ? 'selected' : ''}} value="kj5">KJ 5</option>
+                                    <option {{$employee->contract->loc == 'kj1-5' ? 'selected' : ''}} value="kj1-5">KJ 1-5</option>
+                                    <option {{$employee->contract->loc == 'gs' ? 'selected' : ''}} value="gs">GS</option>
+                                    <option {{$employee->contract->loc == 'enc' ? 'selected' : ''}} value="enc">ENC</option>
+                                    <option {{$employee->contract->loc == 'plb' ? 'selected' : ''}} value="plb">PLB</option>
+                                    <option {{$employee->contract->loc == 'smg' ? 'selected' : ''}} value="smg">Semarang</option> --}}
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group form-group-default">
+                                 <label>Project </label>
+                                 <select class="form-control" id="project" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?> name="project">
+                                    <option value="" selected disabled >Select</option>
+                                    @foreach ($projects as $pro)
+                                       <option {{$employee->contract->project_id == $pro->id ? 'selected' : ''}} value="{{$pro->id}}">{{$pro->name}}</option>
+                                    @endforeach
+                                   
+                                 </select>
+                              </div>
+                           </div>
                            
                            
                            <div class="col-md-12">
@@ -166,69 +254,21 @@
                            
                            
                         </div>
-      
                         
-                     </div>
-                     <div class="col-md-6">
-                        <div class="col-md-12">
-                           <div class="form-group form-group-default">
-                              <label>Bisnis Unit</label>
-                              <select class="form-control unit" id="unit" name="unit" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?>>
-                                 <option value="" disabled {{$employee->contract->unit_id == null ? 'selected' : ''}}>Select</option>
-                                 @foreach ($units as $unit)
-                                 <option {{$employee->contract->unit_id == $unit->id ? 'selected' : ''}} value="{{$unit->id}}">{{$unit->name}}</option>
-                                 @endforeach
-                              </select>
-                              @error('unit')
-                              <small class="text-danger"><i>{{ $message }}</i></small>
-                              @enderror
-                           </div>
-                        </div>
-                        <div class="col-md-12">
-                           <div class="form-group form-group-default">
-                              <label>Department</label>
-                              <select class="form-control department" required id="department" name="department" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?>>
-                                 <option value="" disabled {{$employee->contract->department_id == null ? 'selected' : ''}}>Select</option>
-                                 @foreach ($departments as $department)
-                                 <option {{$employee->contract->department_id == $department->id ? 'selected' : ''}} value="{{$department->id}}">{{$department->name}}</option>
-                                 @endforeach
-                              </select>
-                              @error('department')
-                              <small class="text-danger"><i>{{ $message }}</i></small>
-                              @enderror
-                           </div>
-                        </div>
+                           
+                        
+                        
+                           
+                        
+                        
+                        
+                        
+                           
+                        
+                        <div class="form-group form-group-default">
+                           <label>Lampiran Dokumen</label>
+                           <input type="file" class="form-control"  name="doc" id="doc"  >
    
-                        <div class="col-md-12">
-                           <div class="form-group form-group-default">
-                              <label>Sub Department</label>
-                              <select class="form-control subdept"  id="subdept" name="subdept" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?>>
-                                 <option value="" disabled {{$employee->contract->sub_dept_id == null ? 'selected' : ''}}>Select</option>
-                                 @foreach ($subdepts as $sub)
-                                 <option {{$employee->sub_dept_id == $sub->id ? 'selected' : ''}} value="{{$sub->id}}">{{$sub->name}}</option>
-                                 @endforeach
-                              </select>
-                              @error('subdept')
-                              <small class="text-danger"><i>{{ $message }}</i></small>
-                              @enderror
-                           </div>
-                        </div>
-                        
-                        
-                        <div class="col-md-12">
-                           <div class="form-group form-group-default">
-                              <label>Posisi</label>
-                              <select class="form-control position" id="position" required name="position" <?= auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment') ? '' : 'readonly' ?>>
-                                 <option value="" disabled {{$employee->contract->position_id == null ? 'selected' : ''}}>Select</option>
-                                 @foreach ($allpositions as $position)
-                                 {{--<option {{$employee->contract->designation_id == $designation->id ? 'selected' : ''}} value="{{$designation->id}}">{{$designation->name}}</option>--}}
-                                 <option {{$employee->position_id == $position->id ? 'selected' : ''}} value="{{$position->id}}">{{$position->name}} </option>
-                                 @endforeach
-                              </select>
-                              @error('position')
-                              <small class="text-danger"><i>{{ $message }}</i></small>
-                              @enderror
-                           </div>
                         </div>
                      </div>
 
