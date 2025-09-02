@@ -13,41 +13,30 @@ Form SPKL
       </ol>
    </nav>
 
+   <div class="card ">
+      
 
-   <div class="row">
-      <div class="col-md-3">
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('hrd.spkl') }}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               Pengajuan SPKL
-            </a>
-            <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.spkl.history') }}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               History
-            </a>
-            
+      <div class="card-body px-0">
+
+         <ul class="nav nav-tabs px-3">
+            <li class="nav-item">
+               <a class="nav-link active" href="{{route('hrd.spkl')}}">Approval SPKL  
+                  @if (count($spklApprovals) > 0)
+                  <span class="badge badge-danger">{{count($spklApprovals)}} </span>
+                  @endif
+                  
+               </a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="{{route('hrd.spkl.history')}}">Monitoring  Form SPKL</a>
+             </li>
+            {{-- <li class="nav-item">
+              <a class="nav-link" href="{{route('admin.employee.spkl')}}">SPKL</a>
+            </li> --}}
            
-            
-         </div>
-         <hr>
-         <div class="card">
+          </ul>
 
-            {{-- <div class="card-body p-0 d-none d-md-block">
-               <img class="w-100" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ3B1ZXZsYXhvb3N5dmcwNnp1czdteTZwa3B1bzZ0YjVhYXV3azlubCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6aT5uzlqJCOsf0zuCn/giphy.gif" alt="">
-               
-            </div> --}}
-            <div class="card-body">
-               <small>Daftar Pengajuan SPKL yang membutuhkan Approval anda.</small>
-            </div>
-         </div>
-         
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
-      </div>
-      <div class="col-md-9">
-          {{-- <h4>Pengajuan SPKL</h4> --}}
-         
-         <div class="table-responsive p-0 ">
+          <div class="table-responsive mt-2 ">
             <table id="data" class="datatables-3 ">
                <thead>
                   <tr>
@@ -132,8 +121,18 @@ Form SPKL
 
             </table>
          </div>
+
+
       </div>
+      <div class="card-footer">
+         {{-- <a href="{{route('overtime.refresh')}}">Refresh</a> --}}
+         <small>Daftar Formulir SPKL yang menunggu konfirmasi HRD</small>
+      </div>
+
+
    </div>
+
+
 
    
 

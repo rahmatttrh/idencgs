@@ -24,6 +24,20 @@ Form Perubahan Absence
    <div class="row">
       <div class="col-md-3">
 
+         @if (  $absenceEmp->status == 3 && auth()->user()->hasRole('HRD|HRD-Payroll'))
+            
+         <div class="btn-group btn-block" >
+            <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee-hrd" data-toggle="modal"><i class="fa fa-check"></i> Confirm</a>
+            {{-- <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a> --}}
+         </div>
+
+         {{-- <div class=" btn-group btn-block" >
+                     
+            <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
+            <a href="#" class="btn mb-2 btn-danger">Reject</a>
+         </div> --}}
+         @endif
+
          @if (  $absenceEmp->status == 2 && auth()->user()->hasRole('Asst. Manager'))
             
          <div class="btn-group btn-block" >
@@ -738,6 +752,33 @@ Form Perubahan Absence
             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary ">
                <a class="text-light" href="{{route('employee.absence.approve.man', enkripRambo($absenceEmp->id))}}">Approve as Manager</a>
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modal-approve-absence-employee-hrd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content text-dark">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body ">
+            Konfirmasi Pengajuan Form
+            
+            <x-status.absence :absence="$absenceEmp" /> <br>
+
+            {{$absenceEmp->code}}
+            
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary ">
+               <a class="text-light" href="{{route('employee.absence.approve.hrd', enkripRambo($absenceEmp->id))}}">Confirm as HRD</a>
             </button>
          </div>
       </div>

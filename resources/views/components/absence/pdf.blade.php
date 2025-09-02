@@ -817,6 +817,7 @@
                    @else
             <td class="bg-dark text-light text-truncate">Disetujui Oleh :</td>
             @endif
+            <td class="bg-dark text-light text-truncate">Divalidasi Oleh :</td>
             
             
          </tr>
@@ -842,7 +843,11 @@
                @endif
             </td>
             @endif
-            
+            <td>
+               @if ($absenceemp->status == 5)
+               <span class="text-success"><i>CONFIRMED</i></span>
+               @endif
+            </td>
             
          </tr>
          <tr>
@@ -865,6 +870,12 @@
                @endif
             </td>
             @endif
+
+            <td>
+               @if ($absenceemp->status == 5)
+               HRD
+               @endif
+            </td>
             
          </tr>
          <tr>
@@ -886,6 +897,12 @@
                @endif
             </td>
             @endif
+
+            <td class="text-truncate">
+               @if ($absenceemp->status == 5)
+                  <small>{{formatDateTime($absenceemp->app_hrd_date)}}</small>
+               @endif
+            </td>
             
             
          </tr>
