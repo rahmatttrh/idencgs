@@ -993,7 +993,7 @@ class AbsenceEmployeeController extends Controller
       return redirect()->back()->with('success', 'Pengajuan Absensi berhasil dikirim');
    }
 
-   public function approveNew($id){
+   public function approve($id){
       // dd('manager real');
       $reqForm = AbsenceEmployee::find(dekripRambo($id));
       $employee = Employee::where('nik', auth()->user()->username)->first();
@@ -1207,7 +1207,7 @@ class AbsenceEmployeeController extends Controller
 
    }
 
-   public function approveManagerNew($id){
+   public function approveManager($id){
 
       // dd('ok');
       $reqForm = AbsenceEmployee::find(dekripRambo($id));
@@ -1356,7 +1356,7 @@ class AbsenceEmployeeController extends Controller
 
    }
 
-   public function approve($id){
+   public function approveOld($id){
       // dd('manager real');
       $reqForm = AbsenceEmployee::find(dekripRambo($id));
       $employee = Employee::where('nik', auth()->user()->username)->first();
@@ -1570,7 +1570,7 @@ class AbsenceEmployeeController extends Controller
 
    }
 
-   public function approveManager($id){
+   public function approveManagerOld($id){
 
       // dd('ok');
       $reqForm = AbsenceEmployee::find(dekripRambo($id));

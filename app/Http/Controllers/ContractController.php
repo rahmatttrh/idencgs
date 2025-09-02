@@ -29,6 +29,13 @@ class ContractController extends Controller
          'status' => 0
       ]);
 
+      if (request('doc')) {
+         
+         $doc = request()->file('doc')->store('doc/employee/contract');
+      }  else {
+         $doc = null;
+      }
+
       $position = Position::find($req->position_add);
       $contract = Contract::create([
          'status' => 1,
@@ -50,7 +57,8 @@ class ContractController extends Controller
          'desc' => $req->desc,
          'cuti' => $req->cuti,
          'loc' => $req->loc,
-         'note' => $req->note
+         'note' => $req->note,
+         'doc' => $doc
       ]);
 
 

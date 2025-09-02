@@ -154,6 +154,14 @@
                               
                            </div>
                         </div>
+                        <hr>
+
+                        @if ($employee->contract->doc != null)
+                        <a href="#" class="text-light" data-toggle="modal" data-target="#modal-doc-contract">Lampiran Dokumen</a>
+                        @else
+                        <small>Lampiran Dokumen tidak tersedia</small>
+                        @endif
+                        
                         
                         
                            {{-- @if ($employee->designation->name == 'Manager')
@@ -861,6 +869,35 @@
 <x-employee.contract.modal.add-leader :employee="$employee" :leaders="$leaders" />
 
 {{-- <x-employee.contract.modal.add-position :employee="$employee" :leaders="$leaders" /> --}}
+
+<div class="modal fade" id="modal-doc-contract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Dokumen Kontrak</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         {{-- <form action="{{route('mutation.update')}}" method="POST"  enctype="multipart/form-data"> --}}
+            <div class="modal-body">
+               
+                  {{-- <h1>FILE</h1> --}}
+
+                  <iframe height="550px" width="100%" src="{{asset('storage/' . $employee->contract->doc)}}" frameborder="0"></iframe>
+                  
+                  
+
+                  
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               {{-- <button type="submit" class="btn btn-dark ">Update</button> --}}
+            </div>
+         {{-- </form> --}}
+      </div>
+   </div>
+</div>
 
 @push('js_footer')
     
