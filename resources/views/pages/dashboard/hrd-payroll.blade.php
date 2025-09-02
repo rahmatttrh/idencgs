@@ -383,7 +383,7 @@
             </div>
 
             <div class="col-6 d-block d-sm-none">
-               <a href="{{route('hrd.absence')}}">
+               <a href="{{route('hrd.absence.approval')}}">
                   <div class="card card-primary card-stats card-round">
                      <div class="card-body ">
                         <div class="row align-items-center">
@@ -391,14 +391,41 @@
                            <div class="col col-stats ml-3 ml-sm-0">
                               
                                  <div class="numbers">
-                                    <p class="card-category"> Monitoring Absensi  </p>
+                                    <p class="card-category"> Approval Form Cuti/SPT/Izin  </p>
                                     <h4 class="card-title py-1"> 
-                                       {{-- @if (count($absenceProgress) > 0)
-                                          <div class="badge badge-light">{{count($absenceProgress)}}</div>
-                                          @else
-                                          {{count($absenceProgress)}}
-                                       @endif --}}
-                                       -
+                                       @if (count($absenceApprovals) > 0)
+                                       <div class="badge badge-danger">{{count($absenceApprovals)}}</div>
+                                       @else
+                                       {{count($absenceApprovals)}}
+                                    @endif
+                                    </h4>
+                                 </div>
+                              
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </a>
+            </div>
+
+            <div class="col-6 d-block d-sm-none">
+               <a href="{{route('contract.alert')}}">
+                  <div class="card card-primary card-stats card-round">
+                     <div class="card-body ">
+                        <div class="row align-items-center">
+                           
+                           <div class="col col-stats ml-3 ml-sm-0">
+                              
+                                 <div class="numbers">
+                                    <p class="card-category"> Contract Alert  </p>
+                                    <h4 class="card-title py-1"> 
+                                       @if (count($notifContracts) > 0)
+                                        <div class="badge badge-danger">
+                                          {{count($notifContracts)}}
+                                        </div>
+                                        @else
+                                        {{count($notifContracts)}}
+                                    @endif
                                     </h4>
                                  </div>
                               
@@ -607,13 +634,13 @@
                      <div class="card-body">
                         <div class="row align-items-center">
                            <div class="col-icon d-none d-md-block">
-                              <div class="icon-big text-center icon-info bubble-shadow-small">
+                              <div class="icon-big text-center icon-danger bubble-shadow-small">
                                  <i class="fa fa-file"></i>
                               </div>
                            </div>
                            <div class="col col-stats ml-3 ml-sm-0">
                               <div class="numbers">
-                                 <p class="card-category">Contract</p>
+                                 <p class="card-category">Contract Alert</p>
                                  <h4 class="card-title">
                                     @if (count($notifContracts) > 0)
                                         <div class="badge badge-danger">
@@ -632,7 +659,7 @@
                   
                </a>
             </div>
-            <div class="col-md-6 d-none d-md-block">
+            {{-- <div class="col-md-6 d-none d-md-block">
                <div class="card border card-stats card-round">
                   <div class="card-body ">
                      <div class="row align-items-center">
@@ -649,11 +676,7 @@
                                  <div class="badge badge-light">
                                     -
                                  </div>
-                              {{-- @if (count($absenceProgress) > 0)
-                                          <div class="badge badge-danger">{{count($absenceProgress)}}</div>
-                                          @else
-                                          {{count($absenceProgress)}}
-                                       @endif --}}
+                              
                               </h4>
                            </div>
                         </a>
@@ -661,7 +684,7 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div> --}}
          </div>
 
          <div class="row">

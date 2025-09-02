@@ -20,18 +20,25 @@ Monitoring Form Absensi
 
          <ul class="nav nav-tabs px-3">
             <li class="nav-item">
-              <a class="nav-link {{$activeTab == 'approval' ? 'active' : ''}}" href="{{route('hrd.absence.approval')}}">Approval Absence</a>
+              <a class="nav-link {{$activeTab == 'approval' ? 'active' : ''}}" href="{{route('hrd.absence.approval')}}">
+                  Approval Absence
+                  @if ($totalApproval > 0)
+                     <span class="badge badge-danger">{{$totalApproval}}</span>
+                  @endif
+               </a>
             </li>
+
+            
             <li class="nav-item">
-               <a class="nav-link {{$activeTab == 'index' ? 'active' : ''}}"" href="{{route('hrd.absence')}}">Monitoring  Form Absence</a>
+               <a class="nav-link {{$activeTab == 'index' ? 'active' : ''}}" href="{{route('hrd.absence')}}">Monitoring  Form Absence</a>
              </li>
             {{-- <li class="nav-item">
               <a class="nav-link" href="{{route('admin.employee.spkl')}}">SPKL</a>
             </li> --}}
            
-          </ul>
+         </ul>
 
-          <div class="table-responsive mt-2">
+         <div class="table-responsive mt-2">
             <table id="data" class="datatables-6">
                <thead>
                   <tr>
@@ -101,6 +108,13 @@ Monitoring Form Absensi
 
       </div>
       <div class="card-footer">
+         @if ($activeTab == 'approval')
+             <small>Daftar Formulir Absensi (Cuti/SPT/Izin/Sakit) yang menunggu konfirmasi HRD</small>
+         @endif
+
+         @if ($activeTab == 'index')
+             <small>Daftar Formulir Absensi (Cuti/SPT/Izin/Sakit) yang dibuat oleh semua Karyawan</small>
+         @endif
          {{-- <a href="{{route('overtime.refresh')}}">Refresh</a> --}}
       </div>
 
@@ -109,55 +123,6 @@ Monitoring Form Absensi
 
 
 
-   <div class="row">
-      <div class="col-md-3">
-         {{-- <h4><b>Monitoring Form Absensi</b></h4>
-         <hr> --}}
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{ route('hrd.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               Form Absensi
-            </a>
-            {{-- <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{route('hrd.spkl')}}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               SPKL
-            </a> --}}
-            {{-- <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.monitoring.spkl') }}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-              
-               SPKL
-            </a> --}}
-
-            {{-- <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.absence.history') }}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-              
-               History
-            </a> --}}
-
-            
-            
-           
-            
-         </div>
-         <hr>
-         <div class="card">
-            
-            <div class="card-body">
-               <small>Daftar Form Request Absensi (Cuti/SPT/Izin/Sakit) yang dibuat oleh Karyawan</small>
-            </div>
-         </div>
-         {{-- <small>
-            <b>#INFO</b> <br>
-            Daftar Form Request Absensi yang dibuat oleh Karyawan
-         </small> --}}
-         
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
-      </div>
-      <div class="col-md-9">
-         
-         
-      </div>
-   </div>
 
   
 

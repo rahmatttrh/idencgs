@@ -191,21 +191,26 @@ class AbsenceLeaderController extends Controller
 
    public function indexHrd(){
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $reqForms = AbsenceEmployee::where('status', '!=', 0)->orderBy('release_date', 'desc')->get();
+      $reqForms = AbsenceEmployee::whereNotIn('status', [0,3])->orderBy('release_date', 'desc')->get();
       $activeTab = 'index';
+
+      $totalApproval = AbsenceEmployee::where('status', 3)->orderBy('release_date', 'desc')->get()->count();
       return view('pages.absence-request.hrd.index', [
          'activeTab' => $activeTab,
-         'reqForms' => $reqForms
+         'reqForms' => $reqForms,
+         'totalApproval' => $totalApproval
       ]);
    }
 
    public function indexHrdApproval(){
       // $employee = Employee::where('nik', auth()->user()->username)->first();
       $reqForms = AbsenceEmployee::where('status', 3)->orderBy('release_date', 'desc')->get();
+      $totalApproval = AbsenceEmployee::where('status', 3)->orderBy('release_date', 'desc')->get()->count();
       $activeTab = 'approval';
       return view('pages.absence-request.hrd.index', [
          'activeTab' => $activeTab,
-         'reqForms' => $reqForms
+         'reqForms' => $reqForms,
+         'totalApproval' => $totalApproval
       ]);
    }
 

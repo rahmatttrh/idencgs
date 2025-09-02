@@ -7,7 +7,7 @@
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-         <form action="{{route('contract.store')}}" method="POST" >
+         <form action="{{route('contract.store')}}" method="POST" enctype="multipart/form-data" >
             <div class="modal-body">
                @csrf
                <input type="number" name="employee" id="employee" value="{{$employee->id}}" hidden>
@@ -17,7 +17,7 @@
                         <div class="col-md-6">
                            <div class="form-group form-group-default">
                               <label>Type</label>
-                              <select class="form-control type_add"  id="type_add" name="type_add" >
+                              <select class="form-control type_add" required  id="type_add" name="type_add" >
                                  <option value="" selected disabled>Select</option>
                                  <option value="Kontrak">Kontrak</option>
                                  <option value="Tetap">Tetap</option>
@@ -193,6 +193,11 @@
                      <div class="form-group form-group-default">
                         <label>Notes</label>
                         <textarea class="form-control" name="note" id="note"  ></textarea>
+
+                     </div>
+                     <div class="form-group form-group-default">
+                        <label>Lampiran Dokumen</label>
+                        <input type="file" class="form-control" required name="doc" id="doc"  >
 
                      </div>
                      <small>* Default data is generate from previous contract</small><br>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-Form SPKL
+History Formulir Pengajuan SPKL
 @endsection
 @section('content')
 
@@ -9,35 +9,33 @@ Form SPKL
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
          
-         <li class="breadcrumb-item active" aria-current="page">Pengajuan SPKL</li>
+         <li class="breadcrumb-item active" aria-current="page">History Formulir Pengajuan SPKL</li>
       </ol>
    </nav>
 
-   <div class="card ">
-      
-
-      <div class="card-body px-0">
-
-         <ul class="nav nav-tabs px-3">
-            <li class="nav-item">
-               <a class="nav-link active" href="{{route('hrd.spkl')}}">Approval SPKL  
-                  @if (count($spklApprovals) > 0)
-                  <span class="badge badge-danger">{{count($spklApprovals)}} </span>
-                  @endif
-                  
-               </a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" href="{{route('hrd.spkl.history')}}">Monitoring  Form SPKL</a>
-             </li>
-            {{-- <li class="nav-item">
-              <a class="nav-link" href="{{route('admin.employee.spkl')}}">SPKL</a>
-            </li> --}}
+   <div class="row">
+      <div class="col-md-3">
+         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('hrd.spkl') }}" aria-controls="v-pills-basic" aria-selected="true">
+               <i class="fas fa-address-book mr-1"></i>
+               Pengajuan SPKL
+            </a>
+            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.spkl.history') }}" aria-controls="v-pills-contract" aria-selected="false">
+               <i class="fas fa-file-contract mr-1"></i>
+               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+               History
+            </a>
+            
            
-          </ul>
-
-          <div class="table-responsive mt-2 ">
-            <table id="data" class="datatables-3 ">
+            
+         </div>
+         <hr>
+         
+         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
+      </div>
+      <div class="col-md-9">
+         <div class="table-responsive p-0">
+            <table id="data" class="datatables-3 table-sm ">
                <thead>
                   <tr>
                      <th>ID</th>
@@ -47,22 +45,21 @@ Form SPKL
                      <th>Date</th>
                      <th class="text-center">Jam</th>
                      <th>Status</th>
-                     {{-- <th>Action</th> --}}
                   </tr>
                </thead>
 
                <tbody>
                   
-                      @foreach ($spklApprovals as $spkl)
+                      @foreach ($spklHistories as $spkl)
                           
                            <tr>
                               <td class="text-truncate">
                                  
                                  
                               {{-- @if ($spkl->parent_id != null)
-                               <a href="{{route('employee.spkl.detail.multiple', [enkripRambo($spkl->parent_id), enkripRambo('approval-hrd')])}}">{{$spkl->parent->code}}</a>
+                               <a href="{{route('employee.spkl.detail.multiple', [enkripRambo($spkl->parent_id), enkripRambo('history')])}}">{{$spkl->parent->code}}</a>
                                  @else --}}
-                                 <a href="{{route('employee.spkl.detail', [enkripRambo($spkl->id), enkripRambo('approval-hrd')])}}">{{$spkl->code}}</a>
+                                 <a href="{{route('employee.spkl.detail', [enkripRambo($spkl->id), enkripRambo('history-hrd')])}}">{{$spkl->code}}</a>
                               {{-- @endif --}}
                               </td>
                               {{-- <td>{{$spkl->employee->nik}}</td> --}}
@@ -85,11 +82,7 @@ Form SPKL
                                  </span>
                               </td>
                               
-                              <td class=" text-truncate">
-                                 
-                                 {{$spkl->date}}
-                                 </span>
-                              </td>
+                              <td class=" text-truncate">{{$spkl->date}}</td>
                               
                               
                               <td class="text-center">
@@ -121,18 +114,8 @@ Form SPKL
 
             </table>
          </div>
-
-
       </div>
-      <div class="card-footer">
-         {{-- <a href="{{route('overtime.refresh')}}">Refresh</a> --}}
-         <small>Daftar Formulir SPKL yang menunggu konfirmasi HRD</small>
-      </div>
-
-
    </div>
-
-
 
    
 

@@ -13,28 +13,30 @@ History Formulir Pengajuan SPKL
       </ol>
    </nav>
 
-   <div class="row">
-      <div class="col-md-3">
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('hrd.spkl') }}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               Pengajuan SPKL
+   <div class="card ">
+      
+
+      <div class="card-body px-0">
+
+         <ul class="nav nav-tabs px-4">
+            <li class="nav-item">
+              <a class="nav-link " href="{{route('hrd.spkl')}}">
+               Approval SPKL
+               @if (count($spklApprovals) > 0)
+                  <span class="badge badge-danger">{{count($spklApprovals)}} </span>
+                  @endif
             </a>
-            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('hrd.spkl.history') }}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               History
-            </a>
-            
+            </li>
+            <li class="nav-item">
+               <a class="nav-link active" href="{{route('hrd.spkl.history')}}">Monitoring  Form SPKL</a>
+             </li>
+            {{-- <li class="nav-item">
+              <a class="nav-link" href="{{route('admin.employee.spkl')}}">SPKL</a>
+            </li> --}}
            
-            
-         </div>
-         <hr>
-         
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
-      </div>
-      <div class="col-md-9">
-         <div class="table-responsive p-0">
+          </ul>
+
+          <div class="table-responsive mt-2">
             <table id="data" class="datatables-3 table-sm ">
                <thead>
                   <tr>
@@ -114,8 +116,17 @@ History Formulir Pengajuan SPKL
 
             </table>
          </div>
+
+
       </div>
+      <div class="card-footer">
+         <small>Daftar Formulir SPKL yang dibuat oleh semua Karyawan</small>
+         {{-- <a href="{{route('overtime.refresh')}}">Refresh</a> --}}
+      </div>
+
+
    </div>
+
 
    
 
