@@ -78,22 +78,62 @@ class ContractController extends Controller
          // 'direct_leader_id' => $contract->direct_leader_id,
       ]);
 
-      $cutiEmp = Cuti::where('employee_id', $employee->id)->first();
-      $cutiEmp->update([
-         'start' => $req->start,
-         'end' => $req->end,
+      // $cutiEmp = Cuti::where('employee_id', $employee->id)->first();
+      // $cutiEmp->update([
+      //    'start' => $req->start,
+      //    'end' => $req->end,
 
-         'tahunan' => 12,
-         // 'masa_kerja' => $req->masa_kerja,
-         // 'extend' => $req->extend,
-         // 'expired' => $req->expired,
-         // 'total' => $total,
-         // 'used' => $req->used,
-         // 'sisa' => $total - $req->used
-      ]);
+      //    'tahunan' => 12,
+      //    // 'masa_kerja' => $req->masa_kerja,
+      //    // 'extend' => $req->extend,
+      //    // 'expired' => $req->expired,
+      //    // 'total' => $total,
+      //    // 'used' => $req->used,
+      //    // 'sisa' => $total - $req->used
+      // ]);
+
+      
+
+
+      $today = Carbon::now();
+      if ($employee->contract->type == 'Tetap' ) {
+         $cuti = Cuti::where('employee_id', $employee->id)->first();
+         $penetapan = Carbon::create($employee->contract->determination);
+         // // dd($join);
+         // dd($penetapan);
+         $start = Carbon::create($today->format('Y') . '-' . $penetapan->format('m-d')  );
+         $startB = Carbon::create($today->format('Y') . '-' . $penetapan->format('m-d')  );
+         // dd($start);
+
+         if ($start > $today) {
+            // dd($start->subYear());
+            $fixStart = $start->subYear();
+            $finalStart = $fixStart;
+            $finalEnd = $startB;
+            
+            // dd($start->addYear());
+            // $finalEnd = $start
+         } else {
+            //  dd($cuti->employee->biodata->fullName());
+            $finalStart = $startB;
+            $finalEnd = $start->addYear();
+         }
+
+         $cuti->update([
+            'start' => $finalStart,
+            'end' => $finalEnd,
+            'extend' => 0,
+            'extend_left' => 0,
+            'expired' => null 
+         ]);
+      }
 
       $cutiController = new CutiController();
-      $cutiController->calculateCuti($cutiEmp->id);
+      $cutiController->calculateCuti($cuti->id);
+
+
+
+
 
       if (auth()->user()->hasRole('Administrator')) {
          $departmentId = null;
@@ -101,6 +141,7 @@ class ContractController extends Controller
          $user = Employee::find(auth()->user()->getEmployeeId());
          $departmentId = $user->department_id;
       }
+
       Log::create([
          'department_id' => $departmentId,
          'user_id' => auth()->user()->id,
