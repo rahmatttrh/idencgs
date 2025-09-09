@@ -84,7 +84,7 @@ Peyslip Employee Report
    <div class="card  shadow-none border">
       <div class="card-header  d-flex justify-content-between ">
          <div class="mt-3">
-            <h2 class="text-uppercase"><b>PAYSLIP REPORT </b> 
+            <h2 class="text-uppercase"><b>PAYSLIP REPORT {{$transaction->id}}</b> 
                <br><span>{{$transaction->employee->nik}}</span> {{$transaction->employee->biodata->fullName()}} </h2>
             
             

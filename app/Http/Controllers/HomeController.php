@@ -17,6 +17,7 @@ use App\Models\Log;
 use App\Models\Overtime;
 use App\Models\OvertimeEmployee;
 use App\Models\OvertimeParent;
+use App\Models\Payroll;
 use App\Models\Pe;
 use App\Models\Position;
 use App\Models\Presence;
@@ -248,6 +249,27 @@ class HomeController extends Controller
 
 
       if (auth()->user()->hasRole('Administrator')) {
+
+
+         $employee = Employee::find(409);
+         // dd($employee->nik);
+         $spkl_type = $employee->unit->spkl_type;
+         $hour_type = $employee->unit->hour_type;
+         $payroll = Payroll::find($employee->payroll_id);
+
+
+         // $overtimes = Overtime::where('employee_id', $employee->id)->whereBetween('date', ['2025-07-21', '2025-08-20'])->get();
+         // // dd($overtimes);
+
+         // $overtimeController = new OvertimeController;
+         
+         // foreach($overtimes as $over){
+         //    $rate = $overtimeController->calculateRate($payroll, $over->type, $spkl_type, $hour_type, $over->hours, $over->holiday_type);
+         //    // dd($rate);
+         //    $over->update([
+         //       'rate' => $rate
+         //    ]);
+         // }
          
          // Reset Password
          // $allUsers = User::where('email', '!=', 'admin@ekanuri.com')->get();
@@ -258,37 +280,69 @@ class HomeController extends Controller
          //       // dd($birth->format('dmy'));
 
          //       $user->update([
-         //          'password' => Hash::make('12345678')
-         //          // 'password' => Hash::make('enc#' . $birth->format('dmy'))
+         //          // 'password' => Hash::make('12345678')
+         //          'password' => Hash::make('enc#' . $birth->format('dmy'))
          //       ]);
          //    }
          // }
          // End Reset Password
 
 
+
+
+         // $allUsers = User::where('email', '!=', 'admin@ekanuri.com')->get();
+         // foreach($allUsers as $user){
+         //    $employee = Employee::where('nik', $user->username)->first();
+
+         //    if ($employee) {
+         //       if ($employee->contract->position_id != null) {
+         //          if ($employee->contract->position->designation_id == 1 || $employee->contract->position->designation_id == 2) {
+         //             $user->roles()->detach();
+         //             $user->assignRole('Karyawan');
+         //          }
+         //       }
+               
+
+         //       // $user->update([
+         //       //    'password' => Hash::make('12345678')
+         //       //    // 'password' => Hash::make('enc#' . $birth->format('dmy'))
+         //       // ]);
+         //    }
+         // }
+
+         // $ia = User::where('username', 'bod-002')->first();
+         // // dd($ia);
+         // $iaEmp = Employee::where('nik', 'bod-002')->first();
+         // $birth = Carbon::create($iaEmp->biodata->birth_date);
+         // dd($birth->format('dmy'));
+         // $ia->update([
+         //    // 'password' => Hash::make('12345678')
+         //    'password' => Hash::make('enc#' . $birth->format('dmy'))
+         // ]);
+
+
+         
+
+
          // Reset Password
          // $allUsers = User::where('email', '!=', 'admin@ekanuri.com')->get();
          // foreach($allUsers as $user){
          //    $employee = Employee::where('nik', $user->username)->first();
-           
-         //       if ($employee) {
-         //          if ($employee->contract->department->slug != 'hrd') {
-         //             if ($employee->contract->position_id != null) {
-         //                if ($employee->contract->position->designation_id == 1 || $employee->contract->position->designation_id == 2) {
-         //                   $user->roles()->detach();
-         //                   $user->assignRole('Karyawan');
-         //                }
-         //             }
+
+         //    if ($employee) {
+         //       if ($employee->contract->position_id != null) {
+         //          if ($employee->contract->position->designation_id == 1 || $employee->contract->position->designation_id == 2) {
+         //             $user->roles()->detach();
+         //             $user->assignRole('Karyawan');
          //          }
-                  
-   
-         //          // $user->update([
-         //          //    'password' => Hash::make('12345678')
-         //          //    // 'password' => Hash::make('enc#' . $birth->format('dmy'))
-         //          // ]);
          //       }
-            
-            
+               
+
+         //       // $user->update([
+         //       //    'password' => Hash::make('12345678')
+         //       //    // 'password' => Hash::make('enc#' . $birth->format('dmy'))
+         //       // ]);
+         //    }
          // }
          // End Reset Password
 
@@ -786,6 +840,8 @@ class HomeController extends Controller
             'kontrak' => $kontrak,
             'tetap' => $tetap,
             'empty' => $empty,
+            'broadcasts' => $broadcasts,
+            'personals' => $personals,
 
             'month' => $now->format('F'),
             'holidays' => $holidays,

@@ -23,6 +23,12 @@ class Kernel extends ConsoleKernel
          // $schedule->command('inspire')->hourly();
          $schedule->call(function(){
             // LogSystem::create([
+            //          'type' => 'TEST',
+            //          'modul' => 'Cuti',
+                     
+            //          'desc' => 'Sistem otomatis memperbarui Periode Cuti ' 
+            //       ]);
+            // LogSystem::create([
             //    'type' => 'TEST',
             //    'modul' => 'Cuti',
                
@@ -40,11 +46,11 @@ class Kernel extends ConsoleKernel
                if ($employee) {
                   if ($cuti->end < $now) {
 
-                     LogSystem::create([
-                        'type' => 'TEST',
-                        'modul' => 'Cuti',
-                        'desc' => 'Sistem otomatis memperbarui Periode Cuti ' 
-                     ]);
+                     // LogSystem::create([
+                     //    'type' => 'TEST',
+                     //    'modul' => 'Cuti',
+                     //    'desc' => 'Sistem otomatis memperbarui Periode Cuti ' 
+                     // ]);
                      
 
                      $start = Carbon::create($cuti->start)->addYear(1);
@@ -91,7 +97,7 @@ class Kernel extends ConsoleKernel
                }
             }
 
-         })->everyMinute();
+         })->daily();
     }
 
     /**

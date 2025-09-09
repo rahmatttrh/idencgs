@@ -15,17 +15,18 @@ SPKL
 
    <div class="row">
       <div class="col-md-3">
-         <div class="btn btl-light btn-block text-left mb-3 border">
+         {{-- <div class="btn btl-light btn-block text-left mb-3 border">
             <b><i>SPKL KARYAWAN</i></b>
-         </div>
+         </div> --}}
          {{-- <div class="btn btn-light border btn-block text-left mb-3">SPKL KARYAWAN</div>
           --}}
          <table>
             <thead>
-               <tr><th colspan="2">SPKL/Employe</th></tr>
+               <tr><th colspan="3" class="">SUMMARY SPKL</th></tr>
+               <tr><th colspan="3" class="">{{$employee->nik}}</th></tr>
+               <tr><th colspan="3" class="">{{$employee->biodata->fullName()}}</th></tr>
             </thead>
             <tbody>
-               
                <tr>
                   <td colspan="3">Periode</td>
                   
@@ -40,26 +41,66 @@ SPKL
                      @endif
                   </td>
                </tr>
-               <tr>
-                  <td colspan="2">Employee</td>
+               {{-- <tr>
+                  <td colspan="3">Employee</td>
                </tr>
                <tr>
                   <td></td>
-                  <td>
+                  <td colspan="2">
                     {{$employee->nik}}
                      
                   </td>
                </tr>
                <tr>
                   <td></td>
-                  <td>
+                  <td colspan="2">
                     {{$employee->biodata->fullName()}}
                      
+                  </td>
+               </tr> --}}
+               
+               {{-- <tr>
+                  <td></td>
+                  <td>Lembur : {{$employee->getOvertimes($from, $to)->where('type', 1)->sum('hours')}} Jam</td>
+               </tr> --}}
+
+
+               {{-- <a href="{{route}}">Refresh Perhitungan</a> --}}
+               
+               <tr>
+                  <td colspan="3">Detail</td>
+               </tr>
+               @if (auth()->user()->hasRole('HRD-Payroll'))
+                  <tr>
+                     <td></td>
+                     <td>Rate</td>
+                     <td>
+                        Rp. {{formatRupiahB($employee->getOvertimes($from, $to)->sum('rate'))}}
+                     </td>
+
+                  </tr>
+               @endif
+               
+               <tr>
+                  <td></td>
+                  <td>Lembur</td>
+                  <td>
+                     
+                     @if ($employee->unit->hour_type == 1)
+                     {{$employee->getOvertimes($from, $to)->where('type', 1)->sum('hours')}}
+                        @elseif ($employee->unit->hour_type == 2)
+                        {{$employee->getOvertimes($from, $to)->where('type', 1)->sum('hours_final')}}
+                     @endif
+                     Jam
                   </td>
                </tr>
                <tr>
                   <td></td>
-                  <td>Lembur : {{$employee->getOvertimes($from, $to)->where('type', 1)->sum('hours')}} Jam</td>
+                  <td>Piket</td>
+                  <td>
+                     
+                     {{$employee->getOvertimes($from, $to)->where('type', 2)->sum('hours_final')}} Kali
+                  </td>
                </tr>
 
 
@@ -70,6 +111,9 @@ SPKL
                
             </tbody>
          </table>
+         <hr>
+         {{-- <b>#INFO</b> <br>
+         <small>LN = Libur Nasional</small> --}}
       </div>
       <div class="col-md-9">
          <div class="table-responsive px-0">
@@ -156,7 +200,7 @@ SPKL
                         @if (auth()->user()->hasRole('HRD-Payroll|Administrator'))
                         <td class="text-right text-truncate">{{formatRupiah($over->rate)}}</td>
                         @endif
-                        <td class="text-truncate" style="max-width: 150px">
+                        <td class="text-truncate" style="max-width: 150px" data-toggle="tooltip" data-placement="top" title="{{$over->description}}">
                            {{$over->description}}
                         </td>
                         @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))

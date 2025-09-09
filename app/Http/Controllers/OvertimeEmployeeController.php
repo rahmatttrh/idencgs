@@ -28,9 +28,9 @@ class OvertimeEmployeeController extends Controller
    public function indexAdmin(){
       // dd('ok');
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spkls = OvertimeEmployee::orderBy('updated_at', 'desc')->get();
+      $spkls = OvertimeEmployee::where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
       // dd($spkls);
-      $spklGroups = OvertimeParent::orderBy('updated_at', 'desc')->get();
+      $spklGroups = OvertimeParent::where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
       return view('pages.absence-request.admin.spkl', [
          'spkls' => $spkls,
          'spklGroups' => $spklGroups
@@ -219,11 +219,26 @@ class OvertimeEmployeeController extends Controller
       $spklApprovals = OvertimeEmployee::where('status', 3)->orderBy('date', 'desc')->get();
 
       if (auth()->user()->hasRole('HRD-KJ12')) {
-         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [3,20])->orderBy('date', 'desc')->get();
+         $employees = Employee::where('status', 1)->whereIn('location_id', [3,20])->get();
+         $empId = [];
+         foreach($employees as $emp){
+            $empId[] = $emp->id;
+         }
+         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('employee_id', $empId)->orderBy('date', 'desc')->get();
       } elseif(auth()->user()->hasRole('HRD-KJ45')) {
-         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [4,5,21,22])->orderBy('date', 'desc')->get();
+         $employees = Employee::where('status', 1)->whereIn('location_id', [4,5,21,22])->get();
+         $empId = [];
+         foreach($employees as $emp){
+            $empId[] = $emp->id;
+         }
+         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('employee_id', $empId)->orderBy('date', 'desc')->get();
       } elseif(auth()->user()->hasRole('HRD-JGC')) {
-         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [2])->orderBy('date', 'desc')->get();
+         $employees = Employee::where('status', 1)->whereIn('location_id', [2])->get();
+         $empId = [];
+         foreach($employees as $emp){
+            $empId[] = $emp->id;
+         }
+         $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('employee_id', $empId)->orderBy('date', 'desc')->get();
       }
 
       return view('pages.spkl.hrd.index', [
@@ -464,6 +479,8 @@ class OvertimeEmployeeController extends Controller
       $date = Carbon::create($req->date);
       $user = Employee::where('nik', auth()->user()->username)->first();
 
+      
+
       $lastParent = OvertimeParent::orderBy('updated_at', 'desc')->get();
 
       if ($lastParent != null) {
@@ -689,7 +706,22 @@ class OvertimeEmployeeController extends Controller
 
    public function detail($id, $type){
       // dd('ok');
+      
       $empSpkl = OvertimeEmployee::find(dekripRambo($id));
+      // if (auth()->user()->hasRole('Administrator')) {
+      
+      //   $start = Carbon::CreateFromFormat('H:i', $empSpkl->hours_start);
+      //    $end = Carbon::CreateFromFormat('H:i', $empSpkl->hours_end);
+      //    $diffTime = $end->diffInMinutes($start);
+      //    $h = $diffTime / 60 ;
+      //    $hm = floor($h) * 60;
+      //    $msisa = $diffTime - $hm;
+
+      //    $intH = floatval(floor($h) . '.' .  $msisa);
+      //    $empSpkl->update([
+      //       'hours' => $intH
+      //    ]);
+      // }
       $currentSpkl = Overtime::where('overtime_employee_id', $empSpkl->id)->first();
 
       // $start = Carbon::CreateFromFormat('H:i', $empSpkl->hours_start);
@@ -1106,6 +1138,19 @@ class OvertimeEmployeeController extends Controller
 
 
       return redirect()->route('hrd.spkl')->with('success', 'Overtime Data successfully verified');
+   }
+
+   public function rejectHrd(Request $req){
+      $spklEmp = OvertimeEmployee::find($req->spklEmp);
+      // dd($spklEmp->employee->biodata->fullName());
+      $spklEmp->update([
+         'status' => 401,
+         // 'manager_id' => $empLogin->id,
+         'reject_hrd_date' => Carbon::now(),
+         'reject_hrd_desc' => $req->desc,
+      ]);
+
+      return redirect()->back()->with('success', "SPKL Canceled");
    }
 
 

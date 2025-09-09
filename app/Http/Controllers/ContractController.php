@@ -92,9 +92,6 @@ class ContractController extends Controller
       //    // 'sisa' => $total - $req->used
       // ]);
 
-      
-
-
       $today = Carbon::now();
       if ($employee->contract->type == 'Tetap' ) {
          $cuti = Cuti::where('employee_id', $employee->id)->first();
@@ -131,9 +128,7 @@ class ContractController extends Controller
       $cutiController = new CutiController();
       $cutiController->calculateCuti($cuti->id);
 
-
-
-
+      
 
       if (auth()->user()->hasRole('Administrator')) {
          $departmentId = null;

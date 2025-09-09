@@ -154,9 +154,11 @@ Form Lembur/Piket
                      <label>Lokasi Pekerjaan</label>
                      <select class="form-control "  required name="location" id="location">
                         <option value="" disabled selected>Select</option>
+                        
                         @foreach ($locations as $loc)
                         <option value="{{$loc->name}}">{{$loc->name}}</option>
                         @endforeach
+                        <option value="Workspace">Workspace</option>
                      </select>
                   </div>
                </div>

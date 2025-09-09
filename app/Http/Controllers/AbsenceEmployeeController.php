@@ -59,7 +59,7 @@ class AbsenceEmployeeController extends Controller
    public function indexAdmin(){
 
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $absences = AbsenceEmployee::orderBy('created_at', 'desc')->get();
+      $absences = AbsenceEmployee::where('status', '>', 0)->orderBy('created_at', 'desc')->get();
       $activeTab = 'index';
       return view('pages.absence-request.admin.index', [
          'activeTab' => $activeTab,
@@ -95,7 +95,13 @@ class AbsenceEmployeeController extends Controller
          $leader = $assmen;
       }
 
+      if ($leader == null) {
+         $assmen = Employee::where('department_id', $employee->department_id)->where('role', 5)->first();
+         $leader = $assmen;
+      }
+
       $managers = Employee::where('department_id', $employee->department_id)->where('role', 5)->get();
+      // dd($managers);
       if (count($managers) == 0) {
          foreach($allManagers as $man){
             if (count($man->positions) > 0) {
@@ -107,6 +113,9 @@ class AbsenceEmployeeController extends Controller
             }
          }
       }
+      // if ($leader == null) {
+      //    $leader = $managers;
+      // }
       // dd('ok');
       return view('pages.absence-request.request', [
          'activeTab' => $activeTab,
@@ -152,15 +161,17 @@ class AbsenceEmployeeController extends Controller
    }
 
    public function create(){
+      // dd('Under Maintenance')
       $activeTab = 'form';
       $date = 0;
       $employee = Employee::where('nik', auth()->user()->username)->first();
       $employees = Employee::where('department_id', $employee->department_id)->get();
       // dd($employees);
-      $allManagers = Employee::where('role', 5)->get();
+      $allManagers = Employee::where('role', 5)->where('status', 1)->get();
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
       // dd($employeeLeaders);
       $leader = null;
+      // dd($employeeLeaders);
 
       // dd($employeeLeaders);
       foreach($employeeLeaders as $lead){
@@ -273,10 +284,11 @@ class AbsenceEmployeeController extends Controller
         $user = null;
         $emps = [];
       } else {
+         
          $user = Employee::where('nik', auth()->user()->username)->first();
       }
       // dd(dekripRambo($id));
-
+      // dd('ok');
 
 
       $absenceEmployee = AbsenceEmployee::find(dekripRambo($id));
@@ -418,8 +430,7 @@ class AbsenceEmployeeController extends Controller
       $user = Employee::where('nik', auth()->user()->username)->first();
       $backDate = Carbon::now()->addDay(-7);
 
-
-      if($absenceEmployeeDetails) {
+      if ($absenceEmployee->type == 5) {
          $dateArray = [];
          foreach($absenceEmployeeDetails as $detail){
             $dateArray[] = $detail->date;
@@ -1781,6 +1792,8 @@ class AbsenceEmployeeController extends Controller
          $form = 'Off Contract';
       } elseif($reqForm->type == 10){
          $form = 'Izin Resmi';
+      } else {
+         $form = 'Absensi';
       }
 
       $reqForm->update([

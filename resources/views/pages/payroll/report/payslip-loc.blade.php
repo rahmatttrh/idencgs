@@ -72,8 +72,8 @@ Payroll Transaction
          @endif
          <li class="breadcrumb-item" aria-current="page">{{$unitTransaction->unit->name}}</li>
          <li class="breadcrumb-item" aria-current="page">{{$unitTransaction->month}}</li>
-         <li class="breadcrumb-item" aria-current="page">Payslip Reportttt </li>
-         <li class="breadcrumb-item active" aria-current="page">{{$location->name}}/ </li>
+         <li class="breadcrumb-item" aria-current="page">Payslip Report </li>
+         <li class="breadcrumb-item active" aria-current="page">{{$location->name}}/ {{$payslipReport->status}}</li>
       </ol>
    </nav>
    
@@ -261,6 +261,7 @@ Payroll Transaction
                      <th class="text-center text-white">JP</th>
                      <th class="text-center text-white">Absen</th>
                      <th class="text-center text-white">Terlambat</th>
+                     <th class="text-center text-white">Potongan Lain</th>
                      <th class="text-center text-white">Total</th>
                      
                   </tr>
@@ -282,11 +283,12 @@ Payroll Transaction
                      $totalJp = 0;
                      $totalAbsence = 0;
                      $totalLate = 0;
+                     $totalAdditionalPengurangan = 0;
                      $totalGrand = 0;
                   @endphp
 
                   @foreach ($transactions as $transaction)
-                  @if ($transaction->remark == 'Karyawan Baru' || $transaction->remark == 'Karyawan Out')
+                  @if ($transaction->remark == 'Karyawan Baru' || $transaction->remark == 'Karyawan Out' )
                      
                      @php
                         
@@ -339,8 +341,9 @@ Payroll Transaction
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee'))}}</td>
                         {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('JP', 'employee'))}} </td>
-                        <td class="text-right">{{formatRupiahB($transaction->reduction_absence)}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->reduction_absence + $transaction->reduction_off)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->reduction_late)}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->additional_pengurangan)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->total)}}</td>
                      
                      </tr>
@@ -362,6 +365,7 @@ Payroll Transaction
                         $jp = $transaction->getDeduction('JP', 'employee');
                         $abs = $transaction->reduction_absence;
                         $late = $transaction->reduction_late;
+                        $additional_pengurangan = $transaction->additional_pengurangan;
                         $total = $transaction->total;
 
                         $totalPokok += $pokok;
@@ -380,6 +384,7 @@ Payroll Transaction
                         $totalJp += $jp;
                         $totalAbsence += $abs;
                         $totalLate += $late;
+                        $totalAdditionalPengurangan  += $additional_pengurangan;
                         $totalGrand += $total;
                      @endphp
                     
@@ -412,8 +417,9 @@ Payroll Transaction
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee'))}}</td>
                         {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('JP', 'employee'))}} </td>
-                        <td class="text-right">{{formatRupiahB($transaction->reduction_absence)}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->reduction_absence + $transaction->reduction_off)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->reduction_late)}}</td>
+                        <td class="text-right">{{formatRupiahB($transaction->additional_pengurangan)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->total)}}</td>
                      
                      </tr>
@@ -435,6 +441,7 @@ Payroll Transaction
                         $jp = $transaction->getDeduction('JP', 'employee');
                         $abs = $transaction->reduction_absence;
                         $late = $transaction->reduction_late;
+                        $additional_pengurangan = $transaction->additional_pengurangan;
                         $total = $transaction->total;
 
                         $totalPokok += $pokok;
@@ -453,6 +460,7 @@ Payroll Transaction
                         $totalJp += $jp;
                         $totalAbsence += $abs;
                         $totalLate += $late;
+                        $totalAdditionalPengurangan  += $additional_pengurangan;
                         $totalGrand += $total;
                      @endphp
                   @endif
@@ -477,6 +485,8 @@ Payroll Transaction
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalJp)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalAbsence)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalLate)}}</b></td>
+                     <td class="text-right text-truncate"><b>{{formatRupiahB($totalAdditionalPengurangan)}}</b></td>
+                     
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalGrand)}}</b></td>
                   </tr>
                   

@@ -1981,28 +1981,28 @@ class QuickPEController extends Controller
       // }
 
       if (auth()->user()->hasRole('Administrator')) {
-         // dd($pe->department_id);
+         // // dd($pe->department_id);
+         // // $pe->update([
+         // //    'department_id' => $pe->employe->department_id
+         // // ]);
+         // $allManagers = Employee::where('role', 5)->get();
+         // $manager = Employee::where('department_id', $employe->department_id)->where('role', 5)->first();
+         // // dd($managers);
+         // if ($manager == null) {
+         //    foreach($allManagers as $man){
+         //       if (count($man->positions) > 0) {
+         //          foreach($man->positions as $pos){
+         //             if ($pos->department_id == $employe->department_id) {
+         //                $manager = $man;
+         //             }
+         //          }
+         //       }
+         //    }
+         // }
+
          // $pe->update([
-         //    'department_id' => $pe->employe->department_id
+
          // ]);
-         $allManagers = Employee::where('role', 5)->get();
-         $manager = Employee::where('department_id', $employe->department_id)->where('role', 5)->first();
-         // dd($managers);
-         if ($manager == null) {
-            foreach($allManagers as $man){
-               if (count($man->positions) > 0) {
-                  foreach($man->positions as $pos){
-                     if ($pos->department_id == $employe->department_id) {
-                        $manager = $man;
-                     }
-                  }
-               }
-            }
-         }
-
-         $pe->update([
-
-         ]);
       }
 
       return view('pages.qpe.qpe-show', [

@@ -260,6 +260,54 @@
                   
                </div>
             </div> --}}
+            @if (count($broadcasts) > 0)
+            @foreach ($broadcasts as $broad)
+            <div class="d-none d-sm-block">
+               <div class="alert alert-info shadow-sm">
+   
+                  <div class="card-opening">
+                     <h4>
+                        <img src="{{asset('img/flaticon/promote.png')}}" height="28" alt="" class="mr-1">
+                        <b>Broadcast dari HRD</b>
+                     </h4>
+                  </div>
+                  {{-- <hr> --}}
+                  <div class="card-desc">
+                     {{$broad->title}}.
+                     {{-- <div class="text-truncate" style="max-width: 200px">
+                        {{strip_tags($broad->body)}}
+                     </div> --}}
+                     <a href="{{route('announcement.detail', enkripRambo($broad->id))}}">Klik Disini</a> untuk melihat lebih detail
+                     
+                  </div>
+               </div>
+            </div>
+            @endforeach
+         @endif
+
+         @if (count($personals) > 0)
+            @foreach ($personals as $pers)
+            <div class="d-none d-sm-block">
+               <div class="alert alert-danger shadow-sm">
+   
+                  <div class="card-opening">
+                     <h4>
+                        {{-- <img src="{{asset('img/flaticon/promote.png')}}" height="28" alt="" class="mr-1"> --}}
+                        <b>Personal Message</b>
+                     </h4>
+                  </div>
+                  {{-- <hr> --}}
+                  <div class="card-desc">
+                     
+                     {{$pers->title}}.
+                     <a href="{{route('announcement.detail', enkripRambo($pers->id))}}">Klik Disini</a> untuk melihat lebih detail
+                        <hr>
+                        <small class="text-muted">* Ini adalah pesan personal yang hanya dikirim ke anda</small>
+                  </div>
+               </div>
+            </div>
+            @endforeach
+         @endif
 
             {{-- @if (count($broadcasts) > 0)
             @foreach ($broadcasts as $broad)

@@ -191,7 +191,7 @@ Form Absensi
          </table>
         
          <div class="table-responsive p-0 mt-2">
-            <table id="data" class="display basic-datatables table-sm p-0">
+            <table id="data" class="display datatables-3 table-sm p-0">
                <thead>
                   <tr>
                      <th>ID</th>

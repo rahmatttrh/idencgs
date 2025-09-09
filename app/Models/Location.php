@@ -165,18 +165,25 @@ class Location extends Model
 
    public function getValue($id, $unitTrans, $desc)
    {
-      
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('project_id', null)->get();
+      $employeeId = [];
+
+      foreach($employees as $emp){
+         $employeeId[] = $emp->id;
+      }
       $value = 0;
       $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
          $transDetail = TransactionDetail::where('transaction_id', $trans->id)->where('desc', $desc)->first();
-         if ($trans->remark == 'Karyawan Baru'){
+         if ($trans->remark == 'Karyawan Baru' || $trans->remark == 'Karyawan Out'){
             // dd($trans->employee->biodata->fullName());
             
             // $offContratcs = $trans->employee->absences->where('date', '>=', $trans->cut_from)->where('date', '<=', $trans->cut_to)->where('type', 9);
             $prorate = $transDetail->value / 30;
             $qty = 30 - $trans->off;
             $nominal = $prorate * $qty;
+
+            
             // dd(count($offContratcs));
             $value = $value + $nominal;
          } else {
@@ -201,7 +208,7 @@ class Location extends Model
       $value = 0;
       $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
-         if ($trans->remark == 'Karyawan Baru'){
+         if ($trans->remark == 'Karyawan Baru' || $trans->remark == 'Karyawan Out'){
             // dd($trans->employee->biodata->fullName());
             
             $pokok = TransactionDetail::where('transaction_id', $trans->id)->where('desc', 'Gaji Pokok')->first()->value;
@@ -374,10 +381,40 @@ class Location extends Model
 
          $transReductions  = TransactionReduction::where('transaction_id', $trans->id)->where('type', 'employee')->where('class', 'Additional')->get();
 
-         foreach($transReductions as $redu){
-            $value += $redu->value;
+         // foreach($transReductions as $redu){
+         //    $value += $redu->value;
+         // }
+         // $redAdditionals = ReductionAdditional::where('employee_id', $this->employee->id)->get();
+      
+
+         // return $redAdditionals->sum('employee_value');;
+
+         
+
+          if ($this->id != 1) {
+            $redAdditionals = ReductionAdditional::where('employee_id', $trans->employee->id)->get();
+         // dd($redAdditionals->sum('employee_value'));
+      
+
+          $value += $redAdditionals->sum('employee_value');
+          }
+
+          $transReductions = TransactionReduction::where('transaction_id', $trans->id)->where('type', 'employee')->where('class', 'Additional')->get();
+            // $transReduction = Reduction::where('class', 'Default')->where('type', 'employee')
+            foreach($transReductions as $redu){
+               $value += $redu->value;
+            }
+          
+      }
+
+      if (auth()->user()->hasRole('Administrator')) {
+         // dd($value);
+         // dd($this->name);
+         if ($this->id == 3) {
+            // dd($value);
          }
       }
+      
 
       return $value;
    }

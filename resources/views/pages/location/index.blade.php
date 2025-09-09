@@ -86,7 +86,7 @@ Location
                      <a href="#" data-toggle="modal" data-target="#modal-delete-{{$loc->id}}">Delete</a>
                   </td>
                </tr>
-               <x-modal.delete :id="$loc->id" :body="$loc->name" url="{{route('location.delete', enkripRambo($loc->id))}}" />
+               <x-modal.delete :id="$loc->id" :body="$loc->name" url="{{route('location.delete.data', enkripRambo($loc->id))}}" />
                @endforeach
             </tbody>
          </table>

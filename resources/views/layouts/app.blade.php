@@ -4,7 +4,7 @@
    <head>
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       {{-- <title>E-Fleet</title> --}}
-      <title>MY ENC - @yield('title')</title>
+      <title>ID ENC - @yield('title')</title>
       <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
       {{-- <link rel="icon" href="{{asset('img/icon.ico')}}" type="image/x-icon"/> --}}
       <link rel="icon" href="{{asset('/img/material.png')}}" type="image/x-icon"/>
@@ -349,6 +349,17 @@
                "ordering": true,
                "order": [
                   [1, 'asc']
+               ],
+            
+            });
+
+
+            $('.datatables-0').DataTable( {
+               "lengthMenu": [[5,8, 10, 15, 25, 50, 100 , -1], [5,8, 10, 15, 25, 50, 100, "All"]],
+               "pageLength": 10,
+               "ordering": true,
+               "order": [
+                  [0, 'desc']
                ],
             
             });

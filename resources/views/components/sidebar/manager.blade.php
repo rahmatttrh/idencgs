@@ -313,7 +313,6 @@
       <p>Summary</p>
    </a>
 </li>
-
 <li class="nav-item {{ (request()->is('spkl/team/*')) ? 'active' : '' }}">
    <a href="{{route('spkl.team')}}">
       <i class="fas fa-calendar-plus"></i>
@@ -368,3 +367,5 @@
       <p>Surat Peringatan</p>
    </a>
 </li>
+
+

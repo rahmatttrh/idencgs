@@ -91,7 +91,12 @@ Employee
                         <tbody>
                            @foreach ($draftEmployees as $employee)
                            <tr>
-                              <td class="text-center"><input type="checkbox" class="case" name="id_item[]" value="{{$employee->id}}" /> </td>
+                              <td class="text-center">
+                                 <input type="checkbox" class="case" name="id_item[]" value="{{$employee->id}}" /> 
+                                 @if (auth()->user()->hasRole('Administrator'))
+                                     ID : {{$employee->id}}
+                                 @endif
+                              </td>
                               {{-- <td><a href="{{route('employee.detail', enkripRambo($employee->id))}}">{{$employee->name}}</a> </td> --}}
                               <td class="text-nowrap">
                                  <div>

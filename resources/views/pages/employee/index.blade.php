@@ -113,7 +113,12 @@ Employee
                               @endif
                            </td> --}}
                            
-                           <td class="text-truncate">{{$employee->nik}}</td>
+                           <td class="text-truncate">
+                              {{$employee->nik}} 
+                              @if (auth()->user()->hasRole('Administrator'))
+                                  ID{{$employee->id}}
+                              @endif
+                           </td>
                            {{-- <td><a href="{{route('employee.detail', enkripRambo($employee->id))}}">{{$employee->name}}</a> </td> --}}
                            <td class="text-truncate" style="max-width: 220px">
                               <div>

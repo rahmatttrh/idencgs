@@ -80,6 +80,9 @@ Draft Request Absence
                         @endif
 
                         {{$absence->permit->name ?? ''}}
+                        @if (count($absence->details) > 1)
+                                 ({{count($absence->details)}} hari)
+                              @endif
                         
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}

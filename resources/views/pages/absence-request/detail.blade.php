@@ -74,57 +74,55 @@ Form Perubahan Absence
          @if ($absenceEmp->leader != null)
             @if ($absenceEmp->leader->nik == auth()->user()->username)
                @if($absenceEmp->status == 1)
-                  <span class="btn btn-group btn-block p-0" >
-                     @if ($absenceEmp->type == 5)
-                           @if ($absenceEmp->cuti_backup_id != null)
-                           <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
-                           @else
-                           <a href="#" class="btn btn-block  mb-2 btn-light border" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Karyawan Pengganti">Approve</a>
-                           @endif
-                        @else
-                        <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
-                     @endif
-                     
-                     <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
-                  </span>
-
+               <span class="btn btn-group btn-block p-0" >
                   @if ($absenceEmp->type == 5)
-                     <form action="{{route('employee.absence.update.pengganti')}}" method="POST">
-                        @csrf
-                        @method('put')
-                        <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
-                        <div class="row">
-                           <div class="col-md-12">
-                              <div class="form-group form-group-default">
-                                 <label>Karyawan Pengganti</label>
-                                 <select class="form-control"  name="cuti_backup" id="cuti_backup">
-                                    <option value="" disabled selected>Select</option>
-                                    
-                                    {{-- @foreach ($myteams as $team)
-                                    <option {{$team->employee->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$team->employee->id}}">{{$team->employee->biodata->fullName()}} </option>
-                                    @endforeach --}}
-
-                                    @foreach ($emps as $emp)
-                                    <option {{$emp->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$emp->id}}">{{$emp->biodata->fullName()}} </option>
-                                    @endforeach
-                                    
-                                 </select>
-                              </div>
-                           </div>
-                           <div class="col-md-12">
-                              <button class="mb-2 btn btn-primary btn-block" type="submit">Update</button>
-                           </div>
-                        </div>
-                     </form>
+                     @if ($absenceEmp->cuti_backup_id != null)
+                     <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
+                     @else
+                     <a href="#" class="btn btn-block  mb-2 btn-light border" data-toggle="tooltip" data-placement="top" title="Anda belum memilih Karyawan Pengganti">Approve</a>
+                     @endif
+                     @else
+                     <a href="" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee" data-toggle="modal">Approve</a>
                   @endif
                   
-                  <hr>
+                  <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-absence-employee" data-toggle="modal">Reject</a>
+               </span>
+
+               @if ($absenceEmp->type == 5)
+                  <form action="{{route('employee.absence.update.pengganti')}}" method="POST">
+                     @csrf
+                     @method('put')
+                     <input type="number" name="absence_employee" id="absence_employee" value="{{$absenceEmp->id}}" hidden>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="form-group form-group-default">
+                              <label>Karyawan Pengganti</label>
+                              <select class="form-control"  name="cuti_backup" id="cuti_backup">
+                                 <option value="" disabled selected>Select</option>
+                                 
+                                 {{-- @foreach ($myteams as $team)
+                                 <option {{$team->employee->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$team->employee->id}}">{{$team->employee->biodata->fullName()}} </option>
+                                 @endforeach --}}
+
+                                 @foreach ($emps as $emp)
+                                 <option {{$emp->id == $absenceEmp->cuti_backup_id ? 'selected' : ''}} value="{{$emp->id}}">{{$emp->biodata->fullName()}} </option>
+                                 @endforeach
+                                 
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-md-12">
+                           <button class="mb-2 btn btn-primary btn-block" type="submit">Update</button>
+                        </div>
+                     </div>
+                  </form>
+               @endif
+               
+               <hr>
                
                
                
                @endif
-
-               
                
             @endif
          @endif
@@ -181,7 +179,7 @@ Form Perubahan Absence
             @endif
             <thead>
                <tr class="{{$bg}}">
-                  <th colspan="3 " class="text-uppercase">{{$absenceEmp->code}} </th>
+                  <th colspan="3 " class="text-uppercase">{{$absenceEmp->code}} (ID:{{$absenceEmp->id}})</th>
                </tr>
                <tr>
                   <th style="{{$bg}}" colspan="3 " class="text-uppercase"><x-status.absence-type :absence="$absenceEmp" /> : <x-status.form :form="$absenceEmp" /> </th>

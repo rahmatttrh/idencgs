@@ -39,7 +39,7 @@ SPKL
                      <th>Date</th>
                      {{-- <th class="text-center">Qty</th> --}}
                      <th>Status</th>
-                     <th>Created</th>
+                     <th>Last Updated</th>
                      {{-- <th></th> --}}
                   </tr>
                </thead>
@@ -47,7 +47,6 @@ SPKL
                <tbody>
                   {{-- @foreach ($spklGroups as $spkl)
                   <tr>
-                    
                      <td  class="text-truncate">
                         
                         
@@ -67,8 +66,7 @@ SPKL
                         {{formatDate($spkl->date)}}
                      </td>
                      
-                     
-                   
+                    
                      <td class="text-truncate">
                         <x-status.spkl-employee :empspkl="$spkl" />
                      </td>

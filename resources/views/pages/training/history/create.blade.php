@@ -70,6 +70,7 @@ Create History Training
                         <option value="Attendence">Attendence</option>
                         <option value="Migas">Migas</option>
                         <option value="Kemnaker">Kemnaker</option>
+                        <option value="Disnaker">Disnaker</option>
                         <option value="Perhubla">Perhubla</option>
                         <option value="BNSP">BNSP</option>
                         <option value="ENC Academy">ENC Academy</option>

@@ -91,7 +91,8 @@ SP
 
                      </tr>
                      @endforeach
-                  @elseif(auth()->user()->hasRole('HRD-KJ45|HRD-KJ12'))
+
+                     @elseif(auth()->user()->hasRole('HRD-KJ45|HRD-KJ12'))
                      @foreach ($sps as $sp)
                         @foreach ($allEmployees as $emp)
                             @if ($sp->employee_id == $emp->id)
@@ -115,7 +116,6 @@ SP
                         @endforeach
                         
                      @endforeach
-
                   @else
                      @if (count($employee->positions) > 0)
                         @foreach ($employee->positions as $pos)

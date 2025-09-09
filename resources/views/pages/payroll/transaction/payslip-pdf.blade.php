@@ -153,7 +153,7 @@ Payslip PDF
             <table  class=" table table-sm no-hover" style="border-top: 1px solid rgb(219, 219, 219);">
                <thead>
                   <tr>
-                     <th colspan="4" class="bg-white text-center"><b>PT EKANURI</b></th>
+                     <th colspan="4" class="bg-white text-center"><b>PT {{$transaction->employee->unit->name}}</b></th>
                   </tr>
                   <tr style="">
                      <th colspan="4" class="text-center bg-white" style="padding: 1px !important;" >SLIP GAJI</th>
@@ -208,7 +208,7 @@ Payslip PDF
                            <td style="padding: 0px !important;">Tunj. Jabatan</td>
                            <td style="padding: 0px !important;">{{formatRupiahB($transaction->employee->payroll->tunj_jabatan)}}</td>
                            <td style="padding: 0px !important;">Iuran BPJSKesehatan</td>
-                           <td style="padding: 0px !important;">{{formatRupiahB($transaction->reductions->where('name', 'BPJS KS')->where('type', 'employee')->first()->value + $transaction->reductions->where('class', 'Additional')->where('type', 'employee')->sum('value'))}}</td>
+                           <td style="padding: 0px !important;">{{formatRupiahB($transaction->reductions->where('name', 'BPJS KS')->where('type', 'employee')->first()->value + $transaction->reductions->where('class', 'Additional')->where('type', 'employee')->sum('value') )}}</td>
                         </tr>
                         {{-- @foreach ($transaction->reductions->where('class', 'Additional')->where('type', 'employee') as $red) --}}
                         <tr>
@@ -254,7 +254,7 @@ Payslip PDF
                            <td style="padding: 0px !important;">Pendapatan</td>
                            <td style="padding: 0px !important;">{{formatRupiahB($transaction->overtime + $transaction->employee->payroll->total)}}</td>
                            <td style="padding: 0px !important;">Potongan</td>
-                           <td style="padding: 0px !important;">{{formatRupiahB($transaction->reduction + $transaction->reduction_absence + $transaction->late)}}</td>
+                           <td style="padding: 0px !important;">{{formatRupiahB($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late)}}</td>
                         </tr>
                         <tr>
                            <td style="" colspan="4" class="text-center py-2"><b>GAJI BERSIH {{formatRupiah($transaction->total)}} (MANDIRI)</b></td>

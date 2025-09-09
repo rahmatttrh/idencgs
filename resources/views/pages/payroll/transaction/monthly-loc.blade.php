@@ -433,6 +433,7 @@ Payroll Transaction
                            <th class="text-center text-white text-truncate">BPJS KS</th>
                            <th class="text-center text-white text-truncate">JP</th>
                            <th class="text-center text-white text-truncate">Absen</th>
+
                            <th class="text-center text-white text-truncate">Terlambat</th>
                            <th class="text-center text-white text-truncate">Lain-lain</th>
                            
@@ -641,6 +642,7 @@ Payroll Transaction
                            <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('jp') + $proJp)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('absen') + $proAbsen)}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('terlambat') + $proTerlambat)}}</b></td>
+                           <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('additional_pengurangan') )}}</b></td>
                            <td class="text-right text-truncate"><b>{{formatRupiahB($payslipReports->sum('gaji_bersih') + $proBersih)}}</b></td>
                         </tr>
                         

@@ -261,7 +261,18 @@
       <tr>
          <td style="width: 20px"></td>
          <td colspan="1">Jabatan</td>
-         <td colspan="4" class="">{{$absenceemp->leader->position->name}}</td>
+         <td colspan="4" class="">
+            @if (count($absenceemp->leader->positions) > 0)
+               {{$absenceemp->leader->positions->first()->name}}
+                  {{-- @foreach ($absenceemp->leader->positions as $pos)
+                      {{$pos->name}}
+                  @endforeach --}}
+                @else
+                {{$absenceemp->leader->position->name}}
+            @endif
+            
+         </td>
+
       </tr>
       
 
@@ -363,10 +374,17 @@
                   </tr>
                   <tr>
                      <td style="height: 100px" class="text-center">
-
+                        @if (auth()->user()->hasRole('Administrator'))
+                            {{-- {{$absenceemp->status}} --}}
+                        @endif
                         @if ($absenceemp->status >= 3)
+                              @if ($absenceemp->status == 101 || $absenceemp->status == 202 || $absenceemp->status == 303)
+                                  
+                              @else
                               <small class="text-success"><i>APPROVED</i></small> <br>
                               <small class="text-muted">{{formatDateTime($absenceemp->app_leader_date)}}</small>
+                              @endif
+                              
                         @endif
                      </td>
                   </tr>
@@ -456,14 +474,15 @@
             <td colspan="1">Izin</td>
             <td colspan="4" class="">{{$absenceemp->type_desc}} ({{$absenceemp->remark}})</td>
          </tr>
-
          @if ($absenceemp->departure != null)
-         <tr>
+             <tr>
             <td style="width: 20px"></td>
             <td colspan="1"></td>
             <td colspan="4" class="">{{formatTime($absenceemp->departure)}} - {{formatTime($absenceemp->return)}}</td>
          </tr>
          @endif
+         
+         
          
          <tr>
             <td style="width: 20px"></td>
@@ -527,12 +546,12 @@
             </td>
             <td class="text-truncate">
                @if ($absenceemp->status == 2 || $absenceemp->status == 3 || $absenceemp->status == 5)
-                  <small>{{formatDateTime($absenceemp->app_backup_date)}}</small>
+                  <small>{{formatDateTime($absenceemp->app_leader_date)}}</small>
                @endif
             </td>
             <td class="text-truncate">
                @if ($absenceemp->status == 3 || $absenceemp->status == 5)
-                  <small>{{formatDateTime($absenceemp->app_leader_date)}}</small>
+                  <small>{{formatDateTime($absenceemp->app_manager_date)}} </small>
                @endif
             </td>
             

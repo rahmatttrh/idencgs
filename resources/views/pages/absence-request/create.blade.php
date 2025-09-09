@@ -231,6 +231,7 @@ Form Absence
                         <label>Jenis SPT</label>
                         <select class="form-control"  name="type_desc" id="type_desc">
                            <option value="" disabled selected>Select</option>
+                           <option value="Absen Masuk & Pulang">Absen Masuk & Pulang</option>
                            <option value="Tidak Absen Masuk">Tidak Absen Masuk</option>
                            <option value="Tidak Absen Pulang">Tidak Absen Pulang</option>
                            <option value="Tidak Absen Masuk & Pulang">Tidak Absen Masuk & Pulang</option>

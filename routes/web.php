@@ -197,6 +197,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('absence/approve/{id}', [AbsenceEmployeeController::class, 'approveHrd'])->name('employee.absence.approve.hrd');
 
          Route::post('employee/hrd/approve', [OvertimeEmployeeController::class, 'approveHrd'])->name('employee.spkl.hrd.approve');
+         Route::post('employee/hrd/reject', [OvertimeEmployeeController::class, 'rejectHrd'])->name('employee.spkl.hrd.reject');
       });
       
       Route::prefix('cuti')->group(function () {
@@ -210,8 +211,9 @@ Route::middleware(["auth"])->group(function () {
       Route::prefix('location')->group(function () {
          Route::get('/', [LocationController::class, 'index'])->name('location');
          Route::post('store', [LocationController::class, 'store'])->name('location.store');
-         Route::get('delete/{id}', [LocationController::class, 'delete'])->name('location.delete');
+         Route::get('delete/data/{id}', [LocationController::class, 'delete'])->name('location.delete.data');
          // Route::get('create', [AnnouncementController::class, 'create'])->name('announcement.create');
+         Route::get('delete/{id}', [AnnouncementController::class, 'delete'])->name('announcement.delete');
       });
 
       Route::prefix('training')->group(function () {

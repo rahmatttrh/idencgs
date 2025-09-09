@@ -132,7 +132,7 @@ Detail Transaction Payroll Employee
                                
                                <li class="nav-item"> <a class="nav-link " id="pills-deduction-tab-nobd" data-toggle="pill" href="#pills-deduction-nobd" role="tab" aria-controls="pills-deduction-nobd" aria-selected="true">Deduction</a> </li>
                                <li class="nav-item"> <a class="nav-link " id="pills-spkl-tab-nobd" data-toggle="pill" href="#pills-spkl-nobd" role="tab" aria-controls="pills-spkl-nobd" aria-selected="true">SPKL</a> </li>
-                               <li class="nav-item"> <a class="nav-link " id="pills-absence-tab-nobd" data-toggle="pill" href="#pills-absence-nobd" role="tab" aria-controls="pills-absence-nobd" aria-selected="true">Absence</a> </li>
+                               {{-- <li class="nav-item"> <a class="nav-link " id="pills-absence-tab-nobd" data-toggle="pill" href="#pills-absence-nobd" role="tab" aria-controls="pills-absence-nobd" aria-selected="true">Absence</a> </li> --}}
                                <li class="nav-item"> <a class="nav-link " id="pills-additional-tab-nobd" data-toggle="pill" href="#pills-additional-nobd" role="tab" aria-controls="pills-additional-nobd" aria-selected="true">Additional</a> </li>
                            @endif
                            
@@ -196,7 +196,7 @@ Detail Transaction Payroll Employee
                                        <tr>
                                           <th colspan="">Potongan</th>
                                           <th class="text-right">
-                                             {{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late )}} 
+                                             {{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late + $transaction->additional_pengurangan )}} 
                                              {{-- red:  {{$transaction->reduction}}</th> --}}
                                        </tr>
                                        <tr>
@@ -227,6 +227,28 @@ Detail Transaction Payroll Employee
                                        <tr>
                                           <td>Prorata</td>
                                           <td class="text-right">{{formatRupiah($transaction->nominal_on)}}</td>
+                                       </tr>
+                                    </tbody>
+
+                                 </table>
+                                 @endif
+                                 @if ($transaction->remark == 'Karyawan Out')
+                                     
+                                 
+                                 <table>
+                                    <thead>
+                                       <tr>
+                                          <th colspan="2">Karyawan Out</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>Off</td>
+                                          <td class="text-right">{{$transaction->off}} Hari</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Pengurangan Off</td>
+                                          <td class="text-right">{{formatRupiah($transaction->reduction_off)}}</td>
                                        </tr>
                                     </tbody>
 

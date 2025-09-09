@@ -70,7 +70,11 @@ Form Lembur/Piket
          <table >
             <thead>
                <tr>
-                  <th>DETAIL SPKL</th>
+                  <th>DETAIL SPKL
+                     @if (auth()->user()->hasRole('Administrator'))
+                         [ID:{{$empSpkl->id}}]
+                     @endif
+                  </th>
                </tr>
                
                <tr>
@@ -116,6 +120,23 @@ Form Lembur/Piket
                      
                      <td class="bg-danger text-white pl-4">
                         : {{$empSpkl->reject_manager_desc}}
+                     </td>
+                   </tr>
+               @endif
+               @if ($empSpkl->status == 401)
+                   <tr>
+                     
+                     <td class="bg-danger text-white">
+                         {{formatDateTime($empSpkl->reject_hrd_date)}}
+                     </td>
+                   </tr>
+                   <tr>
+                     <td class="bg-danger text-white">HRD</td>
+                   </tr>
+                   <tr>
+                     
+                     <td class="bg-danger text-white pl-4">
+                        : {{$empSpkl->reject_hrd_desc}}
                      </td>
                    </tr>
                @endif
@@ -203,13 +224,19 @@ Form Lembur/Piket
                   
                </form>
             </table>
-            @if ($currentSpkl)
-            <button class="btn btn-block btn-secondary" type="submit">Update</button>
-            @else
-            <button class="btn btn-block btn-primary" type="submit">Submit</button>
+               @if ($currentSpkl)
+               <button class="btn btn-block btn-secondary" type="submit">Update</button>
+               @else
+               <button class="btn btn-block btn-primary" type="submit">Submit</button>
+               @endif
             @endif
-            @endif
-         </tbody>
+          </tbody>
+
+
+          <hr>
+          @if ($empSpkl->status == 3 ||$empSpkl->status == 4 )
+          <a href="#" class="btn btn-danger" data-target="#modal-cancel-spkl" data-toggle="modal">Cancel</a>
+          @endif
          {{-- <hr> --}}
          {{-- <div class="card">
             <div class="card-body">
@@ -313,10 +340,10 @@ Form Lembur/Piket
                   <td colspan="6">
                      @if ($currentSpkl)
                      {{$currentSpkl->hours}}
-                        @else
-                        {{$empSpkl->hours}}
-                     @endif
-                     Jam
+                           @else
+                           {{$empSpkl->hours}}
+                           @endif
+                      Jam
                   </td>
                </tr>
                @endif
@@ -359,7 +386,7 @@ Form Lembur/Piket
                      <td class="text-center">
                         @if ($empSpkl->status > 2)
                            @if ($empSpkl->asmen_id != null)
-                           <span class="text-info">Approved as Manager</span>
+                           <span class="text-info">Approved by Assistant Manager</span>
                               @else
                               <span class="text-info">Approved</span>
                            @endif
@@ -569,6 +596,43 @@ Form Lembur/Piket
                <a class="text-light" href="{{route('employee.spkl.delete', enkripRambo($empSpkl->id))}}">Delete</a>
             </button>
          </div>
+      </div>
+   </div>
+</div>
+
+
+
+<div class="modal fade" id="modal-cancel-spkl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog " role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('employee.spkl.hrd.reject')}}" method="POST" >
+            <div class="modal-body">
+               @csrf
+               <input type="text" value="{{$empSpkl->id}}" name="spklEmp" id="spklEmp" hidden>
+               <span>
+                  Cancel Pengajuan SPKL An.  {{$empSpkl->employee->nik}} {{$empSpkl->employee->biodata->fullName()}}
+                  Tanggal {{formatDate($empSpkl->date)}}
+
+               </span>
+               <hr>
+               <div class="form-group form-group-default">
+                  <label>Remark</label>
+                  <input type="text" class="form-control"  name="desc" required id="desc"  >
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger ">Cancel</button>
+            </div>
+         </form>
       </div>
    </div>
 </div>

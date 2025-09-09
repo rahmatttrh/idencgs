@@ -350,7 +350,7 @@ class CutiController extends Controller
          }
       }
 
-
+      // dd('ok');
 
       return view('pages.cuti.index', [
          'hrdonsite' => $hrdonsite,
@@ -380,7 +380,7 @@ class CutiController extends Controller
       $cuti = Cuti::find(dekripRambo($id));
       // dd('ok');
       $this->calculateCuti($cuti->id);
-      // dd('ok');
+      // dd($cut);
       if ($cuti->start) {
          $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->orderBy('date', 'desc')->get();
 
@@ -576,22 +576,32 @@ class CutiController extends Controller
       if ($cuti->start != null && $cuti->end != null) {
          $absences = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->end)->where('type', 5)->get();
          // dd(count($absences));
-         
+         // if (auth()->user()->hasRole('Administrator')) {
+         //          // dd(count($absences));
+         //       }
          if ($cuti->expired != null) {
             $absencesExtend = Absence::where('employee_id', $cuti->employee->id)->where('date', '>=', $cuti->start)->where('date', '<=', $cuti->expired)->where('type', 5)->get();
             $extendUsed = count($absencesExtend);
             // dd( $cuti->extend);
+            if (auth()->user()->hasRole('Administrator')) {
+                  // dd($cuti->extend);
+               }
             if(count($absencesExtend) > $cuti->extend ){
                // dd('ok');
+               // if (auth()->user()->hasRole('Administrator')) {
+               //    dd('ok');
+               // }
                $extendSisa = count($absencesExtend) - $cuti->extend;
                $cuti->update([
                   'extend_left' => $cuti->extend
                ]);
+               $countAbsence = $extendSisa ;
             } else {
                $cuti->update([
                   'extend_left' => $extendUsed
                ]);
                $extendSisa = 0;
+               $countAbsence = count($absences) ;
             }
 
          
@@ -604,8 +614,8 @@ class CutiController extends Controller
 
          // dd(count($absences))
          
+         $countAbsence = count($absences);
          
-         $countAbsence = count($absences) ;
          // dd($countAbsence);
         
       } else {
@@ -619,13 +629,22 @@ class CutiController extends Controller
       if ($cuti->expired != null) {
          $now = Carbon::now();
          if ($cuti->expired < $now) {
-            $finalTotal = $total - $countAbsence + $extendUsed;
+             if (auth()->user()->hasRole('Administrator')) {
+                  // dd($countAbsence);
+               }
+            $finalTotal = $total - $countAbsence + $extendUsed ;
             // dd($finalTotal);
          } else {
-            $finalTotal = $total - $countAbsence + $extendUsed;
+            $finalTotal = $total - $countAbsence ;
+
+            // dd($finalTotal);
          }
          
       }
+
+      // if (auth()->user()->hasRole('Administrator')) {
+      //    dd($extendUsed);
+      // }
 
       
       // dd($countAbsence);

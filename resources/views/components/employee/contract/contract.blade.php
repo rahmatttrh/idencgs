@@ -64,6 +64,9 @@
                                  <div class="dropdown-menu">
                                     {{-- <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-add-position">Add Position</a>
                                     <hr> --}}
+                                    @if (auth()->user()->hasRole('Administrator'))
+                                        ID : {{$employee->contract->id}}
+                                    @endif
                                     @if ($employee->contract->type == 'Kontrak')
                                     <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-add-contract">Create New Contract</a>
                                     <hr>
@@ -140,7 +143,7 @@
                               
                               <div class="mt-2"></div>
                               <div class="text-small text-uppercase fw-bold op-8">Lokasi </div>
-                              <small class="fw-bold mt-1 ">{{$employee->location->name ?? '-'}}  </small>
+                              <small class="fw-bold mt-1 ">{{$employee->location->name ?? '-'}} {{$employee->getProject()}}</small>
                               <div class="mt-2"></div>
                               <div class="text-small text-uppercase fw-bold op-8">Join </div>
                               <small class="fw-bold mt-1 ">
@@ -456,7 +459,12 @@
                            </th>
                         </tr>
                         <tr>
-                           <th colspan="3">{{$mutation->desc}}</th>
+                           <th colspan="3">
+                              @if (auth()->user()->hasRole('Administrator'))
+                                  ID : {{$mutation->id}}
+                              @endif
+                              {{$mutation->desc}}
+                           </th>
                         </tr>
                         <tr>
                            <th>{{formatDate($mutation->date)}}</th>

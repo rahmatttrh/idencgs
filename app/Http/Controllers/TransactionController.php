@@ -134,6 +134,10 @@ class TransactionController extends Controller
       // dd('ok');
       $overtimes = Overtime::where('date', '>=', $from)->where('date', '<=', $to)->where('employee_id', $employee->id)->where('status', 1)->get();
       // dd($overtimes);
+      if (auth()->user()->hasRole('Administrator')) {
+         // $overtimes = Overtime::where('date', '>=', $from)->where('date', '<=', $to)->where('employee_id', $employee->id)->get();
+         // dd($overtimes);
+      }
       $totalOvertime = $overtimes->sum('rate');
       $penambahans = Additional::where('employee_id', $employee->id)->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 1)->get();
       $pengurangans = Additional::where('employee_id', $employee->id)->where('date', '>=', $from)->where('date', '<=', $to)->where('type', 2)->get();
@@ -244,7 +248,7 @@ class TransactionController extends Controller
       // dd($transaction->id);
 
       
-      
+     
 
 
       // dd('ok');
@@ -304,7 +308,6 @@ class TransactionController extends Controller
 
       DB::beginTransaction();
       try {
-
          // 01 Create Unit Transaction
          $unitTransaction = UnitTransaction::create([
             'status' => 0,
@@ -315,7 +318,7 @@ class TransactionController extends Controller
             'year' => $req->year,
             'total_employee' => $totalEmployee,
             'total_salary' => $totalSalary,
-            'by_id' => $employee->id
+            // 'by_id' => $employee->id
          ]);
 
          foreach ($employees as $emp) {
@@ -354,23 +357,18 @@ class TransactionController extends Controller
             $user = Employee::find(auth()->user()->getEmployeeId());
             $departmentId = $user->department_id;
          }
-
          DB::commit();
-         
          Log::create([
             'department_id' => $departmentId,
             'user_id' => auth()->user()->id,
             'action' => 'Generate',
             'desc' => 'Payslip ' . $unitTransaction->unit->name . ' Bulan ' . $unitTransaction->month
          ]);
-
       } catch (\Exception $e) {
          // Membatalkan transaksi jika terjadi kesalahan
          DB::rollBack();
          return redirect()->back()->with('danger', 'An error occurred: ' . $e->getMessage());
       }
-
-      
 
 
 
@@ -687,6 +685,24 @@ class TransactionController extends Controller
       $payslipReports = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->get();
       $bpjsKsReports = BpjsKsReport::where('unit_transaction_id', $unitTransaction->id)->get();
       $bpjsKtReports = BpjsKtReport::where('unit_transaction_id', $unitTransaction->id)->get();
+
+      if (auth()->user()->hasRole('Administrator')){
+         if($unitTransaction->id == 509){
+            $jht = BpjsKtReport::where('unit_transaction_id', $unitTransaction->id)->where('program', 'Jaminan Hari Tua (JHT)')->where('location_id', 1)->first();
+            $jp = BpjsKtReport::where('unit_transaction_id', $unitTransaction->id)->where('program', 'Jaminan Pensiun')->where('location_id', 1)->first();
+            // $jht->update([
+            //    'total_iuran' =>  $jht->perusahaan + $jht->karyawan
+            //    // 'perusahaan' => $jht->perusahaan + 725320
+            // ]) ;  
+
+            // $jp->update([
+            //    'total_iuran' =>  $jp->perusahaan + $jp->karyawan
+            //    // 'perusahaan' => 6557993 + 105474
+            // ]) ;
+         }
+        
+         // dd($jht);
+      }
       // dd($bpjsKsReports);
 
       $projects = Project::get();
@@ -723,9 +739,18 @@ class TransactionController extends Controller
       $transactions = Transaction::where('month', $unitTransaction->month)->where('year', $unitTransaction->year)->where('unit_transaction_id', $unitTransaction->id)->where('location_id', $location->id)->orderBy('name', 'asc')->get();
       // dd($unitTransaction->id);
       // dd($transactions);
+      
 
       $payslipReport = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->where('location_id', $location->id)->first();
-
+      if (auth()->user()->hasRole('Administrator')) {
+      //   dd($payslipReport);
+      //   $payslipReport->update([
+      //    'jp' => 3384421,
+      //    'bpjskt' => 9955842,
+      //    'gaji_bersih' => 448936577
+      //   ]);
+         
+      }
       return view('pages.payroll.report.payslip-loc', [
          'unitTransaction' => $unitTransaction,
          'transactions' => $transactions,
@@ -737,6 +762,48 @@ class TransactionController extends Controller
    public function reportEmployee($id)
    {
       $transaction = Transaction::find(dekripRambo($id));
+
+      if ($transaction->id == 23545) {
+         # code...
+         $transReductionBpjs = TransactionReduction::where('transaction_id', 23545)->where('name', 'BPJS KS')->where('type', 'employee')->first();
+         $transReductionJkk = TransactionReduction::where('transaction_id', 23545)->where('name', 'JKK')->where('type', 'employee')->first();
+         $transReductionJht = TransactionReduction::where('transaction_id', 23545)->where('name', 'JHT')->where('type', 'employee')->first();
+         $transReductionJp = TransactionReduction::where('transaction_id', 23545)->where('name', 'JP')->where('type', 'employee')->first();
+         $allReductions = TransactionReduction::where('transaction_id', 23545)->where('name', 'JP')->get();
+         // dd($transaction->employee->biodata->fullName());
+
+         $red = Reduction::where('unit_id', $transaction->unit_id)->where('name', 'JP')->first();
+         // if (auth()->user()->hasRole('Administrator')) {
+         //    if ($transReductionJp == null) {
+         //       TransactionReduction::create([
+         //          'transaction_id' => $transaction->id,
+         //          'location_id' => $transReductionBpjs->location_id,
+         //          'reduction_id' => $red->id,
+         //          'reduction_employee_id' => $transReductionBpjs->reduction_employee_id,
+         //          'type' => 'employee',
+         //          'name' => 'JP',
+         //          'value' => 105474
+         //       ]);
+         //    }
+         // }
+         
+         // dd($transReductionJp);
+         
+         // dd($allReductions);
+         // $transReductionBpjs->update([
+         //    'value' => 
+         // ]);
+         // $transReductionJkk->update([
+         //    'value' => 
+         // ]);
+         // $transReductionJht->update([
+         //    'value' => 1105320
+         // ]);
+         // $transReductionJp->update([
+         //    'class' => 'Default',
+         //    'value' => 105474
+         // ]);
+      }
 
       return view('pages.payroll.report.payslip-employee', [
          'transaction' => $transaction
@@ -1077,10 +1144,13 @@ class TransactionController extends Controller
             $totalReduction = $transaction->reductions->where('type', 'employee')->sum('value');
             // dd($totalReduction);
             $reductionOff = $rate * $offQty;
-            $total = $rate * $qtyOn;
+            $total = $payroll->total - $reductionOff;
             // dd($totalReduction);
          
 
+            if (auth()->user()->hasRole('Administrator')) {
+               // dd($reductionOff);
+            }
          $transaction->update([
             'remark' => 'Karyawan Baru',
             'off' => $offQty,
@@ -1092,6 +1162,7 @@ class TransactionController extends Controller
          
       } 
       elseif($employee->off >= $transaction->cut_from && $employee->off < $transaction->cut_to){
+         // dd('debugging');
          $datetime1 = new DateTime($employee->off);
          $datetime2 = new DateTime($transaction->cut_to);
          $interval = $datetime1->diff($datetime2);
@@ -1113,11 +1184,15 @@ class TransactionController extends Controller
          // dd($interval);
          $reductionOff = $rate * $offQty;
          // dd($transaction->payroll->total - $reductionOff);
+         if (auth()->user()->hasRole('Administrator')) {
+            // dd($transaction->payroll->total);
+         }
+         
          $transaction->update([
             'remark' => 'Karyawan Out',
             'off' => $offQty,
             'reduction_off' => $reductionOff,
-            'total' => $transaction->payroll->total - $reductionOff
+            'total' => ($transaction->payroll->total + $transaction->overtime + $transaction->additional_penambahan) - ($reductionOff + $totalReduction + $transaction->reduction_absence + $transaction->reduction_late)
          ]);
       } 
       else {

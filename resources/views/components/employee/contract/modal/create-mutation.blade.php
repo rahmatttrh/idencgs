@@ -50,7 +50,7 @@
       
                            <div class="col-md-6">
                               <div class="form-group form-group-default">
-                                 <label>Level</label>
+                                 <label>Level (System)</label>
                                  <select class="form-control" id="designation" name="designation"  >
                                     @foreach ($designations as $designation)
                                     <option {{$employee->contract->designation_id == $designation->id ? 'selected' : ''}} value="{{$designation->id}}">{{$designation->name}}</option>
@@ -92,7 +92,7 @@
                            
                            <div class="col-md-6">
                               <div class="form-group form-group-default">
-                                 <label>Posisi</label>
+                                 <label>Posisi/Jabatan</label>
                                  <select class="form-control position_mutation" id="position_mutation" name="position_mutation" >
                                     @foreach ($allpositions as $position)
                                     {{--<option {{$employee->contract->designation_id == $designation->id ? 'selected' : ''}} value="{{$designation->id}}">{{$designation->name}}</option>--}}

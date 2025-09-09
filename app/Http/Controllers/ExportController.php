@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Exports\EmployeeExport;
 use App\Models\Employee;
+use App\Models\EmployeeLeader;
 use App\Models\Pe;
 use App\Models\PeBehaviorApprasial;
 use App\Models\PeDiscipline;
 use App\Models\PeKpa;
 use App\Models\PekpaDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -134,6 +136,44 @@ class ExportController extends Controller
          ->where('addtional', '1')
          ->first();
 
+
+
+      if (auth()->user()->hasRole('Administrator')) {
+         // dd($pe->department_id);
+         // $pe->update([
+         //    'department_id' => $pe->employe->department_id
+         // ]);
+
+         $employe = Employee::find($pe->employe_id);
+
+         $allManagers = Employee::where('role', 5)->get();
+         $manager = Employee::where('department_id', $employe->department_id)->where('role', 5)->first();
+         // dd($managers);
+         // dd($pe->asmen_id);
+         $asmen = Employee::find($pe->asmen_id);
+         $employeeLeaders = EmployeeLeader::where('employee_id', $pe->asmen_id)->first();
+         // dd($employeeLeaders->leader->biodata->fullName());
+
+         if ($manager == null) {
+            foreach($allManagers as $man){
+               if (count($man->positions) > 0) {
+                  foreach($man->positions as $pos){
+                     if ($pos->department_id == $employe->department_id) {
+                        $manager = $man;
+                     }
+                  }
+               }
+            }
+         }
+         // $asmen = $pe->verifikasi_by;
+         $pe->update([
+            // 'asmen_id' => $asmen,
+            'verifikasi_by' => $employeeLeaders->leader_id
+         ]);
+
+         // dd($manager);
+      }
+
       // dd($kpa->employe->biodata->fullName());
       return view('pages.pdf.qpe-pdf', [
          'pe' => $pe,
@@ -183,30 +223,8 @@ class ExportController extends Controller
    }
 
    public function employeeExcel($unit, $loc, $gender, $type){
+      $now = Carbon::now();
+      dd($unit);
       return Excel::download(new EmployeeExport($unit, $loc, $gender, $type), 'employee.xlsx');
-   }
-
-   public function qpeList($status){
-      $dekripStatus = dekripRambo($status);
-      // dd($dekripStatus);
-
-      if ($dekripStatus == 'ALL QPE') {
-         // dd('all');
-         $pes = Pe::orderBy('updated_at', 'asc')->get();
-      } elseif($dekripStatus == 'DRAFT QPE') {
-         $pes = Pe::where('status', 0)->orderBy('updated_at', 'asc')->get();
-      } elseif($dekripStatus == 'VERIFIKASI QPE') {
-         $pes = Pe::where('status', 1)->orderBy('updated_at', 'asc')->get();
-      } elseif($dekripStatus == 'COMPLETE QPE') {
-         $pes = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
-      }
-
-      return view('pages.pdf.qpe-list', [
-         'title' => $dekripStatus,
-         'pes' => $pes
-      ])->with('i');
-
-
-
    }
 }

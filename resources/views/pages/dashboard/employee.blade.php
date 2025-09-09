@@ -487,7 +487,7 @@ Dashboard
             <div class="col-md-7">
                <div class="card">
                   <div class="card-header bg-primary text-white p-2">
-                     <small class="text-uppercase">Persoanal Pengajuan Absensi </small>
+                     <small class="text-uppercase">Personal Pengajuan Absensi </small>
                   </div>
                   <div class="card-body p-0">
                      @if (count($myForms) > 0)
@@ -531,7 +531,7 @@ Dashboard
                </div>
                <div class="card">
                   <div class="card-header bg-primary text-white p-2">
-                     <small class="text-uppercase">Persoanal Pengajuan SPKL </small>
+                     <small class="text-uppercase">Personal Pengajuan SPKL </small>
                   </div>
                   <div class="card-body p-0">
                      @if (count($spklEmps) > 0)

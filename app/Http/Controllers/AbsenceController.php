@@ -799,17 +799,17 @@ class AbsenceController extends Controller
          ]);
       }
 
-      // if ($req->type == 4) {
-      //    $req->validate([
-      //       'type_izin' => 'required'
-      //    ]);
-      // }
+      if ($req->type == 4) {
+         $req->validate([
+            'type_izin' => 'required'
+         ]);
+      }
 
-      // if ($req->type == 6) {
-      //    $req->validate([
-      //       'type_spt' => 'required'
-      //    ]);
-      // }
+      if ($req->type == 6) {
+         $req->validate([
+            'type_spt' => 'required'
+         ]);
+      }
 
 
 

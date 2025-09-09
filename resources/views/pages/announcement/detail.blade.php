@@ -92,53 +92,76 @@
             
    </div>
 
-   <div class="modal fade" id="deactivate-announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm" role="document">
-         <div class="modal-content text-dark">
-            <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Deactivate Announcement</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-               </button>
-            </div>
-            <div class="modal-body ">
-               Deactivate {{$announcement->title}} ?
-               <hr>
-               <small class="text-muted">Announcement akan di hilangkan dari Dashboard Employee</small>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-danger ">
-                  <a class="text-light" href="{{route('announcement.deactivate', enkripRambo($announcement->id))}}">Deactivate</a>
-               </button>
-            </div>
-         </div>
-      </div>
-   </div>
+ <div class="modal fade" id="deactivate-announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+       <div class="modal-content text-dark">
+          <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel">Deactivate Announcement</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body ">
+             Deactivate {{$announcement->title}} ?
+             <hr>
+             <small class="text-muted">Announcement akan di hilangkan dari Dashboard Employee</small>
+          </div>
+          <div class="modal-footer">
+             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+             <button type="button" class="btn btn-danger ">
+                <a class="text-light" href="{{route('announcement.deactivate', enkripRambo($announcement->id))}}">Deactivate</a>
+             </button>
+          </div>
+       </div>
+    </div>
+ </div>
 
-   <div class="modal fade" id="activate-announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm" role="document">
-         <div class="modal-content text-dark">
-            <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Activate Announcement</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-               </button>
-            </div>
-            <div class="modal-body ">
-               Activate {{$announcement->title}} ?
-               <hr>
-               <small class="text-muted">Announcement akan di munculkan di Dashboard Employee</small>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary ">
-                  <a class="text-light" href="{{route('announcement.activate', enkripRambo($announcement->id))}}">Activate</a>
-               </button>
-            </div>
-         </div>
-      </div>
-   </div>
+ <div class="modal fade" id="activate-announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+       <div class="modal-content text-dark">
+          <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel">Activate Announcement</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body ">
+             Activate {{$announcement->title}} ?
+             <hr>
+             <small class="text-muted">Announcement akan di munculkan di Dashboard Employee</small>
+          </div>
+          <div class="modal-footer">
+             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+             <button type="button" class="btn btn-primary ">
+                <a class="text-light" href="{{route('announcement.activate', enkripRambo($announcement->id))}}">Activate</a>
+             </button>
+          </div>
+       </div>
+    </div>
+ </div>
+
+
+ <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+       <div class="modal-content text-dark">
+          <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body ">
+             Delete {{$announcement->title}} ?
+          </div>
+          <div class="modal-footer">
+             <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+             <button type="button" class="btn btn-danger ">
+                <a class="text-light" href="{{route('announcement.delete', enkripRambo($announcement->id))}}">Delete</a>
+             </button>
+          </div>
+       </div>
+    </div>
+ </div>
 
 
    <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -75,8 +75,8 @@ SPKL Team
                      <th>NIK</th>
                      <th>Name</th>
                      <th>Posisition</th>
-                     <th class="text-center">Lembur</th>
-                     <th class="text-center">Piket</th>
+                     <th class="text-center">Lembur (Hari)</th>
+                     <th class="text-center">Piket (Hari)</th>
                      @if (auth()->user()->hasRole('HRD|HRD-Payroll'))
                         <th class="text-right">Rate</th>
                      @endif

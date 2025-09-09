@@ -11,8 +11,45 @@ use Illuminate\Support\Facades\Storage;
 class TrainingHistoryController extends Controller
 {
    public function index(){
-      // dd('ok')
       $trainingHistories = TrainingHistory::orderBy('updated_at', 'desc')->get();
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $qtyDup = 0;
+         $trainingHistories = TrainingHistory::orderBy('updated_at', 'desc')->get();
+         $testHistories = [];
+
+         // $testHistories = TrainingHistory::where('expired', '9999-01-01')->get();
+         // dd($testHistories);
+         // foreach($testHistories as $t){
+         //    $t->update([
+         //       'expired' => null
+         //    ]);
+         // }
+         // foreach($trainingHistories as $tr){
+         //    $sameTrs = TrainingHistory::where('employee_id', $tr->employee_id)
+         //    ->where('training_id', $tr->training_id)
+         //    ->where('desc', $tr->desc)
+         //    ->where('vendor', $tr->vendor)
+         //    ->where('type', $tr->type)
+         //    ->where('periode', $tr->periode)
+         //    ->where('type_sertificate', $tr->type_sertificate)
+         //    ->where('expired', $tr->expiredss)
+         //    ->get();
+         //    if(count($sameTrs) > 1){
+               
+         //       $first = $sameTrs->first();
+               
+         //       $prepareDeletes = $sameTrs->where('id', '!=', $first->id);
+               
+         //       foreach($sameTrs as $t){
+                  
+         //       }
+         //       $qtyDup += 1;
+         //    }
+         // }
+         // dd($qtyDup);
+      }
+
       return view('pages.training.history.index', [
          'trainingHistories' => $trainingHistories
       ]);

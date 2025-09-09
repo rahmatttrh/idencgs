@@ -360,7 +360,12 @@ PDF Example
                      </td>
                      <td>
                         @if($pe->status > 1)
-                        <h4 style="color : green">Approved </h4>
+                           @if ($pe->asmen_id != null)
+                           <h4 style="color : green">Approved by Asst. Manager </h4>
+                               @else
+                               <h4 style="color : green">Approved </h4>
+                           @endif
+                        
                         @endif
                      </td>
                   </tr>
