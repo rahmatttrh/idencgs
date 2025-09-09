@@ -64,6 +64,9 @@
                                  <div class="dropdown-menu">
                                     {{-- <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-add-position">Add Position</a>
                                     <hr> --}}
+                                    @if (auth()->user()->hasRole('Administrator'))
+                                        ID : {{$employee->contract->id}}
+                                    @endif
                                     @if ($employee->contract->type == 'Kontrak')
                                     <a  class="dropdown-item" style="text-decoration: none" href="" data-toggle="modal" data-target="#modal-add-contract">Create New Contract</a>
                                     <hr>

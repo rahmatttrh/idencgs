@@ -10,6 +10,7 @@ use App\Models\Absence;
 use App\Models\Bank;
 use App\Models\Biodata;
 use App\Models\Contract;
+use App\Models\Cuti;
 use App\Models\Deactivate;
 use App\Models\Department;
 use App\Models\Designation;
@@ -525,6 +526,50 @@ class EmployeeController extends Controller
       $user = User::where('username', $employee->nik)->first();
       
 
+      if (auth()->user()->hasRole('Administrator')) {
+         // $employees = Employee::whereIn('id', [21,22,119,409])->get();
+
+         // foreach($employees as $emp){
+         
+         // }
+
+         
+         $today = Carbon::now();
+         // if ($employee->contract->type == 'Tetap' && $employee->id = 409) {
+         //    $cuti = Cuti::where('employee_id', $employee->id)->first();
+         //    $penetapan = Carbon::create($employee->contract->determination);
+         //    // // dd($join);
+         //    // dd($penetapan);
+         //    $start = Carbon::create($today->format('Y') . '-' . $penetapan->format('m-d')  );
+         //    $startB = Carbon::create($today->format('Y') . '-' . $penetapan->format('m-d')  );
+         //    // dd($start);
+
+         //    if ($start > $today) {
+         //       // dd($start->subYear());
+         //       $fixStart = $start->subYear();
+         //       $finalStart = $fixStart;
+         //       $finalEnd = $startB;
+               
+         //       // dd($start->addYear());
+         //       // $finalEnd = $start
+         //    } else {
+         //       //  dd($cuti->employee->biodata->fullName());
+         //       $finalStart = $startB;
+         //       $finalEnd = $start->addYear();
+         //    }
+
+         //    $cuti->update([
+         //       'start' => $finalStart,
+         //       'end' => $finalEnd,
+         //       'extend' => 0,
+         //       'extend_left' => 0,
+         //       'expired' => null 
+         //    ]);
+         // }
+         
+         
+      }
+
       // dd($employee->department_id);
 
       // dd($employee->role);
@@ -671,6 +716,11 @@ class EmployeeController extends Controller
       $allLeaders = Employee::where('designation_id', 3)->where('designation_id', 3)->get();
       $subdepts = SubDept::where('department_id', $employee->department_id)->get();
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
+
+      // if (auth()->user()->hasRole('Administrator')) {
+      //    dd($employeeLeaders);
+      // }
+      
       // dd($employee->department_id);
       $department = Department::find($employee->department_id);
       $subdept = SubDept::find($employee->sub_dept_id);
@@ -774,7 +824,9 @@ class EmployeeController extends Controller
       // dd($roles);
 
       $mutations = Mutation::where('employee_id', $employee->id)->orderBy('date', 'desc')->get();
-
+      // if (auth()->user()->hasRole('Administrator')) {
+      //    dd($employeeLeaders);
+      // }
 
       return view('pages.employee.detail', [
          'employee' => $employee,
@@ -893,11 +945,12 @@ class EmployeeController extends Controller
          'picture' => request('picture') ? request()->file('picture')->store('employee/picture') : '',
       ]);
 
+      $birth = Carbon::create($employee->biodata->birth_date);
       $user = User::create([
          'name' => $employee->biodata->first_name . ' ' . $employee->biodata->last_name,
          'email' => $employee->biodata->email,
          'username' => $employee->nik,
-         'password' => Hash::make('12345678')
+         'password' => Hash::make('enc#' . $birth->format('dmy'))
       ]);
 
       $employee->update([

@@ -161,6 +161,7 @@ class AbsenceEmployeeController extends Controller
    }
 
    public function create(){
+      // dd('Under Maintenance')
       $activeTab = 'form';
       $date = 0;
       $employee = Employee::where('nik', auth()->user()->username)->first();
@@ -170,6 +171,7 @@ class AbsenceEmployeeController extends Controller
       $employeeLeaders = EmployeeLeader::where('employee_id', $employee->id)->get();
       // dd($employeeLeaders);
       $leader = null;
+      // dd($employeeLeaders);
 
       // dd($employeeLeaders);
       foreach($employeeLeaders as $lead){
@@ -1790,6 +1792,8 @@ class AbsenceEmployeeController extends Controller
          $form = 'Off Contract';
       } elseif($reqForm->type == 10){
          $form = 'Izin Resmi';
+      } else {
+         $form = 'Absensi';
       }
 
       $reqForm->update([

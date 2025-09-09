@@ -100,7 +100,7 @@
                         </div>
                         <div class="col-md-6">
                            <div class="form-group form-group-default">
-                              <label>Level</label>
+                              <label>Level (System)</label>
                               <select class="form-control" id="designation" name="designation"  >
                                  <option value="" selected disabled>Select</option>
                                  @foreach ($designations as $designation)
@@ -143,7 +143,7 @@
                         </div>
                         <div class="col-md-6">
                            <div class="form-group form-group-default">
-                              <label>Posisi</label>
+                              <label>Posisi/Jabatan</label>
                               <select class="form-control position_add" id="position_add" name="position_add" >
                                  <option value="" selected disabled>Select</option>
                                  @foreach ($allpositions as $position)
@@ -232,7 +232,7 @@
                      </div>
                      <div class="form-group form-group-default">
                         <label>Lampiran Dokumen</label>
-                        <input type="file" class="form-control" required name="doc" id="doc"  >
+                        <input type="file" class="form-control"  name="doc" id="doc"  >
 
                      </div>
                      <small>* Default data is generate from previous contract</small><br>
