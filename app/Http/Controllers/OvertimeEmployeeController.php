@@ -1140,6 +1140,19 @@ class OvertimeEmployeeController extends Controller
       return redirect()->route('hrd.spkl')->with('success', 'Overtime Data successfully verified');
    }
 
+   public function rejectHrd(Request $req){
+      $spklEmp = OvertimeEmployee::find($req->spklEmp);
+      // dd($spklEmp->employee->biodata->fullName());
+      $spklEmp->update([
+         'status' => 401,
+         // 'manager_id' => $empLogin->id,
+         'reject_hrd_date' => Carbon::now(),
+         'reject_hrd_desc' => $req->desc,
+      ]);
+
+      return redirect()->back()->with('success', "SPKL Canceled");
+   }
+
 
    public function approveMultiple(Request $req){
       if ($req->checkSpkl == null) {

@@ -85,16 +85,7 @@ SPKL
                                 
                               </select>
                            </div>
-                           {{-- <div class="form-group form-group-default">
-                              <label>Masuk/Libur</label>
-                              <select class="form-control " required name="holiday_type" id="holiday_type">
-                                 <option value="" disabled selected>Select</option>
-                                 <option value="1">Masuk</option>
-                                 <option value="2">Libur Off</option>
-                                 <option value="3">Libur Nasional</option>
-                                 <option value="4">Idul Fitri</option>
-                              </select>
-                           </div> --}}
+                        
                         </div>
                         
                         
@@ -119,6 +110,16 @@ SPKL
                            @endforeach --}}
                         </select>
                      </div>
+                        <div class="form-group form-group-default">
+                              <label>Masuk/Libur</label>
+                              <select class="form-control " required name="holiday_type" id="holiday_type">
+                                 <option value="" disabled selected>Select</option>
+                                 <option value="1">Masuk</option>
+                                 <option value="2">Libur Off</option>
+                                 <option value="3">Libur Nasional</option>
+                                 <option value="4">Idul Fitri</option>
+                              </select>
+                           </div>
                      
                      <div class="row">
                         <div class="col-md-6">

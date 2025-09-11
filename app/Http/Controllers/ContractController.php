@@ -93,8 +93,9 @@ class ContractController extends Controller
       // ]);
 
       $today = Carbon::now();
+      $cuti = Cuti::where('employee_id', $employee->id)->first();
       if ($employee->contract->type == 'Tetap' ) {
-         $cuti = Cuti::where('employee_id', $employee->id)->first();
+         
          $penetapan = Carbon::create($employee->contract->determination);
          // // dd($join);
          // dd($penetapan);
@@ -122,6 +123,11 @@ class ContractController extends Controller
             'extend' => 0,
             'extend_left' => 0,
             'expired' => null 
+         ]);
+      } else {
+         $cuti->update([
+            'start' => $contract->start,
+            'end' => $contract->end
          ]);
       }
 

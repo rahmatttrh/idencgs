@@ -388,9 +388,9 @@ class AbsenceEmployeeController extends Controller
       }
 
       if ($employee->designation_id == 1) {
-         $backs = Employee::where('department_id', $employee->department_id)->whereIn('designation_id', [1,2])->get();
+         $backs = Employee::where('department_id', $employee->department_id)->whereIn('designation_id', [1,2])->where('status', 1)->get();
       } else {
-         $backs = Employee::where('department_id', $employee->department_id)->where('designation_id', '<=', $employee->designation_id)->get();
+         $backs = Employee::where('department_id', $employee->department_id)->where('designation_id', '<=', $employee->designation_id)->where('status', 1)->get();
       }
 
       
