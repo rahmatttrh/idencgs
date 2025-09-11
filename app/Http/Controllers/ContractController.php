@@ -142,6 +142,7 @@ class ContractController extends Controller
          $user = Employee::find(auth()->user()->getEmployeeId());
          $departmentId = $user->department_id;
       }
+
       Log::create([
          'department_id' => $departmentId,
          'user_id' => auth()->user()->id,

@@ -384,6 +384,9 @@ class OvertimeEmployeeController extends Controller
       $hour_type = $employee->unit->hour_type;
       $payroll = Payroll::find($employee->payroll_id);
 
+
+      // $duplicate = OvertimeEmployee::where('employee_id', $employee->id)->where('')
+
       // dd($intH_end);
       $start = Carbon::Create( $req->hours_start);
       $end = Carbon::Create( $req->hours_end);

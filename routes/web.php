@@ -479,6 +479,7 @@ Route::middleware(["auth"])->group(function () {
 
 
             Route::get('/export/{id}', [TransactionController::class, 'export'])->name('payroll.transaction.export');
+            Route::get('/pdf/export/{id}', [TransactionController::class, 'exportPdf'])->name('payroll.transaction.export.pdf');
             // Route::get('/export/bpjs/{id}', [TransactionController::class, 'export'])->name('payroll.transaction.export');
 
 

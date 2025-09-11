@@ -13,4 +13,6 @@ Published
 Reject Atasan
 @elseif($empspkl->status == 301)
 Reject Manager
+@elseif($empspkl->status == 401)
+Cancel HRD
 @endif

@@ -29,7 +29,7 @@ class AbsenceController extends Controller
    {
 
       $now = Carbon::now();
-      $employees = Employee::get();
+      // $employees = Employee::get();
 
       $export = false;
       $loc = 'All';
@@ -103,6 +103,7 @@ class AbsenceController extends Controller
             'to' => $now->format('d-m-Y')
          ])->with('i');
       } else {
+         // dd('ok');
          return view('pages.payroll.absence.summary', [
             'unitAll' => 1,
             'locAll' => 1,

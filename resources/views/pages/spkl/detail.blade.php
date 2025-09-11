@@ -140,6 +140,23 @@ Form Lembur/Piket
                      </td>
                    </tr>
                @endif
+               @if ($empSpkl->status == 401)
+                   <tr>
+                     
+                     <td class="bg-danger text-white">
+                         {{formatDateTime($empSpkl->reject_hrd_date)}}
+                     </td>
+                   </tr>
+                   <tr>
+                     <td class="bg-danger text-white">HRD</td>
+                   </tr>
+                   <tr>
+                     
+                     <td class="bg-danger text-white pl-4">
+                        : {{$empSpkl->reject_hrd_desc}}
+                     </td>
+                   </tr>
+               @endif
                <tr>
                   <td>
                      @if ($empSpkl->status == 0)
@@ -224,11 +241,11 @@ Form Lembur/Piket
                   
                </form>
             </table>
-            @if ($currentSpkl)
-            <button class="btn btn-block btn-secondary" type="submit">Update</button>
-            @else
-            <button class="btn btn-block btn-primary" type="submit">Submit</button>
-            @endif
+               @if ($currentSpkl)
+               <button class="btn btn-block btn-secondary" type="submit">Update</button>
+               @else
+               <button class="btn btn-block btn-primary" type="submit">Submit</button>
+               @endif
             @endif
          </tbody>
 

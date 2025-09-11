@@ -85,7 +85,7 @@ Form SPKL B
                                 
                               </select>
                            </div>
-                           {{-- <div class="form-group form-group-default">
+                           <div class="form-group form-group-default">
                               <label>Masuk/Libur</label>
                               <select class="form-control " required name="holiday_type" id="holiday_type">
                                  <option value="" disabled selected>Select</option>
@@ -94,7 +94,7 @@ Form SPKL B
                                  <option value="3">Libur Nasional</option>
                                  <option value="4">Idul Fitri</option>
                               </select>
-                           </div> --}}
+                           </div>
                         </div>
                         
                         

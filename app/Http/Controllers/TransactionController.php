@@ -818,6 +818,65 @@ class TransactionController extends Controller
       return Excel::download(new TransactionExport($unitTransaction), 'Transaction ' . $unitTransaction->unit->name . ' ' . $unitTransaction->month . ' ' . $unitTransaction->year . '.xlsx');
    }
 
+   public function exportPdf($id){
+      // dd('ok');
+      $unitTransaction = UnitTransaction::find(dekripRambo($id));
+      $unit = Unit::find($unitTransaction->unit_id);
+      $units = Unit::get();
+      $locations = Location::get();
+      $firstLoc = Location::orderBy('id', 'asc')->first();
+      $transactions = Transaction::where('unit_id', $unit->id)->where('month', $unitTransaction->month)->where('year', $unitTransaction->year)->get();
+
+      $manhrd = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-hrd')->where('type', 'approve')->first();
+      $manfin = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-fin')->where('type', 'approve')->first();
+      $gm = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'gm')->where('type', 'approve')->first();
+      $bod = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'bod')->where('type', 'approve')->first();
+
+
+      // dd($manhrd);
+
+      $reportBpjsKs = PayslipBpjsKs::where('unit_transaction_id', $unitTransaction->id)->first();
+      $reportBpjsKt = PayslipBpjsKt::where('unit_transaction_id', $unitTransaction->id)->first();
+      $hrd = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'hrd')->first();
+      $manHrd = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-hrd')->first();
+      $manFin = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'man-fin')->first();
+      $gm = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'gm')->first();
+      $bod = PayrollApproval::where('unit_transaction_id', $unitTransaction->id)->where('level', 'bod')->first();
+
+      $payslipReport = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->first();
+      
+
+      $payslipReports = PayslipReport::where('unit_transaction_id', $unitTransaction->id)->get();
+      $bpjsKsReports = BpjsKsReport::where('unit_transaction_id', $unitTransaction->id)->get();
+      $bpjsKtReports = BpjsKtReport::where('unit_transaction_id', $unitTransaction->id)->get();
+      
+
+      $projects = Project::get();
+
+      return view('pages.pdf.payslip-report', [
+         'unit' => $unit,
+         'units' => $units,
+         'projects' => $projects,
+         'locations' => $locations,
+         'firstLoc' => $firstLoc,
+         'unitTransaction' => $unitTransaction,
+         'transactions' => $transactions,
+
+         'hrd' => $hrd,
+         'manHrd' => $manhrd,
+         'manFin' => $manfin,
+         'gm' => $gm,
+         'bod' => $bod,
+
+         'reportBpjsKs' => $reportBpjsKs,
+         'reportBpjsKt' => $reportBpjsKt,
+
+         'payslipReports' => $payslipReports,
+         'bpjsKsReports' => $bpjsKsReports,
+         'bpjsKtReports' => $bpjsKtReports
+      ]);
+   }
+
 
    public function store($emp, $req, $unitTransaction)
    {

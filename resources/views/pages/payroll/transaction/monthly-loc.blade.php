@@ -264,7 +264,7 @@ Payroll Transaction
              @endif
 
              
-             <a class="" href="{{route('payroll.transaction.export', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to Excel</a>
+             <a class="" href="{{route('payroll.transaction.export', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to Excel</a> | <a class="" href="{{route('payroll.transaction.export.pdf', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to PDF</a>
             
          </div>
          

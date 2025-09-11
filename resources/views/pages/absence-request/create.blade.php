@@ -299,7 +299,7 @@ Form Absence
             </span>
             
             <div class="form-group form-group-default">
-               <label>Document</label>
+               <label>LAMPIRAN DOKUMEN (FOTO/PDF)</label>
                <input type="file" class="form-control" id="doc" name="doc">
             </div>
             {{-- <div class="form-group form-group-default">

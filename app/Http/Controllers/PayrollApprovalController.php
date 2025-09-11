@@ -149,7 +149,8 @@ class PayrollApprovalController extends Controller
    public function approveHrd(Request $req)
    {
 
-      $employee = Employee::where('nik', auth()->user()->username)->first();
+      // $employee = Employee::where('nik', auth()->user()->username)->first();
+      $employee = Employee::where('nik', 'EN-2-001')->first();
       $unitTransaction = UnitTransaction::find($req->unitTransactionId);
       $transactions = Transaction::where('unit_transaction_id', $unitTransaction->id)->get();
       
