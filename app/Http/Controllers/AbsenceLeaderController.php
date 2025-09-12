@@ -195,6 +195,59 @@ class AbsenceLeaderController extends Controller
       $activeTab = 'index';
 
       $totalApproval = AbsenceEmployee::where('status', 3)->orderBy('release_date', 'desc')->get()->count();
+
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj1-2')
+            ->orWhere('contracts.loc', 'kj1-2-medco')
+            ->orWhere('contracts.loc', 'kj1-2-premier-oil')
+            ->orWhere('contracts.loc', 'kj1-2-petrogas')
+            ->orWhere('contracts.loc', 'kj1-2-star-energy')
+            ->orWhere('contracts.loc', 'kj1-2-housekeeping')
+
+            ->select('employees.*')
+            ->get();
+
+            $idEmp = [];
+            foreach($employees as $emp){
+               $idEmp[] = $emp->id;
+            }
+            $reqForms = AbsenceEmployee::whereNotIn('status', [0,3])->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get();
+            $totalApproval = AbsenceEmployee::whereNotIn('status', [0,3])->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get()->count();
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+            ->orWhere('contracts.loc', 'kj4-housekeeping')
+            ->orWhere('contracts.loc', 'kj5-housekeeping')
+            ->select('employees.*')
+            ->get();
+
+            $idEmp = [];
+            foreach($employees as $emp){
+               $idEmp[] = $emp->id;
+            }
+            $reqForms = AbsenceEmployee::whereNotIn('status', [0,3])->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get();
+            $totalApproval = AbsenceEmployee::whereNotIn('status', [0,3])->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get()->count();
+
+         
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+         $employees = Employee::whereIn('unit_id', [10,13,14])
+               ->where('status', 1)
+               ->get();
+
+            $idEmp = [];
+            foreach($employees as $emp){
+               $idEmp[] = $emp->id;
+            }
+            $reqForms = AbsenceEmployee::whereNotIn('status', [0,3])->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get();
+            $totalApproval = AbsenceEmployee::whereNotIn('status', [0,3])->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get()->count();
+
+         
+      }
+
+
+
       return view('pages.absence-request.hrd.index', [
          'activeTab' => $activeTab,
          'reqForms' => $reqForms,
@@ -207,6 +260,63 @@ class AbsenceLeaderController extends Controller
       $reqForms = AbsenceEmployee::where('status', 3)->orderBy('release_date', 'desc')->get();
       $totalApproval = AbsenceEmployee::where('status', 3)->orderBy('release_date', 'desc')->get()->count();
       $activeTab = 'approval';
+
+      if (auth()->user()->hasRole('HRD-KJ12')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj1-2')
+            ->orWhere('contracts.loc', 'kj1-2-medco')
+            ->orWhere('contracts.loc', 'kj1-2-premier-oil')
+            ->orWhere('contracts.loc', 'kj1-2-petrogas')
+            ->orWhere('contracts.loc', 'kj1-2-star-energy')
+            ->orWhere('contracts.loc', 'kj1-2-housekeeping')
+
+            ->select('employees.*')
+            ->get();
+
+            $idEmp = [];
+            foreach($employees as $emp){
+               $idEmp[] = $emp->id;
+            }
+            $reqForms = AbsenceEmployee::where('status', 3)->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get();
+            $totalApproval = AbsenceEmployee::where('status', 3)->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get()->count();
+      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
+            ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
+            ->orWhere('contracts.loc', 'kj4-housekeeping')
+            ->orWhere('contracts.loc', 'kj5-housekeeping')
+            ->select('employees.*')
+            ->get();
+
+            $idEmp = [];
+            foreach($employees as $emp){
+               $idEmp[] = $emp->id;
+            }
+            $reqForms = AbsenceEmployee::where('status', 3)->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get();
+            $totalApproval = AbsenceEmployee::where('status', 3)->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get()->count();
+
+         
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+         $employees = Employee::whereIn('unit_id', [10,13,14])
+               ->where('status', 1)
+               ->get();
+
+            $idEmp = [];
+            foreach($employees as $emp){
+               $idEmp[] = $emp->id;
+            }
+            $reqForms = AbsenceEmployee::where('status', 3)->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get();
+            $totalApproval = AbsenceEmployee::where('status', 3)->whereIn('employee_id', $idEmp)->orderBy('release_date', 'desc')->get()->count();
+
+         
+      }
+
+
+     
+
+           
+      
+
+      
       return view('pages.absence-request.hrd.index', [
          'activeTab' => $activeTab,
          'reqForms' => $reqForms,

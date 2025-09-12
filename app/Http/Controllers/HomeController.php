@@ -909,12 +909,17 @@ class HomeController extends Controller
 
 
          $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [3,20])->get();
+         foreach($employees as $emp){
+            $idEmp[] = $emp->id;
+         }
+         $absenceApprovals = AbsenceEmployee::where('status', 3)->whereIn('employee_id', $idEmp)->get();
 
          return view('pages.dashboard.hrd-site', [
             // 'units' => $units,
             'employee' => $user,
             'employees' => $employees,
             'spklApprovals' => $spklApprovals,
+            'absenceApprovals' => $absenceApprovals,
             // 'male' => $male,
             // 'female' => $female,
             // 'spkls' => $spkls,
@@ -966,13 +971,20 @@ class HomeController extends Controller
                ->select('employees.*')
                ->get();
 
+            $idEmp = [];
+            foreach($employees as $emp){
+               $idEmp[] = $emp->id;
+            }
+
                $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [4,5,21,22])->get();
+               $absenceApprovals = AbsenceEmployee::where('status', 3)->whereIn('employee_id', $idEmp)->get();
          }
 
          return view('pages.dashboard.hrd-site', [
             'units' => $units,
             'employee' => $user,
             'spklApprovals' => $spklApprovals,
+            'absenceApprovals' => $absenceApprovals,
             'employees' => $employees,
             'male' => $male,
             'female' => $female,
@@ -1016,6 +1028,10 @@ class HomeController extends Controller
                ->get();
 
          $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [2])->get();
+         foreach($employees as $emp){
+            $idEmp[] = $emp->id;
+         }
+         $absenceApprovals = AbsenceEmployee::where('status', 3)->whereIn('employee_id', $idEmp)->get();
          // if (auth()->user()->hasRole('HRD-KJ12')) {
             
          // } elseif (auth()->user()->hasRole('HRD-KJ45')) {
@@ -1029,6 +1045,7 @@ class HomeController extends Controller
             'units' => $units,
             'employee' => $user,
             'spklApprovals' => $spklApprovals,
+            'absenceApprovals' => $absenceApprovals,
             'employees' => $employees,
             'male' => $male,
             'female' => $female,
