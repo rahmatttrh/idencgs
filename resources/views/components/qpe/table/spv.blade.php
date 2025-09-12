@@ -180,7 +180,8 @@
                        @endif
                        <td class="text-right">
                           @if($pe->status == 0)
-                          <!-- <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-delete-{{$pe->id}}"><i class="fas fa-trash"></i> Delete</button> -->
+                          <a href="#" data-toggle="modal" data-target="#modalDeleteQpe-{{$pe->id}}">Delete</a>
+                           {{-- <button class="" data-toggle="modal" data-target="#modal-delete-{{$pe->id}}"><i class="fas fa-trash"></i> Delete</button> --}}
                           @elseif(($pe->status == '1' || $pe->status == '2' || $pe->status == '101' || $pe->status == '202') && $pe->behavior > 0)
                           <a href="{{ route('export.qpe', $pe->id) }}" target="_blank"> PDF</a>
                           @elseif(($pe->status == 0 || $pe->status == 101 || $pe->status == 202) && auth()->user()->hasRole('Leader'))
@@ -189,7 +190,40 @@
                        </td>
                        <td>{{$pe->updated_at}}</td>
                    </tr>
+                   <div class="modal fade" id="modalDeleteQpe-{{$pe->id}}" data-bs-backdrop="static">
+                     <div class="modal-dialog modal-sm">
+                         <div class="modal-content">
+                  
+                             <!-- Bagian header modal -->
+                             <div class="modal-header">
+                                 <h3 class="modal-title">Delete Confirmation</h3>
+                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                             </div>
+                             <form method="POST" action="{{route('qpe.delete') }}" enctype="multipart/form-data">
+                                 @csrf
+                  
+                                 <input type="hidden" name="pe" id="pe" value="{{$pe->id}}">
+                  
+                                 <!-- Bagian konten modal -->
+                                 <div class="modal-body">
+                  
+                                     Delete QPE <br>
+                                      {{$pe->employe->biodata->fullName()}} Semester {{$pe->semester}} / {{$pe->tahun}}
+                                 </div>
+                  
+                                 <!-- Bagian footer modal -->
+                                 <div class="modal-footer">
+                                     {{-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> --}}
+                                     <button type="submit" class="btn btn-danger">Delete</button>
+                                 </div>
+                             </form>
+                  
+                         </div>
+                     </div>
+                  </div>
+                   {{-- <x-modal.delete :id="$pe->id" :body="'KPI ' . $pe->employe->nik . ' ' . $pe->employe->biodata->fullName() . ' bulan '. date('F Y', strtotime($pe->date))   " url="qpe/delete/{{enkripRambo($pe->id)}}" /> --}}
                    @endif
+
                 @endforeach
             @endforeach
         @endif
