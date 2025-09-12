@@ -17,7 +17,7 @@
     <span class="badge badge-light">HRD KJ 4-5</span>
 @endif
 @if ($employee->user->hasRole('HRD-KJ12'))
-    <span class="badge badge-light">HRD KJ 4-5</span>
+    <span class="badge badge-light">HRD KJ 1-2</span>
 @endif
 
 @if ($employee->user->hasRole('HRD-JGC'))

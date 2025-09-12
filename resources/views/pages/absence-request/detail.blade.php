@@ -529,6 +529,7 @@ Form Perubahan Absence
 
          @if (auth()->user()->hasRole('Administrator'))
          <hr>
+         <button class="btn btn-primary btn-block" data-target="#modal-update-administrator" data-toggle="modal">Update as Administrator</button>
              <form action="{{route('employee.absence.update.file')}}" method="POST" enctype="multipart/form-data">
                @csrf
                @method('PUT')
@@ -842,6 +843,157 @@ Form Perubahan Absence
    </div>
 </div>
 
+
+
+<div class="modal fade" id="modal-update-administrator" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update as Administrator<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('employee.absence.reject')}}" method="POST" >
+            <div class="modal-body">
+               @csrf
+
+               @if ($absenceEmp->type == 4)
+
+               <div class="row">
+                  <div class="col-md-8">
+
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="form-group date form-group-default">
+                              <label>Date</label>
+                              <input type="text" readonly  class="form-control" id="date" name="date" value="FORM IZIN">
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group date form-group-default">
+                              <label>Date</label>
+                              <input type="date"  class="form-control" id="date" name="date" value="{{$absenceEmp->date}}">
+                           </div>
+                        </div>
+                        <div class="col-md-6 ">
+                           <div class="form-group form-group-default">
+                              <label>Jenis Izin</label>
+                              <select class="form-control"  name="type_izin" id="type_izin">
+                              
+                                 <option  {{$absenceEmp->type_izin == 'Setengah Hari' ? 'selected' : ''}} value="Setengah Hari">Setengah Hari</option>
+                                 <option {{$absenceEmp->type_izin == 'Satu Hari' ? 'selected' : ''}} value="Satu Hari">Satu Hari</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-md-6 ">
+                           <div class="form-group form-group-default">
+                              <label>Awal/Akhir</label>
+                              <select class="form-control"  name="remark" id="remark">
+                                 <option value="" disabled selected>Select</option>
+                                 <option {{$absenceEmp->remark == 'Tidak Absen Masuk' ? 'selected' : ''}} value="Tidak Absen Masuk">Tidak Absen Masuk</option>
+                                 <option {{$absenceEmp->remark == 'Tidak Absen Pulang' ? 'selected' : ''}} value="Tidak Absen Pulang">Tidak Absen Pulang</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-6 ">
+                           <div class="form-group form-group-default">
+                              <label>Dari</label>
+                              <input type="time" class="form-control" id="permit_from" name="permit_from" value="{{$absenceEmp->permit_from}}">
+                           </div>
+                        </div>
+                        <div class="col-6 ">
+                           <div class="form-group form-group-default">
+                              <label>Sampai</label>
+                              <input type="time" class="form-control" id="permit_to" name="permit_to" value="{{$absenceEmp->permit_to}}">
+                           </div>
+                        </div>
+
+                        <div class="col-6 ">
+                           <div class="form-group form-group-default ">
+                              <label>Atasan</label>
+                              <select class="form-control "  name="persetujuan" id="persetujuan">
+                                 <option value="" disabled selected>Select</option>
+                                 {{-- <option selected value="{{$leader->id}}">{{$leader->biodata->fullName()}}</option> --}}
+                                 <option value="" disabled selected>Select</option>
+                                 @foreach ($employeeLeaders as $lead)
+                                    <option  value="{{$lead->leader->id}}">{{$lead->leader->biodata->fullName()}}</option>
+                                 @endforeach
+                              </select>
+                           </div>
+                        </div>
+                        @if ($employee->designation_id == 6)
+                            @else
+                            <div class="col-6 ">
+                              <div class="form-group form-group-default ">
+                                 <label>Manager</label>
+                                 <select class="form-control "  name="manager" id="manager">
+                                    <option value="" disabled selected>Select</option>
+                                    @foreach ($managers as $man)
+                                       <option {{$absenceEmp->manager_id == $man->id ? 'selected' : ''}}  selected value="{{$man->id}}">{{$man->biodata->fullName()}}</option>
+                                    @endforeach
+                                    {{-- <option  value="4">Izin</option>
+                                    <option value="5">Cuti</option>
+                                    <option  value="6">SPT</option>
+                                    <option value="7">Sakit</option> --}}
+                                 </select>
+                              </div>
+                           </div>
+                        @endif
+                     </div>
+
+                     
+                        <div class="form-group form-group-default">
+                           <label>Description</label>
+                           <textarea type="text" class="form-control" id="desc_izin" name="desc_izin" rows="3">{{$absenceEmp->desc}}
+                           </textarea>
+                        </div>
+                        <div class="form-group form-group-default">
+                           <label>LAMPIRAN DOKUMEN (FOTO/PDF)</label>
+                           <input type="file" class="form-control" id="doc" name="doc">
+                        </div>
+                     
+
+                  </div>
+
+
+                  <div class="col-md-4">
+                     <div class="form-group form-group-default">
+                        <label>Status</label>
+                        <select class="form-control"  name="status" id="status">
+                           <option {{$absenceEmp->status == 0 ? 'selected' : ''}} value="0">Draft</option>
+                           <option {{$absenceEmp->status == 1 ? 'selected' : ''}}  value="1">Approval Atasan</option>
+                           <option {{$absenceEmp->status == 2 ? 'selected' : ''}}  value="2">Approval Manager</option>
+                           <option {{$absenceEmp->status == 2 ? 'selected' : ''}}  value="3">Verifikasi HRD</option>
+                           <option {{$absenceEmp->status == 5 ? 'selected' : ''}}  value="5">Published</option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
+               
+               
+               
+               <div class="row ">
+                  
+               </div>
+               <div class="row">
+                  
+               </div>
+               
+               @endif
+               
+               
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary ">Update</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
 
 @push('myjs')
    <script>

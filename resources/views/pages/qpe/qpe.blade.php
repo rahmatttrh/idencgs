@@ -13,9 +13,9 @@ QPE
    </nav>
    
 
-
-  
-         @if (auth()->user()->hasRole('BOD|Administrator|HRD|HRD-Manager|HRD-Recruitment'))
+      <div class="card">
+         <div class="card-body px-0">
+            @if (auth()->user()->hasRole('BOD|Administrator|HRD|HRD-Manager|HRD-Recruitment'))
             <x-qpe.table.admin :pes="$pes" :i="$i" :title="$title" :total="$total" :draft="$draft" :verification="$verification" :done="$done" :reject="$reject" />
             @elseif($employee->role == 5 || $employee->role == 8)
             <x-qpe.table.manager :pes="$pes" :i="$i" :employee="$employee" :title="$title" :total="$total" :draft="$draft" :verification="$verification" :done="$done" :reject="$reject" />
@@ -24,6 +24,10 @@ QPE
             @else
             <x-qpe.table.other :pes="$pes" :i="$i" />
          @endif
+         </div>
+      </div>
+  
+         
      
 </div>
 @endsection

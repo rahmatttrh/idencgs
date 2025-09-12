@@ -791,10 +791,10 @@ class QuickPEController extends Controller
          
             // dd($myteams);
             if (auth()->user()->hasRole('Supervisor')) {
-               $pes = Pe::where('status', 101)->where('department_id', $employee->department_id)->orderBy('updated_at', 'desc')->get();
+               $pes = Pe::where('status', 101)->where('department_id', $employee->department_id)->orderBy('created_at', 'desc')->get();
             } else {
                 // dd('ok');
-               $pes = Pe::where('status', 101)->where('created_by', $employee->id)->orderBy('updated_at', 'desc')->get();
+               $pes = Pe::where('status', 101)->where('created_by', $employee->id)->orderBy('created_at', 'desc')->get();
                 // dd($pes);
             }
             

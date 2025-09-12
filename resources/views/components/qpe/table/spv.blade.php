@@ -1,5 +1,5 @@
 <div class="table-responsive">
-   <table id="basic-datatables" class="display basic-datatables table-sm table-striped ">
+   <table id="" class="display datatables-8 table-sm table-striped ">
        <thead>
            <tr>
                {{-- <th class="text-white text-center">No </th> --}}
@@ -14,6 +14,7 @@
                <th class="text-white">Achievement</th>
                <th class="text-white">Status</th>
                <th class="text-right text-white">Action</th>
+               <th class="" >Updated</th>
            </tr>
        </thead>
        <tbody>
@@ -69,6 +70,7 @@
                    <!-- <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal-submit-{{$pe->id}}"><i class="fas fa-rocket"></i> Submit</button> -->
                    @endif
                 </td>
+                <td >{{$pe->updated_at}}</td>
             </tr>
             @endforeach    
 
@@ -126,6 +128,7 @@
                  <!-- <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal-submit-{{$pe->id}}"><i class="fas fa-rocket"></i> Submit</button> -->
                  @endif
               </td>
+              <td>{{$pe->updated_at}}</td>
            </tr>
            @endif
            @endforeach
@@ -184,6 +187,7 @@
                           <!-- <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal-submit-{{$pe->id}}"><i class="fas fa-rocket"></i> Submit</button> -->
                           @endif
                        </td>
+                       <td>{{$pe->updated_at}}</td>
                    </tr>
                    @endif
                 @endforeach
