@@ -24,7 +24,7 @@ Form Perubahan Absence
    <div class="row">
       <div class="col-md-3">
 
-         @if (  $absenceEmp->status == 3 && auth()->user()->hasRole('HRD|HRD-Payroll'))
+         @if (  $absenceEmp->status == 3 && auth()->user()->hasRole('HRD|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
             
          <div class="btn-group btn-block" >
             <a href="#" class="btn btn-block  mb-2 btn-primary" data-target="#modal-approve-absence-employee-hrd" data-toggle="modal"><i class="fa fa-check"></i> Confirm</a>
