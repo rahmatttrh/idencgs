@@ -64,7 +64,7 @@ Detail Employee
             @endif
          @endif
          
-         <div class="card card-light shadow-none border">
+         <div class="card card-light shadow-sm ">
             <div class="card-header d-flex justify-content-between">
                <div>NO DOC : {{$employee->biodata->no_doc ?? ' -'}}</div>
                

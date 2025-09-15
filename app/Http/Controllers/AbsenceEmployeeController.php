@@ -388,7 +388,28 @@ class AbsenceEmployeeController extends Controller
       }
 
       if ($employee->designation_id == 1) {
-         $backs = Employee::where('department_id', $employee->department_id)->whereIn('designation_id', [1,2])->where('')->get();
+         // $backs = Employee::where('department_id', $employee->department_id)->whereIn('designation_id', [1,2])->get();
+         // dd($backs);
+         // if (count($backs) == 0) {
+         
+            $myteams = EmployeeLeader::
+            where('leader_id', $user->id)
+            ->get();
+            // dd($myteams);
+
+            $backs = [];
+            foreach($myteams as $t){
+               $employee = Employee::find($t->employee_id);
+               
+               $backs[] = $employee;
+               
+            }
+         // }
+         // dd($backs);
+
+         // $backs = $backs;
+         // dd($backs);
+
       } else {
          $backs = Employee::where('department_id', $employee->department_id)->where('designation_id', '<=', $employee->designation_id)->get();
       }

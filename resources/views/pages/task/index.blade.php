@@ -24,10 +24,10 @@ Task List
         </div>
         
         
-        <div class="card-body ">
+        <div class="card-body px-0">
             @if(auth()->user()->hasRole('Administrator|Manager|Asst. Manager'))
                 <div class="table-responsive">
-                    <table id="" class="display basic-datatables   table-striped ">
+                    <table id="" class="display datatables-6   table-striped ">
                         <thead>
                             <tr>
                                 <th>Kategori</th>
@@ -36,6 +36,7 @@ Task List
                                 <th>Closed</th>
                                 <th>PIC</th>
                                 <th>Status</th>
+                                <th>Updated</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,9 +62,9 @@ Task List
                                         -
                                     @endif
                                 </td>
-                                <td class="text-truncate">
+                                <td class="">
                                     @foreach ($task->employees()->get() as $emp)
-                                    {{$emp->nik}} 
+                                    {{$emp->nik}}
                                     @endforeach
                                     
                                 </td>
@@ -75,6 +76,9 @@ Task List
                                     <td class="bg-success text-light">Closed</td>
                                     
                                 @endif
+                                <td>
+                                 {{$task->updated_at}}
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
