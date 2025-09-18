@@ -546,6 +546,23 @@ class AbsenceEmployeeController extends Controller
    
          }
       }
+
+
+
+
+
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      
+         
+         
+
+      Log::create([
+         'department_id' => $employee->department_id,
+         'user_id' => auth()->user()->id,
+         'action' => 'Approve ' . $qty,
+         'desc' => 'Form Absensi ' 
+      ]);
       
 
       
@@ -1311,6 +1328,33 @@ class AbsenceEmployeeController extends Controller
       //    }
       // }
 
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      if ($reqForm->type == 4){
+         $title = 'Izin';
+      } elseif($reqForm->type == 5){
+         $title = 'Cuti';
+      } elseif($reqForm->type == 6){
+         $title = 'SPT';
+      } elseif($reqForm->type == 7){
+         $title = 'Sakit';
+      } elseif($reqForm->type == 8){
+         $title = 'Dinas Luar';
+      } elseif($reqForm->type == 10){
+         $title = 'Izin Resmi';
+      } else {
+         $title = '';
+      }
+         
+         
+
+      Log::create([
+         'department_id' => $employee->department_id,
+         'user_id' => auth()->user()->id,
+         'action' => 'Approve',
+         'desc' => 'Form ' . $title . ' ' .  $reqForm->employee->biodata->fullName() . ' '
+      ]);
+
 
 
       return redirect()->back()->with('success', 'Formulir ' . $form . ' ' . 'berhasil di setujui');
@@ -1460,6 +1504,33 @@ class AbsenceEmployeeController extends Controller
 
          //   dd($cuti->sisa);
       }
+
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      if ($reqForm->type == 4){
+         $title = 'Izin';
+      } elseif($reqForm->type == 5){
+         $title = 'Cuti';
+      } elseif($reqForm->type == 6){
+         $title = 'SPT';
+      } elseif($reqForm->type == 7){
+         $title = 'Sakit';
+      } elseif($reqForm->type == 8){
+         $title = 'Dinas Luar';
+      } elseif($reqForm->type == 10){
+         $title = 'Izin Resmi';
+      } else {
+         $title = '';
+      }
+         
+         
+
+      Log::create([
+         'department_id' => $employee->department_id,
+         'user_id' => auth()->user()->id,
+         'action' => 'Approve as Manager',
+         'desc' => 'Form ' . $title . ' ' .  $reqForm->employee->biodata->fullName() . ' '
+      ]);
 
 
       return redirect()->back()->with('success', 'Formulir ' . $form . ' ' . 'berhasil di setujui');
