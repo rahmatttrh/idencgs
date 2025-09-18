@@ -65,262 +65,265 @@ Form Absence
       <div class="col-md-9">
          <div class="badge badge-info">Form Pengajuan Cuti/SPT/Izin</div>
          <hr>
-         <form action="{{route('employee.absence.store')}}" method="POST" enctype="multipart/form-data">
-            @csrf
-            
-            <div class="row">
+         
+             <form action="{{route('employee.absence.store')}}" method="POST" enctype="multipart/form-data">
+               @csrf
                
-               <div class="col-6">
-                  <div class="form-group form-group-default">
-                     <label>Jenis Form</label>
-                     <select class="form-control type" required name="type" id="type">
-                        <option value="" disabled selected>Select</option>
-                        <option value="5">Cuti</option>
-                        <option  value="6">Surat Perintah Tugas</option>
-                        <option  value="4">Izin</option>
-                        <option value="10">Izin Resmi</option>
-                        <option value="7">Sakit</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="col-6">
-                  <div class="form-group date form-group-default">
-                     <label>Date</label>
-                     <input type="date"  class="form-control" id="date" name="date" value="">
-                  </div>
-                  <span class="type_cuti">
-                     {{-- #Info <br> --}}
-                     Tanggal Cuti dapat dipilih setelah <br> anda klik 'Save to Draft'
-                  </span>
-                  <span class="type_izin_resmi">
-                     {{-- #Info <br> --}}
-                     Tanggal Izin Resmi dapat dipilih setelah <br> anda klik 'Save to Draft'
-                  </span>
-               </div>
-
-               
-               
-               
-
-               <div class="col-md-6 type_izin">
-                  <div class="form-group form-group-default">
-                     <label>Jenis Izin</label>
-                     <select class="form-control"  name="type_izin" id="type_izin">
-                        <option value="" disabled selected>Select</option>
-                        <option value="Setengah Hari">Setengah Hari</option>
-                        <option value="Satu Hari">Satu Hari</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="col-md-6 type_izin">
-                  <div class="form-group form-group-default">
-                     <label>Awal/Akhir</label>
-                     <select class="form-control"  name="remark" id="remark">
-                        <option value="" disabled selected>Select</option>
-                        <option value="Tidak Absen Masuk">Tidak Absen Masuk</option>
-                        <option value="Tidak Absen Pulang">Tidak Absen Pulang</option>
-                     </select>
-                  </div>
-               </div>
-               
-            </div>
-
-            <div class="row type_izin">
-               <div class="col-6 ">
-                  <div class="form-group form-group-default">
-                     <label>Dari</label>
-                     <input type="time" class="form-control" id="permit_from" name="permit_from">
-                  </div>
-               </div>
-               <div class="col-6 ">
-                  <div class="form-group form-group-default">
-                     <label>Sampai</label>
-                     <input type="time" class="form-control" id="permit_to" name="permit_to">
-                  </div>
-               </div>
-            </div>
-            <span class="type_izin_resmi">
-               <div class="form-group form-group-default">
-                  <label>Jenis Izin Resmi</label>
-                  <select class="form-control"  name="permit" id="permit">
-                     <option value="" disabled selected>Select</option>
-                     @foreach ($permits as $permit)
-                     <option value="{{$permit->id}}">{{$permit->name}} {{$permit->desc}} - {{$permit->qty}} Hari</option>
-                     @endforeach
-                     
-                  </select>
-               </div>
-            </span>
-
-            <hr>
-
-            <span class="">
                <div class="row">
-                  <div class="col-6 atasan">
-                     <div class="form-group form-group-default ">
-                        <label>Atasan</label>
-                        <select class="form-control "  name="persetujuan" id="persetujuan">
+                  
+                  <div class="col-6">
+                     <div class="form-group form-group-default">
+                        <label>Jenis Form</label>
+                        <select class="form-control type" required name="type" id="type">
                            <option value="" disabled selected>Select</option>
-                           {{-- <option selected value="{{$leader->id}}">{{$leader->biodata->fullName()}}</option> --}}
-                           <option value="" disabled selected>Select</option>
-                           @foreach ($employeeLeaders as $lead)
-                              <option  value="{{$lead->leader->id}}">{{$lead->leader->biodata->fullName()}}</option>
-                           @endforeach
+                           <option value="5">Cuti</option>
+                           <option  value="6">Surat Perintah Tugas</option>
+                           <option  value="4">Izin</option>
+                           <option value="10">Izin Resmi</option>
+                           <option value="7">Sakit</option>
                         </select>
                      </div>
                   </div>
-                  @if ($employee->designation_id == 6)
-                      @else
-                      <div class="col-6 manager">
+                  <div class="col-6">
+                     <div class="form-group date form-group-default">
+                        <label>Date</label>
+                        <input type="date"  class="form-control" id="date" name="date" value="">
+                     </div>
+                     <span class="type_cuti">
+                        {{-- #Info <br> --}}
+                        Tanggal Cuti dapat dipilih setelah <br> anda klik 'Save to Draft'
+                     </span>
+                     <span class="type_izin_resmi">
+                        {{-- #Info <br> --}}
+                        Tanggal Izin Resmi dapat dipilih setelah <br> anda klik 'Save to Draft'
+                     </span>
+                  </div>
+   
+                  
+                  
+                  
+   
+                  <div class="col-md-6 type_izin">
+                     <div class="form-group form-group-default">
+                        <label>Jenis Izin</label>
+                        <select class="form-control"  name="type_izin" id="type_izin">
+                           <option value="" disabled selected>Select</option>
+                           <option value="Setengah Hari">Setengah Hari</option>
+                           <option value="Satu Hari">Satu Hari</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-md-6 type_izin">
+                     <div class="form-group form-group-default">
+                        <label>Awal/Akhir</label>
+                        <select class="form-control"  name="remark" id="remark">
+                           <option value="" disabled selected>Select</option>
+                           <option value="Tidak Absen Masuk">Tidak Absen Masuk</option>
+                           <option value="Tidak Absen Pulang">Tidak Absen Pulang</option>
+                        </select>
+                     </div>
+                  </div>
+                  
+               </div>
+   
+               <div class="row type_izin">
+                  <div class="col-6 ">
+                     <div class="form-group form-group-default">
+                        <label>Dari</label>
+                        <input type="time" class="form-control" id="permit_from" name="permit_from">
+                     </div>
+                  </div>
+                  <div class="col-6 ">
+                     <div class="form-group form-group-default">
+                        <label>Sampai</label>
+                        <input type="time" class="form-control" id="permit_to" name="permit_to">
+                     </div>
+                  </div>
+               </div>
+               <span class="type_izin_resmi">
+                  <div class="form-group form-group-default">
+                     <label>Jenis Izin Resmi</label>
+                     <select class="form-control"  name="permit" id="permit">
+                        <option value="" disabled selected>Select</option>
+                        @foreach ($permits as $permit)
+                        <option value="{{$permit->id}}">{{$permit->name}} {{$permit->desc}} - {{$permit->qty}} Hari</option>
+                        @endforeach
+                        
+                     </select>
+                  </div>
+               </span>
+   
+               <hr>
+   
+               <span class="">
+                  <div class="row">
+                     <div class="col-6 atasan">
                         <div class="form-group form-group-default ">
-                           <label>Manager</label>
-                           <select class="form-control "  name="manager" id="manager">
+                           <label>Atasan</label>
+                           <select class="form-control "  name="persetujuan" id="persetujuan">
                               <option value="" disabled selected>Select</option>
-                              @foreach ($managers as $man)
-                                 <option selected value="{{$man->id}}">{{$man->biodata->fullName()}}</option>
+                              {{-- <option selected value="{{$leader->id}}">{{$leader->biodata->fullName()}}</option> --}}
+                              <option value="" disabled selected>Select</option>
+                              @foreach ($employeeLeaders as $lead)
+                                 <option  value="{{$lead->leader->id}}">{{$lead->leader->biodata->fullName()}}</option>
                               @endforeach
-                              {{-- <option  value="4">Izin</option>
-                              <option value="5">Cuti</option>
-                              <option  value="6">SPT</option>
-                              <option value="7">Sakit</option> --}}
                            </select>
                         </div>
                      </div>
-                  @endif
-                  
-                  
-                  <div class="col-md-12 type_cuti">
-                     <div class="form-group form-group-default">
-                        <label>Keperluan</label>
-                        <input type="text" class="form-control" id="keperluan" name="keperluan">
+                     @if ($employee->designation_id == 6)
+                         @else
+                         <div class="col-6 manager">
+                           <div class="form-group form-group-default ">
+                              <label>Manager</label>
+                              <select class="form-control "  name="manager" id="manager">
+                                 <option value="" disabled selected>Select</option>
+                                 @foreach ($managers as $man)
+                                    <option selected value="{{$man->id}}">{{$man->biodata->fullName()}}</option>
+                                 @endforeach
+                                 {{-- <option  value="4">Izin</option>
+                                 <option value="5">Cuti</option>
+                                 <option  value="6">SPT</option>
+                                 <option value="7">Sakit</option> --}}
+                              </select>
+                           </div>
+                        </div>
+                     @endif
+                     
+                     
+                     <div class="col-md-12 type_cuti">
+                        <div class="form-group form-group-default">
+                           <label>Keperluan</label>
+                           <input type="text" class="form-control" id="keperluan" name="keperluan">
+                        </div>
+                     </div>
+                     <div class="col-md-12 type_izin">
+                        <div class="form-group form-group-default">
+                           <label>Description</label>
+                           <textarea type="text" class="form-control" id="desc_izin" name="desc_izin" rows="3"></textarea>
+                        </div>
+                     </div>
+                     
+                  </div>
+               </span>
+   
+               <span class="type_spt">
+                 
+                  <div class="form-group form-group-default">
+                     <label>Pemberi Perintah</label>
+                     <select class="form-control "  name="leader" id="leader">
+                        <option value="" disabled selected>Select</option>
+                        @foreach ($employeeLeaders as $lead)
+                           <option  value="{{$lead->leader_id}}">{{$lead->leader->biodata->fullName()}}</option>
+                        @endforeach
+                        {{-- <option  value="4">Izin</option>
+                        <option value="5">Cuti</option>
+                        <option  value="6">SPT</option>
+                        <option value="7">Sakit</option> --}}
+                     </select>
+                  </div>
+                  <div class="form-group form-group-default">
+                     <label>Maksud Perintah Tugas</label>
+                     <textarea  class="form-control" id="desc" name="desc" rows="2"></textarea>
+                  </div>
+   
+                  <div class="row type_spt">
+                     <div class="col-md-6 ">
+                        <div class="form-group form-group-default">
+                           <label>Jenis SPT</label>
+                           <select class="form-control"  name="type_desc" id="type_desc">
+                              <option value="" disabled selected>Select</option>
+                              <option value="Absen Masuk & Pulang">Absen Masuk & Pulang</option>
+                              <option value="Tidak Absen Masuk">Tidak Absen Masuk</option>
+                              <option value="Tidak Absen Pulang">Tidak Absen Pulang</option>
+                              <option value="Tidak Absen Masuk & Pulang">Tidak Absen Masuk & Pulang</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="form-group form-group-default">
+                           <label>Alat Transportasi</label>
+                           <select class="form-control"  name="transport" id="transport">
+                              <option value="" disabled selected>Select</option>
+                              {{-- <option value="Pesawat">Pesawat</option> --}}
+                              <option value="Mobil">Mobil</option>
+                              {{-- <option value="Kereta">Kereta</option> --}}
+                              <option value="Motor">Motor</option>
+                              {{-- <option value="Bus">Bus</option>
+                              <option value="Taxi">Taxi</option> --}}
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="form-group form-group-default">
+                           <label>Tujuan</label>
+                           <input type="text" class="form-control" id="destination" name="destination">
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="form-group form-group-default">
+                           <label>Berangkat Dari</label>
+                           <input type="text" class="form-control" id="from" name="from">
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="form-group form-group-default">
+                           <label>Tempat Transit</label>
+                           <input type="text" class="form-control" id="transit" name="transit">
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="form-group form-group-default">
+                           <label>Lama Tugas</label>
+                           <input type="text" class="form-control" id="duration" name="duration">
+                        </div>
                      </div>
                   </div>
-                  <div class="col-md-12 type_izin">
-                     <div class="form-group form-group-default">
-                        <label>Description</label>
-                        <textarea type="text" class="form-control" id="desc_izin" name="desc_izin" rows="3"></textarea>
+   
+                  <div class="row type_spt">
+                     <div class="col-6 ">
+                        <div class="form-group form-group-default">
+                           <label>Tanggal/Jam Berangkat</label>
+                           <input type="datetime-local" class="form-control" id="departure" name="departure">
+                        </div>
+                     </div>
+                     <div class="col-6 type_spt">
+                        <div class="form-group form-group-default">
+                           <label>Tanggal/Jam Kembali</label>
+                           <input type="datetime-local" class="form-control" id="return" name="return">
+                        </div>
                      </div>
                   </div>
-                  
-               </div>
-            </span>
-
-            <span class="type_spt">
-              
+                  {{-- <div class="form-group form-group-default type_spt">
+                     <label>Keterangan</label>
+                     <input type="text" class="form-control" id="remark" name="remark">
+                  </div> --}}
+               </span>
+               
                <div class="form-group form-group-default">
-                  <label>Pemberi Perintah</label>
-                  <select class="form-control "  name="leader" id="leader">
-                     <option value="" disabled selected>Select</option>
-                     @foreach ($employeeLeaders as $lead)
-                        <option  value="{{$lead->leader_id}}">{{$lead->leader->biodata->fullName()}}</option>
-                     @endforeach
-                     {{-- <option  value="4">Izin</option>
-                     <option value="5">Cuti</option>
-                     <option  value="6">SPT</option>
-                     <option value="7">Sakit</option> --}}
-                  </select>
+                  <label>LAMPIRAN DOKUMEN (FOTO/PDF)</label>
+                  <input type="file" class="form-control" id="doc" name="doc">
                </div>
-               <div class="form-group form-group-default">
-                  <label>Maksud Perintah Tugas</label>
-                  <textarea  class="form-control" id="desc" name="desc" rows="2"></textarea>
-               </div>
-
-               <div class="row type_spt">
-                  <div class="col-md-6 ">
-                     <div class="form-group form-group-default">
-                        <label>Jenis SPT</label>
-                        <select class="form-control"  name="type_desc" id="type_desc">
-                           <option value="" disabled selected>Select</option>
-                           <option value="Absen Masuk & Pulang">Absen Masuk & Pulang</option>
-                           <option value="Tidak Absen Masuk">Tidak Absen Masuk</option>
-                           <option value="Tidak Absen Pulang">Tidak Absen Pulang</option>
-                           <option value="Tidak Absen Masuk & Pulang">Tidak Absen Masuk & Pulang</option>
-                        </select>
-                     </div>
-                  </div>
-                  <div class="col-6">
-                     <div class="form-group form-group-default">
-                        <label>Alat Transportasi</label>
-                        <select class="form-control"  name="transport" id="transport">
-                           <option value="" disabled selected>Select</option>
-                           {{-- <option value="Pesawat">Pesawat</option> --}}
-                           <option value="Mobil">Mobil</option>
-                           {{-- <option value="Kereta">Kereta</option> --}}
-                           <option value="Motor">Motor</option>
-                           {{-- <option value="Bus">Bus</option>
-                           <option value="Taxi">Taxi</option> --}}
-                        </select>
-                     </div>
-                  </div>
-                  <div class="col-6">
-                     <div class="form-group form-group-default">
-                        <label>Tujuan</label>
-                        <input type="text" class="form-control" id="destination" name="destination">
-                     </div>
-                  </div>
-                  <div class="col-6">
-                     <div class="form-group form-group-default">
-                        <label>Berangkat Dari</label>
-                        <input type="text" class="form-control" id="from" name="from">
-                     </div>
-                  </div>
-                  <div class="col-6">
-                     <div class="form-group form-group-default">
-                        <label>Tempat Transit</label>
-                        <input type="text" class="form-control" id="transit" name="transit">
-                     </div>
-                  </div>
-                  <div class="col-md-6">
-                     <div class="form-group form-group-default">
-                        <label>Lama Tugas</label>
-                        <input type="text" class="form-control" id="duration" name="duration">
-                     </div>
-                  </div>
-               </div>
-
-               <div class="row type_spt">
-                  <div class="col-6 ">
-                     <div class="form-group form-group-default">
-                        <label>Tanggal/Jam Berangkat</label>
-                        <input type="datetime-local" class="form-control" id="departure" name="departure">
-                     </div>
-                  </div>
-                  <div class="col-6 type_spt">
-                     <div class="form-group form-group-default">
-                        <label>Tanggal/Jam Kembali</label>
-                        <input type="datetime-local" class="form-control" id="return" name="return">
-                     </div>
-                  </div>
-               </div>
-               {{-- <div class="form-group form-group-default type_spt">
-                  <label>Keterangan</label>
-                  <input type="text" class="form-control" id="remark" name="remark">
+               {{-- <div class="form-group form-group-default">
+                  <label>Description</label>
+                  <textarea type="text" class="form-control" id="desc" name="desc" rows="3"></textarea>
                </div> --}}
-            </span>
-            
-            <div class="form-group form-group-default">
-               <label>LAMPIRAN DOKUMEN (FOTO/PDF)</label>
-               <input type="file" class="form-control" id="doc" name="doc">
-            </div>
-            {{-- <div class="form-group form-group-default">
-               <label>Description</label>
-               <textarea type="text" class="form-control" id="desc" name="desc" rows="3"></textarea>
-            </div> --}}
-            <hr>
-            <button class="btn  btn-primary" type="submit">Save to Draft</button>
-
-            
-
-
-            
-
-            
-            
-
-
-
-            
-         </form>
+               <hr>
+               <button class="btn  btn-primary" type="submit">Save to Draft</button>
+   
+               
+   
+   
+               
+   
+               
+               
+   
+   
+   
+               
+            </form>
+         
+         
             
       </div>
    </div>

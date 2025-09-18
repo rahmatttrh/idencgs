@@ -51,6 +51,7 @@ Form SPKL
                         <th>Date</th>
                         <th class="text-center">Jam</th>
                         <th>Desc</th>
+                        <th>Desc</th>
                         <th>Status</th>
                         {{-- <th>Action</th> --}}
                      </tr>
@@ -282,6 +283,7 @@ Form SPKL
                               {{$spkl->hours}}
                               
                            </td>
+                           <td>{{$spkl->description}}</td>
                            <td>{{$spkl->description}}</td>
                            
                            <td>

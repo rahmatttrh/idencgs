@@ -312,6 +312,7 @@ class OvertimeEmployeeController extends Controller
       // dd($spkls);
       return view('pages.spkl.form', [
          'locations' => $locations,
+         'employee' => $employee,
          'employeeLeaders'=> $employeeLeaders,
          'leader' => $leader
       ]);
