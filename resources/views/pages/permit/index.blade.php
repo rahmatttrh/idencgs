@@ -69,6 +69,9 @@
                               <tr>
                                  {{-- <td class="text-center">{{$unit->id}}</td> --}}
                                  <td>
+                                    @if (auth()->user()->hasRole('Administrator'))
+                                        {{$pro->id}}
+                                    @endif
                                     {{$pro->name}}
                                     @if ($pro->desc != null)
                                         ({{$pro->desc}})
