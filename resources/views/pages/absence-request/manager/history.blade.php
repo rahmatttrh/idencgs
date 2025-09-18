@@ -12,36 +12,21 @@ History Formulir Pengajuan
          <li class="breadcrumb-item active" aria-current="page">History Formulir Pengajuan</li>
       </ol>
    </nav>
+   <div class="card">
+      <div class="card-body px-0">
+         <ul class="nav nav-tabs px-3">
+            <li class="nav-item">
+              <a class="nav-link " href="{{ route('leader.absence') }}">Approval Absensi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{{ route('leader.absence.history') }}">Riwayat</a>
+            </li>
 
-   <div class="row">
-      <div class="col-md-3">
-         {{-- <h4><b>History Approval Absensi</b></h4>
-         <hr> --}}
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
-               <i class="fas fa-address-book mr-1"></i>
-               Form Absensi Karyawan
-            </a>
-            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('leader.absence.history') }}" aria-controls="v-pills-contract" aria-selected="false">
-               <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
-               History
-            </a>
-            <hr>
-         <small>
-            <b>#INFO</b> <br>
-            Daftar Riwayat Form Request Absensi yang memiliki relasi terhadap anda, sebagai pengganti maupun sebagai atasan
-         </small>
-            
-           
-            
-         </div>
-         <hr>
-         
-         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
-      </div>
-      <div class="col-md-9">
-         <div class="table-responsive ">
+         </ul>
+
+
+
+         <div class="table-responsive  mt-2 px-0">
             <table id="data" class="datatables-3">
                <thead>
                   <tr>
@@ -98,6 +83,43 @@ History Formulir Pengajuan
 
             </table>
          </div>
+
+
+
+
+
+      </div>
+   </div>
+
+   <div class="row">
+      <div class="col-md-3">
+         {{-- <h4><b>History Approval Absensi</b></h4>
+         <hr> --}}
+         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link  text-left pl-3" id="v-pills-basic-tab" href="{{ route('leader.absence') }}" aria-controls="v-pills-basic" aria-selected="true">
+               <i class="fas fa-address-book mr-1"></i>
+               Form Absensi Karyawan
+            </a>
+            <a class="nav-link active  text-left pl-3" id="v-pills-contract-tab" href="{{ route('leader.absence.history') }}" aria-controls="v-pills-contract" aria-selected="false">
+               <i class="fas fa-file-contract mr-1"></i>
+               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+               History
+            </a>
+            <hr>
+         <small>
+            <b>#INFO</b> <br>
+            Daftar Riwayat Form Request Absensi yang memiliki relasi terhadap anda, sebagai pengganti maupun sebagai atasan
+         </small>
+            
+           
+            
+         </div>
+         <hr>
+         
+         {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
+      </div>
+      <div class="col-md-9">
+         
       </div>
    </div>
 

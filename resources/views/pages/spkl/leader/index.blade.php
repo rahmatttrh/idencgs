@@ -43,7 +43,10 @@ Form SPKL
                   <thead>
                      
                      <tr>
-                        <th></th>
+                        @if (auth()->user()->hasRole('Manager|Asst. Manager'))
+                        <th><input type="checkbox" name="" id="checkboxAll"></th>
+                        @endif
+                        {{-- <th><input type="checkbox" name="" id="checkboxAll"></th> --}}
                         <th>ID</th>
                         {{-- <th>NIK</th> --}}
                         <th>Name</th>
@@ -116,7 +119,7 @@ Form SPKL
                      @foreach ($spklGroupApprovalManagers as $spkl)
                      <tr>
                         <td>
-                           <input  type="checkbox" name="checkSpklGroup[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}">
+                           <input  type="checkbox" name="checkSpklGroup[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}"> 
                            {{-- <input {{$editable == 0 ? 'readonly' : ''}} class="idSpkl" type="checkbox" name="idSpkl" id="idSpkl"> --}}
                         </td>
                         <td>
@@ -167,11 +170,13 @@ Form SPKL
                      
                      @foreach ($teamSpkls as $spkl)
                         @if ($spkl->parent_id == null)
-                           
+                        {{-- $("#checkboxAll").change(function() {
+                           $("input[name='check[]']").prop('checked', $(this).prop('checked'));
+                       }); --}}
                         
                         <tr>
                            <td>
-                              <input  type="checkbox" name="checkSpkl[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}">
+                              <input  type="checkbox" name="checkSpkl[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}"> 
                               {{-- <input {{$editable == 0 ? 'readonly' : ''}} class="idSpkl" type="checkbox" name="idSpkl" id="idSpkl"> --}}
                            </td>
                            <td>
@@ -244,7 +249,7 @@ Form SPKL
                      @if ($spkl->parent_id == null)
                         <tr>
                            <td>
-                              <input  type="checkbox" name="checkSpkl[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}">
+                              <input  type="checkbox" name="checkSpkl[]" value="{{$spkl->id}}" id="checkSpkl-{{$spkl->id}}"> 
                               {{-- <input {{$editable == 0 ? 'readonly' : ''}} class="idActivity" type="checkbox" name="idActivity" id="idActivity"> --}}
                            </td>
                            <td>
@@ -312,6 +317,32 @@ Form SPKL
 
 
 </div>
+
+@push('js_footer')
+<script>
+    $(document).ready(function() {
+        // $('#button-group').hide();
+
+        // Ketika checkboxAll dicentang, ceklis semua checkbox dengan name=check
+        $("#checkboxAll").change(function() {
+            $("input[name='checkSpkl[]']").prop('checked', $(this).prop('checked'));
+            console.log('ok')
+        });
+
+        // Ketika salah satu checkbox dengan name=check dicentang atau dicentang ulang
+        $("input[name='checkSpkl[]']").change(function() {
+            // Periksa apakah semua checkbox dengan name=check tercentang
+            var allChecked = ($("input[name='checkSpkl[]']:checked").length === $("input[name='checkSpkl[]']").length);
+
+            // Terapkan status checked pada checkboxAll sesuai hasil pengecekan di atas
+            $("#checkboxAll").prop('checked', allChecked);
+        });
+
+        // Saat tombol Terapkan atau Delete ditekan
+        
+    })
+</script>
+@endpush
 
 
 

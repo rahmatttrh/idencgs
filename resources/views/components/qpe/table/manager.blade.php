@@ -485,6 +485,7 @@
         // Ketika checkboxAll dicentang, ceklis semua checkbox dengan name=check
         $("#checkboxAll").change(function() {
             $("input[name='check[]']").prop('checked', $(this).prop('checked'));
+            console.log('all pe')
         });
 
         // Ketika salah satu checkbox dengan name=check dicentang atau dicentang ulang

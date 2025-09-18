@@ -510,6 +510,57 @@ class AbsenceEmployeeController extends Controller
       ]);
    }
 
+
+
+
+   public function approveMultiple(Request $req){
+      if ($req->checkAbsence == null) {
+         
+            return redirect()->back()->with('danger', 'Failed, Klik pada checkbox table Form Absensi yang ingin di approve');
+         
+         
+      }
+
+      if (auth()->user()->hasRole('Manager')) {
+         # code...
+      }
+
+
+      $qty = 0;
+
+      if ($req->checkAbsence != null) {
+         foreach ($req->checkAbsence as $key => $id) {
+            $absenceEmployee = AbsenceEmployee::find($id);
+   
+            if ($absenceEmployee->status == 2) {
+               if (auth()->user()->hasRole('Manager|Asst. Manager')) {
+                  $this->approve(enkripRambo($absenceEmployee->id));
+               }
+
+               if (auth()->user()->hasRole('Manager|Asst. Manager')) {
+                  $this->approveManager(enkripRambo($absenceEmployee->id));
+               }
+   
+               
+            }
+   
+           
+            // dd($spklEmp);
+   
+            $qty += 1;
+   
+         }
+      }
+      
+
+      
+      
+
+      return redirect()->back()->with('success', 'Success, ' . $qty . ' Form Absensi berhasil di approve');
+   }
+
+
+
    public function store(Request $req){
       
 
