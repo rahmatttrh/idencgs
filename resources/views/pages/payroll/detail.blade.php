@@ -265,11 +265,14 @@ Setup Payroll Employee
                               <div class="text-right mt-3 mb-3">
                                  
                                  {{-- <a href="#" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Fitur ini masih dalam tahap finalisasi">Perubahan Nominal</a> --}}
-                                 <a href="#" class="btn btn-primary" data-target="#modal-nominal" data-toggle="modal">Perubahan Nominal</a>
+                                 
                                  {{-- <button type="submit" class="btn btn-dark" {{$employee->status == 0 ? 'disabled' : ''}}>Update</button> --}}
                                  <button type="submit" class="btn btn-dark" >Update</button>
                               </div>
                            </form>
+                           <hr>
+
+                           <a href="#" class="btn btn-primary" data-target="#modal-nominal" data-toggle="modal"><i class="fa fa-star"></i> Perubahan Nominal</a>
                         </div>
             
                         <div class="tab-pane fade" id="pills-doc-nobd" role="tabpanel" aria-labelledby="pills-doc-tab-nobd">
@@ -654,6 +657,9 @@ Setup Payroll Employee
                               <label>Lampiran Dokumen</label>
                               <input type="file" class="form-control" id="doc" name="doc" ">
                            </div>
+                           <hr>
+                           <small>Setelah Klik 'Update', Nominal lama akan tersimpan di Riwayat Payroll</small><br> <br>
+                           <small>Tanggal Berlaku digunakan untuk melakukan kalkulasi ulang Rate SPKL yang sudah ada didalam sistem</small>
                         </div>
                      </div>
                      
