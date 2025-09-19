@@ -27,7 +27,7 @@ Form SPKL
               <a class="nav-link " href="{{ route('leader.spkl.history') }}">Riwayat</a>
             </li>
            
-          </ul>
+         </ul>
 
           <form action="{{route('spkl.approve.multiple')}}" method="post" >
             @csrf
@@ -44,9 +44,9 @@ Form SPKL
                      
                      <tr>
                         @if (auth()->user()->hasRole('Manager|Asst. Manager'))
-                        <th>
-                           <input type="checkbox" name="" id="checkboxAll">
-                        </th>
+                        <th><input type="checkbox" name="" id="checkboxAll"></th>
+                        @else
+                        <th></th>
                         @endif
                         {{-- <th><input type="checkbox" name="" id="checkboxAll"></th> --}}
                         <th>ID</th>
@@ -55,7 +55,7 @@ Form SPKL
                         <th>Type</th>
                         <th>Date</th>
                         <th class="text-center">Jam</th>
-                        <th>Desc</th>
+                        
                         <th>Desc</th>
                         <th>Status</th>
                         {{-- <th>Action</th> --}}
@@ -128,7 +128,7 @@ Form SPKL
                            
                            
                         
-                        <a href="{{route('employee.spkl.detail.multiple', [enkripRambo($spkl->id), enkripRambo('approval')])}}">{{$spkl->code}}</a>
+                           <a href="{{route('employee.spkl.detail.multiple', [enkripRambo($spkl->id), enkripRambo('approval')])}}">{{$spkl->code}}</a>
                            
                         </td>
                         {{-- <td>{{$spkl->employee->nik}}</td> --}}
@@ -258,7 +258,7 @@ Form SPKL
                               
                               
                            
-                           <a href="{{route('employee.spkl.detail', [enkripRambo($spkl->id), enkripRambo('approval')])}}">{{$spkl->code}}</a>
+                              <a href="{{route('employee.spkl.detail', [enkripRambo($spkl->id), enkripRambo('approval')])}}">{{$spkl->code}}</a>
                               
                            </td>
                            {{-- <td>{{$spkl->employee->nik}}</td> --}}
@@ -290,7 +290,6 @@ Form SPKL
                               {{$spkl->hours}}
                               
                            </td>
-                           <td>{{$spkl->description}}</td>
                            <td>{{$spkl->description}}</td>
                            
                            <td>
