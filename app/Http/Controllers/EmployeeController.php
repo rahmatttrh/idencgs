@@ -525,6 +525,7 @@ class EmployeeController extends Controller
       // dd($employee->contract->position->designation_id);
       $user = User::where('username', $employee->nik)->first();
       
+      
 
       if (auth()->user()->hasRole('Administrator')) {
          // $employees = Employee::whereIn('id', [21,22,119,409])->get();
@@ -569,7 +570,7 @@ class EmployeeController extends Controller
          
          
       }
-
+      
       // dd($employee->department_id);
 
       // dd($employee->role);
@@ -677,10 +678,17 @@ class EmployeeController extends Controller
       //    ]);
       // }
 
-      $departments = Department::where('unit_id', $employee->unit_id)->get();
+      if ($employee->unit_id) {
+         $departments = Department::where('unit_id', $employee->unit_id)->get();
+      } else {
+         $departments = [];
+      }
+      
       // dd($employee->id);
+      
       $positions = Position::where('sub_dept_id', $employee->sub_dept_id)->get();
       $allPositions = Position::get();
+     
 
       $panel = dekripRambo($enkripPanel);
       $designations = Designation::get();
@@ -710,6 +718,8 @@ class EmployeeController extends Controller
       // $panel = 'contract';
       // $tab = 'contract';
 
+       
+
       $allManagers = Employee::where('designation_id', 6)->get();
       $allSpvs = Employee::where('designation_id', 4)->get();
       // dd($spvs);
@@ -722,11 +732,13 @@ class EmployeeController extends Controller
       // }
       
       // dd($employee->department_id);
+      
       $department = Department::find($employee->department_id);
       $subdept = SubDept::find($employee->sub_dept_id);
       // // dd($department->id);
       // $myManagers = [];
       // dd($department->id);
+      
       $myManagers = [];
       // dd($subdept->id);
       if ($department) {
@@ -734,10 +746,11 @@ class EmployeeController extends Controller
       } else {
          $managerPositions = [];
       }
+      
 
       // dd($myManagers);
       // dd($employee->department_id);
-      if ($subdept) {
+      if ($subdept && $department) {
          $subManPositions = Position::where('department_id', $department->id)->where('sub_dept_id', $subdept->id)->where('type', 'subdept')->where('designation_id', '>', 4)->get();
          // dd($subManPositions);
          if (count($subManPositions) > 0) {
@@ -763,6 +776,8 @@ class EmployeeController extends Controller
       } else {
          $subManPositions = null;
       }
+
+      
 
       // dd($myManagers);
 
@@ -824,9 +839,7 @@ class EmployeeController extends Controller
       // dd($roles);
 
       $mutations = Mutation::where('employee_id', $employee->id)->orderBy('date', 'desc')->get();
-      // if (auth()->user()->hasRole('Administrator')) {
-      //    dd($employeeLeaders);
-      // }
+      
 
       return view('pages.employee.detail', [
          'employee' => $employee,

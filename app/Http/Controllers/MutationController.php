@@ -92,6 +92,8 @@ class MutationController extends Controller
       foreach ($locations as $loc) {
          if ($loc->code == $employee->contract->loc) {
             $location = $loc->id;
+         } else {
+            $location = null;
          }
       }
 

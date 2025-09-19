@@ -91,7 +91,7 @@ class Kernel extends ConsoleKernel
                         'modul' => 'Cuti',
                         'employee_id' => $cuti->employee_id,
                         'target_id' => $cuti->id,
-                        'desc' => 'Sistem otomatis memperbarui Periode Cuti ' . $cuti->emoloyee->nik . ' ' . $cuti->employee->biodata->fullName()
+                        'desc' => 'Sistem otomatis memperbarui Periode Cuti ' . $cuti->employee->nik . ' ' . $cuti->employee->biodata->fullName()
                      ]);
                   }
                }

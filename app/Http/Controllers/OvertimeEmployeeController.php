@@ -898,13 +898,13 @@ class OvertimeEmployeeController extends Controller
          ]);
       }
 
-      // $employee = Employee::where('nik', auth()->user()->username)->first();
+      $employee = Employee::where('nik', auth()->user()->username)->first();
 
       Log::create([
          'department_id' => $empLogin->department_id,
          'user_id' => auth()->user()->id,
          'action' => 'Approve ' ,
-         'desc' => 'Form SPKL ' . $spklEmp->emoloyee->nik .  ' ' . $spklEmp->emoloyee->biodata->fullName()
+         'desc' => 'Form SPKL ' . $spklEmp->employee->nik .  ' ' . $spklEmp->employee->biodata->fullName()
       ]);
 
       return redirect()->back()->with('success', "SPKL Approved");
@@ -927,7 +927,7 @@ class OvertimeEmployeeController extends Controller
          'department_id' => $empLogin->department_id,
          'user_id' => auth()->user()->id,
          'action' => 'Approve as Manager' ,
-         'desc' => 'Form SPKL ' . $spklEmp->emoloyee->nik .  ' ' . $spklEmp->emoloyee->biodata->fullName()
+         'desc' => 'Form SPKL ' . $spklEmp->employee->nik .  ' ' . $spklEmp->employee->biodata->fullName()
       ]);
 
       return redirect()->back()->with('success', "SPKL Approved");

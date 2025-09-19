@@ -169,7 +169,7 @@ Detail Employee
          <div class="card-footer d-flex justify-content-between">
             @if (auth()->user()->hasRole('Administrator'))
                Employee ID : {{$employee->id}} <br>
-               Contract ID : {{$employee->contract->id}}
+               Contract ID : {{$employee->contract->id ?? ''}}
             @endif
             {{-- <div>Sisa Cuti</div>
             <div>3</div> --}}
