@@ -904,7 +904,7 @@ class OvertimeEmployeeController extends Controller
          'department_id' => $empLogin->department_id,
          'user_id' => auth()->user()->id,
          'action' => 'Approve ' ,
-         'desc' => 'Form SPKL ' . $spklEmp->emoloyee->nik .  ' ' . $spklEmp->emoloyee->biodata->fullName()
+         'desc' => 'Form SPKL ' . $spklEmp->code .  ' ' . $spklEmp->employee->biodata->fullName()
       ]);
 
       return redirect()->back()->with('success', "SPKL Approved");
@@ -927,7 +927,7 @@ class OvertimeEmployeeController extends Controller
          'department_id' => $empLogin->department_id,
          'user_id' => auth()->user()->id,
          'action' => 'Approve as Manager' ,
-         'desc' => 'Form SPKL ' . $spklEmp->emoloyee->nik .  ' ' . $spklEmp->emoloyee->biodata->fullName()
+         'desc' => 'Form SPKL ' . $spklEmp->code .  ' ' . $spklEmp->employee->biodata->fullName()
       ]);
 
       return redirect()->back()->with('success', "SPKL Approved");
@@ -1196,7 +1196,7 @@ class OvertimeEmployeeController extends Controller
          'department_id' => $departmentId,
          'user_id' => auth()->user()->id,
          'action' => 'Verifikasi',
-         'desc' => 'SPKL ' . $overtime->id . ' ' . $employee->nik . ' ' . $employee->biodata->fullName()
+         'desc' => 'SPKL ' . $empSpkl->code  . ' ' . $empSpkl->employee->biodata->fullName()
       ]);
 
 
