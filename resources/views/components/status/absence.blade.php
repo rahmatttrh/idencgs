@@ -8,7 +8,7 @@
       ATL 
       {{-- ({{$absence->desc ?? '-'}}) --}}
       @elseif($absence->type == 4)
-      Izin 
+      Izin ({{$absence->type_desc}})
       {{-- {{$absence->type_izin}} ({{$absence->remark}}) --}}
       @elseif($absence->type == 5)
       Cuti

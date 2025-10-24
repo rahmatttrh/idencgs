@@ -327,6 +327,7 @@ Form SPKL
         // Ketika checkboxAll dicentang, ceklis semua checkbox dengan name=check
         $("#checkboxAll").change(function() {
             $("input[name='checkSpkl[]']").prop('checked', $(this).prop('checked'));
+            $("input[name='checkSpklGroup[]']").prop('checked', $(this).prop('checked'));
             console.log('ok')
         });
 

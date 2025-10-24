@@ -270,7 +270,22 @@ Payroll Report BPJS KT
                   
 
                   @php
-                      $num = 0
+                      $num = 0;
+                      $totalEmployee = 0;
+                      $totalCompany = 0;
+
+                      $totalJkk = 0;
+                      $totalJht = 0;
+                      $totalJkm = 0;
+                      $totalJp = 0;
+
+                      $totalJkkCom = 0;
+                      $totalJhtCom = 0;
+                      $totalJkmCom = 0;
+                      $totalJpCom = 0;
+
+                      $totalUpah = 0;
+                      $totalUpahJp = 0
                   @endphp
                   @foreach ($bpjsKtReports as $kt)
                   @if ($kt->qty > 0)
@@ -280,11 +295,17 @@ Payroll Report BPJS KT
                   <tr>
                      {{-- <td  class="text-center">-</td> --}}
                      @if ($num == 1 || $num == 5 || $num == 9 || $num == 13 || $num == 17 || $num == 21 || $num == 25 || $num == 29 || $num == 33 || $num == 37 || $num == 41)
-                        <td   class="text-center" colspan="2" rowspan="4">{{$kt->location_name}}</td>
+                        <td   class="text-center" colspan="2" rowspan="4">{{$kt->location_name}}
+
+                           
+                        </td>
                      @endif
                      {{-- <td   class="text-center" colspan="2" >{{$kt->location_name}}</td> --}}
                      
-                     <td>{{$kt->program}} </td>
+                     <td>{{$kt->program}} 
+                        @if (auth()->user()->hasRole('Administrator'))
+                               ID:{{$kt->id}}
+                           @endif </td>
                      <td class="text-center">{{$kt->tarif}} %</td>
                      <td class="text-center">{{$kt->qty}}</td>
                      <td class="text-right" >{{formatRupiahB($kt->upah)}}</td>
@@ -292,11 +313,71 @@ Payroll Report BPJS KT
                      <td class="text-right">{{formatRupiahB($kt->karyawan)}}</td>
                      <td class="text-right">{{formatRupiahB($kt->total_iuran)}}</td>
                   </tr>
+
+                  @if ($kt->program == 'Jaminan Kecelakaan Kerja (JKK)')
+                     @php
+                         $totalJkk = $totalJkk +$kt->karyawan;
+                         $totalJkkCom = $totalJkkCom +$kt->karyawan;
+                         $totalUpah = $totalUpah + $kt->upah;
+                     @endphp
+                  @endif
+                  @if ($kt->program == 'Jaminan Hari Tua (JHT)')
+                     @php
+                           $totalJht = $totalJht +$kt->karyawan;
+                           $totalJhtCom = $totalJhtCom +$kt->perusahaan;
+                           $totalUpah = $totalUpah + $kt->upah;
+                     @endphp
+                  @endif
+                  @if ($kt->program == 'Jaminan Kematian (JKM)')
+                     @php
+                           $totalJkm = $totalJkm +$kt->karyawan;
+                           $totalJkmCom = $totalJkmCom +$kt->perusahaan;
+                           $totalUpah = $totalUpah + $kt->upah;
+                     @endphp
+                  @endif
+                  @if ($kt->program == 'Jaminan Pensiun')
+                     @php
+                           $totalJp = $totalJp +$kt->karyawan;
+                           $totalJpCom = $totalJpCom +$kt->perusahaan;
+                           $totalUpahJp = $totalUpahJp + $kt->upah;
+                     @endphp
+                  @endif
+
+                  @php
+                      $totalEmployee = $totalEmployee + $kt->karyawan;
+                      $totalCompany = $totalCompany + $kt->perusahaan;
+                  @endphp
                   @endif
                      
 
                     
                   @endforeach
+
+                  <tr>
+                     <td colspan="9"></td>
+                  </tr>
+                  <tr>
+                     <td></td>
+                     <td></td>
+                     <td>Total JKK, JKM, JHT</td>
+                     <td></td>
+                     <td></td>
+                     <td class="text-right">{{formatRupiahB($totalUpah)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJkkCom + $totalJkmCom + $totalJhtCom)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJkk + $totalJkm + $totalJht)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJkk + $totalJkm + $totalJht + $totalJkkCom + $totalJkmCom + $totalJhtCom)}}</td>
+                  </tr>
+                  <tr>
+                     <td></td>
+                     <td></td>
+                     <td>Total JP</td>
+                     <td></td>
+                     <td></td>
+                     <td class="text-right">{{formatRupiahB($totalUpahJp)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJpCom)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJp)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJp + $totalJpCom)}}</td>
+                  </tr>
                   {{-- <tr>
                        
                      <td>Jumlah (a+b+c+d)</td>
@@ -320,6 +401,8 @@ Payroll Report BPJS KT
                      <td></td>
                      <td></td>
                      <td></td>
+                     {{-- <td class="text-right">{{formatRupiahB($totalCompany)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalEmployee)}}</td> --}}
                      <td class="text-right">{{formatRupiahB($bpjsKtReports->sum('total_iuran'))}}</td>
                   </tr>
                   
@@ -368,34 +451,47 @@ Payroll Report BPJS KT
                      </td>
                   </tr>
                   <tr>
-                     <td>
-                        @if ($hrd)
-                           {{$hrd->employee->biodata->fullName()}}
-                        @endif
-                        
-                     </td>
-                     <td>
-                        @if ($manHrd)
-                           {{$manHrd->employee->biodata->fullName()}}
-                        @endif
-                     </td>
-                     <td>
-                        @if ($manFin)
-                           {{$manFin->employee->biodata->fullName()}}
-                        @endif
-                     </td>
-                     <td>
-                        @if ($gm)
-                           {{$gm->employee->biodata->fullName()}}
-                        @endif
-                        
-                     </td>
-                     <td>
-                        @if ($bod)
-                        {{$bod->employee->biodata->fullName()}}
-                        @endif
-                     </td>
-                  </tr>
+                        <td>
+                           {{-- @if ($hrd)
+                              {{$hrd->employee->biodata->fullName()}}
+                           @endif --}}
+                           @if ($unit->id == 2 || $unit->id == 3 || $unit->id == 6 || $unit->id == 23 || $unit->id == 24 || $unit->id == 5 || $unit->id == 22 || $unit->id == 11 || $unit->id == 12 || $unit->id == 15 || $unit->id == 19)
+                           Tri Buanawati Asri
+                           @else
+                           Cheppy Anugrah
+                           @endif
+                           
+                        </td>
+                        <td>
+                           Saruddin Batubara
+                           {{-- @if ($manHrd)
+                              {{$manHrd->employee->biodata->fullName()}}
+                           @endif --}}
+                        </td>
+                        <td>
+                           Andrianto
+                           {{-- @if ($manFin)
+                              {{$manFin->employee->biodata->fullName()}}
+                           @endif --}}
+                        </td>
+                        <td>
+                           Andi Kurniawan Nasution
+                           {{-- @if ($gm)
+                              {{$gm->employee->biodata->fullName()}}
+                           @endif --}}
+                           
+                        </td>
+                        <td>
+                           @if ($unit->id == 2 || $unit->id == 3 || $unit->id == 6 || $unit->id == 23 || $unit->id == 24 || $unit->id == 5 || $unit->id == 22 || $unit->id == 11 || $unit->id == 12 || $unit->id == 15 || $unit->id == 19)
+                           Indra Muhammad Anwar
+                           @else
+                           Wildan Muhammad Anwar
+                           @endif
+                           {{-- @if ($bod)
+                           {{$bod->employee->biodata->fullName()}}
+                           @endif --}}
+                        </td>
+                     </tr>
                   <tr>
                      <td>Payroll</td>
                      <td>HRD Manager</td>

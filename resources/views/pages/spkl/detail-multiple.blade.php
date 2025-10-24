@@ -124,12 +124,57 @@ Form Lembur/Piket
                    <tr>
                      <td>
                         <a href="{{route('employee.spkl.detail', [enkripRambo($over->id), enkripRambo('group')])}}">{{$over->employee->nik}} {{$over->employee->biodata->fullName()}}</a>
+                        @if ($over->remark == 'duplicate') <br>
+                              <small class="text-danger">Duplicate : 
+                              @if ($over->duplicate->type == 1)
+                                  Lembur
+                                  @elseif($over->duplicate->type == 2)
+                                  Piket
+                              @endif   <br>
+                              {{formatDate($over->duplicate->date)}} {{$over->duplicate->hours_start}} - {{$over->duplicate->hours_end}}
+                              
+                              </small> <br>
+                              
+                        @endif
                      </td>
                      <td>
                         <x-status.spkl-employee :empspkl="$over" />
                      </td>
+
+                     <td>
+                        @if ($over->status == 0)
+                        
+                           {{-- <a href="{{route('employee.spkl.edit', enkripRambo($over->id))}}" class="" >Edit</a> | --}}
+                           <a href="#" class="" data-target="#modal-remove-spkl-{{$over->id}}" data-toggle="modal">Delete</a> 
+                        @endif
+                        {{-- <a href="">Delete</a> --}}
+                     </td>
                     
                    </tr>
+
+                   <div class="modal fade" id="modal-remove-spkl-{{$over->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                     <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content text-dark">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                              </button>
+                           </div>
+                           <div class="modal-body ">
+                              Delete Form Pengajuan ? 
+                              <hr>
+                              data akan terhapus permanen dari sistem
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-danger ">
+                                 <a class="text-light" href="{{route('employee.spkl.remove', enkripRambo($over->id))}}">Delete</a>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
                @endforeach
             </tbody>
          </table>
@@ -190,10 +235,18 @@ Form Lembur/Piket
                   <td>Waktu</td>
                   <td>{{$empSpkl->hours_start}}  sd  {{$empSpkl->hours_end}}</td>
                </tr>
-               <tr>
-                  <td>Lama Lembur</td>
-                  <td>{{$empSpkl->hours}} Jam</td>
+               @if ($empSpkl->type == 1)
+                   <tr>
+                     <td>Lama Lembur</td>
+                     <td>{{$empSpkl->hours}} Jam</td>
+                  </tr>
+                  @else
+                  <tr>
+                  <td>Tipe</td>
+                  <td>Piket</td>
                </tr>
+               @endif
+               
                <tr>
                   <td>Pekerjaan</td>
                   <td>{{$empSpkl->description}}</td>

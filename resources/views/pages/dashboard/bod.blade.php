@@ -138,12 +138,12 @@
                                  <td>Progress</td>
                                  <td class="text-center">{{count($pes->where('status', 1))}}</td>
                               </tr>
-                              <tr>
+                              {{-- <tr>
                                  <td class="text-muted">Nonactive</td>
                                  <td class="text-center text-muted">{{count($employees->where('status', 3))}}</td>
                                  <td>Done</td>
                                  <td class="text-center">{{count($pes->where('status', 2))}}</td>
-                              </tr>
+                              </tr> --}}
                               <tr>
                                  <td>Total Active</td>
                                  <td class="text-center">{{count($employees->where('status', '!=', 3))}}</td>

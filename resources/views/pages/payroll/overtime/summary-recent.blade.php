@@ -89,6 +89,9 @@ Summary SPKL
                   @foreach ($overtimes as $over)
                       <tr>
                         <td>
+                           @if (auth()->user()->hasRole('Administrator'))
+                               {{$over->id}}-
+                           @endif
                            @if ($over->overtime_employee_id == null)
                               <a href="{{route('payroll.overtime.edit', [enkripRambo($over->id), enkripRambo('summary')])}}">
                                  @if ($over->type == 1)

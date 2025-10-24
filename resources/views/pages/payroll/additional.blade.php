@@ -105,7 +105,7 @@ Payroll Additional
                            @endif
                         </td>
                         <td class="text-truncate">
-                           {{$add->employee->nik}} {{$add->employee->biodata->fullName()}}
+                          <span data-toggle="tooltip" data-placement="top" title="{{$add->desc}}">{{$add->employee->nik}} {{$add->employee->biodata->fullName()}}</span> 
                         </td>
                         <td><a href="#" data-target="#modal-additional-doc-{{$add->id}}" data-toggle="modal">{{formatDate($add->date)}}</a></td>
                         <td class="text-right text-truncate">{{formatRupiah($add->value)}}</td>

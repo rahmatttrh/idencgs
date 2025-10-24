@@ -151,13 +151,13 @@ SPKL
                         <div class="col">
                            <div class="form-group form-group-default">
                               <label>Jam Mulai</label>
-                              <input type="time" class="form-control" id="hours_start" name="hours_start" >
+                              <input type="time" class="form-control jam" id="hours_start" name="hours_start" >
                            </div>
                         </div>
                         <div class="col">
                            <div class="form-group form-group-default">
                               <label>Jam Selesai</label>
-                              <input type="time" class="form-control" id="hours_end" name="hours_end" >
+                              <input type="time" class="form-control jam" id="hours_end" name="hours_end" >
                            </div>
                         </div>
          
@@ -219,3 +219,18 @@ SPKL
 
 
 @endsection
+@push('myjs')
+
+<script>
+flatpickr(".jam", {
+  enableTime: true,
+  noCalendar: true,
+  time_24hr: true,  // ⬅️ ini kuncinya
+  dateFormat: "H:i"
+});
+
+
+
+
+</script>
+@endpush

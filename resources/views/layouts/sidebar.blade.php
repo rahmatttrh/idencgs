@@ -7,12 +7,9 @@
                @if (auth()->user()->hasRole('Administrator'))
                <img src="{{asset('img/businessman.png')}}" alt="..." class="avatar-img bg-muted  ">
                @else
-               
                   @if (auth()->user()->getEmployee()->picture == null)
-                  {{-- <img src="{{asset('img/businessman.png')}}" alt="..." class="avatar-img bg-muted  "> --}}
+                  <img src="{{asset('img/businessman.png')}}" alt="..." class="avatar-img bg-muted  ">
                   @else
-                  
-                           {{-- <img src="{{asset('img/businessman.png')}}" alt="..." class="avatar-img bg-light rounded"> --}}
                   <img src="{{asset('storage/' . auth()->user()->getEmployee()->picture)}}" alt="..." class="avatar-img bg-muted rounded ">
                   @endif
                {{-- @else
@@ -49,7 +46,6 @@
                </a>
             </li>
 
-            
             @if (auth()->user()->hasRole('Administrator'))
                <x-sidebar.administrator />
                @elseif (auth()->user()->hasRole('BOD'))
@@ -60,38 +56,63 @@
 
             @if (auth()->user()->hasRole('HRD|HRD-Recruitment|HRD-Payroll|HRD-KJ45|HRD-KJ12|HRD-JGC'))
                @if (auth()->user()->hasRole('HRD'))
-                     <x-sidebar.hrd />
+                     <x-sidebar.hrd :employee="$employee" />
                @endif
                @if (auth()->user()->hasRole('HRD-Recruitment'))
-                  <x-sidebar.hrd-recruitment />
+                  <x-sidebar.hrd-recruitment :employee="$employee" />
                @endif
                @if (auth()->user()->hasRole('HRD-Payroll'))
-                  <x-sidebar.hrd-payroll />
+                  <x-sidebar.hrd-payroll :employee="$employee"/>
                @endif
                @if (auth()->user()->hasRole('HRD-KJ45|HRD-KJ12|HRD-JGC'))
-                  <x-sidebar.hrd-site />
+                  <x-sidebar.hrd-site :employee="$employee"/>
                @endif
                
 
                @else
 
                   @if (auth()->user()->hasRole('Manager|Asst. Manager'))
-                     <x-sidebar.manager />
+                     <x-sidebar.manager :employee="$employee"/>
                      @elseif(auth()->user()->hasRole('Leader|Supervisor'))
-                     <x-sidebar.leader />
+                     <x-sidebar.leader :employee="$employee"/>
                      @elseif(auth()->user()->hasRole('Karyawan'))
-                     <x-sidebar.employee />
+                     <x-sidebar.employee :employee="$employee" />
                   @endif
 
             @endif
 
-           
+            {{-- <li class="nav-section">
+               <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+               </span>
+               <h4 class="text-section">Main Menu</h4>
+            </li>
+            @if (auth()->user()->hasRole('Administrator'))
+               <x-sidebar.administrator />
+            @endif --}}
 
-            
-            
+            {{-- @if (auth()->user()->hasRole('HRD&Supervisor'))
+               <x-sidebar.hrd-spv />
+               
+            @endif
+            @if (auth()->user()->hasRole('HRD-Recruitment'))
+               <x-sidebar.hrd-recruitment />
+               
+            @endif
+            @if (auth()->user()->hasRole('HRD-Payroll'))
+               <x-sidebar.hrd-payroll />
+               
+            @endif --}}
 
 
-            
+
+            {{-- @if (auth()->user()->hasRole('Manager|Asst. Manager'))
+               <x-sidebar.manager />
+               @elseif(auth()->user()->hasRole('Leader|Supervisor'))
+               <x-sidebar.leader />
+               @elseif(auth()->user()->hasRole('Karyawan'))
+               <x-sidebar.employee :employee="$employee" />
+            @endif --}}
 
 
 

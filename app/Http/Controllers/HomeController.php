@@ -1366,6 +1366,7 @@ class HomeController extends Controller
          ]);
       } else {
 
+         
 
          $employee = Employee::where('nik', auth()->user()->username)->first();
          $biodata = Biodata::where('email', auth()->user()->email)->first();
@@ -1401,6 +1402,10 @@ class HomeController extends Controller
          $spklEmps = OvertimeEmployee::where('employee_id', $employee->id)->where('status', '>', 0)->where('status', '!=', 4)->get();
          // dd(count($absences ));
          $stAlerts = St::where('employee_id', $employee->id)->where('status', 4)->get();
+
+         if (auth()->user()->username == '10251') {
+            // dd($employee->nik);
+         }
          return view('pages.dashboard.employee', [
             'now' => $now,
             'employee' => $employee,

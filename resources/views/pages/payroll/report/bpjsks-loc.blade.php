@@ -6,59 +6,93 @@ Report BPJS Kesehatan
 
 <style>
    .hori-timeline .events {
-      border-top: 3px solid #e9ecef;
+    border-top: 3px solid #e9ecef;
+}
+.hori-timeline .events .event-list {
+    display: block;
+    position: relative;
+    text-align: center;
+    padding-top: 70px;
+    margin-right: 0;
+}
+.hori-timeline .events .event-list:before {
+    content: "";
+    position: absolute;
+    height: 36px;
+    border-right: 2px dashed #dee2e6;
+    top: 0;
+}
+.hori-timeline .events .event-list .event-date {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    right: 0;
+    width: 75px;
+    margin: 0 auto;
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+@media (min-width: 1140px) {
+    .hori-timeline .events .event-list {
+        display: inline-block;
+        width: 24%;
+        padding-top: 45px;
+    }
+    .hori-timeline .events .event-list .event-date {
+        top: -12px;
+    }
+}
+.bg-soft-primary {
+    background-color: rgba(64,144,203,.3)!important;
+}
+.bg-soft-success {
+    background-color: rgba(71,189,154,.3)!important;
+}
+.bg-soft-danger {
+    background-color: rgba(231,76,94,.3)!important;
+}
+.bg-soft-warning {
+    background-color: rgba(249,213,112,.3)!important;
+}
+.card {
+    border: none;
+    margin-bottom: 24px;
+    -webkit-box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
+    box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
+}
+
+
+</style>
+
+<style>
+   html {
+      -webkit-print-color-adjust: exact;
    }
-   .hori-timeline .events .event-list {
-      display: block;
-      position: relative;
-      text-align: center;
-      padding-top: 70px;
-      margin-right: 0;
-   }
-   .hori-timeline .events .event-list:before {
-      content: "";
-      position: absolute;
-      height: 36px;
-      border-right: 2px dashed #dee2e6;
-      top: 0;
-   }
-   .hori-timeline .events .event-list .event-date {
-      position: absolute;
-      top: 38px;
-      left: 0;
-      right: 0;
-      width: 75px;
-      margin: 0 auto;
-      border-radius: 4px;
-      padding: 2px 4px;
-   }
-   @media (min-width: 1140px) {
-      .hori-timeline .events .event-list {
-         display: inline-block;
-         width: 24%;
-         padding-top: 45px;
+
+   @media print {
+
+      header,
+      footer,
+      nav,
+      aside,
+      .hide,
+      .sidebar,
+      .main-header,
+      .hide, .master, .discuss {
+         display: none;
       }
-      .hori-timeline .events .event-list .event-date {
-         top: -12px;
+
+      .main-panel {
+         width: 100%;
       }
-   }
-   .bg-soft-primary {
-      background-color: rgba(64,144,203,.3)!important;
-   }
-   .bg-soft-success {
-      background-color: rgba(71,189,154,.3)!important;
-   }
-   .bg-soft-danger {
-      background-color: rgba(231,76,94,.3)!important;
-   }
-   .bg-soft-warning {
-      background-color: rgba(249,213,112,.3)!important;
-   }
-   .card {
-      border: none;
-      margin-bottom: 24px;
-      -webkit-box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
-      box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
+
+      @page {
+         size: auto;
+         /* auto is the initial value */
+         margin: 0mm;
+         /* this affects the margin in the printer settings */
+      }
+
    }
 </style>
 
@@ -76,6 +110,24 @@ Report BPJS Kesehatan
          <li class="breadcrumb-item active" aria-current="page">{{$location->name}}/ </li>
       </ol>
    </nav>
+
+   <div class="row hide mb-2">
+      <div class="col">
+         {{-- <a href="{{route('payroll.transaction.monthly.all', enkripRambo($unitTransaction->id))}}" class="btn btn-light border" ><i class="fa fa-backward"></i> Back</a> --}}
+         <button type="button" class="btn btn-light bolight border" onclick="javascript:window.print();">
+            <!-- Download SVG icon from http://tabler-icons.io/i/printer -->
+            <i class="fa fa-print"></i>
+            Print PDF
+         </button>
+      </div>
+      <div class="col-auto">
+         {{-- <button type="button" class="btn btn-light border" onclick="javascript:window.print();">
+            <!-- Download SVG icon from http://tabler-icons.io/i/printer -->
+            <i class="fa fa-print"></i>
+            Print
+         </button> --}}
+      </div>
+   </div>
    
    {{-- <div class="d-flex">
       <a href="{{route('payroll.transaction.monthly', enkripRambo($unitTransaction->id))}}" class="btn btn-light border mb-2  mr-2 "><i class="fa fa-backward"></i> Back</a>
@@ -110,307 +162,71 @@ Report BPJS Kesehatan
          @endif   
       @endif
    </div> --}}
-
-   <div class="row">
-      <div class="col-md-4">
-         <table>
-            <thead>
-               <tr>
-                  <th colspan="2">REPORT </th>
-               </tr>
-               <tr>
-                  <th colspan="2"> BPJS KESEHATAN</th>
-               </tr>
-
-            </thead>
-            <tbody>
-               <tr>
+   <table>
+      <thead>
+                  <tr>
+                     <th colspan="7" class="bg-white"><img src="{{asset('img/logo/bpjsks.png')}}" width="150px" alt=""></th>
+                  </tr>
+                  <tr style="padding: 0px!">
+                     <th colspan="7" class="text-center bg-white p0 text-dark" style="padding: 0px !important;" >RINCIAN IURAN KARYAWAN</th>
+                  </tr>
+               </thead>
+               <thead>
+                  <tr>
                   <td>Bisnis Unit</td>
-                  <td>{{$unitTransaction->unit->name}}</td>
+                  <td colspan="5">{{$unitTransaction->unit->name}}</td>
                </tr>
                <tr>
                   <td>Lokasi</td>
-                  <td>{{$payslipReport->location->name}}</td>
+                  <td colspan="5">{{$payslipReport->location->name}}</td>
                </tr>
                <tr>
                   <td>Bulan</td>
-                  <td>{{$unitTransaction->month}}</td>
+                  <td colspan="5">{{$unitTransaction->month}}</td>
                </tr>
                <tr>
                   <td>Tahun</td>
-                  <td>{{$unitTransaction->year}}</td>
+                  <td colspan="5">{{$unitTransaction->year}}</td>
                </tr>
-               <tr>
-                  <td colspan="2"></td>
-               </tr>
-               <tr>
+                <tr>
                   <td>Total Karyawan</td>
-                  <td>{{$bpjsKsReport->qty}}</td>
+                  <td colspan="5">{{$bpjsKsReport->qty}}</td>
                </tr>
                <tr>
                   <td>Total Iuran</td>
-                  <td>{{formatRupiahB($bpjsKsReport->total_iuran)}}</td>
+                  <td colspan="5">{{formatRupiahB($bpjsKsReport->total_iuran)}}</td>
                </tr>
-            </tbody>
-         </table>
-      </div>
-      <div class="col">
-         <div class="table-responsive" style="overflow-x: auto;">
-            <table id="data" class="display basic-datatables table-sm p-0">
-               <thead >
-                  
-                  <tr>
-                     <th class="text-white">NIK</th>
-                     <th class="text-white">Name</th>
-                     
-                     <th class="text-center text-white">BPJS KS</th>
-                     {{-- <th class="text-center text-white">BPJS Additional</th> --}}
-                     
-                     
-                  </tr>
                </thead>
+      <thead>
+         <tr>
+            <td style="padding: 0px !important;" colspan="" class="text-center">NIK</td>
+            <td style="padding: 0px !important;" colspan="" class="text-center">Nama</td>
+            <td style="padding: 0px !important;" colspan="" class="text-center">Program</td>
+            {{-- <td style="padding: 0px !important;" class="text-center">Tarif</td> --}}
+            <td style="padding: 0px !important;" class="text-center" >Upah</td>
+            <td style="padding: 0px !important;" class="text-center" >Perusahaan</td>
+            <td style="padding: 0px !important;" class="text-center" >Karyawan</td>
+            {{-- <td style="padding: 0px !important;" class="text-center" >Jumlah Iuran</td> --}}
+         </tr>
+      </thead>
 
-               <tbody>
-                  @php
-                     $totalPokok = 0;
-                     $totalJabatan = 0;
-                     $totalOps = 0;
-                     $totalKinerja = 0;
-                     $totalFungsional = 0;
-                     $totalGaji = 0;
-                     $totalOvertime = 0;
-                     $totalAdditionalPenambahan = 0;
-                     $totalBruto = 0;
-                     $totalTk = 0;
-                     $totalKs = 0;
-                     $totalJp = 0;
-                     $totalAbsence = 0;
-                     $totalLate = 0;
-                     $totalGrand = 0;
-                  @endphp
-
-                  @foreach ($transactions as $transaction)
-                  @if ($transaction->remark == 'Karyawan Baru')
-                     
-                     @php
-                        
-                        $proratePokok = $transaction->employee->payroll->pokok / 30;
-                        $qtyPokok = 30 - $transaction->off;
-                        $nominalPokok = $proratePokok * $qtyPokok;
-
-                        $prorateJabatan = $transaction->employee->payroll->tunj_jabatan / 30;
-                        $qtyJabatan = 30 - $transaction->off;
-                        $nominalJabatan = $prorateJabatan * $qtyJabatan;
-
-                        $prorateOps = $transaction->employee->payroll->tunj_ops / 30;
-                        $qtyOps = 30 - $transaction->off;
-                        $nominalOps = $prorateOps * $qtyOps;
-
-                        $prorateKinerja = $transaction->employee->payroll->tunj_kinerja / 30;
-                        $qtyKinerja = 30 - $transaction->off;
-                        $nominalKinerja = $prorateKinerja * $qtyKinerja;
-
-                        $prorateFungsional = $transaction->employee->payroll->tunj_fungsional / 30;
-                        $qtyFungsional = 30 - $transaction->off;
-                        $nominalFungsional = $prorateFungsional * $qtyFungsional;
-
-                        $prorateTotal = $transaction->employee->payroll->total / 30;
-                        $qtyTotal = 30 - $transaction->off;
-                        $nominalTotal = $prorateTotal * $qtyTotal;
-                     @endphp
-                     <tr>
-                        <td class="text-truncate"><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->nik}} </a></td>
-                        <td class="text-truncate" style="max-width: 150px" ><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->biodata->fullName()}}</a></td>
-                        
-                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee'))}}</td>
-                        {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
-                        
-                     
-                     </tr>
-
-                     @php
-                        $pokok =  $nominalPokok;
-                        $jabatan = $nominalJabatan;
-                        $ops = $nominalOps;
-                        $kinerja = $nominalKinerja;
-                        $fungsional = $nominalFungsional;
-                        $gaji = $nominalTotal;
-                        $overtime = $transaction->overtime;
-                        $additional_penambahan = $transaction->additional_penambahan;
-                        $bruto = $nominalTotal + $transaction->overtime + $transaction->additional_penambahan;
-                        // $tk = 2/100 * $transaction->employee->payroll->total;
-                        $tk = $transaction->getDeduction('JHT', 'employee');
-                        $ks = $transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee');
-                        $ksAdd = $transaction->getDeductionAdditional();
-                        $jp = $transaction->getDeduction('JP', 'employee');
-                        $abs = $transaction->reduction_absence;
-                        $late = $transaction->reduction_late;
-                        $total = $transaction->total;
-
-                        $totalPokok += $pokok;
-                        $totalJabatan += $jabatan;
-                        $totalOps += $ops;
-                        $totalKinerja += $kinerja;
-                        $totalFungsional += $fungsional;
-                        $totalGaji += $gaji;
-                        $totalOvertime += $transaction->overtime;
-                        $totalAdditionalPenambahan  += $additional_penambahan;
-                        
-                        $totalBruto += $bruto;
-                        $totalTk += $tk;
-                        $totalKs += $ks;
-                        $totalKsAdd = $ksAdd;
-                        $totalJp += $jp;
-                        $totalAbsence += $abs;
-                        $totalLate += $late;
-                        $totalGrand += $total;
-                     @endphp
-                     @else
-                     <tr>
-                        <td class="text-truncate"><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->nik}} </a></td>
-                        <td class="text-truncate" style="max-width: 150px" ><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->biodata->fullName()}}</a></td>
-                        
-                        <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee'))}}</td>
-                        {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
-                        
-                     
-                     </tr>
-
-                     @php
-                        $pokok =  $transaction->employee->payroll->pokok;
-                        $jabatan = $transaction->employee->payroll->tunj_jabatan;
-                        $ops = $transaction->employee->payroll->tunj_ops;
-                        $kinerja = $transaction->employee->payroll->tunj_kinerja;
-                        $fungsional = $transaction->employee->payroll->tunj_fungsional;
-                        $gaji = $transaction->employee->payroll->total;
-                        $overtime = $transaction->overtime;
-                        $additional_penambahan = $transaction->additional_penambahan;
-                        $bruto = $transaction->employee->payroll->total + $transaction->overtime + $transaction->additional_penambahan;
-                        // $tk = 2/100 * $transaction->employee->payroll->total;
-                        $tk = $transaction->getDeduction('JHT', 'employee');
-                        $ks = $transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee');
-                        $ksAdd = $transaction->getDeductionAdditional();
-                        $jp = $transaction->getDeduction('JP', 'employee');
-                        $abs = $transaction->reduction_absence;
-                        $late = $transaction->reduction_late;
-                        $total = $transaction->total;
-
-                        $totalPokok += $pokok;
-                        $totalJabatan += $jabatan;
-                        $totalOps += $ops;
-                        $totalKinerja += $kinerja;
-                        $totalFungsional += $fungsional;
-                        $totalGaji += $gaji;
-                        $totalOvertime += $transaction->overtime;
-                        $totalAdditionalPenambahan  += $additional_penambahan;
-                        
-                        $totalBruto += $bruto;
-                        $totalTk += $tk;
-                        $totalKs += $ks;
-                        $totalKsAdd = $ksAdd;
-                        $totalJp += $jp;
-                        $totalAbsence += $abs;
-                        $totalLate += $late;
-                        $totalGrand += $total;
-                     @endphp
-                  @endif
-                     
-                  @endforeach
-                  
-                  
-                  
-                  
-                  
-                  
-               </tbody>
-            </table>
-         </div>
-      </div>
-   </div>
-   
-
-   <div class="card  shadow-none border">
-      <div class="card-header  d-flex justify-content-between ">
-         <div class="">
-            <h4 class="text-uppercase"><b>PAYSLIP REPORT </b> 
-            </h4>
-            <h2 class="text-uppercase">
-                 {{$unitTransaction->unit->name}} <br> <span>{{$payslipReport->location->name}}</span> <br> {{$unitTransaction->month}} {{$unitTransaction->year}}
-            </h2>
-            <small>{{count($transactions)}} Transaksi</small>
-         </div>
-         <span>
-            @if (auth()->user()->username == 'EN-2-001')
-               @if ($payslipReport->status == 1)
-                  <span>Approved Man. HRD</span>
-                  @else
-                  <span>Waiting Validation</span>
-               @endif
-            @endif
-
-            @if (auth()->user()->username == '11304')
-               @if ($payslipReport->status == 2)
-                  <span>Approved Man. Finance</span>
-                  @else
-                  <span>Waiting Validation</span>
-               @endif
-            @endif
-
-            @if (auth()->user()->username == 'EN-2-006' || auth()->user()->hasRole('Administrator|HRD-Payroll|HRD'))
-               @if ($payslipReport->status == 3)
-                  <span>Approved GM</span>
-                  @else
-                     @if ($payslipReport->status == 303)
-                        <div class="card card-danger">
-                           <div class="card-body">
-                              <span class=""><b>Reject GM</b></span><br>
-                        {{$payslipReport->rejectBy->nik}} {{$payslipReport->rejectBy->biodata->fullName()}} <br>
-                        {{formatDateTime($payslipReport->reject_date)}} <br>
-                        {{$payslipReport->reject_desc}}
-                           </div>
-                        </div>
-                        
-                        @else
-                        <span>Waiting Validation</span>
-                     @endif
-                  
-               @endif
-            @endif
-           
-         </span>
-         
-         {{-- <div class="text-right">
-            <h2 class="mt-3"> <b>{{formatRupiahB($unitTransaction->unit->getUnitTransaction($unitTransaction)->sum('total'))}}</b> <br>Total Karyawan <span class="text-uppercase"> {{count($location->getUnitTransaction($unitTransaction->unit->id, $unitTransaction))}} </span> </h2>
-         </div> --}}
-         
-      </div>
-      {{-- <div class="card-header">
-         <div class="row row-nav-line">
-            <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
-               <li class="nav-item"> <a class="nav-link show active" id="pills-payslip-tab-nobd" data-toggle="pill" href="#pills-payslip-nobd" role="tab" aria-controls="pills-payslip-nobd" aria-selected="true">Payslip Report</a> </li>
-               @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' )
-               <li class="nav-item"> <a class="nav-link " id="pills-ks-tab-nobd" data-toggle="pill" href="#pills-ks-nobd" role="tab" aria-controls="pills-ks-nobd" aria-selected="true">BPJS Kesehatan</a> </li>
-               <li class="nav-item"> <a class="nav-link " id="pills-kt-tab-nobd" data-toggle="pill" href="#pills-kt-nobd" role="tab" aria-controls="pills-kt-nobd" aria-selected="true">BPJS Ketenagakerjaan</a> </li>
-               @endif
-            </ul>
-         </div>
-      </div> --}}
-      {{-- {{count(transactions)}} --}}
-      <div class="card-body p-0">
-         
-
-      </div>
-   </div>
-   
-
-   
+      <tbody>
+         @foreach ($transactions as $trans)
+             <tr>
+               <td>{{$trans->employee->nik}}</td>
+               <td> {{$trans->employee->biodata->fullName()}}</td>
+               <td>BPJS Kesehatan</td>
+               <td class="text-right">{{formatRupiahB($trans->employee->payroll->total)}}</td>
+               
+               <td class="text-right">{{formatRupiahB($trans->getDeduction('BPJS KS', 'company'))}}</td>
+               <td class="text-right">{{formatRupiahB($trans->getDeduction('BPJS KS', 'employee') + $trans->getAddDeduction( 'employee'))}}</td>
+            </tr>
+         @endforeach
+      </tbody>
+   </table>
 
 
-   
-   
 
-
-   <hr>
 
    
    

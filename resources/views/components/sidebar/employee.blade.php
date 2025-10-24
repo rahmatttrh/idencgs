@@ -42,12 +42,17 @@
       <p>Absensi</p>
    </a>
 </li>
-<li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
+
+@if ($employee->unit_id == 10 || $employee->unit_id == 13 || $employee->unit_id == 14)
+    @else
+    <li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
    <a href="{{route('employee.spkl')}}">
       <i class="fas fa-clock"></i>
       <p>SPKL & Piket</p>
    </a>
 </li>
+@endif
+
 <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
    <a href="{{route('employee.cuti')}}">
       <i class="fas fa-briefcase"></i>
@@ -60,12 +65,32 @@
       <p>Task List</p>
    </a>
 </li>
+
+{{-- @if ($employee->pin != null)
+    
+@endif --}}
+{{-- <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+   <a href="#" data-toggle="tooltip" data-placement="top" title="Fitur Payslip dalam tahap perbaikan">
+      <i class="fas fa-coins"></i>
+      <p>Payslip</p>
+   </a>
+</li> --}}
+
+@if ($employee->pin != null)
 <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.transaction.employee')}}" data-toggle="tooltip" data-placement="top" title="Fitur Payslip masih dalam tahap pengembangan">
+   <a href="#" data-target="#modal-pin-payslip" data-toggle="modal">
       <i class="fas fa-coins"></i>
       <p>Payslip</p>
    </a>
 </li>
+    @else
+    <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+      <a href="#" data-target="#modal-create-pin-payslip" data-toggle="modal">
+         <i class="fas fa-coins"></i>
+         <p>Payslip</p>
+      </a>
+   </li>
+@endif
 
 {{-- <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
    <a href="#" data-target="#modal-pin-payslip" data-toggle="modal">

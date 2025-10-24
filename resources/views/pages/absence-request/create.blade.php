@@ -163,7 +163,7 @@ Form Absence
                            <select class="form-control "   name="persetujuan" id="persetujuan">
                               <option value="" disabled >Select</option>
                               {{-- <option selected value="{{$leader->id}}">{{$leader->biodata->fullName()}}</option> --}}
-                              <option value="" disabled>Select</option>
+                              {{-- <option value="" disabled>Select</option> --}}
                               @foreach ($employeeLeaders as $lead)
                                  <option  value="{{$lead->leader->id}}">{{$lead->leader->biodata->fullName()}}</option>
                               @endforeach
@@ -398,7 +398,7 @@ $(document).ready(function() {
                $('.type_late').hide();
                $('.type_cuti').hide();
                $('.atasan').show();
-               $('.manager').hide();
+               $('.manager').show();
             } else  {
                //   $('#foto').show();
                $('.type_izin_resmi').hide();

@@ -108,6 +108,9 @@ SPKL
                                     @elseif ($emp->unit->hour_type == 2)
                                     {{$emp->getOvertimes($from, $to)->where('type', 1)->sum('hours_final')}}
                                  @endif
+                                 @if (auth()->user()->hasRole('Administrator'))
+                                     ok
+                                 @endif
                                  {{-- {{$emp->getOvertimes($from, $to)->where('type', 1)->sum('hours_final')}} --}}
                               </td>
                               <td class="text-center">{{$emp->getOvertimes($from, $to)->where('type', 2)->sum('hours_final')}}</td>

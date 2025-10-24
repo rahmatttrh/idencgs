@@ -247,7 +247,7 @@ Dashboard
             @endforeach
          @endif --}}
 
-         {{-- @if (count($personals) > 0)
+         @if (count($personals) > 0)
             @foreach ($personals as $pers)
             <div class="d-none d-sm-block">
                <div class="alert alert-danger shadow-sm">
@@ -258,15 +258,15 @@ Dashboard
                   </div>
                   <div class="card-desc">
                      
-                     {{$pers->title}}.
-                     <a href="{{route('announcement.detail', enkripRambo($pers->id))}}">Klik Disini</a> untuk melihat lebih detail
-                        <hr>
-                        <small class="text-muted">* Ini adalah pesan personal yang hanya dikirim ke anda</small>
+                     {{$pers->title}}. {!! $pers->body !!} 
+                     {{-- <a href="{{route('announcement.detail', enkripRambo($pers->id))}}">Klik Disini</a> untuk melihat lebih detail --}}
+                        {{-- <hr>
+                        <small class="text-muted">* Ini adalah pesan personal yang hanya dikirim ke anda</small> --}}
                   </div>
                </div>
             </div>
             @endforeach
-         @endif --}}
+         @endif
 
 
          @if (count($sps) > 0)
@@ -487,7 +487,7 @@ Dashboard
             <div class="col-md-7">
                <div class="card">
                   <div class="card-header bg-primary text-white p-2">
-                     <small class="text-uppercase">Personal Pengajuan Absensi </small>
+                     <small class="text-uppercase">Personal Form Cuti/SPT/Izin/Sakit </small>
                   </div>
                   <div class="card-body p-0">
                      @if (count($myForms) > 0)
@@ -529,6 +529,9 @@ Dashboard
                      <small class="text-muted">Jika data diatas tidak sesuai, lakukan perubahan data absensi dengan klik 'Update'</small>
                   </div> --}}
                </div>
+
+               @if ($employee->unit_id == 10 || $employee->unit_id == 13 || $employee->unit_id == 14)
+               @else
                <div class="card">
                   <div class="card-header bg-primary text-white p-2">
                      <small class="text-uppercase">Personal Pengajuan SPKL </small>
@@ -607,6 +610,8 @@ Dashboard
                      <small class="text-muted">Jika data diatas tidak sesuai, lakukan perubahan data absensi dengan klik 'Update'</small>
                   </div> --}}
                </div>
+               @endif
+               
             </div>
          </div>
 

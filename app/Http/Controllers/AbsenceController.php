@@ -877,12 +877,12 @@ class AbsenceController extends Controller
             'value' => $value
          ]);
 
-         $transactionCon = new TransactionController;
-         $transactions = Transaction::where('employee_id', $employee->id)->get();
+         // $transactionCon = new TransactionController;
+         // $transactions = Transaction::where('employee_id', $employee->id)->get();
 
-         foreach ($transactions as $tran) {
-            $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-         }
+         // foreach ($transactions as $tran) {
+         //    $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+         // }
 
          if (auth()->user()->hasRole('Administrator')) {
             $departmentId = null;

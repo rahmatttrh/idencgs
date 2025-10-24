@@ -31,7 +31,7 @@ Cuti
                            <th>Name</th>
                            <th>Type</th>
                            <th class="text-center">Tahunan</th>
-                           <th class="text-center text-truncate">Masa Kerja</th>
+                           <th class="text-center ">Masa <br> Kerja</th>
                            <th class="text-center">Extend</th>
                            <th class="text-center">Total</th>
                            <th class="text-center">Dipakai</th>
@@ -50,9 +50,21 @@ Cuti
                            
                            <tr>
                               <td class="text-truncate">{{$cuti->employee->nik}}</td>
-                              <td class="text-truncate" style="max-width: 200px">
+                              <td class="text-truncate" >
                                  <a href="{{route('cuti.edit', enkripRambo($cuti->id))}}">{{$cuti->employee->biodata->fullName()}}</a>
-                                 
+                                 <br>
+                                 <small>@if ($cuti->employee->contract->type == 'Tetap')
+                                       
+                                        Join  {{formatDate($cuti->employee->join)}} |
+                                        Penetapan {{formatDate($cuti->employee->contract->determination)}}
+                                       
+                                          
+                                       @elseif($cuti->employee->contract->type == 'Kontrak')
+                                       Kontrak 
+                                          {{formatDate($cuti->employee->contract->start)}} - {{formatDate($cuti->employee->contract->end)}}
+                                      
+                                    
+                                    @endif</small>
                               </td>
                               <td>{{$cuti->employee->contract->type ?? 'z'}}</td>
                               <td class="text-center">{{$cuti->tahunan}}</td>
@@ -75,6 +87,20 @@ Cuti
                                  -
                                  @endif
                               </td>
+                              {{-- <td>
+                                 @if ($cuti->employee->contract->type == 'Tetap')
+                                       
+                                        Join  {{formatDate($cuti->employee->join)}} /
+                                        Penetapan {{formatDate($cuti->employee->contract->determination)}}
+                                       
+                                          
+                                       @elseif($cuti->employee->contract->type == 'Kontrak')
+                                       Kontrak 
+                                          {{formatDate($cuti->employee->contract->start)}} - {{formatDate($cuti->employee->contract->end)}}
+                                      
+                                    
+                                    @endif
+                              </td> --}}
                               {{-- <td><a class="btn btn-sm btn-primary" href="{{route('cuti.edit', enkripRambo($cuti->id))}}">Edit</a></td> --}}
                            </tr>
                            @endif

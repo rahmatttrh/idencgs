@@ -32,6 +32,20 @@ Payroll Transaction
       border-radius: 4px;
       padding: 2px 4px;
    }
+
+    table thead tr th {
+      font-size: 9px !important;
+      padding-right: 2px !important;
+      padding-left: 2px !important;
+   }
+
+   table tbody tr td {
+      font-size: 11px !important;
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+      padding-top: 5px !important;
+      padding-bottom: 5px !important;
+   }
    @media (min-width: 1140px) {
       .hori-timeline .events .event-list {
          display: inline-block;
@@ -66,7 +80,7 @@ Payroll Transaction
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
-         @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' )
+         @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' || auth()->user()->username == 'BOD-005'  || auth()->user()->username == 'EN-4-093' )
          @else
          <li class="breadcrumb-item" aria-current="page"><a href="{{route('payroll.transaction.monthly.all', enkripRambo($unitTransaction->id))}}">Transaction</a></li>
          @endif
@@ -277,7 +291,7 @@ Payroll Transaction
              @if (auth()->user()->username == 'EN-2-001' )
              <a class="mr-2" href="{{route('payroll.approval.gm')}}"><i class="fa fa-backward"></i> Back</a>
              @endif
-             @if (auth()->user()->username == 'BOD-002' )
+             @if (auth()->user()->username == 'BOD-002' || auth()->user()->username == 'BOD-005')
              <a class="mr-2" href="{{route('payroll.approval.bod')}}"><i class="fa fa-backward"></i> Back</a>
              @endif
 
@@ -376,7 +390,10 @@ Payroll Transaction
                      @endif
 
                      {{-- BOD --}}
-                     @if (auth()->user()->username == 'BOD-002' && $unitTransaction->status == 4)
+                     @if (auth()->user()->username == 'BOD-002' || auth()->user()->username == 'BOD-005')
+                        @if ($unitTransaction->status == 4)
+                            
+                        
                         <div class="btn-group ml-2 mb-2">
                            @php
                               $approve = 1;
@@ -397,6 +414,7 @@ Payroll Transaction
                               <a href="" class="btn btn-danger  mb-2" data-target="#modal-reject-bod-tu" data-toggle="modal">Reject</a>
                         </div>
                         @endif
+                     @endif
                   </div>
                </div>
                
@@ -409,7 +427,7 @@ Payroll Transaction
          <div class="row row-nav-line">
             <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
                <li class="nav-item"> <a class="nav-link show active" id="pills-payslip-tab-nobd" data-toggle="pill" href="#pills-payslip-nobd" role="tab" aria-controls="pills-payslip-nobd" aria-selected="true">Payslip Report</a> </li>
-               @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' || auth()->user()->hasRole('Administrator') || auth()->user()->username == 'EN-4-093')
+               @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' || auth()->user()->username == 'BOD-005' || auth()->user()->hasRole('Administrator') || auth()->user()->username == 'EN-4-093')
                <li class="nav-item"> <a class="nav-link " id="pills-ks-tab-nobd" data-toggle="pill" href="#pills-ks-nobd" role="tab" aria-controls="pills-ks-nobd" aria-selected="true">BPJS Kesehatan</a> </li>
                <li class="nav-item"> <a class="nav-link " id="pills-kt-tab-nobd" data-toggle="pill" href="#pills-kt-nobd" role="tab" aria-controls="pills-kt-nobd" aria-selected="true">BPJS Ketenagakerjaan</a> </li>
                <li class="nav-item"> <a class="nav-link " id="pills-timeline-tab-nobd" data-toggle="pill" href="#pills-timeline-nobd" role="tab" aria-controls="pills-timeline-nobd" aria-selected="true">Timeline</a> </li>
@@ -417,7 +435,7 @@ Payroll Transaction
             </ul>
          </div>
       </div>
-      <div class="card-body p-0">
+      <div class="card-body p-0" style="padding: 0px !important">
          <div class="tab-content p-0" id="pills-without-border-tabContent">
 
             {{-- Tab Payslip Report --}}
@@ -427,7 +445,7 @@ Payroll Transaction
                </div> --}}
                {{-- <h1>{{count($transactions)}}</h1> --}}
                <div class="table-responsive p-0" style="overflow-x: auto;">
-                  <table id="data" class=" table table-sm">
+                  <table id="data" class=" ">
                      <thead >
                         <tr class="text-white">
                            <th rowspan="2" class="text-white" colspan="2">Loc</th>
@@ -525,7 +543,7 @@ Payroll Transaction
                               @endif
                            @endif
 
-                           @if (auth()->user()->username == 'BOD-002')
+                           @if (auth()->user()->username == 'BOD-002' || auth()->user()->username == 'BOD-005')
                               @if ($report->status >= 4)
                               <td class="text-truncate bg-success" colspan="2"><a class="text-white" href="{{route('transaction.location', [enkripRambo($unitTransaction->id), enkripRambo($report->location_id)])}}">{{$report->location_name}}</a></td>
                                  @else
@@ -698,7 +716,7 @@ Payroll Transaction
             </div>
 
             <div class="tab-pane fade " id="pills-ks-nobd" role="tabpanel" aria-labelledby="pills-ks-tab-nobd">
-               @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' || auth()->user()->hasRole('Administrator') || auth()->user()->username == 'EN-4-093' )
+               @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' || auth()->user()->username == 'BOD-005' || auth()->user()->hasRole('Administrator') || auth()->user()->username == 'EN-4-093' )
                   <table  >
                      <thead>
                         <tr>
@@ -818,6 +836,10 @@ Payroll Transaction
                            <td style="padding: 0px !important;" class="text-center" >Karyawan</td>
                            <td style="padding: 0px !important;" class="text-center" >Jumlah Iuran</td>
                         </tr>
+
+                        @php
+                           $additional_karyawan =  0;
+                        @endphp
                         
 
                         @foreach ($bpjsKsReports as $bpjs)
@@ -844,6 +866,9 @@ Payroll Transaction
                               <td class="text-right">{{formatRupiahB($bpjs->additional_iuran)}}</td>
                            </tr>
                         </tr>
+                        @php
+                           $additional_karyawan =  $additional_karyawan + $bpjs->additional_iuran
+                        @endphp
                         @endif
                            
                             
@@ -855,7 +880,7 @@ Payroll Transaction
                            <td></td>
                            <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('upah'))}}</b></td>
                            <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('perusahaan'))}}</b></td>
-                           <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('karyawan'))}}</b></td>
+                           <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('karyawan') + $additional_karyawan )}}</b></td>
                            <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('total_iuran') + $bpjsKsReports->sum('additional_iuran'))}}</b></td>
                            
                         </tr>
@@ -1077,6 +1102,25 @@ Payroll Transaction
                         <td style="padding: 0px !important;" class="text-center" >Jumlah Iuran</td>
                      </tr>
 
+                     @php
+                        $num = 0;
+                        $totalEmployee = 0;
+                        $totalCompany = 0;
+
+                        $totalJkk = 0;
+                        $totalJht = 0;
+                        $totalJkm = 0;
+                        $totalJp = 0;
+
+                        $totalJkkCom = 0;
+                        $totalJhtCom = 0;
+                        $totalJkmCom = 0;
+                        $totalJpCom = 0;
+
+                        $totalUpah = 0;
+                        $totalUpahJp = 0
+                     @endphp
+
                      @foreach ($bpjsKtReports as $kt)
                      @if ($kt->qty >= 0)
                      <tr>
@@ -1090,11 +1134,71 @@ Payroll Transaction
                         <td class="text-right">{{formatRupiahB($kt->karyawan)}}</td>
                         <td class="text-right">{{formatRupiahB($kt->total_iuran)}}</td>
                      </tr>
+
+                     @if ($kt->program == 'Jaminan Kecelakaan Kerja (JKK)')
+                     @php
+                         $totalJkk = $totalJkk +$kt->karyawan;
+                         $totalJkkCom = $totalJkkCom +$kt->karyawan;
+                         $totalUpah = $totalUpah + $kt->upah;
+                     @endphp
+                  @endif
+                  @if ($kt->program == 'Jaminan Hari Tua (JHT)')
+                     @php
+                           $totalJht = $totalJht +$kt->karyawan;
+                           $totalJhtCom = $totalJhtCom +$kt->perusahaan;
+                           $totalUpah = $totalUpah + $kt->upah;
+                     @endphp
+                  @endif
+                  @if ($kt->program == 'Jaminan Kematian (JKM)')
+                     @php
+                           $totalJkm = $totalJkm +$kt->karyawan;
+                           $totalJkmCom = $totalJkmCom +$kt->perusahaan;
+                           $totalUpah = $totalUpah + $kt->upah;
+                     @endphp
+                  @endif
+                  @if ($kt->program == 'Jaminan Pensiun')
+                     @php
+                           $totalJp = $totalJp +$kt->karyawan;
+                           $totalJpCom = $totalJpCom +$kt->perusahaan;
+                           $totalUpahJp = $totalUpahJp + $kt->upah;
+                     @endphp
+                  @endif
+
+                  @php
+                      $totalEmployee = $totalEmployee + $kt->karyawan;
+                      $totalCompany = $totalCompany + $kt->perusahaan;
+                  @endphp
                      @endif
                         
 
                        
                      @endforeach
+
+                     <tr>
+                     <td colspan="9"></td>
+                  </tr>
+                  <tr>
+                     <td></td>
+                     <td></td>
+                     <td>Total JKK, JKM, JHT</td>
+                     <td></td>
+                     <td></td>
+                     <td class="text-right">{{formatRupiahB($totalUpah)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJkkCom + $totalJkmCom + $totalJhtCom)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJkk + $totalJkm + $totalJht)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJkk + $totalJkm + $totalJht + $totalJkkCom + $totalJkmCom + $totalJhtCom)}}</td>
+                  </tr>
+                  <tr>
+                     <td></td>
+                     <td></td>
+                     <td>Total JP</td>
+                     <td></td>
+                     <td></td>
+                     <td class="text-right">{{formatRupiahB($totalUpahJp)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJpCom)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJp)}}</td>
+                     <td class="text-right">{{formatRupiahB($totalJp + $totalJpCom)}}</td>
+                  </tr>
                      {{-- <tr>
                           
                         <td>Jumlah (a+b+c+d)</td>

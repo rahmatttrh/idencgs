@@ -45,12 +45,12 @@ SPKL Progress
             
          </div>
          <hr>
-         <form action="">
+         {{-- <form action="">
             <select name="" id="" class="form-control">
                <option value="">Januari</option>
                <option value="">Februari</option>
             </select>
-         </form>
+         </form> --}}
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">

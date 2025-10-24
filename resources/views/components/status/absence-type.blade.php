@@ -6,7 +6,7 @@
       @elseif($absence->type == 3)
       ATL 
       @elseif($absence->type == 4)
-      Izin 
+      Izin ({{$absence->type_desc}})
       @elseif($absence->type == 5)
       Cuti
       @elseif($absence->type == 6)

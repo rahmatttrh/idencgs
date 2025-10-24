@@ -154,12 +154,17 @@
    </div>
 </li>
 
-<li class="nav-item {{ (request()->is('spkl/team/*')) ? 'active' : '' }}">
+@if ($employee->unit_id == 10 || $employee->unit_id == 13 || $employee->unit_id == 14)
+    @else
+    <li class="nav-item {{ (request()->is('spkl/team/*')) ? 'active' : '' }}">
    <a href="{{route('spkl.team')}}">
       <i class="fas fa-users"></i>
       <p>SPKL Team</p>
    </a>
 </li>
+    @endif
+
+
 
 {{-- <li class="nav-item">
    <a data-toggle="collapse" href="#monitoring">
@@ -232,25 +237,37 @@
       <p>Absensi</p>
    </a>
 </li>
+@if ($employee->unit_id == 10 || $employee->unit_id == 13 || $employee->unit_id == 14)
+    @else
 <li class="nav-item {{ (request()->is('employee/spkl/*')) ? 'active' : '' }}">
    <a href="{{route('employee.spkl')}}">
       <i class="fas fa-clock"></i>
       <p>SPKL & Piket</p>
    </a>
 </li>
+@endif
 <li class="nav-item {{ (request()->is('employee/cuti/*')) ? 'active' : '' }}">
    <a href="{{route('employee.cuti')}}">
       <i class="fas fa-briefcase"></i>
       <p>Info Cuti</p>
    </a>
 </li>
+
+@if ($employee->pin != null)
 <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
-   <a href="#" data-placement="top" title="Fitur Payslip masih dalam tahap pengembangan">
-      {{-- <a href="{{route('payroll.transaction.employee')}}"> --}}
+   <a href="#" data-target="#modal-pin-payslip" data-toggle="modal">
       <i class="fas fa-coins"></i>
-      <p>Payslip </p>
+      <p>Payslip</p>
    </a>
 </li>
+    @else
+    <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+      <a href="#" data-target="#modal-create-pin-payslip" data-toggle="modal">
+         <i class="fas fa-coins"></i>
+         <p>Payslip</p>
+      </a>
+   </li>
+@endif
 <li class="nav-item {{ (request()->is('sp/employee/*')) ? 'active' : '' }}">
    <a href="{{route('sp.employee')}}">
       <i class="fas fa-bolt"></i>

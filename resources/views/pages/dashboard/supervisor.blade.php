@@ -209,6 +209,8 @@ Dashboard
                   </div>
                </div>
             </div>
+            @if ($employee->unit_id == 10 || $employee->unit_id == 13 || $employee->unit_id == 14)
+    @else
             <div class="col-6 d-block d-sm-none">
                <div class="card card-primary card-stats card-round" >
                   <div class="card-body ">
@@ -234,6 +236,7 @@ Dashboard
                </div>
               
             </div>
+            @endif
             {{-- <div class="col-6 d-block d-sm-none">
                <div class="card card-danger card-stats card-round" >
                   <div class="card-body ">
@@ -378,6 +381,8 @@ Dashboard
                
             </div>
 
+            @if ($employee->unit_id == 10 || $employee->unit_id == 13 || $employee->unit_id == 14)
+    @else
             <div class="col-md-6 d-none d-md-block">
                <div class="card card-stats card-round">
                   <div class="card-body ">
@@ -406,6 +411,7 @@ Dashboard
                </div>
                
             </div>
+            @endif
 
             <div class="col-md-6 d-none d-md-block">
                <div class="card card-stats card-round">

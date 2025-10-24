@@ -1580,6 +1580,70 @@ class AbsenceEmployeeController extends Controller
 
    }
 
+   public function refund(Request $req){
+      $absenceDetail = AbsenceEmployeeDetail::find($req->detail);
+      $absence = Absence::where('employee_id', $absenceDetail->absence_employee->employee_id)->where('date', $absenceDetail->date)->where('type',1)->first();
+      $employee = Employee::find($absenceDetail->absence_employee->employee_id);
+
+      if ($absence == null) {
+         # code...
+      } else {
+         $locations = Location::get();
+
+         foreach ($locations as $loc) {
+            if ($loc->code == $employee->contract->loc) {
+               $location = $loc->id;
+            }
+         }
+         $ddate = Carbon::create($absenceDetail->date);
+         $add = Additional::create([
+            'employee_id' => $employee->id,
+            'type' => 1,
+            'month' => $ddate->format('F'),
+            'year' => $ddate->format('Y'),
+            'date' => $req->date,
+            'value' => $absence->value,
+            'desc' => 'Pengembalian Alpha Tanggal ' . formatDate($absence->date),
+            'location_id' => $location,
+         ]);
+
+         $absenceDetail->update([
+            'additional_id' => $add->id
+         ]);
+
+         // $employee = Employee::where('nik', auth()->user()->username)->first();
+
+         // Log::create([
+         //    'department_id' => $employee->department_id,
+         //    'user_id' => auth()->user()->id,
+         //    'action' => 'Add Refund',
+         //    'desc' => 'Form ' . $title . ' ' . $reqForm->code . ' ' .  $reqForm->employee->biodata->fullName() . ' '
+         // ]);
+      }
+
+      return redirect()->back()->with('success', 'Pengembalian Alpha berhasil ditambahkan');
+
+   
+   }
+
+   public function refundDelete($id){
+      $absenceDetail = AbsenceEmployeeDetail::find(dekripRambo($id));
+      if ($absenceDetail->additional_id != null) {
+         $additional = Additional::find($absenceDetail->additional_id);
+         if ($additional != null) {
+            $additional->delete();
+            $absenceDetail->update([
+               'additional_id' => null
+            ]);
+         }
+      }
+      
+
+      return redirect()->back()->with('success', 'Pengembalian Alpha berhasil dihapus');
+
+   
+   }
+
    public function approveBackup($id){
       $reqForm = AbsenceEmployee::find(dekripRambo($id));
       $employee = Employee::where('nik', auth()->user()->username)->first();

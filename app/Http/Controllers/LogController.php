@@ -17,7 +17,7 @@ class LogController extends Controller
    public function auth(){
       // $log = Log::orderBy('created_at', 'desc')->get()->first();
       // dd($log->created_at);
-      $logs = Log::where('department_id', '!=', null)->orderBy('created_at', 'desc')->paginate(500);
+      $logs = Log::where('department_id', '!=', null)->orderBy('created_at', 'desc')->paginate(1300);
       return view('pages.log.auth', [
          'logs' => $logs
       ])->with('i');

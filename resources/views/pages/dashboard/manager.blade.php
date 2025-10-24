@@ -565,6 +565,8 @@ Dashboard
                   </div>
                </a>
             </div>
+            @if ($employee->unit_id == 10 || $employee->unit_id == 13 || $employee->unit_id == 14)
+    @else
             <div class="col-md-4 d-none d-md-block">
                <a href="{{route('leader.spkl')}}" data-toggle="tooltip" data-placement="top" title="Daftar Form SPKL yang membutuhkan Approval anda">
                   <div class="card border card-stats card-round">
@@ -587,8 +589,8 @@ Dashboard
                                        {{count($teamSpkls)}}
                                     @endif 
                                     @else 
-                                       @if (count($teamSpkls) + count($spklGroupApprovalLeaders)  > 0)
-                                          <span class="badge badge-danger">{{count($teamSpkls) + count($spklGroupApprovalLeaders) }}</span> 
+                                       @if (count($teamSpkls) + count($spklGroupApprovalLeaders) + count($spklGroupApprovalManagers)  > 0)
+                                          <span class="badge badge-danger">{{count($teamSpkls) + count($spklGroupApprovalLeaders) + count($spklGroupApprovalManagers) }}</span> 
                                           @else
                                           {{count($teamSpkls)}}
                                        @endif 
@@ -603,6 +605,7 @@ Dashboard
                   </div>
                </a>
             </div>
+            @endif
             <div class="col-md-4 d-none d-md-block">
                <a href="{{route('qpe.verification')}}" data-toggle="tooltip" data-placement="top" title="Daftar PE yang membutuhkan Approval anda">
                   <div class="card border card-stats card-round">
@@ -784,6 +787,8 @@ Dashboard
                </div>
                
             </div>
+            @if ($employee->unit_id == 10 || $employee->unit_id == 13 || $employee->unit_id == 14)
+    @else
             <div class="col-md-6">
                <div class="card">
                   <div class="card-header p-2 bg-primary text-white">
@@ -797,12 +802,8 @@ Dashboard
                               
                                <th>Name</th>
                               <th>Type</th>
-                              {{-- <th>Day</th> --}}
                               <th>Date</th>
                              
-                              {{-- <th>Status</th> --}}
-                              {{-- <th></th> --}}
-                              {{-- <th></th> --}}
                            </tr>
                         </thead>
          
@@ -827,9 +828,6 @@ Dashboard
                               
                               
                               
-                              {{-- <td>
-                                 <x-status.spkl-employee :empspkl="$spkl" />
-                              </td> --}}
          
                            </tr>
                            @endforeach
@@ -844,6 +842,7 @@ Dashboard
                
               
             </div>
+            @endif
          </div>
 
          <div class="row">

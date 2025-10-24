@@ -55,7 +55,11 @@ class SpController extends Controller
          $employee = auth()->user()->getEmployee();
          $allEmployees = Employee::get();
          $allEmployees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
-         $sps = Sp::orderBy('date_from', 'desc')->get();
+         $empId = [];
+         foreach($allEmployees as $emp){
+            $empId[] = $emp->id;
+         }
+         $sps = Sp::whereIn('employee_id', $empId)->orderBy('date_from', 'desc')->get();
          $employees = [];
          return view('pages.sp.index-hrd', [
             'employee' => $employee,
@@ -70,7 +74,11 @@ class SpController extends Controller
          $employee = auth()->user()->getEmployee();
          $allEmployees = Employee::get();
          $allEmployees = Employee::where('status', 1)->whereIn('location_id', [4])->get();
-         $sps = Sp::orderBy('date_from', 'desc')->get();
+         $empId = [];
+         foreach($allEmployees as $emp){
+            $empId[] = $emp->id;
+         }
+         $sps = Sp::whereIn('employee_id', $empId)->orderBy('date_from', 'desc')->get();
          $employees = [];
          return view('pages.sp.index-hrd', [
             'employee' => $employee,
@@ -79,6 +87,28 @@ class SpController extends Controller
             'sps' => $sps
          ])->with('i');
          // dd($overtimes);
+      }  elseif(auth()->user()->hasRole('HRD-JGC')) {
+         $employee = auth()->user()->getEmployee();
+         $allEmployees = Employee::get();
+         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
+
+         $employees = Employee::whereIn('unit_id', [10,13,14])
+               ->where('status', 1)
+               ->get();
+         $empId = [];
+         foreach($employees as $emp){
+            $empId[] = $emp->id;
+         }
+
+         $sps = Sp::whereIn('employee_id', $empId)->orderBy('date_from', 'desc')->get();
+         $employees = [];
+         return view('pages.sp.index-hrd', [
+            'employee' => $employee,
+            'allEmployees' => $allEmployees,
+            'employees' => $employees,
+            'sps' => $sps
+         ])->with('i');
+            
       } elseif (auth()->user()->hasRole('Manager|Asst. Manager')) {
          $employee = auth()->user()->getEmployee();
          $employees = Employee::where('department_id', auth()->user()->getEmployee()->department_id)->where('designation_id', '<', 6)->get();
@@ -276,6 +306,9 @@ class SpController extends Controller
 
          $employees = Employee::where('status', 1)->whereIn('location_id', [4])->get();
          
+      } elseif (auth()->user()->hasRole('HRD-JGC')) {
+
+      $employees = Employee::where('status', 1)->whereIn('unit_id', [10,13,14])->get();
       }
       return view('pages.sp.create', [
          'allEmployees' => $employees

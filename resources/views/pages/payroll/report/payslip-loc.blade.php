@@ -32,6 +32,20 @@ Payroll Transaction
       border-radius: 4px;
       padding: 2px 4px;
    }
+
+   table thead tr th {
+      font-size: 9px !important;
+      padding-right: 2px !important;
+      padding-left: 2px !important;
+   }
+
+   table tbody tr td {
+      font-size: 11px !important;
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+      padding-top: 5px !important;
+      padding-bottom: 5px !important;
+   }
    @media (min-width: 1140px) {
       .hori-timeline .events .event-list {
          display: inline-block;
@@ -66,7 +80,7 @@ Payroll Transaction
    <nav aria-label="breadcrumb ">
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
-         @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' )
+         @if (auth()->user()->username == 'EN-2-001' || auth()->user()->username == '11304' || auth()->user()->username == 'EN-2-006' || auth()->user()->username == 'BOD-002' || auth()->user()->username == 'BOD-005'  )
          @else
          <li class="breadcrumb-item" aria-current="page"><a href="{{route('payroll.transaction.monthly.all', enkripRambo($unitTransaction->id))}}">Transaction</a></li>
          @endif
@@ -121,8 +135,10 @@ Payroll Transaction
             <h2 class="text-uppercase mt-2">
                 PT {{$unitTransaction->unit->name}}  <span>{{$payslipReport->location->name}} <br> <span>{{$unitTransaction->month}} {{$unitTransaction->year}}</span></span> 
             </h2>
-             <hr>
+            
             <span>{{count($transactions)}} Transaksi</span>
+            <hr>
+            <a class="" href="{{route('payroll.transaction.loc.export.pdf', [enkripRambo($unitTransaction->id), enkripRambo($payslipReport->location_id)])}}" target="_blank"><i class="fa fa-file"></i> Export to PDF</a>
          </div>
          <span>
             @if ($payslipReport->status == 101)
@@ -176,7 +192,7 @@ Payroll Transaction
                      @endif   
                   @endif
 
-                  @if (auth()->user()->username == 'BOD-002')
+                  @if (auth()->user()->username == 'BOD-002' || auth()->user()->username == 'BOD-005' )
       
                      @if ($payslipReport->status == 3)
                      
@@ -246,6 +262,7 @@ Payroll Transaction
                   <tr>
                      <th class="text-white">NIK</th>
                      <th class="text-white">Name</th>
+                     <th class="text-white">Posisi</th>
                      <th class="text-center text-white">Gaji Pokok</th>
                      <th class="text-center text-white">Tunj. Jabatan</th>
                      <th class="text-center text-white">Tunj. OPS</th>
@@ -323,6 +340,7 @@ Payroll Transaction
                            @endif    --}}
                         </a></td>
                         <td class="text-truncate" style="max-width: 150px" ><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->biodata->fullName()}}</a></td>
+                        <td class="text-truncate"">{{$transaction->employee->contract->position->name ?? ''}}</td>
                         <td class="text-right">{{formatRupiahB($nominalPokok)}}</td>
                         <td class="text-right">{{formatRupiahB($nominalJabatan)}}</td>
                         <td class="text-right">{{formatRupiahB($nominalOps)}}</td>
@@ -345,7 +363,10 @@ Payroll Transaction
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee'))}}</td>
                         {{-- <td class="text-right">{{formatRupiahB()}}</td> --}}
                         <td class="text-right">{{formatRupiahB($transaction->getDeduction('JP', 'employee'))}} </td>
-                        <td class="text-right">{{formatRupiahB($transaction->reduction_absence + $transaction->reduction_off)}}</td>
+                        <td class="text-right">
+                           0
+                           {{-- {{formatRupiahB($transaction->reduction_absence + $transaction->reduction_off)}} --}}
+                        </td>
                         <td class="text-right">{{formatRupiahB($transaction->reduction_late)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->additional_pengurangan)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->total)}}</td>
@@ -367,6 +388,7 @@ Payroll Transaction
                         $ks = $transaction->getDeduction('BPJS KS', 'employee') + $transaction->getAddDeduction( 'employee');
                         $ksAdd = $transaction->getDeductionAdditional();
                         $jp = $transaction->getDeduction('JP', 'employee');
+                        // $abs = $transaction->reduction_absence;
                         $abs = $transaction->reduction_absence;
                         $late = $transaction->reduction_late;
                         $additional_pengurangan = $transaction->additional_pengurangan;
@@ -399,6 +421,7 @@ Payroll Transaction
                      <tr>
                         <td class="text-truncate"><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->nik}} </a></td>
                         <td class="text-truncate" style="max-width: 150px" ><a href="{{route('payroll.transaction.report.employee', enkripRambo($transaction->id))}}">{{$transaction->employee->biodata->fullName()}}</a></td>
+                            <td class="text-truncate"">{{$transaction->employee->contract->position->name ?? ''}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->employee->payroll->pokok)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_jabatan)}}</td>
                         <td class="text-right">{{formatRupiahB($transaction->employee->payroll->tunj_ops)}}</td>
@@ -473,7 +496,7 @@ Payroll Transaction
                   
                   
                   <tr>
-                     <td colspan="2" class="text-right"><b> Total</b></td>
+                     <td colspan="3" class="text-right"><b> Total</b></td>
                      <td class="text-right text-truncate"><b> {{formatRupiahB($totalPokok)}}</b></b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalJabatan)}}</b></td>
                      <td class="text-right text-truncate"><b>{{formatRupiahB($totalOps)}}</b></td>

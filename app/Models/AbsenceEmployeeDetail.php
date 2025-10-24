@@ -13,4 +13,8 @@ class AbsenceEmployeeDetail extends Model
     public function absence_employee(){
       return $this->belongsTo(AbsenceEmployee::class);
     }
+
+    public function additional(){
+      return $this->belongsTo(Additional::class);
+   }
 }

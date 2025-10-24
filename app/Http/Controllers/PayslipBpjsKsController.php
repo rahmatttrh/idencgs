@@ -7,7 +7,9 @@ use App\Models\Location;
 use App\Models\PayrollApproval;
 use App\Models\PayslipBpjsKs;
 use App\Models\PayslipReport;
+use App\Models\ReductionEmployee;
 use App\Models\Transaction;
+use App\Models\TransactionReduction;
 use App\Models\Unit;
 use App\Models\UnitTransaction;
 use Illuminate\Http\Request;
@@ -51,6 +53,31 @@ class PayslipBpjsKsController extends Controller
       // dd($unit);
 
       $unit = Unit::find($unitTransaction->unit_id);
+
+      if (auth()->user()->hasRole('Administrator')) {
+         // $reductionEmployees = ReductionEmployee::where('employee_id', 222)->get();
+         // dd($reductionEmployees);
+
+         // $transactions = Transaction::where('unit_transaction_id', $unitTransaction->id)->get();
+         // $data = [];
+         // foreach($transactions as $trans){
+         //    $transReduction = TransactionReduction::where('transaction_id', $trans->id)->where('name', 'JHT')->where('type', 'company')->first();
+         //    $test = [$trans->employee->nik, $transReduction->value_real];
+         //    $data[] = $test;
+
+         // }
+
+         // dd($data);
+            // if ($trans->employee_id == 360) {
+            //    $red =ReductionEmployee::where('employee_id', 360)->get();
+            //    // dd($red);
+            //    $transReduction = TransactionReduction::where('transaction_id', $trans->id)->get();
+            //    dd($transReduction);
+            // }
+      
+      }
+
+   
       
 
 
@@ -105,7 +132,7 @@ class PayslipBpjsKsController extends Controller
 
       foreach ($locations as $loc){
          // || $loc->projectExist() == true
-         if ($loc->totalEmployee($unitTransaction->unit->id) > 0 ){
+         if ($loc->totalEmployeeBpjs($unitTransaction->unit->id) > 0 ){
             $bpjsKsReport = BpjsKsReport::where('unit_transaction_id', $unitTransaction->id)->where('location_id', $loc->id)->first();
             if ($bpjsKsReport) {
                $bpjsKsReport->delete();
@@ -119,7 +146,7 @@ class PayslipBpjsKsController extends Controller
                   'location_name' => $loc->name,
                   'program' => 'Jaminan Kesehatan',
                   'tarif' => $unitTransaction->unit->reductions->where('name', 'BPJS KS')->first()->company + $unitTransaction->unit->reductions->where('name', 'BPJS KS')->first()->employee,
-                  'qty' => count($loc->getUnitTransaction($unitTransaction->unit_id, $unitTransaction)),
+                  'qty' => count($loc->getUnitTransactionB($unitTransaction->unit_id, $unitTransaction)),
                   'upah' => $loc->getUnitTransactionBpjs($unitTransaction->unit_id, $unitTransaction),
                   'perusahaan' => $loc->getDeductionReal($unitTransaction, 'BPJS KS', 'company'),
                   'karyawan' => $loc->getDeduction($unitTransaction, 'BPJS KS', 'employee'),

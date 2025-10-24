@@ -14,6 +14,8 @@ Payroll Transaction
    
    <div class="row">
       <div class="col-md-3">
+
+         
          {{-- <div class="card shadow-none border">
             
             <div class="card-body"> --}}
@@ -30,6 +32,8 @@ Payroll Transaction
             {{-- </div>
             
          </div> --}}
+         <hr>
+         <a class="btn btn-primary btn-block" href="{{route('payroll.transaction.all.export.pdf')}}" target="_blank"><i class="fa fa-file"></i> Export All to PDF</a>
       </div>
       <div class="col-md-9">
          <div class="tab-content" id="v-pills-tabContent">
@@ -76,7 +80,12 @@ Payroll Transaction
                               
                            @endforeach
                         <tr>
-                           <td>{{$trans->month}} </td>
+                           <td>
+                              @if (auth()->user()->hasRole('Administrator'))
+                                  {{$trans->id}}
+                              @endif
+                              
+                              {{$trans->month}} </td>
                            <td>{{$trans->year}}</td>
                            <td class="text-center">{{$trans->total_employee}} </td>
                            <td class="text-right">
@@ -87,7 +96,15 @@ Payroll Transaction
                            <td>
                               <a href="{{route('payroll.transaction.monthly.all', enkripRambo($trans->id))}}">Detail</a> 
                               {{-- | <a href="{{route('payroll.transaction.monthly', enkripRambo($trans->id))}}">Report</a>  --}}
+                              @if ($trans->status == 0 )
+                                  
+                              
                               | <a href="#" data-target="#modal-delete-master-transaction-{{$trans->id}}" data-toggle="modal">Delete</a>
+                              @endif
+
+                              @if (auth()->user()->hasRole('Administrator'))
+                                  <a href="#" data-target="#modal-delete-master-transaction-{{$trans->id}}" data-toggle="modal">Delete</a>
+                              @endif
                            </td>
                         </tr>
 

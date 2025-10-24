@@ -160,12 +160,16 @@ Payroll Transaction
          <hr> --}}
          <hr>
 
-         <a class="btn btn-sm btn-light border" href="{{route('payroll.transaction.unit.refresh', enkripRambo($unitTransaction->id))}}" class=""><i class="fa fa-get"></i> Refresh Data</a> <br> <br>
+         @if ($unitTransaction->status == 0)
+             
+         
+            <a class="btn btn-sm btn-light border" href="{{route('payroll.transaction.unit.refresh', enkripRambo($unitTransaction->id))}}" class=""><i class="fa fa-get"></i> Refresh Data</a> <br> <br>
 
-         @if (auth()->user()->hasRole('Administrator|HRD-Payroll'))
-         <a class="btn btn-sm btn-light border" href="{{route('refresh.report.payslip', enkripRambo($unitTransaction->id))}}" >Refresh Payslip Report</a> <br>
-         <a class="btn btn-sm btn-light border" href="{{route('refresh.report.bpjsks', enkripRambo($unitTransaction->id))}}" >Refresh BPJS KS Report</a><br>
-         <a class="btn btn-sm btn-light border" href="{{route('refresh.report.bpjskt', enkripRambo($unitTransaction->id))}}" >Refresh BPJS KT Report</a>
+            @if (auth()->user()->hasRole('Administrator|HRD-Payroll'))
+            <a class="btn btn-sm btn-light border" href="{{route('refresh.report.payslip', enkripRambo($unitTransaction->id))}}" >Refresh Payslip Report</a> <br>
+            <a class="btn btn-sm btn-light border" href="{{route('refresh.report.bpjsks', enkripRambo($unitTransaction->id))}}" >Refresh BPJS KS Report</a><br>
+            <a class="btn btn-sm btn-light border" href="{{route('refresh.report.bpjskt', enkripRambo($unitTransaction->id))}}" >Refresh BPJS KT Report</a>
+            @endif
          @endif
          
 

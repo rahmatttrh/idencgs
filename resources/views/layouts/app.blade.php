@@ -29,6 +29,7 @@
       <!-- CSS Just for demo purpose, don't include it in your project -->
       <link rel="stylesheet" href="{{asset('css/demo.css')}}">
       <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
       
 
@@ -131,6 +132,46 @@
 
 
 
+      <div class="modal fade" id="modal-create-pin-payslip" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">CREATE PAYSLIP PIN<br>
+                     
+                  </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <form action="{{route('employee.pin.create')}}" method="POST" onsubmit="return checkPassword()" >
+                  <div class="modal-body">
+                     @csrf
+                     <input type="text" value="" name="absEmp" id="absEmp" hidden>
+                     <span>Anda belum memiliki Payslip PIN <br>
+                        {{-- Create New PIN --}}
+                     </span>
+                     <hr>
+                     <div class="form-group form-group-default">
+                        <label>INPUT PIN</label>
+                        <input type="number" required class="form-control"  name="password" id="password" autocomplete="new-password" >
+                     </div>
+                     <div class="form-group form-group-default">
+                        <label>Konfirmasi PIN</label>
+                        <input type="number" required class="form-control"  name="confirm_password" id="confirm_password"  autocomplete="off">
+                     </div>
+                     <small>Harap di ingat PIN anda dengan baik</small><br>
+                     <small>PIN akan dienkripsi secara otomatis</small>
+
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                     <button type="submit" class="btn btn-primary ">Save PIN</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+
       <div class="modal fade" id="modal-pin-payslip" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -142,25 +183,39 @@
                   <span aria-hidden="true">&times;</span>
                   </button>
                </div>
-               <form action="{{route('employee.absence.reject')}}" method="POST" >
+               <form action="{{route('employee.pin.check')}}" method="POST" >
                   <div class="modal-body">
                      @csrf
                      <input type="text" value="" name="absEmp" id="absEmp" hidden>
-                     <span>Anda belum memiliki Payslip PIN <br> <br>Buat Payslip PIN anda terlebih dahulu untuk mengakses halaman Payslip</span>
-                     <hr>
+                     {{-- <span>Anda belum memiliki Payslip PIN <br> <br>Buat Payslip PIN anda terlebih dahulu untuk mengakses halaman Payslip</span>
+                     <hr> --}}
                      <div class="form-group form-group-default">
                         <label>Input PIN</label>
-                        <input type="text" class="form-control"  name="remark" id="remark"  >
+                        <input type="password" class="form-control"  name="password" id="password" autocomplete="new-password" >
                      </div>
+                     {{-- <small>Lupa PIN? hubungi tim IT untuk reset PIN</small> --}}
                   </div>
                   <div class="modal-footer">
                      <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary ">Submit</button>
+                     <button type="submit" class="btn btn-primary ">Access Payslip</button>
                   </div>
                </form>
             </div>
          </div>
       </div>
+
+      <script>
+         function checkPassword() {
+           let password = document.getElementById("password").value;
+           let confirmPassword = document.getElementById("confirm_password").value;
+         
+           if (password !== confirmPassword) {
+             alert("Password dan Konfirmasi Password tidak sama.");
+             return false; // stop submit
+           }
+           return true;
+         }
+      </script>
 
 
 
@@ -216,6 +271,7 @@
 
 
       <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
       @stack('js_footer')
       @stack('chart-dashboard')
@@ -226,6 +282,19 @@
       {{-- <script>
          let table = new DataTable('#myTable');
       </script> --}}
+
+      <script>
+         flatpickr(".jam", {
+         enableTime: true,
+         noCalendar: true,
+         time_24hr: true,  // ⬅️ ini kuncinya
+         dateFormat: "H:i"
+         });
+
+
+
+
+         </script>
       
 
       <script >

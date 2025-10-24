@@ -230,11 +230,11 @@ class PayrollApprovalController extends Controller
          ]);
       }
 
-      foreach ($transactions as $transaction) {
-         $transaction->update([
-            'status' => 3
-         ]);
-      }
+      // foreach ($transactions as $transaction) {
+      //    $transaction->update([
+      //       'status' => 3
+      //    ]);
+      // }
 
       PayrollApproval::create([
          'unit_transaction_id' => $unitTransaction->id,
@@ -293,11 +293,11 @@ class PayrollApprovalController extends Controller
          ]);
       }
 
-      foreach ($transactions as $transaction) {
-         $transaction->update([
-            'status' => 4
-         ]);
-      }
+      // foreach ($transactions as $transaction) {
+      //    $transaction->update([
+      //       'status' => 4
+      //    ]);
+      // }
 
       PayrollApproval::create([
          'unit_transaction_id' => $unitTransaction->id,
@@ -374,11 +374,11 @@ class PayrollApprovalController extends Controller
          ]);
       }
 
-      foreach ($transactions as $transaction) {
-         $transaction->update([
-            'status' => 5
-         ]);
-      }
+      // foreach ($transactions as $transaction) {
+      //    $transaction->update([
+      //       'status' => 5
+      //    ]);
+      // }
 
       PayrollApproval::create([
          'unit_transaction_id' => $unitTransaction->id,

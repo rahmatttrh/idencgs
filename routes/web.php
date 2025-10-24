@@ -197,7 +197,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('absence/approve/{id}', [AbsenceEmployeeController::class, 'approveHrd'])->name('employee.absence.approve.hrd');
 
          Route::post('employee/hrd/approve', [OvertimeEmployeeController::class, 'approveHrd'])->name('employee.spkl.hrd.approve');
-          Route::post('employee/hrd/reject', [OvertimeEmployeeController::class, 'rejectHrd'])->name('employee.spkl.hrd.reject');
+         Route::post('employee/hrd/reject', [OvertimeEmployeeController::class, 'rejectHrd'])->name('employee.spkl.hrd.reject');
       });
       
       Route::prefix('cuti')->group(function () {
@@ -481,6 +481,9 @@ Route::middleware(["auth"])->group(function () {
 
             Route::get('/export/{id}', [TransactionController::class, 'export'])->name('payroll.transaction.export');
             Route::get('/pdf/export/{id}', [TransactionController::class, 'exportPdf'])->name('payroll.transaction.export.pdf');
+            Route::get('/loc/pdf/export/{unit}/{id}', [TransactionController::class, 'exportLocPdf'])->name('payroll.transaction.loc.export.pdf');
+
+            Route::get('/all/pdf/export', [TransactionController::class, 'exportAllPdf'])->name('payroll.transaction.all.export.pdf');
             // Route::get('/export/bpjs/{id}', [TransactionController::class, 'export'])->name('payroll.transaction.export');
 
 
@@ -522,6 +525,7 @@ Route::middleware(["auth"])->group(function () {
             Route::get('excel/{from}/{to}/{loc}', [OvertimeController::class, 'overtimeExcel'])->name('payroll.overtime.export');
             
             Route::get('summary/excel/{from}/{to}/{unit}', [OvertimeController::class, 'summaryOvertimeExcel'])->name('summary.overtime.export.excel');
+            Route::get('summary/pdf/{from}/{to}/{unit}', [OvertimeController::class, 'summaryOvertimePdf'])->name('summary.overtime.export.pdf');
             Route::get('summary/employee/excel/{from}/{to}/{employee}', [OvertimeController::class, 'summarySpklEmployeeExcel'])->name('summary.overtime.employee.export.excel');
 
             Route::get('edit/{id}', [OvertimeController::class, 'edit'])->name('payroll.overtime.edit');
@@ -625,7 +629,7 @@ Route::middleware(["auth"])->group(function () {
 
    // Semua Role 
 
-   Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC|Karyawan|Manager|Asst. Manager|Supervisor|Leader']], function () {
+   Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Spv|HRD-Payroll|HRD-KJ45|HRD-KJ12|HRD-JGC|Karyawan|Manager|Asst. Manager|Supervisor|Leader']], function () {
       // Route::get('overtime/team', [OvertimeController::class, 'team'])->name('overtime.team');
 
 
@@ -710,6 +714,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('remove/picture/{id}', [EmployeeController::class, 'removePicture'])->name('employee.remove.picture');
          Route::put('update/role', [EmployeeController::class, 'updateRole'])->name('employee.update.role');
          Route::get('reset/password/{id}', [EmployeeController::class, 'resetPassword'])->name('employee.reset.password');
+         Route::get('reset/pin/{id}', [EmployeeController::class, 'resetPin'])->name('employee.reset.pin');
       });
 
       // Quick PE All
@@ -1015,6 +1020,7 @@ Route::middleware(["auth"])->group(function () {
 
          Route::prefix('spkl')->group(function () {
             Route::get('/index', [OvertimeEmployeeController::class, 'index'])->name('employee.spkl');
+            Route::post('/index/filter', [OvertimeEmployeeController::class, 'indexFilter'])->name('employee.spkl.filter');
             Route::get('/progress', [OvertimeEmployeeController::class, 'progress'])->name('employee.spkl.progress');
             Route::get('/draft', [OvertimeEmployeeController::class, 'draft'])->name('employee.spkl.draft');
             Route::get('/create', [OvertimeEmployeeController::class, 'create'])->name('employee.spkl.create');
@@ -1032,6 +1038,7 @@ Route::middleware(["auth"])->group(function () {
             
             Route::get('release/{id}', [OvertimeEmployeeController::class, 'release'])->name('employee.spkl.release');
             Route::get('employee/delete/{id}', [OvertimeEmployeeController::class, 'delete'])->name('employee.spkl.delete');
+            Route::get('employee/remove/{id}', [OvertimeEmployeeController::class, 'remove'])->name('employee.spkl.remove');
             Route::get('employee/team/delete/{id}', [OvertimeEmployeeController::class, 'deleteMultiple'])->name('employee.spkl.delete.team');
             Route::get('multiple/release/{id}', [OvertimeEmployeeController::class, 'releaseMultiple'])->name('employee.spkl.release.multiple');
             
@@ -1048,9 +1055,16 @@ Route::middleware(["auth"])->group(function () {
             // Route::get('/delete/{id}', [SpklController::class, 'delete'])->name('employee.spkl.delete');
          });
 
+
+         Route::prefix('employee')->group(function () {
+            Route::post('/pin/create', [EmployeeController::class, 'createPin'])->name('employee.pin.create');
+            Route::post('/pin/check', [EmployeeController::class, 'checkPin'])->name('employee.pin.check');
+         });
+
          Route::prefix('absence')->group(function () {
             
             Route::get('/index', [AbsenceEmployeeController::class, 'index'])->name('employee.absence');
+            Route::post('/index/filter', [AbsenceEmployeeController::class, 'indexFilter'])->name('employee.absence.filter');
             
             Route::get('/create', [AbsenceEmployeeController::class, 'create'])->name('employee.absence.create');
             Route::get('/pending', [AbsenceEmployeeController::class, 'pending'])->name('employee.absence.pending');
@@ -1076,6 +1090,9 @@ Route::middleware(["auth"])->group(function () {
 
             Route::get('/man/approve/{id}', [AbsenceEmployeeController::class, 'approveManager'])->name('employee.absence.approve.man');
             Route::post('/reject', [AbsenceEmployeeController::class, 'reject'])->name('employee.absence.reject');
+
+            Route::post('/refund', [AbsenceEmployeeController::class, 'refund'])->name('employee.absence.refund');
+            Route::get('/refund/delete/{id}', [AbsenceEmployeeController::class, 'refundDelete'])->name('employee.absence.refund.delete');
          });
 
          Route::prefix('spt')->group(function () {

@@ -80,8 +80,8 @@ class Department extends Model
          $end = Carbon::create('30-12-' . $year);
       }
       // $employees = $this->employees->where('status', 1);
-      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['kj-5-167', 'kj-5-176','kj-5-175','EN-4-113', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177'])->where('status', 1)->where('join', '<=', $end)->get();
-
+      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['kj-5-167', 'kj-5-176','kj-5-175','EN-4-113', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177', 'KJ-5-217', '01.00.600', '01.09.124','KJ-6-240', 'KJ-5-222'])->where('status', 1)->where('join', '<=', $end)->get();
+      // 'KJ-5-217', '01.00.600', '01.09.124'
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
 
       $employeeQpe = 0;
@@ -113,6 +113,7 @@ class Department extends Model
       $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->where('status', $status)->get();
 
+      // 'KJ-5-217', '01.00.600', '01.09.124'
       $employeeQpe = 0;
       foreach ($employees as $employee) {
          foreach ($qpes as $qpe) {
@@ -137,7 +138,8 @@ class Department extends Model
          $end = Carbon::create('30-12-' . $year);
       }
       $employees = $this->employees->where('status', 1);
-      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['kj-5-167', 'kj-5-176','kj-5-175', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177','EN-4-113'])->where('status', 1)->where('join', '<=', $end)->get();
+      $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->whereNotIn('nik', ['kj-5-167', 'kj-5-176','kj-5-175', 'kj-6-174','kj-6-014','kj-5-111','kj-6-136', 'kj-5-101','kj-5-110','kj-5-177','EN-4-113', 'KJ-5-217', '01.00.600', '01.09.124','KJ-6-240', 'KJ-5-222'])->where('status', 1)->where('join', '<=', $end)->get();
+      // 'KJ-5-217', '01.00.600', '01.09.124'
       $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
       $pendings = [];
       // $employeeQpe = 0;

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absence;
+use App\Models\AbsenceEmployee;
 use App\Models\Employee;
 use App\Models\EmployeeLeader;
 use App\Models\Location;
@@ -10,6 +12,7 @@ use App\Models\Overtime;
 use App\Models\OvertimeEmployee;
 use App\Models\OvertimeParent;
 use App\Models\Payroll;
+use App\Models\UnitTransaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -18,10 +21,25 @@ class OvertimeEmployeeController extends Controller
    public function index(){
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spkls = Overtime::where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
+      $spkls = Overtime::where('employee_id', $employee->id)->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->orderBy('updated_at', 'desc')->get();
       // dd($spkls);
+      $desc = 'Daftar SPKL di Bulan ini';
       return view('pages.spkl.index', [
-         'spkls' => $spkls
+         'spkls' => $spkls,
+         'desc' => $desc
+      ]);
+   }
+
+   public function indexFilter(Request $req){
+      // dd('ok');
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $spkls = Overtime::where('employee_id', $employee->id)->whereBetween('date', [$req->from, $req->to])->orderBy('updated_at', 'desc')->get();
+      // dd($spkls);
+      $desc = 'Daftar SPKL Periode ' . formatDate($req->from) . ' - ' . formatDate($req->to);
+      return view('pages.spkl.index', [
+         'spkls' => $spkls,
+         'desc' => $desc
+
       ]);
    }
 
@@ -29,6 +47,47 @@ class OvertimeEmployeeController extends Controller
 
 
       if (auth()->user()->hasRole('Administrator')) {
+
+         
+
+
+         // BUG SPKL TELAT PENGAJUAN
+         // $Allbugs = OvertimeEmployee::where('status', 4)->whereDate('updated_at', '>', '2025-09-23')->whereBetween('date', ['2025-08-21', '2025-09-20'])->get();
+         // $bugs = OvertimeEmployee::where('status', 4)->where('employee_id', 238)->whereDate('updated_at', '>', '2025-09-23')->whereBetween('date', ['2025-08-21', '2025-09-20'])->get();
+         // $overtimesBugs = Overtime::where('employee_id', 238)->whereDate('updated_at', '>', '2025-09-23')->whereBetween('date', ['2025-08-21', '2025-09-20'])->get();
+         // $totalrate = 0;
+         // $employee = [];
+         // $listSpkl = [];
+         // foreach($Allbugs as $bug){
+         //    $employee[] = $bug->employee->biodata->fullName();
+         // }
+
+         // $overs = Overtime::where('date_origin', '!=', null)->get();
+         // foreach($overs as $over){
+         //    $over->update([
+         //       'date' => '2025-10-20',
+         //    ]);
+         // }
+         // dd($overs);
+
+         // dd($over->sum('rate'));
+         // foreach($bugs as $bug){
+         //    $spkl = Overtime::where('date', $bug->date)->where('employee_id', $bug->employee_id)->first();
+         //    if ($spkl) {
+         //       // $spkl->update([
+         //       //    'date' => '2025-10-21',
+         //       //    'date_origin' => $spkl->date
+         //       // ]);
+         //       $listSpkl[] = $spkl; 
+         //       $totalrate += $spkl->rate;
+         //    }
+            
+         //    $employee[] = $bug->employee->biodata->fullName();
+         // }
+         // dd($listSpkl);
+
+
+
          // $parents = OvertimeParent::where('status', 1)->where('leader_id', 51)->get();
          // foreach($parents as $parent){
          //    $parent->update([
@@ -47,7 +106,8 @@ class OvertimeEmployeeController extends Controller
       }
       // dd('ok');
       // $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spkls = OvertimeEmployee::where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
+      $cut = Carbon::create('19-09-2025');
+      $spkls = OvertimeEmployee::where('status', '>=', 0)->orderBy('updated_at', 'desc')->paginate(1500);
       // dd($spkls);
       $spklGroups = OvertimeParent::where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
       return view('pages.absence-request.admin.spkl', [
@@ -235,7 +295,7 @@ class OvertimeEmployeeController extends Controller
 
 
    public function indexHrd(){
-      $spklApprovals = OvertimeEmployee::where('status', 3)->orderBy('date', 'desc')->get();
+      $spklApprovals = OvertimeEmployee::where('status', 3)->orderBy('date', 'desc')->paginate(700);
 
       if (auth()->user()->hasRole('HRD-KJ12')) {
          $employees = Employee::where('status', 1)->whereIn('location_id', [3,20])->get();
@@ -266,7 +326,7 @@ class OvertimeEmployeeController extends Controller
    }
 
    public function historyHrd(){
-      $spklHistories = OvertimeEmployee::whereNotIn('status', [0,3])->orderBy('date', 'desc')->get();
+      $spklHistories = OvertimeEmployee::whereNotIn('status', [0,3])->orderBy('date', 'desc')->paginate(2000);
 
       if (auth()->user()->hasRole('HRD-KJ12')) {
          $spklHistories = OvertimeEmployee::whereNotIn('status', [0,3])->whereIn('location_id', [3,20])->orderBy('date', 'desc')->get();
@@ -295,7 +355,7 @@ class OvertimeEmployeeController extends Controller
    public function progress(){
       // dd('ok');
       $employee = Employee::where('nik', auth()->user()->username)->first();
-      $spkls = OvertimeEmployee::where('employee_id', $employee->id)->where('status', '>', 0)->where('status', '!=', 4)->orderBy('updated_at', 'desc')->get();
+      $spkls = OvertimeEmployee::where('employee_id', $employee->id)->where('status', '>', 0)->orderBy('updated_at', 'desc')->get();
       // dd($spkls);
       return view('pages.spkl.progress', [
          'spkls' => $spkls
@@ -349,7 +409,8 @@ class OvertimeEmployeeController extends Controller
          'employee' => $employee,
          'employeeLeaders'=> $employeeLeaders,
          'leader' => $leader,
-         'managers' => $managers
+         'managers' => $managers,
+         'today' => Carbon::now()->format('Y-m-d')
          // 'managers' => 
       ]);
    }
@@ -377,7 +438,8 @@ class OvertimeEmployeeController extends Controller
          'employees' => $employees,
          'teams' => $teams,
          'employeeLeaders'=> $employeeLeaders,
-         'leader' => $leader
+         'leader' => $leader,
+         'today' => Carbon::now()->format('Y-m-d')
       ]);
    }
 
@@ -441,14 +503,36 @@ class OvertimeEmployeeController extends Controller
       // $duplicate = OvertimeEmployee::where('employee_id', $employee->id)->where('')
 
       // dd($intH_end);
-      $start = Carbon::Create( $req->hours_start);
-      $end = Carbon::Create( $req->hours_end);
-      $diffTime = $end->diffInMinutes($start);
-      $h = $diffTime / 60 ;
-      $hm = floor($h) * 60;
-      $msisa = $diffTime - $hm;
+      // $start = Carbon::Create( $req->hours_start);
+      // $end = Carbon::Create( $req->hours_end);
+      // $diffTime = $end->diffInMinutes($start);
+      // $h = $diffTime / 60 ;
+      // $hm = floor($h) * 60;
+      // $msisa = $diffTime - $hm;
 
-      $intH = floatval(floor($h) . '.' .  $msisa);
+      // $intH = floatval(floor($h) . '.' .  $msisa);
+
+         $start = Carbon::createFromFormat('H:i', $req->hours_start);
+         $end   = Carbon::createFromFormat('H:i', $req->hours_end);
+
+         // kalau jam selesai bisa melewati tengah malam:
+         if ($end->lessThan($start)) {
+            $end->addDay();
+         }
+
+         $totalJam = $end->diffInHours($start);
+         
+         $totalMenit = $end->diffInMinutes($start);
+         // dd($totalMenit);
+
+         $pengurang = 60 * $totalJam;
+         $menit = $totalMenit - $pengurang;
+
+        
+
+         
+
+         $intH = floatval(floor($totalJam) . '.' .  $menit);
 
       // dd($intH);
     
@@ -494,6 +578,18 @@ class OvertimeEmployeeController extends Controller
          $finalHour = $intH;
       }
 
+      if($req->has('rest')){
+         $finalHour = $intH - 1;
+         $rest = 1;
+      }else{
+         $finalHour = $intH;
+         $rest = 0;
+      }
+
+      if ($employee->nik == 'EN-4-095') {
+         // dd($finalHour);
+      }
+
 
       $spkl = OvertimeEmployee::create([
          'status' => 0,
@@ -517,7 +613,8 @@ class OvertimeEmployeeController extends Controller
          'doc' => $doc,
          'by_id' => $employee->id,
          'leader_id' => $req->leader,
-         'manager_id' => $req->manager
+         'manager_id' => $req->manager,
+         'rest' => $rest
       ]);
 
       
@@ -563,14 +660,36 @@ class OvertimeEmployeeController extends Controller
       }
 
 
-      $start = Carbon::CreateFromFormat('H:i', $req->hours_start);
-      $end = Carbon::CreateFromFormat('H:i', $req->hours_end);
-      $diffTime = $end->diffInMinutes($start);
-      $h = $diffTime / 60 ;
-      $hm = floor($h) * 60;
-      $msisa = $diffTime - $hm;
+      // $start = Carbon::CreateFromFormat('H:i', $req->hours_start);
+      // $end = Carbon::CreateFromFormat('H:i', $req->hours_end);
+      // $diffTime = $end->diffInMinutes($start);
+      // $h = $diffTime / 60 ;
+      // $hm = floor($h) * 60;
+      // $msisa = $diffTime - $hm;
 
-      $intH = floatval(floor($h) . '.' .  $msisa);
+      // $intH = floatval(floor($h) . '.' .  $msisa);
+
+      $start = Carbon::createFromFormat('H:i', $req->hours_start);
+         $end   = Carbon::createFromFormat('H:i', $req->hours_end);
+
+         // kalau jam selesai bisa melewati tengah malam:
+         if ($end->lessThan($start)) {
+            $end->addDay();
+         }
+
+         $totalJam = $end->diffInHours($start);
+         
+         $totalMenit = $end->diffInMinutes($start);
+         // dd($totalMenit);
+
+         $pengurang = 60 * $totalJam;
+         $menit = $totalMenit - $pengurang;
+
+        
+
+         
+
+         $intH = floatval(floor($totalJam) . '.' .  $menit);
 
       // dd($intH);
       if($req->has('rest')){
@@ -638,6 +757,18 @@ class OvertimeEmployeeController extends Controller
          } elseif($req->type == 2 ){
             $code = 'FHRD/FP/' . $date->format('m') . '/' . $date->format('Y') .$id ;
          } 
+
+         $duplicate = OvertimeEmployee::where('employee_id', $employee->id)->where('type', $req->type)->where('date', $req->date)->where('hours_start', $req->hours_start)->first();
+         // dd($duplicate);
+         if ($duplicate != null) {
+            $duplicateId = $duplicate->id;
+            $remark = 'duplicate';
+         } else {
+            $remark = null;
+            $duplicateId = null;
+         }
+
+
          
 
 
@@ -663,7 +794,10 @@ class OvertimeEmployeeController extends Controller
             'doc' => $doc, 
             'by_id' => $user->id,
             'leader_id' => $req->leader,
-            'manager_id' => $req->manager
+            'manager_id' => $req->manager,
+
+            'remark' => $remark,
+            'duplicate_id' => $duplicateId
          ]);
 
 
@@ -820,7 +954,15 @@ class OvertimeEmployeeController extends Controller
 
       // dd($start);
 
+      $lastUnitTransaction = UnitTransaction::where('status', '>', 0)->where('unit_id', $empSpkl->employee->unit_id)->latest()->first();
+      
+      $transfer = 0;
+      if ($empSpkl->date >= $lastUnitTransaction->cut_from && $empSpkl->date <= $lastUnitTransaction->cut_to) {
+         $transfer = 1;
+      }
+
       return view('pages.spkl.detail', [
+         'transfer' => $transfer,
          'empSpkl' => $empSpkl,
          'currentSpkl' => $currentSpkl,
          'type' => dekripRambo($type)
@@ -829,6 +971,34 @@ class OvertimeEmployeeController extends Controller
 
    public function detailMultiple($id, $type){
       $empSpkl = OvertimeParent::find(dekripRambo($id));
+
+
+      $spkls = OvertimeEmployee::where('parent_id', $empSpkl->id)->get();
+      // dd($spkls);
+      foreach($spkls as $spkl){
+         if ($spkl->remark == 'duplicate') {
+            $duplicate = OvertimeEmployee::find($spkl->duplicate_id);
+            // dd('ok');
+            if ($duplicate == null) {
+               $spkl->update([
+                  'duplicate_id' => null,
+                  'remark' => null
+               ]);
+            } else{
+               if($duplicate->status == 201 || $duplicate->status == 301 || $duplicate->status == 401){
+                  $spkl->update([
+                     'duplicate_id' => null,
+                     'remark' => null
+                  ]);
+               }
+            }
+
+
+         }
+      }
+      // foreach($empSpkl->overtimes as $over){
+      //    $
+      // }
 
       // if (auth()->user()->hasRole('Administrator')) {
       //    $multiples = OvertimeParent::where('by_id', 20)->where('status', 1)->get();
@@ -912,6 +1082,12 @@ class OvertimeEmployeeController extends Controller
       $empSpkls = OvertimeEmployee::where('parent_id', $parent->id)->get();
       $now = Carbon::now();
 
+      $empSpklDuplicate = OvertimeEmployee::where('parent_id', $parent->id)->where('remark', 'duplicate')->first();
+      if ($empSpklDuplicate != null) {
+         
+         return redirect()->back()->with('danger', 'Ada karyawan yg memiliki Duplicate Form di sistem, hapus karyawan tersebut terlebih dahulu ');
+      }
+
       foreach($empSpkls as $empSpkl){
          $empSpkl->update([
             'status' => 1,
@@ -945,6 +1121,14 @@ class OvertimeEmployeeController extends Controller
       return redirect()->route('employee.spkl')->with('success', 'Form Pengajuan berhasil dihapus');
    }
 
+    public function remove($id){
+      $empSpkl = OvertimeEmployee::find(dekripRambo($id));
+
+      $empSpkl->delete();
+
+      return redirect()->back()->with('success', 'Form Pengajuan berhasil dihapus');
+   }
+
    public function deleteMultiple($id){
       $empSpkl = OvertimeParent::find(dekripRambo($id));
       foreach($empSpkl->overtimes as $over){
@@ -963,7 +1147,7 @@ class OvertimeEmployeeController extends Controller
       $spklEmp = OvertimeEmployee::find(dekripRambo($id));
       $empLogin = Employee::where('nik', auth()->user()->username)->first();
 
-      if ($spklEmp->leader_id == $empLogin->id) {
+      if ($spklEmp->leader_id == $empLogin->id &&  $spklEmp->status == 1) {
          $spklEmp->update([
             'status' => 2,
             'leader_id' => $empLogin->id,
@@ -1232,13 +1416,22 @@ class OvertimeEmployeeController extends Controller
 
       $date = Carbon::create($empSpkl->date);
 
+
+      if ($req->date == $empSpkl->date) {
+         $realDate = $empSpkl->date;
+         $fakeDate = null;
+      } else {
+         $realDate = $req->date;
+         $fakeDate = $empSpkl->date;
+      }
+
          $overtime = Overtime::create([
             'status' => 1,
             'location_id' => $locId,
             'employee_id' => $employee->id,
             'month' => $empSpkl->month,
             'year' => $empSpkl->year,
-            'date' => $empSpkl->date,
+            'date' => $realDate,
             'type' => $req->type,
             'hour_type' => $hour_type,
             'holiday_type' => $req->holiday_type,
@@ -1247,7 +1440,8 @@ class OvertimeEmployeeController extends Controller
             'rate' => round($rate),
             'description' => $empSpkl->description,
             'doc' => $doc,
-            'overtime_employee_id' => $empSpkl->id
+            'overtime_employee_id' => $empSpkl->id,
+            'date_origin' => $fakeDate
          ]);
 
 
@@ -1380,7 +1574,8 @@ class OvertimeEmployeeController extends Controller
                }
             }
 
-            $qty += 1;
+            $spkls = OvertimeEmployee::where('parent_id', $spklGroup->id)->get();
+            $qty += count($spkls);
          }
       }
 

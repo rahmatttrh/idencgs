@@ -425,8 +425,13 @@ Payslip Report {{$unit->name}} {{$unitTransaction->month}} {{$unitTransaction->y
                      </tr>
                      <tr>
                         <td>
-                           @if ($hrd)
+                           {{-- @if ($hrd)
                               {{$hrd->employee->biodata->fullName()}}
+                           @endif --}}
+                           @if ($unit->id == 2 || $unit->id == 3 || $unit->id == 6 || $unit->id == 23 || $unit->id == 24 || $unit->id == 5 || $unit->id == 22 || $unit->id == 11 || $unit->id == 12 || $unit->id == 15 || $unit->id == 19)
+                           Tri Buanawati Asri
+                           @else
+                           Cheppy Anugrah
                            @endif
                            
                         </td>
@@ -462,8 +467,9 @@ Payslip Report {{$unit->name}} {{$unitTransaction->month}} {{$unitTransaction->y
                      </tr>
                      <tr>
                         <td>
-                           @if ($hrd)
                            HRD Payroll 
+                           @if ($hrd)
+                           
                            {{formatDateTime($hrd->created_at)}} 
                            @endif
                            {{-- Payroll --}}

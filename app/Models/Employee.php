@@ -10,6 +10,12 @@ class Employee extends Model
    use HasFactory;
    protected $guarded = [];
 
+    public function getSpklDate($date){
+      $spkls = Overtime::where('date', $date)->get();
+
+      return $spkls;
+   }
+
    public function getProject(){
       $contract = Contract::find($this->contract_id);
       $project = Project::find($contract->project_id);

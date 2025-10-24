@@ -152,7 +152,8 @@ PE
                         <div class="button-group">
                             {{-- @if(isset($pd) && $pd->pdds->count() == 6) --}}
                             
-                            @if(isset($pd) && $pd->pdds->count() == 6)
+                            {{-- @if(isset($pd) && $pd->pdds->count() == 6) --}}
+                            @if(isset($pd) )
                             
                             <button class="btn btn-xs btn-light" data-toggle="modal" data-target="#modal-submit-{{$kpa->id}}"><i class="fas fa-rocket"></i> Submit </button>
                             <!-- <x-modal.submit :id="$pe->id" :body="'KPI ' . $kpa->employe->biodata->fullName() . ' semester '. $kpa->semester.' '. $pe->tahun " url="{{route('qpe.submit', enkripRambo($pe->id))}}" /> -->

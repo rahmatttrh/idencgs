@@ -330,13 +330,16 @@ Form Perubahan Absence
                         {{-- {{$employee->n}} --}}
                            
                         </td>
-                        @if (auth()->user()->hasRole('Administrator'))
-                        <td>-</td>
-                            @else
-                            <td>
+                        {{-- @if (auth()->user()->hasRole('Karyawan'))
+                        <td>-</td> --}}
+                            {{-- @else --}}
+                           <td>
                               @if ($absenceEmp->status == 0)
                               <a href="{{route('employee.absence.detail.delete', enkripRambo($detail->id))}}">Remove</a>
                               @endif
+
+                              @if (auth()->user()->hasRole('Administrator'))
+                              @else
                               @if ($user->id == $absenceEmp->leader_id && $absenceEmp->status == 1)
                                  <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a data-toggle="modal" data-target="#modal-reject-tanggal-{{$detail->id}}" href="#">Reject</a>
                                  
@@ -406,7 +409,10 @@ Form Perubahan Absence
                                  
                                  
                               @endif
+                              @endif
    
+                              @if (auth()->user()->hasRole('Administrator'))
+                              @else
                               @if ($user->id == $absenceEmp->manager_id && $absenceEmp->status == 2)
                                  <a href="#"  data-target="#modal-edit-tanggal-{{$detail->id}}" data-toggle="modal">Change</a> | <a href="#modal-reject-tanggal-{{$detail->id}}">Reject</a>
                                  
@@ -477,16 +483,85 @@ Form Perubahan Absence
                                  
                                  
                               @endif
+                              @endif
+
+                              @if (auth()->user()->hasRole('HRD-Payroll') || auth()->user()->hasRole('HRD-KJ12') || auth()->user()->hasRole('HRD-KJ45') || auth()->user()->hasRole('HRD-JGC') || auth()->user()->hasRole('Administrator'))
+                                 @foreach ($alpha as $a)
+                                     @if ($a->date == $detail->date)
+                                     <a href="#" data-target="#modal-refund-absence-{{$detail->id}}" data-toggle="modal" >Refund</a>
+                                     @endif
+                                 @endforeach
+                              
+                              @endif
                            </td>
-                        @endif
+                        {{-- @endif --}}
                        
                      </tr>
+
+                     @foreach ($alpha as $a)
+                           @if ($a->date == $detail->date)
+                           <tr>
+                              <td colspan="2" class="text-danger">Potongan Alpha {{formatDate($detail->date)}}</td>
+                           </tr>
+                           
+                           @endif
+                     @endforeach
+                     @if ($detail->additional_id != null)
+                         <tr>
+                           <td colspan="2"><i class="fa fa-check text-success"></i> Pengembalian {{formatDate($detail->additional->date)}}</td>
+                         </tr>
+                         <tr>
+                           <td colspan="2"></td>
+                         </tr>
+                     @endif
+
                         @if ($detail->remark != null)
                            <tr>
                               <td></td>
                               <td colspan="2" class="text-muted">{{$detail->remark}}</td>
                            </tr>
                         @endif
+
+                           <div class="modal fade" id="modal-refund-absence-{{$detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                           <div class="modal-dialog " role="document">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirmation<br>
+                                       
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                 </div>
+                                 <form action="{{route('employee.absence.refund')}}" method="POST" >
+                                    <div class="modal-body">
+                                       @csrf
+                                       <input type="text" value="{{$detail->id}}" name="detail" id="detail" hidden>
+                                       {{-- <span>Reject this Form Absence ?</span>
+                                       <hr> --}}
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                             <div class="form-group form-group-default">
+                                                <label>Pengembalian ke Tanggal</label>
+                                                <input type="date" class="form-control" required  name="date" id="date"  >
+                                             </div>
+                                          </div>
+                                       </div>
+                                      
+                                       <small>Potongan atas tanggal {{formatDate($detail->date)}} akan dikembalikan pada Periode Gaji Berikutnya (sesuai tanggal yang dipilih)</small> <br>
+                                       <br>
+                                       <small>Nominal Pengembalian akan otomatis masuk ke Tunjangan Lain-lain <br> (Menu Payroll -> Others)</small>
+                                    </div>
+                                    <div class="modal-footer">
+                                       <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                                       <a href="{{route('employee.absence.refund.delete', enkripRambo($detail->id))}}" class="btn btn-light border">Remove</a>
+                                       <button type="submit" class="btn btn-danger ">Refund</button>
+                                    </div>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+
                      @endforeach
                      
                   @endif
@@ -585,6 +660,22 @@ Form Perubahan Absence
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
+         @if ($transfer == 1)
+         
+         <table>
+            <tbody>
+               <tr>
+                  <td class="bg-danger text-white">
+                     Form Absensi Telat diajukan / melewati tanggal Cut Off Payslip. <br>
+                     Tanggal @foreach ($alpha as $a)
+                          <b>{{formatDate($a->date)}}, </b>
+                     @endforeach
+                     terhitung Alpha
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         @endif
 
 
          <x-absence.pdf :absenceemp="$absenceEmp" :absdetails="$absenceEmployeeDetails" :cuti="$cuti" :employee="$employee" />

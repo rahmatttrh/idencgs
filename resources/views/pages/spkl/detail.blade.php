@@ -15,7 +15,7 @@ Form Lembur/Piket
    </nav>
 
    <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4">
          @if ($empSpkl->status == 0)
          <a href="" class="btn mb-2 btn-primary m btn-block" data-target="#modal-release-spkl" data-toggle="modal">Release</a>
          @endif
@@ -23,7 +23,7 @@ Form Lembur/Piket
          @if ($empSpkl->status == 1 && auth()->user()->getEmployeeId() == $empSpkl->leader_id)
             @if (auth()->user()->hasRole('Leader|Supervisor|Asst. Manager'))
             <span class="btn btn-group btn-block p-0" >
-               <a href="" class="btn mb-2 btn-primary  btn-block" data-target="#modal-approve-spkl" data-toggle="modal">Approve</a>
+               <a href="" class="btn mb-2 btn-primary  btn-block" data-target="#modal-approve-spkl" data-toggle="modal">Approve as Leader</a>
                <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-spkl" data-toggle="modal">Reject</a>
                
             </span>
@@ -34,7 +34,7 @@ Form Lembur/Piket
          @if ($empSpkl->status == 2)
             @if (auth()->user()->hasRole('Manager') )
             <span class="btn btn-group btn-block p-0" >
-               <a href="" class="btn mb-2 btn-primary  btn-block" data-target="#modal-approve-spkl" data-toggle="modal">Approve </a>
+               <a href="" class="btn mb-2 btn-primary  btn-block" data-target="#modal-approve-spkl" data-toggle="modal">Approve as Manager</a>
                <a href="#" class="btn mb-2 btn-danger" data-target="#modal-reject-spkl" data-toggle="modal">Reject</a>
                
             </span>
@@ -173,10 +173,10 @@ Form Lembur/Piket
 
 
 
-         @if (auth()->user()->hasRole('HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
+         @if (auth()->user()->hasRole('Administrator|HRD-Payroll|HRD-KJ12|HRD-KJ45|HRD-JGC'))
              
          
-            @if ($empSpkl->status == 3 ||$empSpkl->status == 4 )
+            @if ($empSpkl->status == 3 ||$empSpkl->status == 4  ||$empSpkl->status == 5 )
             <form action="{{route('employee.spkl.hrd.approve')}}" method="POST">
             <table>
                
@@ -238,6 +238,17 @@ Form Lembur/Piket
                            
                         </td>
                      </tr>
+                     <tr>
+                        <td>Transfer</td>
+                        <td>
+                           @if ($currentSpkl)
+                           <input class="form-control" type="date" name="date" id="date" value="{{$currentSpkl->date}}">
+                           @else
+                           <input class="form-control" type="date" name="date" id="date" value="{{$empSpkl->date}}">
+                           @endif
+                           
+                        </td>
+                     </tr>
                   
                </form>
             </table>
@@ -274,7 +285,19 @@ Form Lembur/Piket
          
          
       </div>
-      <div class="col-md-9">
+      <div class="col-md-8">
+         @if (auth()->user()->hasRole('Administrator|HRD|HRD-Recruitment|HRD-Payroll|HRD-KJ45|HRD-KJ12|HRD-JGC'))
+            @if ($transfer == 1)
+         
+            <table>
+               <tbody>
+                  <tr>
+                     <td class="bg-danger text-white" >Tanggal SPKL masuk kedalam periode Cut Off Payslip yang sudah di submit. pilih tanggal di bagian <b>Alihkan</b> untuk mengalihkan ke periode berikutnya. </td>
+                  </tr>
+               </tbody>
+            </table>
+            @endif
+         @endif
          {{-- <h4>Detail Lembur/Piket</h4>
          <hr> --}}
          {{-- @if ($empSpkl->status == 0)
@@ -359,7 +382,7 @@ Form Lembur/Piket
                            @else
                            {{$empSpkl->hours}}
                            @endif
-                      Jam
+                      ( Jam.Menit )
                   </td>
                </tr>
                @endif

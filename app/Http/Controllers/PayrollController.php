@@ -33,7 +33,7 @@ class PayrollController extends Controller
       //       'payslip_status' => 'show'
       //    ]);
       // }
-      $employees = Employee::where('status', 1)->where('unit_id', dekripRambo($unit))->get();
+      $employees = Employee::where('status', 1)->where('unit_id', dekripRambo($unit))->where('id', 230)->get();
       // dd($employees);
       // $transactionCon = new TransactionController;
       // $transactions = Transaction::where('status', '!=', 3)->get();
@@ -43,7 +43,9 @@ class PayrollController extends Controller
       $locations = Location::get();
       foreach($employees as $employee){
 
+
          $redEmpExists = ReductionEmployee::where('employee_id', $employee->id)->get();
+         // dd($redEmpExists);
          foreach($redEmpExists as $red){
             $red->delete();
          }
@@ -86,6 +88,7 @@ class PayrollController extends Controller
                   // dd($bebanKaryawan);
                   $bebanKaryawanReal = ($red->employee * $salary) / 100;
                   $selisih = $bebanKaryawanReal - $bebanKaryawan;
+                  // dd($selisih);
                   $bebanPerusahaanReal = $bebanPerusahaan + $selisih;
                   // $bebanKaryawanReal = ($red->reduction->employee * $salary) / 100;
                   // $selisih = $bebanKaryawanReal - $bebanKaryawan;
@@ -115,6 +118,7 @@ class PayrollController extends Controller
                      $bebanPerusahaanReal = $bebanPerusahaan;
                   }
                }
+               // dd($salary);
                // if($employee->unit_id == 9){
                //    if ($payroll->pokok <= $red->min_salary) {
                //       // dd('kurang dari minimum gaji');
@@ -195,7 +199,7 @@ class PayrollController extends Controller
                //    }
                // }
    
-               
+               // dd($bebanPerusahaan);
                if (!$currentRed) {
                   ReductionEmployee::create([
                      'reduction_id' => $red->id,
@@ -231,8 +235,12 @@ class PayrollController extends Controller
             $redEmployees = [];
          }
 
+         // dd($redEmployees);
+
 
       }
+
+
 
       return redirect()->back()->with('success', 'Data Payroll selesai di kalibrasi');
    }

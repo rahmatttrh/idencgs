@@ -89,6 +89,7 @@ SPKL
                      @if ($employee->unit->hour_type == 1)
                      {{$employee->getOvertimes($from, $to)->where('type', 1)->sum('hours')}}
                         @elseif ($employee->unit->hour_type == 2)
+                        {{-- {{count($employee->getSpkl($from, $to)->where('type', 2))}} ok --}}
                         {{$employee->getOvertimes($from, $to)->where('type', 1)->sum('hours_final')}}
                      @endif
                      Jam

@@ -21,6 +21,8 @@
       <!-- End Logo Header -->
 
       <!-- Navbar Header -->
+      
+      
       <nav class="navbar navbar-header navbar-expand-lg">
          <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
@@ -29,6 +31,7 @@
                         <i class="fa fa-search"></i>
                   </a>
                </li>
+
 
                <li class="nav-item dropdown hidden-caret">
                   <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,14 +47,14 @@
                            <div class="notif-center">
                               @foreach ($announcements as $ann)
                               <a href="{{route('announcement.detail', enkripRambo($ann->id))}}">
-                                 {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}
+                                 
                                  <div class="notif-content pl-4">
                                     <span class="block">
                                        
                                        <b>{{$ann->title}}</b>   <br>
                                       <small>Broadcast from HRD </small>
                                     </span>
-                                    {{-- <span class="time">Rekomendasi HRD -</span>  --}}
+                                    
                                     <span class="time">{{$ann->updated_at->diffForHumans()}}</span> 
                                  </div>
                               </a>
@@ -82,12 +85,12 @@
                            <div class="notif-center">
                               @foreach ($tegurans as $st)
                               <a href="{{route('st.detail', enkripRambo($st->id))}}">
-                                 {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}
+                                 
                                  <div class="notif-content pl-4">
                                     <span class="block">
                                        
                                       TEGURAN  {{$st->employee->nik}} {{$st->employee->biodata->fullName()}} <br>
-                                      {{-- <small><x-status.st :st="$st" /> </small> --}}
+                                     
                                     </span>
                                     <span class="time">dari HRD -</span> 
                                     <span class="time">{{$st->updated_at->diffForHumans()}}</span> 
@@ -96,7 +99,7 @@
                               @endforeach
                               @foreach ($spRecomends as $spRec)
                               <a href="{{route('sp.detail', enkripRambo($spRec->id))}}">
-                                 {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}
+                                 
                                  <div class="notif-content pl-4">
                                     <span class="block">
                                        
@@ -110,7 +113,7 @@
                               @endforeach
                               @foreach ($notifSp as $sp)
                               <a href="{{route('sp.detail', enkripRambo($sp->id))}}">
-                                 {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}
+                                
                                  <div class="notif-content pl-4">
                                     <span class="block">
                                        
@@ -129,12 +132,12 @@
                                     <a href="{{route('qpe.show', enkripRambo($pe->kpa->id))}}">
                                  @endif
                               
-                                 {{-- <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div> --}}
+                                 
                                  <div class="notif-content pl-4">
                                     <span class="block">
                                        
                                       QPE {{$pe->employe->nik}} {{$pe->employe->biodata->fullName()}} <br> Semester {{$pe->semester}} {{$pe->tahun}} <br>
-                                      {{-- <small>Need Discuss Process</small> --}}
+                                      
                                       @if ($pe->status == 1)
                                           Need Approval
                                           @elseif($pe->status == 202)
@@ -297,5 +300,6 @@
             </ul>
          </div>
       </nav>
+      
       <!-- End Navbar -->
    </div>

@@ -10,6 +10,10 @@ class OvertimeEmployee extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function duplicate(){
+      return $this->belongsTo(OvertimeEmployee::class, 'duplicate_id');
+    }
    
     public function employee(){
       return $this->belongsTo(Employee::class);

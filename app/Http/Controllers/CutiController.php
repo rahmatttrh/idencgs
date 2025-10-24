@@ -559,17 +559,26 @@ class CutiController extends Controller
          $expired = Carbon::create($cuti->expired);
          
          
-         if ($cuti->expired > $today) {
+         if ($expired > $today) {
             $extend = $cuti->extend;
             // dd('ada');
+            // if (auth()->user()->hasRole('Administrator')) {
+            //    dd('ada');
+            // }
             
          } else {
          //   dd('o');
+      //    if (auth()->user()->hasRole('Administrator')) {
+      //    dd('ok');
+      // }
             $extend = 0;
          }
       } else {
          $extend = $cuti->extend;
       }
+
+
+      
       // dd('ok');
 
 

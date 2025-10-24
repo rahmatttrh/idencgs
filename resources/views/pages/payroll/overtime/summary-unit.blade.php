@@ -113,7 +113,7 @@ Summary Absence
           </table>
 
           <a href="{{route('summary.overtime.export.excel', [enkripRambo($from), enkripRambo($to), enkripRambo($unit->id)])}}" class="btn btn-primary mt-2"><i class="fa fa-file"></i> Export Excel</a>
-        
+          <a href="{{route('summary.overtime.export.pdf', [enkripRambo($from), enkripRambo($to), enkripRambo($unit->id)])}}" class="btn btn-primary mt-2" target="_blank"><i class="fa fa-file"></i> Export PDF</a>
       </div>
       <div class="col-md-9">
          <div class="collapse" id="collapseExample">

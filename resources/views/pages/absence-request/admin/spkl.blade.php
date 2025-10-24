@@ -137,7 +137,7 @@ SPKL
                      </td>
 
                      <td class="text-truncate">
-                        {{$spkl->created_at}}
+                        {{$spkl->updated_at}}
                      </td>
 
                   </tr>

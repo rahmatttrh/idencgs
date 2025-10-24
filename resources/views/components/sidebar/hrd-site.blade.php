@@ -105,12 +105,34 @@
       <p>Info Cuti </p>
    </a>
 </li>
-<li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+{{-- <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
    <a href="#" data-placement="top" title="Fitur Payslip masih dalam tahap pengembangan">
       <i class="fas fa-coins"></i>
       <p>Payslip</p>
    </a>
+</li> --}}
+
+{{-- <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+   <a href="{{route('payroll.transaction.employee')}}" data-toggle="tooltip" data-placement="top" title="Fitur Payslip masih dalam tahap pengembangan">
+      <i class="fas fa-coins"></i>
+      <p>Payslip</p>
+   </a>
+</li> --}}
+@if ($employee->pin != null)
+<li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+   <a href="#" data-target="#modal-pin-payslip" data-toggle="modal">
+      <i class="fas fa-coins"></i>
+      <p>Payslip</p>
+   </a>
 </li>
+    @else
+    <li class="nav-item {{ (request()->is('employee/payroll/*')) ? 'active' : '' }}">
+      <a href="#" data-target="#modal-create-pin-payslip" data-toggle="modal">
+         <i class="fas fa-coins"></i>
+         <p>Payslip</p>
+      </a>
+   </li>
+@endif
 <li class="nav-item {{ (request()->is('employee/sp/*')) ? 'active' : '' }}">
    <a href="{{route('sp.employee')}}">
       <i class="fas fa-bolt"></i>

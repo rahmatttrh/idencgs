@@ -53,6 +53,22 @@ class Location extends Model
       return $total;
    }
 
+   public function totalEmployeeBpjs($id)
+   {
+      // if (auth()->user()->hasRole('Administrator')) {
+      //    $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      // } else {
+      //    $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('project_id', null)->where('status', 1)->get();
+      // }
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
+      
+      // dd($employees);
+      // $transactions =
+      $total = count($employees);
+      // dd('ok');
+      return $total;
+   }
+
    public function totalAbsence($id, $from, $to){
       $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->where('status', 1)->get();
       $total = 0;
@@ -138,6 +154,24 @@ class Location extends Model
       return $transactions;
    }
 
+   public function getUnitTransactionB($id, $unitTrans)
+   {
+      $employees = Employee::where('location_id', $this->id)->where('unit_id', $id)->get();
+      $employeeId = [];
+
+      
+
+      foreach($employees as $emp){
+         $employeeId[] = $emp->id;
+      }
+
+      
+
+      $transactions = Transaction::whereIn('employee_id', $employeeId)->where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      // dd();
+      return $transactions;
+   }
+
    public function getUnitTransactionBpjs($id, $unitTrans)
    {
       $value = 0;
@@ -150,13 +184,156 @@ class Location extends Model
          $unitReductionBpjs = Reduction::where('unit_id', $employee->unit_id)->where('name', 'BPJS KS')->first();
          $employeeReductionBpjs = ReductionEmployee::where('employee_id', $employee->id)->where('reduction_id', $unitReductionBpjs->id)->first();
 
-         // if ($employeeReductionBpjs->status == 1) {
-         //    $payroll= Payroll::find($tran->payroll_id);
-         //    $value += $payroll->total;
+         if ($employeeReductionBpjs->status == 1) {
+            $payroll= Payroll::find($tran->payroll_id);
+
+            if ($payroll->total <= $unitReductionBpjs->min_salary){
+               $payslipTotal = $unitReductionBpjs->min_salary;
+            } 
+            elseif($payroll->total >= $unitReductionBpjs->max_salary){
+               $payslipTotal = $unitReductionBpjs->max_salary;
+            } 
+            else {
+               // dd($payroll->total , ' max: ' . $unitReductionBpjs->max_salary);
+               $payslipTotal = $payroll->total;
+            }
+
+            $value += $payslipTotal;
+         }
+
+         // $payroll= Payroll::find($tran->payroll_id);
+
+         // if ($payroll->total <= $unitReductionBpjs->min_salary){
+         //    $payslipTotal = $unitReductionBpjs->min_salary;
+         // } else {
+         //    $payslipTotal = $payroll->total;
          // }
 
+         
+
+         
+      }
+      return $value;
+   }
+
+
+   public function getUnitTransactionBpjsB($id, $unitTrans)
+   {
+      $value = 0;
+      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      
+      // dd(count($transactions));
+
+      foreach($transactions as $tran){
+         $employee = Employee::find($tran->employee_id);
+         $unitReductionBpjs = Reduction::where('unit_id', $employee->unit_id)->where('name', 'BPJS KS')->first();
+         $employeeReductionBpjs = ReductionEmployee::where('employee_id', $employee->id)->where('reduction_id', $unitReductionBpjs->id)->first();
          $payroll= Payroll::find($tran->payroll_id);
-         $value += $payroll->total;
+         $payslipTotal = $payroll->total;
+
+            $value += $payslipTotal;
+         // if ($employeeReductionBpjs->status == 1) {
+         //    $payroll= Payroll::find($tran->payroll_id);
+
+         //    // if ($payroll->total <= $unitReductionBpjs->min_salary){
+         //    //    $payslipTotal = $unitReductionBpjs->min_salary;
+         //    // } 
+         //    // // elseif($payroll->total >= $unitReductionBpjs->max_salary){
+         //    // //    $payslipTotal = $unitReductionBpjs->max_salary;
+         //    // // } 
+         //    // else {
+         //    //    $payslipTotal = $payroll->total;
+         //    // }
+
+         //    $payslipTotal = $payroll->total;
+
+         //    $value += $payslipTotal;
+         // }
+
+         // $payroll= Payroll::find($tran->payroll_id);
+
+         // if ($payroll->total <= $unitReductionBpjs->min_salary){
+         //    $payslipTotal = $unitReductionBpjs->min_salary;
+         // } else {
+         //    $payslipTotal = $payroll->total;
+         // }
+
+         
+
+         
+      }
+      return $value;
+   }
+
+    public function getUnitTransactionKt($id, $unitTrans, $name)
+   {
+      $value = 0;
+      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      
+      // dd(count($transactions));
+
+      foreach($transactions as $tran){
+         $employee = Employee::find($tran->employee_id);
+         $unitReductionBpjs = Reduction::where('unit_id', $employee->unit_id)->where('name', $name)->first();
+         $employeeReductionBpjs = ReductionEmployee::where('employee_id', $employee->id)->where('reduction_id', $unitReductionBpjs->id)->first();
+
+         if ($employeeReductionBpjs->status == 1) {
+            $payroll= Payroll::find($tran->payroll_id);
+
+            if ($payroll->total <= $unitReductionBpjs->min_salary){
+               $payslipTotal = $unitReductionBpjs->min_salary;
+            }
+            elseif($payroll->total >= $unitReductionBpjs->max_salary){
+               $payslipTotal = $unitReductionBpjs->max_salary;
+            } 
+            else {
+               $payslipTotal = $payroll->total;
+            }
+
+            $value += $payslipTotal;
+         }
+         
+
+         
+
+         
+      }
+      return $value;
+   }
+
+   public function getUnitTransactionKtB($id, $unitTrans, $name)
+   {
+      $value = 0;
+      $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
+      
+      // dd(count($transactions));
+
+      foreach($transactions as $tran){
+         $employee = Employee::find($tran->employee_id);
+         $unitReductionBpjs = Reduction::where('unit_id', $employee->unit_id)->where('name', $name)->first();
+         $employeeReductionBpjs = ReductionEmployee::where('employee_id', $employee->id)->where('reduction_id', $unitReductionBpjs->id)->first();
+
+         if ($employeeReductionBpjs->status == 1) {
+            $payroll= Payroll::find($tran->payroll_id);
+
+            // if ($payroll->total <= $unitReductionBpjs->min_salary){
+            //    $payslipTotal = $unitReductionBpjs->min_salary;
+            // }
+            // elseif($payroll->total >= $unitReductionBpjs->max_salary){
+            //    $payslipTotal = $unitReductionBpjs->max_salary;
+            // } 
+            // else {
+            //    $payslipTotal = $payroll->total;
+            // }
+            $payslipTotal = $payroll->total;
+
+            $value += $payslipTotal;
+         }
+         
+
+         
+
+         
       }
       return $value;
    }
@@ -466,6 +643,15 @@ class Location extends Model
       $value = 0;
       $transactions = Transaction::where('location_id', $this->id)->where('unit_id', $unitTrans->unit_id)->where('month', $unitTrans->month)->where('year', $unitTrans->year)->get();
       foreach ($transactions as $trans) {
+         // if (auth()->user()->hasRole('Administrator')) {
+         //    if ($trans->employee_id == 360) {
+         //       $red =ReductionEmployee::where('employee_id', 360)->get();
+         //       // dd($red);
+         //       $transReduction = TransactionReduction::where('transaction_id', $trans->id)->get();
+         //       dd($transReduction);
+         //    }
+         // }
+         
          $transReduction = TransactionReduction::where('transaction_id', $trans->id)->where('name', $name)->where('type', $user)->first();
          if ($transReduction) {
             $value = $value + $transReduction->value_real;

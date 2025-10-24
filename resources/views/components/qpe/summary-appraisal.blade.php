@@ -6,7 +6,7 @@
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="">
-                <thead>
+                {{-- <thead>
                     <tr>
                         <th rowspan="2" colspan="2" class="text-white text-center">Indikator</th>
                         <th rowspan="2" class="text-white text-center">Total Indikator</th>
@@ -14,6 +14,16 @@
                         <th rowspan="2" class="text-white text-center"> Nilai</th>
                         <!-- <th rowspan="2" class="text-white text-center"> Nilai 4</th> -->
                         <th rowspan="2" class="text-white text-center"> (Bobot/100)xNilai</th>
+                    </tr>
+                </thead> --}}
+                <thead>
+                    <tr>
+                        <th rowspan="2" colspan="2" class="text-white text-center">Indicator</th>
+                        <th rowspan="2" class="text-white text-center">Total Indicator</th>
+                        <th rowspan="2" class="text-white text-center">Weight</th>
+                        <th rowspan="2" class="text-white text-center"> Value</th>
+                        <!-- <th rowspan="2" class="text-white text-center"> Nilai 4</th> -->
+                        <th rowspan="2" class="text-white text-center"> Poin <br> <small><i>(Weight/100)xNilai</i></small></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,7 +69,7 @@
                 <tfoot>
                     <tr>
                         <th colspan="5" class="text-right">
-                            <h3><b> Total Nilai </b></h3>
+                            <h3><b> Final Point </b></h3>
                         </th>
                         <th class="text-center"><span id="totalAcvBehavior" name="totalAcvBehavior">
                                 <h3>

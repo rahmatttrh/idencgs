@@ -39,12 +39,13 @@ class AppServiceProvider extends ServiceProvider
             if (auth()->user()->hasRole('Administrator')){
                $backupDetails = [];
             } else { 
-
+               
                $id = auth()->user()->getEmployeeId();
                $employee = Employee::find($id);
                $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $employee->id)->get();
                $now = Carbon::now();
                $backupDetails = [];
+               
 
                foreach($reqBackForms as $backup){
                   foreach($backup->details as $detail){
@@ -54,6 +55,8 @@ class AppServiceProvider extends ServiceProvider
                   }
                }
             }
+
+           
             
             
 
@@ -105,6 +108,7 @@ class AppServiceProvider extends ServiceProvider
                $stNotifs = St::where('status', 4)->where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
                // $spNotifs = $spNotifNd->concat($spNotif);
                $peNotifs = Pe::where('status', 202)->where('employe_id', $id)->get();
+                
             }  else {
                $spNotifs = [];
                $stNotifs = [];
@@ -142,7 +146,7 @@ class AppServiceProvider extends ServiceProvider
                   $announcements[] = $un;
                }
                // $tegurans = St::where('status', 1)->where('employee_id', $employeeLogin->id)->get();
-
+               
                
             }
 
@@ -175,5 +179,31 @@ class AppServiceProvider extends ServiceProvider
             ]);
          }
       );
+
+      view()->composer(
+         'layouts.sidebar',
+         function ($view) {
+
+            if (auth()->user()->hasRole('Administrator')){
+               $backupDetails = [];
+               $employee = null;
+            } else { 
+
+               $id = auth()->user()->getEmployeeId();
+               $employee = Employee::find($id);
+              
+            }
+            
+      
+
+          
+
+            $view->with([
+               'employee' => $employee,
+
+            ]);
+         }
+      );
+
     }
 }

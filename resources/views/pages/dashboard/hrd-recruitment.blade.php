@@ -668,8 +668,9 @@
                </a>
             </div>
 
-            
-            <div class="col d-none d-md-block">
+
+            @if (auth()->user()->hasRole('Leader'))
+            <div class="col-md-6 d-none d-md-block">
                <a href="{{route('hrd.absence')}}">
                   <div class="card border card-stats card-round">
                      <div class="card-body ">
@@ -698,6 +699,65 @@
                   </div>
                </a>
             </div>
+
+            <div class="col-md-6 d-none d-md-block">
+               <a href="{{route('hrd.spkl')}}">
+                  <div class="card border card-stats card-round">
+                     <div class="card-body ">
+                        <div class="row align-items-center">
+                           <div class="col-icon">
+                              <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                                 <i class="fas fa-users"></i>
+                              </div>
+                           </div>
+                           <div class="col col-stats ml-3 ml-sm-0">
+                              
+                              <div class="numbers">
+                                 <p class="card-category mb-1"> Monitoring Form SPKL </p>
+                                 <h4 class="card-title"> 
+                                 -
+                                 </h4>
+                              </div>
+                           
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </a>
+            </div>
+
+            
+            @endif
+            
+            {{-- <div class="col d-none d-md-block">
+               <a href="{{route('hrd.absence')}}">
+                  <div class="card border card-stats card-round">
+                     <div class="card-body ">
+                        <div class="row align-items-center">
+                           <div class="col-icon">
+                              <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                                 <i class="fas fa-users"></i>
+                              </div>
+                           </div>
+                           <div class="col col-stats ml-3 ml-sm-0">
+                              
+                              <div class="numbers">
+                                 <p class="card-category mb-1"> Monitoring Form Absensi </p>
+                                 <h4 class="card-title"> 
+                                 @if (count($absenceProgress) > 0)
+                                          <div class="badge badge-danger">{{count($absenceProgress)}}</div>
+                                          @else
+                                          {{count($absenceProgress)}}
+                                       @endif
+                                 </h4>
+                              </div>
+                           
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </a>
+            </div> --}}
 
             {{-- <div class="col">
                <div class="card card-stats card-round border">

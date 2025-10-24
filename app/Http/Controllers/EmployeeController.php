@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\PeKpi;
 use App\Models\Project;
+use App\Models\Transaction;
 use Carbon\Carbon;
 
 class EmployeeController extends Controller
@@ -53,6 +54,45 @@ class EmployeeController extends Controller
          'sub_dept_id' => 9,
          'position_id' => 174
       ]);
+   }
+
+   public function createPin(Request $req){
+      // dd($req->password);
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      $employee->update([
+         'pin' => Hash::make($req->password)
+      ]);
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $departmentId = null;
+      } else {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $departmentId = $user->department_id;
+      }
+      Log::create([
+         'department_id' => $departmentId,
+         'user_id' => auth()->user()->id,
+         'action' => 'Create ',
+         'desc' => 'PIN Payslip ' 
+      ]);
+
+      return redirect()->back()->with('success', 'Payslip PIN berhasi dibuat, silahkan klik Payslip di menu Sidebar');
+   }
+
+   public function checkPin(Request $req){
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+      if (Hash::check($req->password, $employee->pin)) {
+         $lastTransaction = Transaction::where('employee_id', $employee->id)->where('status', 6)->orderBy('cut_to', 'desc')->first();
+
+         if ($lastTransaction) {
+            
+            return redirect()->route('payroll.transaction.detail', enkripRambo($lastTransaction->id));
+         } else {
+            return redirect()->back()->with('danger', 'Belum ada Payslip yang diterbitkan HRD');
+         }
+      } else {
+         return redirect()->back()->with('danger', 'PIN yang anda masukkan salah!');
+      }
    }
    public function index($enkripTab)
    {
@@ -259,6 +299,21 @@ class EmployeeController extends Controller
       ]);
 
       return redirect()->back()->with('success', 'Password User successfully updated');
+   }
+
+   public function resetPin($id)
+   {
+      $employee = Employee::find(dekripRambo($id));
+     
+
+      $employee->update([
+         'pin' => null
+      ]);
+
+
+      
+
+      return redirect()->back()->with('success', 'Payslip PIN Karyawan successfully updated');
    }
 
 

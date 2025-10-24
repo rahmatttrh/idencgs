@@ -64,7 +64,12 @@ class Transaction extends Model
       $transReductions = TransactionReduction::where('transaction_id', $this->id)->where('name', $name)->where('type', $user)->where('class', 'Default')->get();
       // $transReduction = Reduction::where('class', 'Default')->where('type', 'employee')
       foreach($transReductions as $redu){
-         $value += $redu->value;
+         if ($user == 'company') {
+            $value += $redu->value_real;
+         } else {
+            $value += $redu->value;
+         }
+         // $value += $redu->value;
       }
       // if ($transReduction) {
       //    $value += $transReduction->value;

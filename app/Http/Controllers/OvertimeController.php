@@ -1740,6 +1740,32 @@ class OvertimeController extends Controller
       return Excel::download(new OvertimeExport($from, $to, $loc), 'spkl-' . $loc . '-' . $from  . '- ' . $to . '.xlsx');
    }
 
+    public function summaryOvertimePdf($from, $to, $unit)
+   {
+      // dd($loc);
+      $bu = Unit::find(dekripRambo($unit));
+      $employees = Employee::where('unit_id', $bu->id)->where('status', 1)->get();
+      $start = Carbon::parse(dekripRambo($from));
+      $end = Carbon::parse(dekripRambo($to));
+
+      $dates = [];
+      while ($start->lte($end)) {
+         $dates[] = $start->copy();
+         $start->addDay();
+      }
+
+      // dd($dates);
+
+      return view('pages.pdf.summary-spkl', [
+         'start' => $start,
+         'unit' => $bu,
+         'dates' => $dates,
+         'employees' => $employees,
+         'from' => dekripRambo($from),
+         'to' => dekripRambo($to),
+      ]);
+   }
+
    public function summaryOvertimeExcel($from, $to, $unit)
    {
       // dd($loc);
@@ -2077,9 +2103,9 @@ class OvertimeController extends Controller
       $transactionCon = new TransactionController;
       $transactions = Transaction::where('status', '!=', 3)->where('employee_id', $employee->id)->get();
 
-      foreach ($transactions as $tran) {
-         $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
-      }
+      // foreach ($transactions as $tran) {
+      //    $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
+      // }
 
       if (auth()->user()->hasRole('Administrator')) {
          $departmentId = null;

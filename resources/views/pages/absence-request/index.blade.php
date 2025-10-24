@@ -42,25 +42,19 @@ Absence
             
          </div>
          <hr>
-         <form action="">
-
+         <form action="{{route('employee.absence.filter')}}" method="post">
+            @csrf
             <div class="row">
                <div class="col-12">
                   <div class="form-group form-group-default">
-                     <label>Bulan</label>
-                     <select name="" id="" class="form-control">
-                        <option value="01">Januari</option>
-                        <option value="02">Februari</option>
-                     </select>
+                     <label>Dari</label>
+                     <input class="form-control" type="date" name="from" id="from">
                   </div>
                </div>
                <div class="col">
                   <div class="form-group form-group-default">
-                     <label>Tahun</label>
-                     <select name="" id="" class="form-control">
-                        <option selected value="2025">2025</option>
-                        <option value="2024">2024</option>
-                     </select>
+                     <label>Sampai</label>
+                     <input class="form-control" type="date" name="to" id="to">
                   </div>
                </div>
             </div>
@@ -71,6 +65,7 @@ Absence
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
+         <div class="badge badge-info">{{$desc}}</div>
          <div class="table-responsive p-0 mt-2">
             <table id="data" class="display datatables-3 table-sm p-0">
                <thead>

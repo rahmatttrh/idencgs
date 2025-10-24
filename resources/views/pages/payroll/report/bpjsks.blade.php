@@ -273,10 +273,12 @@ Payroll Report BPJS KS
                      <td style="padding: 0px !important;" class="text-center" >Karyawan</td>
                      <td style="padding: 0px !important;" class="text-center" >Jumlah Iuran</td>
                   </tr>
-                  
+                  @php
+                      $additional_karyawan = 0;
+                  @endphp
 
                   @foreach ($bpjsKsReports as $bpjs)
-                  @if ($bpjs->qty >= 0)
+                  @if ($bpjs->qty > 0)
                   <tr>
                      <tr>
                         <td rowspan="2"></td>
@@ -299,6 +301,10 @@ Payroll Report BPJS KS
                         <td class="text-right">{{formatRupiahB($bpjs->additional_iuran)}}</td>
                      </tr>
                   </tr>
+
+                  @php
+                      $additional_karyawan =  $additional_karyawan + $bpjs->additional_iuran
+                  @endphp
                   @endif
                      
                       
@@ -310,7 +316,7 @@ Payroll Report BPJS KS
                      <td></td>
                      <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('upah'))}}</b></td>
                      <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('perusahaan'))}}</b></td>
-                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('karyawan'))}}</b></td>
+                     <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('karyawan') + $additional_karyawan)}}</b></td>
                      <td class="text-right"><b>{{formatRupiahB($bpjsKsReports->sum('total_iuran') + $bpjsKsReports->sum('additional_iuran'))}}</b></td>
                      
                   </tr>
@@ -374,34 +380,47 @@ Payroll Report BPJS KS
                      </td>
                   </tr>
                   <tr>
-                     <td>
-                        @if ($hrd)
-                           {{$hrd->employee->biodata->fullName()}}
-                        @endif
-                        
-                     </td>
-                     <td>
-                        @if ($manHrd)
-                           {{$manHrd->employee->biodata->fullName()}}
-                        @endif
-                     </td>
-                     <td>
-                        @if ($manFin)
-                           {{$manFin->employee->biodata->fullName()}}
-                        @endif
-                     </td>
-                     <td>
-                        @if ($gm)
-                           {{$gm->employee->biodata->fullName()}}
-                        @endif
-                        
-                     </td>
-                     <td>
-                        @if ($bod)
-                        {{$bod->employee->biodata->fullName()}}
-                        @endif
-                     </td>
-                  </tr>
+                        <td>
+                           {{-- @if ($hrd)
+                              {{$hrd->employee->biodata->fullName()}}
+                           @endif --}}
+                           @if ($unit->id == 2 || $unit->id == 3 || $unit->id == 6 || $unit->id == 23 || $unit->id == 24 || $unit->id == 5 || $unit->id == 22 || $unit->id == 11 || $unit->id == 12 || $unit->id == 15 || $unit->id == 19)
+                           Tri Buanawati Asri
+                           @else
+                           Cheppy Anugrah
+                           @endif
+                           
+                        </td>
+                        <td>
+                           Saruddin Batubara
+                           {{-- @if ($manHrd)
+                              {{$manHrd->employee->biodata->fullName()}}
+                           @endif --}}
+                        </td>
+                        <td>
+                           Andrianto
+                           {{-- @if ($manFin)
+                              {{$manFin->employee->biodata->fullName()}}
+                           @endif --}}
+                        </td>
+                        <td>
+                           Andi Kurniawan Nasution
+                           {{-- @if ($gm)
+                              {{$gm->employee->biodata->fullName()}}
+                           @endif --}}
+                           
+                        </td>
+                        <td>
+                           @if ($unit->id == 2 || $unit->id == 3 || $unit->id == 6 || $unit->id == 23 || $unit->id == 24 || $unit->id == 5 || $unit->id == 22 || $unit->id == 11 || $unit->id == 12 || $unit->id == 15 || $unit->id == 19)
+                           Indra Muhammad Anwar
+                           @else
+                           Wildan Muhammad Anwar
+                           @endif
+                           {{-- @if ($bod)
+                           {{$bod->employee->biodata->fullName()}}
+                           @endif --}}
+                        </td>
+                     </tr>
                   <tr>
                      <td>Payroll</td>
                      <td>HRD Manager</td>

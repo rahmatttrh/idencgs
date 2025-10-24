@@ -80,7 +80,12 @@ Summary Absence
                <tbody>
                   @foreach ($absences as $absence)
                   <tr>
-                     <td class="text-truncate">{{$absence->employee->nik}}</td>
+                     <td class="text-truncate">{{$absence->employee->nik}}
+
+                        @if (auth()->user()->hasRole('Administrator'))
+                            ID:{{$absence->id}}
+                        @endif
+                     </td>
                       <td class="text-truncate" style="max-width: 170px" data-toggle="tooltip" data-placement="top" title="{{$absence->employee->biodata->fullName()}}"> {{$absence->employee->biodata->fullName()}}</td>
                       <td class="text-truncate" >{{$absence->employee->location->name}}</td>
                      <td class="text-truncate">

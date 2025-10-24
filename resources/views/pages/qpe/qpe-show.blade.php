@@ -33,11 +33,45 @@ PE
                 <div class="card-body text-center">
                  <h4><i class="fa fa-star"></i>  {{$pe->achievement}}</h4>
                 </div>
-             </div>
-            <x-discipline :pd="$pd" />
+            </div>
+            {{-- <x-discipline :pd="$pd" /> --}}
             <span>Created by :</span> <br>
                   <span>{{$pe->getCreatedBy()->nik}} {{$pe->getCreatedBy()->biodata->fullName()}}</span> <br>
                   {{formatDateTime($pe->created_at)}}
+            <hr>
+            @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
+                <div class="text-right mb-1">
+                
+                <div class="btn-group">
+                    <a href="#" data-target="#modalDeleteQpe" data-toggle="modal" class=" btn btn-danger btn-sm" >Delete</a>
+                </div>
+                </div>
+                <div class="modal fade" id="modalDeleteQpe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-sm" role="document">
+                     <form action="{{route('qpe.delete')}}" method="POST">
+                        @csrf
+                        <input type="number" name="pe" id="pe" value="{{$pe->id}}" hidden >
+                        <div class="modal-content text-dark">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                              </button>
+                           </div>
+                           <div class="modal-body ">
+                              Delete QPE {{$pe->employe->biodata->fullName()}} {{$pe->semester}} / {{$pe->tahun}} ?
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-danger ">
+                                 Delete
+                              </button>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+                </div>
+            @endif
         </div>
         <div class="col-md-9">
             @if (auth()->user()->hasRole('Karyawan'))
@@ -169,42 +203,502 @@ PE
             <!-- Akhir Action Karyawan  -->
             @endif
 
-            @if (auth()->user()->hasRole('Administrator|HRD|HRD-Payroll|HRD-Recruitment'))
-            <div class="text-right mb-1">
             
-               <div class="btn-group">
-                <a href="#" data-target="#modalDeleteQpe" data-toggle="modal" class=" btn btn-danger btn-sm" >Delete</a>
-               </div>
-            </div>
-                <div class="modal fade" id="modalDeleteQpe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-sm" role="document">
-                     <form action="{{route('qpe.delete')}}" method="POST">
-                        @csrf
-                        <input type="number" name="pe" id="pe" value="{{$pe->id}}" hidden >
-                        <div class="modal-content text-dark">
-                           <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                 <span aria-hidden="true">&times;</span>
-                              </button>
-                           </div>
-                           <div class="modal-body ">
-                              Delete QPE {{$pe->employe->biodata->fullName()}} {{$pe->semester}} / {{$pe->tahun}} ?
-                           </div>
-                           <div class="modal-footer">
-                              <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
-                              <button type="submit" class="btn btn-danger ">
-                                 Delete
-                              </button>
-                           </div>
-                        </div>
-                     </form>
-                  </div>
-               </div>
-            @endif
             <!-- KPI table component -->
-            <x-qpe.kpi-table :kpa="$kpa" :valueAvg="$valueAvg" :datas="$datas" :addtional="$addtional" :i="$i" />
-            <x-behavior-form :kpa="$kpa" :pba="$pba" :behaviors="$behaviors" :pbads="$pbads" />
+            <div class="card" style="border-radius: 15px">
+                        {{-- <div class="card-header d-flex justify-content-between p-2 bg-primary text-white">
+                           <small> <i class="fas fa-file-contract"></i> KPI</small>
+                          
+                        </div> --}}
+                        <input type="hidden" id="kpi_id" name="kpi_id">
+                        <input type="hidden" id="employee_id" name="employe_id">
+                        <input type="hidden" id="date" name="date">
+                        <div class="card-body p-0">
+                              <div class="table-responsive rounded-3" style="border-radius: 10px;">
+                                 <table id="tableCreate" class="displays table-sm rounded">
+                                    <thead>
+                                       <tr>
+                                          <th colspan="8" class="bg-primary py-2"><small> <i class="fas fa-file-contract"></i> DISCIPLINE</small></th>
+                                       </tr>
+                                       <tr>
+                                          <th class="text-center">No</th>
+                                          <th class="text-center" colspan="">Alpha</th>
+                                          <th class="text-center" colspan="">Izin</th>
+                                          <th class="text-center" colspan="">Terlambat</th>
+                                          <th class="text-center">Weight</th>
+                                          <th class="text-center">Target</th>
+                                          <th class="text-center">Value</th>
+                                          <th>Achievement</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td class="text-center">1</td>
+                                          <td class="text-center">{{ $pd ? $pd->alpa : 0 }}</td>
+                                          <td class="text-center">{{ $pd ? $pd->ijin : 0 }}</td>
+                                          <td class="text-center">{{ $pd ? $pd->terlambat : 0 }}</td>
+                                          
+                                          <td class="text-center">{{ $pd ? $pd->weight : 0 }}</td>
+                                          <td class="text-center">4</td>
+                                          <td class="text-center">{{ $pd ? $pd->achievement : 0 }}</td>
+                                          <td class="text-center">{{ $pd ? $pd->contribute_to_pe : 0 }}</td>
+                                       </tr>
+                                       <tr>
+                                          <th colspan="7" class="text-right">Achievement Final
+                                             
+                                          </th>
+                                          <th class="text-center" id="totalAchievement">{{ $pd ? $pd->contribute_to_pe : 0 }}</th>
+                                       </tr>
+                                    </tbody>
+                                    
+
+                                    
+
+
+
+                                    {{-- KPI --}}
+                                    <thead>
+                                          <tr>
+                                             <th colspan="8" class="bg-primary py-2"><small> <i class="fas fa-file-contract"></i> KPI</small></th>
+                                          </tr>
+                                          <tr>
+                                             <th class="text-center">No</th>
+                                             <th colspan="3">Objective</th>
+                                             <th class="text-center">Weight</th>
+                                             <th class="text-center">Target</th>
+                                             <th class="text-center">Value</th>
+                                             <th>Achievement</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          @php
+                                          $totalAcv = 0;
+                                          @endphp
+                                          @foreach ($datas as $data)
+
+                                          @php
+                                          $urlPdf = Storage::url($data->evidence) ;
+                                          @endphp
+                                          <tr>
+                                             <td class="text-center">{{++$i}}</td>
+                                             <td colspan="3"><a href="#" data-target="#myModal-{{$data->id}}" data-toggle="modal"> {{$data->kpidetail->objective}} </a></td>
+                                             <td class="text-center"> {{$data->kpidetail->weight}}</td>
+                                             <td class="text-center"> {{$data->kpidetail->target}}</td>
+                                             <td class="text-center"> {{$data->value}}</td>
+                                             <td class="text-center"> <b>{{$data->achievement}}</b></td>
+                                          </tr>
+
+
+                                          <div class="modal fade" id="myModal-{{$data->id}}" data-bs-backdrop="static">
+                                             <div class="modal-dialog" style="max-width: 80%;">
+                                                <div class="modal-content">
+
+                                                      <!-- Bagian header modal -->
+                                                      <div class="modal-header bg-primary">
+                                                         <h3 class="modal-title">{{$data->kpidetail->objective}} </h3>
+                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                      </div>
+                                                      <!-- Bagian konten modal -->
+                                                      <div class="modal-body">
+
+                                                         <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="card shadow-none border">
+                                                                     <form method="POST" action="{{route('kpa.update',$kpa->id) }}" enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        @method('PUT')
+
+                                                                        <input type="hidden" name="id" value="{{$data->id}}">
+                                                                        <input type="hidden" name="kpa_id" value="{{$kpa->id}}">
+                                                                        <div class="card-header d-flex">
+                                                                              <div class="d-flex  align-items-center">
+                                                                                 <div class="card-title">Form Edit</div>
+                                                                              </div>
+                                                                        </div>
+                                                                        <div class="card-body">
+                                                                              <div class="form-group">
+                                                                                 <label for="objective">Objective:</label>
+                                                                                 <input type="text" class="form-control" id="objective" name="objective" value="{{ $data->kpidetail->objective }}" readonly>
+                                                                              </div>
+
+                                                                              <div class="form-group">
+                                                                                 <label for="weight">Weight:</label>
+                                                                                 <input type="text" class="form-control" id="weight" name="weight" value="{{ $data->kpidetail->weight }}" readonly>
+                                                                              </div>
+
+                                                                              <div class="form-group">
+                                                                                 <label for="target">Target:</label>
+                                                                                 <input type="text" class="form-control" id="target" name="target" value="{{ $data->kpidetail->target }}" readonly>
+                                                                              </div>
+
+                                                                              <div class="form-group">
+                                                                                 <label for="value">Value:</label>
+                                                                                 <input type="text" class="form-control value" {{ in_array($kpa->status, ['1', '2', '3', '4']) ? 'readonly' : '' }} id="value" name="value" data-key="{{ $data->id }}" data-target="{{ $data->kpidetail->target }}" data-weight="{{ $data->kpidetail->weight }}" value="{{ old('value', $data->value) }}" autocomplete="off">
+                                                                              </div>
+
+                                                                              <div class="form-group">
+                                                                                 <label for="achievement">Achievement:</label>
+                                                                                 <input type="text" class="form-control" id="achievement-{{$data->id}}" name="achievement" value="{{ $data->achievement }}" readonly>
+                                                                              </div>
+                                                                        </div>
+
+                                                                     </form>
+                                                                  </div>
+
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                  <div class="card shadow-none border">
+                                                                     <div class="card-header d-flex">
+                                                                        <div class="d-flex  align-items-center">
+                                                                              <div class="card-title">Evidence</div>
+                                                                        </div>
+
+                                                                     </div>
+                                                                     <div class="card-body">
+                                                                        @if ($data->evidence)
+                                                                        <iframe src="{{ asset('storage/'. $data->evidence) }}" id="pdfPreview-{{$data->id}}" width=" 100%" height="575px"></iframe>
+                                                                        @else
+                                                                        <p>No attachment available.</p>
+                                                                        @endif
+
+                                                                     </div>
+                                                                  </div>
+                                                            </div>
+                                                         </div>
+
+
+
+                                                      </div>
+
+                                                      <!-- Bagian footer modal -->
+                                                      <div class="modal-footer">
+                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                                                      </div>
+
+                                                </div>
+                                             </div>
+                                          </div>
+                                          @php
+                                          $totalAcv += $data->achievement;
+                                          @endphp
+
+                                          @endforeach
+                                    </tbody>
+                                    <tbody>
+                                       @if($addtional)
+                                       <tr>
+                                          <td class="text-right" colspan="5">Achievement</td>
+                                          <td class="text-right"><b>{{$totalAcv}}</b></td>
+                                       </tr>
+                                       <tr>
+                                          <td>Addtional </td>
+                                          <td><b><a href="#" data-target="#modalEditAddtional" data-toggle="modal">{{$addtional->addtional_objective}}</a></b></td>
+                                          <td>{{$addtional->addtional_weight}}</td>
+                                          <td>{{$addtional->addtional_target}}</td>
+                                          <td>{{$addtional->value}}</td>
+                                          <td class="text-right"><b>{{$addtional->achievement}}</b></td>
+                                          {{-- @if($kpa->status == '2' || $kpa->status == '202')
+                                          <td>
+                                             @if($addtional->status == '0')
+                                             <span class="badge badge-default">Open</span>
+                                             @elseif($addtional->status == '1')
+                                             <span class="badge badge-success">Valid</span>
+                                             @elseif($addtional->status == '202')
+                                             <span class="badge badge-danger">Invalid</span>
+                                             @endif
+                                          </td>
+                                          <td>
+                                             <br>{{$addtional->reason_rejection}}
+                                          </td>
+                                          @endif --}}
+                                       </tr>
+
+                                       <div class="modal fade" id="modalEditAddtional" data-bs-backdrop="static">
+                                          <div class="modal-dialog" style="max-width: 80%;">
+                                             <div class="modal-content">
+
+                                                   <!-- Bagian header modal -->
+                                                   <div class="modal-header bg-success">
+                                                      <h3 class="modal-title">{{$addtional->addtional_objective}} </h3>
+                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                   </div>
+
+                                                   <!-- Bagian konten modal -->
+                                                   <div class="modal-body">
+
+                                                      <div class="row">
+                                                         <div class="col-md-4">
+                                                               <form method="POST" action="{{route('kpa.addtional.update',$kpa->id) }}" enctype="multipart/form-data">
+                                                                  @csrf
+                                                                  @method('PUT')
+
+                                                                  <input type="hidden" name="id" value="{{$addtional->id}}">
+                                                                  <input type="hidden" name="kpa_id" value="{{$addtional->kpa_id}}">
+
+                                                                  <div class="card shadow-none border">
+                                                                     <div class="card-header d-flex">
+                                                                           <div class="d-flex  align-items-center">
+                                                                              <div class="card-title">Form Edit</div>
+                                                                           </div>
+
+                                                                     </div>
+                                                                     <div class="card-body">
+                                                                           <div class="form-group">
+                                                                              <label for="objective">Objective:</label>
+                                                                              <input type="text" class="form-control" id="objective" name="objective" value="{{ $addtional->addtional_objective }}">
+                                                                           </div>
+
+                                                                           <div class="form-group">
+                                                                              <label for="weight">Weight:</label>
+                                                                              <input type="number" class="form-control" id="weight-edit" name="weight" min="1" max="20" value="{{ $addtional->addtional_weight }}">
+                                                                           </div>
+
+                                                                           <div class="form-group">
+                                                                              <label for="target">Target:</label>
+                                                                              <input type="text" class="form-control" id="target-edit" name="target" value="{{ $addtional->addtional_target }}" readonly>
+                                                                           </div>
+
+                                                                           <div class="form-group">
+                                                                              <label for="value">Value:</label>
+                                                                              <input type="text" class="form-control" {{$kpa->status > 0 ? 'readonly' : '' }} id="value-edit" name="value" data-key="{{ $addtional->id }}" data-target="{{ $addtional->addtional_target }}" data-weight="{{ $addtional->addtional_weight }}" value="{{ old('value', $addtional->value) }}" autocomplete="off">
+                                                                           </div>
+
+                                                                           <div class="form-group">
+                                                                              <label for="achievement">Achievement:</label>
+                                                                              <input type="text" class="form-control" id="achievement-edit" name="achievement" value="{{ $addtional->achievement }}" readonly>
+                                                                           </div>
+                                                                           @if($kpa->status == '0' || $kpa->status == '101' || $kpa->status == '202')
+                                                                           <div class="form-group">
+                                                                              <label for="attachment">Evidence</label>
+                                                                              <input type="file" class="form-control-file attachment" id="attachment" data-key="{{ $addtional->id }}" name="attachment" accept=".pdf">
+                                                                              <label for="attachment">*opsional jika evidence ingin di rubah</label>
+                                                                           </div>
+                                                                           @endif
+                                                                     </div>
+                                                                  </div>
+                                                                  @if($kpa->status == '0' || $kpa->status == '101' || $kpa->status == '202')
+                                                                  <a href="/kpa/addtional-delete/{{enkripRambo($addtional->id)}}" onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')"><button type="button" class="btn btn-danger"> <i class="fa fa-trash "></i> Delete</button></a>
+                                                                  <button type="submit" class="btn btn-warning">Update</button>
+                                                                  @endif
+                                                               </form>
+
+
+                                                               @if($kpa->status == 2)
+                                                               @if (auth()->user()->hasRole('Administrator|HRD'))
+                                                               <!-- Form Validasi HRD -->
+                                                               <div class="card shadow-none border">
+                                                                  <form method="POST" action="{{route('kpa.item.validasi',$kpa->id)}}">
+                                                                     @csrf
+                                                                     @method('patch')
+                                                                     <input type="hidden" name="id" value="{{$addtional->id}}">
+                                                                     <input type="hidden" name="act" class="act" value="valid">
+                                                                     <div class="card-header d-flex">
+                                                                           <div class="d-flex  align-items-center">
+                                                                              <div class="card-title">Validasi</div>
+                                                                           </div>
+                                                                     </div>
+                                                                     <div class="card-body boxPerbaikan">
+                                                                           <label for="form-control">Alasan Penolakan </label>
+                                                                           <textarea name="alasan_penolakan" id="alasan_penolakan" class="form-control alasan_penolakan" rows="4" placeholder="Tuliskan alasan penolakan disini!"></textarea>
+                                                                     </div>
+                                                                     <!-- Disini KHusus HRD  -->
+
+                                                                     <div class="card-footer ">
+                                                                           <div class="float-right">
+                                                                              <button class="btn btn-success validBtn"><i class="fa fa-check"></i> Valid</button>
+                                                                              <button type="button" class="btn btn-danger invalidBtn" id="invalidBtn"><i class="fa fa-window-close"></i> Invalid</button>
+                                                                              <button class="btn btn-danger confirmBtn"><i class="fa fa-check"></i> Confirm</button>
+                                                                              <button type="button" class="btn btn-default cancelBtn"><i class="fa fa-window-close"></i> Cancel</button>
+                                                                           </div>
+                                                                     </div>
+
+                                                                  </form>
+                                                               </div>
+                                                               @endif
+                                                               <!-- End Form Validasi HRD -->
+                                                               @endif
+
+                                                         </div>
+
+                                                         <div class="col-md-8">
+                                                               <div class="card shadow-none border">
+                                                                  <div class="card-header d-flex">
+                                                                     <div class="d-flex  align-items-center">
+                                                                           <div class="card-title">Evidence</div>
+                                                                     </div>
+
+                                                                  </div>
+                                                                  <div class="card-body">
+                                                                     @if ($addtional->evidence)
+                                                                     <iframe src="{{ Storage::url($addtional->evidence) }}" id="pdfPreview-{{$addtional->id}}" width=" 100%" height="575px"></iframe>
+                                                                     @else
+                                                                     <p>No attachment available.</p>
+                                                                     @endif
+
+                                                                  </div>
+                                                               </div>
+                                                         </div>
+                                                      </div>
+
+
+
+                                                   </div>
+
+                                                   <!-- Bagian footer modal -->
+                                                   <div class="modal-footer">
+                                                      <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                                   </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       @endif
+                                       <tr>
+                                          <th colspan="6" class="text-right">Achievement KPI </th>
+                                          <th class="text-center">{{$valueAvg}}</th>
+                                          <th class="text-center" id="totalAchievement">{{$kpa->achievement}}</th>
+                                       </tr>
+                                       <tr>
+                                          <th colspan="7" class="text-right">Poin KPI
+                                             <br><small>Achievement KPI * ( {{$kpa->weight}} / 100)</small>
+                                          </th>
+                                          <th class="text-center" id="totalAchievement">{{$kpa->contribute_to_pe}}</th>
+                                       </tr>
+                                    </tbody>
+
+                                    {{-- BEHAV --}}
+                                    @if($pba == null)
+                                       <form action="{{ route('qpe.behavior.store') }}" name="formBehavior" method="POST" enctype="multipart/form-data" accept=".jpg, .jpeg, .png, .pdf">
+                                          @endif
+                                          @csrf
+                                          <input type="hidden" name="employe_id" value="{{ $kpa->employe_id }}">
+                                          <input type="hidden" name="kpa_id" value="{{ $kpa->id }}">
+                                          <input type="hidden" name="pe_id" value="{{ $kpa->pe_id }}">
+                                          
+                                                {{-- <div class="table-responsive">
+                                                   <table class="displays table-sm"> --}}
+                                                      <thead>
+                                                         <tr>
+                                                            <th colspan="8" class="bg-primary py-2"><small> <i class="fas fa-file-contract"></i> BEHAVIOUR</small></th>
+                                                         </tr>
+                                                            <tr>
+                                                               <th>No</th>
+                                                               <th>Objective</th>
+                                                               <th colspan="2">Description</th>
+                                                               <th class="text-center">Weight</th>
+                                                               <th class="text-center">Target</th>
+                                                               <th class="text-center">Value</th>
+                                                               <th class="text-center">Achievement</th>
+                                                            </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                            @if($pba == null)
+                                                            @foreach($behaviors as $key => $behavior)
+                                                            <tr>
+                                                               <td>{{ ++$key }}</td>
+                                                               <td class="text-center">{{++$i}}</td>
+                                                               <td>{{ $behavior->objective }}</td>
+                                                               <td colspan="2">{{ $behavior->description }}</td>
+                                                               <td class="text-center">{{ $behavior->bobot }}</td>
+                                                               <td class="text-center">4</td>
+                                                               <td class="text-center">
+                                                                  <input type="text" name="valBehavior[{{ $behavior->id }}]" value="0" min="0.01" max="4" step="0.01">
+                                                                  <br><span><small>*Max 4 point</small></span>
+                                                               </td>
+                                                               <td class="text-center">
+                                                                  <input type="text" name="acvBehavior[{{ $behavior->id }}]" readonly>
+                                                                  <br><span>-</span>
+                                                               </td>
+                                                            </tr>
+                                                            @endforeach
+                                                            @else
+                                                            @foreach($pbads as $key => $pbda)
+                                                            <tr>
+                                                               <td>{{ ++$key }}</td>
+                                                               {{-- <td class="text-center">{{++$i}}</td> --}}
+                                                               <td>
+                                                                  <a href="#" data-target="#modalBehavior-{{ $pbda->id }}" data-toggle="modal">{{ $pbda->behavior->objective }}</a>
+                                                               </td>
+                                                               <td colspan="2">{{ $pbda->behavior->description }}</td>
+                                                               <td class="text-center">{{ $pbda->behavior->bobot }}</td>
+                                                               <td class="text-center">4</td>
+                                                               <td class="text-center">{{ $pbda->value }}</td>
+                                                               <td class="text-center">{{ $pbda->achievement }}</td>
+                                                            </tr>
+                                                            <div class="modal fade" id="modalBehavior-{{ $pbda->id }}" data-bs-backdrop="static">
+                                                               <div class="modal-dialog" style="max-width: 50%;">
+                                                                  <div class="modal-content">
+                                                                        <form method="POST" action="{{ route('qpe.behavior.update', $pbda->id) }}" enctype="multipart/form-data">
+                                                                           @csrf
+                                                                           @method('patch')
+                                                                           <input type="hidden" name="id" value="{{ $pbda->id }}">
+                                                                           <input type="hidden" name="kpa_id" value="{{ $kpa->id }}">
+                                                                           <input type="hidden" name="pba_id" value="{{ $pbda->pba_id }}">
+                                                                           <div class="modal-header bg-primary">
+                                                                              <h3 class="modal-title text-white">{{ $pbda->behavior->objective }}</h3>
+                                                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                           </div>
+                                                                           <div class="modal-body">
+                                                                              <div class="card-body">
+                                                                                    <div class="form-group">
+                                                                                       <label for="objective">Objective :</label>
+                                                                                       <input type="text" class="form-control" id="objective" name="objective" value="{{ $pbda->behavior->objective }}" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                       <label for="description">Description :</label>
+                                                                                       <textarea type="text" rows="5" class="form-control" id="description" name="description" readonly>{{ $pbda->behavior->description }}</textarea>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                       <label for="weight">Weight :</label>
+                                                                                       <input type="text" class="form-control" id="weight" name="weight" value="{{ $pbda->behavior->bobot }}" readonly>
+                                                                                    </div>
+                                                                                    @if($pba->status == '0' || $pba->status == '1')
+                                                                                    <div class="form-group">
+                                                                                       <label for="value">Value :</label>
+                                                                                       <input type="text" class="form-control value" id="value" name="valBv" data-key="{{ $pbda->id }}" data-target="{{ $pbda->behavior->target }}" data-weight="{{ $pbda->behavior->weight }}" value="{{ old('value', $pbda->value) }}" autocomplete="off">
+                                                                                    </div>
+                                                                                    @endif
+                                                                                    <div class="form-group">
+                                                                                       <label for="achievement">Achievement :</label>
+                                                                                       <input type="text" class="form-control" id="achievementBv-{{ $pbda->id }}" name="achievement" value="{{ $pbda->achievement }}" readonly>
+                                                                                    </div>
+                                                                              </div>
+                                                                           </div>
+                                                                           <div class="modal-footer">
+                                                                              @if($pba->status == '0' || $pba->status == '1')
+                                                                              <button type="submit" class="btn btn-warning">Update</button>
+                                                                              <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                                                                              @endif
+                                                                           </div>
+                                                                        </form>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                            @endforeach
+                                                            @endif
+                                                      </tbody>
+                                                      <tfoot>
+                                                            <tr>
+                                                               <th colspan="7" class="text-right">Poin Behaviour</th>
+                                                               @if(isset($pba))
+                                                               <th class="text-center"><span id="totalAcvBehavior" name="totalAcvBehavior">{{ $pba->achievement }}</span></th>
+                                                               @else
+                                                               <th class="text-center"><span id="totalAcvBehavior" name="totalAcvBehavior">-</span></th>
+                                                               @endif
+                                                            </tr>
+                                                      </tfoot>
+                                                   {{-- </table>
+                                                </div> --}}
+                                          
+                                          @if($pba == null)
+                                       </form>
+                                    @endif
+                                 </table>
+                              </div>
+                              
+                        </div>
+                     </div>
+            {{-- <x-qpe.kpi-table :kpa="$kpa" :valueAvg="$valueAvg" :datas="$datas" :addtional="$addtional" :i="$i" />
+            <x-behavior-form :kpa="$kpa" :pba="$pba" :behaviors="$behaviors" :pbads="$pbads" /> --}}
         </div>
     </div>
 

@@ -51,15 +51,30 @@ SPKL
             
          </div>
          <hr>
-         <form action="">
-            <select name="" id="" class="form-control">
-               <option value="">Januari</option>
-               <option value="">Februari</option>
-            </select>
+         <form action="{{route('employee.spkl.filter')}}" method="post">
+            @csrf
+            <div class="row">
+               <div class="col-12">
+                  <div class="form-group form-group-default">
+                     <label>Dari</label>
+                     <input class="form-control" type="date" name="from" id="from">
+                  </div>
+               </div>
+               <div class="col">
+                  <div class="form-group form-group-default">
+                     <label>Sampai</label>
+                     <input class="form-control" type="date" name="to" id="to">
+                  </div>
+               </div>
+            </div>
+            <button type="submit" class="btn btn-block btn-light border">Filter</button>
+            
+            
          </form>
          {{-- <a href="" class="btn btn-light border btn-block">Absensi</a> --}}
       </div>
       <div class="col-md-9">
+         <div class="badge badge-info">{{$desc}}</div>
          <div class="table-responsive p-0 mt-2">
             <table id="data" class="display datatables-2 table-sm p-0">
                <thead>
