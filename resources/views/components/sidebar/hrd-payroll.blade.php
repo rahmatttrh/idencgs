@@ -197,6 +197,13 @@
    </div>
 </li>
 
+<li class="nav-item {{ (request()->is('announcement/*')) ? 'active' : '' }}">
+   <a href="{{route('announcement')}}">
+      <i class="fas fa-bell"></i>
+      <p>Anouncement</p>
+   </a>
+</li>
+
 {{-- <li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
    <a href="{{route('cuti')}}">
       <i class="fas fa-calendar"></i>

@@ -70,7 +70,7 @@ SPKL
                         <div class="col-md-12">
                            <div class="form-group form-group-default">
                               <label>Date</label>
-                              <input type="date" required class="form-control" id="date" name="date" >
+                              <input type="date" required class="form-control" id="date" name="date" max="{{$today}}" >
                            </div>
                         </div>
                         <div class="col-md-6">

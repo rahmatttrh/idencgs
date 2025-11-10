@@ -773,6 +773,32 @@ class AbsenceController extends Controller
       ])->with('i');
    }
 
+   public function indexEmployeeExport($id, $from, $to)
+   {
+      $employee = Employee::find(dekripRambo($id));
+      $now = Carbon::now();
+     
+
+      $export = false;
+      $loc = 'All';
+      $locations = Location::get();
+
+      if ($from == 0) {
+         $absences = Absence::where('employee_id', $employee->id)->orderBy('updated_at', 'desc')->get();
+      } else {
+         $absences = Absence::where('employee_id', $employee->id)->whereBetween('date', [$from, $to])->orderBy('updated_at', 'desc')->get();
+      }
+      
+
+
+      return view('pages.pdf.summary-absence-employee', [
+         'from' => $from,
+         'to' => $to,
+         'employee' => $employee,
+         'absences' => $absences,
+      ])->with('i');
+   }
+
    public function absenceExcel($from, $to, $loc){
       // dd($loc);
       return Excel::download(new AbsenceDataExport($from, $to, $loc), 'absensi-' . $loc .'-' . $from  .'- '. $to .'.xlsx');

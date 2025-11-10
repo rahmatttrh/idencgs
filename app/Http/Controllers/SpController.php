@@ -315,6 +315,25 @@ class SpController extends Controller
       ]);
    }
 
+   public function hrdUpdateStatus(Request $req){
+      $req->validate([
+
+      ]);
+      if (request('evidence')) {
+         $evidence = request()->file('evidence')->store('sp/evidence');
+      }  else {
+         $evidence = null;
+      }
+
+      $sp = Sp::find($req->spId);
+      $sp->update([
+         'status' => $req->status,
+         'evidence' => $evidence
+      ]);
+
+      return redirect()->back()->with('success', 'SP Status updated');
+   }
+
    public function hrdStore(Request $req)
    {
 

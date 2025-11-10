@@ -1857,6 +1857,23 @@ class AbsenceEmployeeController extends Controller
 
    }
 
+   public function rejectHrd(Request $req){
+      $formAbsence = AbsenceEmployee::find($req->absEmpId);
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      // dd($formAbsence);
+
+      $formAbsence->update([
+         'status' => 303,
+         'reject_by' => $employee->id,
+         'reject_date' => Carbon::now(),
+         'reject_desc' => $req->reject_desc
+      ]);
+
+      return redirect()->back()->with('success', 'Formulir Absensi berhasil di reject');
+      
+   }
+
    public function approveHrdOld($id){
       $reqForm = AbsenceEmployee::find(dekripRambo($id));
       $employee = Employee::where('nik', auth()->user()->username)->first();

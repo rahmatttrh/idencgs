@@ -80,4 +80,13 @@ class AbsenceEmployeeDetailController extends Controller
 
       return redirect()->back()->with('success', 'Tanggal berhasil dihapus');
    }
+
+
+   public function reject($id){
+      // dd('ok');
+      $absenceEmployeeDetail = AbsenceEmployeeDetail::find(dekripRambo($id));
+      $absenceEmployeeDetail->delete();
+
+      return redirect()->back()->with('success', 'Tanggal berhasil dihapus');
+   }
 }

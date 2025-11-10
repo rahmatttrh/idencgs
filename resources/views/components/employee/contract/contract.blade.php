@@ -110,10 +110,10 @@
                                  {{$pos->name ?? '-'}} <br>
                                  @endforeach
                                  @else
-                                 {{-- @if (auth()->user()->hasRole('Administrator'))
-                                 Designation ID :{{$employee->contract->designation->id}} <br>
-                                 Position ID : {{$employee->position_id ?? ''}} <br>
-                                 @endif --}}
+                                 @if (auth()->user()->hasRole('Administrator'))
+                                 {{-- Designation ID :{{$employee->contract->designation->id}} <br> --}}
+                                 {{-- Position ID : {{$employee->contract->position_id ?? ''}} <br> --}}
+                                 @endif
                                  {{$employee->position->name ?? ''}} 
                               @endif
                               </small>

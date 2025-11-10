@@ -403,11 +403,17 @@ Payslip Report {{$unit->name}} {{$unitTransaction->month}} {{$unitTransaction->y
                            <h3 ><i>Approved</i></h3>
                            {{-- {{formatDateTime($manHrd->created_at)}}  --}}
                            @endif
+                           @if ($manHrd == null && $unitTransaction->status > 1)
+                           <h3 ><i>Approved Manual</i></h3>
+                           @endif
                         </td>
                         <td colspan="" style="height: 80px" class="text-center">
                            @if ($manFin)
                            <h3 ><i>Approved</i></h3>
                            {{-- {{formatDateTime($manFin->created_at)}}  --}}
+                           @endif
+                           @if ($manFin == null && $unitTransaction->status > 2)
+                           <h3 ><i>Approved Manual</i></h3>
                            @endif
                         </td>
                         <td colspan="" style="height: 80px" class="text-center">
@@ -415,11 +421,17 @@ Payslip Report {{$unit->name}} {{$unitTransaction->month}} {{$unitTransaction->y
                            <h3 ><i>Approved</i></h3>
                            {{-- {{formatDateTime($gm->created_at)}}  --}}
                            @endif
+                           @if ($gm == null && $unitTransaction->status > 3)
+                           <h3 ><i>Approved Manual</i></h3>
+                           @endif
                         </td>
                         <td colspan="" style="height: 80px" class="text-center">
                            @if ($bod)
                            <h3 ><i>Approved</i></h3>
                            {{-- {{formatDateTime($bod->created_at)}}  --}}
+                           @endif
+                           @if ($bod == null && $unitTransaction->status > 4)
+                           <h3 ><i>Approved Manual</i></h3>
                            @endif
                         </td>
                      </tr>

@@ -91,6 +91,10 @@ SP Detail
                         </a>
                         @endif
                      @endif
+
+                     <a href="#" class="btn btn-primary " data-toggle="modal" data-target="#modal-sp-update-status">
+                        <i class="fa fa-edit"></i> Update Status
+                     </a>
                    @endif
                
 
@@ -237,7 +241,7 @@ SP Detail
                
                @endif
                
-               @if ($sp->status > 1)
+               {{-- @if ($sp->status > 1)
                <b class="mb-3">Attachment</b>
                @if ($sp->file)
                <iframe src="{{asset('storage/' . $sp->file)}}" width="100%" height="500px" scrolling="auto" frameborder="0"></iframe>
@@ -245,7 +249,48 @@ SP Detail
                <br>
                <small>Empty</small>
                @endif
-               @endif
+               @endif --}}
+               <div class="card">
+                  <div class="card-body p-0">
+                     @if ($sp->status > 1)
+                     <div class="badge badge-dark mb-2 ml-2 mt-2">Attachment</div>
+                        @if ($sp->file)
+                           @php
+                              $ekstensiFile = strtolower(pathinfo($sp->file, PATHINFO_EXTENSION));
+                           @endphp  
+                           @if ($ekstensiFile == 'pdf')
+                           <iframe  src="/storage/{{$sp->file}}" style="width:100%; height:570px;" frameborder="0"></iframe>
+                           @else
+                           <img width="100%" src="/storage/{{$sp->file}}" alt="">
+                           @endif
+                        
+                        @else
+                        
+                        @endif
+                     @endif
+                     <hr>
+                  </div>
+
+                  <div class="card-body p-0">
+                     
+                        <div class="badge badge-dark mb-2 ml-2">Evidence</div>
+                        @if ($sp->evidence)
+                           @php
+                              $ekstensi = strtolower(pathinfo($sp->evidence, PATHINFO_EXTENSION));
+                           @endphp  
+                           @if ($ekstensi == 'pdf')
+                           <iframe  src="/storage/{{$sp->evidence}}" style="width:100%; height:570px;" frameborder="0"></iframe>
+                           @else
+                           <img width="100%" src="/storage/{{$sp->evidence}}" alt="">
+                           @endif
+                           
+                        @else
+                        <br>
+                        <small>Empty</small>
+                        @endif
+                     
+                  </div>
+               </div>
                   
                
             </div>
@@ -432,6 +477,50 @@ SP Detail
       </div>
       @endif
       
+   </div>
+</div>
+
+<div class="modal fade" id="modal-sp-update-status" data-bs-backdrop="static">
+   <div class="modal-dialog">
+      <div class="modal-content">
+
+         <!-- Bagian header modal -->
+         <div class="modal-header">
+            <b class="modal-title">Update Status SP (Approval Manual)</b>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+         <form method="POST" action="{{route('sp.hrd.update.status') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="spId" id="spId" value="{{$sp->id}}">
+
+            <!-- Bagian konten modal -->
+            <div class="modal-body">
+               <div class="form-group form-group-default">
+                  <label>Status</label>
+                  <select name="status" required id="status" class="form-control">
+                     <option value="2">Konfirmasi User</option>
+                     <option value="3">Approval Manager</option>
+                     <option value="4">Published</option>
+
+                     
+                  </select>
+               </div>
+
+               <div class="form-group form-group-default">
+                  <label>Evidence (Lammpiran Approval Manual)</label>
+                  <input type="file" name="evidence" required id="evidence">
+               </div>
+              
+            </div>
+
+            <!-- Bagian footer modal -->
+            <div class="modal-footer">
+               <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+         </form>
+
+      </div>
    </div>
 </div>
 

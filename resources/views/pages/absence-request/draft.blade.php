@@ -87,7 +87,7 @@ Draft Request Absence
                      </td>
                      {{-- <td>{{formatDayName($absence->date)}}</td> --}}
                      <td class="text-truncate">{{$absence->employee->nik}}</td>
-                     <td>
+                     <td class="text-truncate">
                         
                         <x-absence.date :absence="$absence" />
                      </td>

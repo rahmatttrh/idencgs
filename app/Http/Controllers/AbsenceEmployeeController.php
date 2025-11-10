@@ -623,29 +623,34 @@ class AbsenceEmployeeController extends Controller
 
 
       $lastUnitTransaction = UnitTransaction::where('status', '>', 0)->where('unit_id', $employee->unit_id)->latest()->first();
+      if (auth()->user()->hasRole('Administrator')) {
+         // dd($lastUnitTransaction->cut_from);
+      }
+      
       $transfer = 0;
       $alpha = [];
       if ($lastUnitTransaction != null) {
          if ($absenceEmployee->type == 5 || $absenceEmployee->type == 7) {
             foreach($absenceEmployeeDetails as $detail){
+               
              if ($detail->date >= $lastUnitTransaction->cut_from && $detail->date <= $lastUnitTransaction->cut_to) {
-    
-                $transfer = 1;
-                $lastPeriodeAplha = Absence::where('date', $detail->date)->where('type', 1)->first();
-                if ($lastPeriodeAplha != null) {
-                   $alpha[] = $lastPeriodeAplha;
-                }
+               if ($absenceEmployee->status < 5) {
+                  $transfer = 1;
+                  $lastPeriodeAplha = Absence::where('date', $detail->date)->where('type', 1)->first();
+                  if ($lastPeriodeAplha != null) {
+                     $alpha[] = $lastPeriodeAplha;
+                  }
+               }
+                
     
              }
             }
          }
       }
 
-      if (auth()->user()->hasRole('Administrator')) {
-         // dd($alpha);
-      }
-
       
+
+      $permits = Permit::get();
 
       // dd($pageType);
 
@@ -653,6 +658,8 @@ class AbsenceEmployeeController extends Controller
          'lastUnitTransaction' => $lastUnitTransaction,
          'transfer' => $transfer,
          'alpha' => $alpha,
+
+         'permits' => $permits,
 
          'pageType' => $pageType,
          'myteams' => $myteams,
@@ -820,7 +827,8 @@ class AbsenceEmployeeController extends Controller
          $req->validate([
             'type_izin' => 'required',
             'permit_from' => 'required',
-            'permit_to' => 'required'
+            'permit_to' => 'required',
+            'desc_izin' => 'required',
          ]);
       }
 
@@ -1127,9 +1135,16 @@ class AbsenceEmployeeController extends Controller
       }
 
 
-
+      $typeDesc =null;
+      // $desc = $req->desc;
       // dd($req->keperluan);
-      if ($absenceEmp->type == 5) {
+      if ($absenceEmp->type == 4) {
+         // $desc = $req->keperluan;
+         $leader = $req->persetujuan;
+         $manager = $req->manager;
+         $typeDesc = $req->type_izin;
+         $desc = $req->desc_izin;
+      } elseif ($absenceEmp->type == 5) {
          $desc = $req->keperluan;
          $leader = $req->persetujuan;
          $manager = $req->manager;
@@ -1137,24 +1152,36 @@ class AbsenceEmployeeController extends Controller
          $desc = $req->desc;
          $leader = $req->leader;
          $manager = null;
+         $typeDesc = $req->type_desc;
       } else {
          $desc = $req->desc;
          $leader = null;
          $manager = null;
       }
+
+
+      if ($absenceEmp->type == 4) {
+         $departure = $req->date . ' ' . $req->permit_from;
+         $return = $req->date . ' ' . $req->permit_to;
+         // dd('ok');
+      } else {
+         $departure = $req->departure;
+         $return = $req->return;
+      }
       // dd($desc);
       $absenceEmp->update([
-         'leader_id' => $leader,
+         'leader_id' => $req->leader,
          // 'type' => $req->type,
-         'type_desc' => $req->type_desc,
+         'type_desc' => $typeDesc,
          // 'date' => $req->date,
          'transport' => $req->transport,
          'destination' => $req->destination,
          'from' => $req->from,
          'transit' => $req->transit,
          'duration' => $req->duration,
-         'departure' => $req->departure,
-         'return' => $req->return,
+         'departure' => $departure,
+         'return' => $return,
+         'permit_id' => $req->permit,
 
          // 'cuti_taken' => $req->cuti_taken,
          // 'cuti_qty' => $req->cuti_qty,
@@ -1162,7 +1189,7 @@ class AbsenceEmployeeController extends Controller
          // 'cuti_end' => $req->cuti_end,
          // 'cuti_backup_id' => $req->cuti_backup,
 
-         'manager_id' => $manager,
+         'manager_id' => $req->manager,
 
 
          'desc' => $desc,
@@ -1349,6 +1376,14 @@ class AbsenceEmployeeController extends Controller
       // } else {
       //    $code = '';
       // }
+
+      if ($reqForm->status == 101) {
+         $status = 1;
+      } elseif($reqForm->status == 202){
+         $status = 2;
+      } elseif( $reqForm->status == 303){
+         $status = 3;
+      }
 
 
       $reqForm->update([
@@ -2432,6 +2467,23 @@ class AbsenceEmployeeController extends Controller
 
       return redirect()->back()->with('success', 'Formulir ' . $form . ' ' . 'berhasil di setujui');
 
+   }
+
+   public function rejectHrd(Request $req){
+      $formAbsence = AbsenceEmployee::find($req->absEmpId);
+      $employee = Employee::where('nik', auth()->user()->username)->first();
+
+      // dd($formAbsence);
+
+      $formAbsence->update([
+         'status' => 303,
+         'reject_by' => $employee->id,
+         'reject_date' => Carbon::now(),
+         'reject_desc' => $req->reject_desc
+      ]);
+
+      return redirect()->back()->with('success', 'Formulir Absensi berhasil di reject');
+      
    }
 
    public function approveHrdOld($id){

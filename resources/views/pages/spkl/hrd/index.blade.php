@@ -21,14 +21,20 @@ Form SPKL
          <ul class="nav nav-tabs px-3">
             <li class="nav-item">
                <a class="nav-link active" href="{{route('hrd.spkl')}}">Approval SPKL  
-                  @if (count($spklApprovals) > 0)
+                  {{-- @if (count($spklApprovals) > 0)
                   <span class="badge badge-danger">{{count($spklApprovals)}} </span>
+                  @endif --}}
+                  @if (count($spklApprovals) > 0)
+                  <span class="text-danger"><b>({{count($spklApprovals)}})</b></span>
                   @endif
                   
                </a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{route('hrd.spkl.history')}}">Monitoring  Form SPKL</a>
+               <a class="nav-link" href="{{route('hrd.spkl.monitoring')}}">Monitoring SPKL</a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="{{route('hrd.spkl.history')}}">History SPKL</a>
              </li>
             {{-- <li class="nav-item">
               <a class="nav-link" href="{{route('admin.employee.spkl')}}">SPKL</a>

@@ -17,7 +17,7 @@ Summary Absence
          <div class="btn btl-light btn-block text-left mb-3 border">
             <b><i>ABSENSI KARYAWAN</i></b>
          </div>
-         <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+         {{-- <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link text-left pl-3" id="v-pills-basic-tab" href="{{route('payroll.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>
                Summary Absence
@@ -28,7 +28,7 @@ Summary Absence
             </a>
             <a class="nav-link   text-left pl-3" id="v-pills-contract-tab" href="{{route('payroll.absence.create')}}" aria-controls="v-pills-contract" aria-selected="false">
                <i class="fas fa-file-contract mr-1"></i>
-               {{-- {{$panel == 'contract' ? 'active' : ''}} --}}
+               
                Form Absence
             </a>
             
@@ -40,13 +40,15 @@ Summary Absence
 
             
             
-         </div>
+         </div> --}}
          {{-- <hr> --}}
          {{-- <a class="btn btn-light border btn-block" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
             Show Form Filter
           </a> --}}
           <hr>
-          <table>
+          <div class="card">
+            <div class="card-body p-0">
+               <table>
             <thead>
                <tr><th colspan="2">Absence/Employee</th></tr>
             </thead>
@@ -89,7 +91,10 @@ Summary Absence
                
             </tbody>
           </table>
-          <table>
+            </div>
+          </div>
+          
+          {{-- <table>
             <tbody>
                @if (count($absences->where('type', 1)) > 0)
                <tr>
@@ -147,11 +152,80 @@ Summary Absence
                @endif
                
             </tbody>
-          </table>
+          </table> --}}
+          <hr>
+          <a href="{{route('payroll.absence.export.summary.employee', [enkripRambo($employee->id), $from, $to])}}" target="_blank" class="btn btn-light border btn-block">Export PDF</a>
         
       </div>
       <div class="col-md-9">
-         <div class="table-responsive px-0">
+         <div class="card">
+            <div class="card-body p-0">
+               <div class="table-responsive">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th class="text-center text-light">T</th>
+                           <th class="text-center text-light">ATL</th>
+                           <th class="text-center text-light">I</th>
+                           <th class="text-center text-light">S</th>
+                           <th class="text-center text-light">A</th>
+                           <th class="text-center text-light">C</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td class="text-center">
+                              @if (count($absences->where('type', 2)) > 0)
+                              {{count($absences->where('type', 2))}}
+                              @else
+                              0
+                              @endif
+                           </td>
+      
+                           <td class="text-center">
+                              @if (count($absences->where('type', 3)) > 0)
+                              {{count($absences->where('type', 3))}}
+                              @else
+                              0
+                              @endif
+                           </td>
+                           <td class="text-center">
+                              @if (count($absences->where('type', 4)) > 0)
+                                 {{count($absences->where('type', 4))}}
+                                 @else
+                                 0
+                              @endif
+                           </td>
+                           <td class="text-center">
+                              @if (count($absences->where('type', 7)) > 0)
+                              {{count($absences->where('type', 7))}}
+                              @else
+                              0
+                              @endif
+                           </td>
+                           <td class="text-center">
+                              @if (count($absences->where('type', 1)) > 0)
+                              {{count($absences->where('type', 1))}}
+                              @else
+                              0
+                              @endif
+                           </td>
+                           <td class="text-center">
+                              @if (count($absences->where('type', 5)) > 0)
+                              {{count($absences->where('type', 5))}}
+                              @else
+                              0
+                              @endif
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+         <div class="card">
+            <div class="card-body">
+               <div class="table-responsive px-0">
             <table id="data" class="display datatables-2 table-sm">
                <thead>
                   <tr>
@@ -255,6 +329,9 @@ Summary Absence
                
             </table>
          </div>
+            </div>
+         </div>
+         
       </div>
    </div>
    

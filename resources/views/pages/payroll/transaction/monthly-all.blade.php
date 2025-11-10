@@ -105,6 +105,11 @@ Payroll Transaction
                   
          
          @endif
+
+         @if ($unitTransaction->status > 0 && $unitTransaction->status < 6)
+            <a href="#" class="btn btn-light border btn-block mb-2" data-target="#modal-update-status" data-toggle="modal">Update Status</a>
+         @endif
+
          <div class="card shadow-none border card-primary ">
             <div class="card-header bg-light text-dark">
                <x-status.unit-transaction :unittrans="$unitTransaction" />
@@ -215,8 +220,13 @@ Payroll Transaction
                         <h5 class="font-size-16">{{formatDateTime($manfin->created_at)}}</h5>
                         
                         @else  
+                        @if ($manfin == null && $unitTransaction->status > 2)
                         <div class="event-date bg-light border">MANAGER FINANCE</div>
+                        <h5 class="font-size-16">Approved Manual</h5>
+                        @else
+                        <div class="event-date bg-light border">MANAGER FINANCE <br><br> </div>
                         <h5 class="font-size-16">Waiting</h5>
+                        @endif
                         
                      @endif
                         {{-- <p class="text-muted">If several languages coalesce the grammar of the resulting simple and regular</p>
@@ -234,8 +244,13 @@ Payroll Transaction
                               <div class="event-date bg-danger border text-white">GENERAL MANAGER</div>
                               <h5 class="font-size-16">Reject {{formatDateTime($unitTransaction->reject_date)}}</h5>
                         @else  
+                        @if ($gm == null && $unitTransaction->status > 3)
                         <div class="event-date bg-light border">GENERAL MANAGER</div>
+                        <h5 class="font-size-16">Approved Manual</h5>
+                        @else
+                        <div class="event-date bg-light border">GENERAL MANAGER <br><br> </div>
                         <h5 class="font-size-16">Waiting</h5>
+                        @endif
                         
                      @endif
                     </div>
@@ -247,8 +262,13 @@ Payroll Transaction
                         <h5 class="font-size-16">{{formatDateTime($bod->created_at)}}</h5>
                         
                         @else  
+                        @if ($bod == null && $unitTransaction->status > 4)
+                        <div class="event-date bg-light border">DIREKSI</div>
+                        <h5 class="font-size-16">Approved Manual</h5>
+                        @else
                         <div class="event-date bg-light border">DIREKSI <br><br> </div>
                         <h5 class="font-size-16">Waiting</h5>
+                        @endif
                         
                      @endif
                    </div>
@@ -525,6 +545,102 @@ Payroll Transaction
                <button type="submit" class="btn btn-primary ">Publish</button>
             </div>
          </form>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modal-update-status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog " role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Status by HRD<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="{{route('payroll.update.status')}}" method="POST" enctype="multipart/form-data">
+            <div class="modal-body">
+               @csrf
+               <input type="text" value="{{$unitTransaction->id}}" name="unitTransactionId" id="unitTransactionId" hidden>
+               {{-- <span>Publish PaySlip dan tampilkan di Dashboard Karyawan?</span> --}}
+               
+
+               <div class="form-group">
+                  <label for="exampleInputEmail1">Status</label>
+                  <select name="status" id="status" required class="form-control">
+                     <option value="" disabled selected>Select</option>
+                     {{-- @if ($unitTransaction->status > 3)
+                     <option value="5">Complete</option>
+                     @endif --}}
+                     {{-- <option value="1">Approval Manager HR</option> --}}
+                     <option value="2">Menunggu Approval Manager Finance</option>
+                     <option value="3">Menunggu Approval General Manager</option>
+                     <option value="4">Menunggu Approval Direksi</option>
+                     <option value="5">Complete</option>
+                  </select>
+                  {{-- <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> --}}
+                  {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
+                </div>
+               
+               
+               <hr>
+
+               <input type="file" class="form-control" required name="file" id="file">
+                  
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary ">Update</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+
+<div class="modal fade" id="modal-open-attachment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Attachment<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+
+         <div class="modal-body">
+            @php
+
+            $ekstensi = strtolower(pathinfo($unitTransaction->file, PATHINFO_EXTENSION));
+            
+            
+            @endphp  
+                     
+               {{-- {{$absenceemp->doc}} --}}
+               @if ($unitTransaction->file != null)
+      
+                     
+      
+                  @if ($ekstensi == 'pdf')
+                  <iframe  src="/storage/{{$unitTransaction->file}}" style="width:100%; height:550px;" frameborder="0"></iframe>
+                  @else
+                  <img width="100%" src="/storage/{{$unitTransaction->file}}" alt="">
+                  @endif
+                  
+                  
+               @endif
+                     
+         </div>
+         
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               {{-- <button type="submit" class="btn btn-primary ">Publish</button> --}}
+            </div>
+         
       </div>
    </div>
 </div>

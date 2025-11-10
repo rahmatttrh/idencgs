@@ -99,7 +99,10 @@
                      {{$manager->employee->biodata->fullName() ?? ''}} <br>
                      {{$manager->employee->position->name ?? ''}}
                      @else
-                     -
+                        @if ($sp->status > 3 && $manager == null)
+                              <i>Approval Manual</i> <br>
+                              <i>Manager</i>
+                        @endif
                      @endif
 
                   </td>
@@ -199,7 +202,10 @@
                      {{$manager->employee->biodata->fullName() ?? ''}} <br>
                      {{$manager->employee->position->name ?? ''}}
                      @else
-                     -
+                        @if ($sp->status > 3 && $manager == null)
+                              <i>Approval Manual</i> <br>
+                              <i>Manager</i>
+                        @endif
                      @endif
    
                   </td>

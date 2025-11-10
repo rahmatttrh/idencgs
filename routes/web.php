@@ -195,6 +195,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('absence/history', [AbsenceLeaderController::class, 'historyHrd'])->name('hrd.absence.history');
 
          Route::get('absence/approve/{id}', [AbsenceEmployeeController::class, 'approveHrd'])->name('employee.absence.approve.hrd');
+         Route::put('absence/reject', [AbsenceEmployeeController::class, 'rejectHrd'])->name('employee.absence.reject.hrd');
 
          Route::post('employee/hrd/approve', [OvertimeEmployeeController::class, 'approveHrd'])->name('employee.spkl.hrd.approve');
          Route::post('employee/hrd/reject', [OvertimeEmployeeController::class, 'rejectHrd'])->name('employee.spkl.hrd.reject');
@@ -560,6 +561,7 @@ Route::middleware(["auth"])->group(function () {
 
             Route::post('/download-template', [AbsenceController::class, 'downloadTemplate'])->name('payroll.absence.template');
             Route::get('/export', [AbsenceController::class, 'export'])->name('payroll.absence.export');
+            Route::get('/summary/employee/export/{id}/{from}/{to}', [AbsenceController::class, 'indexEmployeeExport'])->name('payroll.absence.export.summary.employee');
 
             Route::get('/data/export/{from}/{to}/{loc}', [AbsenceController::class, 'absenceExcel'])->name('payroll.absence.export.data');
 
@@ -669,6 +671,7 @@ Route::middleware(["auth"])->group(function () {
       Route::prefix('payroll/approval')->group(function () {
          Route::post('submit/master', [PayrollApprovalController::class, 'submit'])->name('payroll.submit.master.transaction');
          Route::post('publish/master', [PayrollApprovalController::class, 'publish'])->name('payroll.publish');
+         Route::post('update/master', [PayrollApprovalController::class, 'updateStatus'])->name('payroll.update.status');
 
 
          Route::get('hrd', [PayrollApprovalController::class, 'hrd'])->name('payroll.approval.hrd');
@@ -731,6 +734,8 @@ Route::middleware(["auth"])->group(function () {
 
          Route::get('report/manager', [QuickPEController::class, 'reportManager'])->name('qpe.manager.report');
          Route::post('report/filter', [QuickPEController::class, 'reportFilter'])->name('qpe.report.filter');
+         Route::get('report/export/{semester}/{year}', [QuickPEController::class, 'reportExport'])->name('qpe.report.export');
+
          Route::post('report/manager/filter', [QuickPEController::class, 'reportManagerFilter'])->name('qpe.report.filter.manager');
          Route::get('report/unit/{id}/{semester}/{year}', [QuickPEController::class, 'reportUnit'])->name('qpe.report.unit');
          Route::get('report/department/{id}/{semester}/{year}', [QuickPEController::class, 'reportDepartment'])->name('qpe.report.department');
@@ -801,6 +806,7 @@ Route::middleware(["auth"])->group(function () {
       Route::prefix('hrd')->group(function () {
          Route::post('/store', [SpController::class, 'hrdStore'])->name('sp.hrd.store');
          Route::get('create', [SpController::class, 'hrdCreate'])->name('sp.hrd.create');
+         Route::post('update/status', [SpController::class, 'hrdUpdateStatus'])->name('sp.hrd.update.status');
          // Route::get('/approve/supervisor/{id}', [SpklController::class, 'approveSupervisor'])->name('spkl.approve.supervisor');
          // Route::get('/approve/manager/{id}', [SpklController::class, 'approveManager'])->name('spkl.approve.manager');
       });
@@ -1007,6 +1013,7 @@ Route::middleware(["auth"])->group(function () {
          Route::get('spkl/history', [OvertimeEmployeeController::class, 'historyLeader'])->name('leader.spkl.history');
 
          Route::get('spkl/hrd/index', [OvertimeEmployeeController::class, 'indexHrd'])->name('hrd.spkl');
+         Route::get('spkl/hrd/monitoring', [OvertimeEmployeeController::class, 'monitoringHrd'])->name('hrd.spkl.monitoring');
          Route::get('spkl/hrd/history', [OvertimeEmployeeController::class, 'historyHrd'])->name('hrd.spkl.history');
       });
 

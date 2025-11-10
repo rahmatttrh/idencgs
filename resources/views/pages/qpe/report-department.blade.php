@@ -53,7 +53,7 @@ QPE Report
                            
                         </tr>
                         <tr>
-                           <td >Total Employee {{count($department->getEmployeeQpe($semester, $year, 0))}}</td>
+                           <td >Total QPE {{$department->getEmployeeQpe($semester, $year, 0)}}</td>
                            
                            
                         </tr>

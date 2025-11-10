@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-History Formulir Pengajuan SPKL
+Monitoring Formulir Pengajuan SPKL
 @endsection
 @section('content')
 
@@ -9,7 +9,7 @@ History Formulir Pengajuan SPKL
       <ol class="breadcrumb  ">
          <li class="breadcrumb-item " aria-current="page"><a href="/">Dashboard</a></li>
          
-         <li class="breadcrumb-item active" aria-current="page">History Formulir Pengajuan SPKL</li>
+         <li class="breadcrumb-item active" aria-current="page">Monitoring Formulir Pengajuan SPKL</li>
       </ol>
    </nav>
 
@@ -31,10 +31,10 @@ History Formulir Pengajuan SPKL
             </a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{route('hrd.spkl.monitoring')}}">Monitoring SPKL</a>
+               <a class="nav-link active" href="{{route('hrd.spkl.monitoring')}}">Monitoring SPKL </a>
              </li>
             <li class="nav-item">
-               <a class="nav-link active" href="{{route('hrd.spkl.history')}}">History SPKL</a>
+               <a class="nav-link " href="{{route('hrd.spkl.history')}}">History SPKL</a>
             </li>
             {{-- <li class="nav-item">
                <a class="nav-link active" href="{{route('hrd.spkl.history')}}">Monitoring  Form SPKL</a>

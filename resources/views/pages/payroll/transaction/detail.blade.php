@@ -202,8 +202,12 @@ Detail Transaction Payroll Employee
                                           <td class="text-right">{{formatRupiah($nominalOps) ?? 0}}</td>
                                        </tr>
                                        <tr>
-                                          <td>Insentif</td>
+                                          <td>Tunj. Fungsional</td>
                                           <td class="text-right">{{formatRupiah($nominalFungsional) ?? 0}}</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Insentif</td>
+                                          <td class="text-right">0</td>
                                        </tr>
                                        <tr>
                                           <td>Tunj. Lain</td>
@@ -232,6 +236,10 @@ Detail Transaction Payroll Employee
                                        <tr>
                                           <td>Tunj. Operasional</td>
                                           <td class="text-right">{{formatRupiah($transaction->employee->payroll->tunj_ops) ?? 0}}</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Tunj. Fungsional</td>
+                                          <td class="text-right">{{formatRupiah($transaction->employee->payroll->tunj_fungsional) ?? 0}}</td>
                                        </tr>
                                        <tr>
                                           <td>Insentif</td>

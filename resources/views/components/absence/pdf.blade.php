@@ -967,19 +967,27 @@ $ekstensi = strtolower(pathinfo($absenceemp->doc, PATHINFO_EXTENSION));
 
 @endphp  
          
-         {{-- {{$absenceemp->doc}} --}}
-         @if ($absenceemp->doc != null)
+         <div class="card shadow-none border">
+            <div class="card-header">
+               Attachment
+            </div>
+            <div class="card-body">
+               @if ($absenceemp->doc != null)
 
+                     
+                  
+                  @if ($ekstensi == 'pdf')
+                  <iframe  src="/storage/{{$absenceemp->doc}}" style="width:100%; height:570px;" frameborder="0"></iframe>
+                  @else
+                  <img width="100%" src="/storage/{{$absenceemp->doc}}" alt="">
+                  @endif
                
-
-            @if ($ekstensi == 'pdf')
-            <iframe  src="/storage/{{$absenceemp->doc}}" style="width:100%; height:570px;" frameborder="0"></iframe>
-            @else
-            <img width="100%" src="/storage/{{$absenceemp->doc}}" alt="">
-            @endif
-            
-            
-         @endif
+                  
+                  @else
+                  Tidak ada lampiran
+               @endif
+            </div>
+         </div>
          
 
         

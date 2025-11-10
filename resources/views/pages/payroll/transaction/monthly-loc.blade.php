@@ -295,7 +295,9 @@ Payroll Transaction
              <a class="mr-2" href="{{route('payroll.approval.bod')}}"><i class="fa fa-backward"></i> Back</a>
              @endif
 
-             
+             @if ($unitTransaction->file != null)
+             <a href="#" class="" data-target="#modal-open-attachment" data-toggle="modal"><i class="fa fa-file"></i> Open Attachment</a> |
+             @endif 
              <a class="" href="{{route('payroll.transaction.export', enkripRambo($unitTransaction->id))}}"><i class="fa fa-file"></i> Export to Excel</a> | <a class="" href="{{route('payroll.transaction.export.pdf', enkripRambo($unitTransaction->id))}}" target="_blank"><i class="fa fa-file"></i> Export to PDF</a>
             
          </div>
@@ -1359,8 +1361,13 @@ Payroll Transaction
                               <div class="event-date bg-danger border text-white">GENERAL MANAGER</div>
                               <h5 class="font-size-16">Reject {{formatDateTime($unitTransaction->reject_date)}}</h5>
                               @else  
-                              <div class="event-date bg-light border">GENERAL MANAGER</div>
-                              <h5 class="font-size-16">Waiting</h5>
+                                    @if ($gm == null && $unitTransaction->status > 3)
+                                    <div class="event-date bg-light border">GENERAL MANAGER</div>
+                                    <h5 class="font-size-16">Approved Manual</h5>
+                                    @else
+                                    <div class="event-date bg-light border">GENERAL MANAGER <br><br> </div>
+                                    <h5 class="font-size-16">Waiting</h5>
+                                    @endif
                               
                            @endif
                           </div>
@@ -1372,8 +1379,14 @@ Payroll Transaction
                               <h5 class="font-size-16">{{formatDateTime($bod->created_at)}}</h5>
                               
                               @else  
-                              <div class="event-date bg-light border">DIREKSI / BOD </div>
+
+                              @if ($bod == null && $unitTransaction->status > 4)
+                              <div class="event-date bg-light border">DIREKSI</div>
+                              <h5 class="font-size-16">Approved Manual</h5>
+                              @else
+                              <div class="event-date bg-light border">DIREKSI <br><br> </div>
                               <h5 class="font-size-16">Waiting</h5>
+                              @endif
                               
                            @endif
                          </div>
@@ -1415,20 +1428,32 @@ Payroll Transaction
                      @if ($manHrd)
                      {{formatDateTime($manHrd->created_at)}} 
                      @endif
+                     @if ($manHrd == null && $unitTransaction->status > 1)
+                     <span>Approve Manual</span>
+                     @endif
                   </td>
                   <td colspan="" style="height: 80px" class="text-center">
                      @if ($manFin)
                      {{formatDateTime($manFin->created_at)}} 
+                     @endif
+                     @if ($manFin == null && $unitTransaction->status > 2)
+                     <span>Approve Manual</span>
                      @endif
                   </td>
                   <td colspan="" style="height: 80px" class="text-center">
                      @if ($gm)
                      {{formatDateTime($gm->created_at)}} 
                      @endif
+                     @if ($gm == null && $unitTransaction->status > 3)
+                     <span>Approve Manual</span>
+                     @endif
                   </td>
                   <td colspan="" style="height: 80px" class="text-center">
                      @if ($bod)
                      {{formatDateTime($bod->created_at)}} 
+                     @endif
+                     @if ($bod == null && $unitTransaction->status > 4)
+                     <span>Approve Manual</span>
                      @endif
                   </td>
                </tr>
@@ -1810,6 +1835,53 @@ Payroll Transaction
                <button type="submit" class="btn btn-danger ">Reject</button>
             </div>
          </form>
+      </div>
+   </div>
+</div>
+
+
+
+<div class="modal fade" id="modal-open-attachment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Attachment<br>
+               
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+
+         <div class="modal-body">
+            @php
+
+            $ekstensi = strtolower(pathinfo($unitTransaction->file, PATHINFO_EXTENSION));
+            
+            
+            @endphp  
+                     
+               {{-- {{$absenceemp->doc}} --}}
+               @if ($unitTransaction->file != null)
+      
+                     
+      
+                  @if ($ekstensi == 'pdf')
+                  <iframe  src="/storage/{{$unitTransaction->file}}" style="width:100%; height:550px;" frameborder="0"></iframe>
+                  @else
+                  <img width="100%" src="/storage/{{$unitTransaction->file}}" alt="">
+                  @endif
+                  
+                  
+               @endif
+                     
+         </div>
+         
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+               {{-- <button type="submit" class="btn btn-primary ">Publish</button> --}}
+            </div>
+         
       </div>
    </div>
 </div>

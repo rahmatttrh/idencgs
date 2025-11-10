@@ -359,24 +359,52 @@ Payroll Report BPJS KS
                         @endif
                      </td>
                      <td colspan="" style="height: 80px" class="text-center">
-                        @if ($manHrd)
+                        {{-- @if ($manHrd)
                         {{formatDateTime($manHrd->created_at)}} 
-                        @endif
+                        @endif --}}
+                           @if ($manHrd)
+                           <h3 ><i>Approved</i></h3>
+                           {{-- {{formatDateTime($manHrd->created_at)}}  --}}
+                           @endif
+                           @if ($manHrd == null && $unitTransaction->status > 1)
+                           <h3 ><i>Approved Manual</i></h3>
+                           @endif
                      </td>
                      <td colspan="" style="height: 80px" class="text-center">
-                        @if ($manFin)
+                        {{-- @if ($manFin)
                         {{formatDateTime($manFin->created_at)}} 
-                        @endif
+                        @endif --}}
+                        @if ($manFin)
+                           <h3 ><i>Approved</i></h3>
+                           {{-- {{formatDateTime($manFin->created_at)}}  --}}
+                           @endif
+                           @if ($manFin == null && $unitTransaction->status > 2)
+                           <h3 ><i>Approved Manual</i></h3>
+                           @endif
                      </td>
                      <td colspan="" style="height: 80px" class="text-center">
-                        @if ($gm)
+                        {{-- @if ($gm)
                         {{formatDateTime($gm->created_at)}} 
-                        @endif
+                        @endif --}}
+                        @if ($gm)
+                           <h3 ><i>Approved</i></h3>
+                           {{-- {{formatDateTime($gm->created_at)}}  --}}
+                           @endif
+                           @if ($gm == null && $unitTransaction->status > 3)
+                           <h3 ><i>Approved Manual</i></h3>
+                           @endif
                      </td>
                      <td colspan="" style="height: 80px" class="text-center">
-                        @if ($bod != null)
+                        {{-- @if ($bod != null)
                         {{formatDateTime($bod->created_at)}} 
-                        @endif
+                        @endif --}}
+                        @if ($bod)
+                           <h3 ><i>Approved</i></h3>
+                           {{-- {{formatDateTime($bod->created_at)}}  --}}
+                           @endif
+                           @if ($bod == null && $unitTransaction->status > 4)
+                           <h3 ><i>Approved Manual</i></h3>
+                           @endif
                      </td>
                   </tr>
                   <tr>

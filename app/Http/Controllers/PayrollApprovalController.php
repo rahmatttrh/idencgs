@@ -9,6 +9,7 @@ use App\Models\Transaction;
 use App\Models\UnitTransaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PayrollApprovalController extends Controller
 {
@@ -77,6 +78,35 @@ class PayrollApprovalController extends Controller
       ]);
 
       return redirect()->back()->with('success', "Transaction Data successfully published");
+   }
+
+   public function updateStatus(Request $req){
+      $unitTransaction = UnitTransaction::find($req->unitTransactionId);
+
+      if (request('file')) {
+         Storage::delete($unitTransaction->file);
+         $file = request()->file('file')->store('payroll/approval');
+      } elseif ($unitTransaction->file) {
+         $file = $unitTransaction->file;
+      } else {
+         $file = null;
+      }
+
+      $unitTransaction->update([
+         'status' => $req->status,
+         'file' => $file
+      ]);
+
+      // if ($req->status == 6) {
+      //    foreach($unitTransaction->transactions as $trans){
+      //       $trans->update([
+      //          'status' => 6
+      //       ]);
+      //    }
+      // }
+
+      return redirect()->back()->with('success', 'Status berhasil diubah');
+
    }
 
    public function approveLocation(Request $req){

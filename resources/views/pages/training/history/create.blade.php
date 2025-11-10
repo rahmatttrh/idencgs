@@ -67,7 +67,7 @@ Create History Training
                      <label>Jenis Sertifikat</label>
                      <select class="form-control " required name="type_sertificate" id="type_sertificate">
                         <option value="" disabled selected>Select</option>
-                        <option value="Attendence">Attendence</option>
+                        <option value="Attendance">Attendance</option>
                         <option value="Migas">Migas</option>
                         <option value="Kemnaker">Kemnaker</option>
                         <option value="Disnaker">Disnaker</option>

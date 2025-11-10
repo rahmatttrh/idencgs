@@ -197,10 +197,20 @@ class Department extends Model
       $employees = Employee::where('department_id', $this->id)->whereNotIn('designation_id', [5,6,7,8,9])->where('status', 1)->where('join', '<=', $end)->get();
       // $qpes = Pe::where('semester', $semester)->where('tahun', $year)->get();
 
+
+      $total = count($employees);
+      $nowYear = Carbon::now()->format('Y');
+      if ($year < $nowYear ) {
+         $draft = $this->getQpe($semester, $year, 0);
+         $pending = $this->getQpe($semester, $year, 1);
+         $done = $this->getQpe($semester, $year, 2);
+         $empty = $this->getEmptyQpe($semester, $year);
+         $total = $draft + $pending + $done + $empty;
+      }
       
 
       // $employeeEmptyQpe = count($employees) - $employeeQpe;
 
-      return $employees;
+      return $total;
    }
 }
