@@ -55,14 +55,18 @@ class QuickPEController extends Controller
          $done = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
          $reject = Pe::where('status', 101)->orderBy('updated_at', 'asc')->get();
 
-         $user = Employee::where('nik', auth()->user()->username)->first();
-         if ($user->loc == 'Medan') {
-            $pes = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
-            $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
-            $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
-            $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
-            $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
-            $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+         if (auth()->user()->hasRole('Administrator')) {
+            # code...
+         } else {
+            $user = Employee::where('nik', auth()->user()->username)->first();
+            if ($user->loc == 'Medan') {
+               $pes = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
+               $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
+               $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
+               $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
+               $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
+               $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+            }
          }
       } else if (auth()->user()->hasRole('HRD|HRD-Spv|HRD-Manager')) {
          // dd('ok');
@@ -206,14 +210,18 @@ class QuickPEController extends Controller
          $done = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
          $reject = Pe::where('status', 101)->orderBy('updated_at', 'asc')->get();
 
-         $user = Employee::where('nik', auth()->user()->username)->first();
-         if ($user->loc == 'Medan') {
-            $pes = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
-            $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
-            $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
-            $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
-            $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
-            $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+         if (auth()->user()->hasRole('Administrator')) {
+            # code...
+         } else {
+            $user = Employee::where('nik', auth()->user()->username)->first();
+            if ($user->loc == 'Medan') {
+               $pes = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
+               $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
+               $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
+               $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
+               $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
+               $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+            }
          }
       } else if (auth()->user()->hasRole('HRD|HRD-Spv|HRD-Manager|HRD-Recruitment')) {
          // dd('ok');
@@ -438,14 +446,18 @@ class QuickPEController extends Controller
          $done = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
          $reject = Pe::where('status', 101)->orderBy('updated_at', 'asc')->get();
          
-         $user = Employee::where('nik', auth()->user()->username)->first();
-         if ($user->loc == 'Medan') {
-            $pes = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
-            $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
-            $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
-            $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
-            $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
-            $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+         if (auth()->user()->hasRole('Administrator')) {
+            # code...
+         } else {
+            $user = Employee::where('nik', auth()->user()->username)->first();
+            if ($user->loc == 'Medan') {
+               $pes = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
+               $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
+               $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
+               $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
+               $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
+               $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+            }
          }
         } else if (auth()->user()->hasRole('Manager|Asst. Manager')) {
             //  dd('ok');
@@ -607,14 +619,18 @@ class QuickPEController extends Controller
          $done = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
          $reject = Pe::where('status', 101)->orderBy('updated_at', 'asc')->get();
 
-         $user = Employee::where('nik', auth()->user()->username)->first();
-         if ($user->loc == 'Medan') {
-            $pes = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
-            $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
-            $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
-            $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
-            $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
-            $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+         if (auth()->user()->hasRole('Administrator')) {
+            # code...
+         } else {
+            $user = Employee::where('nik', auth()->user()->username)->first();
+            if ($user->loc == 'Medan') {
+               $pes = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
+               $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
+               $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
+               $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
+               $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
+               $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+            }
          }
         } else if (auth()->user()->hasRole('Manager|Asst. Manager')) {
             //  dd('ok');
@@ -776,14 +792,18 @@ class QuickPEController extends Controller
          $done = Pe::where('status', 2)->orderBy('updated_at', 'asc')->get();
          $reject = Pe::where('status', 101)->orderBy('updated_at', 'asc')->get();
 
-         $user = Employee::where('nik', auth()->user()->username)->first();
-         if ($user->loc == 'Medan') {
-            $pes = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
-            $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
-            $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
-            $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
-            $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
-            $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+         if (auth()->user()->hasRole('Administrator')) {
+            # code...
+         } else {
+            $user = Employee::where('nik', auth()->user()->username)->first();
+            if ($user->loc == 'Medan') {
+               $pes = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+               $total = Pe::where('loc', 'Medan')->orderBy('updated_at', 'asc')->get();
+               $draft = Pe::where('loc', 'Medan')->where('status', 0)->orderBy('updated_at', 'asc')->get();
+               $verification = Pe::where('loc', 'Medan')->where('status', 1)->orderBy('updated_at', 'asc')->get();
+               $done = Pe::where('loc', 'Medan')->where('status', 2)->orderBy('updated_at', 'asc')->get();
+               $reject = Pe::where('loc', 'Medan')->where('status', 101)->orderBy('updated_at', 'asc')->get();
+            }
          }
         } else if (auth()->user()->hasRole('Manager|Asst. Manager')) {
             //  dd('ok');
@@ -2763,10 +2783,14 @@ class QuickPEController extends Controller
       // $semeter = 1;
       $year = $now->format('Y');
 
-      $user = Employee::where('nik', auth()->user()->username)->first();
-      if ($user->loc == 'Medan') {
-         $units = Unit::where('id', 7)->get();
-         $qpes = Pe::where('loc', 'Medan')->get();
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $units = Unit::where('id', 7)->get();
+            $qpes = Pe::where('loc', 'Medan')->get();
+         }
       }
 
       return view('pages.qpe.report', [
@@ -2838,10 +2862,14 @@ class QuickPEController extends Controller
       // $semeter = 1;
       // $year = $now->format('Y');
 
-      $user = Employee::where('nik', auth()->user()->username)->first();
-      if ($user->loc == 'Medan') {
-         $units = Unit::where('id', 7)->get();
-         $qpes = Pe::where('loc', 'Medan')->get();
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $units = Unit::where('id', 7)->get();
+            $qpes = Pe::where('loc', 'Medan')->get();
+         }
       }
 
       return view('pages.qpe.report', [
