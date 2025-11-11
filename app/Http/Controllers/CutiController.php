@@ -318,20 +318,26 @@ class CutiController extends Controller
       $employees = Employee::where('status', 1)->get();
       
 
-      $user = Employee::where('nik', auth()->user()->username)->first();
-      if ($user->loc == 'Medan') {
-         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
-         
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
 
-         $employeeId = [];
-         foreach($employees as $emp){
-            $employeeId[] = $emp->id;
+     
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+            
+
+            $employeeId = [];
+            foreach($employees as $emp){
+               $employeeId[] = $emp->id;
+            }
+
+
+            $cutis = Cuti::whereIn('employee_id', $employeeId)->get();
+            
+            
          }
-
-
-         $cutis = Cuti::whereIn('employee_id', $employeeId)->get();
-         
-         
       }
 
       // dd('ok');

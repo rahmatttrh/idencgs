@@ -44,12 +44,17 @@ class AbsenceController extends Controller
       $units = Unit::get();
       $locations = Location::get();
 
-      $user = Employee::where('nik', auth()->user()->username)->first();
-      if ($user->loc == 'Medan') {
-         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
-         $absences = Absence::where('loc', 'Medan')->orderBy('updated_at', 'desc')->paginate(800);
-         $units = Unit::where('id', 7)->get();
-         
+
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+            $absences = Absence::where('loc', 'Medan')->orderBy('updated_at', 'desc')->paginate(800);
+            $units = Unit::where('id', 7)->get();
+            
+         }
       }
 
       if (auth()->user()->hasRole('HRD-KJ12') || auth()->user()->hasRole('HRD-KJ45') || auth()->user()->hasRole('HRD-JGC'))  {
@@ -329,11 +334,15 @@ class AbsenceController extends Controller
       
       $employees = Employee::where('status', 1)->get();
 
-      $user = Employee::where('nik', auth()->user()->username)->first();
-      if ($user->loc == 'Medan') {
-         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
-         $absences = Absence::where('loc', 'Medan')->orderBy('updated_at', 'desc')->paginate(800);
-         
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+            $absences = Absence::where('loc', 'Medan')->orderBy('updated_at', 'desc')->paginate(800);
+            
+         }
       }
    
 
@@ -363,8 +372,11 @@ class AbsenceController extends Controller
          
       // }
 
-      $user = Employee::where('nik', auth()->user()->username)->first();
-      if ($user->loc == 'Medan') {
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
             $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
             $employeeId = [];
             foreach($employees as $emp){
@@ -373,6 +385,7 @@ class AbsenceController extends Controller
             $absences = Absence::whereIn('employee_id', $employeeId)->orderBy('updated_at', 'desc')->paginate(500);
             
          }
+      }
 
       
 

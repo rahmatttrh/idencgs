@@ -233,37 +233,41 @@ class OvertimeController extends Controller
 
 
 
-      $user = Employee::where('nik', auth()->user()->username)->first();
-      if ($user->loc == 'Medan') {
-         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
-         $units = Unit::where('id', 7)->get();
+         if (auth()->user()->hasRole('Administrator')) {
+            # code...
+         } else {
+            $user = Employee::where('nik', auth()->user()->username)->first();
+            if ($user->loc == 'Medan') {
+               $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+               $units = Unit::where('id', 7)->get();
 
-         $overtimes = Overtime::select(
-            'overtimes.location_id',
-            'employees.unit_id',
-            'overtimes.type',
-            DB::raw('SUM(overtimes.hours) as total_hours')
-         )
-            ->join('employees', 'overtimes.employee_id', '=', 'employees.id')
-            ->whereBetween('overtimes.date', [$from, $to])
-            ->where('overtimes.loc', 'Medan')
-            ->when(!empty($locationIds), fn ($q) => $q->whereIn('overtimes.location_id', $locationIds))
-            ->when(!empty($unitIds), fn ($q) => $q->whereIn('employees.unit_id', $unitIds))
-            ->groupBy('overtimes.location_id', 'employees.unit_id', 'overtimes.type')
-            ->get()
-            ->groupBy(fn ($item) => $item->location_id . '-' . $item->unit_id . '-' . $item->type);
+               $overtimes = Overtime::select(
+                  'overtimes.location_id',
+                  'employees.unit_id',
+                  'overtimes.type',
+                  DB::raw('SUM(overtimes.hours) as total_hours')
+               )
+                  ->join('employees', 'overtimes.employee_id', '=', 'employees.id')
+                  ->whereBetween('overtimes.date', [$from, $to])
+                  ->where('overtimes.loc', 'Medan')
+                  ->when(!empty($locationIds), fn ($q) => $q->whereIn('overtimes.location_id', $locationIds))
+                  ->when(!empty($unitIds), fn ($q) => $q->whereIn('employees.unit_id', $unitIds))
+                  ->groupBy('overtimes.location_id', 'employees.unit_id', 'overtimes.type')
+                  ->get()
+                  ->groupBy(fn ($item) => $item->location_id . '-' . $item->unit_id . '-' . $item->type);
 
-            $employeeCounts = Employee::select('location_id', 'unit_id', DB::raw('COUNT(*) as total'))
-            ->where('status', 1)
-            ->where('loc', 'Medan')
-            ->whereNull('project_id')
-            ->when(!empty($locationIds), fn ($q) => $q->whereIn('location_id', $locationIds))
-            ->when(!empty($unitIds), fn ($q) => $q->whereIn('unit_id', $unitIds))
-            ->groupBy('location_id', 'unit_id')
-            ->get()
-            ->keyBy(fn ($row) => $row->location_id . '-' . $row->unit_id);
-         
-      }
+                  $employeeCounts = Employee::select('location_id', 'unit_id', DB::raw('COUNT(*) as total'))
+                  ->where('status', 1)
+                  ->where('loc', 'Medan')
+                  ->whereNull('project_id')
+                  ->when(!empty($locationIds), fn ($q) => $q->whereIn('location_id', $locationIds))
+                  ->when(!empty($unitIds), fn ($q) => $q->whereIn('unit_id', $unitIds))
+                  ->groupBy('location_id', 'unit_id')
+                  ->get()
+                  ->keyBy(fn ($row) => $row->location_id . '-' . $row->unit_id);
+               
+            }
+         }
 
       $data = [
          'unitAll' => 1,
@@ -776,15 +780,21 @@ class OvertimeController extends Controller
    public function indexRecent()
    {
       $overtimes = Overtime::orderBy('updated_at', 'desc')->paginate(500);
-      $user = Employee::where('nik', auth()->user()->username)->first();
-      if ($user->loc == 'Medan') {
-         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
-         $employeeId = [];
-         foreach($employees as $emp){
-            $employeeId[] = $emp->id;
+     
+
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+            $employeeId = [];
+            foreach($employees as $emp){
+               $employeeId[] = $emp->id;
+            }
+            $overtimes = Overtime::whereIn('employee_id', $employeeId)->orderBy('updated_at', 'desc')->paginate(500);
+            
          }
-         $overtimes = Overtime::whereIn('employee_id', $employeeId)->orderBy('updated_at', 'desc')->paginate(500);
-         
       }
 
       return view('pages.payroll.overtime.summary-recent', [
@@ -1229,15 +1239,19 @@ class OvertimeController extends Controller
          $employees = Employee::where('status', 1)->get();
          $overtimes = Overtime::orderBy('created_at', 'desc')->paginate(800);
 
-         $user = Employee::where('nik', auth()->user()->username)->first();
-         if ($user->loc == 'Medan') {
-            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
-            $employeeId = [];
-            foreach($employees as $emp){
-               $employeeId[] = $emp->id;
+         if (auth()->user()->hasRole('Administrator')) {
+            # code...
+         } else {
+            $user = Employee::where('nik', auth()->user()->username)->first();
+            if ($user->loc == 'Medan') {
+               $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+               $employeeId = [];
+               foreach($employees as $emp){
+                  $employeeId[] = $emp->id;
+               }
+               $overtimes = Overtime::where('status', 0)->whereIn('employee_id', $employeeId)->orderBy('updated_at', 'desc')->paginate(500);
+               
             }
-            $overtimes = Overtime::where('status', 0)->whereIn('employee_id', $employeeId)->orderBy('updated_at', 'desc')->paginate(500);
-            
          }
       
 
@@ -1300,15 +1314,19 @@ class OvertimeController extends Controller
          $employees = Employee::where('status', 1)->get();
          $overtimes = Overtime::where('status', 0)->orderBy('created_at', 'desc')->get();
 
-         $user = Employee::where('nik', auth()->user()->username)->first();
-         if ($user->loc == 'Medan') {
-            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
-            $employeeId = [];
-            foreach($employees as $emp){
-               $employeeId[] = $emp->id;
+         if (auth()->user()->hasRole('Administrator')) {
+            # code...
+         } else {
+            $user = Employee::where('nik', auth()->user()->username)->first();
+            if ($user->loc == 'Medan') {
+               $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+               $employeeId = [];
+               foreach($employees as $emp){
+                  $employeeId[] = $emp->id;
+               }
+               $overtimes = Overtime::where('status', 0)->whereIn('employee_id', $employeeId)->orderBy('updated_at', 'desc')->paginate(500);
+               
             }
-            $overtimes = Overtime::where('status', 0)->whereIn('employee_id', $employeeId)->orderBy('updated_at', 'desc')->paginate(500);
-            
          }
    
       // dd('ok');
