@@ -15,11 +15,17 @@ class StController extends Controller
       $sts = St::get();
       $allEmployees = collect();
 
-      if (auth()->user()->hasRole('HRD-KJ12')) {
-         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
-      } elseif (auth()->user()->hasRole('HRD-KJ45')){
-         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [4])->get();
-      }  
+      $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+            $allEmployees = $employees;
+            $employeeId = [];
+            foreach($employees as $emp){
+               $employeeId[] = $emp->id;
+            }
+            $sts = St::whereIn('employee_id', $employeeId)->get();
+            
+         }
       return view('pages.sp.teguran.index', [
          'sts' => $sts,
          'allEmployees' => $allEmployees
@@ -27,6 +33,14 @@ class StController extends Controller
    }
    public function createHrd(){
       $allEmployees = Employee::where('status', 1)->get();
+
+      $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+            $allEmployees = $employees;
+            
+            
+         }
 
       return view('pages.sp.teguran.create', [
          'allEmployees' => $allEmployees

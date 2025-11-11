@@ -81,7 +81,8 @@ class CutiController extends Controller
 
 
       // GENERATE PERIODE CUTI KARYAWAN TETEP DARI JOIN DATE
-      // $tetapContrats = Contract::where('type', 'Tetap')->get();
+      $tetapContrats = Contract::where('type', 'Tetap')->get();
+      // dd(count($tetapContrats));
       // foreach($tetapContrats as $tcon){
       //    $employee = Employee::find($tcon->employee_id);
       
@@ -196,7 +197,7 @@ class CutiController extends Controller
          // }
       }
 
-      // $employees = Employee::where('status', 1)->get();
+      $employees = Employee::where('status', 1)->get();
       // foreach($employees as $emp){
       //    Cuti::create([
       //       'employee_id' => $emp->id,
@@ -315,39 +316,22 @@ class CutiController extends Controller
       // dd($cutis);
       $hrdonsite = 0;
       $employees = Employee::where('status', 1)->get();
-      if (auth()->user()->hasRole('HRD-KJ12')) {
-         $hrdonsite = 1;
-         $cutis = [];
-         $employees = Employee::where('status', 1)->whereIn('location_id', [3, 20])->get();
-         foreach($employees as $emp){
-            $cuti = Cuti::where('employee_id', $emp->id)->first();
-            if ($cuti) {
-               $cutis[] = $cuti;
-            }
-         }
-      } elseif(auth()->user()->hasRole('HRD-KJ45')){
-         $hrdonsite = 1;
-         $cutis = [];
-         $employees = Employee::where('status', 1)->whereIn('location_id', [4,5, 21, 22])->get();
-         foreach($employees as $emp){
-            $cuti = Cuti::where('employee_id', $emp->id)->first();
-            if ($cuti) {
-               $cutis[] = $cuti;
-            }
+      
 
+      $user = Employee::where('nik', auth()->user()->username)->first();
+      if ($user->loc == 'Medan') {
+         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+         
+
+         $employeeId = [];
+         foreach($employees as $emp){
+            $employeeId[] = $emp->id;
          }
 
-      } elseif(auth()->user()->hasRole('HRD-JGC')){
-         $hrdonsite = 1;
-         $cutis = [];
-         $employees = Employee::where('status', 1)->whereIn('location_id', [2])->get();
-         foreach($employees as $emp){
-            $cuti = Cuti::where('employee_id', $emp->id)->first();
-            if ($cuti) {
-               $cutis[] = $cuti;
-            }
-            
-         }
+
+         $cutis = Cuti::whereIn('employee_id', $employeeId)->get();
+         
+         
       }
 
       // dd('ok');

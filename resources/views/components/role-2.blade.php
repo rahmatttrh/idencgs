@@ -1,25 +1,32 @@
 @if ($employee->user->hasRole('HRD-Manager'))
-    <span class="badge badge-lights">HRD Manager</span>
+    HRD Manager
 @endif
 
 @if ($employee->user->hasRole('HRD'))
-    <span class="badge badge-lights">HRD</span>
+    HRD
 @endif
 
 @if ($employee->user->hasRole('HRD-Recruitment'))
-    <span class="badge badge-light">HRD Recruitment</span>
+    HRD Recruitment
 @endif
 
 @if ($employee->user->hasRole('HRD-Payroll'))
-    <span class="badge badge-light">HRD Payroll</span>
+    HRD Payroll
+@endif
+
+@if ($employee->user->hasRole('HRD-Admin'))
+    HRD Admin
+@endif
+@if ($employee->user->hasRole('HRD-Kpi'))
+    HRD KPI
 @endif
 @if ($employee->user->hasRole('HRD-KJ45'))
-    <span class="badge badge-light">HRD KJ 4-5</span>
+    HRD KJ 4-5
 @endif
 @if ($employee->user->hasRole('HRD-KJ12'))
-    <span class="badge badge-light">HRD KJ 1-2</span>
+    HRD KJ 1-2
 @endif
 
 @if ($employee->user->hasRole('HRD-JGC'))
-    <span class="badge badge-light">HRD JGC</span>
+    HRD JGC
 @endif

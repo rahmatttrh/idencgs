@@ -39,11 +39,23 @@ class SpController extends Controller
             'employees' => $employees,
             'sps' => $sps
          ])->with('i');
-      } elseif (auth()->user()->hasRole('BOD|HRD-Spv|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll')) {
+      } elseif (auth()->user()->hasRole('BOD|HRD-Spv|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-Kpi|HRD-Admin')) {
          $employee = auth()->user()->getEmployee();
          $allEmployees = Employee::get();
          $employees = [];
          $sps = Sp::orderBy('date_from', 'desc')->get();
+
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+            $allEmployees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+            $employeeId = [];
+            foreach($employees as $emp){
+               $employeeId[] = $emp->id;
+            }
+            $sps = Sp::whereIn('employee_id', $employeeId)->orderBy('date_from', 'desc')->paginate(500);
+            
+         }
          // dd($sps);
          return view('pages.sp.index-hrd', [
             'employee' => $employee,
@@ -51,64 +63,6 @@ class SpController extends Controller
             'employees' => $employees,
             'sps' => $sps
          ])->with('i');
-      } elseif(auth()->user()->hasRole('HRD-KJ12')) {
-         $employee = auth()->user()->getEmployee();
-         $allEmployees = Employee::get();
-         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
-         $empId = [];
-         foreach($allEmployees as $emp){
-            $empId[] = $emp->id;
-         }
-         $sps = Sp::whereIn('employee_id', $empId)->orderBy('date_from', 'desc')->get();
-         $employees = [];
-         return view('pages.sp.index-hrd', [
-            'employee' => $employee,
-            'allEmployees' => $allEmployees,
-            'employees' => $employees,
-            'sps' => $sps
-         ])->with('i');
-            
-      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
-
-
-         $employee = auth()->user()->getEmployee();
-         $allEmployees = Employee::get();
-         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [4])->get();
-         $empId = [];
-         foreach($allEmployees as $emp){
-            $empId[] = $emp->id;
-         }
-         $sps = Sp::whereIn('employee_id', $empId)->orderBy('date_from', 'desc')->get();
-         $employees = [];
-         return view('pages.sp.index-hrd', [
-            'employee' => $employee,
-            'allEmployees' => $allEmployees,
-            'employees' => $employees,
-            'sps' => $sps
-         ])->with('i');
-         // dd($overtimes);
-      }  elseif(auth()->user()->hasRole('HRD-JGC')) {
-         $employee = auth()->user()->getEmployee();
-         $allEmployees = Employee::get();
-         $allEmployees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
-
-         $employees = Employee::whereIn('unit_id', [10,13,14])
-               ->where('status', 1)
-               ->get();
-         $empId = [];
-         foreach($employees as $emp){
-            $empId[] = $emp->id;
-         }
-
-         $sps = Sp::whereIn('employee_id', $empId)->orderBy('date_from', 'desc')->get();
-         $employees = [];
-         return view('pages.sp.index-hrd', [
-            'employee' => $employee,
-            'allEmployees' => $allEmployees,
-            'employees' => $employees,
-            'sps' => $sps
-         ])->with('i');
-            
       } elseif (auth()->user()->hasRole('Manager|Asst. Manager')) {
          $employee = auth()->user()->getEmployee();
          $employees = Employee::where('department_id', auth()->user()->getEmployee()->department_id)->where('designation_id', '<', 6)->get();
@@ -293,23 +247,17 @@ class SpController extends Controller
    {
       $employees = Employee::where('status', 1)->get();
 
-      if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll')) {
+      if (auth()->user()->hasRole('HRD-Spv|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-Kpi|HRD-Admin')) {
          
-         $employees = Employee::get();
-         
-      } elseif(auth()->user()->hasRole('HRD-KJ12')) {
-         
-         $employees = Employee::where('status', 1)->whereIn('location_id', [3])->get();
-         
+         $employees = Employee::where('status', 1)->get();
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
             
-      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
-
-         $employees = Employee::where('status', 1)->whereIn('location_id', [4])->get();
+            
+         }
          
-      } elseif (auth()->user()->hasRole('HRD-JGC')) {
-
-      $employees = Employee::where('status', 1)->whereIn('unit_id', [10,13,14])->get();
-      }
+      } 
       return view('pages.sp.create', [
          'allEmployees' => $employees
       ]);

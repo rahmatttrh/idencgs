@@ -169,15 +169,15 @@ class EmployeeController extends Controller
       //    }
       // }
 
-      foreach ($employees as $emp) {
-         $contract = Contract::find($emp->contract_id);
-         $loc = Location::where('code', $contract->loc)->first();
-         if ($loc) {
-            $emp->update([
-               'location_id' => $loc->id
-            ]);
-         }
-      }
+      // foreach ($employees as $emp) {
+      //    $contract = Contract::find($emp->contract_id);
+      //    $loc = Location::where('code', $contract->loc)->first();
+      //    if ($loc) {
+      //       $emp->update([
+      //          'location_id' => $loc->id
+      //       ]);
+      //    }
+      // }
 
       // foreach ($employees as $emp) {
       //    $user = User::where('username', $emp->nik)->first();
@@ -217,24 +217,42 @@ class EmployeeController extends Controller
       //       $user->assignRole('Karyawan');
       //    }
       // }
-      if (auth()->user()->hasRole('HRD-KJ12')) {
-         
-         $employees = Employee::where('status', 1)->whereIn('location_id', [3,20])->get();
-         
-      } elseif(auth()->user()->hasRole('HRD-KJ45')){
-         
-         $employees = Employee::where('status', 1)->whereIn('location_id', [4,5,21,22])->get();
-         
-
-      } elseif(auth()->user()->hasRole('HRD-JGC')){
-         
-         $employees = Employee::where('status', 1)->whereIn('location_id', [2])->get();
-         
-      }
+      
 
 
 
       $draftEmployees = Employee::where('status', 0)->get();
+
+      if (auth()->user()->hasRole('Administrator')) {
+         $empGhina = Employee::where('nik', '02.25.179')->first();
+         // dd($empGhina->user_id);
+         $ghina = User::where('name', 'Ghina Fakhira')->first();
+         // dd($ghina->id);
+
+         $employees = Employee::where('status', 1)->get();
+         $empty = 0;
+         // foreach($employees as $emp){
+         //    $user = User::where('username', $emp->nik)->first();
+         //    if ($user == null) {
+         //       $empty = $empty + 1;
+         //       $user = User::find($emp->user_id);
+         //       $user->update([
+         //          'username' => $emp->nik
+         //       ]);
+         //    }
+         // }
+
+         // dd($empty);
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+            $draftEmployees = Employee::where('loc', 'Medan')->where('status', 0)->get();
+         }
+      }
+      
       return view('pages.employee.index', [
          'employees' => $employees,
          'draftEmployees' => $draftEmployees,
@@ -246,6 +264,11 @@ class EmployeeController extends Controller
 
    public function indexContract(){
       $employees = Employee::where('status', 1)->get();
+      $user = Employee::where('nik', auth()->user()->username)->first();
+      if ($user->loc == 'Medan') {
+         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+         
+      }
       return view('pages.employee.contract', [
          'employees' => $employees
       ])->with('i');
@@ -254,6 +277,11 @@ class EmployeeController extends Controller
    public function indexMutation(){
       $employees = Employee::where('status', 1)->get();
       $filter = false;
+      $user = Employee::where('nik', auth()->user()->username)->first();
+      if ($user->loc == 'Medan') {
+         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+         
+      }
       return view('pages.employee.mutation', [
          'employees' => $employees,
          'filter' => $filter
@@ -353,6 +381,12 @@ class EmployeeController extends Controller
                'off' => $deactivate->date
             ]);
          }
+
+      $user = Employee::where('nik', auth()->user()->username)->first();
+      if ($user->loc == 'Medan') {
+         $employees = Employee::where('loc', 'Medan')->where('status', 3)->get();
+         
+      }
       return view('pages.employee.nonactive', [
          'employees' => $employees,
          'departments' => Department::get()
@@ -372,6 +406,11 @@ class EmployeeController extends Controller
    public function draft()
    {
       $employees = Employee::where('status', 0)->get();
+      $user = Employee::where('nik', auth()->user()->username)->first();
+      if ($user->loc == 'Medan') {
+         $employees = Employee::where('loc', 'Medan')->where('status', 0)->get();
+         
+      }
       return view('pages.employee.draft', [
          'employees' => $employees
       ])->with('i');

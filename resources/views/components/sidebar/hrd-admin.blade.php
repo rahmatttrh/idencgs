@@ -55,83 +55,18 @@
    </div>
 </li>
 
-<li class="nav-item">
-   <a data-toggle="collapse" href="#payroll">
-      <i class="fas fa-coins"></i>
-      <p>Payroll</p>
-      <span class="caret"></span>
+<li class="nav-item {{ (request()->is('payroll/overtime/*')) ? 'active' : '' }}">
+   <a href="{{route('payroll.overtime')}}">
+      <i class="fas fa-calendar-plus"></i>
+      <p>SPKL Karyawan</p>
    </a>
-   <div class="collapse" id="payroll">
-      <ul class="nav nav-collapse">
-         <li>
-            <a href="{{route('payroll.transaction')}}">
-               <span class="sub-item">Transaction</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('payroll.overtime')}}">
-               <span class="sub-item">SPKL</span>
-            </a>
-         </li>
-
-         <li>
-            <a href="{{route('payroll.absence')}}">
-               <span class="sub-item">Absence</span>
-            </a>
-         </li>
-
-         <li>
-            <a href="{{route('payroll.additional')}}">
-               <span class="sub-item">Others</span>
-            </a>
-         </li>
-      </ul>
-   </div>
 </li>
 
-<li class="nav-item {{ (request()->is('payroll/setup/*')) ? 'active' : '' }}">
-   <a data-toggle="collapse" href="#setpayroll">
-      <i class="fas fa-cog"></i>
-      <p>Setup Payroll</p>
-      <span class="caret"></span>
+<li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
+   <a href="{{route('payroll.absence')}}">
+      <i class="fas fa-calendar-plus"></i>
+      <p>Absensi Karyawan</p>
    </a>
-   <div class="collapse" id="setpayroll">
-      <ul class="nav nav-collapse">
-         {{-- <li>
-            <a href="{{route('payroll.transaction')}}">
-               <span class="sub-item">Transaction</span>
-            </a>
-         </li> --}}
-         {{-- <li>
-            <a href="{{route('payroll.overtime')}}">
-               <span class="sub-item">SPKL</span>
-            </a>
-         </li> --}}
-         {{-- <li>
-            <a href="{{route('holiday')}}">
-               <span class="sub-item">Libur Nasional</span>
-            </a>
-         </li> --}}
-         {{-- <li>
-            <a href="{{route('payroll.setup')}}">
-               <span class="sub-item">Setup</span>
-            </a>
-         </li> --}}
-         <li>
-            <a href="{{route('payroll')}}">
-               <span class="sub-item">Gaji Karyawan</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('payroll.unit')}}">
-               <span class="sub-item">Potongan Unit</span>
-            </a>
-         </li>
-         
-         
-
-      </ul>
-   </div>
 </li>
 
 <li class="nav-item {{ (request()->is('announcement/*')) ? 'active' : '' }}">

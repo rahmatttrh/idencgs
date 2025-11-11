@@ -73,14 +73,21 @@ PDF Example
                <tbody>
                   <tr>
                      <td class="text-center" colspan="2">
-                        <img src="{{asset('img/logo/enc1.png')}}" alt="" width="100">
+                        @if ($pe->employe->unit_id == 3 || $pe->employe->unit_id == 24 || $pe->employe->unit_id == 25)
+                        <img src="{{asset('img/logo/ekatama.png')}}" alt="" width="100"><br>    
+                        <span>PT Ekatama</span>
+                        @else
+                        <img src="{{asset('img/logo/gs.png')}}" alt="" width="100"><br>
+                        <span>PT Graha Segara</span>
+                        @endif
+                        
+                        
                      </td>
                      <td class="text-center" colspan="2">
                         <h2>PENILAIAN KARYAWAN</h2>
                      </td>
                      <td class="text-center" colspan="2">
-                        <img src="{{asset('img/logo/ekanuri.png')}}" alt="" width="100"><br>
-                        <span>PT Ekanuri</span>
+                        
                      </td>
                   </tr>
                   <tr>
@@ -125,18 +132,18 @@ PDF Example
                   <tr>
                      <td colspan="2">Jabatan</td>
                      <td>: {{$pe->employe->position->name}}</td>
-                     {{-- <td>: {{$pe->employe->position->name}}</td> --}}
+                     <td>: {{$pe->employe->position->name}}</td>
                      <td></td>
                      <td></td>
-                     <td></td>
+                     
                   </tr>
                   <tr>
                      <td colspan="2">Lokasi Kerja</td>
                      <td class="text-uppercase">: {{$pe->employe->contract->loc}}</td>
-                     {{-- <td class="text-uppercase">: {{$pe->employe->contract->loc}}</td> --}}
+                     <td class="text-uppercase">: {{$pe->employe->contract->loc}}</td>
                      <td></td>
                      <td></td>
-                     <td></td>
+                     
                   </tr>
 
                   <tr style="background-color: rgb(21, 21, 80); color:aqua">
@@ -148,7 +155,8 @@ PDF Example
                      <td style="width: 100px" class="text-center"><b>POIN BOBOT x NILAI</b></td>
                   </tr>
 
-                  <tr style="background-color: rgb(121, 168, 250);">
+                  {{--  --}}
+                  <tr style="">
                      <td class="text-center"><b>1</b></td>
                      <td colspan="2"><b>DISIPLIN</b></td>
                      {{-- <td></td> --}}
@@ -163,7 +171,7 @@ PDF Example
                      <td class="text-center">{{$pd->achievement}}</td>
                      <td style="background-color: yellow" class="text-center">{{$pd->contribute_to_pe}}</td>
                   </tr>
-                  <tr style="background-color: rgb(121, 168, 250);"">
+                  <tr style=""">
                      <td class=" text-center"><b>2</b></td>
                      <td colspan="2"><b>KPI</b></td>
                      {{-- <td></td> --}}
@@ -184,7 +192,7 @@ PDF Example
                      <td>{{$kd->kpidetail->objective}}</td>
                      <td class="text-center">{{$kd->kpidetail->weight}}</td>
                      <td class="text-center">{{$kd->value}}</td>
-                     <td style="" class="text-end">{{$kd->achievement}}</td>
+                     <td style="" class="text-center">{{$kd->achievement}}</td>
                   </tr>
                   @endforeach
                   <tr>
@@ -192,14 +200,14 @@ PDF Example
                      <td>Additional {{ $kda->additional_objective ?? '' }}</td>
                      <td class="text-center">{{ $kda->additional_weight ?? '' }}</td>
                      <td class="text-center">{{ $kda->value ?? '' }}</td>
-                     <td style="" class="text-end">{{ $kda->achievement ?? '' }}</td>
+                     <td style="" class="text-center">{{ $kda->achievement ?? '' }}</td>
                   </tr>
                   <tr>
                      <td colspan="2" class="text-end"></td>
                      <td>Sub Total</td>
                      <td class="text-center"></td>
                      <td class="text-center"></td>
-                     <td style="" class="text-end">{{$kpa->achievement}}</td>
+                     <td style="" class="text-center">{{$kpa->achievement}}</td>
                   </tr>
                   <tr>
                      <td colspan="3" class="text-center"><b>Total Hasil</b></td>
@@ -208,39 +216,43 @@ PDF Example
                      <td style="background-color: yellow" class="text-center">{{$kpa->contribute_to_pe}}</td>
                   </tr>
 
-                  <tr style="background-color: rgb(121, 168, 250);"">
+                  <tr style="">
                      <td class=" text-center"><b>3</b></td>
                      <td colspan="2"><b>BEHAVIOR</b></td>
                      {{-- <td></td> --}}
-                     <td colspan="" class="text-center"><b>{{$pba->weight}}</b></td>
+                     <td colspan="" class="text-center"><b>{{$pba->weight ?? ''}}</b></td>
                      <td></td>
                      <td></td>
                   </tr>
-                  @foreach($pba->pbads as $pbad)
+
+                  @if ($pba)
+                      @foreach($pba->pbads as $pbad)
                   <tr>
                      <td colspan="2" class="text-end">{{numberToAlphabet(++$i)}}</td>
                      <td>{{$pbad->behavior->objective}}</td>
                      <td class="text-center">{{$pbad->behavior->bobot}}</td>
                      <td class="text-center">{{$pbad->value}}</td>
-                     <td style="" class="text-end">{{$pbad->achievement}}</td>
+                     <td style="" class="text-center">{{$pbad->achievement}}</td>
                   </tr>
                   @endforeach
+                  @endif
+                  
                   <tr>
                      <td colspan="2" class="text-end"></td>
                      <td>Sub Total</td>
                      <td class="text-center"></td>
                      <td class="text-center"></td>
-                     <td style="background-color: yellow" class="text-center">{{$pba->contribute_to_pe}}</td>
+                     <td style="background-color: yellow" class="text-center">{{$pba->contribute_to_pe ?? ''}}</td>
                   </tr>
 
                   <tr style="background-color: rgb(21, 21, 80); color:aqua">
                      <td colspan="3" class="text-center">TOTAL NILAI</td>
                      <td class="text-center">100</td>
                      <td></td>
-                     <td class="text-end">{{$pe->discipline + $pe->kpi + $pe->behavior}}</td>
+                     <td class="text-center">{{$pe->discipline + $pe->kpi + $pe->behavior}}</td>
                   </tr>
 
-                  <tr style="background-color: rgb(121, 168, 250);"">
+                  <tr style="">
                      <td class=" text-center"><b>4</b></td>
                      <td colspan="2"><b>NILAI PENGURANG</b></td>
                      {{-- <td></td> --}}
@@ -261,7 +273,7 @@ PDF Example
                      <td>SP </td>
                      <td class="text-center"></td>
                      <td class="text-center"></td>
-                     <td style="" class="text-end"></td>
+                     <td style="" class="text-center">{{$pe->pengurang}}</td>
                   </tr>
                   <tr>
                      <td colspan="2" class="text-end">b</td>
@@ -271,7 +283,7 @@ PDF Example
                      <td style="" class="text-end"></td>
                   </tr>
 
-                  <tr style="background-color: rgb(121, 168, 250);"">
+                  <tr style="">
                      {{-- <td class="text-center"><b>4</b></td> --}}
                      <td colspan=" 3" class="text-center"><b>TOTAL PENGURANG</b></td>
                      {{-- <td></td> --}}
@@ -283,7 +295,22 @@ PDF Example
                   <tr style="background-color: rgb(21, 21, 80); color:aqua">
                      <td colspan="5" class="text-center">NILAI AKHIR (Total Nilai - Total Pengurang)</td>
 
-                     <td class="text-end">{{$pe->achievement}}</td>
+                     <td class="text-center">{{$pe->achievement}}  
+                        (
+                        @if ($pe->achievement >= 88 && $pe->achievement <= 100)
+                            A
+                        @endif
+                        @if ($pe->achievement >= 76 && $pe->achievement <= 87)
+                            B
+                        @endif
+                        @if ($pe->achievement >= 61 && $pe->achievement <= 75)
+                            C
+                        @endif
+                        @if ($pe->achievement >= 0 && $pe->achievement <= 60)
+                            D
+                        @endif
+                        )
+                     </td>
                   </tr>
 
 
@@ -315,7 +342,7 @@ PDF Example
                      <td colspan="4">: Kurang (Perlu evaluasi perbaikan, tidak mencapai hasil yang diharapkan)</td>
                   </tr>
 
-                  <tr style="background-color: rgb(121, 168, 250);"">
+                  <tr style=""">
                      {{-- <td class="text-center"><b>4</b></td> --}}
                      <td colspan=" 6" class="text-center"><b>TRAINING DEVELOPMENT</b></td>
 
@@ -330,7 +357,7 @@ PDF Example
                      {{$pe->pengembangan ?? ''}}
                   </td>
 
-                  <tr style="background-color: rgb(121, 168, 250);"">
+                  <tr style=""">
                      {{-- <td class="text-center"><b>4</b></td> --}}
                      <td colspan=" 6" class="text-center"><b>KOMENTAR EVALUATOR</b></td>
 
@@ -345,35 +372,54 @@ PDF Example
 
 
                   <tr style="background-color: black; color: white">
-                     <td colspan="2" class="text-center">Evaluator</td>
-                     <td class="text-center">Menyetujui</td>
+                     <td colspan="2" class="text-center"></td>
+                     <td colspan="1" class="text-center">Evaluator</td>
+                     <td colspan="3" class="text-center">Menyetujui</td>
                   </tr>
                   <tr>
-                     <td colspan="2">Atasan Langsung</td>
-                     <td>Manager</td>
+                     <td colspan="2">Karyawan yang dinilai</td>
+                     <td colspan="">Atasan Langsung</td>
+                     <td colspan="3">Manager</td>
                   </tr>
                   <tr>
                      <td colspan="2" style="height: 50px">
                         @if($pe->status > 0)
-                        <h4 style="color : green">Created </h4>
+                        {{-- <h4 style="color : green">Created </h4> --}}
                         @endif
                      </td>
-                     <td>
-                        @if($pe->status > 1)
-                           @if ($pe->asmen_id != null)
-                           <h4 style="color : green">Approved by Asst. Manager </h4>
-                               @else
-                               <h4 style="color : green">Approved </h4>
-                           @endif
-                        
+                     <td colspan="" style="height: 50px">
+                        @if($pe->status > 0)
+                        {{-- <h4 style="color : green">Created </h4> --}}
                         @endif
+                     </td>
+                     <td colspan="3">
+                        
+
+                        @if($pe->status == '2')
+                        <h4 style="color : green">Approved </h4>
+                        @elseif($pe->status == '3')
+                        <span class="badge badge-primary badge-lg"><b>Validasi HRD</b></span>
+                        @elseif($pe->status == '101')
+                        <h4 style="color : red">Reject by Manager </h4>
+                        @else
+                        @endif
+                        
+                        
+                        {{-- @if($pe->status > 1)
+                        <h4 style="color : green">Approved </h4>
+                        @endif --}}
                      </td>
                   </tr>
                   <tr>
-                     <td colspan="2">Nama &nbsp;&nbsp; : 
+                     <td colspan="2" class="text-truncate">Nama &nbsp;&nbsp; : 
+                        {{$pe->employe->biodata->fullName()}}
+                     </td>
+                     <td colspan="1">Nama &nbsp;&nbsp; : 
                         {{$pe->getCreatedBy()->biodata->fullName()}}
                      </td>
-                     <td>Nama &nbsp;&nbsp; : 
+                     <td colspan="3">Nama &nbsp;&nbsp; : 
+
+                        
                         @if ($pe->verifikasi_by != null)
                         {{$pe->getVerifikasiBy()->biodata->fullName()}}
                         @endif
@@ -381,8 +427,9 @@ PDF Example
                      </td>
                   </tr>
                   <tr>
-                     <td colspan="2">Tanggal : {{$pe->release_at ? formatDateTime($pe->release_at) : ''}}</td>
-                     <td>Tanggal : {{$pe->verifikasi_at ? formatDateTime($pe->verifikasi_at) : ''}}</td>
+                     <td colspan="2">Tanggal : </td>
+                     <td colspan="1">Tanggal : {{$pe->release_at ? formatDateTime($pe->release_at) : ''}}</td>
+                     <td colspan="3">Tanggal : {{$pe->verifikasi_at ? formatDateTime($pe->verifikasi_at) : ''}}</td>
                   </tr>
                </tbody>
             </table>

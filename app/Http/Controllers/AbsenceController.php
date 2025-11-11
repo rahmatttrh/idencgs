@@ -36,52 +36,21 @@ class AbsenceController extends Controller
       $locations = Location::get();
       // dd('ok');
 
-      if (auth()->user()->hasRole('HRD-KJ12')) {
-         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
-            ->where('contracts.loc', 'kj1-2')
-            ->orWhere('contracts.loc', 'kj1-2-medco')
-            ->orWhere('contracts.loc', 'kj1-2-premier-oil')
-            ->orWhere('contracts.loc', 'kj1-2-petrogas')
-            ->orWhere('contracts.loc', 'kj1-2-star-energy')
-            ->orWhere('contracts.loc', 'kj1-2-housekeeping')
-            ->select('employees.*')
-            ->get();
-
-            // $employees = Employee::where('status', 1)->where('location_id', 3)->get();
-
-         $absences = Absence::whereIn('location_id', [3,11,12,13,14,20])->orderBy('updated_at', 'desc')->paginate(800);
-      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
-
+      
          // dd('ok');
-         // $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
-         //    ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
-         //    ->select('employees.*')
-         //    ->get();
-         // $employees = Employee::where('status', 1)->where('location_id', 4)->orWhere('location_id', 5)->get();
-         $employees = Employee::whereIn('location_id',[4,5,21,22])->where('status', 1)->get();
-         $absences = Absence::whereIn('location_id', [4,5,21,22])->orderBy('date', 'asc')->paginate(800);
-      } elseif (auth()->user()->hasRole('HRD-JGC')) {
-
-         // dd('ok');
-         // $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
-         //    ->where('contracts.loc', 'jgc')
-         //    ->select('employees.*')
-         //    ->get();
-         $employees = Employee::where('status', 1)->whereIn('unit_id', [10,13,14])->get();
-         // $absences = Absence::orWhere('location_id', 2)->orderBy('date', 'asc')->paginate(800);
-
-         $absences = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
-         ->whereIn('employees.unit_id', [10,13,14])->orderBy('absences.updated_at', 'desc')->select('absences.*')
-         ->get();
-      } else {
-         // dd('ok');
-         $employees = Employee::where('status', 1)->get();
-         $absences = Absence::orderBy('updated_at', 'desc')->paginate(800);
-      }
-
+      $employees = Employee::where('status', 1)->get();
+      $absences = Absence::orderBy('updated_at', 'desc')->paginate(800);
 
       $units = Unit::get();
       $locations = Location::get();
+
+      $user = Employee::where('nik', auth()->user()->username)->first();
+      if ($user->loc == 'Medan') {
+         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+         $absences = Absence::where('loc', 'Medan')->orderBy('updated_at', 'desc')->paginate(800);
+         $units = Unit::where('id', 7)->get();
+         
+      }
 
       if (auth()->user()->hasRole('HRD-KJ12') || auth()->user()->hasRole('HRD-KJ45') || auth()->user()->hasRole('HRD-JGC'))  {
          return view('pages.payroll.absence.employee', [
@@ -354,40 +323,19 @@ class AbsenceController extends Controller
    public function create()
    {
       $now = Carbon::now();
-      $employees = Employee::with('biodata')->get();
+      
       $absences = Absence::orderBy('updated_at', 'desc')->paginate(10);
 
-      if (auth()->user()->hasRole('HRD-KJ12')) {
-         $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
-            ->where('contracts.loc', 'kj1-2')
-            ->orWhere('contracts.loc', 'kj1-2-medco')
-            ->orWhere('contracts.loc', 'kj1-2-premier-oil')
-            ->orWhere('contracts.loc', 'kj1-2-petrogas')
-            ->orWhere('contracts.loc', 'kj1-2-star-energy')
-            ->orWhere('contracts.loc', 'kj1-2-housekeeping')
-            ->where('employees.status', 1)
-            ->select('employees.*')
-            ->get();
-      } elseif (auth()->user()->hasRole('HRD-KJ45')) {
+      
+      $employees = Employee::where('status', 1)->get();
 
-         // dd('ok');
-         // $employees = Employee::join('contracts', 'employees.contract_id', '=', 'contracts.id')
-         //    ->where('contracts.loc', 'kj4')->orWhere('contracts.loc', 'kj5')
-         //    ->select('employees.*')
-         //    ->get();
-
-            $employees = Employee::whereIn('location_id',[4,5,21,22])->where('status', 1)->get();
-      } elseif (auth()->user()->hasRole('HRD-JGC')) {
-
-         // dd('ok');
-         $employees = Employee::whereIn('unit_id', [10,13,14])
-            ->where('employees.status', 1)
-            ->get();
+      $user = Employee::where('nik', auth()->user()->username)->first();
+      if ($user->loc == 'Medan') {
+         $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+         $absences = Absence::where('loc', 'Medan')->orderBy('updated_at', 'desc')->paginate(800);
          
-      } else {
-         // dd('ok');
-         $employees = Employee::where('status', 1)->get();
       }
+   
 
 
 
@@ -406,6 +354,27 @@ class AbsenceController extends Controller
       $now = Carbon::now();
       $employees = Employee::with('biodata')->get();
       $absences = Absence::orderBy('updated_at', 'desc')->paginate(500);
+
+      // $user = Employee::where('nik', auth()->user()->username)->first();
+      // if ($user->loc == 'Medan') {
+      //    $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+      //    $absences = Absence::where('loc', 'Medan')->orderBy('updated_at', 'desc')->paginate(800);
+         
+         
+      // }
+
+      $user = Employee::where('nik', auth()->user()->username)->first();
+      if ($user->loc == 'Medan') {
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+            $employeeId = [];
+            foreach($employees as $emp){
+               $employeeId[] = $emp->id;
+            }
+            $absences = Absence::whereIn('employee_id', $employeeId)->orderBy('updated_at', 'desc')->paginate(500);
+            
+         }
+
+      
 
       
 

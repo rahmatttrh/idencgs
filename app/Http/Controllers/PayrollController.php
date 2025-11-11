@@ -33,7 +33,7 @@ class PayrollController extends Controller
       //       'payslip_status' => 'show'
       //    ]);
       // }
-      $employees = Employee::where('status', 1)->where('unit_id', dekripRambo($unit))->where('id', 230)->get();
+      $employees = Employee::where('status', 1)->where('unit_id', dekripRambo($unit))->get();
       // dd($employees);
       // $transactionCon = new TransactionController;
       // $transactions = Transaction::where('status', '!=', 3)->get();
@@ -248,12 +248,36 @@ class PayrollController extends Controller
    public function index()
    {
       
+      
       $firstUnit = Unit::first();
       $employees = Employee::where('status', 1)->where('unit_id', $firstUnit->id)->get();
      
 
       $units = Unit::get();
       $activeUnit = Unit::get()->first();
+      // $allPayrolls = Payroll::get();
+         
+      //    foreach($allPayrolls as $pay){
+      //       $pay->update([
+      //          'payslip_status' => 'show'
+      //       ]);
+      //    }
+
+      //    dd('ok');
+
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+         
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $firstUnit = Unit::find(7);
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->where('unit_id', $firstUnit->id)->get();
+            $activeUnit = Unit::where('id', 7)->get()->first();
+            $units = Unit::where('id', 7)->get();
+         }
+      }
+      
       return view('pages.payroll.setup.gaji', [
          'employees' => $employees,
          'units' => $units,
@@ -275,6 +299,18 @@ class PayrollController extends Controller
       // foreach ($transactions as $tran) {
       //    $transactionCon->calculateTotalTransaction($tran, $tran->cut_from, $tran->cut_to);
       // }
+
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $firstUnit = Unit::find(7);
+            $employees = Employee::where('loc', 'Medan')->where('status', 1)->where('unit_id', $firstUnit->id)->get();
+            $activeUnit = Unit::where('id', 7)->get()->first();
+            $units = Unit::where('id', 7)->get();
+         }
+      }
 
       return view('pages.payroll.setup.gaji', [
          'employees' => $employees,
@@ -332,8 +368,20 @@ class PayrollController extends Controller
 
    public function unit()
    {
+      
       $units = Unit::get();
       $firstUnit = Unit::get()->first();
+
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $firstUnit = Unit::find(7);
+            
+            $units = Unit::where('id', 7)->get();
+         }
+      }
       return view('pages.payroll.setup.unit', [
          'units' => $units,
          'firstUnit' => $firstUnit

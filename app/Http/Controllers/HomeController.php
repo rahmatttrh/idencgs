@@ -756,7 +756,101 @@ class HomeController extends Controller
 
          // dd($cutis);
 
+         if ($user->loc == 'Medan') {
+            $employees = Employee::where('kpi_id', null)->where('loc', 'Medan')->get();
+         }
+
          return view('pages.dashboard.hrd-recruitment', [
+            'units' => $units,
+            'employee' => $user,
+            'allEmployees' => $allEmployees,
+            'employees' => $employees,
+            'male' => $male,
+            'female' => $female,
+            'spkls' => $spkls,
+            'sps' => $sps,
+            'kontrak' => $kontrak,
+            'tetap' => $tetap,
+            'empty' => $empty,
+            'broadcasts' => $broadcasts,
+            'personals' => $personals,
+            'reqForms' => $reqForms,
+            'reqBackForms' => $reqBackForms,
+            'teams' => $teams,
+            'notifContracts' => $notifContracts,
+            'cutis' => $cutis,
+            'peHistories' => $peHistories,
+            'spHistories' => $spHistories,
+            'spklApprovals' => $spklApprovals,
+            'absenceProgress' => $absenceProgress,
+
+            'backupDetails' => $backupDetails
+         ])->with('i');
+      } elseif (auth()->user()->hasRole('HRD-Kpi')) {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $units = Unit::get()->count();
+         $employees = Employee::where('kpi_id', null)->get();
+         $male = Biodata::where('gender', 'Male')->count();
+         $female = Biodata::where('gender', 'Female')->count();
+         $spkls = Spkl::orderBy('updated_at', 'desc')->paginate(5);
+         $sps = Sp::where('status', 1)->get();
+         $kontrak = Contract::where('status', 1)->where('type', 'Kontrak')->get()->count();
+         $allEmployees = Contract::where('status', 1)->get()->count();
+         $tetap = Contract::where('status', 1)->where('type', 'Tetap')->get()->count();
+         $empty = Contract::where('type', null)->get()->count();
+
+         $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->whereIn('status', [1])->get();
+         $now = Carbon::now();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->get();
+
+         $backupDetails = [];
+
+         foreach($reqBackForms as $backup){
+            foreach($backup->details as $detail){
+               if ($detail->date >= $now) {
+                  $backupDetails[] = $detail;
+               }
+            }
+         }
+
+         // dd($backupDetails);
+         // dd($reqBackForms);
+         $teams = EmployeeLeader::where('leader_id', $user->id)->get();
+
+         $now = Carbon::now();
+         // dd($now);
+         $contractEnds = Contract::where('type', 'Kontrak')->where('status', 1)->where('employee_id', '!=', null)->whereDate('end', '>', $now)->get();
+         
+         $nowAddTwo = $now->addMonth(2);
+         $notifContracts = $contractEnds->where('end', '<', $nowAddTwo);
+
+         $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
+            ->where('employees.department_id', $user->department_id)
+            ->where('absences.type', 5)
+            ->where('absences.date', '>=', $now->format('Y-m-d'))
+            ->select('absences.*')
+            ->get();
+         $peHistories = Pe::where('employe_id', $user->id)->where('status', '>', 1)->paginate(3);
+         $spHistories = Sp::where('employee_id', auth()->user()->getEmployeeId())->where('status', '>', 3)->get();
+         $spklApprovals = OvertimeEmployee::where('status', 3)->get();
+
+         $absenceProgress = AbsenceEmployee::where('status', '!=', 0)->where('status', '!=', 5)->orderBy('release_date', 'desc')->get();
+         // dd($now);
+         // $contractEnds = Contract::whereBetween('end', [$now, $nowAddTwo])->get();
+         
+         // dd($contractEnds->where('end', '<', $nowAddTwo));
+         // dd($reqForms);
+
+         $spklApprovals = OvertimeEmployee::where('status', 1)->where('leader_id', $user->id)->get();
+
+         $now = Carbon::now();
+         $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
+         ->where('absences.type', 5)->where('employees.department_id', $user->department_id)->whereDate('absences.date', '>=', $now)->select('absences.*')->get();
+
+         // dd($cutis);
+
+         return view('pages.dashboard.hrd-kpi', [
             'units' => $units,
             'employee' => $user,
             'allEmployees' => $allEmployees,
@@ -832,6 +926,39 @@ class HomeController extends Controller
          $nowAddTwo = $now->addMonth(2);
          $notifContracts = $contractEnds->where('end', '<', $nowAddTwo);
 
+
+         if (auth()->user()->hasRole('Administrator')) {
+            # code...
+         } else {
+            $user = Employee::where('nik', auth()->user()->username)->first();
+            if ($user->loc == 'Medan') {
+               $employees = Employee::where('loc', 'Medan')->where('status', 1)->get();
+               $employeeId = [];
+               foreach($employees as $emp){
+                  $employeeId[] = $emp->id;
+               }
+
+               $unitTransactions = UnitTransaction::where('unit_id', 7)->orderBy('cut_to', 'desc')->paginate(25);
+               $payslipProgress = UnitTransaction::where('unit_id', 7)->where('status', '>', 0)->where('status', '<', 5)->get()->count();
+               $payslipComplete = UnitTransaction::where('unit_id', 7)->whereIn('status', [5,6])->get()->count();
+               $payslipReject = UnitTransaction::where('unit_id', 7)->whereIn('status', [101,202,303,404])->get()->count();
+
+               $units = Unit::where('id', 7)->get();
+               $emptyPayroll = Employee::where('status', '!=', 3)->where('loc', 'Medan')->where('payroll_id', null)->get();
+
+
+               $spklApprovals = OvertimeEmployee::whereIn('employee_id', $employeeId)->where('status', 3)->get();
+               $absenceApprovals = AbsenceEmployee::whereIn('employee_id', $employeeId)->where('status', 3)->get();
+
+               $now = Carbon::now();
+               // dd($now);
+               $contractEnds = Contract::where('type', 'Kontrak')->where('status', 1)->where('employee_id', '!=', null)->whereIn('employee_id', $employeeId)->whereDate('end', '>', $now)->get();
+               
+               $nowAddTwo = $now->addMonth(2);
+               $notifContracts = $contractEnds->where('end', '<', $nowAddTwo);
+            }
+         }
+
          return view('pages.dashboard.hrd-payroll', [
             'units' => $units,
             'employee' => $user,
@@ -870,6 +997,100 @@ class HomeController extends Controller
             'absenceProgress' => $absenceProgress,
 
             'notifContracts' => $notifContracts
+
+         ])->with('i');
+      } elseif (auth()->user()->hasRole('HRD-Admin')) {
+         $user = Employee::find(auth()->user()->getEmployeeId());
+         $units = Unit::get()->count();
+         $employees = Employee::where('kpi_id', null)->get();
+         $male = Biodata::where('gender', 'Male')->count();
+         $female = Biodata::where('gender', 'Female')->count();
+         $spkls = Spkl::orderBy('updated_at', 'desc')->paginate(5);
+         $sps = Sp::where('status', 1)->get();
+         $kontrak = Contract::where('status', 1)->where('type', 'Kontrak')->get()->count();
+         $tetap = Contract::where('status', 1)->where('type', 'Tetap')->get()->count();
+         $empty = Contract::where('type', null)->get()->count();
+
+         $now = Carbon::now();
+         $month = $now->format('m');
+         $holidays = Holiday::whereMonth('date', $month)->orderBy('date', 'asc')->get();
+         $transactions = Transaction::where('status', 0)->get();
+         $unitTransactions = UnitTransaction::orderBy('cut_to', 'desc')->paginate(25);
+         $emptyPayroll = Employee::where('status', '!=', 3)->where('payroll_id', null)->get();
+         // $reqForms = AbsenceEmployee::where('status', 3)->get();
+         $reqForms = AbsenceEmployee::where('leader_id', $user->id)->whereIn('status', [1,2])->get();
+         $reqBackForms = AbsenceEmployee::where('cuti_backup_id', $user->id)->get();
+         $formAbsences = AbsenceEmployee::where('status', '!=', 5)->orderBy('release_date', 'desc')->paginate(30);
+
+         $cutis = Absence::join('employees', 'absences.employee_id', '=', 'employees.id')
+            ->where('employees.department_id', $user->department_id)
+            ->where('absences.type', 5)
+            ->where('absences.date', '>=', $now->format('Y-m-d'))
+            ->select('absences.*')
+            ->get();
+
+         $peHistories = Pe::where('employe_id', $user->id)->where('status', '>', 1)->paginate(3);
+         $spHistories = Sp::where('employee_id', auth()->user()->getEmployeeId())->where('status', '>', 3)->get();
+
+         $spklApprovals = OvertimeEmployee::where('status', 3)->get();
+         $absenceApprovals = AbsenceEmployee::where('status', 3)->get();
+
+
+         $payslipProgress = UnitTransaction::where('status', '>', 0)->where('status', '<', 5)->get()->count();
+         $payslipComplete = UnitTransaction::whereIn('status', [5,6])->get()->count();
+         $payslipReject = UnitTransaction::whereIn('status', [101,202,303,404])->get()->count();
+         $absenceProgress = AbsenceEmployee::where('status', '!=', 0)->where('status', '!=', 5)->orderBy('release_date', 'desc')->get();
+
+
+         $now = Carbon::now();
+         // dd($now);
+         $contractEnds = Contract::where('type', 'Kontrak')->where('status', 1)->where('employee_id', '!=', null)->whereDate('end', '>', $now)->get();
+         
+         $nowAddTwo = $now->addMonth(2);
+         $notifContracts = $contractEnds->where('end', '<', $nowAddTwo);
+
+         $recentAbsences = Absence::orderBy('date', 'desc')->paginate(50);
+
+         return view('pages.dashboard.hrd-admin', [
+            'units' => $units,
+            'employee' => $user,
+            'employees' => $employees,
+            'male' => $male,
+            'female' => $female,
+            'spkls' => $spkls,
+            'sps' => $sps,
+            'kontrak' => $kontrak,
+            'tetap' => $tetap,
+            'empty' => $empty,
+            'broadcasts' => $broadcasts,
+            'personals' => $personals,
+
+            'month' => $now->format('F'),
+            'holidays' => $holidays,
+            'transactions' => $transactions,
+            'unitTransactions' => $unitTransactions,
+            'emptyPayroll' => $emptyPayroll,
+
+            'broadcasts' => $broadcasts,
+            'personals' => $personals,
+
+            'reqForms' => $reqForms,
+            'reqBackupForms' => $reqBackForms,
+            'formAbsences' => $formAbsences,
+            'cutis' => $cutis, 
+            'peHistories' => $peHistories,
+            'spHistories' => $spHistories,
+            'spklApprovals' => $spklApprovals,
+            'absenceApprovals' => $absenceApprovals,
+
+            'payslipProgress' => $payslipProgress, 
+            'payslipComplete' => $payslipComplete,
+            'payslipReject' => $payslipReject,
+            'absenceProgress' => $absenceProgress,
+
+            'notifContracts' => $notifContracts,
+            'recentAbsences' => $recentAbsences
+
 
          ])->with('i');
       } elseif (auth()->user()->hasRole('HRD-KJ12')) {

@@ -187,7 +187,7 @@ Route::middleware(["auth"])->group(function () {
    Route::get('export/cuti/{id}', [AbsenceEmployeeController::class, 'exportCuti'])->name('export.cuti');
    Route::get('export/spkl/{id}', [AbsenceEmployeeController::class, 'exportSpkl'])->name('export.spkl');
 
-   Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC']], function () {
+   Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Kpi|HRD-Admin|HRD-Payroll|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC']], function () {
       Route::prefix('hrd')->group(function () {
          Route::get('absence/index', [AbsenceLeaderController::class, 'indexHrd'])->name('hrd.absence');
          Route::get('absence/approval', [AbsenceLeaderController::class, 'indexHrdApproval'])->name('hrd.absence.approval');
@@ -631,7 +631,7 @@ Route::middleware(["auth"])->group(function () {
 
    // Semua Role 
 
-   Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Spv|HRD-Payroll|HRD-KJ45|HRD-KJ12|HRD-JGC|Karyawan|Manager|Asst. Manager|Supervisor|Leader']], function () {
+   Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Kpi|HRD-Admin|HRD-Spv|HRD-Payroll|HRD-KJ45|HRD-KJ12|HRD-JGC|Karyawan|Manager|Asst. Manager|Supervisor|Leader']], function () {
       // Route::get('overtime/team', [OvertimeController::class, 'team'])->name('overtime.team');
 
 
@@ -827,7 +827,7 @@ Route::middleware(["auth"])->group(function () {
 
    // Role Campuran  
 
-   Route::group(['middleware' => ['role:Administrator|HRD|HRD-Manager|HRD-Recruitment|HRD-Payroll|HRD-Spv|Leader|Manager|Asst. Manager|Supervisor']], function () {
+   Route::group(['middleware' => ['role:Administrator|HRD|HRD-Manager|HRD-Recruitment|HRD-Kpi|HRD-Admin|HRD-Payroll|HRD-Spv|Leader|Manager|Asst. Manager|Supervisor']], function () {
       // kpi
       Route::prefix('kpi')->group(function () {
          Route::get('/', [PeKpiController::class, 'index'])->name('kpi');

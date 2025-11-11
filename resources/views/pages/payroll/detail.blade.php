@@ -421,9 +421,10 @@ Setup Payroll Employee
                               <div class="row">
                                  <div class="col">
                                     <div class="form-group form-group-default">
-                                       <label>Show/Hide Payslip</label>
+                                       <label>Show/Hide Payslip {{$employee->payroll->payslip_status}}</label>
                                        <select name="status" id="status" class="form-control">
-                                          <option value="" disabled>Choose</option>
+                                          <option value="" selected disabled>Choose</option>
+
                                           <option {{$employee->payroll->payslip_status == 'show' ? 'selected' : '' }} value="show">Show</option>
                                           <option {{$employee->payroll->payslip_status == 'hide' ? 'selected' : '' }} value="hide">Hide</option>
                                        </select>

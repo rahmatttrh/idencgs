@@ -30,11 +30,11 @@
                <span class="sub-item">Level</span>
             </a>
          </li>
-         {{-- <li>
+         <li>
             <a href="{{route('cuti')}}">
                <span class="sub-item">Cuti Karyawan</span>
             </a>
-         </li> --}}
+         </li>
          <li>
             <a href="{{route('project')}}">
                <span class="sub-item">Project</span>
@@ -143,69 +143,15 @@
    </div>
 </li>
 
-<li class="nav-item {{ (request()->is('payroll/absence/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.absence')}}">
-      <i class="fas fa-calendar-minus"></i>
-      <p>Absensi Karyawan</p>
-   </a>
-</li>
-<li class="nav-item {{ (request()->is('payroll/spkl/*')) ? 'active' : '' }}">
-   <a href="{{route('payroll.overtime')}}">
-      <i class="fas fa-calendar-plus"></i>
-      <p>SPKL Karyawan</p>
-   </a>
-</li>
-<li class="nav-item">
-   <a data-toggle="collapse" href="#sp">
-      <i class="fas fa-bolt"></i>
-      <p>Surat Peringatan</p>
-      <span class="caret"></span>
-   </a>
-   <div class="collapse" id="sp">
-      <ul class="nav nav-collapse">
-         <li>
-            <a href="{{route('sp')}}">
-               <span class="sub-item">SP</span>
-            </a>
-         </li>
-         <li>
-            <a href="{{route('st')}}">
-               <span class="sub-item">Teguran</span>
-            </a>
-         </li>
 
-         {{-- <li>
-            <a href="{{route('payroll.absence')}}">
-               <span class="sub-item">Absence</span>
-            </a>
-         </li>
 
-         <li>
-            <a href="{{route('payroll.additional')}}">
-               <span class="sub-item">Others</span>
-            </a>
-         </li> --}}
-      </ul>
-   </div>
-</li>
-<li class="nav-item {{ (request()->is('cuti/*')) ? 'active' : '' }}">
-   <a href="{{route('cuti')}}">
-      <i class="fas fa-briefcase"></i>
-      <p>Cuti Karyawan</p>
-   </a>
-</li>
 <li class="nav-item {{ (request()->is('announcement/*')) ? 'active' : '' }}">
    <a href="{{route('announcement')}}">
       <i class="fas fa-bell"></i>
       <p>Anouncement</p>
    </a>
 </li> 
-<li class="nav-item {{ (request()->is('training/history/*')) ? 'active' : '' }}">
-   <a href="{{route('training.history')}}">
-      <i class="fas fa-school"></i>
-      <p>Training History</p>
-   </a>
-</li>
+
 
 @if (auth()->user()->hasRole('Leader'))
 <li class="nav-section">

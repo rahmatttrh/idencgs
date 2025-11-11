@@ -39,7 +39,7 @@ class TransactionController extends Controller
 
    public function index()
    {
-      // dd('ok');
+      
       $employees = Employee::get();
       $transactions = Transaction::get();
       $units = Unit::get();
@@ -57,6 +57,18 @@ class TransactionController extends Controller
       //       'total_salary' => $transactionUnits->sum('total')
       //    ]);
       // }
+
+
+      if (auth()->user()->hasRole('Administrator')) {
+         # code...
+      } else {
+         $user = Employee::where('nik', auth()->user()->username)->first();
+         if ($user->loc == 'Medan') {
+            $firstUnit = Unit::find(7);
+            
+            $units = Unit::where('id', 7)->get();
+         }
+      }
 
 
       
@@ -289,6 +301,7 @@ class TransactionController extends Controller
    public function storeMaster(Request $req)
    {
       $unit = Unit::find($req->unit);
+      // dd($unit->id);
       $employees = Employee::where('unit_id', $unit->id)->where('status', 1)->get();
       $resignEmployees = Employee::where('unit_id', $unit->id)->where('status', 3)->where('off', '>=', $req->from)->where('off', '<', $req->to)->get();
       
@@ -947,11 +960,13 @@ class TransactionController extends Controller
       $payroll = Payroll::find($employee->payroll_id);
       $locations = Location::get();
 
-      foreach ($locations as $loc) {
-         if ($loc->code == $employee->contract->loc) {
-            $location = $loc->id;
-         }
-      }
+      // foreach ($locations as $loc) {
+      //    if ($loc->code == $employee->contract->loc) {
+      //       $location = $loc->id;
+      //    }
+      // }
+
+      $location = 1;
 
       // if ($employee->contract->loc == null) {
       //    return redirect()->back()->with('danger', 'Data Lokasi Kerja Kosong '. $employee->nik . ' ' . $employee->biodata->fullName());

@@ -157,7 +157,7 @@ Employee
                                      Kosong
                                  @endif
                               @endif
-                              {{$employee->location->code}}
+                              {{$employee->location->code ??'-'}}
                               @if ($employee->contract->project_id != null)
                                  {{$employee->getProject()}}
                                   {{-- ({{$employee->contract->project->name}}) --}}

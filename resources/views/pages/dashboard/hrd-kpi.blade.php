@@ -30,7 +30,7 @@
                   {{$employee->position->name}}
                </div>
             </div>
-            {{-- <div class="card d-none d-sm-block">
+            <div class="card d-none d-sm-block">
                <div class="card-body p-0">
                   <table class="display  table-sm table-bordered  table-striped ">
                      <thead>
@@ -57,11 +57,14 @@
                            <td>Empty</td>
                            <td class="text-center">{{$empty}}</td>
                         </tr>
-                        
+                        {{-- <tr>
+                           <td>Total</td>
+                           <td class="text-center">{{count($employees)}}</td>
+                        </tr> --}}
                      </tbody>
                   </table>
                </div>
-            </div> --}}
+            </div>
             {{-- <div class="d-flex">
                <a href="{{route('employee.create')}}" class="btn btn-primary btn-block mr-2">Create</a>
                <a href="{{route('employee.import')}}" class="btn btn-primary">Import</a>
@@ -281,7 +284,7 @@
                </a>
             </div>
             @endif
-            <div class="col-6 d-block d-sm-none">
+            {{-- <div class="col-6 d-block d-sm-none">
                <a href="{{route('contract.alert')}}" data-toggle="tooltip" data-placement="top" title="Fitur ini masih dalam tahap finalisasi">
                   <div class="card card-primary card-stats card-round">
                      <div class="card-body ">
@@ -307,60 +310,9 @@
                      </div>
                   </div>
                </a>
-            </div>
+            </div> --}}
 
-            <div class="col-6 d-block d-sm-none">
-               <a href="{{route('hrd.spkl')}}">
-                  <div class="card card-secondary card-stats card-round">
-                     <div class="card-body ">
-                        <div class="row align-items-center">
-                           
-                           <div class="col col-stats ml-3 ml-sm-0">
-                              
-                                 <div class="numbers">
-                                    <p class="card-category"> Approval SPKL </p>
-                                    <h4 class="card-title"> 
-                                       @if (count($spklApprovals) > 0)
-                                          <div class="badge badge-light">{{count($spklApprovals)}}</div>
-                                          @else
-                                          {{count($spklApprovals)}}
-                                       @endif
-                                    </h4>
-                                 </div>
-                              
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </a>
-            </div>
-
-            <div class="col-6 d-block d-sm-none">
-               {{-- <a href="{{route('hrd.absence')}}" class="btn btn-block btn-primary text-left">Monitoring <br> Form Absensi </a> --}}
-               <a href="{{route('hrd.absence')}}">
-                  <div class="card card-info card-stats card-round">
-                     <div class="card-body ">
-                        <div class="row align-items-center">
-                           
-                           <div class="col col-stats ml-3 ml-sm-0">
-                              
-                                 <div class="numbers">
-                                    <p class="card-category"> Monitoring Form Absensi </p>
-                                    {{-- <h4 class="card-title py-1"> 
-                                       @if (count($absenceProgress) > 0)
-                                          <div class="badge badge-light">{{count($absenceProgress)}}</div>
-                                          @else
-                                          {{count($absenceProgress)}}
-                                       @endif
-                                    </h4> --}}
-                                 </div>
-                              
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </a>
-            </div>
+            
          </div>
 
          <div class="card d-block d-sm-none">
@@ -633,7 +585,7 @@
             
             @endif
             
-            <div class="col-md-4  d-none d-sm-block">
+            {{-- <div class="col-md-4  d-none d-sm-block">
                <a href="{{route('contract.alert')}}" data-toggle="tooltip" data-placement="top" title="Fitur ini masih dalam tahap finalisasi">
                   <div class="card card-stats card-round border">
                      <div class="card-body">
@@ -654,7 +606,6 @@
                                         @else
                                         {{count($notifContracts)}}
                                     @endif
-                                    {{-- {{count($payrollApprovals)}} --}}
                                  </h4>
                               </div>
                            </div>
@@ -663,71 +614,11 @@
                   </div>
                   
                </a>
-            </div>
+            </div> --}}
 
 
             @if (auth()->user()->hasRole('Leader'))
             <div class="col-md-6 d-none d-md-block">
-               <a href="{{route('hrd.absence')}}">
-                  <div class="card border card-stats card-round">
-                     <div class="card-body ">
-                        <div class="row align-items-center">
-                           <div class="col-icon">
-                              <div class="icon-big text-center icon-secondary bubble-shadow-small">
-                                 <i class="fas fa-users"></i>
-                              </div>
-                           </div>
-                           <div class="col col-stats ml-3 ml-sm-0">
-                              
-                              <div class="numbers">
-                                 <p class="card-category mb-1"> Monitoring Form Absensi </p>
-                                 <h4 class="card-title"> 
-                                    -
-                                 {{-- @if (count($absenceProgress) > 0)
-                                          <div class="badge badge-danger">{{count($absenceProgress)}}</div>
-                                          @else
-                                          {{count($absenceProgress)}}
-                                       @endif --}}
-                                 </h4>
-                              </div>
-                           
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </a>
-            </div>
-
-            <div class="col-md-6 d-none d-md-block">
-               <a href="{{route('hrd.spkl.monitoring')}}">
-                  <div class="card border card-stats card-round">
-                     <div class="card-body ">
-                        <div class="row align-items-center">
-                           <div class="col-icon">
-                              <div class="icon-big text-center icon-secondary bubble-shadow-small">
-                                 <i class="fas fa-users"></i>
-                              </div>
-                           </div>
-                           <div class="col col-stats ml-3 ml-sm-0">
-                              
-                              <div class="numbers">
-                                 <p class="card-category mb-1"> Monitoring Form SPKL </p>
-                                 <h4 class="card-title"> 
-                                 -
-                                 </h4>
-                              </div>
-                           
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </a>
-            </div>
-
-            
-            @endif
-            
-            {{-- <div class="col d-none d-md-block">
                <a href="{{route('hrd.absence')}}">
                   <div class="card border card-stats card-round">
                      <div class="card-body ">
@@ -755,31 +646,162 @@
                      </div>
                   </div>
                </a>
-            </div> --}}
+            </div>
 
-            {{-- <div class="col">
-               <div class="card card-stats card-round border">
-                  <div class="card-body ">
-                     <div class="row align-items-center">
-                        <div class="col-icon">
-                           <div class="icon-big text-center icon-danger bubble-shadow-small">
-                              <i class="fas fa-users"></i>
+            <div class="col-md-6 d-none d-md-block">
+               <a href="{{route('hrd.spkl')}}">
+                  <div class="card border card-stats card-round">
+                     <div class="card-body ">
+                        <div class="row align-items-center">
+                           <div class="col-icon">
+                              <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                                 <i class="fas fa-users"></i>
+                              </div>
                            </div>
-                        </div>
-                        <div class="col col-stats ml-3 ml-sm-0">
-                           <a href="{{route('backup.cuti')}}">
-                           <div class="numbers">
-                              <p class="card-category"> Cuti Pengganti </p>
-                              <h4 class="card-title">{{count($reqBackForms)}}</h4>
+                           <div class="col col-stats ml-3 ml-sm-0">
+                              
+                              <div class="numbers">
+                                 <p class="card-category mb-1"> Monitoring Form SPKL </p>
+                                 <h4 class="card-title"> 
+                                 -
+                                 </h4>
+                              </div>
+                           
                            </div>
-                        </a>
                         </div>
                      </div>
                   </div>
-                 
-               </div>
-            </div> --}}
+               </a>
+            </div>
+
             
+            @endif
+            
+           
+            
+         </div>
+         <div class="card">
+            <div class="card-header p-2 bg-primary text-white">
+               <small>Incomplete KPI Data</small>
+            </div>
+            <div class="card-body p-0">
+               <div class="table-responsive overflow-auto" style="height: 200px">
+                  <table class=" table-sm table-bordered  table-striped ">
+                     <thead>
+                        
+                        <tr>
+                           <th class="text-center">No</th>
+                           <th>ID</th>
+                           <th>Name</th>
+                           <th>KPI</th>
+                           <th>Leader</th>
+                           {{-- <th>Phone</th> --}}
+                           <th class="text-truncate">Bisnis Unit</th>
+                           <th>Department</th>
+                           {{-- <th>Sub</th> --}}
+                           <th  >Posisi</th>
+                           {{-- <th>Kontrak/Tetap</th> --}}
+                           {{-- <th class="text-right">Action</th> --}}
+                        </tr>
+                        
+                     </thead>
+                     <tbody>
+                        @if (count($employees) > 0)
+                           @foreach ($employees as $employee)
+                              <tr>
+                                 <td class="text-center">{{++$i}}</td>
+                                 <td class="text-truncate">{{$employee->contract->id_no}}</td>
+                                 {{-- <td><a href="{{route('employee.detail', enkripRambo($employee->id))}}">{{$employee->name}}</a> </td> --}}
+                                 <td class="text-truncate" style="max-width: 150px">
+                                    {{-- <div> --}}
+                                       <a href="{{route('employee.detail', [enkripRambo($employee->id), enkripRambo('basic')])}}"> {{$employee->biodata->first_name}} {{$employee->biodata->last_name}}</a> 
+                                       {{-- <small class="text-muted">{{$employee->biodata->email}}</small> --}}
+                                    {{-- </div> --}}
+                                 
+                                 </td>
+                                 
+                                 <td>
+                                    @if ($employee->kpi_id != null)
+                                    {{-- <a href="{{route('kpi.edit', enkripRambo($employee->kpi_id))}}">{{$employee->getKpi()->title}}</a> --}}
+                                       {{-- <span class="text-success">OK</span> --}}
+                                       <i class="fa fa-check"></i>
+                                       @else
+                                       Empty
+                                    @endif
+                                    
+                                 </td>
+                                 <td>
+                                    @if (count($employee->getLeaders()) > 0)
+                                       {{-- OK --}}
+                                       <i class="fa fa-check"></i>
+                                       @else
+                                       Empty
+                                    @endif
+                                 </td>
+                                 {{-- <td>{{$employee->biodata->phone}}</td> --}}
+                                 
+                                 <td class="text-truncate">
+                                    @if (count($employee->positions) > 0)
+                                          {{-- @foreach ($employee->positions as $pos)
+                                             {{$pos->department->unit->name}}
+                                          @endforeach --}}
+                                          Multiple
+                                       @else
+                                       {{$employee->department->unit->name ?? ''}}
+                                    @endif
+                                    
+                                 </td>
+                                 
+                                 <td class="text-truncate">
+                                    {{-- {{$employee->department->name ?? ''}} --}}
+                                    @if (count($employee->positions) > 0)
+                                          {{-- @foreach ($employee->positions as $pos)
+                                             {{$pos->department->name}}
+                                          @endforeach --}}
+                                          Multiple
+                                       @else
+                                       {{$employee->department->name ?? ''}}
+                                    @endif
+                                 </td>
+                                 {{-- <td>
+                                    @if (count($employee->positions) > 0)
+                                          @foreach ($employee->positions as $pos)
+                                             {{$pos->sub_dept->name ?? ''}}
+                                          @endforeach
+                                       @else
+                                       {{$employee->sub_dept->name ?? ''}}
+                                    @endif
+                                 </td> --}}
+                                 {{-- <td>{{$employee->contract->designation->name ?? ''}}</td> --}}
+                                 <td class="text-truncate">
+                                    @if (count($employee->positions) > 0)
+                                          {{-- @foreach ($employee->positions as $pos)
+                                             {{$pos->name}}
+                                          @endforeach --}}
+                                          Multiple
+                                       @else
+                                       {{$employee->position->name ?? ''}}
+                                    @endif
+                                 </td>
+                                 {{-- <td>
+                                    @if ($employee->contract->type == 'Kontrak')
+                                    <span class="badge badge-info">Kontrak</span>
+                                    @elseif($employee->contract->type == 'Tetap')
+                                    <span class="badge badge-info">Tetap</span>
+                                    @else
+                                    <span class="badge badge-muted">Empty</span>
+                                    @endif
+                  
+                                 </td> --}}
+                              </tr>
+                           @endforeach
+                           @else
+                        @endif
+                        
+                     </tbody>
+                  </table>
+               </div>
+            </div>
          </div>
             <div class="card">
                <div class="card-header p-2 bg-primary text-white">
@@ -821,129 +843,7 @@
                </div>
             </div>
 
-            <div class="card">
-               <div class="card-header p-2 bg-primary text-white">
-                  <small>Incomplete KPI Data</small>
-               </div>
-               <div class="card-body p-0">
-                  <div class="table-responsive overflow-auto" style="height: 200px">
-                     <table class=" table-sm table-bordered  table-striped ">
-                        <thead>
-                           
-                           <tr>
-                              <th class="text-center">No</th>
-                              <th>ID</th>
-                              <th>Name</th>
-                              <th>KPI</th>
-                              <th>Leader</th>
-                              {{-- <th>Phone</th> --}}
-                              <th class="text-truncate">Bisnis Unit</th>
-                              <th>Department</th>
-                              {{-- <th>Sub</th> --}}
-                              <th  >Posisi</th>
-                              {{-- <th>Kontrak/Tetap</th> --}}
-                              {{-- <th class="text-right">Action</th> --}}
-                           </tr>
-                           
-                        </thead>
-                        <tbody>
-                           @if (count($employees) > 0)
-                              @foreach ($employees as $employee)
-                                 <tr>
-                                    <td class="text-center">{{++$i}}</td>
-                                    <td class="text-truncate">{{$employee->contract->id_no}}</td>
-                                    {{-- <td><a href="{{route('employee.detail', enkripRambo($employee->id))}}">{{$employee->name}}</a> </td> --}}
-                                    <td class="text-truncate" style="max-width: 150px">
-                                       {{-- <div> --}}
-                                          <a href="{{route('employee.detail', [enkripRambo($employee->id), enkripRambo('basic')])}}"> {{$employee->biodata->first_name}} {{$employee->biodata->last_name}}</a> 
-                                          {{-- <small class="text-muted">{{$employee->biodata->email}}</small> --}}
-                                       {{-- </div> --}}
-                                    
-                                    </td>
-                                    
-                                    <td>
-                                       @if ($employee->kpi_id != null)
-                                       {{-- <a href="{{route('kpi.edit', enkripRambo($employee->kpi_id))}}">{{$employee->getKpi()->title}}</a> --}}
-                                          {{-- <span class="text-success">OK</span> --}}
-                                          <i class="fa fa-check"></i>
-                                          @else
-                                          Empty
-                                       @endif
-                                       
-                                    </td>
-                                    <td>
-                                       @if (count($employee->getLeaders()) > 0)
-                                          {{-- OK --}}
-                                          <i class="fa fa-check"></i>
-                                          @else
-                                          Empty
-                                       @endif
-                                    </td>
-                                    {{-- <td>{{$employee->biodata->phone}}</td> --}}
-                                    
-                                    <td class="text-truncate">
-                                       @if (count($employee->positions) > 0)
-                                             {{-- @foreach ($employee->positions as $pos)
-                                                {{$pos->department->unit->name}}
-                                             @endforeach --}}
-                                             Multiple
-                                          @else
-                                          {{$employee->department->unit->name ?? ''}}
-                                       @endif
-                                       
-                                    </td>
-                                    
-                                    <td class="text-truncate">
-                                       {{-- {{$employee->department->name ?? ''}} --}}
-                                       @if (count($employee->positions) > 0)
-                                             {{-- @foreach ($employee->positions as $pos)
-                                                {{$pos->department->name}}
-                                             @endforeach --}}
-                                             Multiple
-                                          @else
-                                          {{$employee->department->name ?? ''}}
-                                       @endif
-                                    </td>
-                                    {{-- <td>
-                                       @if (count($employee->positions) > 0)
-                                             @foreach ($employee->positions as $pos)
-                                                {{$pos->sub_dept->name ?? ''}}
-                                             @endforeach
-                                          @else
-                                          {{$employee->sub_dept->name ?? ''}}
-                                       @endif
-                                    </td> --}}
-                                    {{-- <td>{{$employee->contract->designation->name ?? ''}}</td> --}}
-                                    <td class="text-truncate">
-                                       @if (count($employee->positions) > 0)
-                                             {{-- @foreach ($employee->positions as $pos)
-                                                {{$pos->name}}
-                                             @endforeach --}}
-                                             Multiple
-                                          @else
-                                          {{$employee->position->name ?? ''}}
-                                       @endif
-                                    </td>
-                                    {{-- <td>
-                                       @if ($employee->contract->type == 'Kontrak')
-                                       <span class="badge badge-info">Kontrak</span>
-                                       @elseif($employee->contract->type == 'Tetap')
-                                       <span class="badge badge-info">Tetap</span>
-                                       @else
-                                       <span class="badge badge-muted">Empty</span>
-                                       @endif
-                     
-                                    </td> --}}
-                                 </tr>
-                              @endforeach
-                              @else
-                           @endif
-                           
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-            </div>
+            
          </div>
          
          

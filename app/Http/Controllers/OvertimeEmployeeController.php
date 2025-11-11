@@ -346,7 +346,7 @@ class OvertimeEmployeeController extends Controller
          $spklApprovals = OvertimeEmployee::where('status', 3)->whereIn('location_id', [2])->orderBy('date', 'desc')->get();
       }
 
-      return view('pages.spkl.hrd.history', [
+      return view('pages.spkl.hrd.monitoring', [
          'spklHistories' => $spklHistories,
          'spklApprovals' => $spklApprovals
       ]);

@@ -4,7 +4,7 @@
 
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<title>ID-ENC - Login</title>
+	<title>ID-ENC GS - Login</title>
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<link rel="icon" href="{{asset('/img/anchor.png')}}" type="image/x-icon"/>
 
@@ -41,14 +41,14 @@
 				<div class="card o-hidden border-0 shadow-lg my-5">
 					<div class="card-body p-0">
 						<div class="row">
-							<div class="col-lg-6 d-none d-lg-block " style="background-image: url({{asset('img/bg/kj4_com.png')}});background-repeat: no-repeat;background-size: cover;border-radius: 5px;">
-								<img class="mt-3" src="{{asset('img/logo/enc2.jpg')}}" alt="">
+							<div class="col-lg-6 d-none d-lg-block " style="background-image: url({{asset('img/bg/GS3_com.jpg')}});background-repeat: no-repeat;background-size: cover;border-radius: 5px;">
+								<img class="mt-3" src="{{asset('img/logo/gs.png')}}" width="80" alt="">
 							</div>
 							<div class="col-lg-6">
 								<div class="p-5">
 									<div class="">
 										{{-- <h4 class="text-gray-900">Welcome Back! NEW</h4> --}}
-										<h1 class="" style="font-weight: 900">ID-<span class="text-primary">ENC</span></h1>
+										<h1 class="" style="font-weight: 900">ID-<span class="text-primary">ENC</span> GS</h1>
                               <small>Ekanuri Human Resource Management System</small> <br>
                               
 									</div>

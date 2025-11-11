@@ -25,9 +25,9 @@ Summary Absence
 
    <div class="row">
       <div class="col-md-3">
-         <div class="btn btl-light btn-block text-left mb-3 border">
+         {{-- <div class="btn btl-light btn-block text-left mb-3 border">
             <b><i>ABSENSI KARYAWAN</i></b>
-         </div>
+         </div> --}}
          <div class="nav flex-column justify-content-start nav-pills nav-primary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active text-left pl-3" id="v-pills-basic-tab" href="{{route('payroll.absence')}}" aria-controls="v-pills-basic" aria-selected="true">
                <i class="fas fa-address-book mr-1"></i>

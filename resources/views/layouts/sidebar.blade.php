@@ -54,7 +54,7 @@
                
             @endif
 
-            @if (auth()->user()->hasRole('HRD|HRD-Recruitment|HRD-Payroll|HRD-KJ45|HRD-KJ12|HRD-JGC'))
+            @if (auth()->user()->hasRole('HRD|HRD-Recruitment|HRD-Payroll|HRD-KJ45|HRD-KJ12|HRD-JGC|HRD-Kpi|HRD-Admin'))
                @if (auth()->user()->hasRole('HRD'))
                      <x-sidebar.hrd :employee="$employee" />
                @endif
@@ -63,6 +63,12 @@
                @endif
                @if (auth()->user()->hasRole('HRD-Payroll'))
                   <x-sidebar.hrd-payroll :employee="$employee"/>
+               @endif
+               @if (auth()->user()->hasRole('HRD-Admin'))
+                  <x-sidebar.hrd-admin :employee="$employee"/>
+               @endif
+               @if (auth()->user()->hasRole('HRD-Kpi'))
+                  <x-sidebar.hrd-kpi :employee="$employee"/>
                @endif
                @if (auth()->user()->hasRole('HRD-KJ45|HRD-KJ12|HRD-JGC'))
                   <x-sidebar.hrd-site :employee="$employee"/>
