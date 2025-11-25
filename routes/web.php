@@ -188,6 +188,16 @@ Route::middleware(["auth"])->group(function () {
    Route::get('export/spkl/{id}', [AbsenceEmployeeController::class, 'exportSpkl'])->name('export.spkl');
 
    Route::group(['middleware' => ['role:Administrator|BOD|HRD|HRD-Manager|HRD-Recruitment|HRD-Kpi|HRD-Admin|HRD-Payroll|HRD-Spv|HRD-KJ45|HRD-KJ12|HRD-JGC']], function () {
+      
+      Route::prefix('hrd')->group(function () {
+         Route::get('/import/payslip', [TransactionController::class, 'hrdImport'])->name('hrd.payslip.import');
+         Route::post('/import/payslip/store', [TransactionController::class, 'hrdImportStore'])->name('hrd.payslip.import.store');
+         // Route::get('/import', [CutiController::class, 'import'])->name('cuti.import');
+         // Route::post('/import/store', [CutiController::class, 'importStore'])->name('cuti.import.store');
+         // Route::get('edit/{id}', [CutiController::class, 'edit'])->name('cuti.edit');
+         // Route::put('update', [CutiController::class, 'update'])->name('cuti.update');
+      });
+      
       Route::prefix('hrd')->group(function () {
          Route::get('absence/index', [AbsenceLeaderController::class, 'indexHrd'])->name('hrd.absence');
          Route::get('absence/approval', [AbsenceLeaderController::class, 'indexHrdApproval'])->name('hrd.absence.approval');
@@ -1012,9 +1022,12 @@ Route::middleware(["auth"])->group(function () {
          Route::post('reject/spkl/multiple', [OvertimeEmployeeController::class, 'rejectMultiple'])->name('leader.spkl.multiple.reject');
          Route::get('spkl/history', [OvertimeEmployeeController::class, 'historyLeader'])->name('leader.spkl.history');
 
+         // Route::get('spkl/hrd/index', [OvertimeEmployeeController::class, 'indexHrd'])->name('hrd.spkl');
          Route::get('spkl/hrd/index', [OvertimeEmployeeController::class, 'indexHrd'])->name('hrd.spkl');
          Route::get('spkl/hrd/monitoring', [OvertimeEmployeeController::class, 'monitoringHrd'])->name('hrd.spkl.monitoring');
          Route::get('spkl/hrd/history', [OvertimeEmployeeController::class, 'historyHrd'])->name('hrd.spkl.history');
+
+         // Route::get('spkl/hrd/history', [OvertimeEmployeeController::class, 'historyHrd'])->name('hrd.spkl.history');
       });
 
       Route::get('cuti/pengganti', [AbsenceLeaderController::class, 'cutiBackup'])->name('backup.cuti');

@@ -219,10 +219,11 @@ Detail Transaction Payroll Employee
                                        </tr>
                                     </tbody>
                                     @else
-                                    <tbody>
+
+                                    {{-- <tbody>
                                        <tr>
                                           <td>Gaji Pokok</td>
-                                          <td class="text-right">{{formatRupiah($transaction->employee->payroll->pokok) ?? 0}}</td>
+                                          <td class="text-right">{{formatRupiah($transaction->details->where('desc', 'Gaji Pokok')->first()->value) ?? 0}}</td>
                                        </tr>
                                       
                                        <tr>
@@ -253,35 +254,59 @@ Detail Transaction Payroll Employee
                                           <td>Lembur</td>
                                           <td class="text-right">{{formatRupiah($transaction->overtime)}}</td>
                                        </tr>
+                                    </tbody> --}}
+
+
+
+                                    <tbody>
+                                       <tr>
+                                          <td>Gaji Pokok</td>
+                                          <td class="text-right">{{formatRupiah($transaction->details->where('desc', 'Gaji Pokok')->first()->value) ?? 0}}</td>
+                                       </tr>
+                                      
+                                       <tr>
+                                          <td>Tunj. Jabatan</td>
+                                          <td class="text-right">{{formatRupiah($transaction->details->where('desc', 'Tunj. Jabatan')->first()->value) ?? 0}}</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Tunj. Kinerja</td>
+                                          <td class="text-right">{{formatRupiah($transaction->details->where('desc', 'Tunj. Kinerja')->first()->value) ?? 0}} </td>
+                                       </tr>
+                                       <tr>
+                                          <td>Tunj. Operasional</td>
+                                          <td class="text-right">{{formatRupiah($transaction->details->where('desc', 'Tunj. OPS')->first()->value) ?? 0}}</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Tunj. Fungsional</td>
+                                          <td class="text-right">{{formatRupiah($transaction->details->where('desc', 'Tunj. Fungsional')->first()->value) ?? 0}}</td>
+                                       </tr>
+                                       {{-- <tr>
+                                          <td>Insentif</td>
+                                          <td class="text-right">{{formatRupiah($transaction->details->where('desc', 'Insentif')->first()->value) ?? 0}}</td>
+                                       </tr> --}}
+                                       <tr>
+                                          <td>Tunj. Lain</td>
+                                          <td class="text-right">{{formatRupiah($transaction->additional_penambahan)}}</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Lembur</td>
+                                          <td class="text-right">{{formatRupiah($transaction->overtime)}}</td>
+                                       </tr>
+                                       <tr>
+                                          <td colspan="2"></td>
+                                       </tr>
+                                       @foreach ($penambahans as $item)
+                                           <tr>
+                                             
+                                             <td class="pl-3">- {{$item->desc}}</td>
+                                             <td class="text-right">{{formatRupiah($item->value)}}</td>
+                                           </tr>
+                                       @endforeach
                                     </tbody>
                                     @endif
                                  </table>
 
-                                 <table class="mt-4">
-                                    <thead>
-                                       <tr>
-                                          <th colspan="">Pendapatan</th>
-                                          @if ($transaction->remark == 'Karyawan Baru' || $transaction->remark == 'Karyawan Out' )
-                                          <th class="text-right">{{formatRupiah($nominalTotal + $transaction->additional_penambahan + $transaction->overtime)}}</th>
-                                          @else
-                                          <th class="text-right">{{formatRupiah($payroll->total + $transaction->additional_penambahan + $transaction->overtime)}}</th>
-                                          @endif
-                                       </tr>
-                                       <tr>
-                                          <th colspan="">Potongan</th>
-                                          <th class="text-right">
-                                             {{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late + $transaction->additional_pengurangan )}} 
-                                             {{-- red:  {{$transaction->reduction}}</th> --}}
-                                       </tr>
-                                       <tr>
-                                          <th colspan="">Gaji Bersih</th>
-                                          <th class="text-right">{{formatRupiah($transaction->total)}}</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-   
-                                    </tbody>
-                                 </table>
+                                 
                               </div>
                               <div class="col-xl-6">
                                  @if ($transaction->remark == 'Karyawan baru')
@@ -348,23 +373,38 @@ Detail Transaction Payroll Employee
                                           </tr>
                                           @endif 
                                        @endforeach
+
+                                       
                                        <tr>
                                           <td>Absensi</td>
                                           <td class="text-right">{{formatRupiah($transaction->reduction_absence)}}</td>
                                        </tr>
                                        <tr>
-                                          <td>Terlambat</td>
+                                          <td>Disiplin</td>
                                           <td class="text-right">{{formatRupiah($transaction->reduction_late)}}</td>
                                        </tr>
                                        <tr>
+                                          <td colspan="2"></td>
+                                       </tr>
+                                       @foreach ($pengurangans as $item)
+                                           <tr>
+                                             
+                                             <td class="pl-3">- {{$item->desc}}</td>
+                                             <td class="text-right">{{formatRupiah($item->value)}}</td>
+                                           </tr>
+                                       @endforeach
+                                       {{-- <tr>
                                           <td>Lain-Lain</td>
                                           <td class="text-right">{{formatRupiah($transaction->additional_pengurangan)}}</td>
-                                       </tr>
+                                       </tr> --}}
                                        
                                     </tbody>
                                  </table>
 
 
+                                 @if (count($transaction->reductions->where('class', 'Additional')->where('type', 'employee')) > 0)
+                                     
+                                 
                                  <table>
                                     <thead>
                                        <tr>
@@ -388,50 +428,42 @@ Detail Transaction Payroll Employee
                                      
                                     </tbody>
                                  </table>
+                                 @endif
                               </div>
 
                               
                               
-                              <div class="col-md-12">
-                                 <hr><hr>
-                              <br>
-                              {{-- <br>
-                                 <table>
-                                    <thead>
-                                       <tr>
-                                          <th>Description</th>
-                                          <th class="text-right">Nominal</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       <tr>
-                                          <td>Pendapatan</td>
-                                          <td class="text-right">{{formatRupiah($payroll->total)}}</td>
-                                       </tr>
-                                      
-                                       <tr>
-                                          <td>Deduction</td>
-                                          <td class="text-right">{{formatRupiah($transaction->reduction)}}</td>
-                                       </tr>
-                                       <tr>
-                                          <td>Bruto</td>
-                                          <td class="text-right">{{formatRupiah($transaction->bruto)}}</td>
-                                       </tr>
-                                       <tr>
-                                          <td colspan="2"></td>
-                                       </tr>
-                                       <tr>
-                                          <td>Lembur & Piket</td>
-                                          <td class="text-right">{{formatRupiah($transaction->overtime)}}</td>
-                                       </tr>
-                                       <tr>
-                                          <td><b>Gaji Bersih</b></td>
-                                          <th class="text-right"><b> {{formatRupiah($transaction->total)}}</b></th>
-                                       </tr>
-                                    </tbody>
-                                 </table> --}}
-                              </div>
+                              
                            </div>
+                           <hr>
+                           <table class="mt-4">
+                              <thead>
+                                 <tr>
+                                    <th colspan="2" class="text-center">Result</th>
+                                 </tr>
+                                 <tr>
+                                    <th colspan="">Total Pendapatan</th>
+                                    @if ($transaction->remark == 'Karyawan Baru' || $transaction->remark == 'Karyawan Out' )
+                                    <th class="text-right">{{formatRupiah($nominalTotal + $transaction->additional_penambahan + $transaction->overtime)}}</th>
+                                    @else
+                                    <th class="text-right">{{formatRupiah($transaction->details->where('desc', 'Gaji Pokok')->first()->value + $transaction->details->where('desc', 'Tunj. Jabatan')->first()->value + $transaction->details->where('desc', 'Tunj. Kinerja')->first()->value + $transaction->details->where('desc', 'Tunj. OPS')->first()->value + $transaction->details->where('desc', 'Tunj. Fungsional')->first()->value + $transaction->details->where('desc', 'Insentif')->first()->value + $transaction->additional_penambahan + $transaction->overtime)}}</th>
+                                    @endif
+                                 </tr>
+                                 <tr>
+                                    <th colspan="">Total Potongan</th>
+                                    <th class="text-right">
+                                       {{formatRupiah($transaction->reduction + $transaction->reduction_absence + $transaction->reduction_late + $transaction->additional_pengurangan )}} 
+                                       {{-- red:  {{$transaction->reduction}}</th> --}}
+                                 </tr>
+                                 <tr>
+                                    <th colspan="">Take Home Pay</th>
+                                    <th class="text-right">{{formatRupiah($transaction->total)}}</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+
+                              </tbody>
+                           </table>
                            
                         </div>
 

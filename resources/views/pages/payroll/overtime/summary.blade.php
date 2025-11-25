@@ -182,7 +182,7 @@ Summary SPKL
             <table id="data" class="display  table-sm p-0">
                <thead>
                   <tr>
-                     <th>Unit</th>
+                     <th>Unittt</th>
                      <th>Location</th>
                      <th class="text-center">Lembur</th>
                      <th class="text-center">Piket</th>

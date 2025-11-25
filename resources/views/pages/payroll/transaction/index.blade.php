@@ -14,6 +14,7 @@ Payroll Transaction
    
    <div class="row">
       <div class="col-md-3">
+         <a href="{{route('hrd.payslip.import')}}" class="btn btn-light btn-block border mb-2">Import Payslip</a>
 
          
          {{-- <div class="card shadow-none border">
@@ -37,6 +38,7 @@ Payroll Transaction
       </div>
       <div class="col-md-9">
          <div class="tab-content" id="v-pills-tabContent">
+
             @foreach ($units as $unit)
             <div class="tab-pane fade {{$firstUnit->id == $unit->id ? 'show active' : ''}} " id="v-pills-{{$unit->id}}" role="tabpanel" aria-labelledby="v-pills-{{$unit->id}}-tab">
                <div class="table-responsive">

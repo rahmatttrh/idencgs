@@ -1913,7 +1913,8 @@ class OvertimeController extends Controller
          'hours_final' => $finalHour,
          'rate' => round($rate),
          'description' => $req->desc,
-         'doc' => $doc
+         'doc' => $doc,
+         'location_id' => $employee->location_id
       ]);
 
       // $overtimes = Overtime::where('month', $transaction->month)->get();

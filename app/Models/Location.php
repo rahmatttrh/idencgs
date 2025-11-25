@@ -182,6 +182,7 @@ class Location extends Model
       foreach($transactions as $tran){
          $employee = Employee::find($tran->employee_id);
          $unitReductionBpjs = Reduction::where('unit_id', $employee->unit_id)->where('name', 'BPJS KS')->first();
+         // dd($unitReductionBpjs);
          $employeeReductionBpjs = ReductionEmployee::where('employee_id', $employee->id)->where('reduction_id', $unitReductionBpjs->id)->first();
 
          if ($employeeReductionBpjs->status == 1) {
